@@ -180,7 +180,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Core\Platform_GLToy_Assert.cpp"
+					RelativePath=".\Win32\Core\Platform_GLToy_Assert.cpp"
 					>
 				</File>
 			</Filter>
