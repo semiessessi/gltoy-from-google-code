@@ -22,86 +22,86 @@ int GLToy::s_iHeight = 200;
 
 int GLToy::EntryPoint()
 {
-	Initialise();
+    Initialise();
 
-	bool bRunning = true;
-	while( bRunning )
-	{
-		bRunning = MainLoop();
-	}
+    bool bRunning = true;
+    while( bRunning )
+    {
+        bRunning = MainLoop();
+    }
 
-	Shutdown();
+    Shutdown();
 
-	return 0;
+    return 0;
 }
 
 bool GLToy::Resize( const int& iWidth, const int& iHeight )
 {
-	if( iWidth > 0 )
-	{
-		s_iWidth = iWidth;
-	}
-	else
-	{
-		s_iWidth = 1;
-	}
+    if( iWidth > 0 )
+    {
+        s_iWidth = iWidth;
+    }
+    else
+    {
+        s_iWidth = 1;
+    }
 
-	if( iHeight > 0 )
-	{
-		s_iHeight = iHeight;
-	}
-	else
-	{
-		s_iHeight = 1;
-	}
+    if( iHeight > 0 )
+    {
+        s_iHeight = iHeight;
+    }
+    else
+    {
+        s_iHeight = 1;
+    }
 
-	return Platform_Resize( s_iWidth, s_iHeight );
+    return Platform_Resize( s_iWidth, s_iHeight );
 }
 
 void GLToy::UpdateBuffers()
 {
-	Platform_UpdateBuffers();
+    Platform_UpdateBuffers();
 }
 
 bool GLToy::Initialise()
 {
-	if( !Platform_EarlyInitialise() )
-	{
-		return false;
-	}
+    if( !Platform_EarlyInitialise() )
+    {
+        return false;
+    }
 
-	GLToy_Render::Initialise();
+    GLToy_Render::Initialise();
 
-	if( !Platform_LateInitialise() )
-	{
-		return false;
-	}
+    if( !Platform_LateInitialise() )
+    {
+        return false;
+    }
 
-	if( !Resize( s_iWidth, s_iHeight ) )
-	{
-		return false;
-	}
+    if( !Resize( s_iWidth, s_iHeight ) )
+    {
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 void GLToy::Shutdown()
 {
-	GLToy_Render::Shutdown();
+    GLToy_Render::Shutdown();
 
-	Platform_Shutdown();
+    Platform_Shutdown();
 }
 
 bool GLToy::MainLoop()
 {
-	if( !Platform_MainLoop() )
-	{
-		return false;
-	}
+    if( !Platform_MainLoop() )
+    {
+        return false;
+    }
 
-	GLToy_Render::Render();
+    GLToy_Render::Render();
 
-	return true;
+    return true;
 }
 
 

@@ -10,10 +10,10 @@ class GLToy_Render
 
 public:
 
-	static bool Initialise();
-	static void Shutdown();
+    static bool Initialise();
+    static void Shutdown();
 
-	static void Render();
+    static void Render();
 
 private:
 
@@ -22,11 +22,11 @@ private:
 
     static void Project_Render();
 
-	static bool Platform_Initialise();
-	static void Platform_Shutdown();
+    static bool Platform_Initialise();
+    static void Platform_Shutdown();
 
-	static void Platform_BeginRender();
-	static void Platform_EndRender();
+    static void Platform_BeginRender();
+    static void Platform_EndRender();
 
 };
 

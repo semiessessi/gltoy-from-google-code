@@ -23,21 +23,21 @@ bool GLToy_Render::Initialise()
         return false;
     }
 
-	return true;
+    return true;
 }
 
 void GLToy_Render::Shutdown()
 {
     Project_Shutdown();
 
-	Platform_Shutdown();
+    Platform_Shutdown();
 }
 
 void GLToy_Render::Render()
 {
-	Platform_BeginRender();
+    Platform_BeginRender();
 
     Project_Render();
 
-	Platform_EndRender();
+    Platform_EndRender();
 }
