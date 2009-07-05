@@ -2,42 +2,27 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
+#include <Core/TestCube.h>
 
 // This file's header
 #include <Render/GLToy_Render.h>
+#include <Render/TestCube_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool GLToy_Render::Initialise()
+bool GLToy_Render::Project_Initialise()
 {
-    if( !Platform_Initialise() )
-    {
-        return false;
-    }
-
-    if( !Project_Initialise() )
-    {
-        return false;
-    }
-
-	return true;
+    return TestCube_Render::Initialise();
 }
 
-void GLToy_Render::Shutdown()
+void GLToy_Render::Project_Shutdown()
 {
-    Project_Shutdown();
-
-	Platform_Shutdown();
+    TestCube_Render::Shutdown();
 }
 
-void GLToy_Render::Render()
+void GLToy_Render::Project_Render()
 {
-	Platform_BeginRender();
-
-    Project_Render();
-
-	Platform_EndRender();
+    TestCube_Render::Render();
 }

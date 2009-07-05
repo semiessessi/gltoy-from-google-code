@@ -2,10 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="GLToy"
-	ProjectGUID="{D102268C-2C78-4954-99A9-433EF8F9182F}"
-	RootNamespace="GLToy"
-	Keyword="Win32Proj"
+	Name="TestCube"
+	ProjectGUID="{874C417E-0551-4F04-BAF7-451989BA5FB5}"
+	RootNamespace="TestCube"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -20,8 +19,8 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="4"
-			CharacterSet="0"
+			ConfigurationType="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,14 +40,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="Independent\;Win32\"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
+				AdditionalIncludeDirectories="..\GLToy\Independent;..\GLToy\Win32;Independent\;Win32\"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				WarnAsError="true"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -61,10 +57,15 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
+				Name="VCLinkerTool"
+				GenerateDebugInformation="true"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -76,6 +77,9 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -83,8 +87,8 @@
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="4"
-			CharacterSet="0"
+			ConfigurationType="1"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -106,13 +110,10 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="Independent\;Win32\"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
+				AdditionalIncludeDirectories="..\GLToy\Independent;..\GLToy\Win32;Independent\;Win32\"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				WarnAsError="true"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -125,10 +126,17 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
+				Name="VCLinkerTool"
+				GenerateDebugInformation="true"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -138,6 +146,9 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -154,11 +165,11 @@
 				Name="Core"
 				>
 				<File
-					RelativePath=".\Win32\Core\Platform_GLToy.cpp"
+					RelativePath=".\Win32\Core\Platform_TestCube.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Win32\Core\Platform_GLToy_Assert.cpp"
+					RelativePath=".\Win32\Core\Platform_TestCube.h"
 					>
 				</File>
 			</Filter>
@@ -166,7 +177,7 @@
 				Name="Render"
 				>
 				<File
-					RelativePath=".\Win32\Render\Platform_GLToy_Render.cpp"
+					RelativePath=".\Win32\Render\Platform_TestCube_Render.cpp"
 					>
 				</File>
 			</Filter>
@@ -175,38 +186,26 @@
 			Name="Independent"
 			>
 			<Filter
-				Name="Core"
+				Name="Render"
 				>
 				<File
-					RelativePath=".\Independent\Core\GLToy.cpp"
+					RelativePath=".\Independent\Render\Project_GLToy_Render.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Core\GLToy.h"
+					RelativePath=".\Independent\Render\TestCube_Render.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Core\GLToy_Assert.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Independent\Core\GLToy_Assert.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Independent\Core\GLToy_SimpleStructures.h"
+					RelativePath=".\Independent\Render\TestCube_Render.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="Render"
+				Name="Core"
 				>
 				<File
-					RelativePath=".\Independent\Render\GLToy_Render.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Independent\Render\GLToy_Render.h"
+					RelativePath=".\Independent\Core\TestCube.h"
 					>
 				</File>
 			</Filter>

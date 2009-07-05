@@ -17,6 +17,11 @@ public:
 
 private:
 
+    static bool Project_Initialise();
+    static void Project_Shutdown();
+
+    static void Project_Render();
+
 	static bool Platform_Initialise();
 	static void Platform_Shutdown();
 

@@ -53,6 +53,8 @@ LRESULT CALLBACK WndProc( HWND uWindowHandle, unsigned int uMessage,
 
 bool GLToy::Platform_EarlyInitialise()
 {
+    g_uInstance = GetModuleHandle( NULL );
+
 	WNDCLASSA xWindowClass;
 
 	memset( &xWindowClass, 0, sizeof( WNDCLASSA ) );
@@ -274,7 +276,7 @@ bool GLToy::Platform_Resize( const int& iWidth, const int& iHeight )
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
 
-	gluPerspective( 45.0f, static_cast<float>( iWidth ) / static_cast<float>( iHeight ), 0.1f, 100.0f );
+	gluPerspective( 90.0f, static_cast<float>( iWidth ) / static_cast<float>( iHeight ), 0.1f, 100.0f );
 
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
@@ -287,11 +289,4 @@ void GLToy::Platform_UpdateBuffers()
 	glFinish();
 
 	SwapBuffers( g_uDeviceContext );
-}
-
-int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd )
-{
-	g_uInstance = hInstance;
-
-	return GLToy::EntryPoint();
 }

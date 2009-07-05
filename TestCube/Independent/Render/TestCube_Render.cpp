@@ -5,39 +5,22 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <Render/GLToy_Render.h>
+#include <Render/TestCube_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool GLToy_Render::Initialise()
+bool TestCube_Render::Initialise()
 {
-    if( !Platform_Initialise() )
-    {
-        return false;
-    }
-
-    if( !Project_Initialise() )
-    {
-        return false;
-    }
-
-	return true;
+    return true;
 }
 
-void GLToy_Render::Shutdown()
+void TestCube_Render::Shutdown()
 {
-    Project_Shutdown();
-
-	Platform_Shutdown();
 }
 
-void GLToy_Render::Render()
+void TestCube_Render::Render()
 {
-	Platform_BeginRender();
-
-    Project_Render();
-
-	Platform_EndRender();
+    Platform_Render();
 }
