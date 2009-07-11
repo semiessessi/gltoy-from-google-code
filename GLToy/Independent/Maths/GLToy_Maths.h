@@ -27,7 +27,7 @@ public:
 
     static float Lerp( float fValue1, float fValue2, float fAmount ) { return fValue1 + ( fValue2 - fValue1 ) * fAmount; }
     //static GLToy_Vector_2 Lerp( const GLToy_Vector_2& xValue1, const GLToy_Vector_2& xValue2, float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
-    //static GLToy_Vector_3 Lerp( const GLToy_Vector_3& xValue1, const GLToy_Vector_3& xValue2, float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
+    static GLToy_Vector_3 Lerp( const GLToy_Vector_3& xValue1, const GLToy_Vector_3& xValue2, float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
     //static GLToy_Vector_4 Lerp( const GLToy_Vector_4& xValue1, const GLToy_Vector_4& xValue2, float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
 
 private:

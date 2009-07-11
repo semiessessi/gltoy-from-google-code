@@ -3,6 +3,10 @@
 
 class Platform_GLToy_Maths
 {
+
+    friend class GLToy_Maths;
+    friend class Platform_GLToy_Vector;
+
 public:
 
     static void Initialise();

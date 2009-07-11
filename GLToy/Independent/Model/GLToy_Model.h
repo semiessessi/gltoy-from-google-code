@@ -7,6 +7,7 @@
 
 #include <Core/GLToy.h>
 
+// GLToy
 #include <Render/GLToy_Renderable.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -14,6 +15,21 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Vector_3;
+
+class GLToy_Model_Strip
+{
+
+public:
+
+    u_int m_uVertexCount;
+    u_int* m_puVertexIndices;
+
+    GLToy_Model_Strip() : m_uVertexCount( 0 ), m_puVertexIndices( NULL ) {}
+    virtual ~GLToy_Model_Strip();
+
+protected:
+
+};
 
 class GLToy_Model
 {

@@ -2,6 +2,12 @@
 #define __GLTOY_VECTOR_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// I N C L U D E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#include <Core/GLToy.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -16,6 +22,9 @@ public:
 
     float& operator[] ( int i ) { return fComponents[i]; }
     const float& operator[] ( int i ) const { return fComponents[i]; }
+
+    float* GetFloatPointer() { return fComponents; }
+    const float* const GetConstFloatPointer() const { return fComponents; }
 
 private:
     
@@ -35,6 +44,18 @@ public:
     float& operator[] ( int i ) { return fComponents[i]; }
     const float& operator[] ( int i ) const { return fComponents[i]; }
 
+    float* GetFloatPointer() { return fComponents; }
+    const float* const GetConstFloatPointer() const { return fComponents; }
+
+    GLToy_Vector_3 operator +( const GLToy_Vector_3& xVector ) const;
+    GLToy_Vector_3 operator -( const GLToy_Vector_3& xVector ) const;
+    GLToy_Vector_3 operator *( const float fFloat ) const;
+
+    void SendToGLAsVertex() const;
+    void SendToGLAsNormal() const;
+    void SendToGLAsColour() const;
+    void SendToGLAsTextureCoordinate( u_int uTextureUnit = 0 ) const;
+
 private:
     
     float fComponents[3];
@@ -52,6 +73,9 @@ public:
 
     float& operator[] ( int i ) { return fComponents[i]; }
     const float& operator[] ( int i ) const { return fComponents[i]; }
+
+    float* GetFloatPointer() { return fComponents; }
+    const float* const GetConstFloatPointer() const { return fComponents; }
 
 private:
     
