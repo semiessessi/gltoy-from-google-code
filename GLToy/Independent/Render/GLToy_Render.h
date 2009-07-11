@@ -15,6 +15,19 @@ public:
 
     static void Render();
 
+	// GL interface
+	static void StartSubmittingTriangles();
+	static void StartSubmittingQuads();
+	static void StartSubmittingTriangleStrip();
+	static void StartSubmittingTriangleFan();
+	static void StartSubmittingPolygon();
+	static void EndSubmit();
+
+	static void SubmitVertex3( const float* const pfVertex );
+	static void SubmitNormal3( const float* const pfNormal );
+	static void SubmitColour3( const float* const pfColour );
+	static void SubmitTextureCoordinate3( const float* const pfTexCoord, const u_int uTextureUnit );
+
 private:
 
     static bool Project_Initialise();

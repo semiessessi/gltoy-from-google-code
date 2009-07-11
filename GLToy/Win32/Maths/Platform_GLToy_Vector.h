@@ -36,11 +36,6 @@ private:
     static GLToy_Vector_3 Add_Default( const GLToy_Vector_3& xVector1, const GLToy_Vector_3& xVector2 );
     static GLToy_Vector_3 Sub_Default( const GLToy_Vector_3& xVector1, const GLToy_Vector_3& xVector2 );
     static GLToy_Vector_3 Mul_Default( const float fFloat, const GLToy_Vector_3& xVector );
-
-    static void SendToGLAsVertex( const GLToy_Vector_3& xVector );
-    static void SendToGLAsNormal( const GLToy_Vector_3& xVector );
-    static void SendToGLAsColour( const GLToy_Vector_3& xVector );
-    static void SendToGLAsTextureCoordinate(  const GLToy_Vector_3& xVector, u_int uTextureUnit = 0 );
 };
 
 #endif

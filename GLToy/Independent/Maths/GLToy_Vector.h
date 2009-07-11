@@ -51,10 +51,10 @@ public:
     GLToy_Vector_3 operator -( const GLToy_Vector_3& xVector ) const;
     GLToy_Vector_3 operator *( const float fFloat ) const;
 
-    void SendToGLAsVertex() const;
-    void SendToGLAsNormal() const;
-    void SendToGLAsColour() const;
-    void SendToGLAsTextureCoordinate( u_int uTextureUnit = 0 ) const;
+    void SubmitVertex() const;
+    void SubmitNormal() const;
+    void SubmitColour() const;
+    void SubmitTextureCoordinate( u_int uTextureUnit = 0 ) const;
 
 private:
     

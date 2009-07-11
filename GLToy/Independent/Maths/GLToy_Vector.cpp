@@ -6,6 +6,9 @@
 #include <Maths/GLToy_Vector.h>
 #include <Maths/Platform_GLToy_Vector.h>
 
+// GLToy
+#include <Render/GLToy_Render.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,24 +75,24 @@ GLToy_Vector_3 GLToy_Vector_3::operator *( const float fFloat ) const
     return Platform_GLToy_Vector::Mul( fFloat, *this );
 }
 
-void GLToy_Vector_3::SendToGLAsVertex() const
+void GLToy_Vector_3::SubmitVertex() const
 {
-    Platform_GLToy_Vector::SendToGLAsVertex( *this );
+    GLToy_Render::SubmitVertex3( fComponents );
 }
 
-void GLToy_Vector_3::SendToGLAsNormal() const
+void GLToy_Vector_3::SubmitNormal() const
 {
-    Platform_GLToy_Vector::SendToGLAsNormal( *this );
+    GLToy_Render::SubmitNormal3( fComponents );
 }
 
-void GLToy_Vector_3::SendToGLAsColour() const
+void GLToy_Vector_3::SubmitColour() const
 {
-    Platform_GLToy_Vector::SendToGLAsColour( *this );
+    GLToy_Render::SubmitColour3( fComponents );
 }
 
-void GLToy_Vector_3::SendToGLAsTextureCoordinate( u_int uTextureUnit ) const
+void GLToy_Vector_3::SubmitTextureCoordinate( u_int uTextureUnit ) const
 {
-    Platform_GLToy_Vector::SendToGLAsTextureCoordinate( *this, uTextureUnit );
+    GLToy_Render::SubmitTextureCoordinate3( fComponents, uTextureUnit );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

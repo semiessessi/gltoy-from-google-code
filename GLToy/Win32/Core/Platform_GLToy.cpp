@@ -62,11 +62,11 @@ bool GLToy::Platform_EarlyInitialise()
 
     memset( &xWindowClass, 0, sizeof( WNDCLASSA ) );
 
-    xWindowClass.lpszClassName        = "GLToy";
-    xWindowClass.style                = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-    xWindowClass.hIcon                = LoadIcon( g_uInstance, IDI_WINLOGO );
-    xWindowClass.hCursor            = LoadCursor( g_uInstance, IDC_ARROW );
-    xWindowClass.hInstance            = g_uInstance;
+    xWindowClass.lpszClassName      = "GLToy";
+    xWindowClass.style              = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    xWindowClass.hIcon              = LoadIcon( g_uInstance, IDI_WINLOGO );
+    xWindowClass.hCursor			= LoadCursor( g_uInstance, IDC_ARROW );
+    xWindowClass.hInstance          = g_uInstance;
     xWindowClass.lpfnWndProc        = WndProc;
 
     if( !RegisterClassA( &xWindowClass ) )
@@ -120,7 +120,7 @@ bool GLToy::Platform_EarlyInitialise()
 
     AdjustWindowRectEx( &xWindowRectangle, uStyle, FALSE, uStyleEx );
 
-    g_uWindowHandle = CreateWindowExA(        uStyleEx,
+    g_uWindowHandle = CreateWindowExA(      uStyleEx,
                                             "GLToy",
                                             "GLToy",
                                             WS_CLIPSIBLINGS | WS_CLIPCHILDREN | uStyle,

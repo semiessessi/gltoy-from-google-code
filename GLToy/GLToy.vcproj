@@ -169,6 +169,10 @@
 					RelativePath=".\Win32\Render\Platform_GLToy_Render.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\Win32\Render\Platform_GLToy_Render.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Maths"

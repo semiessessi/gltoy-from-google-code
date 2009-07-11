@@ -11,9 +11,6 @@
 // Win32
 #include <windows.h>
 
-// GL
-#include <gl/gl.h>
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,23 +41,17 @@ GLToy_Vector_3 Platform_GLToy_Vector::Mul_Default( const float fFloat, const GLT
     return GLToy_Vector_3( fFloat * xVector[0], fFloat * xVector[1], fFloat * xVector[2] );
 }
 
-void Platform_GLToy_Vector::SendToGLAsVertex( const GLToy_Vector_3& xVector )
+GLToy_Vector_3 Platform_GLToy_Vector::Add(const GLToy_Vector_3& xVector1, const GLToy_Vector_3& xVector2)
 {
-    glVertex3fv( xVector.GetConstFloatPointer() );
+	return pfnAdd( xVector1, xVector2 );
 }
 
-void Platform_GLToy_Vector::SendToGLAsNormal( const GLToy_Vector_3& xVector )
+GLToy_Vector_3 Platform_GLToy_Vector::Sub(const GLToy_Vector_3& xVector1, const GLToy_Vector_3& xVector2)
 {
-    glNormal3fv( xVector.GetConstFloatPointer() );
+	return pfnSub( xVector1, xVector2 );
 }
 
-void Platform_GLToy_Vector::SendToGLAsColour( const GLToy_Vector_3& xVector )
+GLToy_Vector_3 Platform_GLToy_Vector::Mul(const float fFloat, const GLToy_Vector_3& xVector)
 {
-    glColor3fv( xVector.GetConstFloatPointer() );
-}
-
-void Platform_GLToy_Vector::SendToGLAsTextureCoordinate( const GLToy_Vector_3 &xVector, u_int uTextureUnit )
-{
-    // for now ignore the texture unit
-    glTexCoord3fv( xVector.GetConstFloatPointer() );
+	return pfnMul( fFloat, xVector );
 }

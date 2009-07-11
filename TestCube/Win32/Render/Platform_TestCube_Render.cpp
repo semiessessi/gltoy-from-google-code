@@ -7,6 +7,10 @@
 // This file's header
 #include <Render/TestCube_Render.h>
 
+// GLToy
+#include <Maths/GLToy_Vector.h>
+#include <Render/GLToy_Render.h>
+
 // Win32
 #include <windows.h>
 
@@ -26,45 +30,45 @@ void TestCube_Render::Platform_Render()
     glRotatef( 0.75f * fTimer, -0.7f, -0.05f, -0.3f );
     glRotatef( 0.25f * fTimer, 0.0f, 1.0f, 0.0f );
 
-    glBegin( GL_QUADS );
+	GLToy_Render::StartSubmittingQuads();
 
-    glColor4f( 1.0f, 0.0f, 0.0f, 1.0f );
-    glVertex3f( 1.0f, 1.0f, 1.0f );
-    glVertex3f( 1.0f, -1.0f, 1.0f );
-    glVertex3f( -1.0f, -1.0f, 1.0f );
-    glVertex3f( -1.0f, 1.0f, 1.0f );
+    GLToy_Vector_3( 1.0f, 0.0f, 0.0f ).SubmitColour();
+    GLToy_Vector_3( 1.0f, 1.0f, 1.0f ).SubmitVertex();
+    GLToy_Vector_3( 1.0f, -1.0f, 1.0f ).SubmitVertex();
+    GLToy_Vector_3( -1.0f, -1.0f, 1.0f ).SubmitVertex();
+    GLToy_Vector_3( -1.0f, 1.0f, 1.0f ).SubmitVertex();
 
-    glColor4f( 0.0f, 1.0f, 0.0f, 1.0f );
-    glVertex3f( 1.0f, 1.0f, -1.0f );
-    glVertex3f( 1.0f, -1.0f, -1.0f );
-    glVertex3f( -1.0f, -1.0f, -1.0f );
-    glVertex3f( -1.0f, 1.0f, -1.0f );
+    GLToy_Vector_3( 0.0f, 1.0f, 0.0f ).SubmitColour();
+    GLToy_Vector_3( 1.0f, 1.0f, -1.0f ).SubmitVertex();
+    GLToy_Vector_3( 1.0f, -1.0f, -1.0f ).SubmitVertex();
+    GLToy_Vector_3( -1.0f, -1.0f, -1.0f ).SubmitVertex();
+    GLToy_Vector_3( -1.0f, 1.0f, -1.0f ).SubmitVertex();
 
-    glColor4f( 0.0f, 0.0f, 1.0f, 1.0f );
-    glVertex3f( 1.0f, 1.0f, 1.0f );
-    glVertex3f( 1.0f, 1.0f, -1.0f );
-    glVertex3f( -1.0f, 1.0f, -1.0f );
-    glVertex3f( -1.0f, 1.0f, 1.0f );
+    GLToy_Vector_3( 0.0f, 0.0f, 1.0f ).SubmitColour();
+    GLToy_Vector_3( 1.0f, 1.0f, 1.0f ).SubmitVertex();
+    GLToy_Vector_3( 1.0f, 1.0f, -1.0f ).SubmitVertex();
+    GLToy_Vector_3( -1.0f, 1.0f, -1.0f ).SubmitVertex();
+    GLToy_Vector_3( -1.0f, 1.0f, 1.0f ).SubmitVertex();
 
-    glColor4f( 0.0f, 1.0f, 1.0f, 1.0f );
-    glVertex3f( 1.0f, -1.0f, 1.0f );
-    glVertex3f( 1.0f, -1.0f, -1.0f );
-    glVertex3f( -1.0f, -1.0f, -1.0f );
-    glVertex3f( -1.0f, -1.0f, 1.0f );
+    GLToy_Vector_3( 0.0f, 1.0f, 1.0f ).SubmitColour();
+    GLToy_Vector_3( 1.0f, -1.0f, 1.0f ).SubmitVertex();
+    GLToy_Vector_3( 1.0f, -1.0f, -1.0f ).SubmitVertex();
+    GLToy_Vector_3( -1.0f, -1.0f, -1.0f ).SubmitVertex();
+    GLToy_Vector_3( -1.0f, -1.0f, 1.0f ).SubmitVertex();
 
-    glColor4f( 1.0f, 0.0f, 1.0f, 1.0f );
-    glVertex3f( 1.0f, 1.0f, 1.0f );
-    glVertex3f( 1.0f, 1.0f, -1.0f );
-    glVertex3f( 1.0f, -1.0f, -1.0f );
-    glVertex3f( 1.0f, -1.0f, 1.0f );
+    GLToy_Vector_3( 1.0f, 0.0f, 1.0f ).SubmitColour();
+    GLToy_Vector_3( 1.0f, 1.0f, 1.0f ).SubmitVertex();
+    GLToy_Vector_3( 1.0f, 1.0f, -1.0f ).SubmitVertex();
+    GLToy_Vector_3( 1.0f, -1.0f, -1.0f ).SubmitVertex();
+    GLToy_Vector_3( 1.0f, -1.0f, 1.0f ).SubmitVertex();
 
-    glColor4f( 1.0f, 1.0f, 0.0f, 1.0f );
-    glVertex3f( -1.0f, 1.0f, 1.0f );
-    glVertex3f( -1.0f, 1.0f, -1.0f );
-    glVertex3f( -1.0f, -1.0f, -1.0f );
-    glVertex3f( -1.0f, -1.0f, 1.0f );
+    GLToy_Vector_3( 1.0f, 1.0f, 0.0f ).SubmitColour();
+    GLToy_Vector_3( -1.0f, 1.0f, 1.0f ).SubmitVertex();
+    GLToy_Vector_3( -1.0f, 1.0f, -1.0f ).SubmitVertex();
+    GLToy_Vector_3( -1.0f, -1.0f, -1.0f ).SubmitVertex();
+    GLToy_Vector_3( -1.0f, -1.0f, 1.0f ).SubmitVertex();
 
     glEnd();
 
-    fTimer += 0.03f;
+    fTimer += 0.3f;
 }
