@@ -2,25 +2,19 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
-
 // This file's header
-#include <Render/TestCube_Render.h>
+#include <Maths/GLToy_Maths.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool TestCube_Render::Initialise()
+void GLToy_Maths::Initialise()
 {
-    return true;
+    Platform_Initialise();
 }
 
-void TestCube_Render::Shutdown()
+void GLToy_Maths::Shutdown()
 {
-}
-
-void TestCube_Render::Render()
-{
-    Platform_Render();
+    Platform_Shutdown();
 }

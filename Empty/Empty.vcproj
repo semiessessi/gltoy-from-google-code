@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="TestCube"
-	ProjectGUID="{874C417E-0551-4F04-BAF7-451989BA5FB5}"
-	RootNamespace="TestCube"
+	Name="Empty"
+	ProjectGUID="{451F6CAD-AF6B-479E-9321-C4DAE0F40260}"
+	RootNamespace="Empty"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -41,6 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\GLToy\Independent;..\GLToy\Win32;Independent\;Win32\"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -111,6 +112,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="..\GLToy\Independent;..\GLToy\Win32;Independent\;Win32\"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
@@ -165,11 +167,11 @@
 				Name="Core"
 				>
 				<File
-					RelativePath=".\Win32\Core\Platform_TestCube.cpp"
+					RelativePath=".\Win32\Core\Platform_Empty.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Win32\Core\Platform_TestCube.h"
+					RelativePath=".\Win32\Core\Platform_Empty.h"
 					>
 				</File>
 			</Filter>
@@ -177,7 +179,7 @@
 				Name="Render"
 				>
 				<File
-					RelativePath=".\Win32\Render\Platform_TestCube_Render.cpp"
+					RelativePath=".\Win32\Render\Platform_Empty_Render.cpp"
 					>
 				</File>
 			</Filter>
@@ -189,15 +191,15 @@
 				Name="Render"
 				>
 				<File
+					RelativePath=".\Independent\Render\Empty_Render.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Render\Empty_Render.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Render\Project_GLToy_Render.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Independent\Render\TestCube_Render.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Independent\Render\TestCube_Render.h"
 					>
 				</File>
 			</Filter>
@@ -205,7 +207,7 @@
 				Name="Core"
 				>
 				<File
-					RelativePath=".\Independent\Core\TestCube.h"
+					RelativePath=".\Independent\Core\Empty.h"
 					>
 				</File>
 			</Filter>

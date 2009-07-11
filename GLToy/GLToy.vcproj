@@ -170,6 +170,26 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Maths"
+				>
+				<File
+					RelativePath=".\Win32\Maths\Platform_GLToy_Maths.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Win32\Maths\Platform_GLToy_Maths.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Win32\Maths\Platform_GLToy_Vector.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Win32\Maths\Platform_GLToy_Vector.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Independent"
@@ -207,6 +227,26 @@
 				</File>
 				<File
 					RelativePath=".\Independent\Render\GLToy_Render.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Maths"
+				>
+				<File
+					RelativePath=".\Independent\Maths\GLToy_Maths.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Maths\GLToy_Maths.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Maths\GLToy_Vector.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Maths\GLToy_Vector.h"
 					>
 				</File>
 			</Filter>

@@ -6,6 +6,7 @@
 #include <Core/GLToy.h>
 
 // GLToy headers
+#include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,6 +66,8 @@ void GLToy::UpdateBuffers()
 
 bool GLToy::Initialise()
 {
+    GLToy_Maths::Initialise();
+
     if( !Platform_EarlyInitialise() )
     {
         return false;
@@ -90,6 +93,8 @@ void GLToy::Shutdown()
     GLToy_Render::Shutdown();
 
     Platform_Shutdown();
+
+    GLToy_Maths::Shutdown();
 }
 
 bool GLToy::MainLoop()

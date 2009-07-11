@@ -2,27 +2,17 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// This file's header
 #include <Core/Empty.h>
 
-// This file's header
-#include <Render/GLToy_Render.h>
-#include <Render/Empty_Render.h>
+// Win32
+#include <windows.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool GLToy_Render::Project_Initialise()
+int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd )
 {
-    return Empty_Render::Initialise();
-}
-
-void GLToy_Render::Project_Shutdown()
-{
-    Empty_Render::Shutdown();
-}
-
-void GLToy_Render::Project_Render()
-{
-    Empty_Render::Render();
+    return GLToy::EntryPoint();
 }

@@ -5,24 +5,18 @@
 #include <Core/Empty.h>
 
 // This file's header
-#include <Render/GLToy_Render.h>
 #include <Render/Empty_Render.h>
+
+// Win32
+#include <windows.h>
+
+// GL
+#include <gl/gl.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool GLToy_Render::Project_Initialise()
+void Empty_Render::Platform_Render()
 {
-    return Empty_Render::Initialise();
-}
-
-void GLToy_Render::Project_Shutdown()
-{
-    Empty_Render::Shutdown();
-}
-
-void GLToy_Render::Project_Render()
-{
-    Empty_Render::Render();
 }
