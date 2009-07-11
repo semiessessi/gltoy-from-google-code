@@ -229,6 +229,10 @@
 					RelativePath=".\Independent\Render\GLToy_Render.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Independent\Render\GLToy_Renderable.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Maths"
@@ -247,6 +251,18 @@
 				</File>
 				<File
 					RelativePath=".\Independent\Maths\GLToy_Vector.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Model"
+				>
+				<File
+					RelativePath=".\Independent\Model\GLToy_Model.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Model\GLToy_Model.h"
 					>
 				</File>
 			</Filter>

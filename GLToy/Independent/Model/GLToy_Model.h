@@ -1,22 +1,34 @@
+#ifndef __GLTOY_MODEL_H_
+#define __GLTOY_MODEL_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <Core/GLToy.h>
 
-// This file's header
-#include <Maths/GLToy_Maths.h>
+#include <Render/GLToy_Renderable.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Maths::Initialise()
-{
-    Platform_Initialise();
-}
+class GLToy_Vector_3;
 
-void GLToy_Maths::Shutdown()
+class GLToy_Model
 {
-    Platform_Shutdown();
-}
+
+public:
+    GLToy_Model() 
+    : m_uVertexCount( 0 )
+    , m_pxVertices( NULL )
+    {}
+
+protected:
+    
+    u_int m_uVertexCount;
+    GLToy_Vector_3* m_pxVertices;
+
+};
+
+#endif

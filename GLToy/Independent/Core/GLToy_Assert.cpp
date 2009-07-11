@@ -17,9 +17,9 @@
 // Note: this uses that horrible va_list business
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static char sAssertTitle[ASSERT_MAX_TITLE_LENGTH];
-static char sAssertMessageBuffer[ASSERT_MAX_MESSAGE_LENGTH];
-static char sAssertMessage[ASSERT_MAX_MESSAGE_LENGTH];
+static char sAssertTitle[uASSERT_MAX_TITLE_LENGTH];
+static char sAssertMessageBuffer[uASSERT_MAX_MESSAGE_LENGTH];
+static char sAssertMessage[uASSERT_MAX_MESSAGE_LENGTH];
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // _GLToy_Assert : returns whether to trigger a breakpoint or not
@@ -40,8 +40,8 @@ bool _GLToy_Assert(const bool& bCondition, const char* sFileName, const int& uLi
         va_end( xArgumentList );
 
         // recursion why not
-        GLToy_Assert( iTitleLength < ASSERT_MAX_TITLE_LENGTH, "Assert dialog title char* is too long, increase ASSERT_MAX_TITLE_LENGTH in \"Core\\Assert.h\", the current value is %d but this call requested %d.", ASSERT_MAX_TITLE_LENGTH, iTitleLength );
-        GLToy_Assert( iMessageLength < ASSERT_MAX_MESSAGE_LENGTH, "Assert message char* too long, increase ASSERT_MAX_MESSAGE_LENGTH in \"Core\\Assert.h\", the current value is %d but this call requested %d.", ASSERT_MAX_MESSAGE_LENGTH, iMessageLength );
+        GLToy_Assert( iTitleLength < uASSERT_MAX_TITLE_LENGTH, "Assert dialog title char* is too long, increase uASSERT_MAX_TITLE_LENGTH in \"Core\\Assert.h\", the current value is %d but this call requested %d.", uASSERT_MAX_TITLE_LENGTH, iTitleLength );
+        GLToy_Assert( iMessageLength < uASSERT_MAX_MESSAGE_LENGTH, "Assert message char* too long, increase uASSERT_MAX_MESSAGE_LENGTH in \"Core\\Assert.h\", the current value is %d but this call requested %d.", uASSERT_MAX_MESSAGE_LENGTH, iMessageLength );
 
         sprintf( sAssertTitle, /* iTitleLength, */ "\"%s\": line %d", sFileName, uLineNumber );
         

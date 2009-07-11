@@ -5,6 +5,9 @@
 // This file's header
 #include <Core/GLToy.h>
 
+// C++
+#include <stdio.h>
+
 // Win32
 #include <windows.h>
 
@@ -16,15 +19,15 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static HGLRC        g_uRenderContext            = 0;
-static HDC            g_uDeviceContext            = 0;
-static HWND            g_uWindowHandle                = 0;
-static HINSTANCE    g_uInstance                    = 0;
+static HGLRC           g_uRenderContext             = 0;
+static HDC             g_uDeviceContext             = 0;
+static HWND            g_uWindowHandle              = 0;
+static HINSTANCE       g_uInstance                  = 0;
 static bool            g_bFullscreen                = false;
 
-static const unsigned int uGLTOY_COLOUR_DEPTH    = 32;
-static const unsigned int uGLTOY_Z_DEPTH        = 24;
-static const unsigned int uGLTOY_STENCIL_DEPTH    = 8;
+static const unsigned int uGLTOY_COLOUR_DEPTH       = 32;
+static const unsigned int uGLTOY_Z_DEPTH            = 24;
+static const unsigned int uGLTOY_STENCIL_DEPTH      = 8;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -289,4 +292,9 @@ void GLToy::Platform_UpdateBuffers()
     glFinish();
 
     SwapBuffers( g_uDeviceContext );
+}
+
+void GLToy::Platform_DebugOutput(const char* sString )
+{
+    OutputDebugString( sString );
 }

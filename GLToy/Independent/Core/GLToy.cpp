@@ -9,6 +9,10 @@
 #include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Render.h>
 
+// C/C++ headers
+#include <stdarg.h>
+#include <stdio.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,6 +20,8 @@
 bool GLToy::s_bFullscreen = false;
 int GLToy::s_iWidth = 320;
 int GLToy::s_iHeight = 200;
+
+static char sDebugMessageBuffer[uDEBUGOUTPUT_MAX_LENGTH];
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -109,6 +115,20 @@ bool GLToy::MainLoop()
     return true;
 }
 
+void GLToy::DebugOutput( const char* sFormatString, ... )
+{
+    va_list xArgumentList;
+
+    va_start( xArgumentList, sFormatString );
+    int iMessageLength = _vscprintf( sFormatString, xArgumentList ) + 1;
+
+    vsprintf( sDebugMessageBuffer, /* iMessageLength, */ sFormatString, xArgumentList );
+
+    // we no longer need xArgumentList
+    va_end( xArgumentList );
+
+    Platform_DebugOutput( sDebugMessageBuffer );
+}
 
 
 
