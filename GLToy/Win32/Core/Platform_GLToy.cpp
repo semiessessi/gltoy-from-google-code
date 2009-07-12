@@ -289,7 +289,7 @@ bool GLToy::Platform_Resize( const int& iWidth, const int& iHeight )
 
 void GLToy::Platform_UpdateBuffers()
 {
-    glFinish();
+    glFlush();
 
     SwapBuffers( g_uDeviceContext );
 }

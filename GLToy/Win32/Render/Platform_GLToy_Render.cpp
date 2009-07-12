@@ -8,6 +8,9 @@
 #include <Render/GLToy_Render.h>
 #include <Render/Platform_GLToy_Render.h>
 
+// GLToy
+#include <Maths/GLToy_Vector.h>
+
 // Win32
 #include <windows.h>
 

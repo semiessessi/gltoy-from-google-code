@@ -44,7 +44,8 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
+				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -59,6 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				GenerateManifest="false"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -67,6 +69,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				EmbedManifest="false"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -109,12 +112,19 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
+				Optimization="3"
+				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				EnableFiberSafeOptimizations="true"
 				AdditionalIncludeDirectories="..\GLToy\Independent;..\GLToy\Win32;Independent\;Win32\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
-				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
+				MinimalRebuild="true"
+				ExceptionHandling="0"
+				RuntimeLibrary="0"
+				BufferSecurityCheck="false"
+				EnableFunctionLevelLinking="false"
+				FloatingPointModel="2"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -129,6 +139,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				GenerateManifest="false"
 				GenerateDebugInformation="true"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -139,6 +150,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				EmbedManifest="false"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"

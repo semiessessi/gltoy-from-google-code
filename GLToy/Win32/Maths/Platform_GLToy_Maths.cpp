@@ -5,7 +5,6 @@
 #include <Core/GLToy.h>
 
 // This file's headers
-#include <Maths/GLToy_Maths.h>
 #include <Maths/Platform_GLToy_Maths.h>
 
 // C/C++ headers
@@ -25,7 +24,7 @@ Platform_GLToy_Maths::CPUFeatures Platform_GLToy_Maths::s_xCPUFeatures;
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void Platform_GLToy_Maths::Initialise()
+bool Platform_GLToy_Maths::Initialise()
 {
     GLToy_DebugOutput( "\r\nPlatform_GLToy_Maths::Initialise() - Initialising CPU\r\n" );
 
@@ -53,5 +52,6 @@ void Platform_GLToy_Maths::Initialise()
     GLToy_DebugOutput( "  SSE4.1: %s\r\n", s_xCPUFeatures.m_bSSE41 ? "Yes" : "No" );
     GLToy_DebugOutput( "  SSE4.2: %s\r\n", s_xCPUFeatures.m_bSSE42 ? "Yes" : "No" );
 
-    GLToy_Assert( s_xCPUFeatures.m_bFPU, "CPU has no built-in FPU!" );
+	// demand that we at least have an FPU
+    return s_xCPUFeatures.m_bFPU;
 }

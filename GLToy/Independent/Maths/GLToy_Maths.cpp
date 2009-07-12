@@ -12,9 +12,9 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Maths::Initialise()
+bool GLToy_Maths::Initialise()
 {
-    Platform_Initialise();
+    return Platform_Initialise();
 }
 
 void GLToy_Maths::Shutdown()
@@ -22,9 +22,9 @@ void GLToy_Maths::Shutdown()
     Platform_Shutdown();
 }
 
-void GLToy_Maths::Platform_Initialise()
+bool GLToy_Maths::Platform_Initialise()
 {
-    Platform_GLToy_Maths::Initialise();
+    return Platform_GLToy_Maths::Initialise();
 }
 
 void GLToy_Maths::Platform_Shutdown()

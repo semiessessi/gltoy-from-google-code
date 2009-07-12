@@ -15,6 +15,12 @@
 #include <stdio.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// M A C R O S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#define GLTOY_INITIALISER_CALL( system ) GLToy_DebugOutput( "\r\n  " #system "\r\n" ); if( !system::Initialise() ) { return false; }
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -31,6 +37,8 @@ static char sDebugMessageBuffer[uDEBUGOUTPUT_MAX_LENGTH];
 int GLToy::EntryPoint()
 {
     Initialise();
+
+	GLToy_DebugOutput( "\r\nGLToy::EntryPoint() - Entering Main Loop.\r\n" );
 
     bool bRunning = true;
     while( bRunning )
@@ -73,15 +81,17 @@ void GLToy::UpdateBuffers()
 
 bool GLToy::Initialise()
 {
-    GLToy_Timer::Initialise();
-    GLToy_Maths::Initialise();
+	GLToy_DebugOutput( "\r\nGLToy::Initialise() - Initialising systems:\r\n" );
+
+    GLTOY_INITIALISER_CALL( GLToy_Timer );
+	GLTOY_INITIALISER_CALL( GLToy_Maths );
 
     if( !Platform_EarlyInitialise() )
     {
         return false;
     }
 
-    GLToy_Render::Initialise();
+    GLTOY_INITIALISER_CALL( GLToy_Render );
 
     if( !Platform_LateInitialise() )
     {
@@ -93,16 +103,22 @@ bool GLToy::Initialise()
         return false;
     }
 
+	GLToy_DebugOutput( "\r\nGLToy::Initialise() - Completed successfully.\r\n" );
+
     return true;
 }
 
 void GLToy::Shutdown()
 {
+	GLToy_DebugOutput( "\r\nGLToy::Shutdown() - Shutting down systems.\r\n" );
+
     GLToy_Render::Shutdown();
 
     Platform_Shutdown();
 
     GLToy_Maths::Shutdown();
+
+	GLToy_DebugOutput( "\r\nGLToy::Shutdown() - Completed successfully.\r\n" );
 }
 
 bool GLToy::MainLoop()

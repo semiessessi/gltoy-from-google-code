@@ -13,7 +13,7 @@ class Platform_GLToy_Maths
 
 public:
 
-    static void Initialise();
+    static bool Initialise();
 
 private:
 

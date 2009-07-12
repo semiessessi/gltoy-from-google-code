@@ -18,7 +18,7 @@ class GLToy_Maths
 
 public:
     
-    static void Initialise();
+    static bool Initialise();
     static void Shutdown();
 
     static float Clamp( float fValue, float fMin, float fMax ) { Min( fMax, Max( fValue, fMin ) ); }
@@ -32,7 +32,7 @@ public:
 
 private:
     
-    static void Platform_Initialise();
+    static bool Platform_Initialise();
     static void Platform_Shutdown();
 
 };
