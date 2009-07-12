@@ -292,6 +292,14 @@
 					RelativePath=".\Independent\Model\GLToy_Model.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Independent\Model\GLToy_Model_Coloured.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Model\GLToy_Model_Coloured.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 	</Files>

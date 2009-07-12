@@ -12,24 +12,20 @@
 #include <Render/GLToy_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C O N S T A N T S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-static const u_int uGLTOY_MODEL_BADINDEX = 0xFFFFFFFF;
-
-/////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Model_Strip::GLToy_Model_Strip()
-: m_uVertexCount( 0 )
+GLToy_ModelStrip::GLToy_ModelStrip()
+: PARENT()
+, m_uVertexCount( 0 )
 , m_puVertexIndices( NULL )
 , m_pxVertices( NULL )
 {
 }
 
-GLToy_Model_Strip::GLToy_Model_Strip( const GLToy_Model_Strip& xStrip )
-: m_uVertexCount( xStrip.m_uVertexCount )
+GLToy_ModelStrip::GLToy_ModelStrip( const GLToy_ModelStrip& xStrip )
+: PARENT()
+, m_uVertexCount( xStrip.m_uVertexCount )
 , m_puVertexIndices( NULL )
 , m_pxVertices( NULL )
 {
@@ -43,8 +39,9 @@ GLToy_Model_Strip::GLToy_Model_Strip( const GLToy_Model_Strip& xStrip )
 	}
 }
 
-GLToy_Model_Strip::GLToy_Model_Strip( u_int uVertex1, u_int uVertex2, u_int uVertex3 )
-: m_uVertexCount( 3 )
+GLToy_ModelStrip::GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVertex3 )
+: PARENT()
+, m_uVertexCount( 3 )
 , m_puVertexIndices( NULL )
 , m_pxVertices( NULL )
 {
@@ -54,8 +51,9 @@ GLToy_Model_Strip::GLToy_Model_Strip( u_int uVertex1, u_int uVertex2, u_int uVer
 	m_puVertexIndices[2] = uVertex3;
 }
 
-GLToy_Model_Strip::GLToy_Model_Strip( u_int uVertex1, u_int uVertex2, u_int uVertex3, u_int uVertex4 )
-: m_uVertexCount( 4 )
+GLToy_ModelStrip::GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVertex3, u_int uVertex4 )
+: PARENT()
+, m_uVertexCount( 4 )
 , m_puVertexIndices( NULL )
 , m_pxVertices( NULL )
 {
@@ -66,16 +64,16 @@ GLToy_Model_Strip::GLToy_Model_Strip( u_int uVertex1, u_int uVertex2, u_int uVer
 	m_puVertexIndices[3] = uVertex4;
 }
 
-GLToy_Model_Strip::~GLToy_Model_Strip()
+GLToy_ModelStrip::~GLToy_ModelStrip()
 {
 	if( m_puVertexIndices )
 	{
-		delete m_puVertexIndices;
+		delete[] m_puVertexIndices;
 		m_puVertexIndices = NULL;
 	}
 }
 
-GLToy_Model_Strip& GLToy_Model_Strip::operator =( const GLToy_Model_Strip& xStrip )
+GLToy_ModelStrip& GLToy_ModelStrip::operator =( const GLToy_ModelStrip& xStrip )
 {
 	if( m_puVertexIndices )
 	{
@@ -97,7 +95,7 @@ GLToy_Model_Strip& GLToy_Model_Strip::operator =( const GLToy_Model_Strip& xStri
 	return *this;
 }
 
-void GLToy_Model_Strip::Render()
+void GLToy_ModelStrip::Render()
 {
 	GLToy_Render::StartSubmittingTriangleStrip();
 	
@@ -110,7 +108,8 @@ void GLToy_Model_Strip::Render()
 }
 
 GLToy_Model::GLToy_Model()
-: m_uVertexCount( 0 )
+: PARENT()
+, m_uVertexCount( 0 )
 , m_pxVertices( NULL )
 , m_uStripCount( 0 )
 , m_pxStrips( NULL )
@@ -121,13 +120,18 @@ GLToy_Model::~GLToy_Model()
 {
 	if( m_pxVertices )
 	{
-		delete m_pxVertices;
+		delete[] m_pxVertices;
 		m_pxVertices = NULL;
 	}
 
 	if( m_pxStrips )
 	{
-		delete m_pxStrips;
+		for( u_int u = 0; u < m_uStripCount; ++u )
+		{
+			delete m_pxStrips[u];
+		}
+
+		delete[] m_pxStrips;
 		m_pxStrips = NULL;
 	}
 }
@@ -135,24 +139,24 @@ GLToy_Model::~GLToy_Model()
 void GLToy_Model::AddStripFromTriangle( const GLToy_Vector_3& xVertex1, const GLToy_Vector_3& xVertex2, const GLToy_Vector_3& xVertex3 )
 {
 	++m_uStripCount;
-	GLToy_Model_Strip* pxOldStrips = m_pxStrips;
+	GLToy_ModelStrip** pxOldStrips = m_pxStrips;
 
-	m_pxStrips = new GLToy_Model_Strip[m_uStripCount];
+	m_pxStrips = new GLToy_ModelStrip*[m_uStripCount];
 
 	if( pxOldStrips )
 	{
-		for( u_int u = 0; u < m_uStripCount; ++u )
+		for( u_int u = 0; u < m_uStripCount - 1; ++u )
 		{
-			m_pxStrips[u] = pxOldStrips[u];
+			m_pxStrips[u] = new GLToy_ModelStrip( *( pxOldStrips[u] ) );
 		}
-		delete pxOldStrips;
+		delete[] pxOldStrips;
 	}
 
 	u_int uVertex1 = GetVertexIndex( xVertex1 );
 	u_int uVertex2 = GetVertexIndex( xVertex2 );
 	u_int uVertex3 = GetVertexIndex( xVertex3 );
 
-	m_pxStrips[m_uStripCount - 1] = GLToy_Model_Strip( uVertex1, uVertex2, uVertex3 );
+	m_pxStrips[m_uStripCount - 1] = new GLToy_ModelStrip( uVertex1, uVertex2, uVertex3 );
 
 	UpdateStripPointers();
 }
@@ -160,17 +164,17 @@ void GLToy_Model::AddStripFromTriangle( const GLToy_Vector_3& xVertex1, const GL
 void GLToy_Model::AddStripFromQuad( const GLToy_Vector_3& xVertex1, const GLToy_Vector_3& xVertex2, const GLToy_Vector_3& xVertex3, const GLToy_Vector_3& xVertex4 )
 {
 	++m_uStripCount;
-	const GLToy_Model_Strip* const pxOldStrips = m_pxStrips;
+	GLToy_ModelStrip** pxOldStrips = m_pxStrips;
 
-	m_pxStrips = new GLToy_Model_Strip[m_uStripCount];
+	m_pxStrips = new GLToy_ModelStrip*[m_uStripCount];
 
 	if( pxOldStrips )
 	{
-		for( u_int u = 0; u < m_uStripCount; ++u )
+		for( u_int u = 0; u < m_uStripCount - 1; ++u )
 		{
-			m_pxStrips[u] = pxOldStrips[u];
+			m_pxStrips[u] = new GLToy_ModelStrip( *( pxOldStrips[u] ) );
 		}
-		delete pxOldStrips;
+		delete[] pxOldStrips;
 	}
 
 	u_int uVertex1 = GetVertexIndex( xVertex1 );
@@ -178,7 +182,7 @@ void GLToy_Model::AddStripFromQuad( const GLToy_Vector_3& xVertex1, const GLToy_
 	u_int uVertex3 = GetVertexIndex( xVertex3 );
 	u_int uVertex4 = GetVertexIndex( xVertex4 );
 
-	m_pxStrips[m_uStripCount - 1] = GLToy_Model_Strip( uVertex1, uVertex2, uVertex3, uVertex4 );
+	m_pxStrips[m_uStripCount - 1] = new GLToy_ModelStrip( uVertex1, uVertex2, uVertex3, uVertex4 );
 
 	UpdateStripPointers();
 }
@@ -187,7 +191,7 @@ void GLToy_Model::Render()
 {
 	for( u_int u = 0; u < m_uStripCount; ++u )
 	{
-		m_pxStrips[u].Render();
+		m_pxStrips[u]->Render();
 	}
 }
 
@@ -195,7 +199,7 @@ void GLToy_Model::UpdateStripPointers()
 {
 	for( u_int u = 0; u < m_uStripCount; ++u )
 	{
-		m_pxStrips[u].SetVertexPointer( m_pxVertices );
+		m_pxStrips[u]->SetVertexPointer( m_pxVertices );
 	}
 }
 
@@ -216,12 +220,14 @@ u_int GLToy_Model::GetVertexIndex( const GLToy_Vector_3& xVertex )
 
 	if( pxOldVertices )
 	{
-		for( u_int u = 0; u < m_uVertexCount; ++u )
+		for( u_int u = 0; u < m_uVertexCount - 1; ++u )
 		{
 			m_pxVertices[u] = pxOldVertices[u];
 		}
-		delete pxOldVertices;
+		delete[] pxOldVertices;
 	}
+
+	m_pxVertices[m_uVertexCount - 1] = xVertex;
 
 	return m_uVertexCount - 1;
 }

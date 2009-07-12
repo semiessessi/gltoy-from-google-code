@@ -7,8 +7,14 @@
 
 #include <Core/GLToy.h>
 
-// GLToy
+// Parent
 #include <Render/GLToy_Renderable.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C O N S T A N T S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+static const u_int uGLTOY_MODEL_BADINDEX = 0xFFFFFFFF;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -16,18 +22,20 @@
 
 class GLToy_Vector_3;
 
-class GLToy_Model_Strip : public GLToy_Renderable
+class GLToy_ModelStrip : public GLToy_Renderable
 {
+
+	typedef GLToy_Renderable PARENT;
 
 public:
 
-	GLToy_Model_Strip();
-	GLToy_Model_Strip( const GLToy_Model_Strip& xStrip );
-    GLToy_Model_Strip( u_int uVertex1, u_int uVertex2, u_int uVertex3 );
-	GLToy_Model_Strip( u_int uVertex1, u_int uVertex2, u_int uVertex3, u_int uVertex4 );
-    virtual ~GLToy_Model_Strip();
+	GLToy_ModelStrip();
+	GLToy_ModelStrip( const GLToy_ModelStrip& xStrip );
+    GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVertex3 );
+	GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVertex3, u_int uVertex4 );
+    virtual ~GLToy_ModelStrip();
 
-	virtual GLToy_Model_Strip& operator =( const GLToy_Model_Strip& xStrip );
+	virtual GLToy_ModelStrip& operator =( const GLToy_ModelStrip& xStrip );
 
 	void SetVertexPointer( const GLToy_Vector_3* pxVertices ) { m_pxVertices = pxVertices; }
 
@@ -44,7 +52,10 @@ protected:
 class GLToy_Model : public GLToy_Renderable
 {
 
+	typedef GLToy_Renderable PARENT;
+
 public:
+
     GLToy_Model();
 	virtual ~GLToy_Model();
 
@@ -63,7 +74,7 @@ protected:
     GLToy_Vector_3* m_pxVertices;
 
 	u_int m_uStripCount;
-	GLToy_Model_Strip* m_pxStrips;
+	GLToy_ModelStrip** m_pxStrips;
 
 };
 
