@@ -5,29 +5,19 @@
 #include <Core/GLToy.h>
 
 // This file's headers
-#include <Maths/GLToy_Maths.h>
-#include <Maths/Platform_GLToy_Maths.h>
+#include <Core/GLToy_Timer.h>
+#include <Core/Platform_GLToy_Timer.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Maths::Initialise()
+
+bool Platform_GLToy_Timer::Initialise()
 {
-    Platform_Initialise();
+    return true;
 }
 
-void GLToy_Maths::Shutdown()
+void Platform_GLToy_Timer::Update()
 {
-    Platform_Shutdown();
-}
-
-void GLToy_Maths::Platform_Initialise()
-{
-    Platform_GLToy_Maths::Initialise();
-}
-
-void GLToy_Maths::Platform_Shutdown()
-{
-
 }

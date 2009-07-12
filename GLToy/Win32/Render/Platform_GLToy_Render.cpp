@@ -20,6 +20,8 @@
 
 bool Platform_GLToy_Render::Initialise()
 {
+    GLToy_DebugOutput( "\r\nPlatform_GLToy_Render::Initialise() - Initialising Graphics\r\n" );
+
 	glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
     glClearDepth( 1.0f );
     glClearStencil( 0 );
@@ -82,23 +84,37 @@ void Platform_GLToy_Render::EndSubmit()
 	glEnd();
 }
 
-void Platform_GLToy_Render::SubmitVertex3( const float* const pfVertex )
+/////////////////////////////////////////////////////////////////////////////////////////////
+// G L   I N T E R F A C E
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+void Platform_GLToy_Render::Translate( const GLToy_Vector_3& xTranslation )
 {
-	glVertex3fv( pfVertex );
+    glTranslatef( xTranslation[0], xTranslation[1], xTranslation[2] );
 }
 
-void Platform_GLToy_Render::SubmitNormal3( const float* const pfNormal )
+void Platform_GLToy_Render::Rotate( const GLToy_Vector_3& xAxis, const float fAngle )
 {
-	glNormal3fv( pfNormal );
+    glRotatef( fAngle, xAxis[0], xAxis[1], xAxis[2] );
 }
 
-void Platform_GLToy_Render::SubmitColour3( const float* const pfColour )
+void Platform_GLToy_Render::SubmitVertex( const GLToy_Vector_3& xVertex )
 {
-	glColor3fv( pfColour );
+	glVertex3fv( xVertex.GetConstFloatPointer() );
 }
 
-void Platform_GLToy_Render::SubmitTextureCoordinate3( const float* const pfTexCoord, const u_int uTextureUnit )
+void Platform_GLToy_Render::SubmitNormal( const GLToy_Vector_3& xNormal )
 {
-	// ignore texture unit for now...
-	glTexCoord3fv( pfTexCoord );
+	glNormal3fv( xNormal.GetConstFloatPointer() );
+}
+
+void Platform_GLToy_Render::SubmitColour( const GLToy_Vector_3& xColour )
+{
+	glColor3fv( xColour.GetConstFloatPointer() );
+}
+
+void Platform_GLToy_Render::SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit )
+{
+	// ### - ignore texture unit for now...
+	glTexCoord3fv( xTexCoord.GetConstFloatPointer() );
 }

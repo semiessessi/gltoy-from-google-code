@@ -51,11 +51,6 @@ public:
     GLToy_Vector_3 operator -( const GLToy_Vector_3& xVector ) const;
     GLToy_Vector_3 operator *( const float fFloat ) const;
 
-    void SubmitVertex() const;
-    void SubmitNormal() const;
-    void SubmitColour() const;
-    void SubmitTextureCoordinate( u_int uTextureUnit = 0 ) const;
-
 private:
     
     float fComponents[3];

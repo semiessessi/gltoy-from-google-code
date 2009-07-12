@@ -25,16 +25,6 @@ Platform_GLToy_Maths::CPUFeatures Platform_GLToy_Maths::s_xCPUFeatures;
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Maths::Platform_Initialise()
-{
-    Platform_GLToy_Maths::Initialise();
-}
-
-void GLToy_Maths::Platform_Shutdown()
-{
-
-}
-
 void Platform_GLToy_Maths::Initialise()
 {
     GLToy_DebugOutput( "\r\nPlatform_GLToy_Maths::Initialise() - Initialising CPU\r\n" );

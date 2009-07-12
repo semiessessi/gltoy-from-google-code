@@ -7,7 +7,7 @@
 
 #include "GLToy_Vector.h"
 
-#include "Maths/Platform_GLToy_Maths.h"
+//#include "Maths/Platform_GLToy_Maths.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S

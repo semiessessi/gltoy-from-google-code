@@ -6,6 +6,7 @@
 #include <Core/GLToy.h>
 
 // GLToy headers
+#include <Core/GLToy_Timer.h>
 #include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Render.h>
 
@@ -72,6 +73,7 @@ void GLToy::UpdateBuffers()
 
 bool GLToy::Initialise()
 {
+    GLToy_Timer::Initialise();
     GLToy_Maths::Initialise();
 
     if( !Platform_EarlyInitialise() )
@@ -109,6 +111,8 @@ bool GLToy::MainLoop()
     {
         return false;
     }
+
+    GLToy_Timer::Update();
 
     GLToy_Render::Render();
 

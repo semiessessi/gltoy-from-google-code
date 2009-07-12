@@ -2,8 +2,16 @@
 #define __GLTOY_RENDER_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// I N C L U D E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#include <Core/GLToy.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+class GLToy_Vector_3;
 
 class GLToy_Render
 {
@@ -16,6 +24,9 @@ public:
     static void Render();
 
 	// GL interface
+    static void Translate( const GLToy_Vector_3& xTranslation );
+    static void Rotate( const GLToy_Vector_3& xAxis, const float fAngle );
+
 	static void StartSubmittingTriangles();
 	static void StartSubmittingQuads();
 	static void StartSubmittingTriangleStrip();
@@ -23,10 +34,10 @@ public:
 	static void StartSubmittingPolygon();
 	static void EndSubmit();
 
-	static void SubmitVertex3( const float* const pfVertex );
-	static void SubmitNormal3( const float* const pfNormal );
-	static void SubmitColour3( const float* const pfColour );
-	static void SubmitTextureCoordinate3( const float* const pfTexCoord, const u_int uTextureUnit );
+	static void SubmitVertex( const GLToy_Vector_3& xVertex );
+    static void SubmitNormal( const GLToy_Vector_3& xNormal );
+    static void SubmitColour( const GLToy_Vector_3& xColour );
+    static void SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit );
 
 private:
 

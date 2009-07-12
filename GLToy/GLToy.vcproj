@@ -161,6 +161,14 @@
 					RelativePath=".\Win32\Core\Platform_GLToy_Assert.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\Win32\Core\Platform_GLToy_Timer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Win32\Core\Platform_GLToy_Timer.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Render"
@@ -219,6 +227,14 @@
 				</File>
 				<File
 					RelativePath=".\Independent\Core\GLToy_SimpleStructures.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Core\GLToy_Timer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Core\GLToy_Timer.h"
 					>
 				</File>
 			</Filter>
