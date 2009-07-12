@@ -13,7 +13,7 @@ private:
 
     static bool Initialise();
 
-    static void Update();
+    static float GetTimeSinceLastGet();
 };
 
 #endif

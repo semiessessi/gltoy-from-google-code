@@ -25,7 +25,7 @@ private:
     
     static bool Platform_Initialise();
 
-    static void Platform_Update();
+    static float Platform_GetTimeSinceLastGet();
 
     static float s_fTimer;
     static float s_fFrameTime;

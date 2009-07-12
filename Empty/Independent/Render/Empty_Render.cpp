@@ -22,5 +22,4 @@ void Empty_Render::Shutdown()
 
 void Empty_Render::Render()
 {
-    Platform_Render();
 }

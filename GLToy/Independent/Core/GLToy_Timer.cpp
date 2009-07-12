@@ -27,11 +27,10 @@ bool GLToy_Timer::Initialise()
 
 void GLToy_Timer::Update()
 {
-    Platform_Update();
+    s_fFrameTime = Platform_GetTimeSinceLastGet();
 
     s_fSmoothedFrameRate = 0.1f * GetFrameRate() + 0.9f * s_fSmoothedFrameRate;
     
-    // ### - update the timer (s_fFrameTime needs to be set...)
     s_fTimer += s_fFrameTime;
 }
 
@@ -40,7 +39,7 @@ bool GLToy_Timer::Platform_Initialise()
     return Platform_GLToy_Timer::Initialise();
 }
 
-void GLToy_Timer::Platform_Update()
+float GLToy_Timer::Platform_GetTimeSinceLastGet()
 {
-    Platform_GLToy_Timer::Update();
+    return Platform_GLToy_Timer::GetTimeSinceLastGet();
 }

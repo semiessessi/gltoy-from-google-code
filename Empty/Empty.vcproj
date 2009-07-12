@@ -182,14 +182,6 @@
 					>
 				</File>
 			</Filter>
-			<Filter
-				Name="Render"
-				>
-				<File
-					RelativePath=".\Win32\Render\Platform_Empty_Render.cpp"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Independent"
