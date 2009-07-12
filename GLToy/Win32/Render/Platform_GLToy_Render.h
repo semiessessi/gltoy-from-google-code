@@ -32,6 +32,15 @@ public:
 private:
 
     // GL interface
+    static void SetViewport( int iX, int iY, u_int uWidth, u_int uHeight );
+
+    static void SetIdentityProjectionMatrix();
+    static void SetPerspectiveProjectionMatrix( float fFOV, u_int uViewportWidth, u_int uViewportHeight );
+    static void SetOrthogonalProjectionMatrix();
+
+    static void SetIdentityViewMatrix();
+    static void SetLookAtViewMatrix( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xLookAt, const GLToy_Vector_3& xUp );
+
     static void Translate( const GLToy_Vector_3& xTranslation );
     static void Rotate( const GLToy_Vector_3& xAxis, const float fAngle );
 
@@ -41,6 +50,8 @@ private:
     static void StartSubmittingTriangleFan();
     static void StartSubmittingPolygon();
     static void EndSubmit();
+
+    static void Flush();
 
     static void SubmitVertex( const GLToy_Vector_3& xVertex );
     static void SubmitNormal( const GLToy_Vector_3& xNormal );

@@ -16,6 +16,7 @@
 
 // GL
 #include <gl/gl.h>
+#include <gl/glu.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -42,20 +43,56 @@ void Platform_GLToy_Render::Shutdown()
 void Platform_GLToy_Render::BeginRender()
 {
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
-
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity();
 }
 
 void Platform_GLToy_Render::EndRender()
 {
-    glFlush();
     GLToy::UpdateBuffers();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // G L   I N T E R F A C E
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+void Platform_GLToy_Render::SetViewport( int iX, int iY, u_int uWidth, u_int uHeight )
+{
+    glViewport( iX, iY, uWidth, uHeight );
+}
+
+void Platform_GLToy_Render::SetIdentityProjectionMatrix()
+{
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+}
+
+void Platform_GLToy_Render::SetPerspectiveProjectionMatrix( float fFOV, u_int uViewportWidth, u_int uViewportHeight )
+{
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    gluPerspective( fFOV, static_cast<float>( uViewportWidth ) / static_cast<float>( uViewportHeight ), 0.01f, 10000.0f );
+}
+
+void Platform_GLToy_Render::SetOrthogonalProjectionMatrix()
+{
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    glOrtho( -1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f );
+}
+
+void Platform_GLToy_Render::SetIdentityViewMatrix()
+{
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+}
+
+void Platform_GLToy_Render::SetLookAtViewMatrix( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xLookAt, const GLToy_Vector_3& xUp )
+{
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+    gluLookAt( xPosition[0], xPosition[1], xPosition[2],
+                xLookAt[0], xLookAt[1], xLookAt[2],
+                xUp[0], xUp[1], xUp[2] );
+}
 
 void Platform_GLToy_Render::StartSubmittingTriangles()
 {
@@ -120,4 +157,9 @@ void Platform_GLToy_Render::SubmitTextureCoordinate( const GLToy_Vector_3& xTexC
 {
     // ### - ignore texture unit for now...
     glTexCoord3fv( xTexCoord.GetConstFloatPointer() );
+}
+
+void Platform_GLToy_Render::Flush()
+{
+    glFlush();
 }

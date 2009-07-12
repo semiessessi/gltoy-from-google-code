@@ -11,10 +11,6 @@
 // Win32
 #include <windows.h>
 
-// GL
-#include <gl/gl.h>
-#include <gl/glu.h>
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -274,23 +270,11 @@ bool GLToy::Platform_MainLoop()
 
 bool GLToy::Platform_Resize( const int& iWidth, const int& iHeight )
 {
-    glViewport( 0, 0, iWidth, iHeight );
-
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
-
-    gluPerspective( 90.0f, static_cast<float>( iWidth ) / static_cast<float>( iHeight ), 0.1f, 100.0f );
-
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity();
-
     return true;
 }
 
 void GLToy::Platform_UpdateBuffers()
 {
-    glFlush();
-
     SwapBuffers( g_uDeviceContext );
 }
 

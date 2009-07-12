@@ -57,6 +57,9 @@ public:
 
     static void DebugOutput( const char* sFormatString, ... );
 
+    static u_int GetWindowViewportWidth();
+    static u_int GetWindowViewportHeight();
+
 private:
 
     static bool Initialise();

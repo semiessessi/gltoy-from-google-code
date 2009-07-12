@@ -249,6 +249,14 @@
 				Name="Render"
 				>
 				<File
+					RelativePath=".\Independent\Render\GLToy_Camera.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Render\GLToy_Camera.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Render\GLToy_Render.cpp"
 					>
 				</File>

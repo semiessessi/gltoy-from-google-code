@@ -24,6 +24,15 @@ public:
     static void Render();
 
     // GL interface
+    static void SetViewport( int iX, int iY, u_int uWidth, u_int uHeight );
+
+    static void SetIdentityProjectionMatrix();
+    static void SetPerspectiveProjectionMatrix( u_int uViewportWidth, u_int uViewportHeight );
+    static void SetOrthogonalProjectionMatrix();
+
+    static void SetIdentityViewMatrix();
+    static void SetLookAtViewMatrix( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xLookAt, const GLToy_Vector_3& xUp );
+
     static void Translate( const GLToy_Vector_3& xTranslation );
     static void Rotate( const GLToy_Vector_3& xAxis, const float fAngle );
 
@@ -39,6 +48,8 @@ public:
     static void SubmitColour( const GLToy_Vector_3& xColour );
     static void SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit );
 
+    static void Flush();
+
 private:
 
     static bool Project_Initialise();
@@ -51,6 +62,8 @@ private:
 
     static void Platform_BeginRender();
     static void Platform_EndRender();
+
+    static float s_fFOV;
 
 };
 

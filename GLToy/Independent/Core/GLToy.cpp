@@ -71,6 +71,8 @@ bool GLToy::Resize( const int& iWidth, const int& iHeight )
         s_iHeight = 1;
     }
 
+    GLToy_Render::SetViewport( 0, 0, s_iWidth, s_iHeight );
+
     return Platform_Resize( s_iWidth, s_iHeight );
 }
 
@@ -150,6 +152,15 @@ void GLToy::DebugOutput( const char* sFormatString, ... )
     Platform_DebugOutput( sDebugMessageBuffer );
 }
 
+u_int GLToy::GetWindowViewportWidth()
+{
+    return static_cast<u_int>( s_iWidth );
+}
+
+u_int GLToy::GetWindowViewportHeight()
+{
+    return static_cast<u_int>( s_iHeight );
+}
 
 
 
