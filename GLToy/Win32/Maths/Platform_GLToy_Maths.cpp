@@ -52,6 +52,6 @@ bool Platform_GLToy_Maths::Initialise()
     GLToy_DebugOutput( "  SSE4.1: %s\r\n", s_xCPUFeatures.m_bSSE41 ? "Yes" : "No" );
     GLToy_DebugOutput( "  SSE4.2: %s\r\n", s_xCPUFeatures.m_bSSE42 ? "Yes" : "No" );
 
-	// demand that we at least have an FPU
+    // demand that we at least have an FPU
     return s_xCPUFeatures.m_bFPU;
 }

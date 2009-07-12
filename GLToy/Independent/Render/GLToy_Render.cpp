@@ -53,17 +53,17 @@ bool GLToy_Render::Platform_Initialise()
 
 void GLToy_Render::Platform_Shutdown()
 {
-	Platform_GLToy_Render::Shutdown();
+    Platform_GLToy_Render::Shutdown();
 }
 
 void GLToy_Render::Platform_BeginRender()
 {
-	Platform_GLToy_Render::BeginRender();
+    Platform_GLToy_Render::BeginRender();
 }
 
 void GLToy_Render::Platform_EndRender()
 {
-	Platform_GLToy_Render::EndRender();
+    Platform_GLToy_Render::EndRender();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,50 +82,50 @@ void GLToy_Render::Rotate( const GLToy_Vector_3& xAxis, const float fAngle )
 
 void GLToy_Render::StartSubmittingTriangles()
 {
-	Platform_GLToy_Render::StartSubmittingTriangles();
+    Platform_GLToy_Render::StartSubmittingTriangles();
 }
 
 void GLToy_Render::StartSubmittingQuads()
 {
-	Platform_GLToy_Render::StartSubmittingQuads();
+    Platform_GLToy_Render::StartSubmittingQuads();
 }
 
 void GLToy_Render::StartSubmittingTriangleStrip()
 {
-	Platform_GLToy_Render::StartSubmittingTriangleStrip();
+    Platform_GLToy_Render::StartSubmittingTriangleStrip();
 }
 
 void GLToy_Render::StartSubmittingTriangleFan()
 {
-	Platform_GLToy_Render::StartSubmittingTriangleFan();
+    Platform_GLToy_Render::StartSubmittingTriangleFan();
 }
 
 void GLToy_Render::StartSubmittingPolygon()
 {
-	Platform_GLToy_Render::StartSubmittingPolygon();
+    Platform_GLToy_Render::StartSubmittingPolygon();
 }
 
 void GLToy_Render::EndSubmit()
 {
-	Platform_GLToy_Render::EndSubmit();
+    Platform_GLToy_Render::EndSubmit();
 }
 
 void GLToy_Render::SubmitVertex( const GLToy_Vector_3& xVertex )
 {
-	Platform_GLToy_Render::SubmitVertex( xVertex );
+    Platform_GLToy_Render::SubmitVertex( xVertex );
 }
 
 void GLToy_Render::SubmitNormal( const GLToy_Vector_3& xNormal )
 {
-	Platform_GLToy_Render::SubmitNormal( xNormal );
+    Platform_GLToy_Render::SubmitNormal( xNormal );
 }
 
 void GLToy_Render::SubmitColour( const GLToy_Vector_3& xColour )
 {
-	Platform_GLToy_Render::SubmitColour( xColour );
+    Platform_GLToy_Render::SubmitColour( xColour );
 }
 
 void GLToy_Render::SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit )
 {
-	Platform_GLToy_Render::SubmitTextureCoordinate( xTexCoord, uTextureUnit );
+    Platform_GLToy_Render::SubmitTextureCoordinate( xTexCoord, uTextureUnit );
 }

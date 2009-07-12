@@ -25,7 +25,7 @@ private:
 
     static void Platform_Render();
 
-	static GLToy_Model_Coloured s_xCube;
+    static GLToy_Model_Coloured s_xCube;
 
 };
 

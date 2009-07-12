@@ -24,23 +24,23 @@ static LARGE_INTEGER xPerformanceFrequency;
 
 bool Platform_GLToy_Timer::Initialise()
 {
-	QueryPerformanceCounter( &xPerformanceCount );
+    QueryPerformanceCounter( &xPerformanceCount );
 
     return true;
 }
 
 float Platform_GLToy_Timer::GetTimeSinceLastGet()
 {
-	// this can change... so we had better update it
-	QueryPerformanceFrequency( &xPerformanceFrequency );
+    // this can change... so we had better update it
+    QueryPerformanceFrequency( &xPerformanceFrequency );
 
-	LARGE_INTEGER xNewPerformanceCount;
-	QueryPerformanceCounter( &xNewPerformanceCount );
+    LARGE_INTEGER xNewPerformanceCount;
+    QueryPerformanceCounter( &xNewPerformanceCount );
 
-	float fTime = static_cast<float>( xNewPerformanceCount.QuadPart - xPerformanceCount.QuadPart )
-		/ static_cast<float>( xPerformanceFrequency.QuadPart );
+    float fTime = static_cast<float>( xNewPerformanceCount.QuadPart - xPerformanceCount.QuadPart )
+        / static_cast<float>( xPerformanceFrequency.QuadPart );
 
-	xPerformanceCount = xNewPerformanceCount;
+    xPerformanceCount = xNewPerformanceCount;
 
-	return fTime;
+    return fTime;
 }

@@ -25,13 +25,13 @@ bool Platform_GLToy_Render::Initialise()
 {
     GLToy_DebugOutput( "\r\nPlatform_GLToy_Render::Initialise() - Initialising Graphics\r\n" );
 
-	glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
     glClearDepth( 1.0f );
     glClearStencil( 0 );
     glEnable( GL_DEPTH_TEST );
     glDepthFunc( GL_LEQUAL );
 
-	return true;
+    return true;
 }
 
 void Platform_GLToy_Render::Shutdown()
@@ -59,32 +59,32 @@ void Platform_GLToy_Render::EndRender()
 
 void Platform_GLToy_Render::StartSubmittingTriangles()
 {
-	glBegin( GL_TRIANGLES );
+    glBegin( GL_TRIANGLES );
 }
 
 void Platform_GLToy_Render::StartSubmittingQuads()
 {
-	glBegin( GL_QUADS );
+    glBegin( GL_QUADS );
 }
 
 void Platform_GLToy_Render::StartSubmittingTriangleStrip()
 {
-	glBegin( GL_TRIANGLE_STRIP );
+    glBegin( GL_TRIANGLE_STRIP );
 }
 
 void Platform_GLToy_Render::StartSubmittingTriangleFan()
 {
-	glBegin( GL_TRIANGLE_FAN );
+    glBegin( GL_TRIANGLE_FAN );
 }
 
 void Platform_GLToy_Render::StartSubmittingPolygon()
 {
-	glBegin( GL_POLYGON );
+    glBegin( GL_POLYGON );
 }
 
 void Platform_GLToy_Render::EndSubmit()
 {
-	glEnd();
+    glEnd();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,21 +103,21 @@ void Platform_GLToy_Render::Rotate( const GLToy_Vector_3& xAxis, const float fAn
 
 void Platform_GLToy_Render::SubmitVertex( const GLToy_Vector_3& xVertex )
 {
-	glVertex3fv( xVertex.GetConstFloatPointer() );
+    glVertex3fv( xVertex.GetConstFloatPointer() );
 }
 
 void Platform_GLToy_Render::SubmitNormal( const GLToy_Vector_3& xNormal )
 {
-	glNormal3fv( xNormal.GetConstFloatPointer() );
+    glNormal3fv( xNormal.GetConstFloatPointer() );
 }
 
 void Platform_GLToy_Render::SubmitColour( const GLToy_Vector_3& xColour )
 {
-	glColor3fv( xColour.GetConstFloatPointer() );
+    glColor3fv( xColour.GetConstFloatPointer() );
 }
 
 void Platform_GLToy_Render::SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit )
 {
-	// ### - ignore texture unit for now...
-	glTexCoord3fv( xTexCoord.GetConstFloatPointer() );
+    // ### - ignore texture unit for now...
+    glTexCoord3fv( xTexCoord.GetConstFloatPointer() );
 }

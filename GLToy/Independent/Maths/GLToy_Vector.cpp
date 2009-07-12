@@ -40,7 +40,7 @@ GLToy_Vector_2::GLToy_Vector_2( const GLToy_Vector_2& xVector )
 
 GLToy_Vector_3::GLToy_Vector_3()
 {
-	// ### - use platform zero
+    // ### - use platform zero
     fComponents[0]
         = fComponents[1]
         = fComponents[2]
@@ -56,7 +56,7 @@ GLToy_Vector_3::GLToy_Vector_3( float fX, float fY, float fZ )
 
 GLToy_Vector_3::GLToy_Vector_3( const GLToy_Vector_3& xVector )
 {
-	// ### - use platform copy
+    // ### - use platform copy
     fComponents[0] = xVector[0];
     fComponents[1] = xVector[1];
     fComponents[2] = xVector[2];
@@ -64,12 +64,12 @@ GLToy_Vector_3::GLToy_Vector_3( const GLToy_Vector_3& xVector )
 
 GLToy_Vector_3& GLToy_Vector_3::operator =( const GLToy_Vector_3& xVector )
 {
-	// ### - use platform copy
+    // ### - use platform copy
     fComponents[0] = xVector[0];
     fComponents[1] = xVector[1];
     fComponents[2] = xVector[2];
 
-	return *this;
+    return *this;
 }
 
 GLToy_Vector_3 GLToy_Vector_3::operator +( const GLToy_Vector_3& xVector ) const
@@ -89,10 +89,10 @@ GLToy_Vector_3 GLToy_Vector_3::operator *( const float fFloat ) const
 
 bool GLToy_Vector_3::operator ==( const GLToy_Vector_3& xVector )
 {
-	// ### - use platform compare
-	return ( fComponents[0] == xVector[0] )
-		&& ( fComponents[1] == xVector[1] )
-		&& ( fComponents[2] == xVector[2] );
+    // ### - use platform compare
+    return ( fComponents[0] == xVector[0] )
+        && ( fComponents[1] == xVector[1] )
+        && ( fComponents[2] == xVector[2] );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

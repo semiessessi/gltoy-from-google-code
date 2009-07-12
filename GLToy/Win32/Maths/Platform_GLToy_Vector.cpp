@@ -43,15 +43,15 @@ GLToy_Vector_3 Platform_GLToy_Vector::Mul_Default( const float fFloat, const GLT
 
 GLToy_Vector_3 Platform_GLToy_Vector::Add(const GLToy_Vector_3& xVector1, const GLToy_Vector_3& xVector2)
 {
-	return pfnAdd( xVector1, xVector2 );
+    return pfnAdd( xVector1, xVector2 );
 }
 
 GLToy_Vector_3 Platform_GLToy_Vector::Sub(const GLToy_Vector_3& xVector1, const GLToy_Vector_3& xVector2)
 {
-	return pfnSub( xVector1, xVector2 );
+    return pfnSub( xVector1, xVector2 );
 }
 
 GLToy_Vector_3 Platform_GLToy_Vector::Mul(const float fFloat, const GLToy_Vector_3& xVector)
 {
-	return pfnMul( fFloat, xVector );
+    return pfnMul( fFloat, xVector );
 }

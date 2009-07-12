@@ -65,7 +65,7 @@ bool GLToy::Platform_EarlyInitialise()
     xWindowClass.lpszClassName      = "GLToy";
     xWindowClass.style              = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     xWindowClass.hIcon              = LoadIcon( g_uInstance, IDI_WINLOGO );
-    xWindowClass.hCursor			= LoadCursor( g_uInstance, IDC_ARROW );
+    xWindowClass.hCursor            = LoadCursor( g_uInstance, IDC_ARROW );
     xWindowClass.hInstance          = g_uInstance;
     xWindowClass.lpfnWndProc        = WndProc;
 

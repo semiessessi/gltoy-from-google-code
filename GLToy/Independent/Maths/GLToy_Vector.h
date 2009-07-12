@@ -41,7 +41,7 @@ public:
     GLToy_Vector_3( float fX, float fY, float fZ );
     GLToy_Vector_3( const GLToy_Vector_3& xVector );
 
-	GLToy_Vector_3& operator =( const GLToy_Vector_3& xVector );
+    GLToy_Vector_3& operator =( const GLToy_Vector_3& xVector );
 
     float& operator[] ( int i ) { return fComponents[i]; }
     const float& operator[] ( int i ) const { return fComponents[i]; }
@@ -49,11 +49,11 @@ public:
     float* GetFloatPointer() { return fComponents; }
     const float* const GetConstFloatPointer() const { return fComponents; }
 
-	GLToy_Vector_3 operator +( const GLToy_Vector_3& xVector ) const;
+    GLToy_Vector_3 operator +( const GLToy_Vector_3& xVector ) const;
     GLToy_Vector_3 operator -( const GLToy_Vector_3& xVector ) const;
     GLToy_Vector_3 operator *( const float fFloat ) const;
 
-	bool operator ==( const GLToy_Vector_3& xVector );
+    bool operator ==( const GLToy_Vector_3& xVector );
 
 private:
     

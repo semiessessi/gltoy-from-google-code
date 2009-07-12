@@ -38,7 +38,7 @@ int GLToy::EntryPoint()
 {
     Initialise();
 
-	GLToy_DebugOutput( "\r\nGLToy::EntryPoint() - Entering Main Loop.\r\n" );
+    GLToy_DebugOutput( "\r\nGLToy::EntryPoint() - Entering Main Loop.\r\n" );
 
     bool bRunning = true;
     while( bRunning )
@@ -81,10 +81,10 @@ void GLToy::UpdateBuffers()
 
 bool GLToy::Initialise()
 {
-	GLToy_DebugOutput( "\r\nGLToy::Initialise() - Initialising systems:\r\n" );
+    GLToy_DebugOutput( "\r\nGLToy::Initialise() - Initialising systems:\r\n" );
 
     GLTOY_INITIALISER_CALL( GLToy_Timer );
-	GLTOY_INITIALISER_CALL( GLToy_Maths );
+    GLTOY_INITIALISER_CALL( GLToy_Maths );
 
     if( !Platform_EarlyInitialise() )
     {
@@ -103,14 +103,14 @@ bool GLToy::Initialise()
         return false;
     }
 
-	GLToy_DebugOutput( "\r\nGLToy::Initialise() - Completed successfully.\r\n" );
+    GLToy_DebugOutput( "\r\nGLToy::Initialise() - Completed successfully.\r\n" );
 
     return true;
 }
 
 void GLToy::Shutdown()
 {
-	GLToy_DebugOutput( "\r\nGLToy::Shutdown() - Shutting down systems.\r\n" );
+    GLToy_DebugOutput( "\r\nGLToy::Shutdown() - Shutting down systems.\r\n" );
 
     GLToy_Render::Shutdown();
 
@@ -118,7 +118,7 @@ void GLToy::Shutdown()
 
     GLToy_Maths::Shutdown();
 
-	GLToy_DebugOutput( "\r\nGLToy::Shutdown() - Completed successfully.\r\n" );
+    GLToy_DebugOutput( "\r\nGLToy::Shutdown() - Completed successfully.\r\n" );
 }
 
 bool GLToy::MainLoop()
