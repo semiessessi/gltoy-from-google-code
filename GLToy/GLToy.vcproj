@@ -309,6 +309,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="File"
+				>
+				<File
+					RelativePath=".\Independent\File\GLToy_File.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\File\GLToy_File.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>
