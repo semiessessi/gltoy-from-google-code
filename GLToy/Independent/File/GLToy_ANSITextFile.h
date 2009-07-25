@@ -1,5 +1,5 @@
-#ifndef __GLTOY_FILE_H_
-#define __GLTOY_FILE_H_
+#ifndef __GLTOY_ANSITEXTFILE_H_
+#define __GLTOY_ANSITEXTFILE_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
@@ -7,26 +7,25 @@
 
 #include <Core/GLToy.h>
 
+#include <File/GLToy_File.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_File
+class GLToy_ANSITextFile : GLToy_File
 {
+
+    typedef GLToy_File PARENT;
 
 public:
     
-    GLToy_File( const char* const szFilename );
-    virtual ~GLToy_File();
+    GLToy_ANSITextFile( const char* const szFilename );
+    virtual ~GLToy_ANSITextFile();
 
-    u_int GetSize() const { return m_uSize; }
+    void GetString( char* szString ) const; 
 
 protected:
-
-    char* m_szFilename;
-    u_int m_uSize;
-
-    void GetAllData( void* const pPointer ) const;
 
 };
 

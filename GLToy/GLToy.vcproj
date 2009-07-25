@@ -313,6 +313,14 @@
 				Name="File"
 				>
 				<File
+					RelativePath=".\Independent\File\GLToy_ANSITextFile.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\File\GLToy_ANSITextFile.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\File\GLToy_File.cpp"
 					>
 				</File>
