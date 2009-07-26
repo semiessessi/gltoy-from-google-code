@@ -11,6 +11,7 @@
 // GLToy
 #include <Maths/GLToy_Vector.h>
 #include <Render/GLToy_Camera.h>
+#include <Render/Texture/GLToy_TextureManager.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -29,11 +30,8 @@ bool GLToy_Render::Initialise()
         return false;
     }
 
-    if( !GLToy_Camera::Initialise() )
-    {
-        GLToy_Assert( false, "Falied to initialise GLToy_Camera" );
-        return false;
-    }
+    GLTOY_INITIALISER_CALL( GLToy_Camera );
+    GLTOY_INITIALISER_CALL( GLToy_TextureManager );
 
     if( !Project_Initialise() )
     {
@@ -46,6 +44,8 @@ bool GLToy_Render::Initialise()
 void GLToy_Render::Shutdown()
 {
     Project_Shutdown();
+
+    GLToy_TextureManager::Shutdown();
 
     Platform_Shutdown();
 }

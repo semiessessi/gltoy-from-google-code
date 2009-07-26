@@ -32,6 +32,8 @@
 #define GLToy_DebugOutput( format, ... ) ;
 #endif
 
+#define GLTOY_INITIALISER_CALL( system ) GLToy_DebugOutput( "\r\n  " #system "\r\n" ); if( !system::Initialise() ) { return false; }
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,6 +47,8 @@ static const unsigned int uDEBUGOUTPUT_MAX_LENGTH = 512;
 typedef unsigned char u_char;
 typedef unsigned short u_short;
 typedef unsigned int u_int;
+
+typedef unsigned int GLToy_Hash;
 
 class GLToy
 {
