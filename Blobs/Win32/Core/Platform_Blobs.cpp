@@ -1,32 +1,18 @@
-#ifndef __TESTCUBE_RENDER_H_
-#define __TESTCUBE_RENDER_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Model_Coloured;
+// This file's header
+#include <Core/Blobs.h>
+
+// Win32
+#include <windows.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class TestCube_Render
+int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd )
 {
-
-public:
-
-    static bool Initialise();
-    static void Shutdown();
-
-    static void Render();
-
-private:
-
-    static void Platform_Render();
-
-    static GLToy_Model_Coloured s_xCube;
-
-};
-
-#endif
+    return GLToy::EntryPoint();
+}

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Empty"
-	ProjectGUID="{451F6CAD-AF6B-479E-9321-C4DAE0F40260}"
-	RootNamespace="Empty"
+	Name="Blobs"
+	ProjectGUID="{AE9EA940-709B-4854-9A97-2EF21DC35572}"
+	RootNamespace="Blobs"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -174,11 +174,11 @@
 				Name="Core"
 				>
 				<File
-					RelativePath=".\Win32\Core\Platform_Empty.cpp"
+					RelativePath=".\Win32\Core\Platform_Blobs.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Win32\Core\Platform_Empty.h"
+					RelativePath=".\Win32\Core\Platform_Blobs.h"
 					>
 				</File>
 			</Filter>
@@ -190,11 +190,11 @@
 				Name="Render"
 				>
 				<File
-					RelativePath=".\Independent\Render\Empty_Render.cpp"
+					RelativePath=".\Independent\Render\Blobs_Render.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Render\Empty_Render.h"
+					RelativePath=".\Independent\Render\Blobs_Render.h"
 					>
 				</File>
 				<File
@@ -206,7 +206,7 @@
 				Name="Core"
 				>
 				<File
-					RelativePath=".\Independent\Core\Empty.h"
+					RelativePath=".\Independent\Core\Blobs.h"
 					>
 				</File>
 			</Filter>

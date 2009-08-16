@@ -10,6 +10,7 @@
 // GLToy
 #include <Core/GLToy_Timer.h>
 #include <Maths/GLToy_Vector.h>
+#include <Model/GLToy_Model_Coloured.h>
 #include <Render/GLToy_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////

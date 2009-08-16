@@ -284,6 +284,14 @@
 					RelativePath=".\Independent\Render\GLToy_Renderable.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Independent\Render\GLToy_Sprite.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Render\GLToy_Sprite.h"
+					>
+				</File>
 				<Filter
 					Name="Texture"
 					>

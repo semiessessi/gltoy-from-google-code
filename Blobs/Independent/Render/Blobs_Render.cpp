@@ -5,21 +5,21 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <Render/Empty_Render.h>
+#include <Render/Blobs_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Empty_Render::Initialise()
+bool Blobs_Render::Initialise()
 {
     return true;
 }
 
-void Empty_Render::Shutdown()
+void Blobs_Render::Shutdown()
 {
 }
 
-void Empty_Render::Render()
+void Blobs_Render::Render()
 {
 }

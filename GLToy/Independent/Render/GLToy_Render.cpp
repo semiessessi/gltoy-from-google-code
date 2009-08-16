@@ -181,3 +181,163 @@ void GLToy_Render::Flush()
 {
     Platform_GLToy_Render::Flush();
 }
+
+u_int GLToy_Render::CreateShader( u_int uType )
+{
+    return Platform_GLToy_Render::CreateShader( uType );
+}
+
+u_int GLToy_Render::CreateProgram()
+{
+    return Platform_GLToy_Render::CreateProgram();
+}
+
+void GLToy_Render::DeleteShader( u_int uShaderID )
+{
+    Platform_GLToy_Render::DeleteShader( uShaderID );
+}
+
+void GLToy_Render::DeleteProgram( u_int uProgramID )
+{
+    Platform_GLToy_Render::DeleteProgram( uProgramID );
+}
+
+void GLToy_Render::ValidateProgram( u_int uProgramID )
+{
+    Platform_GLToy_Render::ValidateProgram( uProgramID );
+}
+
+void GLToy_Render::CompileShader( u_int uShaderID )
+{
+    Platform_GLToy_Render::CompileShader( uShaderID );
+}
+
+void GLToy_Render::LinkProgram( u_int uProgramID )
+{
+    Platform_GLToy_Render::LinkProgram( uProgramID );
+}
+
+void GLToy_Render::UseProgram( u_int uProgramID )
+{
+    Platform_GLToy_Render::UseProgram( uProgramID );
+}
+
+void GLToy_Render::AttachShader( u_int uProgramID, u_int uShaderID )
+{
+    Platform_GLToy_Render::AttachShader( uProgramID, uShaderID );
+}
+
+void GLToy_Render::DetachShader( u_int uProgramID, u_int uShaderID )
+{
+    Platform_GLToy_Render::DetachShader( uProgramID, uShaderID );
+}
+
+void GLToy_Render::ShaderSource( u_int uShaderID, int iStringCount, char** ppszStrings, const int* piLengths )
+{
+    Platform_GLToy_Render::ShaderSource( uShaderID, iStringCount, ppszStrings, piLengths );
+}
+
+void GLToy_Render::GetProgramInfoLog( u_int uProgramID, int iMaxLength, int* iLength, char* szInfoLog )
+{
+    Platform_GLToy_Render::GetProgramInfoLog( uProgramID, iMaxLength,  iLength, szInfoLog );
+}
+
+void GLToy_Render::GetShaderInfoLog( u_int uShaderID, int iMaxLength, int* iLength, char* szInfoLog )
+{
+    Platform_GLToy_Render::GetShaderInfoLog( uShaderID, iMaxLength, iLength, szInfoLog );
+}
+
+u_int GLToy_Render::GetUniformID( u_int uProgramID, const char* szName )
+{
+    return Platform_GLToy_Render::GetUniformID( uProgramID, szName );
+}
+
+u_int GLToy_Render::GetAttributeID( u_int uProgramID, const char* szName )
+{
+    return Platform_GLToy_Render::GetAttributeID( uProgramID, szName );
+}
+
+void GLToy_Render::BindAttributeID( u_int uProgramID, u_int uIndex, const char* szName )
+{
+    Platform_GLToy_Render::BindAttributeID( uProgramID, uIndex, szName );
+}
+
+void GLToy_Render::SetUniform( u_int uUniformID, int iValue )
+{
+    Platform_GLToy_Render::SetUniform( uUniformID, iValue );
+}
+
+void GLToy_Render::SetUniform( u_int uUniformID, int iValue1, int iValue2 )
+{
+    Platform_GLToy_Render::SetUniform( uUniformID, iValue1, iValue2 );
+}
+
+void GLToy_Render::SetUniform( u_int uUniformID, int iValue1, int iValue2, int iValue3 )
+{
+    Platform_GLToy_Render::SetUniform( uUniformID, iValue1, iValue2, iValue3 );
+}
+
+void GLToy_Render::SetUniform( u_int uUniformID, int iValue1, int iValue2, int iValue3, int iValue4 )
+{
+    Platform_GLToy_Render::SetUniform( uUniformID, iValue1, iValue2, iValue3, iValue4 );
+}
+
+void GLToy_Render::SetUniform( u_int uUniformID, float fValue )
+{
+    Platform_GLToy_Render::SetUniform( uUniformID, fValue );
+}
+
+void GLToy_Render::SetUniform( u_int uUniformID, float fValue1, float fValue2 )
+{
+    Platform_GLToy_Render::SetUniform( uUniformID, fValue1, fValue2 );
+}
+
+void GLToy_Render::SetUniform( u_int uUniformID, float fValue1, float fValue2, float fValue3 )
+{
+    Platform_GLToy_Render::SetUniform( uUniformID, fValue1, fValue2, fValue3 );
+}
+
+void GLToy_Render::SetUniform( u_int uUniformID, float fValue1, float fValue2, float fValue3, float fValue4 )
+{
+    Platform_GLToy_Render::SetUniform( uUniformID, fValue1, fValue2, fValue3, fValue4 );
+}
+
+void GLToy_Render::SetAttribute( u_int uAttributeID, int iValue )
+{
+    Platform_GLToy_Render::SetAttribute( uAttributeID, iValue );
+}
+
+void GLToy_Render::SetAttribute( u_int uAttributeID, int iValue1, int iValue2 )
+{
+    Platform_GLToy_Render::SetAttribute( uAttributeID, iValue1, iValue2 );
+}
+
+void GLToy_Render::SetAttribute( u_int uAttributeID, int iValue1, int iValue2, int iValue3 )
+{
+    Platform_GLToy_Render::SetAttribute( uAttributeID, iValue1, iValue2, iValue3 );
+}
+
+void GLToy_Render::SetAttribute( u_int uAttributeID, int iValue1, int iValue2, int iValue3, int iValue4 )
+{
+    Platform_GLToy_Render::SetAttribute( uAttributeID, iValue1, iValue2, iValue3, iValue4 );
+}
+
+void GLToy_Render::SetAttribute( u_int uAttributeID, float fValue )
+{
+    Platform_GLToy_Render::SetAttribute( uAttributeID, fValue );
+}
+
+void GLToy_Render::SetAttribute( u_int uAttributeID, float fValue1, float fValue2 )
+{
+    Platform_GLToy_Render::SetAttribute( uAttributeID, fValue1, fValue2 );
+}
+
+void GLToy_Render::SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3 )
+{
+    Platform_GLToy_Render::SetAttribute( uAttributeID, fValue1, fValue2, fValue3 );
+}
+
+void GLToy_Render::SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3, float fValue4 )
+{
+    Platform_GLToy_Render::SetAttribute( uAttributeID, fValue1, fValue2, fValue3, fValue4 );
+}

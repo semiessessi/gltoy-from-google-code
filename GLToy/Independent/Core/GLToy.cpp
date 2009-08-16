@@ -19,8 +19,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 bool GLToy::s_bFullscreen = false;
-int GLToy::s_iWidth = 320;
-int GLToy::s_iHeight = 200;
+int GLToy::s_iWidth = 640;
+int GLToy::s_iHeight = 480;
 
 static char sDebugMessageBuffer[uDEBUGOUTPUT_MAX_LENGTH];
 

@@ -2,12 +2,6 @@
 #define __GLTOY_RENDER_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// I N C L U D E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-#include <Core/GLToy.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -49,6 +43,40 @@ public:
     static void SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit );
 
     static void Flush();
+
+    // shader functions
+    static u_int CreateShader( u_int uType );
+    static u_int CreateProgram();
+    static void DeleteShader( u_int uShaderID );
+    static void DeleteProgram( u_int uProgramID );
+    static void ValidateProgram( u_int uProgramID );
+    static void CompileShader( u_int uShaderID );
+    static void LinkProgram( u_int uProgramID );
+    static void UseProgram( u_int uProgramID );
+    static void AttachShader( u_int uProgramID, u_int uShaderID );
+    static void DetachShader( u_int uProgramID, u_int uShaderID );
+    static void ShaderSource( u_int uShaderID, int iStringCount, char** ppszStrings, const int* piLengths );
+    static void GetProgramInfoLog( u_int uProgramID, int iMaxLength, int* iLength, char* szInfoLog );
+    static void GetShaderInfoLog( u_int uShaderID, int iMaxLength, int* iLength, char* szInfoLog );
+    static u_int GetUniformID( u_int uProgramID, const char* szName );
+    static u_int GetAttributeID( u_int uProgramID, const char* szName );
+    static void BindAttributeID( u_int uProgramID, u_int uIndex, const char* szName );
+    static void SetUniform( u_int uUniformID, int iValue );
+    static void SetUniform( u_int uUniformID, int iValue1, int iValue2 );
+    static void SetUniform( u_int uUniformID, int iValue1, int iValue2, int iValue3 );
+    static void SetUniform( u_int uUniformID, int iValue1, int iValue2, int iValue3, int iValue4 );
+    static void SetUniform( u_int uUniformID, float fValue );
+    static void SetUniform( u_int uUniformID, float fValue1, float fValue2 );
+    static void SetUniform( u_int uUniformID, float fValue1, float fValue2, float fValue3 );
+    static void SetUniform( u_int uUniformID, float fValue1, float fValue2, float fValue3, float fValue4 );
+    static void SetAttribute( u_int uAttributeID, int iValue );
+    static void SetAttribute( u_int uAttributeID, int iValue1, int iValue2 );
+    static void SetAttribute( u_int uAttributeID, int iValue1, int iValue2, int iValue3 );
+    static void SetAttribute( u_int uAttributeID, int iValue1, int iValue2, int iValue3, int iValue4 );
+    static void SetAttribute( u_int uAttributeID, float fValue );
+    static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2 );
+    static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3 );
+    static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3, float fValue4 );
 
 private:
 

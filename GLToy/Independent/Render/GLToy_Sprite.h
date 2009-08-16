@@ -1,31 +1,39 @@
-#ifndef __TESTCUBE_RENDER_H_
-#define __TESTCUBE_RENDER_H_
+#ifndef __GLTOY_SPRITE_H_
+#define __GLTOY_SPRITE_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Model_Coloured;
+// Parent
+#include <Render/GLToy_Renderable.h>
+
+// GLToy
+#include <Maths/GLToy_Vector.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class TestCube_Render
+class GLToy_Sprite
 {
 
 public:
 
-    static bool Initialise();
-    static void Shutdown();
+	GLToy_Sprite();
+	virtual ~GLToy_Sprite();
 
-    static void Render();
+	virtual void SetPosition();
 
-private:
+	virtual void Initialise();
+	virtual void Shutdown();
 
-    static void Platform_Render();
+	virtual void Render();
 
-    static GLToy_Model_Coloured s_xCube;
+protected:
+
+	GLToy_Vector_3 m_xPosition;
+	GLToy_Hash m_uTextureID;
 
 };
 

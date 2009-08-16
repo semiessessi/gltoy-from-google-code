@@ -2,17 +2,37 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// This file's header
-#include <Core/Empty.h>
+#include <Core/GLToy.h>
 
-// Win32
-#include <windows.h>
+// This file's header
+#include <Render/GLToy_Sprite.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd )
+GLToy_Sprite::GLToy_Sprite()
+: m_xPosition()
+, m_uTextureID( uGLTOY_TEXTURE_BAD_ID )
 {
-    return GLToy::EntryPoint();
+}
+
+GLToy_Sprite::~GLToy_Sprite()
+{
+}
+
+void GLToy_Sprite::SetPosition()
+{
+}
+
+void GLToy_Sprite::Initialise()
+{
+}
+
+void GLToy_Sprite::Shutdown()
+{
+}
+
+void GLToy_Sprite::Render()
+{
 }

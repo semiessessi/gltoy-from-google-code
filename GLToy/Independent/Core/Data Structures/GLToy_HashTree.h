@@ -50,10 +50,10 @@ public:
 
     virtual ~GLToy_HashTree()
     {
-        delete m_pxRootNode;
+        delete[] m_pxRootNode;
     }
 
-    void AddNode( GLToy_Hash uHash, const T& xItem )
+    void AddNode( const GLToy_Hash uHash, const T& xItem )
     {
         CheckAlloc();
 
