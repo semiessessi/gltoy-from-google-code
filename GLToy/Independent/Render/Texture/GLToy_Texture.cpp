@@ -16,9 +16,8 @@
 
 GLToy_Texture::GLToy_Texture()
 : m_bInVideoMemory( false )
-, m_uTextureID( uGLTOY_TEXTURE_BAD_ID )
+, m_uTextureID( uGLTOY_BAD_HASH )
 {
-    m_szName[0] = 0;
 }
 
 GLToy_Texture::~GLToy_Texture()
@@ -28,10 +27,7 @@ GLToy_Texture::~GLToy_Texture()
 GLToy_Texture& GLToy_Texture::operator =( const GLToy_Texture& xTexture )
 {
     m_bInVideoMemory = xTexture.m_bInVideoMemory;
-    m_uTextureID = xTexture.m_uTextureID;
-
-    // TODO: GLToy_String
-    strcpy_s( m_szName, uGLTOY_TEXTURE_MAXNAME, xTexture.m_szName ); 
+    m_uTextureID = xTexture.m_uTextureID; 
 
     return *this;
 }

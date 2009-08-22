@@ -13,7 +13,7 @@
 
 GLToy_Sprite::GLToy_Sprite()
 : m_xPosition()
-, m_uTextureID( uGLTOY_TEXTURE_BAD_ID )
+, m_uTextureID( uGLTOY_BAD_HASH )
 {
 }
 
