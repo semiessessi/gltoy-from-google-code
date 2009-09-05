@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Empty"
-	ProjectGUID="{451F6CAD-AF6B-479E-9321-C4DAE0F40260}"
-	RootNamespace="Empty"
+	Name="FSDemo"
+	ProjectGUID="{94DDE1E4-B409-4221-81E4-22D6E63646CC}"
+	RootNamespace="FSDemo"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -174,11 +174,19 @@
 				Name="Core"
 				>
 				<File
-					RelativePath=".\Win32\Core\Platform_Empty.cpp"
+					RelativePath=".\Win32\Core\Platform_FSDemo.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Win32\Core\Platform_Empty.h"
+					RelativePath=".\Win32\Core\Platform_FSDemo.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="FridgeScript"
+				>
+				<File
+					RelativePath=".\Win32\FridgeScript\Platform_FSDemo_FridgeScript.h"
 					>
 				</File>
 			</Filter>
@@ -190,11 +198,11 @@
 				Name="Render"
 				>
 				<File
-					RelativePath=".\Independent\Render\Empty_Render.cpp"
+					RelativePath=".\Independent\Render\FSDemo_Render.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Render\Empty_Render.h"
+					RelativePath=".\Independent\Render\FSDemo_Render.h"
 					>
 				</File>
 				<File
@@ -206,7 +214,19 @@
 				Name="Core"
 				>
 				<File
-					RelativePath=".\Independent\Core\Empty.h"
+					RelativePath=".\Independent\Core\FSDemo.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="FridgeScript"
+				>
+				<File
+					RelativePath=".\Independent\FridgeScript\FSDemo_FridgeScript.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\FridgeScript\FSDemo_FridgeScript.h"
 					>
 				</File>
 			</Filter>

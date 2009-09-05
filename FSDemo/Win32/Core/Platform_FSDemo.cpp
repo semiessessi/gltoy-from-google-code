@@ -2,24 +2,17 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
-
 // This file's header
-#include <Render/Empty_Render.h>
+#include <Core/FSDemo.h>
+
+// Win32
+#include <windows.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Empty_Render::Initialise()
+int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd )
 {
-    return true;
-}
-
-void Empty_Render::Shutdown()
-{
-}
-
-void Empty_Render::Render()
-{
+    return GLToy::EntryPoint();
 }

@@ -2,17 +2,24 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// This file's header
-#include <Core/Empty.h>
+#include <Core/GLToy.h>
 
-// Win32
-#include <windows.h>
+// This file's header
+#include <Render/FSDemo_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd )
+bool FSDemo_Render::Initialise()
 {
-    return GLToy::EntryPoint();
+    return true;
+}
+
+void FSDemo_Render::Shutdown()
+{
+}
+
+void FSDemo_Render::Render()
+{
 }

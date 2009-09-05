@@ -1,5 +1,5 @@
-#ifndef __EMPTY_H_
-#define __EMPTY_H_
+#ifndef __FSDEMO_H_
+#define __FSDEMO_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
@@ -7,6 +7,6 @@
 
 #include <Core/GLToy.h>
 
-#include <Core/Platform_Empty.h>
+#include <Core/Platform_FSDemo.h>
 
 #endif
