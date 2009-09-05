@@ -16,7 +16,15 @@
 
 GLToy_Texture::GLToy_Texture()
 : m_bInVideoMemory( false )
-, m_uTextureID( uGLTOY_BAD_HASH )
+, m_uTextureHash( uGLTOY_BAD_HASH )
+, m_uTextureID( 0xFFFFFFFF )
+{
+}
+
+GLToy_Texture::GLToy_Texture( const GLToy_Texture& xTexture )
+: m_bInVideoMemory( xTexture.m_bInVideoMemory )
+, m_uTextureHash( xTexture.m_uTextureHash )
+, m_uTextureID( xTexture.m_uTextureID )
 {
 }
 
@@ -27,7 +35,8 @@ GLToy_Texture::~GLToy_Texture()
 GLToy_Texture& GLToy_Texture::operator =( const GLToy_Texture& xTexture )
 {
     m_bInVideoMemory = xTexture.m_bInVideoMemory;
-    m_uTextureID = xTexture.m_uTextureID; 
+    m_uTextureHash = xTexture.m_uTextureHash;
+    m_uTextureID = xTexture.m_uTextureID;
 
     return *this;
 }

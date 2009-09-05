@@ -13,16 +13,20 @@ class GLToy_Texture
 public:
     
     GLToy_Texture();
+    GLToy_Texture( const GLToy_Texture& xTexture );
     virtual ~GLToy_Texture();
 
     GLToy_Texture& operator =( const GLToy_Texture& xTexture );
 
-    GLToy_Hash GetID() const { return m_uTextureID; }
+    GLToy_Hash GetHash() const { return m_uTextureHash; }
+
+    void BindForUse();
 
 protected:
 
-    bool m_bInVideoMemory;
-    GLToy_Hash m_uTextureID;
+    bool        m_bInVideoMemory;
+    GLToy_Hash  m_uTextureHash;
+    u_int       m_uTextureID;
 
 };
 

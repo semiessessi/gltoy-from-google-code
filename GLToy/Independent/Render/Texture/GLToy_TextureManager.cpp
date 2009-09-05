@@ -36,3 +36,8 @@ void GLToy_TextureManager::Shutdown()
 {
     
 }
+
+GLToy_Hash GLToy_TextureManager::AddTexture( const char* const szName, u_int uWidth, u_int uHeight, u_int* puRGBAData )
+{
+    return uGLTOY_BAD_HASH;
+}

@@ -22,10 +22,10 @@ public:
     static bool Initialise();
     static void Shutdown();
 
-	GLToy_Hash AddTexture( const char* const szName, u_int uWidth, u_int uHeight, u_int* puRGBAData );
-
 private:
     
+    static GLToy_Hash AddTexture( const char* const szName, u_int uWidth, u_int uHeight, u_int* puRGBAData );
+
     static GLToy_HashTree<GLToy_Texture> s_xTextureTree;
 
 };
