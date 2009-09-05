@@ -27,4 +27,5 @@ GLToy_ANSITextFile::~GLToy_ANSITextFile()
 void GLToy_ANSITextFile::GetString( char* szString ) const
 {
     GetAllData( szString );
+    szString[ m_uSize ] = 0;
 }

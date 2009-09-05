@@ -13,7 +13,7 @@ public:
     GLToy_File( const char* const szFilename );
     virtual ~GLToy_File();
 
-    u_int GetSize() const { return m_uSize; }
+    virtual u_int GetSize() const { return m_uSize; }
 
 protected:
 

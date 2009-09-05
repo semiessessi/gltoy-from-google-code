@@ -11,7 +11,7 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_ANSITextFile : GLToy_File
+class GLToy_ANSITextFile : public GLToy_File
 {
 
     typedef GLToy_File PARENT;
@@ -21,7 +21,8 @@ public:
     GLToy_ANSITextFile( const char* const szFilename );
     virtual ~GLToy_ANSITextFile();
 
-    void GetString( char* szString ) const; 
+    void GetString( char* szString ) const;
+    virtual u_int GetSize() const { return m_uSize + 1; }
 
 protected:
 

@@ -231,6 +231,14 @@
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="Script"
+			>
+			<File
+				RelativePath=".\script.fs"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
