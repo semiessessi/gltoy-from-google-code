@@ -28,6 +28,10 @@ bool FSDemo_Render::Initialise()
 
     // register API
     FSDemo_FridgeScript::RegisterAPI( "GetTime", FSAPI_GetTime, 0 );
+    FSDemo_FridgeScript::RegisterAPI( "Rotate", FSAPI_Rotate, 4 );
+    FSDemo_FridgeScript::RegisterAPI( "Translate", FSAPI_Translate, 3 );
+    FSDemo_FridgeScript::RegisterAPI( "StartTriangles", FSAPI_StartTriangles, 0 );
+    FSDemo_FridgeScript::RegisterAPI( "EndTriangles", FSAPI_EndTriangles, 0 );
     FSDemo_FridgeScript::RegisterAPI( "Triangle", FSAPI_Triangle, 12 );
 
     // initialise the script
@@ -51,12 +55,8 @@ void FSDemo_Render::Shutdown()
 
 void FSDemo_Render::Render()
 {
-    // run the script to produce triangles
-    GLToy_Render::StartSubmittingTriangles();
-    
+    // run the script
     s_pxScript->Execute();
-
-    GLToy_Render::EndSubmit();
 }
 
 // FridgeScript rendering API
@@ -65,11 +65,39 @@ float FRIDGE_API FSDemo_Render::FSAPI_GetTime()
     return GLToy_Timer::GetTime();
 }
 
-float FRIDGE_API FSDemo_Render::FSAPI_Triangle(    float fV1X, float fV1Y, float fV1Z,
-                                        float fV2X, float fV2Y, float fV2Z,
-                                        float fV3X, float fV3Y, float fV3Z,
-                                        float fColourRed, float fColourGreen, float fColourBlue
-                                    )
+float FRIDGE_API FSDemo_Render::FSAPI_Translate( float fX, float fY, float fZ )
+{
+    GLToy_Render::Translate( GLToy_Vector_3( fX, fY, fZ ) );
+
+    return 0.0f;
+}
+
+float FRIDGE_API FSDemo_Render::FSAPI_Rotate( float fX, float fY, float fZ, float fAngle )
+{
+    GLToy_Render::Rotate( GLToy_Vector_3( fX, fY, fZ ), fAngle );
+
+    return 0.0f;
+}
+
+float FRIDGE_API FSDemo_Render::FSAPI_StartTriangles()
+{
+    GLToy_Render::StartSubmittingTriangles();
+
+    return 0.0f;
+}
+
+float FRIDGE_API FSDemo_Render::FSAPI_EndTriangles()
+{
+    GLToy_Render::EndSubmit();
+
+    return 0.0f;
+}
+
+float FRIDGE_API FSDemo_Render::FSAPI_Triangle(     float fV1X, float fV1Y, float fV1Z,
+                                                    float fV2X, float fV2Y, float fV2Z,
+                                                    float fV3X, float fV3Y, float fV3Z,
+                                                    float fColourRed, float fColourGreen, float fColourBlue
+                                                )
 {
     GLToy_Render::SubmitColour( GLToy_Vector_3( fColourRed, fColourGreen, fColourBlue ) );
     GLToy_Render::SubmitVertex( GLToy_Vector_3( fV1X, fV1Y, fV1Z ) );
