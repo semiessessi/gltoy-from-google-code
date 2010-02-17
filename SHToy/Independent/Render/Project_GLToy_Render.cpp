@@ -2,11 +2,11 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/TestCube.h>
+#include <Core/SHToy.h>
 
 // This file's header
 #include <Render/GLToy_Render.h>
-#include <Render/TestCube_Render.h>
+#include <Render/SHToy_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -14,15 +14,15 @@
 
 bool GLToy_Render::Project_Initialise()
 {
-    return TestCube_Render::Initialise();
+    return SHToy_Render::Initialise();
 }
 
 void GLToy_Render::Project_Shutdown()
 {
-    TestCube_Render::Shutdown();
+    SHToy_Render::Shutdown();
 }
 
 void GLToy_Render::Project_Render()
 {
-    TestCube_Render::Render();
+    SHToy_Render::Render();
 }

@@ -1,5 +1,5 @@
-#ifndef __TESTCUBE_RENDER_H_
-#define __TESTCUBE_RENDER_H_
+#ifndef __SHTOY_RENDER_H_
+#define __SHTOY_RENDER_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
@@ -11,7 +11,7 @@ class GLToy_Model_Coloured;
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class TestCube_Render
+class SHToy_Render
 {
 
 public:

@@ -5,7 +5,7 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <Render/TestCube_Render.h>
+#include <Render/SHToy_Render.h>
 
 // GLToy
 #include <Core/GLToy_Timer.h>
@@ -17,13 +17,13 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Model_Coloured TestCube_Render::s_xCube;
+GLToy_Model_Coloured SHToy_Render::s_xCube;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool TestCube_Render::Initialise()
+bool SHToy_Render::Initialise()
 {
     s_xCube.AddStripFromQuad(   GLToy_Vector_3( 1.0f, 1.0f, 1.0f ),
                                 GLToy_Vector_3( 1.0f, -1.0f, 1.0f ),
@@ -70,11 +70,11 @@ bool TestCube_Render::Initialise()
     return true;
 }
 
-void TestCube_Render::Shutdown()
+void SHToy_Render::Shutdown()
 {
 }
 
-void TestCube_Render::Render()
+void SHToy_Render::Render()
 {
     const float fTimer = 30.0f * GLToy_Timer::GetTime();
     

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="TestCube"
-	ProjectGUID="{874C417E-0551-4F04-BAF7-451989BA5FB5}"
-	RootNamespace="TestCube"
+	Name="SHToy"
+	ProjectGUID="{3A2E6FB6-AFCA-4137-AF32-BD94EEEE1756}"
+	RootNamespace="SHToy"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -179,11 +179,11 @@
 				Name="Core"
 				>
 				<File
-					RelativePath=".\Win32\Core\Platform_TestCube.cpp"
+					RelativePath=".\Win32\Core\Platform_SHToy.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Win32\Core\Platform_TestCube.h"
+					RelativePath=".\Win32\Core\Platform_SHToy.h"
 					>
 				</File>
 			</Filter>
@@ -199,11 +199,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Render\TestCube_Render.cpp"
+					RelativePath=".\Independent\Render\SHToy_Render.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Render\TestCube_Render.h"
+					RelativePath=".\Independent\Render\SHToy_Render.h"
 					>
 				</File>
 			</Filter>
@@ -211,7 +211,7 @@
 				Name="Core"
 				>
 				<File
-					RelativePath=".\Independent\Core\TestCube.h"
+					RelativePath=".\Independent\Core\SHToy.h"
 					>
 				</File>
 			</Filter>
