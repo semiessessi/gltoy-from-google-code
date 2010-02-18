@@ -5,7 +5,7 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <FridgeScript/FSDemo_FridgeScript.h>
+#include <FridgeScript/GLToy_FridgeScript.h>
 
 
 // GLToy headers
@@ -15,47 +15,47 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-u_int FSDemo_FridgeScript::s_uContextID = 0;
+u_int GLToy_FridgeScript::s_uContextID = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool FSDemo_FridgeScript::Initialise()
+bool GLToy_FridgeScript::Initialise()
 {
     s_uContextID = FSCreateContext();
     return true;
 }
 
-void FSDemo_FridgeScript::Shutdown()
+void GLToy_FridgeScript::Shutdown()
 {
     FSDestroyContext( s_uContextID );
 }
 
-void FSDemo_FridgeScript::RegisterAPI( char* szName, void* pfnCallback, u_int uParameterCount )
+void GLToy_FridgeScript::RegisterAPI( char* szName, void* pfnCallback, u_int uParameterCount )
 {
     FSRegisterAPI( s_uContextID, szName, pfnCallback, uParameterCount );
 }
 
-FSDemo_FridgeScript* FSDemo_FridgeScript::CreateFromFile( const char* const szFilename )
+GLToy_FridgeScript* GLToy_FridgeScript::CreateFromFile( const char* const szFilename )
 {
-    FSDemo_FridgeScript* pxFridgeScript = new FSDemo_FridgeScript();
+    GLToy_FridgeScript* pxFridgeScript = new GLToy_FridgeScript();
 
     pxFridgeScript->CompileFromFile( szFilename );
 
     return pxFridgeScript;
 }
 
-FSDemo_FridgeScript::FSDemo_FridgeScript()
+GLToy_FridgeScript::GLToy_FridgeScript()
 : m_uCodeID( 0 )
 {   
 }
 
-FSDemo_FridgeScript::~FSDemo_FridgeScript()
+GLToy_FridgeScript::~GLToy_FridgeScript()
 {
 }
 
-void FSDemo_FridgeScript::CompileFromFile( const char* const szFilename )
+void GLToy_FridgeScript::CompileFromFile( const char* const szFilename )
 {
     GLToy_ANSITextFile xFile = GLToy_ANSITextFile( szFilename );
     u_int uLength = xFile.GetSize();
@@ -66,7 +66,7 @@ void FSDemo_FridgeScript::CompileFromFile( const char* const szFilename )
     m_uCodeID = FSCompile( s_uContextID, pcData );
 }
 
-void FSDemo_FridgeScript::Execute()
+void GLToy_FridgeScript::Execute()
 {
     FSExecute( s_uContextID, m_uCodeID );
 }

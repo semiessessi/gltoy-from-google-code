@@ -209,6 +209,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="FridgeScript"
+				>
+				<File
+					RelativePath=".\Win32\FridgeScript\Platform_GLToy_FridgeScript.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Independent"
@@ -370,6 +378,18 @@
 				</File>
 				<File
 					RelativePath=".\Independent\File\GLToy_File.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="FridgeScript"
+				>
+				<File
+					RelativePath=".\Independent\FridgeScript\GLToy_FridgeScript.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\FridgeScript\GLToy_FridgeScript.h"
 					>
 				</File>
 			</Filter>

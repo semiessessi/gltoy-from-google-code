@@ -1,5 +1,5 @@
-#ifndef __PLATFORM_FSDEMO_FRIDGESCRIPT_H_
-#define __PLATFORM_FSDEMO_FRIDGESCRIPT_H_
+#ifndef __PLATFORM_GLTOY_FRIDGESCRIPT_H_
+#define __PLATFORM_GLTOY_FRIDGESCRIPT_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // L I B R A R I E S
