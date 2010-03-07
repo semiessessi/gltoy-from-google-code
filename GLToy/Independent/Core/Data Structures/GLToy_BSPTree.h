@@ -1,13 +1,14 @@
 #ifndef __GLTOY_BSPTREE_H_
 #define __GLTOY_BSPTREE_H_
 
-// TODO: Make this derive from generic data structure
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy_Functor.h>
+// Parents
+#include <Core/Data Structures/GLToy_Tree.h>
+
+// GLToy
 #include <Maths/GLToy_Vector.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,117 +148,117 @@ protected:
         m_pData = NULL;
     }
 
-    void LeafTraverse( GLToy_Functor< T >* pxFunctor )
+    void Traverse( GLToy_Functor< T >& xFunctor )
     {
         if( m_pData )
         {
-            pxFunctor->operator ()( m_pData );
+            xFunctor( m_pData );
         }
         else
         {
-            m_pxPositive->LeafTraverse( pxFunctor );
-            m_pxNegative->LeafTraverse( pxFunctor );
+            m_pxPositive->Traverse( xFunctor );
+            m_pxNegative->Traverse( xFunctor );
         }
     }
 
-    void LeafTraverse( GLToy_ConstFunctor< T >* pxFunctor ) const
+    void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
     {
         if( m_pData )
         {
-            pxFunctor->operator ()( m_pData );
+            xFunctor( m_pData );
 
         }
         else
         {
-            m_pxPositive->LeafTraverse( pxFunctor );
-            m_pxNegative->LeafTraverse( pxFunctor );
+            m_pxPositive->Traverse( xFunctor );
+            m_pxNegative->Traverse( xFunctor );
         }
     }
 
-    void DistanceSortedLeafTraverse( GLToy_Functor< T >* pxFunctor, const GLToy_Vector_3& xPosition )
+    void DistanceSortedLeafTraverse( GLToy_Functor< T >& xFunctor, const GLToy_Vector_3& xPosition )
     {
         if( m_pData )
         {
-            pxFunctor->operator ()( m_pData );
+            xFunctor( m_pData );
 
         }
         else
         {
             if( IsOnPositiveSide( xPosition ) )
             {
-                m_pxPositive->DistanceSortedLeafTraverse( pxFunctor, xPosition );
-                m_pxNegative->DistanceSortedLeafTraverse( pxFunctor, xPosition );
+                m_pxPositive->DistanceSortedLeafTraverse( xFunctor, xPosition );
+                m_pxNegative->DistanceSortedLeafTraverse( xFunctor, xPosition );
             }
             else
             {
-                m_pxNegative->DistanceSortedLeafTraverse( pxFunctor, xPosition );
-                m_pxPositive->DistanceSortedLeafTraverse( pxFunctor, xPosition );
+                m_pxNegative->DistanceSortedLeafTraverse( xFunctor, xPosition );
+                m_pxPositive->DistanceSortedLeafTraverse( xFunctor, xPosition );
             }
         }
     }
 
-    void DistanceSortedLeafTraverse( GLToy_ConstFunctor< T >* pxFunctor, const GLToy_Vector_3& xPosition ) const
+    void DistanceSortedLeafTraverse( GLToy_ConstFunctor< T >& xFunctor, const GLToy_Vector_3& xPosition ) const
     {
         if( m_pData )
         {
-            pxFunctor->operator ()( m_pData );
+            xFunctor( m_pData );
 
         }
         else
         {
             if( IsOnPositiveSide( xPosition ) )
             {
-                m_pxPositive->DistanceSortedLeafTraverse( pxFunctor, xPosition );
-                m_pxNegative->DistanceSortedLeafTraverse( pxFunctor, xPosition );
+                m_pxPositive->DistanceSortedLeafTraverse( xFunctor, xPosition );
+                m_pxNegative->DistanceSortedLeafTraverse( xFunctor, xPosition );
             }
             else
             {
-                m_pxNegative->DistanceSortedLeafTraverse( pxFunctor, xPosition );
-                m_pxPositive->DistanceSortedLeafTraverse( pxFunctor, xPosition );
+                m_pxNegative->DistanceSortedLeafTraverse( xFunctor, xPosition );
+                m_pxPositive->DistanceSortedLeafTraverse( xFunctor, xPosition );
             }
         }
     }
 
-    void ReverseDistanceSortedLeafTraverse( GLToy_Functor< T >* pxFunctor, const GLToy_Vector_3& xPosition )
+    void ReverseDistanceSortedLeafTraverse( GLToy_Functor< T >& xFunctor, const GLToy_Vector_3& xPosition )
     {
         if( m_pData )
         {
-            pxFunctor->operator ()( m_pData );
+            xFunctor( m_pData );
 
         }
         else
         {
             if( IsOnPositiveSide( xPosition ) )
             {
-                m_pxNegative->ReverseDistanceSortedLeafTraverse( pxFunctor, xPosition );
-                m_pxPositive->ReverseDistanceSortedLeafTraverse( pxFunctor, xPosition );
+                m_pxNegative->ReverseDistanceSortedLeafTraverse( xFunctor, xPosition );
+                m_pxPositive->ReverseDistanceSortedLeafTraverse( xFunctor, xPosition );
             }
             else
             {
-                m_pxPositive->ReverseDistanceSortedLeafTraverse( pxFunctor, xPosition );
-                m_pxNegative->ReverseDistanceSortedLeafTraverse( pxFunctor, xPosition );
+                m_pxPositive->ReverseDistanceSortedLeafTraverse( xFunctor, xPosition );
+                m_pxNegative->ReverseDistanceSortedLeafTraverse( xFunctor, xPosition );
             }
         }
     }
 
-    void ReverseDistanceSortedLeafTraverse( GLToy_ConstFunctor< T >* pxFunctor, const GLToy_Vector_3& xPosition ) const
+    void ReverseDistanceSortedLeafTraverse( GLToy_ConstFunctor< T >& xFunctor, const GLToy_Vector_3& xPosition ) const
     {
         if( m_pData )
         {
-            pxFunctor->operator ()( m_pData );
+            xFunctor( m_pData );
 
         }
         else
         {
             if( IsOnPositiveSide( xPosition ) )
             {
-                m_pxNegative->ReverseDistanceSortedLeafTraverse( pxFunctor, xPosition );
-                m_pxPositive->ReverseDistanceSortedLeafTraverse( pxFunctor, xPosition );
+                m_pxNegative->ReverseDistanceSortedLeafTraverse( xFunctor, xPosition );
+                m_pxPositive->ReverseDistanceSortedLeafTraverse( xFunctor, xPosition );
             }
             else
             {
-                m_pxPositive->ReverseDistanceSortedLeafTraverse( pxFunctor, xPosition );
-                m_pxNegative->ReverseDistanceSortedLeafTraverse( pxFunctor, xPosition );
+                m_pxPositive->ReverseDistanceSortedLeafTraverse( xFunctor, xPosition );
+                m_pxNegative->ReverseDistanceSortedLeafTraverse( xFunctor, xPosition );
             }
         }
     }
@@ -274,12 +275,13 @@ protected:
 
 template < class T >
 class GLToy_BSPTree
+: public GLToy_Tree< T >
 {
 
 public:
 
     GLToy_BSPTree()
-    : m_pxHead( 0 )
+    : m_pxHead( NULL )
     {
     }
 
@@ -287,8 +289,6 @@ public:
     {
         delete m_pxHead;
     }
-
-    virtual bool IsFlat() const { return false; }
 
     GLToy_Inline static GLToy_BSPTree< T >* CreateBSPTree( T* pData, const unsigned int uCount )
     {
@@ -330,51 +330,51 @@ public:
         m_pxHead->SplitLeaf( xPosition, xNormal, fDistance, pDataPositive, pDataNegative );;
     }
 
-    GLToy_Inline void LeafTraverse( GLToy_Functor< T >* pxFunctor )
+    virtual void Traverse( GLToy_Functor< T >& xFunctor )
     {
         if( m_pxHead )
         {
-            m_pxHead->LeafTraverse( pxFunctor );
+            m_pxHead->Traverse( xFunctor );
         }
     }
 
-    GLToy_Inline void LeafTraverse( GLToy_ConstFunctor< T >* pxFunctor ) const
+    virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
     {
         if( m_pxHead )
         {
-            m_pxHead->LeafTraverse( pxFunctor );
+            m_pxHead->Traverse( xFunctor );
         }
     }
 
-    GLToy_Inline void DistanceSortedLeafTraverse( GLToy_Functor< T >* pxFunctor, const GLToy_Vector_3& xPosition )
+    GLToy_Inline void DistanceSortedLeafTraverse( GLToy_Functor< T >& xFunctor, const GLToy_Vector_3& xPosition )
     {
         if( m_pxHead )
         {
-            m_pxHead->DistanceSortedLeafTraverse( pxFunctor, xPosition );
+            m_pxHead->DistanceSortedLeafTraverse( xFunctor, xPosition );
         }
     }
 
-    GLToy_Inline void DistanceSortedLeafTraverse( GLToy_ConstFunctor< T >* pxFunctor, const GLToy_Vector_3& xPosition ) const
+    GLToy_Inline void DistanceSortedLeafTraverse( GLToy_ConstFunctor< T >& xFunctor, const GLToy_Vector_3& xPosition ) const
     {
         if( m_pxHead )
         {
-            m_pxHead->DistanceSortedLeafTraverse( pxFunctor, xPosition );
+            m_pxHead->DistanceSortedLeafTraverse( xFunctor, xPosition );
         }
     }
 
-    GLToy_Inline void ReverseDistanceSortedLeafTraverse( GLToy_Functor< T >* pxFunctor, const GLToy_Vector_3& xPosition )
+    GLToy_Inline void ReverseDistanceSortedLeafTraverse( GLToy_Functor< T >& xFunctor, const GLToy_Vector_3& xPosition )
     {
         if( m_pxHead )
         {
-            m_pxHead->ReverseDistanceSortedLeafTraverse( pxFunctor, xPosition );
+            m_pxHead->ReverseDistanceSortedLeafTraverse( xFunctor, xPosition );
         }
     }
 
-    GLToy_Inline void ReverseDistanceSortedLeafTraverse( GLToy_ConstFunctor< T >* pxFunctor, const GLToy_Vector_3& xPosition ) const
+    GLToy_Inline void ReverseDistanceSortedLeafTraverse( GLToy_ConstFunctor< T >& xFunctor, const GLToy_Vector_3& xPosition ) const
     {
         if( m_pxHead )
         {
-            m_pxHead->ReverseDistanceSortedLeafTraverse( pxFunctor, xPosition );
+            m_pxHead->ReverseDistanceSortedLeafTraverse( xFunctor, xPosition );
         }
     }
 
