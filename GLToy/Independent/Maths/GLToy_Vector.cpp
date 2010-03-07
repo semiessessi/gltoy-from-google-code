@@ -93,7 +93,7 @@ GLToy_Vector_3 GLToy_Vector_3::operator *( const float fFloat ) const
     return Platform_GLToy_Vector::Mul( fFloat, *this );
 }
 
-bool GLToy_Vector_3::operator ==( const GLToy_Vector_3& xVector )
+bool GLToy_Vector_3::operator ==( const GLToy_Vector_3& xVector ) const
 {
     // TODO - use platform compare
     return ( fComponents[0] == xVector[0] )

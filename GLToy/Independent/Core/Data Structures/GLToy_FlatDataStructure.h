@@ -84,6 +84,25 @@ public:
         return *this;
     }
 
+    virtual void Traverse( GLToy_Functor< T >& xFunctor )
+    {
+        GLToy_Iterate( T, xIterator, this )
+        {
+            xFunctor( &( xIterator.Current() ) );
+        }
+    }
+
+    virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
+    {
+        GLToy_ConstIterate( T, xIterator, this )
+        {
+            xFunctor( &( xIterator.Current() ) );
+        }
+    }
+
+    T* GetDataPointer() { return m_pxData; }
+    const T* GetDataPointer() const { return m_pxData; }
+
 protected:
 
     void CheckAlloc( const u_int& uCount )

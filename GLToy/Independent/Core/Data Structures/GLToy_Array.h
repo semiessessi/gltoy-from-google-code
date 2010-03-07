@@ -147,10 +147,9 @@ class GLToy_IndirectArray : public GLToy_DataStructure< T >
 
 public:
 
-    virtual bool IsFlat() const
-    {
-        return false;
-    }
+    virtual u_int GetCount() const { return m_xArray.GetCount(); }
+    virtual u_int GetMemoryUsage() const { return m_xArray.GetMemoryUsage(); }
+    virtual bool IsFlat() const { return false; }
 
     virtual T& operator []( const int iIndex )
     {
@@ -162,13 +161,27 @@ public:
         return *( m_xArray[ iIndex ] );
     }
 
+    virtual void Traverse( GLToy_Functor< T >& xFunctor )
+    {
+        GLToy_Iterate( T, xIterator, this )
+        {
+            xFunctor( &( xIterator.Current() ) );
+        }
+    }
+
+    virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
+    {
+        GLToy_ConstIterate( T, xIterator, this )
+        {
+            xFunctor( &( xIterator.Current() ) );
+        }
+    }
+
     // array functions
     void Append( T* const pxValue ) { m_xArray.Append( pxValue ); }
     void InsertAt( const int iIndex, T* const pxValue ) { m_xArray.InsertAt( iIndex, pxValue ); }
     void RemoveAt( const int iIndex, const u_int uAmount = 1 ) { m_xArray.RemoveAt( iIndex, uAmount ); }
     void RemoveFromEnd( const u_int uAmount = 1 ) { m_xArray.RemoveFromEnd( uAmount ); }
-    virtual u_int GetCount() const { return m_xArray.GetCount(); }
-    virtual u_int GetMemoryUsage() const { return m_xArray.GetMemoryUsage(); }
     T& Start() { return *( m_xArray.Start() ); }
     T& End() { return *( m_xArray.End() ); }
     void Clear() { m_xArray.Clear(); }
@@ -207,7 +220,7 @@ protected:
 
     virtual void CopyFrom( const GLToy_DataStructure< T >* const pxDataStructure )
     {
-        m_xArray.Clear();
+        DeleteAll();
 
         GLToy_ConstIterate( T, xIterator, pxDataStructure )
         {
@@ -216,6 +229,90 @@ protected:
     }
 
     GLToy_Array< T* > m_xArray;
+};
+
+template < class T >
+class GLToy_SerialisableArray
+: public GLToy_Array< T >
+, public GLToy_Serialisable
+{
+
+public:
+    
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
+    {
+        Clear();
+
+        u_int uCount;
+        xStream >> uCount;
+
+        for( u_int u = 0; u < uCount; ++u )
+        {
+            T xData;
+            xStream >> xData;
+            Append( xData );
+        }
+    }
+
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
+    {
+        xStream << GetCount();
+
+        GLToy_ConstIterate( T, xIterator, this )
+        {
+            xStream << xIterator.Current();
+        }
+    }
+};
+
+template < class T >
+class GLToy_SerialisableIndirectArray
+: public GLToy_IndirectArray< T >
+, public GLToy_Serialisable
+{
+
+public:
+    
+    template < class Derived >
+    void ReadFromDerivedBitStream( const GLToy_BitStream& xStream )
+    {
+        DeleteAll();
+
+        u_int uCount;
+        xStream >> uCount;
+
+        for( u_int u = 0; u < uCount; ++u )
+        {
+            Derived* pxData = new Derived();
+            xStream >> pxData;
+            Append( pxData );
+        }
+    }
+
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
+    {
+        DeleteAll();
+
+        u_int uCount;
+        xStream >> uCount;
+
+        for( u_int u = 0; u < uCount; ++u )
+        {
+            T* pxData = new T();
+            xStream >> pxData;
+            Append( pxData );
+        }
+    }
+
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
+    {
+        xStream << GetCount();
+
+        GLToy_ConstIterate( T*, xIterator, &m_xArray )
+        {
+            xStream << xIterator.Current();
+        }
+    }
 };
 
 #endif

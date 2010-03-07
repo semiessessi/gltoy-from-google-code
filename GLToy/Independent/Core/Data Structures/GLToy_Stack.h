@@ -12,7 +12,7 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template<class T>
+template < class T >
 class GLToy_Stack : public GLToy_FlatDataStructure< T >
 {
 
@@ -33,7 +33,7 @@ public:
         CopyFrom( &xStack );
     }
     
-    T* Push( const T& xValue )
+    T& Push( const T& xValue )
     {
         ++m_iStackPointer;
         
@@ -41,17 +41,17 @@ public:
         
         m_pxData[ m_iStackPointer ] = xValue;
 
-        return &( m_pxData[ m_iStackPointer ] );
+        return m_pxData[ m_iStackPointer ];
     }
 
-    T* Peek()
+    T& Peek()
     {
-        return &( m_pxData[ m_iStackPointer ] );
+        return m_pxData[ m_iStackPointer ];
     }
     
-    T* Pop()
+    T& Pop()
     {
-        return &( m_pxData[ m_iStackPointer-- ] );
+        return m_pxData[ m_iStackPointer-- ];
     }
     
     void Clear()

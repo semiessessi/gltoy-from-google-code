@@ -52,8 +52,8 @@ public:
     void operator <<( const float fFloat ) { WriteFloat( fFloat ); }
     void operator <<( const double dDouble ) { WriteDouble( dDouble ); }
     void operator <<( const GLToy_Vector_3& xVector ) { WriteVector( xVector ); }
-    void operator <<( const void* const pxPointer ) {}
     void operator <<( const GLToy_Serialisable& xSerialisable ) { xSerialisable.WriteToBitStream( *this ); }
+    void operator <<( const GLToy_Serialisable* const pxSerialisable ) { pxSerialisable->WriteToBitStream( *this ); }
 
     void operator >>( bool& bBool ) const { ReadBool( bBool ); }
     void operator >>( char& cChar ) const { ReadChar( cChar ); }
@@ -64,8 +64,8 @@ public:
     void operator >>( float& fFloat ) const { ReadFloat( fFloat ); }
     void operator >>( double& dDouble ) const { ReadDouble( dDouble ); }
     void operator >>( GLToy_Vector_3& xVector ) const { ReadVector( xVector ); }
-    void operator >>( void*& pxPointer ) {}
     void operator >>( GLToy_Serialisable& xSerialisable ) const { xSerialisable.ReadFromBitStream( *this ); }
+    void operator >>( GLToy_Serialisable* const pxSerialisable ) const { pxSerialisable->ReadFromBitStream( *this ); }
 
     void WriteBool( const bool bBool ) { WriteBit( bBool ); }
     void WriteHalfByte( const char cValue ) { WriteBits( cValue, 4 ); }

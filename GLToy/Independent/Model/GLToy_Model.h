@@ -7,7 +7,11 @@
 
 // Parents
 #include <Core/Data Structures/GLToy_Array.h>
+#include <Core/GLToy_Serialisable.h>
 #include <Render/GLToy_Renderable.h>
+
+// GLToy
+#include <Maths/GLToy_Vector.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
@@ -20,18 +24,17 @@ static const u_int uGLTOY_MODEL_BADINDEX = 0xFFFFFFFF;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Matrix_3;
-class GLToy_Vector_3;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_ModelStrip
-: public GLToy_Array< u_int >
-, public GLToy_Renderable
+: public GLToy_Renderable
+, public GLToy_SerialisableArray< u_int >
 {
 
-    typedef GLToy_Array< u_int > PARENT_DATA;
+    typedef GLToy_SerialisableArray< u_int > PARENT_DATA;
     typedef GLToy_Renderable PARENT_RENDER;
 
 public:
@@ -60,11 +63,11 @@ protected:
 };
 
 class GLToy_Model
-: public GLToy_IndirectArray< GLToy_ModelStrip >
-, public GLToy_Renderable
+: public GLToy_Renderable
+, public GLToy_SerialisableIndirectArray< GLToy_ModelStrip >
 {
 
-    typedef GLToy_IndirectArray< GLToy_ModelStrip > PARENT_DATA;
+    typedef GLToy_SerialisableIndirectArray< GLToy_ModelStrip > PARENT_DATA;
     typedef GLToy_Renderable PARENT_RENDER;
 
 public:
@@ -83,14 +86,17 @@ public:
 
     static void LoadFromOBJFile( GLToy_Model* const pxModel ,const char* const szFilename );
 
+    // overrides
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+
 protected:
     
     void UpdateStripPointers();
     
     u_int GetVertexIndex( const GLToy_Vector_3& xVertex );
 
-    u_int m_uVertexCount;
-    GLToy_Vector_3* m_pxVertices;
+    GLToy_SerialisableArray< GLToy_Vector_3 > m_xVertices;
 
 };
 

@@ -7,8 +7,6 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
-
 #include <Core/GLToy_Functor.h>
 #include <Maths/GLToy_Vector.h>
 
@@ -44,7 +42,7 @@ public:
         delete m_pxNegative;
     }
 
-private:
+protected:
 
     GLToy_BSPNode( const GLToy_Vector_3& xNormal, const float fDistance )
     : m_pxPositive( NULL )
@@ -289,6 +287,8 @@ public:
     {
         delete m_pxHead;
     }
+
+    virtual bool IsFlat() const { return false; }
 
     GLToy_Inline static GLToy_BSPTree< T >* CreateBSPTree( T* pData, const unsigned int uCount )
     {

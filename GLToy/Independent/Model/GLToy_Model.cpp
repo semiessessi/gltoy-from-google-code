@@ -103,8 +103,7 @@ void GLToy_ModelStrip::SubmitVertex( const u_int uIndex ) const
 GLToy_Model::GLToy_Model()
 : PARENT_DATA()
 , PARENT_RENDER()
-, m_uVertexCount( 0 )
-, m_pxVertices( NULL )
+, m_xVertices()
 {
 }
 
@@ -115,12 +114,6 @@ GLToy_Model::~GLToy_Model()
 
 void GLToy_Model::Reset()
 {
-    if( m_pxVertices )
-    {
-        delete[] m_pxVertices;
-        m_pxVertices = NULL;
-    }
-
     DeleteAll();
 }
 
@@ -175,37 +168,23 @@ void GLToy_Model::UpdateStripPointers()
 {
     GLToy_Iterate( GLToy_ModelStrip, xIterator, this )
     {
-        xIterator.Current().SetVertexPointer( m_pxVertices );
+        xIterator.Current().SetVertexPointer( m_xVertices.GetDataPointer() );
     }
 }
 
 u_int GLToy_Model::GetVertexIndex( const GLToy_Vector_3& xVertex )
 {
-    for( u_int u = 0; u < m_uVertexCount; ++u )
+    GLToy_ConstIterate( GLToy_Vector_3, xIterator, &m_xVertices )
     {
-        if( m_pxVertices[ u ] == xVertex )
+        if( xIterator.Current() == xVertex )
         {
-            return u;
+            return static_cast< u_int >( xIterator.Index() );
         }
     }
 
-    ++m_uVertexCount;
-    const GLToy_Vector_3* const pxOldVertices = m_pxVertices;
+    m_xVertices.Append( xVertex );
 
-    m_pxVertices = new GLToy_Vector_3[ m_uVertexCount ];
-
-    if( pxOldVertices )
-    {
-        for( u_int u = 0; u < m_uVertexCount - 1; ++u )
-        {
-            m_pxVertices[ u ] = pxOldVertices[ u ];
-        }
-        delete[] pxOldVertices;
-    }
-
-    m_pxVertices[ m_uVertexCount - 1 ] = xVertex;
-
-    return m_uVertexCount - 1;
+    return m_xVertices.GetCount() - 1;
 }
 
 void GLToy_Model::LoadFromOBJFile( GLToy_Model* const pxModel ,const char* const szFilename )
@@ -255,4 +234,16 @@ void GLToy_Model::LoadFromOBJFile( GLToy_Model* const pxModel ,const char* const
     }
 
     delete[] szData;
+}
+
+void GLToy_Model::ReadFromBitStream( const GLToy_BitStream& xStream )
+{
+    xStream >> m_xVertices;
+    PARENT_DATA::ReadFromBitStream( xStream );
+}
+
+void GLToy_Model::WriteToBitStream( GLToy_BitStream& xStream ) const
+{
+    xStream << m_xVertices;
+    PARENT_DATA::WriteToBitStream( xStream );
 }

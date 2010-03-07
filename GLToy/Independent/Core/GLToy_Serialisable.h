@@ -21,6 +21,7 @@ public:
 
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) = 0;
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const = 0;
+
 };
 
 #endif

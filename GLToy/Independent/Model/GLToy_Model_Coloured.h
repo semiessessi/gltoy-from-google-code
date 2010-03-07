@@ -32,6 +32,10 @@ public:
 
     virtual void Render() const;
 
+    // overrides
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+
 protected:
     
     GLToy_Vector_3 m_xColour;
@@ -50,6 +54,9 @@ public:
 
     void AddStripFromTriangle( const GLToy_Vector_3& xVertex1, const GLToy_Vector_3& xVertex2, const GLToy_Vector_3& xVertex3, const GLToy_Vector_3& xColour );
     void AddStripFromQuad( const GLToy_Vector_3& xVertex1, const GLToy_Vector_3& xVertex2, const GLToy_Vector_3& xVertex3, const GLToy_Vector_3& xVertex4, const GLToy_Vector_3& xColour );
+
+    // overrides
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
 
 };
 

@@ -64,7 +64,7 @@ public:
 
     void Normalise();
 
-    bool operator ==( const GLToy_Vector_3& xVector );
+    bool operator ==( const GLToy_Vector_3& xVector ) const;
 
 private:
     

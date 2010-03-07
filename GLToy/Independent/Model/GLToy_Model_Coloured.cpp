@@ -61,6 +61,22 @@ void GLToy_ModelStrip_Coloured::Render() const
     GLToy_Render::EndSubmit();
 }
 
+void GLToy_ModelStrip_Coloured::ReadFromBitStream( const GLToy_BitStream& xStream )
+{
+    xStream >> m_xColour;
+    PARENT::ReadFromBitStream( xStream );
+}
+
+void GLToy_ModelStrip_Coloured::WriteToBitStream( GLToy_BitStream& xStream ) const
+{
+    xStream << m_xColour;
+    PARENT::WriteToBitStream( xStream );
+}
+
+//
+// GLToy_Model_Coloured
+//
+
 GLToy_Model_Coloured::GLToy_Model_Coloured()
 : PARENT()
 {
@@ -91,4 +107,9 @@ void GLToy_Model_Coloured::AddStripFromQuad( const GLToy_Vector_3& xVertex1, con
     Append( new GLToy_ModelStrip_Coloured( uVertex1, uVertex2, uVertex3, uVertex4, xColour ) );
 
     UpdateStripPointers();
+}
+
+void GLToy_Model_Coloured::ReadFromBitStream( const GLToy_BitStream& xStream )
+{
+    PARENT::ReadFromDerivedBitStream< GLToy_ModelStrip_Coloured >( xStream );
 }
