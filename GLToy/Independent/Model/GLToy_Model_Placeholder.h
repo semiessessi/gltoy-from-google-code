@@ -1,31 +1,29 @@
+#ifndef __GLTOY_MODEL_PLACEHOLDER_H_
+#define __GLTOY_MODEL_PLACEHOLDER_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core\GLToy.h>
+// Parent
+#include <Model/GLToy_Model.h>
 
-// This file's header
-#include <Core\GLToy_Hash.h>
+// GLToy
+#include <Maths/GLToy_Vector.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-
-//
-// This implements Bernstein's hash
-//
-GLToy_Hash GLToy_GetHash( const char* szString )
+class GLToy_Model_Placeholder : public GLToy_Model
 {
-    GLToy_Hash uHash = 0;
 
-    while( *szString )
-    {
-        uHash += uHash << 5;
-        uHash += *szString;
+public:
 
-        ++szString;
-    }
+    virtual void Render();
 
-    return uHash;
-}
+protected:
+
+};
+
+#endif

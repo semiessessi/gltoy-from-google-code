@@ -9,6 +9,7 @@
 #include <Render/Platform_GLToy_Render.h>
 
 // GLToy
+#include <Maths/GLToy_Matrix.h>
 #include <Maths/GLToy_Vector.h>
 
 // Win32
@@ -88,9 +89,9 @@ bool Platform_GLToy_Render::Initialise()
         const char cMinor = static_cast< char > ( szVersionString[ 2 ] );
         const char cRevision = ( uVersionStringLength > 4 ) ? static_cast< char > ( szVersionString[ 4 ] ) : '0';
 		
-        s_uVersion =    static_cast< u_int >(cMajor - '0') * 100
-                        + static_cast< u_int >(cMinor - '0') * 10
-                        + static_cast< u_int >(cRevision - '0');
+        s_uVersion =    static_cast< u_int >( cMajor - '0' ) * 100
+                        + static_cast< u_int >( cMinor - '0' ) * 10
+                        + static_cast< u_int >( cRevision - '0' );
 	}
     else
     {
@@ -244,25 +245,43 @@ void Platform_GLToy_Render::Rotate( const GLToy_Vector_3& xAxis, const float fAn
     glRotatef( fAngle, xAxis[0], xAxis[1], xAxis[2] );
 }
 
+void Platform_GLToy_Render::Transform( const GLToy_Matrix_3& xMatrix )
+{
+    glLoadIdentity();
+    float aafMatrix[ 4 ][ 4 ];
+
+    for( u_int u = 0; u < 3; ++u )
+    for( u_int v = 0; v < 3; ++v )
+    {
+        aafMatrix[ u ][ v ] = xMatrix[ u ][ v ];
+    }
+
+    aafMatrix[ 0 ][ 3 ] = aafMatrix[ 1 ][ 3 ] = aafMatrix[ 2 ][ 3 ] = 0.0f;
+    aafMatrix[ 3 ][ 0 ] = aafMatrix[ 3 ][ 1 ] = aafMatrix[ 3 ][ 2 ] = 0.0f;
+    aafMatrix[ 3 ][ 3 ] = 1.0f;
+
+    glMultMatrixf( aafMatrix[ 0 ] );
+}
+
 void Platform_GLToy_Render::SubmitVertex( const GLToy_Vector_3& xVertex )
 {
-    glVertex3fv( xVertex.GetConstFloatPointer() );
+    glVertex3fv( xVertex.GetFloatPointer() );
 }
 
 void Platform_GLToy_Render::SubmitNormal( const GLToy_Vector_3& xNormal )
 {
-    glNormal3fv( xNormal.GetConstFloatPointer() );
+    glNormal3fv( xNormal.GetFloatPointer() );
 }
 
 void Platform_GLToy_Render::SubmitColour( const GLToy_Vector_3& xColour )
 {
-    glColor3fv( xColour.GetConstFloatPointer() );
+    glColor3fv( xColour.GetFloatPointer() );
 }
 
 void Platform_GLToy_Render::SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit )
 {
-    // ### - ignore texture unit for now...
-    glTexCoord3fv( xTexCoord.GetConstFloatPointer() );
+    // TODO - ignore texture unit for now...
+    glTexCoord3fv( xTexCoord.GetFloatPointer() );
 }
 
 void Platform_GLToy_Render::Flush()
@@ -347,6 +366,7 @@ u_int Platform_GLToy_Render::GetAttributeID( u_int uProgramID, const char* szNam
 
 void Platform_GLToy_Render::BindAttributeID( u_int uProgramID, u_int uIndex, const char* szName )
 {
+    s_pfnBindAttributeID( uProgramID, uIndex, szName );
 }
 
 void Platform_GLToy_Render::SetUniform( u_int uUniformID, int iValue )

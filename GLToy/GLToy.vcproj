@@ -111,11 +111,13 @@
 				EnableFiberSafeOptimizations="true"
 				AdditionalIncludeDirectories="Independent\;Win32\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
+				StringPooling="true"
 				MinimalRebuild="true"
 				ExceptionHandling="0"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
-				EnableFunctionLevelLinking="true"
+				EnableFunctionLevelLinking="false"
+				EnableEnhancedInstructionSet="2"
 				FloatingPointModel="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -162,6 +164,10 @@
 				>
 				<File
 					RelativePath=".\Win32\Core\Platform_GLToy.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Win32\Core\Platform_GLToy.h"
 					>
 				</File>
 				<File
@@ -241,7 +247,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Core\GLToy_Hash.cpp"
+					RelativePath=".\Independent\Core\GLToy_Functor.h"
 					>
 				</File>
 				<File
@@ -249,7 +255,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Core\GLToy_SimpleStructures.h"
+					RelativePath=".\Independent\Core\GLToy_Serialisable.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Core\GLToy_State.h"
 					>
 				</File>
 				<File
@@ -260,11 +270,39 @@
 					RelativePath=".\Independent\Core\GLToy_Timer.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Independent\Core\GLToy_Updateable.h"
+					>
+				</File>
 				<Filter
 					Name="Data Structures"
 					>
 					<File
-						RelativePath=".\Independent\Core\Data Structures\GLToy_HashTree.h"
+						RelativePath=".\Independent\Core\Data Structures\GLToy_Array.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\Data Structures\GLToy_BitStream.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\Data Structures\GLToy_BitStream.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\Data Structures\GLToy_BSPTree.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\Data Structures\GLToy_DataStructure.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\Data Structures\GLToy_FlatDataStructure.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\Data Structures\GLToy_Stack.h"
 						>
 					</File>
 				</Filter>
@@ -293,6 +331,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\Render\GLToy_RenderFunctor.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Render\GLToy_Sprite.cpp"
 					>
 				</File>
@@ -300,26 +342,6 @@
 					RelativePath=".\Independent\Render\GLToy_Sprite.h"
 					>
 				</File>
-				<Filter
-					Name="Texture"
-					>
-					<File
-						RelativePath=".\Independent\Render\Texture\GLToy_Texture.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\Independent\Render\Texture\GLToy_Texture.h"
-						>
-					</File>
-					<File
-						RelativePath=".\Independent\Render\Texture\GLToy_TextureManager.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\Independent\Render\Texture\GLToy_TextureManager.h"
-						>
-					</File>
-				</Filter>
 			</Filter>
 			<Filter
 				Name="Maths"
@@ -330,6 +352,14 @@
 				</File>
 				<File
 					RelativePath=".\Independent\Maths\GLToy_Maths.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Maths\GLToy_Matrix.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Maths\GLToy_Matrix.h"
 					>
 				</File>
 				<File
@@ -358,6 +388,14 @@
 				</File>
 				<File
 					RelativePath=".\Independent\Model\GLToy_Model_Coloured.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Model\GLToy_Model_Placeholder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Model\GLToy_Model_Placeholder.h"
 					>
 				</File>
 			</Filter>
@@ -390,6 +428,38 @@
 				</File>
 				<File
 					RelativePath=".\Independent\FridgeScript\GLToy_FridgeScript.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Compression"
+				>
+				<File
+					RelativePath=".\Independent\Compression\GLToy_Compression.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Compression\GLToy_Compression.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Environment"
+				>
+				<File
+					RelativePath=".\Independent\Environment\GLToy_Environment.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Environment\GLToy_Environment.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Environment\GLToy_Environment_System.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Environment\GLToy_Environment_System.h"
 					>
 				</File>
 			</Filter>

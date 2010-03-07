@@ -6,9 +6,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
-    #define GLToy_Assert(condition, message, ...) if( _GLToy_Assert( condition, __FILE__, __LINE__, message, __VA_ARGS__ ) ) { __asm int 3 }
+    #define GLToy_Assert( condition, message, ... ) if( _GLToy_Assert( condition, __FILE__, __LINE__, message, __VA_ARGS__ ) ) { __asm int 3 }
 #else
-    #define GLToy_Assert(condition, ...) ;
+    #define GLToy_Assert( condition, ... )
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@ static const unsigned int uASSERT_MAX_MESSAGE_LENGTH = 512;
 // D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool _GLToy_Assert( const bool& bCondition, const char* sFileName, const int& uLineNumber, const char* sFormatString, ... );
-bool Platform_GLToy_Assert( const char* sTitle, const char* sMessage );
+bool _GLToy_Assert( const bool& bCondition, const char* szFilename, const int& uLineNumber, const char* szFormatString, ... );
+bool Platform_GLToy_Assert( const char* szTitle, const char* szMessage );
 
 #endif

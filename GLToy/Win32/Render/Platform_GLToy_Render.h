@@ -12,6 +12,7 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+class GLToy_Matrix_3;
 class GLToy_Vector_3;
 
 class Platform_GLToy_Render
@@ -75,6 +76,7 @@ private:
 
     static void Translate( const GLToy_Vector_3& xTranslation );
     static void Rotate( const GLToy_Vector_3& xAxis, const float fAngle );
+    static void Transform( const GLToy_Matrix_3& xMatrix );
 
     static void StartSubmittingTriangles();
     static void StartSubmittingQuads();

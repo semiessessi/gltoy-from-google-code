@@ -7,6 +7,8 @@
 
 // GLToy headers
 #include <Core/GLToy_Timer.h>
+#include <Environment/GLToy_Environment_System.h>
+#include <FridgeScript/GLToy_FridgeScript.h>
 #include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Render.h>
 
@@ -22,7 +24,7 @@ bool GLToy::s_bFullscreen = false;
 int GLToy::s_iWidth = 640;
 int GLToy::s_iHeight = 480;
 
-static char sDebugMessageBuffer[uDEBUGOUTPUT_MAX_LENGTH];
+static char szDebugMessageBuffer[uDEBUGOUTPUT_MAX_LENGTH];
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -99,6 +101,8 @@ bool GLToy::Initialise()
         return false;
     }
 
+    GLTOY_INITIALISER_CALL( GLToy_FridgeScript );
+    GLTOY_INITIALISER_CALL( GLToy_Environment_System );
     GLToy_DebugOutput( "\r\nGLToy::Initialise() - Completed successfully.\r\n" );
 
     return true;
@@ -107,6 +111,9 @@ bool GLToy::Initialise()
 void GLToy::Shutdown()
 {
     GLToy_DebugOutput( "\r\nGLToy::Shutdown() - Shutting down systems.\r\n" );
+
+    GLToy_Environment_System::Shutdown();
+    GLToy_FridgeScript::Shutdown();
 
     GLToy_Render::Shutdown();
 
@@ -126,24 +133,33 @@ bool GLToy::MainLoop()
 
     GLToy_Timer::Update();
 
+    // Update functions
+    GLToy_Environment_System::Update();
+
+    // Render functions
+    GLToy_Render::BeginRender();
+
+    GLToy_Environment_System::Render();
+
     GLToy_Render::Render();
+    GLToy_Render::EndRender();
 
     return true;
 }
 
-void GLToy::DebugOutput( const char* sFormatString, ... )
+void GLToy::DebugOutput( const char* szFormatString, ... )
 {
     va_list xArgumentList;
 
-    va_start( xArgumentList, sFormatString );
-    int iMessageLength = _vscprintf( sFormatString, xArgumentList ) + 1;
+    va_start( xArgumentList, szFormatString );
+    int iMessageLength = _vscprintf( szFormatString, xArgumentList ) + 1;
 
-    vsprintf( sDebugMessageBuffer, /* iMessageLength, */ sFormatString, xArgumentList );
+    vsprintf( szDebugMessageBuffer, /* iMessageLength, */ szFormatString, xArgumentList );
 
     // we no longer need xArgumentList
     va_end( xArgumentList );
 
-    Platform_DebugOutput( sDebugMessageBuffer );
+    Platform_DebugOutput( szDebugMessageBuffer );
 }
 
 u_int GLToy::GetWindowViewportWidth()

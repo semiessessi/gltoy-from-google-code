@@ -16,10 +16,10 @@ public:
 
     static void Update();
 
-    static float GetTime() { return s_fTimer; }
-    static float GetFrameTimer() { return s_fFrameTime; }
-    static float GetFrameRate() { return 1 / s_fFrameTime; }
-    static float GetSmoothedFrameRate() { return s_fSmoothedFrameRate; }
+    GLToy_Inline static float GetTime() { return s_fTimer; }
+    GLToy_Inline static float GetFrameTimer() { return s_fFrameTime; }
+    GLToy_Inline static float GetFrameRate() { return 1 / s_fFrameTime; }
+    GLToy_Inline static float GetSmoothedFrameRate() { return s_fSmoothedFrameRate; }
 
 private:
     

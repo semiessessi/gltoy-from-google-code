@@ -30,7 +30,7 @@ public:
 
     virtual GLToy_ModelStrip_Coloured& operator =( const GLToy_ModelStrip_Coloured& xStrip );
 
-    virtual void Render();
+    virtual void Render() const;
 
 protected:
     

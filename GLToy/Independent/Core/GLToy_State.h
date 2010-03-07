@@ -1,32 +1,30 @@
-#ifndef __GLTOY_TEXTUREMANAGER_H_
-#define __GLTOY_TEXTUREMANAGER_H_
+#ifndef __GLTOY_STATE_H_
+#define __GLTOY_STATE_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
+// Parent
+#include <Render/GLToy_Renderable.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template<typename> class GLToy_HashTree;
-class GLToy_Texture;
-
-class GLToy_TextureManager
+class GLToy_State : public GLToy_Renderable
 {
 
+    typedef GLToy_Renderable PARENT;
+
 public:
-
-    static bool Initialise();
-    static void Shutdown();
-
-private:
     
-    static GLToy_Hash AddTexture( const char* const szName, u_int uWidth, u_int uHeight, u_int* puRGBAData );
+    GLToy_State();
+    virtual ~GLToy_State();
 
-    static GLToy_HashTree<GLToy_Texture> s_xTextureTree;
+    const char* GetName() const = 0;
+
+protected:
 
 };
 

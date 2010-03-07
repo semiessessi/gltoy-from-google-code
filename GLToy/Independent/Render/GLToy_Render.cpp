@@ -11,7 +11,6 @@
 // GLToy
 #include <Maths/GLToy_Vector.h>
 #include <Render/GLToy_Camera.h>
-#include <Render/Texture/GLToy_TextureManager.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -31,7 +30,6 @@ bool GLToy_Render::Initialise()
     }
 
     GLTOY_INITIALISER_CALL( GLToy_Camera );
-    GLTOY_INITIALISER_CALL( GLToy_TextureManager );
 
     if( !Project_Initialise() )
     {
@@ -45,19 +43,23 @@ void GLToy_Render::Shutdown()
 {
     Project_Shutdown();
 
-    GLToy_TextureManager::Shutdown();
-
     Platform_Shutdown();
 }
 
-void GLToy_Render::Render()
+void GLToy_Render::BeginRender()
 {
     Platform_BeginRender();
 
     GLToy_Camera::ApplyTransforms();
+}
 
+void GLToy_Render::Render()
+{
     Project_Render();
+}
 
+void GLToy_Render::EndRender()
+{
     GLToy_Render::Flush();
 
     Platform_EndRender();
@@ -125,6 +127,11 @@ void GLToy_Render::Translate( const GLToy_Vector_3& xTranslation )
 void GLToy_Render::Rotate( const GLToy_Vector_3& xAxis, const float fAngle )
 {
     Platform_GLToy_Render::Rotate( xAxis, fAngle );
+}
+
+void GLToy_Render::Transform( const GLToy_Matrix_3& xMatrix )
+{
+    Platform_GLToy_Render::Transform( xMatrix );
 }
 
 void GLToy_Render::StartSubmittingTriangles()

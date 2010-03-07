@@ -5,6 +5,7 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+class GLToy_Matrix_3;
 class GLToy_Vector_3;
 
 class GLToy_Render
@@ -15,7 +16,9 @@ public:
     static bool Initialise();
     static void Shutdown();
 
+    static void BeginRender();
     static void Render();
+    static void EndRender();
 
     // GL interface
     static void SetViewport( int iX, int iY, u_int uWidth, u_int uHeight );
@@ -29,6 +32,10 @@ public:
 
     static void Translate( const GLToy_Vector_3& xTranslation );
     static void Rotate( const GLToy_Vector_3& xAxis, const float fAngle );
+    static void Transform( const GLToy_Matrix_3& xMatrix );
+
+    static void PushViewMatrix();
+    static void PopViewMatrix();
 
     static void StartSubmittingTriangles();
     static void StartSubmittingQuads();

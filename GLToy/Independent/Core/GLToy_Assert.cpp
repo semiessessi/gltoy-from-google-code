@@ -17,24 +17,24 @@
 // Note: this uses that horrible va_list business
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static char sAssertTitle[uASSERT_MAX_TITLE_LENGTH];
-static char sAssertMessageBuffer[uASSERT_MAX_MESSAGE_LENGTH];
-static char sAssertMessage[uASSERT_MAX_MESSAGE_LENGTH];
+static char szAssertTitle[ uASSERT_MAX_TITLE_LENGTH ];
+static char szAssertMessageBuffer[ uASSERT_MAX_MESSAGE_LENGTH ];
+static char szAssertMessage[ uASSERT_MAX_MESSAGE_LENGTH ];
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // _GLToy_Assert : returns whether to trigger a breakpoint or not
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool _GLToy_Assert(const bool& bCondition, const char* sFileName, const int& uLineNumber, const char* sFormatString, ...)
+bool _GLToy_Assert( const bool& bCondition, const char* szFileName, const int& uLineNumber, const char* szFormatString, ... )
 {
     if( !bCondition )
     {       
-        int iTitleLength = _scprintf( "Assertion failed in file \"%S\" line %d", sFileName, uLineNumber ) + 1;
+        int iTitleLength = _scprintf( "Assertion failed in file \"%S\" line %d", szFileName, uLineNumber ) + 1;
         
         va_list xArgumentList;
 
-        va_start( xArgumentList, sFormatString );
-        int iMessageLength = _vscprintf( sFormatString, xArgumentList ) + 1;
+        va_start( xArgumentList, szFormatString );
+        int iMessageLength = _vscprintf( szFormatString, xArgumentList ) + 1;
 
         // clean up xArgument list so that other variable parameter functions can work
         va_end( xArgumentList );
@@ -43,20 +43,20 @@ bool _GLToy_Assert(const bool& bCondition, const char* sFileName, const int& uLi
         GLToy_Assert( iTitleLength < uASSERT_MAX_TITLE_LENGTH, "Assert dialog title char* is too long, increase uASSERT_MAX_TITLE_LENGTH in \"Core\\Assert.h\", the current value is %d but this call requested %d.", uASSERT_MAX_TITLE_LENGTH, iTitleLength );
         GLToy_Assert( iMessageLength < uASSERT_MAX_MESSAGE_LENGTH, "Assert message char* too long, increase uASSERT_MAX_MESSAGE_LENGTH in \"Core\\Assert.h\", the current value is %d but this call requested %d.", uASSERT_MAX_MESSAGE_LENGTH, iMessageLength );
 
-        sprintf( sAssertTitle, /* iTitleLength, */ "\"%s\": line %d", sFileName, uLineNumber );
+        sprintf( szAssertTitle, /* iTitleLength, */ "\"%s\": line %d", szFileName, uLineNumber );
         
         // reinitialise variable argument list because swprintf uses one
-        va_start( xArgumentList, sFormatString );
+        va_start( xArgumentList, szFormatString );
 
-        vsprintf( sAssertMessageBuffer, /* iMessageLength, */ sFormatString, xArgumentList );
+        vsprintf( szAssertMessageBuffer, /* iMessageLength, */ szFormatString, xArgumentList );
 
         // we no longer need xArgumentList
         va_end( xArgumentList );
 
-        sprintf( sAssertMessage, "Assertion failed in %s: %s", sAssertTitle, sAssertMessageBuffer );
+        sprintf( szAssertMessage, "Assertion failed in %s: %s", szAssertTitle, szAssertMessageBuffer );
 
         // output to UI and offer the user a choice to break or not
-        return Platform_GLToy_Assert( sAssertTitle, sAssertMessage );
+        return Platform_GLToy_Assert( szAssertTitle, szAssertMessage );
     }
 
     // assertion was satisfied, so don't break

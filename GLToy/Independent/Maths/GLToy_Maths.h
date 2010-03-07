@@ -30,6 +30,8 @@ public:
     static GLToy_Vector_3 Lerp( const GLToy_Vector_3& xValue1, const GLToy_Vector_3& xValue2, float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
     //static GLToy_Vector_4 Lerp( const GLToy_Vector_4& xValue1, const GLToy_Vector_4& xValue2, float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
 
+    static float Sqrt( const float fValue );
+
 private:
     
     static bool Platform_Initialise();

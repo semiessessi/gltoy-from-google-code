@@ -1,33 +1,26 @@
-#ifndef __GLTOY_CAMERA_H_
-#define __GLTOY_CAMERA_H_
+#ifndef __GLTOY_SERIALISABLE_H_
+#define __GLTOY_SERIALISABLE_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Vector_3;
+class GLToy_BitStream;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Camera
+class GLToy_Serialisable
 {
 
 public:
 
-    static bool Initialise();
+    GLToy_Serialisable() {}
+    virtual ~GLToy_Serialisable() {}
 
-    static void ApplyTransforms();
-
-    static const GLToy_Vector_3& GetPosition() { return s_xPosition; }
-
-private:
-
-    static GLToy_Vector_3 s_xPosition;
-    static GLToy_Vector_3 s_xDirection;
-    static GLToy_Vector_3 s_xUp;
-
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) = 0;
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const = 0;
 };
 
 #endif
