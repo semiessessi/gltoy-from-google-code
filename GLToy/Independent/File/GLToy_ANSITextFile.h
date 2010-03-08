@@ -14,7 +14,7 @@
 class GLToy_ANSITextFile : public GLToy_File
 {
 
-    typedef GLToy_File PARENT;
+    typedef GLToy_File GLToy_Parent;
 
 public:
     

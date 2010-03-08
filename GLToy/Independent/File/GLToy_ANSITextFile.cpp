@@ -16,7 +16,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 GLToy_ANSITextFile::GLToy_ANSITextFile( const char* const szFilename )
-: PARENT( szFilename )
+: GLToy_Parent( szFilename )
 {
 }
 

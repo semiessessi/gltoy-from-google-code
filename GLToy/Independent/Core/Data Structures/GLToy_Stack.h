@@ -16,18 +16,18 @@ template < class T >
 class GLToy_Stack : public GLToy_FlatDataStructure< T >
 {
 
-    typedef GLToy_FlatDataStructure< T > PARENT;
+    typedef GLToy_FlatDataStructure< T > GLToy_Parent;
 
 public:
 
     GLToy_Stack()
-    : PARENT()
+    : GLToy_Parent()
     , m_iStackPointer( -1 )
     {
     }
 
     GLToy_Stack( const GLToy_Stack& xStack )
-    : PARENT( xStack )
+    : GLToy_Parent( xStack )
     , m_iStackPointer( xStack.m_iStackPointer )
     {
         CopyFrom( &xStack );
@@ -66,7 +66,7 @@ public:
 
     virtual u_int GetMemoryUsage() const
     {
-        return PARENT::GetMemoryUsage() + sizeof( m_iStackPointer );
+        return GLToy_Parent::GetMemoryUsage() + sizeof( m_iStackPointer );
     }
 
     GLToy_Stack& operator =( const GLToy_FlatDataStructure< T >& xDataStructure )

@@ -14,6 +14,48 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Model_Placeholder::Render()
+GLToy_Model_Placeholder::GLToy_Model_Placeholder()
+: GLToy_Parent()
 {
+    AddStripFromQuad(   GLToy_Vector_3( 1.0f, 1.0f, 1.0f ),
+                        GLToy_Vector_3( 1.0f, -1.0f, 1.0f ),
+                        GLToy_Vector_3( -1.0f, 1.0f, 1.0f ),
+                        GLToy_Vector_3( -1.0f, -1.0f, 1.0f ),
+                        GLToy_Vector_3( 1.0f, 0.0f, 0.0f )
+                        );
+
+    AddStripFromQuad(   GLToy_Vector_3( 1.0f, 1.0f, -1.0f ),
+                        GLToy_Vector_3( 1.0f, -1.0f, -1.0f ),
+                        GLToy_Vector_3( -1.0f, 1.0f, -1.0f ),
+                        GLToy_Vector_3( -1.0f, -1.0f, -1.0f ),
+                        GLToy_Vector_3( 0.0f, 1.0f, 0.0f )
+                        );
+
+    AddStripFromQuad(   GLToy_Vector_3( 1.0f, 1.0f, 1.0f ),
+                        GLToy_Vector_3( 1.0f, 1.0f, -1.0f ),
+                        GLToy_Vector_3( -1.0f, 1.0f, 1.0f ),
+                        GLToy_Vector_3( -1.0f, 1.0f, -1.0f ),
+                        GLToy_Vector_3( 0.0f, 0.0f, 1.0f )
+                        );
+    
+    AddStripFromQuad(   GLToy_Vector_3( 1.0f, -1.0f, 1.0f ),
+                        GLToy_Vector_3( 1.0f, -1.0f, -1.0f ),
+                        GLToy_Vector_3( -1.0f, -1.0f, 1.0f ),
+                        GLToy_Vector_3( -1.0f, -1.0f, -1.0f ),
+                        GLToy_Vector_3( 0.0f, 1.0f, 1.0f )
+                        );
+
+    AddStripFromQuad(   GLToy_Vector_3( 1.0f, 1.0f, 1.0f ),
+                        GLToy_Vector_3( 1.0f, 1.0f, -1.0f ),
+                        GLToy_Vector_3( 1.0f, -1.0f, 1.0f ),
+                        GLToy_Vector_3( 1.0f, -1.0f, -1.0f ),
+                        GLToy_Vector_3( 1.0f, 0.0f, 1.0f )
+                        );
+
+    AddStripFromQuad(   GLToy_Vector_3( -1.0f, 1.0f, 1.0f ),
+                        GLToy_Vector_3( -1.0f, 1.0f, -1.0f ),
+                        GLToy_Vector_3( -1.0f, -1.0f, 1.0f ),
+                        GLToy_Vector_3( -1.0f, -1.0f, -1.0f ),
+                        GLToy_Vector_3( 1.0f, 1.0f, 0.0f )
+                        );
 }

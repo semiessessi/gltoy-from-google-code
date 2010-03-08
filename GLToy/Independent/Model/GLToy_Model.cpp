@@ -21,22 +21,22 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 GLToy_ModelStrip::GLToy_ModelStrip()
-: PARENT_DATA()
-, PARENT_RENDER()
+: GLToy_DataParent()
+, GLToy_RenderParent()
 , m_pxVertices( NULL )
 {
 }
 
 GLToy_ModelStrip::GLToy_ModelStrip( const GLToy_ModelStrip& xStrip )
-: PARENT_DATA( xStrip )
-, PARENT_RENDER()
+: GLToy_DataParent( xStrip )
+, GLToy_RenderParent()
 , m_pxVertices( xStrip.m_pxVertices )
 {
 }
 
 GLToy_ModelStrip::GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVertex3 )
-: PARENT_DATA()
-, PARENT_RENDER()
+: GLToy_DataParent()
+, GLToy_RenderParent()
 , m_pxVertices( NULL )
 {
     Append( uVertex1 );
@@ -45,8 +45,8 @@ GLToy_ModelStrip::GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVerte
 }
 
 GLToy_ModelStrip::GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVertex3, u_int uVertex4 )
-: PARENT_DATA()
-, PARENT_RENDER()
+: GLToy_DataParent()
+, GLToy_RenderParent()
 , m_pxVertices( NULL )
 {
     Append( uVertex1 );
@@ -56,8 +56,8 @@ GLToy_ModelStrip::GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVerte
 }
 
 GLToy_ModelStrip::GLToy_ModelStrip( const u_int* puVertices, const u_int uCount )
-: PARENT_DATA()
-, PARENT_RENDER()
+: GLToy_DataParent()
+, GLToy_RenderParent()
 , m_pxVertices( NULL )
 {
     for( u_int u = 0; u < uCount; ++u )
@@ -68,7 +68,7 @@ GLToy_ModelStrip::GLToy_ModelStrip( const u_int* puVertices, const u_int uCount 
 
 GLToy_ModelStrip& GLToy_ModelStrip::operator =( const GLToy_ModelStrip& xStrip )
 {
-    PARENT_DATA::operator =( xStrip );
+    GLToy_DataParent::operator =( xStrip );
     m_pxVertices = xStrip.m_pxVertices;
 
     return *this;
@@ -101,8 +101,8 @@ void GLToy_ModelStrip::SubmitVertex( const u_int uIndex ) const
 //
 
 GLToy_Model::GLToy_Model()
-: PARENT_DATA()
-, PARENT_RENDER()
+: GLToy_DataParent()
+, GLToy_RenderParent()
 , m_xVertices()
 {
 }
@@ -184,6 +184,15 @@ u_int GLToy_Model::GetVertexIndex( const GLToy_Vector_3& xVertex )
 
     m_xVertices.Append( xVertex );
 
+    if( m_xVertices.GetCount() == 1 )
+    {
+        SetBBToPoint( xVertex );
+    }
+    else
+    {
+        GrowBBByPoint( xVertex );
+    }
+
     return m_xVertices.GetCount() - 1;
 }
 
@@ -239,11 +248,11 @@ void GLToy_Model::LoadFromOBJFile( GLToy_Model* const pxModel ,const char* const
 void GLToy_Model::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
     xStream >> m_xVertices;
-    PARENT_DATA::ReadFromBitStream( xStream );
+    GLToy_DataParent::ReadFromBitStream( xStream );
 }
 
 void GLToy_Model::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
     xStream << m_xVertices;
-    PARENT_DATA::WriteToBitStream( xStream );
+    GLToy_DataParent::WriteToBitStream( xStream );
 }

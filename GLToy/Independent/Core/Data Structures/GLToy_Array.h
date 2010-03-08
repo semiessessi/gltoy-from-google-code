@@ -7,26 +7,28 @@
 
 // Parents
 #include <Core/Data Structures/GLToy_FlatDataStructure.h>
+#include <Core/GLToy_Serialisable.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template< class T >
-class GLToy_Array : public GLToy_FlatDataStructure< T >
+class GLToy_Array
+: public GLToy_FlatDataStructure< T >
 {
-    typedef GLToy_FlatDataStructure< T > PARENT;
+    typedef GLToy_FlatDataStructure< T > GLToy_Parent;
 
 public:
 
     GLToy_Array()
-    : PARENT()
+    : GLToy_Parent()
     , m_uCount( 0 )
     {
     }
     
     GLToy_Array( const GLToy_Array& xArray )
-    : PARENT( xArray )
+    : GLToy_Parent( xArray )
     , m_uCount( xArray.m_uCount )
     {
         CopyFrom( &xArray );
@@ -117,7 +119,7 @@ public:
 
     virtual u_int GetMemoryUsage() const
     {
-        return PARENT::GetMemoryUsage() + sizeof( m_uCount );
+        return GLToy_Parent::GetMemoryUsage() + sizeof( m_uCount );
     }
     
     T& Start()
@@ -142,7 +144,8 @@ protected:
 };
 
 template< class T >
-class GLToy_IndirectArray : public GLToy_DataStructure< T >
+class GLToy_IndirectArray
+: public GLToy_DataStructure< T >
 {
 
 public:

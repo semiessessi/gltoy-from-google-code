@@ -7,7 +7,7 @@
 
 // Parents
 #include <Core/Data Structures/GLToy_Array.h>
-#include <Core/GLToy_Serialisable.h>
+#include <Core/GLToy_Bounded.h>
 #include <Render/GLToy_Renderable.h>
 
 // GLToy
@@ -34,8 +34,8 @@ class GLToy_ModelStrip
 , public GLToy_SerialisableArray< u_int >
 {
 
-    typedef GLToy_SerialisableArray< u_int > PARENT_DATA;
-    typedef GLToy_Renderable PARENT_RENDER;
+    typedef GLToy_SerialisableArray< u_int > GLToy_DataParent;
+    typedef GLToy_Renderable GLToy_RenderParent;
 
 public:
 
@@ -63,12 +63,13 @@ protected:
 };
 
 class GLToy_Model
-: public GLToy_Renderable
+: public GLToy_Bounded_AABB
+, public GLToy_Renderable
 , public GLToy_SerialisableIndirectArray< GLToy_ModelStrip >
 {
 
-    typedef GLToy_SerialisableIndirectArray< GLToy_ModelStrip > PARENT_DATA;
-    typedef GLToy_Renderable PARENT_RENDER;
+    typedef GLToy_SerialisableIndirectArray< GLToy_ModelStrip > GLToy_DataParent;
+    typedef GLToy_Renderable GLToy_RenderParent;
 
 public:
 

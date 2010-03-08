@@ -247,6 +247,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\Core\GLToy_Bounded.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Core\GLToy_Functor.h"
 					>
 				</File>
@@ -374,6 +378,14 @@
 					RelativePath=".\Independent\Maths\GLToy_Vector.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Independent\Maths\GLToy_Volume.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Maths\GLToy_Volume.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Model"
@@ -468,6 +480,10 @@
 				</File>
 			</Filter>
 		</Filter>
+		<File
+			RelativePath=".\coding standards.txt"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

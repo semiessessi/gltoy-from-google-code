@@ -15,25 +15,25 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 GLToy_ModelStrip_Coloured::GLToy_ModelStrip_Coloured()
-: PARENT()
+: GLToy_Parent()
 , m_xColour( 1.0f, 1.0f, 1.0f )
 {
 }
 
 GLToy_ModelStrip_Coloured::GLToy_ModelStrip_Coloured( const GLToy_ModelStrip_Coloured& xStrip )
-: PARENT( xStrip )
+: GLToy_Parent( xStrip )
 , m_xColour( xStrip.m_xColour )
 {
 }
 
 GLToy_ModelStrip_Coloured::GLToy_ModelStrip_Coloured( u_int uVertex1, u_int uVertex2, u_int uVertex3, const GLToy_Vector_3& xColour )
-: PARENT( uVertex1, uVertex2, uVertex3 )
+: GLToy_Parent( uVertex1, uVertex2, uVertex3 )
 , m_xColour( xColour )
 {
 }
 
 GLToy_ModelStrip_Coloured::GLToy_ModelStrip_Coloured( u_int uVertex1, u_int uVertex2, u_int uVertex3, u_int uVertex4, const GLToy_Vector_3& xColour )
-: PARENT( uVertex1, uVertex2, uVertex3, uVertex4 )
+: GLToy_Parent( uVertex1, uVertex2, uVertex3, uVertex4 )
 , m_xColour( xColour )
 {
 }
@@ -44,7 +44,7 @@ GLToy_ModelStrip_Coloured::~GLToy_ModelStrip_Coloured()
 
 GLToy_ModelStrip_Coloured& GLToy_ModelStrip_Coloured::operator =( const GLToy_ModelStrip_Coloured& xStrip )
 {
-    PARENT::operator =( xStrip );
+    GLToy_Parent::operator =( xStrip );
     m_xColour = xStrip.m_xColour;
 
     return *this;
@@ -64,13 +64,13 @@ void GLToy_ModelStrip_Coloured::Render() const
 void GLToy_ModelStrip_Coloured::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
     xStream >> m_xColour;
-    PARENT::ReadFromBitStream( xStream );
+    GLToy_Parent::ReadFromBitStream( xStream );
 }
 
 void GLToy_ModelStrip_Coloured::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
     xStream << m_xColour;
-    PARENT::WriteToBitStream( xStream );
+    GLToy_Parent::WriteToBitStream( xStream );
 }
 
 //
@@ -78,7 +78,7 @@ void GLToy_ModelStrip_Coloured::WriteToBitStream( GLToy_BitStream& xStream ) con
 //
 
 GLToy_Model_Coloured::GLToy_Model_Coloured()
-: PARENT()
+: GLToy_Parent()
 {
 }
 
@@ -111,5 +111,5 @@ void GLToy_Model_Coloured::AddStripFromQuad( const GLToy_Vector_3& xVertex1, con
 
 void GLToy_Model_Coloured::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
-    PARENT::ReadFromDerivedBitStream< GLToy_ModelStrip_Coloured >( xStream );
+    GLToy_Parent::ReadFromDerivedBitStream< GLToy_ModelStrip_Coloured >( xStream );
 }

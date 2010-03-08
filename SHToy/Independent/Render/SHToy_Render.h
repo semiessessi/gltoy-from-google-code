@@ -5,7 +5,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Model_Coloured;
+class GLToy_Model_Placeholder;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -25,7 +25,7 @@ private:
 
     static void Platform_Render();
 
-    static GLToy_Model_Coloured s_xCube;
+    static GLToy_Model_Placeholder s_xModel;
 
 };
 

@@ -18,7 +18,7 @@
 class GLToy_ModelStrip_Coloured : public GLToy_ModelStrip
 {
 
-    typedef GLToy_ModelStrip PARENT;
+    typedef GLToy_ModelStrip GLToy_Parent;
 
 public:
 
@@ -45,7 +45,7 @@ protected:
 class GLToy_Model_Coloured : public GLToy_Model
 {
 
-    typedef GLToy_Model PARENT;
+    typedef GLToy_Model GLToy_Parent;
 
 public:
 

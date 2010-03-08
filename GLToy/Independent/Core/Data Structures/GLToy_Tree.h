@@ -104,7 +104,7 @@ template < class T >
 class GLToy_Tree : public GLToy_DataStructure< T >
 {
 
-    typedef GLToy_DataStructure< T > PARENT;
+    typedef GLToy_DataStructure< T > GLToy_Parent;
 
 public:
 

@@ -15,7 +15,7 @@
 class GLToy_State : public GLToy_Renderable
 {
 
-    typedef GLToy_Renderable PARENT;
+    typedef GLToy_Renderable GLToy_Parent;
 
 public:
     

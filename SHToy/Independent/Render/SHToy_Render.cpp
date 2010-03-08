@@ -10,14 +10,14 @@
 // GLToy
 #include <Core/GLToy_Timer.h>
 #include <Maths/GLToy_Vector.h>
-#include <Model/GLToy_Model_Coloured.h>
+#include <Model/GLToy_Model_Placeholder.h>
 #include <Render/GLToy_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Model_Coloured SHToy_Render::s_xCube;
+GLToy_Model_Placeholder SHToy_Render::s_xModel;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -25,48 +25,6 @@ GLToy_Model_Coloured SHToy_Render::s_xCube;
 
 bool SHToy_Render::Initialise()
 {
-    s_xCube.AddStripFromQuad(   GLToy_Vector_3( 1.0f, 1.0f, 1.0f ),
-                                GLToy_Vector_3( 1.0f, -1.0f, 1.0f ),
-                                GLToy_Vector_3( -1.0f, 1.0f, 1.0f ),
-                                GLToy_Vector_3( -1.0f, -1.0f, 1.0f ),
-                                GLToy_Vector_3( 1.0f, 0.0f, 0.0f )
-                                );
-
-    s_xCube.AddStripFromQuad(   GLToy_Vector_3( 1.0f, 1.0f, -1.0f ),
-                                GLToy_Vector_3( 1.0f, -1.0f, -1.0f ),
-                                GLToy_Vector_3( -1.0f, 1.0f, -1.0f ),
-                                GLToy_Vector_3( -1.0f, -1.0f, -1.0f ),
-                                GLToy_Vector_3( 0.0f, 1.0f, 0.0f )
-                                );
-
-    s_xCube.AddStripFromQuad(   GLToy_Vector_3( 1.0f, 1.0f, 1.0f ),
-                                GLToy_Vector_3( 1.0f, 1.0f, -1.0f ),
-                                GLToy_Vector_3( -1.0f, 1.0f, 1.0f ),
-                                GLToy_Vector_3( -1.0f, 1.0f, -1.0f ),
-                                GLToy_Vector_3( 0.0f, 0.0f, 1.0f )
-                                );
-    
-    s_xCube.AddStripFromQuad(   GLToy_Vector_3( 1.0f, -1.0f, 1.0f ),
-                                GLToy_Vector_3( 1.0f, -1.0f, -1.0f ),
-                                GLToy_Vector_3( -1.0f, -1.0f, 1.0f ),
-                                GLToy_Vector_3( -1.0f, -1.0f, -1.0f ),
-                                GLToy_Vector_3( 0.0f, 1.0f, 1.0f )
-                                );
-
-    s_xCube.AddStripFromQuad(   GLToy_Vector_3( 1.0f, 1.0f, 1.0f ),
-                                GLToy_Vector_3( 1.0f, 1.0f, -1.0f ),
-                                GLToy_Vector_3( 1.0f, -1.0f, 1.0f ),
-                                GLToy_Vector_3( 1.0f, -1.0f, -1.0f ),
-                                GLToy_Vector_3( 1.0f, 0.0f, 1.0f )
-                                );
-
-    s_xCube.AddStripFromQuad(   GLToy_Vector_3( -1.0f, 1.0f, 1.0f ),
-                                GLToy_Vector_3( -1.0f, 1.0f, -1.0f ),
-                                GLToy_Vector_3( -1.0f, -1.0f, 1.0f ),
-                                GLToy_Vector_3( -1.0f, -1.0f, -1.0f ),
-                                GLToy_Vector_3( 1.0f, 1.0f, 0.0f )
-                                );
-
     return true;
 }
 
@@ -82,5 +40,5 @@ void SHToy_Render::Render()
     GLToy_Render::Rotate( GLToy_Vector_3( -0.7f, -0.05f, -0.3f ), 0.75f * fTimer );
     GLToy_Render::Rotate( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.25f * fTimer );
 
-    s_xCube.Render();
+    s_xModel.Render();
 }

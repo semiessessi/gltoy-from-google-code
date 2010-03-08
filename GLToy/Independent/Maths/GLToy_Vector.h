@@ -43,8 +43,8 @@ public:
 
     GLToy_Vector_3& operator =( const GLToy_Vector_3& xVector );
 
-    GLToy_Inline float& operator[] ( int i ) { return fComponents[i]; }
-    GLToy_Inline const float& operator[] ( int i ) const { return fComponents[i]; }
+    GLToy_Inline float& operator[] ( int i ) { return fComponents[ i ]; }
+    GLToy_Inline const float& operator[] ( int i ) const { return fComponents[ i ]; }
 
     GLToy_Inline float* GetFloatPointer() { return fComponents; }
     GLToy_Inline const float* const GetFloatPointer() const { return fComponents; }
@@ -63,6 +63,7 @@ public:
     }
 
     void Normalise();
+    float Magnitude() const;
 
     bool operator ==( const GLToy_Vector_3& xVector ) const;
 
