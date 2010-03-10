@@ -211,6 +211,10 @@
 				Name="Core"
 				>
 				<File
+					RelativePath=".\Independent\Core\Project_GLToy.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Core\TestCube.h"
 					>
 				</File>

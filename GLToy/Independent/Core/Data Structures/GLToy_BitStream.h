@@ -47,6 +47,7 @@ public:
     void operator <<( const char cChar ) { WriteChar( cChar ); }
     void operator <<( const short sShort ) { WriteShort( sShort ); }
     void operator <<( const u_short usShort ) { WriteUShort( usShort ); }
+    void operator <<( const wchar_t wcChar ) { WriteBits( wcChar, 16 ); }
     void operator <<( const int iInt ) { WriteInt( iInt ); }
     void operator <<( const u_int uUint ) { WriteUInt( uUint ); }
     void operator <<( const float fFloat ) { WriteFloat( fFloat ); }
@@ -59,6 +60,7 @@ public:
     void operator >>( char& cChar ) const { ReadChar( cChar ); }
     void operator >>( short& sShort ) const { ReadShort( sShort ); }
     void operator >>( u_short& usShort ) const { ReadUShort( usShort ); }
+    void operator >>( wchar_t& wcChar ) const { u_int uBits; ReadBits( uBits, 16 ); wcChar = uBits; }
     void operator >>( int& iInt ) const { ReadInt( iInt ); }
     void operator >>( u_int& uUint ) const { ReadUInt( uUint ); }
     void operator >>( float& fFloat ) const { ReadFloat( fFloat ); }

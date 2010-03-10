@@ -2,6 +2,13 @@
 #define __GLTOY_FILE_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// I N C L U D E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+// GLToy
+#include <String/GLToy_String.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -16,8 +23,8 @@ class GLToy_File
 
 public:
     
-    GLToy_File( const char* const szFilename );
-    virtual ~GLToy_File();
+    GLToy_File( const GLToy_String& szFilename );
+    virtual ~GLToy_File() {}
 
     virtual void ReadBitStream( GLToy_BitStream& xStream ) const;
     virtual void WriteBitStream( const GLToy_BitStream& xStream );
@@ -26,7 +33,7 @@ public:
 
 protected:
 
-    char* m_szFilename;
+    GLToy_String m_szFilename;
     u_int m_uSize;
 
     void GetAllData( void* const pPointer ) const;

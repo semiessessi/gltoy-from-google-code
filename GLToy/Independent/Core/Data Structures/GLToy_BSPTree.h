@@ -9,6 +9,7 @@
 #include <Core/Data Structures/GLToy_Tree.h>
 
 // GLToy
+#include <Maths/GLToy_Plane.h>
 #include <Maths/GLToy_Vector.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,8 +32,7 @@ public:
     GLToy_BSPNode()
     : m_pxPositive( NULL )
     , m_pxNegative( NULL )
-    , m_xNormal( 0.0, 0.0, 0.0 )
-    , m_fDistance( 0.0 )
+    , m_xPlane()
     , m_pData( NULL )
     {
     }
@@ -48,8 +48,7 @@ protected:
     GLToy_BSPNode( const GLToy_Vector_3& xNormal, const float fDistance )
     : m_pxPositive( NULL )
     , m_pxNegative( NULL )
-    , m_xNormal( xNormal )
-    , m_fDistance( fDistance )
+    , m_xPlane( xNormal, fDistance )
     , m_pData( NULL )
     {
     }
@@ -57,8 +56,7 @@ protected:
     GLToy_BSPNode( const GLToy_Vector_3& xPosition, T* const pData )
     : m_pxPositive( NULL )
     , m_pxNegative( NULL )
-    , m_xNormal( xPosition )
-    , m_fDistance( 0.0 )
+    , m_xPlane( xPosition, 0.0f )
     , m_pData( pData )
     {
     }
@@ -66,20 +64,19 @@ protected:
     GLToy_BSPNode( T* const pData )
     : m_pxPositive( NULL )
     , m_pxNegative( NULL )
-    , m_xNormal( 0.0f, 0.0f, 0.0f )
-    , m_fDistance( 0.0 )
+    , m_xPlane()
     , m_pData( pData )
     {
     }
 
     GLToy_Inline bool IsOnPositiveSide( const GLToy_Vector_3& xPosition ) const
     {
-        return xPosition * m_xNormal > -m_fDistance;
+        return m_xPlane.IsOnPositiveSide( xPosition );
     }
 
     GLToy_Inline double SignedDistance( const GLToy_Vector_3& xPosition ) const
     {
-        return xPosition * m_xNormal + m_fDistance;
+        return m_xPlane.SignedDistance( xPosition );
     }
 
     GLToy_Inline GLToy_BSPNode* GetChild( const GLToy_Vector_3& xPosition )
@@ -106,26 +103,24 @@ protected:
     {
         if( m_pData )
         {
-            m_pData = false;
+            m_pData = NULL;
 
-            const GLToy_Vector_3 xMyPosition = m_xNormal;
+            const GLToy_Vector_3 xMyPosition = m_xPlane.GetNormal();
             GLToy_Vector_3 xCentre = ( xPosition + xMyPosition ) * 0.5;
-            m_xNormal = xMyPosition - xPosition;
-            m_xNormal.Normalise();
-            m_fDistance = -( xCentre * m_xNormal );
+            GLToy_Vector_3 xNormal = xMyPosition - xPosition;
+            xNormal.Normalise();
+            m_xPlane = GLToy_Plane( xNormal, -( xCentre * xNormal ) );
 
             if( SignedDistance( xMyPosition ) < 0 )
             {
                 m_pxPositive = new GLToy_BSPNode( xPosition, pData );
                 m_pxNegative = new GLToy_BSPNode( xMyPosition, m_pData );
-                m_pData = NULL;
 
                 return m_pxPositive;
             }
 
             m_pxNegative = new GLToy_BSPNode( xPosition, pData );
             m_pxPositive = new GLToy_BSPNode( xMyPosition, m_pData );
-            m_pData = NULL;
 
             return m_pxNegative;
         }
@@ -133,15 +128,14 @@ protected:
         return GetChild( xPosition )->AddLeaf( xPosition, pData );
     }
 
-    virtual void SplitLeaf( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xNormal, const float fDistance, T* const pDataPositive, T* const pDataNegative )
+    virtual void SplitLeaf( const GLToy_Vector_3& xPosition, const GLToy_Plane& xSplitPlane, T* const pDataPositive, T* const pDataNegative )
     {
         if( !m_pData )
         {
-            GetChild( xPosition )->SplitLeaf( xPosition, xNormal, fDistance, pDataPositive, pDataNegative );
+            GetChild( xPosition )->SplitLeaf( xPosition, xSplitPlane, pDataPositive, pDataNegative );
         }
 
-        m_xNormal = xNormal;
-        m_fDistance = fDistance;
+        m_xPlane = xSplitPlane;
 
         m_pxPositive = new GLToy_BSPNode( pDataPositive );
         m_pxNegative = new GLToy_BSPNode( pDataNegative );
@@ -268,8 +262,7 @@ protected:
 
     GLToy_BSPNode* m_pxPositive;
     GLToy_BSPNode* m_pxNegative;
-    GLToy_Vector_3 m_xNormal;
-    float m_fDistance;
+    GLToy_Plane m_xPlane;
     T* m_pData;
 };
 
@@ -320,14 +313,14 @@ public:
         m_pxHead = new GLToy_BSPNode< T >( xPosition, pData );
     }
 
-    GLToy_Inline void SplitLeaf( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xNormal, const float fDistance, T* const pDataPositive, T* const pDataNegative )
+    GLToy_Inline void SplitLeaf( const GLToy_Vector_3& xPosition, const GLToy_Plane& xSplitPlane, T* const pDataPositive, T* const pDataNegative )
     {
         if( !m_pxHead )
         {
             return;
         }
 
-        m_pxHead->SplitLeaf( xPosition, xNormal, fDistance, pDataPositive, pDataNegative );;
+        m_pxHead->SplitLeaf( xPosition, xSplitPlane, pDataPositive, pDataNegative );;
     }
 
     virtual void Traverse( GLToy_Functor< T >& xFunctor )
@@ -378,9 +371,10 @@ public:
         }
     }
 
-private:
+protected:
 
     GLToy_BSPNode< T >* m_pxHead;
+
 };
 
 #endif

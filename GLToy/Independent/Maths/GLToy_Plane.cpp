@@ -1,25 +1,27 @@
-#ifndef __SHTOY_H_
-#define __SHTOY_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <Core/GLToy.h>
 
-#include <Core/Platform_SHToy.h>
+// This file's headers
+#include <Maths/GLToy_Plane.h>
+
+// GLToy
+#include <Core/Data Structures/GLToy_BitStream.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class SHToy
+void GLToy_Plane::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
+    xStream >> m_xNormal;
+    xStream >> m_fDistance;
+}
 
-public:
-
-    static bool Initialise();
-    static void Shutdown();
-};
-
-#endif
+void GLToy_Plane::WriteToBitStream( GLToy_BitStream& xStream ) const
+{
+    xStream << m_xNormal;
+    xStream << m_fDistance;
+}

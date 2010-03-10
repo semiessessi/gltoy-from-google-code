@@ -24,6 +24,7 @@ static const u_int uGLTOY_MODEL_BADINDEX = 0xFFFFFFFF;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Matrix_3;
+class GLToy_String;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -85,7 +86,7 @@ public:
     virtual void Render() const;
     virtual void RenderWithPositionAndOrientation( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation ) const;
 
-    static void LoadFromOBJFile( GLToy_Model* const pxModel ,const char* const szFilename );
+    static void LoadFromOBJFile( GLToy_Model* const pxModel, const GLToy_String& szFilename );
 
     // overrides
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );

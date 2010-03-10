@@ -2,27 +2,22 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/Blobs.h>
-
 // This file's header
-#include <Render/GLToy_Render.h>
-#include <Render/Blobs_Render.h>
+#include <Core/GLToy.h>
+
+// SHToy
+#include <Core/SHToy.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool GLToy_Render::Project_Initialise()
+bool GLToy::Project_Initialise()
 {
-    return Blobs_Render::Initialise();
+    return SHToy::Initialise();
 }
 
-void GLToy_Render::Project_Shutdown()
+void GLToy::Project_Shutdown()
 {
-    Blobs_Render::Shutdown();
-}
-
-void GLToy_Render::Project_Render()
-{
-    Blobs_Render::Render();
+    SHToy::Shutdown();
 }

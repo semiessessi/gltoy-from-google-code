@@ -47,7 +47,7 @@ void GLToy_Environment_System::Update()
     }
 }
 
-GLToy_Environment* GLToy_Environment_System::CreateFromOBJFile( const char* const szFilename )
+GLToy_Environment* GLToy_Environment_System::CreateFromOBJFile( const GLToy_String& szFilename )
 {
     GLToy_EnvironmentLeaf* pxLeaf = new GLToy_EnvironmentLeaf();
     GLToy_Model::LoadFromOBJFile( pxLeaf, szFilename );

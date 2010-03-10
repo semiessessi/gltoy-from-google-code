@@ -211,6 +211,14 @@
 				Name="Core"
 				>
 				<File
+					RelativePath=".\Independent\Core\Project_GLToy.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Core\SHToy.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Core\SHToy.h"
 					>
 				</File>

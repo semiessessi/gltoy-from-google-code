@@ -18,14 +18,10 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_File::GLToy_File( const char* const szFilename )
+GLToy_File::GLToy_File( const GLToy_String& szFilename )
+: m_szFilename( szFilename )
 {
-    // TODO: GLToy_String
-    u_int uLength = strlen( szFilename );
-    m_szFilename = new char[uLength + 1];
-    strncpy_s( m_szFilename, uLength + 1, szFilename, uLength + 1 );
-
-    FILE* pxFile = fopen( m_szFilename, "rb" );
+    FILE* pxFile = _wfopen( m_szFilename.GetWideString(), L"rb" );
     m_uSize = 0;
     if( pxFile )
     {
@@ -35,16 +31,11 @@ GLToy_File::GLToy_File( const char* const szFilename )
     }
 }
 
-GLToy_File::~GLToy_File()
-{
-    delete m_szFilename;
-}
-
 void GLToy_File::GetAllData( void* const pPointer ) const
 {
     char* const pData = static_cast< char* const >( pPointer );
 
-    FILE* pxFile = fopen( m_szFilename, "rb" );
+    FILE* pxFile = _wfopen( m_szFilename.GetWideString(), L"rb" );
 
     if( !pxFile )
     {
@@ -68,7 +59,7 @@ void GLToy_File::ReadBitStream( GLToy_BitStream &xStream ) const
 
 void GLToy_File::WriteBitStream( const GLToy_BitStream &xStream )
 {
-    FILE* pxFile = fopen( m_szFilename, "rb" );
+    FILE* pxFile = _wfopen( m_szFilename.GetWideString(), L"wb" );
 
     if( !pxFile )
     {

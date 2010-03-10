@@ -75,6 +75,8 @@ class GLToy_Environment
 
     friend class GLToy_Environment_System;
 
+    typedef GLToy_BSPTree< GLToy_EnvironmentLeaf > GLToy_DataParent;
+
 public:
 
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );

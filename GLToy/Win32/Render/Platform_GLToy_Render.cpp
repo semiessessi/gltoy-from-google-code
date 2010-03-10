@@ -161,7 +161,7 @@ void Platform_GLToy_Render::EndRender()
 // G L   I N T E R F A C E
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void Platform_GLToy_Render::SetViewport( int iX, int iY, u_int uWidth, u_int uHeight )
+void Platform_GLToy_Render::SetViewport( const int iX, const int iY, const u_int uWidth, const u_int uHeight )
 {
     glViewport( iX, iY, uWidth, uHeight );
 }
@@ -172,11 +172,11 @@ void Platform_GLToy_Render::SetIdentityProjectionMatrix()
     glLoadIdentity();
 }
 
-void Platform_GLToy_Render::SetPerspectiveProjectionMatrix( float fFOV, u_int uViewportWidth, u_int uViewportHeight )
+void Platform_GLToy_Render::SetPerspectiveProjectionMatrix( const float fFOV, const u_int uViewportWidth, const u_int uViewportHeight )
 {
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
-    gluPerspective( fFOV, static_cast<float>( uViewportWidth ) / static_cast<float>( uViewportHeight ), 0.01f, 10000.0f );
+    gluPerspective( fFOV, static_cast<float>( uViewportWidth ) / static_cast< float >( uViewportHeight ), 0.01f, 10000.0f );
 }
 
 void Platform_GLToy_Render::SetOrthogonalProjectionMatrix()

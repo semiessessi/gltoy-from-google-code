@@ -111,6 +111,12 @@ public:
     {
         m_uCount -= uAmount;
     }
+
+    void Resize( const u_int uCount )
+    {
+        m_uCount = uCount;
+        CheckAlloc( m_uCount );
+    }
     
     virtual u_int GetCount() const
     {

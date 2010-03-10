@@ -6,7 +6,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
-    #define GLToy_Assert( condition, message, ... ) if( _GLToy_Assert( condition, __FILE__, __LINE__, message, __VA_ARGS__ ) ) { __asm int 3 }
+    #define GLToy_Assert( condition, message, ... ) if( _GLToy_Assert( condition, __FILE__, __LINE__, message, __VA_ARGS__ ) ) { __asm int 3 } // TODO - make this platform code
 #else
     #define GLToy_Assert( condition, ... )
 #endif

@@ -6,6 +6,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Environment;
+class GLToy_String;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -24,7 +25,7 @@ public:
 
 private:
 
-    static GLToy_Environment* CreateFromOBJFile( const char* const szFilename );
+    static GLToy_Environment* CreateFromOBJFile( const GLToy_String& szFilename );
 
     static GLToy_Environment* s_pxCurrentEnvironment;
 

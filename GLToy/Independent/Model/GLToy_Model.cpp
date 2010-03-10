@@ -22,21 +22,18 @@
 
 GLToy_ModelStrip::GLToy_ModelStrip()
 : GLToy_DataParent()
-, GLToy_RenderParent()
 , m_pxVertices( NULL )
 {
 }
 
 GLToy_ModelStrip::GLToy_ModelStrip( const GLToy_ModelStrip& xStrip )
 : GLToy_DataParent( xStrip )
-, GLToy_RenderParent()
 , m_pxVertices( xStrip.m_pxVertices )
 {
 }
 
 GLToy_ModelStrip::GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVertex3 )
 : GLToy_DataParent()
-, GLToy_RenderParent()
 , m_pxVertices( NULL )
 {
     Append( uVertex1 );
@@ -46,7 +43,6 @@ GLToy_ModelStrip::GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVerte
 
 GLToy_ModelStrip::GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVertex3, u_int uVertex4 )
 : GLToy_DataParent()
-, GLToy_RenderParent()
 , m_pxVertices( NULL )
 {
     Append( uVertex1 );
@@ -57,7 +53,6 @@ GLToy_ModelStrip::GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVerte
 
 GLToy_ModelStrip::GLToy_ModelStrip( const u_int* puVertices, const u_int uCount )
 : GLToy_DataParent()
-, GLToy_RenderParent()
 , m_pxVertices( NULL )
 {
     for( u_int u = 0; u < uCount; ++u )
@@ -102,7 +97,6 @@ void GLToy_ModelStrip::SubmitVertex( const u_int uIndex ) const
 
 GLToy_Model::GLToy_Model()
 : GLToy_DataParent()
-, GLToy_RenderParent()
 , m_xVertices()
 {
 }
@@ -196,7 +190,7 @@ u_int GLToy_Model::GetVertexIndex( const GLToy_Vector_3& xVertex )
     return m_xVertices.GetCount() - 1;
 }
 
-void GLToy_Model::LoadFromOBJFile( GLToy_Model* const pxModel ,const char* const szFilename )
+void GLToy_Model::LoadFromOBJFile( GLToy_Model* const pxModel, const GLToy_String& szFilename )
 {
     pxModel->Reset();
     GLToy_ANSITextFile xFile( szFilename );

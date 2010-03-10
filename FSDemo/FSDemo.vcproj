@@ -217,6 +217,10 @@
 					RelativePath=".\Independent\Core\FSDemo.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Independent\Core\Project_GLToy.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="FridgeScript"

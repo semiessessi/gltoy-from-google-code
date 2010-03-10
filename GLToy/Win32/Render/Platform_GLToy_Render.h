@@ -65,10 +65,10 @@ public:
 private:
 
     // GL interface
-    static void SetViewport( int iX, int iY, u_int uWidth, u_int uHeight );
+    static void SetViewport( const int iX, const int iY, const u_int uWidth, const u_int uHeight );
 
     static void SetIdentityProjectionMatrix();
-    static void SetPerspectiveProjectionMatrix( float fFOV, u_int uViewportWidth, u_int uViewportHeight );
+    static void SetPerspectiveProjectionMatrix( const float fFOV, const u_int uViewportWidth, const u_int uViewportHeight );
     static void SetOrthogonalProjectionMatrix();
 
     static void SetIdentityViewMatrix();

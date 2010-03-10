@@ -29,6 +29,11 @@ static const unsigned int uGLTOY_STENCIL_DEPTH      = 8;
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+u_int Win32_GLToy_GetDC()
+{
+    return reinterpret_cast< u_int >( g_uDeviceContext );
+}
+
 LRESULT CALLBACK WndProc( HWND uWindowHandle, unsigned int uMessage,
                             WPARAM uWParam, LPARAM uLParam )
 {

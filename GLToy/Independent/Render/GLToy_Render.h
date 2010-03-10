@@ -2,16 +2,24 @@
 #define __GLTOY_RENDER_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Matrix_3;
+class GLToy_Renderable;
+template < class T > class GLToy_RenderFunctor;
 class GLToy_Vector_3;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C L A S S E S
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Render
 {
 
 public:
+
+    static const GLToy_RenderFunctor< GLToy_Renderable > RenderableFunctor;
 
     static bool Initialise();
     static void Shutdown();
@@ -21,10 +29,10 @@ public:
     static void EndRender();
 
     // GL interface
-    static void SetViewport( int iX, int iY, u_int uWidth, u_int uHeight );
+    static void SetViewport( const int iX, const int iY, const u_int uWidth, const u_int uHeight );
 
     static void SetIdentityProjectionMatrix();
-    static void SetPerspectiveProjectionMatrix( u_int uViewportWidth, u_int uViewportHeight );
+    static void SetPerspectiveProjectionMatrix( const u_int uViewportWidth, const u_int uViewportHeight );
     static void SetOrthogonalProjectionMatrix();
 
     static void SetIdentityViewMatrix();

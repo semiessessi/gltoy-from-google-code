@@ -6,3 +6,17 @@
 
 // This file's header
 #include <Compression/GLToy_Compression.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F U N C T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+u_short GLToy_Compress::UnitVector_2Bytes( const GLToy_Vector_3& xVector )
+{
+    return 0;
+}
+
+u_int GLToy_Compress::UnitVector_4Bytes( const GLToy_Vector_3& xVector )
+{
+    return 0;
+}

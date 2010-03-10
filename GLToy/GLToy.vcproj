@@ -194,6 +194,10 @@
 					RelativePath=".\Win32\Render\Platform_GLToy_Render.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Win32\Render\Platform_GLToy_Texture.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Maths"
@@ -286,6 +290,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Independent\Core\Data Structures\GLToy_BinaryTree.h"
+						>
+					</File>
+					<File
 						RelativePath=".\Independent\Core\Data Structures\GLToy_BitStream.cpp"
 						>
 					</File>
@@ -350,10 +358,22 @@
 					RelativePath=".\Independent\Render\GLToy_Sprite.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Independent\Render\GLToy_Texture.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Render\GLToy_Texture.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Maths"
 				>
+				<File
+					RelativePath=".\Independent\Maths\GLToy_Frustum.h"
+					>
+				</File>
 				<File
 					RelativePath=".\Independent\Maths\GLToy_Maths.cpp"
 					>
@@ -368,6 +388,14 @@
 				</File>
 				<File
 					RelativePath=".\Independent\Maths\GLToy_Matrix.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Maths\GLToy_Plane.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Maths\GLToy_Plane.h"
 					>
 				</File>
 				<File
@@ -479,11 +507,15 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="String"
+				>
+				<File
+					RelativePath=".\Independent\String\GLToy_String.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
-		<File
-			RelativePath=".\coding standards.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

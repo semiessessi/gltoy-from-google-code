@@ -15,7 +15,7 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_ANSITextFile::GLToy_ANSITextFile( const char* const szFilename )
+GLToy_ANSITextFile::GLToy_ANSITextFile( const GLToy_String& szFilename )
 : GLToy_Parent( szFilename )
 {
 }

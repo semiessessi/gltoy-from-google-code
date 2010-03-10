@@ -43,7 +43,7 @@ void GLToy_Environment::WriteToBitStream( GLToy_BitStream& xStream ) const
 void GLToy_Environment::Render() const
 {
     // draw everything front to back to help minimise overdraw
-    DistanceSortedLeafTraverse( GLToy_RenderFunctor< GLToy_EnvironmentLeaf >::GetInstance(), GLToy_Camera::GetPosition() );
+    DistanceSortedLeafTraverse( GLToy_RenderFunctor< GLToy_EnvironmentLeaf >(), GLToy_Camera::GetPosition() );
 }
 
 void GLToy_Environment::Update()

@@ -11,12 +11,16 @@
 // GLToy
 #include <Maths/GLToy_Vector.h>
 #include <Render/GLToy_Camera.h>
+#include <Render/GLToy_Renderable.h>
+#include <Render/GLToy_RenderFunctor.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 float GLToy_Render::s_fFOV = 90.0f;
+
+const GLToy_RenderFunctor< GLToy_Renderable > GLToy_Render::RenderableFunctor = GLToy_RenderFunctor< GLToy_Renderable >();
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -89,7 +93,7 @@ void GLToy_Render::Platform_EndRender()
 // G L   I N T E R F A C E
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Render::SetViewport( int iX, int iY, u_int uWidth, u_int uHeight )
+void GLToy_Render::SetViewport( const int iX, const int iY, const u_int uWidth, const u_int uHeight )
 {
     Platform_GLToy_Render::SetViewport( iX, iY, uWidth, uHeight );
 }
@@ -99,7 +103,7 @@ void GLToy_Render::SetIdentityProjectionMatrix()
     Platform_GLToy_Render::SetIdentityProjectionMatrix();
 }
 
-void GLToy_Render::SetPerspectiveProjectionMatrix( u_int uViewportWidth, u_int uViewportHeight )
+void GLToy_Render::SetPerspectiveProjectionMatrix( const u_int uViewportWidth, const u_int uViewportHeight )
 {
     Platform_GLToy_Render::SetPerspectiveProjectionMatrix( s_fFOV, uViewportWidth, uViewportHeight );
 }

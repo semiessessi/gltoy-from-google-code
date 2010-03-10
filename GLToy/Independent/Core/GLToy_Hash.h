@@ -25,6 +25,20 @@ GLToy_Inline GLToy_Hash GLToy_GetHash( const char* szString )
     return uHash;
 }
 
+GLToy_Inline GLToy_Hash GLToy_GetHash( const wchar_t* wszString )
+{
+    GLToy_Hash uHash = 0;
+
+    while( *wszString )
+    {
+        uHash += uHash << 5;
+        uHash += *wszString;
+        ++wszString;
+    }
+
+    return uHash;
+}
+
 //
 // This version is designed to compile out
 //

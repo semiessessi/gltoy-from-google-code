@@ -18,7 +18,7 @@ class GLToy_ANSITextFile : public GLToy_File
 
 public:
     
-    GLToy_ANSITextFile( const char* const szFilename );
+    GLToy_ANSITextFile( const GLToy_String& szFilename );
     virtual ~GLToy_ANSITextFile();
 
     void GetString( char* szString ) const;

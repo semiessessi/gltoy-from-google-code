@@ -1,5 +1,5 @@
-#ifndef __GLTOY_VOLUMES_H_
-#define __GLTOY_VOLUMES_H_
+#ifndef __GLTOY_VOLUME_H_
+#define __GLTOY_VOLUME_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
