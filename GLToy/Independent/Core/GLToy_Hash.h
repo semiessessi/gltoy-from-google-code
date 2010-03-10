@@ -18,7 +18,7 @@ GLToy_Inline GLToy_Hash GLToy_GetHash( const char* szString )
     while( *szString )
     {
         uHash += uHash << 5;
-        uHash += *szString;
+        uHash += ( *szString < 'a' ) ? *szString : ( *szString - 'a' + 'A' );
         ++szString;
     }
 
@@ -32,7 +32,7 @@ GLToy_Inline GLToy_Hash GLToy_GetHash( const wchar_t* wszString )
     while( *wszString )
     {
         uHash += uHash << 5;
-        uHash += *wszString;
+        uHash += ( *wszString < 'a' ) ? *wszString : ( *wszString - 'a' + 'A' );
         ++wszString;
     }
 

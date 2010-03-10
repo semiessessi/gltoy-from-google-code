@@ -53,15 +53,16 @@ protected:
     {
     }
 
-    void LoadFromFile( const GLToy_String& szFilename );
+    void LoadFromFile();
     void Unload();
     void Create();
     void Destroy();
-    void BindTexture( const u_int uTextureUnit );
+    void Bind( const u_int uTextureUnit = 0 );
 
     void Platform_Create();
     void Platform_Destroy();
-    void Platform_LoadFromFile( const GLToy_String& szFilename );
+    void Platform_LoadFromFile();
+    void Platform_Bind( const u_int uTextureUnit );
 
     u_int m_uWidth;
     u_int m_uHeight;
@@ -87,6 +88,7 @@ public:
     static GLToy_Texture* LookUpTexture( const GLToy_String& xName );
     static void CreateTexture( const GLToy_String& xName );
     static void DestroyTexture( const GLToy_String& xName );
+    static void BindTexture( const GLToy_String& xName );
     static void Reset();
 
 private:

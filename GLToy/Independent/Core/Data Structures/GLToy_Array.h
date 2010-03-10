@@ -9,6 +9,9 @@
 #include <Core/Data Structures/GLToy_FlatDataStructure.h>
 #include <Core/GLToy_Serialisable.h>
 
+// C/C++
+#include <new> 
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +50,7 @@ public:
         // increment m_uCount then make sure memory is allocated before setting the new entry
         ++m_uCount;
         CheckAlloc( m_uCount );
-        m_pxData[ m_uCount - 1 ] = xValue;
+        new ( &( m_pxData[ m_uCount - 1 ] ) ) T( xValue );
     }
     
     void Append( const GLToy_Array& xValues )
@@ -61,7 +64,7 @@ public:
 
         for( u_int i = 0; i < xValues.m_uCount; ++i )
         {
-            m_pxData[ oldCount + i ] = xValues.m_pxData[ i ];
+            new ( &( m_pxData[ oldCount + i ] ) ) T( xValues.m_pxData[ i ] );
         }
     }
     
@@ -74,9 +77,10 @@ public:
         // move the existing xValues along to make room
         for( u_int i = m_uCount - 1; i >= iIndex; --i )
         {
-            m_pxData[ i ] = m_pxData[ i - 1 ];
+            new ( &( m_pxData[ i ] ) ) T( m_pxData[ i - 1 ] );
         }
-        m_pxData[ iIndex ] = xValue;
+
+        new ( &( m_pxData[ iIndex ] ) ) T( xValue );
     }
     
     void InsertAt( const int iIndex, const GLToy_Array& xValues )
@@ -88,13 +92,13 @@ public:
         // move the existing xValues along to make room
         for( u_int i = m_uCount - 1; i >= ( iIndex + xValues.m_uCount ); --i )
         {
-            m_pxData[ i ] = m_pxData[ i - xValues.m_uCount ];
+            new ( &( m_pxData[ i ] ) ) T( m_pxData[ i - xValues.m_uCount ] );
         }
 
         // insert new xValues
         for( u_int i = 0; i < xValues.m_uCount; ++i )
         {
-            m_pxData[ iIndex + i ] = xValues.m_pxData[ i ];
+            new ( &( m_pxData[ iIndex + i ] ) ) T( xValues.m_pxData[ i ] );
         }
     }
     

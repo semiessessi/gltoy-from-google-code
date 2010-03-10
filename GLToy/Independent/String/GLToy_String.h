@@ -57,6 +57,21 @@ public:
     GLToy_Inline wchar_t* GetWideString() { return GetDataPointer(); }
     GLToy_Inline const wchar_t* GetWideString() const { return GetDataPointer(); }
 
+    GLToy_Inline char* CreateANSIString() const
+    {
+        char* pcNewString = new char[ GetCount() ];
+
+        GLToy_ConstIterate( wchar_t, xIterator, this )
+        {
+            pcNewString[ xIterator.Index() ]
+                = xIterator.Current() > 0xFF
+                ? '?'
+                : static_cast< char >( xIterator.Current() );
+        }
+
+        return pcNewString;
+    }
+
     GLToy_String& operator =( const GLToy_String& xString )
     {
         CopyFrom( &xString );
@@ -66,12 +81,14 @@ public:
     GLToy_String operator +( const GLToy_String& xString ) const
     {
         GLToy_String xReturnValue( *this );
+        xReturnValue.RemoveFromEnd();
         xReturnValue.Append( xString );
         return xReturnValue;
     }
 
     GLToy_String& operator +=( const GLToy_String& xString )
     {
+        RemoveFromEnd();
         Append( xString );
         return *this;
     }

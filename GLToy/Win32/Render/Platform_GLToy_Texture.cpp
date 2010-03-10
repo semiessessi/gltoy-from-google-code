@@ -37,9 +37,9 @@ ULONG_PTR g_xGDIToken = NULL;
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Texture::Platform_LoadFromFile( const GLToy_String& szFilename )
+void GLToy_Texture::Platform_LoadFromFile()
 {
-    Bitmap* pxBitmap = new Bitmap( szFilename.GetWideString() );
+    Bitmap* pxBitmap = new Bitmap( m_szName.GetWideString() );
 
     if( !pxBitmap )
     {
@@ -55,8 +55,12 @@ void GLToy_Texture::Platform_LoadFromFile( const GLToy_String& szFilename )
     {
         Color xColour;
         pxBitmap->GetPixel( xIterator.Index() % m_uWidth, xIterator.Index() / m_uWidth, &xColour );
-        const u_int uARGB = xColour.GetValue();
-        xIterator.Current() = ( uARGB >> 24 ) | ( uARGB << 8 ); // convert to RGBA
+        const u_int uBGRA = xColour.GetValue();
+        const u_int uRGBA = ( uBGRA & 0xFF000000 )
+            | ( ( uBGRA & 0xFF0000 ) >> 16 )
+            | ( uBGRA & 0xFF00 )
+            | ( ( uBGRA & 0xFF ) << 16 );   // AARRGGBB -> AABBGGRR
+        xIterator.Current() = uRGBA;
     }
 
     delete pxBitmap;
@@ -65,7 +69,7 @@ void GLToy_Texture::Platform_LoadFromFile( const GLToy_String& szFilename )
 void GLToy_Texture::Platform_Create()
 {
     glGenTextures( 1, &m_uUID );
-    glBindTexture( GL_TEXTURE_2D, m_iID );
+    glBindTexture( GL_TEXTURE_2D, m_uUID );
     
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
@@ -81,6 +85,12 @@ void GLToy_Texture::Platform_Destroy()
     {
         glDeleteTextures( 1, &m_uUID );
     }
+}
+
+void GLToy_Texture::Platform_Bind( const u_int uTextureUnit )
+{
+    // TODO: texture unit
+    glBindTexture( GL_TEXTURE_2D, m_uUID );
 }
 
 bool GLToy_Texture_System::Platform_Initialise()

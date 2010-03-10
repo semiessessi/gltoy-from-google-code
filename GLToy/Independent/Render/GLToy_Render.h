@@ -55,7 +55,7 @@ public:
     static void SubmitVertex( const GLToy_Vector_3& xVertex );
     static void SubmitNormal( const GLToy_Vector_3& xNormal );
     static void SubmitColour( const GLToy_Vector_3& xColour );
-    static void SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit );
+    static void SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit = 0 );
 
     static void Flush();
 

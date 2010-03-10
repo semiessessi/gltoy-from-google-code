@@ -13,6 +13,7 @@
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Renderable.h>
 #include <Render/GLToy_RenderFunctor.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -34,6 +35,7 @@ bool GLToy_Render::Initialise()
     }
 
     GLTOY_INITIALISER_CALL( GLToy_Camera );
+    GLTOY_INITIALISER_CALL( GLToy_Texture_System );
 
     if( !Project_Initialise() )
     {
@@ -46,6 +48,8 @@ bool GLToy_Render::Initialise()
 void GLToy_Render::Shutdown()
 {
     Project_Shutdown();
+
+    GLToy_Texture_System::Shutdown();
 
     Platform_Shutdown();
 }

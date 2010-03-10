@@ -144,7 +144,7 @@ protected:
 
         GLToy_ConstIterate( T, xIterator, pxDataStructure )
         {
-            m_pxData[ xIterator.Index() ] = xIterator.Current();
+            new ( &( m_pxData[ xIterator.Index() ] ) ) T( xIterator.Current() );
         }
     }
 

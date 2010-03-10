@@ -8,6 +8,9 @@
 // Parents
 #include <Core/Data Structures/GLToy_FlatDataStructure.h>
 
+// C/C++
+#include <new>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,7 +42,7 @@ public:
         
         CheckAlloc( m_iStackPointer + 1 );
         
-        m_pxData[ m_iStackPointer ] = xValue;
+        new ( &( m_pxData[ m_iStackPointer ] ) ) T( xValue );
 
         return m_pxData[ m_iStackPointer ];
     }

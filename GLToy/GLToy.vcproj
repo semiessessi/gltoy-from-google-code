@@ -227,6 +227,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="File"
+				>
+				<File
+					RelativePath=".\Win32\File\Platform_GLToy_File_System.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Independent"
@@ -460,6 +468,14 @@
 				</File>
 				<File
 					RelativePath=".\Independent\File\GLToy_File.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\File\GLToy_File_System.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\File\GLToy_File_System.h"
 					>
 				</File>
 			</Filter>

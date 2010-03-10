@@ -11,7 +11,6 @@
 #include <FridgeScript/GLToy_FridgeScript.h>
 #include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Render.h>
-#include <Render/GLToy_Texture.h>
 
 // C/C++ headers
 #include <stdarg.h>
@@ -91,7 +90,6 @@ bool GLToy::Initialise()
     }
 
     GLTOY_INITIALISER_CALL( GLToy_Render );
-    GLTOY_INITIALISER_CALL( GLToy_Texture_System );
 
     if( !Platform_LateInitialise() )
     {
@@ -119,7 +117,6 @@ void GLToy::Shutdown()
     GLToy_Environment_System::Shutdown();
     GLToy_FridgeScript::Shutdown();
 
-    GLToy_Texture_System::Shutdown();
     GLToy_Render::Shutdown();
 
     Platform_Shutdown();

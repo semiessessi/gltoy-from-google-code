@@ -151,7 +151,7 @@ public:
         }
         else
         {
-            m_pxHead = new GLToy_BinaryTreeNode( xData, xKey );
+            m_pxHead = new GLToy_BinaryTreeNode< DataType, KeyType >( xData, xKey );
         }
     }
 
