@@ -59,26 +59,18 @@ bool GLToy_Texture_System::Initialise()
 
     s_xTextures.Clear();
 
-    GLToy_Array< GLToy_String > xBMPPaths = GLToy_File_System::PathsFromFilter( "textures/", "*.bmp" );
-    GLToy_Array< GLToy_String > xJPGPaths = GLToy_File_System::PathsFromFilter( "textures/", "*.jpg" );
-    GLToy_Array< GLToy_String > xPNGPaths = GLToy_File_System::PathsFromFilter( "textures/", "*.png" );
+    GLToy_Array< GLToy_String > xTexturePaths = GLToy_File_System::PathsFromFilter( "textures/", "*.bmp" );
+    xTexturePaths.Append( GLToy_File_System::PathsFromFilter( "textures/", "*.jpg" ) );
+    xTexturePaths.Append( GLToy_File_System::PathsFromFilter( "textures/", "*.png" ) );
 
-    GLToy_ConstIterate( GLToy_String, xIterator, &xBMPPaths )
+    GLToy_ConstIterate( GLToy_String, xIterator, &xTexturePaths )
     {
-        GLToy_DebugOutput( "  - Found texture %S.\r\n", xIterator.Current().GetWideString() );
-        s_xTextures.AddNode( GLToy_Texture( xIterator.Current() ), xIterator.Current().GetHash() );
-    }
+        GLToy_String xName = xIterator.Current();
+        xName.RemoveAt( 0, 9 ); // remove "textures/"
+        
+        GLToy_DebugOutput( "   - Found texture %S.\r\n", xName.GetWideString() );
 
-    GLToy_ConstIterate( GLToy_String, xIterator, &xJPGPaths )
-    {
-        GLToy_DebugOutput( "  - Found texture %S.\r\n", xIterator.Current().GetWideString() );
-        s_xTextures.AddNode( GLToy_Texture( xIterator.Current() ), xIterator.Current().GetHash() );
-    }
-
-    GLToy_ConstIterate( GLToy_String, xIterator, &xPNGPaths )
-    {
-        GLToy_DebugOutput( "  - Found texture %S.\r\n", xIterator.Current().GetWideString() );
-        s_xTextures.AddNode( GLToy_Texture( xIterator.Current() ), xIterator.Current().GetHash() );
+        s_xTextures.AddNode( GLToy_Texture( xName ), xName.GetHash() );
     }
 
     return true;

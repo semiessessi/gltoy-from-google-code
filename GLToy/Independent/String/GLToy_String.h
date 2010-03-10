@@ -16,7 +16,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_String
-: protected GLToy_SerialisableArray< wchar_t >
+: public GLToy_SerialisableArray< wchar_t >
 {
 
     typedef GLToy_SerialisableArray< wchar_t > GLToy_Parent;

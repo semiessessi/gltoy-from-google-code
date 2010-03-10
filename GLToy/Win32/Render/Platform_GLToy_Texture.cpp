@@ -39,7 +39,7 @@ ULONG_PTR g_xGDIToken = NULL;
 
 void GLToy_Texture::Platform_LoadFromFile()
 {
-    Bitmap* pxBitmap = new Bitmap( m_szName.GetWideString() );
+    Bitmap* pxBitmap = new Bitmap( ( GLToy_String( "textures/" ) + m_szName ).GetWideString() );
 
     if( !pxBitmap )
     {
