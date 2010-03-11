@@ -31,9 +31,10 @@ public:
 
     GLToy_Stack( const GLToy_Stack& xStack )
     : GLToy_Parent( xStack )
-    , m_iStackPointer( xStack.m_iStackPointer )
+    , m_iStackPointer( -1 )  // CopyFrom requires this
     {
         CopyFrom( &xStack );
+        m_iStackPointer = xStack.m_iStackPointer;
     }
     
     T& Push( const T& xValue )

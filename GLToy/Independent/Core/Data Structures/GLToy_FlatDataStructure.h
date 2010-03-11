@@ -140,11 +140,31 @@ protected:
 
     virtual void CopyFrom( const GLToy_DataStructure< T >* const pxDataStructure )
     {
+        const u_int uNewCount = pxDataStructure->GetCount();
+        const u_int uOldCount = GetCount();
         CheckAlloc( pxDataStructure->GetCount() );
+
+        // make sure existing data is destoyed correctly
+        if( uOldCount > uNewCount )
+        {
+            for( u_int u = uNewCount; u < uOldCount; ++u )
+            {
+                m_pxData[ u ].~T();
+            }
+        }
+
+        const u_int uAllocCount = ( uOldCount > uNewCount ) ? uNewCount : uOldCount;
 
         GLToy_ConstIterate( T, xIterator, pxDataStructure )
         {
-            new ( &( m_pxData[ xIterator.Index() ] ) ) T( xIterator.Current() );
+            if( static_cast< u_int >( xIterator.Index() ) < uAllocCount )
+            {
+                m_pxData[ xIterator.Index() ] = xIterator.Current();
+            }
+            else
+            {
+                new ( &( m_pxData[ xIterator.Index() ] ) ) T( xIterator.Current() );
+            }
         }
     }
 

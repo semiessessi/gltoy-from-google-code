@@ -32,9 +32,10 @@ public:
     
     GLToy_Array( const GLToy_Array& xArray )
     : GLToy_Parent( xArray )
-    , m_uCount( xArray.m_uCount )
+    , m_uCount( 0 ) // CopyFrom requires this
     {
         CopyFrom( &xArray );
+        m_uCount = xArray.m_uCount;
     }
     
     GLToy_Array& operator =( const GLToy_FlatDataStructure< T >& xDataStructure )
@@ -45,7 +46,7 @@ public:
         return *this;
     }
     
-    void Append( const T& xValue )
+    virtual void Append( const T& xValue )
     {
         // increment m_uCount then make sure memory is allocated before setting the new entry
         ++m_uCount;
@@ -53,10 +54,10 @@ public:
         new ( &( m_pxData[ m_uCount - 1 ] ) ) T( xValue );
     }
     
-    void Append( const GLToy_Array& xValues )
+    virtual void Append( const GLToy_Array& xValues )
     {
         // store m_uCount for later use when copying
-        u_int oldCount = m_uCount;
+        const u_int uOldCount = m_uCount;
 
         // increase m_uCount and allocate accordingly
         m_uCount += xValues.m_uCount;
@@ -64,26 +65,31 @@ public:
 
         for( u_int i = 0; i < xValues.m_uCount; ++i )
         {
-            new ( &( m_pxData[ oldCount + i ] ) ) T( xValues.m_pxData[ i ] );
+            new ( &( m_pxData[ uOldCount + i ] ) ) T( xValues.m_pxData[ i ] );
         }
     }
     
-    void InsertAt( const int iIndex, const T& xValue )
+    virtual void InsertAt( const int iIndex, const T& xValue )
     {
         // increase m_uCount and check allocation
         ++m_uCount;
         CheckAlloc( m_uCount );
 
         // move the existing xValues along to make room
-        for( u_int i = m_uCount - 1; i >= iIndex; --i )
+        for( int i = m_uCount - 2; i >= iIndex; --i )
         {
-            new ( &( m_pxData[ i ] ) ) T( m_pxData[ i - 1 ] );
+            m_pxData[ i ] = m_pxData[ i - 1 ];
         }
 
-        new ( &( m_pxData[ iIndex ] ) ) T( xValue );
+        // make sure to construct the new entry
+        new ( &( m_pxData[ m_uCount - 1 ] ) ) T( m_pxData[ m_uCount - 2 ] );
+
+        // set the new value
+        m_pxData[ iIndex ] = xValue;
     }
     
-    void InsertAt( const int iIndex, const GLToy_Array& xValues )
+    // TODO - fix leaks
+    virtual void InsertAt( const int iIndex, const GLToy_Array& xValues )
     {
         // increase m_uCount and check allocation
         m_uCount += xValues.m_uCount;
@@ -102,21 +108,33 @@ public:
         }
     }
     
-    void RemoveAt( const int iIndex, const u_int uAmount = 1 )
+    virtual void RemoveAt( const int iIndex, const u_int uAmount = 1 )
     {
         m_uCount -= uAmount;
         for( u_int i = iIndex; i < m_uCount; ++i )
         {
             m_pxData[ i ] = m_pxData[ i + uAmount ];
         }
+
+        // be careful to destroy the now unused entries
+        for( u_int u = m_uCount; u < m_uCount + uAmount; ++u )
+        {
+            m_pxData[ u ].~T();
+        }
     }
     
-    void RemoveFromEnd( const u_int uAmount = 1 )
+    virtual void RemoveFromEnd( const u_int uAmount = 1 )
     {
         m_uCount -= uAmount;
+
+        // be careful to destroy the now unused entries
+        for( u_int u = m_uCount; u < m_uCount + uAmount; ++u )
+        {
+            m_pxData[ u ].~T();
+        }
     }
 
-    void Resize( const u_int uCount )
+    virtual void Resize( const u_int uCount )
     {
         m_uCount = uCount;
         CheckAlloc( m_uCount );

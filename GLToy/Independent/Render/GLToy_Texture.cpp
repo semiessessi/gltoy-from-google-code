@@ -59,9 +59,9 @@ bool GLToy_Texture_System::Initialise()
 
     s_xTextures.Clear();
 
-    GLToy_Array< GLToy_String > xTexturePaths = GLToy_File_System::PathsFromFilter( "textures/", "*.bmp" );
-    xTexturePaths.Append( GLToy_File_System::PathsFromFilter( "textures/", "*.jpg" ) );
-    xTexturePaths.Append( GLToy_File_System::PathsFromFilter( "textures/", "*.png" ) );
+    GLToy_Array< GLToy_String > xTexturePaths = GLToy_File_System::PathsFromFilter( "Textures/", "*.bmp" );
+    xTexturePaths.Append( GLToy_File_System::PathsFromFilter( "Textures/", "*.jpg" ) );
+    xTexturePaths.Append( GLToy_File_System::PathsFromFilter( "Textures/", "*.png" ) );
 
     GLToy_ConstIterate( GLToy_String, xIterator, &xTexturePaths )
     {

@@ -7,6 +7,9 @@
 
 #include <File/GLToy_File.h>
 
+// GLToy
+#include <String/GLToy_String.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,7 +24,8 @@ public:
     GLToy_ANSITextFile( const GLToy_String& szFilename );
     virtual ~GLToy_ANSITextFile();
 
-    void GetString( char* szString ) const;
+    void GetRawString( char* szString ) const;
+    GLToy_String GetString() const;
     virtual u_int GetSize() const { return m_uSize + 1; }
 
 protected:

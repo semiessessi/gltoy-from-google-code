@@ -10,6 +10,7 @@
 
 // GLToy
 #include <Maths/GLToy_Vector.h>
+#include <Render/Font/GLToy_Font.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Renderable.h>
 #include <Render/GLToy_RenderFunctor.h>
@@ -36,6 +37,7 @@ bool GLToy_Render::Initialise()
 
     GLTOY_INITIALISER_CALL( GLToy_Camera );
     GLTOY_INITIALISER_CALL( GLToy_Texture_System );
+    GLTOY_INITIALISER_CALL( GLToy_Font_System );
 
     if( !Project_Initialise() )
     {
@@ -49,6 +51,7 @@ void GLToy_Render::Shutdown()
 {
     Project_Shutdown();
 
+    GLToy_Font_System::Shutdown();
     GLToy_Texture_System::Shutdown();
 
     Platform_Shutdown();

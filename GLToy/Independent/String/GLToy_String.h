@@ -72,30 +72,54 @@ public:
         return pcNewString;
     }
 
-    GLToy_String& operator =( const GLToy_String& xString )
+    GLToy_Inline GLToy_String& operator =( const GLToy_String& xString )
     {
         CopyFrom( &xString );
         return *this;
     }
 
-    GLToy_String operator +( const GLToy_String& xString ) const
+    GLToy_Inline GLToy_String operator +( const GLToy_String& xString ) const
     {
         GLToy_String xReturnValue( *this );
-        xReturnValue.RemoveFromEnd();
+        xReturnValue.RemoveNull();
         xReturnValue.Append( xString );
         return xReturnValue;
     }
 
-    GLToy_String& operator +=( const GLToy_String& xString )
+    GLToy_Inline GLToy_String& operator +=( const GLToy_String& xString )
     {
-        RemoveFromEnd();
+        RemoveNull();
         Append( xString );
         return *this;
     }
 
-    GLToy_Hash GetHash() const { return GLToy_GetHash( GetWideString() ); }
+    GLToy_Inline GLToy_Hash GetHash() const { return GLToy_GetHash( GetWideString() ); }
+
+    GLToy_Inline bool BeginsWith( const GLToy_String& xString )
+    {
+        for( u_int u = 0; u < xString.GetLength(); ++u )
+        {
+            if( xString[ u ] != m_pxData[ u ] )
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    virtual void RemoveFromEnd( const u_int uAmount = 1 )
+    {
+        GLToy_Parent::RemoveFromEnd( uAmount + 1 );
+        GLToy_Parent::Append( 0 );
+    }
 
 protected:
+
+    void RemoveNull()
+    {
+        GLToy_Parent::RemoveFromEnd();
+    }
 
 };
 

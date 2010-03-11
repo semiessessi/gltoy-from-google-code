@@ -61,7 +61,7 @@ void GLToy_FridgeScript::CompileFromFile( const char* const szFilename )
     u_int uLength = xFile.GetSize();
     
     char* pcData = new char[ uLength ];
-    xFile.GetString( pcData );
+    xFile.GetRawString( pcData );
 
     m_uCodeID = FSCompile( s_uContextID, pcData );
 }

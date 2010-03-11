@@ -374,6 +374,22 @@
 					RelativePath=".\Independent\Render\GLToy_Texture.h"
 					>
 				</File>
+				<Filter
+					Name="Font"
+					>
+					<File
+						RelativePath=".\Independent\Render\Font\GLToy_Font.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Render\Font\GLToy_Font.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Render\Font\GLToy_Font_Bitmap.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Maths"

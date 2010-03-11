@@ -24,8 +24,23 @@ GLToy_ANSITextFile::~GLToy_ANSITextFile()
 {
 }
 
-void GLToy_ANSITextFile::GetString( char* szString ) const
+void GLToy_ANSITextFile::GetRawString( char* szString ) const
 {
     GetAllData( szString );
     szString[ m_uSize ] = 0;
+}
+
+GLToy_String GLToy_ANSITextFile::GetString() const
+{
+    GLToy_String xReturnValue;
+
+    if( GetSize() > 1 )
+    {
+        char* szData = new char[ GetSize() ];
+        GetRawString( szData );
+        xReturnValue = szData;
+        delete szData;
+    }
+
+    return xReturnValue;
 }

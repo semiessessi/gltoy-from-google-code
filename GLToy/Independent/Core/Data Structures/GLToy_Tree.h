@@ -16,6 +16,23 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template < class T >
+class GLToy_TreeDeleteFunctor : public GLToy_Functor< T >
+{
+
+public:
+
+    GLToy_TreeDeleteFunctor()
+    {
+    }
+
+    virtual void operator ()( T* pxData )
+    {
+        delete *pxData;
+    }
+
+};
+
+template < class T >
 class GLToy_TreeIndexFunctor : public GLToy_Functor< T >
 {
 

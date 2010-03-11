@@ -202,7 +202,7 @@ void GLToy_Model::LoadFromOBJFile( GLToy_Model* const pxModel, const GLToy_Strin
     }
 
     char* szData = new char[ uLength ];
-    xFile.GetString( szData );
+    xFile.GetRawString( szData );
 
     for( u_int u = 0; szData[ u ]; ++u )
     {
