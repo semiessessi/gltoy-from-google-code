@@ -36,7 +36,10 @@ public:
     GLToy_Inline const GLToy_String& GetName() const { return m_szName; }
     GLToy_Inline u_int GetSize() const { return m_uSize; }
 
-    virtual void RenderCharacter( const wchar_t ) const = 0;
+    virtual void Initialise() = 0;
+    virtual void Shutdown() = 0;
+
+    virtual void RenderString( const GLToy_String& szString, const float fX, const float fY ) const = 0;
 
 protected:
 
@@ -55,6 +58,11 @@ public:
 
     static GLToy_Font* FindFont( const GLToy_Hash uHash );
     static GLToy_Font* LookUpFont( const GLToy_String& xName );
+
+    static void InitialiseFont( const GLToy_String& xName );
+    static void ShutdownFont( const GLToy_String& xName );
+
+    static void RenderString( const GLToy_String& szString, const GLToy_String& xFontName, const float fX, const float fY );
 
 private:
 

@@ -87,7 +87,7 @@ void GLToy_Texture::Platform_Destroy()
     }
 }
 
-void GLToy_Texture::Platform_Bind( const u_int uTextureUnit )
+void GLToy_Texture::Platform_Bind( const u_int uTextureUnit ) const
 {
     // TODO: texture unit
     glBindTexture( GL_TEXTURE_2D, m_uUID );

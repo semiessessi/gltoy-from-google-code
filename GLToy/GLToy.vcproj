@@ -386,6 +386,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Independent\Render\Font\GLToy_Font_Bitmap.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\Independent\Render\Font\GLToy_Font_Bitmap.h"
 						>
 					</File>

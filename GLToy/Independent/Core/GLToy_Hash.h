@@ -50,7 +50,7 @@ GLToy_Inline GLToy_Hash _GLToy_GetHash( const char* const szString, const u_int 
     for( u_int u = 0; u < uLength; ++u )
     {
         uHash += uHash << 5;
-        uHash += szString[ u ];
+        uHash += ( szString[ u ] < 'a' ) ? szString[ u ] : ( szString[ u ] - 'a' + 'A' );
     }
 
     return uHash;

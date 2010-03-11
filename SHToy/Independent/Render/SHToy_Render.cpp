@@ -12,12 +12,13 @@
 #include <Maths/GLToy_Vector.h>
 #include <Model/GLToy_Model_Placeholder.h>
 #include <Render/GLToy_Render.h>
+#include <Render/Font/GLToy_Font.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Model_Placeholder SHToy_Render::s_xModel;
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -25,20 +26,20 @@ GLToy_Model_Placeholder SHToy_Render::s_xModel;
 
 bool SHToy_Render::Initialise()
 {
+    GLToy_Font_System::InitialiseFont( "Console" );
     return true;
 }
 
 void SHToy_Render::Shutdown()
 {
+    GLToy_Font_System::ShutdownFont( "Console" );
 }
 
 void SHToy_Render::Render()
 {
-    const float fTimer = 30.0f * GLToy_Timer::GetTime();
-    
-    GLToy_Render::Rotate( GLToy_Vector_3( 0.3f, 0.05f, -0.7f ), fTimer );
-    GLToy_Render::Rotate( GLToy_Vector_3( -0.7f, -0.05f, -0.3f ), 0.75f * fTimer );
-    GLToy_Render::Rotate( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.25f * fTimer );
+    GLToy_Render::SetOrthogonalProjectionMatrix();
 
-    s_xModel.Render();
+    GLToy_Render::SetIdentityViewMatrix();
+
+    GLToy_Font_System::RenderString( "Test", "Console", 0.0f, 0.0f );
 }

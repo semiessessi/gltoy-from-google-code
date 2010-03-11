@@ -11,6 +11,7 @@
 #include <Core/Data Structures/GLToy_BinaryTree.h>
 #include <File/GLToy_ANSITextFile.h>
 #include <File/GLToy_File_System.h>
+#include <Render/Font/GLToy_Font_Bitmap.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -42,10 +43,13 @@ bool GLToy_Font_System::Initialise()
 
         if( xFontData.BeginsWith( "bitmap " ) )
         {
+            xFontData.RemoveFirstWord();
+            const u_int uSize = xFontData.ExtractUnsignedInt();
+            xFontData.RemoveFirstWord();
+            const GLToy_String xTextureName = xFontData.RemoveFirstWord();
 
+            s_xFonts.AddNode( new GLToy_Font_Bitmap( xName, uSize, xTextureName ), xName.GetHash() );
         }
-
-        // s_xFonts.AddNode( GLToy_Font( xName ), xName.GetHash() );
     }
 
     return true;
@@ -54,4 +58,43 @@ bool GLToy_Font_System::Initialise()
 void GLToy_Font_System::Shutdown()
 {
     s_xFonts.Clear();
+}
+
+GLToy_Font* GLToy_Font_System::FindFont( const GLToy_Hash uHash )
+{
+    GLToy_Font** ppxFont = s_xFonts.FindData( uHash );
+    return ppxFont ? *ppxFont : NULL;
+}
+
+GLToy_Font* GLToy_Font_System::LookUpFont( const GLToy_String& xName )
+{
+    GLToy_Font** ppxFont = s_xFonts.FindData( xName.GetHash() );
+    return ppxFont ? *ppxFont : NULL;
+}
+
+void GLToy_Font_System::InitialiseFont( const GLToy_String& xName )
+{
+    GLToy_Font* pxFont = LookUpFont( xName );
+    if( pxFont )
+    {
+        pxFont->Initialise();
+    }
+}
+
+void GLToy_Font_System::ShutdownFont( const GLToy_String& xName )
+{
+    GLToy_Font* pxFont = LookUpFont( xName );
+    if( pxFont )
+    {
+        pxFont->Shutdown();
+    }
+}
+
+void GLToy_Font_System::RenderString( const GLToy_String& szString, const GLToy_String& xFontName, const float fX, const float fY )
+{
+    GLToy_Font* pxFont = LookUpFont( xFontName );
+    if( pxFont )
+    {
+        pxFont->RenderString( szString, fX, fY );
+    }
 }

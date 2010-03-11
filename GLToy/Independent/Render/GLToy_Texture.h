@@ -42,6 +42,10 @@ public:
         return operator []( uX + uY * m_uWidth );
     }
 
+    void Create();
+    void Destroy();
+    void Bind( const u_int uTextureUnit = 0 ) const;
+
 protected:
 
     GLToy_Texture( const GLToy_String& xName )
@@ -53,16 +57,24 @@ protected:
     {
     }
 
+    GLToy_Texture( const GLToy_String& xName, const u_int uRGBA )
+    : GLToy_DataParent()
+    , m_uWidth( 1 )
+    , m_uHeight( 1 )
+    , m_szName( xName )
+    , m_iID( -1 )
+    {
+        Append( uRGBA );
+    }
+
+
     void LoadFromFile();
     void Unload();
-    void Create();
-    void Destroy();
-    void Bind( const u_int uTextureUnit = 0 );
 
     void Platform_Create();
     void Platform_Destroy();
     void Platform_LoadFromFile();
-    void Platform_Bind( const u_int uTextureUnit );
+    void Platform_Bind( const u_int uTextureUnit ) const;
 
     u_int m_uWidth;
     u_int m_uHeight;

@@ -87,6 +87,10 @@ private:
 
     static void Flush();
 
+    static void DisableBlending();
+    static void EnableBlending();
+    static void SetBlendFunction( const u_int uSourceBlend, const u_int uDestinationBlend );
+
     static void SubmitVertex( const GLToy_Vector_3& xVertex );
     static void SubmitNormal( const GLToy_Vector_3& xNormal );
     static void SubmitColour( const GLToy_Vector_3& xColour );

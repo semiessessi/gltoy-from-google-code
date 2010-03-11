@@ -12,6 +12,7 @@
 #include <Maths/GLToy_Matrix.h>
 #include <Maths/GLToy_Vector.h>
 #include <Render/GLToy_Render.h>
+#include <Render/GLToy_Texture.h>
 
 // C/C++
 #include <stdio.h>
@@ -143,6 +144,7 @@ void GLToy_Model::AddStripFromIndices( const u_int* puIndices, const u_int uCoun
 
 void GLToy_Model::Render() const
 {
+    GLToy_Texture_System::BindTexture( "white" );
     GLToy_ConstIterate( GLToy_ModelStrip, xIterator, this )
     {
         xIterator.Current().Render();

@@ -25,8 +25,6 @@ private:
 
     static void Platform_Render();
 
-    static GLToy_Model_Placeholder s_xModel;
-
 };
 
 #endif

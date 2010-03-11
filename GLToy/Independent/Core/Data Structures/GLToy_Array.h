@@ -96,6 +96,7 @@ public:
         CheckAlloc( m_uCount );
 
         // move the existing xValues along to make room
+        // LEAK
         for( u_int i = m_uCount - 1; i >= ( iIndex + xValues.m_uCount ); --i )
         {
             new ( &( m_pxData[ i ] ) ) T( m_pxData[ i - xValues.m_uCount ] );
@@ -104,7 +105,7 @@ public:
         // insert new xValues
         for( u_int i = 0; i < xValues.m_uCount; ++i )
         {
-            new ( &( m_pxData[ iIndex + i ] ) ) T( xValues.m_pxData[ i ] );
+            m_pxData[ iIndex + i ] = xValues.m_pxData[ i ];
         }
     }
     
@@ -152,12 +153,12 @@ public:
     
     T& Start()
     {
-        return &( m_pxData[ 0 ] );
+        return m_pxData[ 0 ];
     }
     
     T& End()
     {
-        return &( m_pxData[ m_uCount - 1 ] );
+        return m_pxData[ m_uCount - 1 ];
     }
     
     void Clear()

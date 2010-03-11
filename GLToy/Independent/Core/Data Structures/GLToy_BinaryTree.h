@@ -162,7 +162,9 @@ public:
             return NULL;
         }
 
-        return m_pxHead->FindNode( xKey )->GetDataPointer();
+        GLToy_BinaryTreeNode< DataType, KeyType >* pxNode = m_pxHead->FindNode( xKey );
+
+        return pxNode ? pxNode->GetDataPointer() : NULL;
     }
 
     virtual void Traverse( GLToy_Functor< DataType >& xFunctor )

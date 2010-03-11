@@ -289,6 +289,21 @@ void Platform_GLToy_Render::Flush()
     glFlush();
 }
 
+void Platform_GLToy_Render::DisableBlending()
+{
+    glDisable( GL_BLEND );
+}
+
+void Platform_GLToy_Render::EnableBlending()
+{
+    glEnable( GL_BLEND );
+}
+
+void Platform_GLToy_Render::SetBlendFunction( const u_int uSourceBlend, const u_int uDestinationBlend )
+{
+    glBlendFunc( uSourceBlend, uDestinationBlend );
+}
+
 u_int Platform_GLToy_Render::CreateShader( u_int uType )
 {
     return s_pfnCreateShader( uType );

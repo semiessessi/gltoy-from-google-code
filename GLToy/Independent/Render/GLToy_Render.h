@@ -2,6 +2,19 @@
 #define __GLTOY_RENDER_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// M A C R O S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#define BLEND_ZERO                           0
+#define BLEND_ONE                            1
+#define BLEND_SRC_COLOR                      0x0300
+#define BLEND_ONE_MINUS_SRC_COLOR            0x0301
+#define BLEND_SRC_ALPHA                      0x0302
+#define BLEND_ONE_MINUS_SRC_ALPHA            0x0303
+#define BLEND_DST_ALPHA                      0x0304
+#define BLEND_ONE_MINUS_DST_ALPHA            0x0305
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,6 +71,10 @@ public:
     static void SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit = 0 );
 
     static void Flush();
+
+    static void DisableBlending();
+    static void EnableBlending();
+    static void SetBlendFunction( const u_int uSourceBlend, const u_int uDestinationBlend );
 
     // shader functions
     static u_int CreateShader( u_int uType );

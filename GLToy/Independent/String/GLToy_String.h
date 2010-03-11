@@ -26,6 +26,7 @@ public:
     GLToy_String()
     : GLToy_Parent()
     {
+        Append( 0 );
     }
 
     GLToy_String( const char* const szString )
@@ -74,15 +75,14 @@ public:
 
     GLToy_Inline GLToy_String& operator =( const GLToy_String& xString )
     {
-        CopyFrom( &xString );
+        GLToy_Parent::operator =( xString );
         return *this;
     }
 
     GLToy_Inline GLToy_String operator +( const GLToy_String& xString ) const
     {
         GLToy_String xReturnValue( *this );
-        xReturnValue.RemoveNull();
-        xReturnValue.Append( xString );
+        xReturnValue += xString;
         return xReturnValue;
     }
 
@@ -90,6 +90,13 @@ public:
     {
         RemoveNull();
         Append( xString );
+        return *this;
+    }
+
+    GLToy_Inline GLToy_String& operator +=( const wchar_t wcChar )
+    {
+        End() = wcChar;
+        Append( 0 );
         return *this;
     }
 
@@ -114,6 +121,39 @@ public:
         GLToy_Parent::Append( 0 );
     }
 
+    GLToy_Inline u_int ExtractUnsignedInt( const u_int uPosition = 0 )
+    {
+        u_int uRet = 0;
+        u_int u = 0;
+        while( IsDigit( m_pxData[ uPosition + u ] ) )
+        {
+            uRet *= 10;
+            uRet += ( m_pxData[ uPosition + u ] - L'0' );
+            ++u;
+        }
+
+        return uRet;
+    }
+
+    GLToy_String RemoveFirstWord()
+    {
+        GLToy_String xReturnValue;
+        u_int u = 0;
+        while( ( m_pxData[ u ] != L' ' )
+            && ( m_pxData[ u ] != L'\n' )
+            && ( m_pxData[ u ] != L'\r' )
+            && ( m_pxData[ u ] != L'\t' )
+            && m_pxData[ u ] )
+        {
+            xReturnValue += m_pxData[ u ];
+            ++u;
+        }
+
+        RemoveAt( 0, u + 1 );
+
+        return xReturnValue;
+    }
+
 protected:
 
     void RemoveNull()
@@ -121,6 +161,30 @@ protected:
         GLToy_Parent::RemoveFromEnd();
     }
 
+    GLToy_Inline bool IsDigit( const wchar_t wcChar ) const
+    {
+        switch( wcChar )
+        {
+            default:
+            {
+                return false;
+            }
+
+            case L'0':
+            case L'1':
+            case L'2':
+            case L'3':
+            case L'4':
+            case L'5':
+            case L'6':
+            case L'7':
+            case L'8':
+            case L'9':
+            {
+                return true;
+            }
+        }
+    }
 };
 
 #endif
