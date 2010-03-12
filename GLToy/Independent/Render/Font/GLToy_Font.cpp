@@ -8,7 +8,7 @@
 #include <Render/Font/GLToy_Font.h>
 
 // GLToy
-#include <Core/Data Structures/GLToy_BinaryTree.h>
+#include <Core/Data Structures/GLToy_HashTree.h>
 #include <File/GLToy_ANSITextFile.h>
 #include <File/GLToy_File_System.h>
 #include <Render/Font/GLToy_Font_Bitmap.h>
@@ -17,7 +17,7 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_BinaryTree< GLToy_Font*, GLToy_Hash > GLToy_Font_System::s_xFonts;
+GLToy_HashTree< GLToy_Font* > GLToy_Font_System::s_xFonts;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -35,7 +35,7 @@ bool GLToy_Font_System::Initialise()
         xName.RemoveAt( 0, 6 ); // remove "Fonts/"
         xName.RemoveFromEnd( 5 ); // remove .font
         
-        GLToy_DebugOutput( "   - Found font %S.\r\n", xName.GetWideString() );
+        GLToy_DebugOutput( "   - Found font \"%S\".\r\n", xName.GetWideString() );
 
         GLToy_ANSITextFile xFontFile = GLToy_ANSITextFile( xIterator.Current() );
 
@@ -57,6 +57,7 @@ bool GLToy_Font_System::Initialise()
 
 void GLToy_Font_System::Shutdown()
 {
+    s_xFonts.DeleteAll();
     s_xFonts.Clear();
 }
 

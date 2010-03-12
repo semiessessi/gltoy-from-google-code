@@ -235,6 +235,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Input"
+				>
+				<File
+					RelativePath=".\Win32\Input\Platform_GLToy_Input.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Independent"
@@ -322,11 +330,43 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Independent\Core\Data Structures\GLToy_HashTree.h"
+						>
+					</File>
+					<File
 						RelativePath=".\Independent\Core\Data Structures\GLToy_Stack.h"
 						>
 					</File>
 					<File
 						RelativePath=".\Independent\Core\Data Structures\GLToy_Tree.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Console"
+					>
+					<File
+						RelativePath=".\Independent\Core\Console\GLToy_Console.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\Console\GLToy_Console.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\Console\GLToy_ConsoleCommand.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\Console\GLToy_ConsoleCommand.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\Console\GLToy_ConsoleVariable.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\Console\GLToy_ConsoleVariable.h"
 						>
 					</File>
 				</Filter>
@@ -424,6 +464,10 @@
 				</File>
 				<File
 					RelativePath=".\Independent\Maths\GLToy_Plane.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Maths\GLToy_Ray.h"
 					>
 				</File>
 				<File
@@ -548,6 +592,18 @@
 				>
 				<File
 					RelativePath=".\Independent\String\GLToy_String.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Input"
+				>
+				<File
+					RelativePath=".\Independent\Input\GLToy_Input.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Input\GLToy_Input.h"
 					>
 				</File>
 			</Filter>

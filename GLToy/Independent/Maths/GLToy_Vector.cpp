@@ -19,19 +19,19 @@
 
 GLToy_Vector_2::GLToy_Vector_2()
 {
-    fComponents[0] = fComponents[1] = 0.0f;
+    m_fComponents[0] = m_fComponents[1] = 0.0f;
 }
 
 GLToy_Vector_2::GLToy_Vector_2( float fX, float fY )
 {
-    fComponents[0] = fX;
-    fComponents[1] = fY;
+    m_fComponents[0] = fX;
+    m_fComponents[1] = fY;
 }
 
 GLToy_Vector_2::GLToy_Vector_2( const GLToy_Vector_2& xVector )
 {
-    fComponents[0] = xVector[0];
-    fComponents[1] = xVector[1];
+    m_fComponents[0] = xVector[0];
+    m_fComponents[1] = xVector[1];
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,33 +41,33 @@ GLToy_Vector_2::GLToy_Vector_2( const GLToy_Vector_2& xVector )
 GLToy_Vector_3::GLToy_Vector_3()
 {
     // TODO - use platform zero
-    fComponents[0]
-        = fComponents[1]
-        = fComponents[2]
+    m_fComponents[0]
+        = m_fComponents[1]
+        = m_fComponents[2]
         = 0.0f;
 }
 
 GLToy_Vector_3::GLToy_Vector_3( float fX, float fY, float fZ )
 {
-    fComponents[0] = fX;
-    fComponents[1] = fY;
-    fComponents[2] = fZ;
+    m_fComponents[0] = fX;
+    m_fComponents[1] = fY;
+    m_fComponents[2] = fZ;
 }
 
 GLToy_Vector_3::GLToy_Vector_3( const GLToy_Vector_3& xVector )
 {
     // TODO - use platform copy
-    fComponents[0] = xVector[0];
-    fComponents[1] = xVector[1];
-    fComponents[2] = xVector[2];
+    m_fComponents[0] = xVector[0];
+    m_fComponents[1] = xVector[1];
+    m_fComponents[2] = xVector[2];
 }
 
 GLToy_Vector_3& GLToy_Vector_3::operator =( const GLToy_Vector_3& xVector )
 {
     // TODO - use platform copy
-    fComponents[0] = xVector[0];
-    fComponents[1] = xVector[1];
-    fComponents[2] = xVector[2];
+    m_fComponents[0] = xVector[0];
+    m_fComponents[1] = xVector[1];
+    m_fComponents[2] = xVector[2];
 
     return *this;
 }
@@ -75,7 +75,7 @@ GLToy_Vector_3& GLToy_Vector_3::operator =( const GLToy_Vector_3& xVector )
 GLToy_Vector_3 GLToy_Vector_3::operator -() const
 {
     // TODO - use platform negate
-    return GLToy_Vector_3( -fComponents[ 0 ], -fComponents[ 1 ], -fComponents[ 2 ] );
+    return GLToy_Vector_3( -m_fComponents[ 0 ], -m_fComponents[ 1 ], -m_fComponents[ 2 ] );
 }
 
 GLToy_Vector_3 GLToy_Vector_3::operator +( const GLToy_Vector_3& xVector ) const
@@ -96,9 +96,9 @@ GLToy_Vector_3 GLToy_Vector_3::operator *( const float fFloat ) const
 bool GLToy_Vector_3::operator ==( const GLToy_Vector_3& xVector ) const
 {
     // TODO - use platform compare
-    return ( fComponents[0] == xVector[0] )
-        && ( fComponents[1] == xVector[1] )
-        && ( fComponents[2] == xVector[2] );
+    return ( m_fComponents[0] == xVector[0] )
+        && ( m_fComponents[1] == xVector[1] )
+        && ( m_fComponents[2] == xVector[2] );
 }
 
 void GLToy_Vector_3::Normalise()
@@ -119,25 +119,25 @@ float GLToy_Vector_3::Magnitude() const
 
 GLToy_Vector_4::GLToy_Vector_4()
 {
-    fComponents[0]
-        = fComponents[1]
-        = fComponents[2]
-        = fComponents[3]
+    m_fComponents[0]
+        = m_fComponents[1]
+        = m_fComponents[2]
+        = m_fComponents[3]
         = 0.0f;
 }
 
 GLToy_Vector_4::GLToy_Vector_4( float fX, float fY, float fZ, float fW )
 {
-    fComponents[0] = fX;
-    fComponents[1] = fY;
-    fComponents[2] = fZ;
-    fComponents[3] = fW;
+    m_fComponents[0] = fX;
+    m_fComponents[1] = fY;
+    m_fComponents[2] = fZ;
+    m_fComponents[3] = fW;
 }
 
 GLToy_Vector_4::GLToy_Vector_4( const GLToy_Vector_4& xVector )
 {
-    fComponents[0] = xVector[0];
-    fComponents[1] = xVector[1];
-    fComponents[2] = xVector[2];
-    fComponents[3] = xVector[3];
+    m_fComponents[0] = xVector[0];
+    m_fComponents[1] = xVector[1];
+    m_fComponents[2] = xVector[2];
+    m_fComponents[3] = xVector[3];
 }

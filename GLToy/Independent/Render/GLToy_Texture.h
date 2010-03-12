@@ -15,7 +15,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class DataType, class KeyType > class GLToy_BinaryTree;
+template < class T > class GLToy_HashTree;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -48,20 +48,20 @@ public:
 
 protected:
 
-    GLToy_Texture( const GLToy_String& xName )
+    GLToy_Texture( const GLToy_String& szName )
     : GLToy_DataParent()
     , m_uWidth( 0 )
     , m_uHeight( 0 )
-    , m_szName( xName )
+    , m_szName( szName )
     , m_iID( -1 )
     {
     }
 
-    GLToy_Texture( const GLToy_String& xName, const u_int uRGBA )
+    GLToy_Texture( const GLToy_String& szName, const u_int uRGBA )
     : GLToy_DataParent()
     , m_uWidth( 1 )
     , m_uHeight( 1 )
-    , m_szName( xName )
+    , m_szName( szName )
     , m_iID( -1 )
     {
         Append( uRGBA );
@@ -97,18 +97,22 @@ public:
     static void Shutdown();
 
     static GLToy_Texture* FindTexture( const GLToy_Hash uHash );
-    static GLToy_Texture* LookUpTexture( const GLToy_String& xName );
-    static void CreateTexture( const GLToy_String& xName );
-    static void DestroyTexture( const GLToy_String& xName );
-    static void BindTexture( const GLToy_String& xName );
+    static GLToy_Texture* LookUpTexture( const GLToy_String& szName );
+    static void CreateTexture( const GLToy_String& szName );
+    static void DestroyTexture( const GLToy_String& szName );
+    static void BindTexture( const GLToy_String& szName );
     static void Reset();
+
+    static void BindWhite();
 
 private:
 
     static bool Platform_Initialise();
     static void Platform_Shutdown();
 
-    static GLToy_BinaryTree< GLToy_Texture, GLToy_Hash > s_xTextures;
+    static GLToy_HashTree< GLToy_Texture > s_xTextures;
+
+    static GLToy_Texture* s_pxWhiteTexture;
 
 };
 

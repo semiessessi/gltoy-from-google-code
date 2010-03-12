@@ -30,7 +30,7 @@ void GLToy_Environment::ReadFromBitStream( const GLToy_BitStream& xStream )
 
     if( uVersion > uCURRENT_VERSION )
     {
-        GLToy_Assert( false, "Bad version for environment data: %u", uVersion );
+        GLToy_Assert( uVersion <= uCURRENT_VERSION, "Bad version for environment data: %u", uVersion );
         return;
     }
 }

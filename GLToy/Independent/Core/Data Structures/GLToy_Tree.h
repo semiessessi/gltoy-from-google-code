@@ -153,6 +153,12 @@ public:
         return 0;
     }
 
+    GLToy_Inline void DeleteAll()
+    {
+        GLToy_TreeDeleteFunctor< T > xFunctor;
+        Traverse( xFunctor );
+    }
+
 protected:
 
     virtual void CopyFrom( const GLToy_DataStructure< T >* const pxDataStructure ) {}

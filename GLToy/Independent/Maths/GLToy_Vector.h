@@ -20,15 +20,15 @@ public:
     GLToy_Vector_2( float fX, float fY );
     GLToy_Vector_2( const GLToy_Vector_2& xVector );
 
-    GLToy_Inline float& operator[] ( int i ) { return fComponents[i]; }
-    GLToy_Inline const float& operator[] ( int i ) const { return fComponents[i]; }
+    GLToy_Inline float& operator[] ( int i ) { return m_fComponents[ i ]; }
+    GLToy_Inline const float& operator[] ( int i ) const { return m_fComponents[ i ]; }
 
-    GLToy_Inline float* GetFloatPointer() { return fComponents; }
-    GLToy_Inline const float* const GetConstFloatPointer() const { return fComponents; }
+    GLToy_Inline float* GetFloatPointer() { return m_fComponents; }
+    GLToy_Inline const float* GetFloatPointer() const { return m_fComponents; }
 
 private:
     
-    float fComponents[ 2 ];
+    float m_fComponents[ 2 ];
 
 };
 
@@ -43,11 +43,11 @@ public:
 
     GLToy_Vector_3& operator =( const GLToy_Vector_3& xVector );
 
-    GLToy_Inline float& operator[] ( int i ) { return fComponents[ i ]; }
-    GLToy_Inline const float& operator[] ( int i ) const { return fComponents[ i ]; }
+    GLToy_Inline float& operator[] ( int i ) { return m_fComponents[ i ]; }
+    GLToy_Inline const float& operator[] ( int i ) const { return m_fComponents[ i ]; }
 
-    GLToy_Inline float* GetFloatPointer() { return fComponents; }
-    GLToy_Inline const float* const GetFloatPointer() const { return fComponents; }
+    GLToy_Inline float* GetFloatPointer() { return m_fComponents; }
+    GLToy_Inline const float* GetFloatPointer() const { return m_fComponents; }
 
     GLToy_Vector_3 operator -() const;
 
@@ -57,9 +57,9 @@ public:
 
     GLToy_Inline float operator *( const GLToy_Vector_3& xVector ) const
     {
-        return fComponents[ 0 ] * xVector[ 0 ]
-            + fComponents[ 1 ] * xVector[ 1 ]
-            + fComponents[ 2 ] * xVector[ 2 ];
+        return m_fComponents[ 0 ] * xVector[ 0 ]
+            + m_fComponents[ 1 ] * xVector[ 1 ]
+            + m_fComponents[ 2 ] * xVector[ 2 ];
     }
 
     void Normalise();
@@ -69,7 +69,7 @@ public:
 
 private:
     
-    float fComponents[ 3 ];
+    float m_fComponents[ 3 ];
 
 };
 
@@ -82,15 +82,15 @@ public:
     GLToy_Vector_4( float fX, float fY, float fZ, float fW );
     GLToy_Vector_4( const GLToy_Vector_4& xVector );
 
-    float& operator[] ( int i ) { return fComponents[i]; }
-    const float& operator[] ( int i ) const { return fComponents[i]; }
+    float& operator[] ( int i ) { return m_fComponents[ i ]; }
+    const float& operator[] ( int i ) const { return m_fComponents[ i ]; }
 
-    float* GetFloatPointer() { return fComponents; }
-    const float* const GetConstFloatPointer() const { return fComponents; }
+    float* GetFloatPointer() { return m_fComponents; }
+    const float* GetFloatPointer() const { return m_fComponents; }
 
 private:
     
-    float fComponents[ 4 ];
+    float m_fComponents[ 4 ];
 
 };
 

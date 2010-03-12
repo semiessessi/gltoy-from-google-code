@@ -2,10 +2,13 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core\GLToy.h>
+#include <Core/GLToy.h>
 
 // This file's header
-#include <Core\GLToy_Assert.h>
+#include <Core/GLToy_Assert.h>
+
+// GLToy
+#include <Core/Console/GLToy_Console.h>
 
 // C/C++ headers
 #include <stdarg.h>
@@ -54,6 +57,8 @@ bool _GLToy_Assert( const bool& bCondition, const char* szFileName, const int& u
         va_end( xArgumentList );
 
         sprintf( szAssertMessage, "Assertion failed in %s: %s", szAssertTitle, szAssertMessageBuffer );
+
+        GLToy_Console::PrintLine( szAssertMessage );
 
         // output to UI and offer the user a choice to break or not
         return Platform_GLToy_Assert( szAssertTitle, szAssertMessage );

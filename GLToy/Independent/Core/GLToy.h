@@ -79,6 +79,8 @@ public:
 
     static void ChangeState( GLToy_State* pxState );
 
+    static void Quit() { s_bQuitFlag = true; }
+
 private:
 
     static bool Initialise();
@@ -103,6 +105,8 @@ private:
     static bool s_bFullscreen;
     static int s_iWidth;
     static int s_iHeight;
+
+    static bool s_bQuitFlag;
 
 #ifdef WIN32
     friend unsigned int WndProc( unsigned int uWindowHandle, unsigned int uMessage,

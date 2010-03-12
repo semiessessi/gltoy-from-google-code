@@ -53,14 +53,22 @@ public:
         return m_pxData[ m_iStackPointer ];
     }
     
-    T& Pop()
+    T Pop()
     {
-        return m_pxData[ m_iStackPointer-- ];
+        T xReturnValue = m_pxData[ m_iStackPointer ];
+        m_pxData[ m_iStackPointer ].~T();
+        return xReturnValue;
     }
     
     void Clear()
     {
         m_iStackPointer = -1;
+
+        // be careful to destroy the now unused entries
+        for( int i = 0; i <= m_iStackPointer; ++i )
+        {
+            m_pxData[ i ].~T();
+        }
     }
     
     virtual u_int GetCount() const

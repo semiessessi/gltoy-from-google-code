@@ -44,7 +44,7 @@ void GLToy_Font_Bitmap::RenderString( const GLToy_String& szString, const float 
 {
     // TODO - something more sensible about the widths
     const float fTW = 1.0f / 16.0f;
-    const float fW = static_cast< float >( m_uSize ) / 256.0f;
+    const float fW = GetHeight();
 
     if( m_pxTexture )
     {
@@ -56,27 +56,28 @@ void GLToy_Font_Bitmap::RenderString( const GLToy_String& szString, const float 
     GLToy_Render::SetBlendFunction( BLEND_ONE, BLEND_ONE_MINUS_SRC_COLOR );
     GLToy_Render::StartSubmittingQuads();
 
+    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+
     GLToy_ConstIterate( wchar_t, xIterator, &szString )
     {
         const wchar_t wcChar = xIterator.Current();
+        
+        if( wcChar == L'\r' )
+        {
+            continue;
+        }
+
+        if( wcChar == L'\n' )
+        {
+            continue;
+        }
+
         const float fTX = static_cast< float >( ( wcChar - 32 ) & 0xF ) / 16.0f;
         const float fTY = static_cast< float >( ( wcChar - 32 ) >> 4 ) / 16.0f;
 
-        GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+        GLToy_Render::SubmitTexturedQuad2D( fPosX, fY, fPosX + fW, fY + fW, fTX, fTY, fTX + fTW, fTY + fTW );
 
-        GLToy_Render::SubmitTextureCoordinate( GLToy_Vector_3( fTX, fTY + fTW, 0.0f ) );
-        GLToy_Render::SubmitVertex( GLToy_Vector_3( fPosX, fY , 0.0f ) );
-
-        GLToy_Render::SubmitTextureCoordinate( GLToy_Vector_3( fTX + fTW, fTY + fTW, 0.0f ) );
-        GLToy_Render::SubmitVertex( GLToy_Vector_3( fPosX + fW, fY , 0.0f ) );
-
-        GLToy_Render::SubmitTextureCoordinate( GLToy_Vector_3( fTX + fTW, fTY, 0.0f ) );
-        GLToy_Render::SubmitVertex( GLToy_Vector_3( fPosX + fW, fY + fW , 0.0f ) );
-
-        GLToy_Render::SubmitTextureCoordinate( GLToy_Vector_3( fTX, fTY, 0.0f ) );
-        GLToy_Render::SubmitVertex( GLToy_Vector_3( fPosX, fY + fW , 0.0f ) );
-
-        fPosX += fW * 0.5f;
+        fPosX += fW * 0.55f;
     }
 
     GLToy_Render::EndSubmit();

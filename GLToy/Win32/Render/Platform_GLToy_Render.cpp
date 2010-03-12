@@ -11,6 +11,7 @@
 // GLToy
 #include <Maths/GLToy_Matrix.h>
 #include <Maths/GLToy_Vector.h>
+#include <String/GLToy_String.h>
 
 // Win32
 #include <windows.h>
@@ -71,10 +72,9 @@ bool Platform_GLToy_Render::Initialise()
     glEnable( GL_DEPTH_TEST );
     glDepthFunc( GL_LEQUAL );
 
-    // TODO: GLToy_String
     // get version
-	const char* szVersionString = reinterpret_cast< const char* >( glGetString( GL_VERSION ) );
-    if( !szVersionString )
+	GLToy_String szVersionString = reinterpret_cast< const char* >( glGetString( GL_VERSION ) );
+    if( szVersionString.GetLength() == 0 )
     {
         return false;
     }
@@ -82,7 +82,7 @@ bool Platform_GLToy_Render::Initialise()
 	s_uVersion = 0;
 
 	// make the string into a nice number to compare stuff
-    const u_int uVersionStringLength = strlen( szVersionString );
+    const u_int uVersionStringLength = szVersionString.GetLength();
 	if( uVersionStringLength > 2 )
 	{
         const char cMajor = static_cast< char > ( szVersionString[ 0 ] );
@@ -278,6 +278,11 @@ void Platform_GLToy_Render::SubmitColour( const GLToy_Vector_3& xColour )
     glColor3fv( xColour.GetFloatPointer() );
 }
 
+void Platform_GLToy_Render::SubmitColour( const GLToy_Vector_4& xColour )
+{
+    glColor4fv( xColour.GetFloatPointer() );
+}
+
 void Platform_GLToy_Render::SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit )
 {
     // TODO - ignore texture unit for now...
@@ -371,12 +376,12 @@ void Platform_GLToy_Render::GetShaderInfoLog( u_int uShaderID, int iMaxLength, i
 
 u_int Platform_GLToy_Render::GetUniformID( u_int uProgramID, const char* szName )
 {
-    return s_pfnGetUniformID( uProgramID,szName );
+    return s_pfnGetUniformID( uProgramID, szName );
 }
 
 u_int Platform_GLToy_Render::GetAttributeID( u_int uProgramID, const char* szName )
 {
-    return s_pfnGetAttributeID( uProgramID,szName );
+    return s_pfnGetAttributeID( uProgramID, szName );
 }
 
 void Platform_GLToy_Render::BindAttributeID( u_int uProgramID, u_int uIndex, const char* szName )

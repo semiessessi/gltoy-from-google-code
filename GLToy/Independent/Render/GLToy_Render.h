@@ -22,6 +22,7 @@ class GLToy_Matrix_3;
 class GLToy_Renderable;
 template < class T > class GLToy_RenderFunctor;
 class GLToy_Vector_3;
+class GLToy_Vector_4;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -58,6 +59,8 @@ public:
     static void PushViewMatrix();
     static void PopViewMatrix();
 
+    static void SubmitTexturedQuad2D( const float fXMin, const float fYMin, const float fXMax, const float fYMax, const float fUMin = 0.0f, const float fVMin = 0.0f, const float fUMax = 1.0f, const float fVMax = 1.0f );
+
     static void StartSubmittingTriangles();
     static void StartSubmittingQuads();
     static void StartSubmittingTriangleStrip();
@@ -68,6 +71,7 @@ public:
     static void SubmitVertex( const GLToy_Vector_3& xVertex );
     static void SubmitNormal( const GLToy_Vector_3& xNormal );
     static void SubmitColour( const GLToy_Vector_3& xColour );
+    static void SubmitColour( const GLToy_Vector_4& xColour );
     static void SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit = 0 );
 
     static void Flush();

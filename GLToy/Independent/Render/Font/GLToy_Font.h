@@ -13,7 +13,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class DataType, class KeyType > class GLToy_BinaryTree;
+template < class T > class GLToy_HashTree;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -35,6 +35,7 @@ public:
     GLToy_Inline GLToy_Hash GetHash() const { return m_szName.GetHash(); }
     GLToy_Inline const GLToy_String& GetName() const { return m_szName; }
     GLToy_Inline u_int GetSize() const { return m_uSize; }
+    GLToy_Inline float GetHeight() const { return static_cast< float >( m_uSize ) / 256.0f; }
 
     virtual void Initialise() = 0;
     virtual void Shutdown() = 0;
@@ -66,7 +67,7 @@ public:
 
 private:
 
-    static GLToy_BinaryTree< GLToy_Font*, GLToy_Hash > s_xFonts;
+    static GLToy_HashTree< GLToy_Font* > s_xFonts;
 
 };
 

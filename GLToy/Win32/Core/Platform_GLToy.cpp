@@ -5,6 +5,9 @@
 // This file's header
 #include <Core/GLToy.h>
 
+// GLToy
+#include <Input/GLToy_Input.h>
+
 // C++
 #include <stdio.h>
 
@@ -40,15 +43,39 @@ LRESULT CALLBACK WndProc( HWND uWindowHandle, unsigned int uMessage,
     switch( uMessage )
     {
         
-    case WM_SIZE:
-        
-        GLToy::Resize( LOWORD( uLParam ), HIWORD( uLParam ) );
-        return 0;
+        case WM_SIZE:
+        {
+            GLToy::Resize( LOWORD( uLParam ), HIWORD( uLParam ) );
+            return 0;
+        }
 
-    case WM_CLOSE:
+        case WM_CLOSE:
+        {
+            PostMessage( uWindowHandle, WM_QUIT, 0, 0 );
+            return 0;
+        }
 
-        PostMessage( uWindowHandle, WM_QUIT, 0, 0 );
-        return 0;
+        case WM_INPUTLANGCHANGE:
+        {
+            GLToy_Input_System::ChangeLayout();
+            break;
+        }
+
+        //case WM_SETFOCUS:
+        //case WM_KILLFOCUS:
+        //case WM_MOUSEWHEEL:
+
+        case WM_KEYDOWN:
+        {
+            GLToy_Input_System::HandleKey( uWParam );
+            break;
+        }
+
+        case WM_CHAR:
+        {
+            GLToy_Input_System::HandleCharacter( static_cast< wchar_t >( uWParam ) );
+            break;
+        }
 
     }
 
@@ -136,7 +163,7 @@ bool GLToy::Platform_EarlyInitialise()
 
     if( !g_uWindowHandle )
     {
-        GLToy_Assert( false, "Failed to create window!" );
+        GLToy_Assert( g_uWindowHandle != NULL, "Failed to create window!" );
         return false;
     }
 
@@ -144,7 +171,7 @@ bool GLToy::Platform_EarlyInitialise()
 
     if( !g_uDeviceContext )
     {
-        GLToy_Assert( false, "Failed to create device context!" );
+        GLToy_Assert( g_uDeviceContext != NULL, "Failed to create device context!" );
         return false;
     }
 
@@ -164,7 +191,7 @@ bool GLToy::Platform_EarlyInitialise()
 
     if( !uPixelFormat )
     {
-        GLToy_Assert( false, "Failed to choose pixel format!" );
+        GLToy_Assert( uPixelFormat != NULL, "Failed to choose pixel format!" );
         return false;
     }
 
@@ -178,7 +205,7 @@ bool GLToy::Platform_EarlyInitialise()
 
     if( !g_uRenderContext )
     {
-        GLToy_Assert( false, "Failed to create render context!" );
+        GLToy_Assert( g_uRenderContext != NULL, "Failed to create render context!" );
         return false;
     }
 
@@ -251,7 +278,7 @@ void GLToy::Platform_Shutdown()
     }
     else
     {
-        GLToy_Assert( false, "Shutting down before render context was set" );
+        GLToy_Assert( g_uRenderContext != NULL, "Shutting down before render context was set" );
     }
 }
 

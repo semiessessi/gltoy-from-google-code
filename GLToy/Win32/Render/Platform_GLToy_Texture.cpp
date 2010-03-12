@@ -39,10 +39,12 @@ ULONG_PTR g_xGDIToken = NULL;
 
 void GLToy_Texture::Platform_LoadFromFile()
 {
-    Bitmap* pxBitmap = new Bitmap( ( GLToy_String( "textures/" ) + m_szName ).GetWideString() );
+    const GLToy_String szPath = GLToy_String( "textures/" ) + m_szName;
+    Bitmap* pxBitmap = new Bitmap( szPath.GetWideString() );
 
     if( !pxBitmap )
     {
+        GLToy_Assert( pxBitmap != NULL, "Failed to load image file \"%S\" with GDI+", szPath.GetWideString() );
         return;
     }
 

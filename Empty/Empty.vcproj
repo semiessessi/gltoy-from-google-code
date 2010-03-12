@@ -208,6 +208,10 @@
 				Name="Core"
 				>
 				<File
+					RelativePath=".\Independent\Core\Empty.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Core\Empty.h"
 					>
 				</File>

@@ -76,7 +76,7 @@ public:
         CheckAlloc( m_uCount );
 
         // move the existing xValues along to make room
-        for( int i = m_uCount - 2; i >= iIndex; --i )
+        for( int i = m_uCount - 2; i > iIndex; --i )
         {
             m_pxData[ i ] = m_pxData[ i - 1 ];
         }
@@ -89,25 +89,25 @@ public:
     }
     
     // TODO - fix leaks
-    virtual void InsertAt( const int iIndex, const GLToy_Array& xValues )
-    {
-        // increase m_uCount and check allocation
-        m_uCount += xValues.m_uCount;
-        CheckAlloc( m_uCount );
+    //virtual void InsertAt( const int iIndex, const GLToy_Array& xValues )
+    //{
+    //    // increase m_uCount and check allocation
+    //    m_uCount += xValues.m_uCount;
+    //    CheckAlloc( m_uCount );
 
-        // move the existing xValues along to make room
-        // LEAK
-        for( u_int i = m_uCount - 1; i >= ( iIndex + xValues.m_uCount ); --i )
-        {
-            new ( &( m_pxData[ i ] ) ) T( m_pxData[ i - xValues.m_uCount ] );
-        }
+    //    // move the existing xValues along to make room
+    //    // LEAK
+    //    for( u_int i = m_uCount - 1; i >= ( iIndex + xValues.m_uCount ); --i )
+    //    {
+    //        new ( &( m_pxData[ i ] ) ) T( m_pxData[ i - xValues.m_uCount ] );
+    //    }
 
-        // insert new xValues
-        for( u_int i = 0; i < xValues.m_uCount; ++i )
-        {
-            m_pxData[ iIndex + i ] = xValues.m_pxData[ i ];
-        }
-    }
+    //    // insert new xValues
+    //    for( u_int i = 0; i < xValues.m_uCount; ++i )
+    //    {
+    //        m_pxData[ iIndex + i ] = xValues.m_pxData[ i ];
+    //    }
+    //}
     
     virtual void RemoveAt( const int iIndex, const u_int uAmount = 1 )
     {
@@ -137,8 +137,23 @@ public:
 
     virtual void Resize( const u_int uCount )
     {
+        if( uCount < m_uCount )
+        {
+            for( u_int u = uCount; u < m_uCount; ++u )
+            {
+                m_pxData[ u ].~T();
+            }
+        }
+        else
+        {
+            CheckAlloc( uCount );
+            for( u_int u = m_uCount; u < uCount; ++u )
+            {
+                new ( &( m_pxData[ u ] ) ) T();
+            }
+        }
+
         m_uCount = uCount;
-        CheckAlloc( m_uCount );
     }
     
     virtual u_int GetCount() const
@@ -163,6 +178,12 @@ public:
     
     void Clear()
     {
+        // be careful to destroy the now unused entries
+        for( u_int u = 0; u < m_uCount; ++u )
+        {
+            m_pxData[ u ].~T();
+        }
+
         m_uCount = 0;
     }
 

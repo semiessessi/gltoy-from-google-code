@@ -54,6 +54,12 @@ public:
     {
     }
 
+    virtual void Clear()
+    {
+        GLToy_Parent::Clear();
+        Append( 0 );
+    }
+
     GLToy_Inline u_int GetLength() const { return GetCount() - 1; }
     GLToy_Inline wchar_t* GetWideString() { return GetDataPointer(); }
     GLToy_Inline const wchar_t* GetWideString() const { return GetDataPointer(); }
@@ -102,7 +108,7 @@ public:
 
     GLToy_Inline GLToy_Hash GetHash() const { return GLToy_GetHash( GetWideString() ); }
 
-    GLToy_Inline bool BeginsWith( const GLToy_String& xString )
+    GLToy_Inline bool BeginsWith( const GLToy_String& xString ) const
     {
         for( u_int u = 0; u < xString.GetLength(); ++u )
         {
@@ -121,7 +127,7 @@ public:
         GLToy_Parent::Append( 0 );
     }
 
-    GLToy_Inline u_int ExtractUnsignedInt( const u_int uPosition = 0 )
+    GLToy_Inline u_int ExtractUnsignedInt( const u_int uPosition = 0 ) const
     {
         u_int uRet = 0;
         u_int u = 0;
@@ -152,6 +158,19 @@ public:
         RemoveAt( 0, u + 1 );
 
         return xReturnValue;
+    }
+
+    GLToy_Inline bool Contains( wchar_t wcChar ) const
+    {
+        GLToy_ConstIterate( wchar_t, xIterator, this )
+        {
+            if( xIterator.Current() == wcChar )
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 protected:
