@@ -2,22 +2,30 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// This file's header
 #include <Core/GLToy.h>
 
-// RTToy
-#include <Core/RTToy.h>
+// This file's header
+#include <Environment/RTToy_Environment_Plane.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool GLToy::Project_Initialise()
+void RTToy_Environment_Plane::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
-    return RTToy::Initialise();
+    xStream >> m_xPlane;
 }
 
-void GLToy::Project_Shutdown()
+void RTToy_Environment_Plane::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
-    RTToy::Shutdown();
+    xStream << m_xPlane;
+}
+
+void RTToy_Environment_Plane::Render() const
+{
+
+}
+
+void RTToy_Environment_Plane::Update()
+{
 }

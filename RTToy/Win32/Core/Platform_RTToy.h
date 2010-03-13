@@ -1,5 +1,5 @@
-#ifndef __PLATFORM_EMPTY_H_
-#define __PLATFORM_EMPTY_H_
+#ifndef __PLATFORM_RTTOY_H_
+#define __PLATFORM_RTTOY_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // L I B R A R I E S

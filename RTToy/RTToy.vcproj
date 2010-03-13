@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Empty"
-	ProjectGUID="{451F6CAD-AF6B-479E-9321-C4DAE0F40260}"
-	RootNamespace="Empty"
+	Name="RTToy"
+	ProjectGUID="{A9B82330-2374-4563-ACCD-F832BF9AC0CF}"
+	RootNamespace="RTToy"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -176,11 +176,11 @@
 				Name="Core"
 				>
 				<File
-					RelativePath=".\Win32\Core\Platform_Empty.cpp"
+					RelativePath=".\Win32\Core\Platform_RTToy.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Win32\Core\Platform_Empty.h"
+					RelativePath=".\Win32\Core\Platform_RTToy.h"
 					>
 				</File>
 			</Filter>
@@ -189,34 +189,54 @@
 			Name="Independent"
 			>
 			<Filter
-				Name="Render"
+				Name="Core"
 				>
 				<File
-					RelativePath=".\Independent\Render\Empty_Render.cpp"
+					RelativePath=".\Independent\Core\Project_GLToy.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Render\Empty_Render.h"
+					RelativePath=".\Independent\Core\RTToy.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Render\Project_GLToy_Render.cpp"
+					RelativePath=".\Independent\Core\RTToy.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="Core"
+				Name="Environment"
 				>
 				<File
-					RelativePath=".\Independent\Core\Empty.cpp"
+					RelativePath=".\Independent\Environment\RTToy_Environment_Plane.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Core\Empty.h"
+					RelativePath=".\Independent\Environment\RTToy_Environment_Plane.h"
+					>
+				</File>
+				<Filter
+					Name="Shaders"
+					>
+					<File
+						RelativePath=".\Independent\Environment\Shaders\RTToy_Environment_Plane.glsl"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Render"
+				>
+				<File
+					RelativePath=".\Independent\Render\Project_GLToy_Render.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Core\Project_GLToy.cpp"
+					RelativePath=".\Independent\Render\RTToy_Render.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Render\RTToy_Render.h"
 					>
 				</File>
 			</Filter>

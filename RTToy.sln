@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLToy", "GLToy\GLToy.vcproj", "{D102268C-2C78-4954-99A9-433EF8F9182F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Empty", "Empty\Empty.vcproj", "{451F6CAD-AF6B-479E-9321-C4DAE0F40260}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RTToy", "RTToy\RTToy.vcproj", "{451F6CAD-AF6B-479E-9321-C4DAE0F40260}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D102268C-2C78-4954-99A9-433EF8F9182F} = {D102268C-2C78-4954-99A9-433EF8F9182F}
 	EndProjectSection
