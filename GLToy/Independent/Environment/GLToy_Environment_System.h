@@ -23,6 +23,8 @@ public:
     static void Update();
     static void Render();
 
+    static void LoadTestEnvironment();
+
 private:
 
     static GLToy_Environment* CreateFromOBJFile( const GLToy_String& szFilename );

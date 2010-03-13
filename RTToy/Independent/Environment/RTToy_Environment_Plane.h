@@ -20,9 +20,10 @@ class RTToy_Environment_Plane
 
 public:
 
-    RTToy_Environment_Plane( const GLToy_Plane& xPlane )
+    RTToy_Environment_Plane( const GLToy_Plane& xPlane, const GLToy_String& szTextureName )
     : GLToy_Parent()
     , m_xPlane( xPlane )
+    , m_uTextureHash( szTextureName.GetHash() )
     {
     }
 
@@ -35,6 +36,7 @@ public:
 protected:
 
     GLToy_Plane m_xPlane;
+    GLToy_Hash m_uTextureHash;
 
 };
 

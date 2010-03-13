@@ -157,6 +157,11 @@ public:
 
         RemoveAt( 0, u + 1 );
 
+        if( m_uCount == 0 )
+        {
+            Append( 0 );
+        }
+
         return xReturnValue;
     }
 
@@ -172,6 +177,9 @@ public:
 
         return false;
     }
+
+    // TODO - can't pass by reference due to va_args - I'm sure there is a portable way around it though
+    void SetToFormatString( const GLToy_String szFormatString, ... );
 
 protected:
 

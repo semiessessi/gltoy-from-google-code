@@ -128,6 +128,7 @@ private:
     static void Platform_EndRender();
 
     static float s_fFOV;
+    static bool s_bDrawFPS;
 
 };
 

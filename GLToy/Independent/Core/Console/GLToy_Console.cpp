@@ -131,6 +131,11 @@ void GLToy_Console::RegisterCommand( const GLToy_String& szName, void ( *pfnFunc
     s_xCommandTree.AddNode( new GLToy_ConsoleCommand_String( szName, pfnFunction ), szName.GetHash() );
 }
 
+void GLToy_Console::RegisterVariable( const GLToy_String& szName, bool* pbVariable )
+{
+    s_xCommandTree.AddNode( new GLToy_ConsoleVariable_Bool( szName, pbVariable ), szName.GetHash() );
+}
+
 GLToy_ConsoleCommand* GLToy_Console::LookUpCommand( const GLToy_String& szName )
 {
     GLToy_ConsoleCommand** ppxCommand = s_xCommandTree.FindData( szName.GetHash() );

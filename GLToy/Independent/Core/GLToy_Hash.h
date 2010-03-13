@@ -8,7 +8,7 @@
 #define GLToy_Hash_Constant( string ) _GLToy_GetHash( string, sizeof( string ) - 1 )
 
 //
-// This implements Bernstein's hash
+// This implements Bernstein's hash, modified to be case-insensitive
 //
 
 GLToy_Inline GLToy_Hash GLToy_GetHash( const char* szString )

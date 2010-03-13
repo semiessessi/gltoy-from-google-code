@@ -8,6 +8,7 @@
 #include <Environment/GLToy_Environment_System.h>
 
 // GLToy
+#include <Core/Console/GLToy_Console.h>
 #include <Environment/GLToy_Environment.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,6 +24,9 @@ GLToy_Environment* GLToy_Environment_System::s_pxCurrentEnvironment = NULL;
 bool GLToy_Environment_System::Initialise()
 {
     s_pxCurrentEnvironment = NULL;
+
+    GLToy_Console::RegisterCommand( "test", LoadTestEnvironment );
+
     return true;
 }
 
@@ -45,6 +49,10 @@ void GLToy_Environment_System::Update()
     {
         s_pxCurrentEnvironment->Update();
     }
+}
+
+void GLToy_Environment_System::LoadTestEnvironment()
+{
 }
 
 GLToy_Environment* GLToy_Environment_System::CreateFromOBJFile( const GLToy_String& szFilename )

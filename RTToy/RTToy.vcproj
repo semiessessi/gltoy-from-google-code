@@ -215,14 +215,6 @@
 					RelativePath=".\Independent\Environment\RTToy_Environment_Plane.h"
 					>
 				</File>
-				<Filter
-					Name="Shaders"
-					>
-					<File
-						RelativePath=".\Independent\Environment\Shaders\RTToy_Environment_Plane.glsl"
-						>
-					</File>
-				</Filter>
 			</Filter>
 			<Filter
 				Name="Render"

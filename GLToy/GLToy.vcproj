@@ -527,6 +527,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\File\GLToy_EnvironmentFile.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\File\GLToy_EnvironmentFile.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\File\GLToy_File.cpp"
 					>
 				</File>
@@ -590,6 +598,10 @@
 			<Filter
 				Name="String"
 				>
+				<File
+					RelativePath=".\Independent\String\GLToy_String.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\Independent\String\GLToy_String.h"
 					>

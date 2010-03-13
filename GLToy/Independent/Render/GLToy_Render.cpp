@@ -1,3 +1,4 @@
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,6 +10,9 @@
 #include <Render/Platform_GLToy_Render.h>
 
 // GLToy
+#include <Core/Console/GLToy_Console.h>
+#include <Core/GLToy_Timer.h>
+#include <Maths/GLToy_Maths.h>
 #include <Maths/GLToy_Vector.h>
 #include <Render/Font/GLToy_Font.h>
 #include <Render/GLToy_Camera.h>
@@ -21,6 +25,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 float GLToy_Render::s_fFOV = 90.0f;
+bool GLToy_Render::s_bDrawFPS = false;
 
 const GLToy_RenderFunctor< GLToy_Renderable > GLToy_Render::RenderableFunctor = GLToy_RenderFunctor< GLToy_Renderable >();
 
@@ -43,6 +48,8 @@ bool GLToy_Render::Initialise()
     {
         return false;
     }
+
+    GLToy_Console::RegisterVariable( "showfps", &s_bDrawFPS );
 
     return true;
 }
@@ -67,6 +74,19 @@ void GLToy_Render::BeginRender()
 void GLToy_Render::Render()
 {
     Project_Render();
+
+    if( s_bDrawFPS )
+    {
+        // draw fps counter, we should have the console's font by now
+        GLToy_Font* pxFont = GLToy_Font_System::FindFont( GLToy_Hash_Constant( "console" ) );
+        GLToy_String szFPSString;
+
+        szFPSString.SetToFormatString( "%.2f fps", GLToy_Maths::Max( GLToy_Timer::GetSmoothedFrameRate(), 0.01f ) );
+
+        GLToy_Render::SetOrthogonalProjectionMatrix();
+        GLToy_Render::SetIdentityViewMatrix();
+        pxFont->RenderString( szFPSString, -1.0f, 1.0f - pxFont->GetHeight() );
+    }
 }
 
 void GLToy_Render::EndRender()

@@ -11,6 +11,7 @@
 #include <Core/GLToy_Timer.h>
 #include <Maths/GLToy_Vector.h>
 #include <Render/GLToy_Render.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -81,6 +82,7 @@ float FRIDGE_API FSDemo_Render::FSAPI_Rotate( float fX, float fY, float fZ, floa
 
 float FRIDGE_API FSDemo_Render::FSAPI_StartTriangles()
 {
+    GLToy_Texture_System::BindWhite();
     GLToy_Render::StartSubmittingTriangles();
 
     return 0.0f;
