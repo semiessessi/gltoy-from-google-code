@@ -165,6 +165,33 @@ public:
         return xReturnValue;
     }
 
+    GLToy_String RemoveFirstLine()
+    {
+        GLToy_String xReturnValue;
+        u_int u = 0;
+        while( ( m_pxData[ u ] != L'\n' )
+            && ( m_pxData[ u ] != L'\r' )
+            && m_pxData[ u ] )
+        {
+            xReturnValue += m_pxData[ u ];
+            ++u;
+        }
+
+        if( m_pxData[ u ] == '\r ' && m_pxData[ u + 1 ] == '\n ' )
+        {
+            ++u;
+        }
+
+        RemoveAt( 0, u + 1 );
+
+        if( m_uCount == 0 )
+        {
+            Append( 0 );
+        }
+
+        return xReturnValue;
+    }
+
     GLToy_Inline bool Contains( wchar_t wcChar ) const
     {
         GLToy_ConstIterate( wchar_t, xIterator, this )
