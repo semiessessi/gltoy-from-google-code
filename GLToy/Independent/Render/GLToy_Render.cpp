@@ -132,6 +132,7 @@ void GLToy_Render::SetIdentityProjectionMatrix()
 
 void GLToy_Render::SetPerspectiveProjectionMatrix( const u_int uViewportWidth, const u_int uViewportHeight )
 {
+    Platform_GLToy_Render::SetIdentityProjectionMatrix();
     Platform_GLToy_Render::SetPerspectiveProjectionMatrix( s_fFOV, uViewportWidth, uViewportHeight );
 }
 
@@ -255,6 +256,26 @@ void GLToy_Render::EnableBlending()
 void GLToy_Render::SetBlendFunction( const u_int uSourceBlend, const u_int uDestinationBlend )
 {
     Platform_GLToy_Render::SetBlendFunction( uSourceBlend, uDestinationBlend );
+}
+
+void GLToy_Render::DisableBackFaceCulling()
+{
+    Platform_GLToy_Render::DisableBackFaceCulling();
+}
+
+void GLToy_Render::EnableBackFaceCulling()
+{
+    Platform_GLToy_Render::EnableBackFaceCulling();
+}
+
+void GLToy_Render::SetCCWFaceWinding()
+{
+    Platform_GLToy_Render::SetCCWFaceWinding();
+}
+
+void GLToy_Render::SetCWFaceWinding()
+{
+    Platform_GLToy_Render::SetCWFaceWinding();
 }
 
 u_int GLToy_Render::CreateShader( u_int uType )

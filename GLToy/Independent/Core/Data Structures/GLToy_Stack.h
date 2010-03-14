@@ -81,7 +81,7 @@ public:
         return GLToy_Parent::GetMemoryUsage() + sizeof( m_iStackPointer );
     }
 
-    GLToy_Stack& operator =( const GLToy_FlatDataStructure< T >& xDataStructure )
+    GLToy_Stack& operator =( const GLToy_DataStructure< T >& xDataStructure )
     {
         CopyFrom( &xDataStructure );
         m_iStackPointer = xDataStructure.GetCount() - 1;

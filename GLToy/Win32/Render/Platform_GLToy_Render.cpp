@@ -309,6 +309,27 @@ void Platform_GLToy_Render::SetBlendFunction( const u_int uSourceBlend, const u_
     glBlendFunc( uSourceBlend, uDestinationBlend );
 }
 
+void Platform_GLToy_Render::EnableBackFaceCulling()
+{
+    glEnable( GL_CULL_FACE );
+    glCullFace( GL_BACK );
+}
+
+void Platform_GLToy_Render::DisableBackFaceCulling()
+{
+    glDisable( GL_CULL_FACE );
+}
+
+void Platform_GLToy_Render::SetCCWFaceWinding()
+{
+    glFrontFace( GL_CCW );
+}
+
+void Platform_GLToy_Render::SetCWFaceWinding()
+{
+    glFrontFace( GL_CW );
+}
+
 u_int Platform_GLToy_Render::CreateShader( u_int uType )
 {
     return s_pfnCreateShader( uType );

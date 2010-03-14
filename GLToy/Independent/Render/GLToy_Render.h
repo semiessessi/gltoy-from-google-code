@@ -80,6 +80,11 @@ public:
     static void EnableBlending();
     static void SetBlendFunction( const u_int uSourceBlend, const u_int uDestinationBlend );
 
+    static void DisableBackFaceCulling();
+    static void EnableBackFaceCulling();
+    static void SetCCWFaceWinding();
+    static void SetCWFaceWinding();
+
     // shader functions
     static u_int CreateShader( u_int uType );
     static u_int CreateProgram();

@@ -507,11 +507,27 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\Model\GLToy_Model_MD2.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Model\GLToy_Model_MD2.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Model\GLToy_Model_Placeholder.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\Independent\Model\GLToy_Model_Placeholder.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Model\GLToy_Model_System.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Model\GLToy_Model_System.h"
 					>
 				</File>
 			</Filter>
@@ -548,6 +564,18 @@
 				</File>
 				<File
 					RelativePath=".\Independent\File\GLToy_File_System.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\File\GLToy_MD2File.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\File\GLToy_MD2File.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\File\GLToy_ModelFile.h"
 					>
 				</File>
 			</Filter>
