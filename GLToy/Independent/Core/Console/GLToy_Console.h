@@ -35,7 +35,7 @@ public:
     static void Render();
 
     static void ClearLog();
-    static void PrintLine( const GLToy_String& szLine );
+    static void Print( const GLToy_String& szLine );
     static void ExecuteLine( const GLToy_String& szLine, const bool bStoreInHistory = true );
     static void Toggle();
 

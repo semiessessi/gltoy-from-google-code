@@ -7,15 +7,20 @@
 // This file's header
 #include <Core/RTToy.h>
 
+// RTToy
+#include <Render/Shader/RTToy_Shader_System.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 bool RTToy::Initialise()
 {
+    GLTOY_INITIALISER_CALL( RTToy_Shader_System );
     return true;
 }
 
 void RTToy::Shutdown()
 {
+    RTToy_Shader_System::Shutdown();
 }

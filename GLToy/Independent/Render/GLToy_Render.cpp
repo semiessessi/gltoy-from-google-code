@@ -75,6 +75,8 @@ void GLToy_Render::Render()
 {
     Project_Render();
 
+    GLToy_Render::UseProgram( 0 );
+
     if( s_bDrawFPS )
     {
         // draw fps counter, we should have the console's font by now
@@ -278,9 +280,14 @@ void GLToy_Render::SetCWFaceWinding()
     Platform_GLToy_Render::SetCWFaceWinding();
 }
 
-u_int GLToy_Render::CreateShader( u_int uType )
+u_int GLToy_Render::CreateFragmentShader()
 {
-    return Platform_GLToy_Render::CreateShader( uType );
+    return Platform_GLToy_Render::CreateFragmentShader();
+}
+
+u_int GLToy_Render::CreateVertexShader()
+{
+    return Platform_GLToy_Render::CreateVertexShader();
 }
 
 u_int GLToy_Render::CreateProgram()

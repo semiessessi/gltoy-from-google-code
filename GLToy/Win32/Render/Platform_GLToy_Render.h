@@ -29,7 +29,8 @@ public:
     static void EndRender();
 
     // shader functions
-    static u_int CreateShader( u_int uType );
+    static u_int CreateFragmentShader();
+    static u_int CreateVertexShader();
     static u_int CreateProgram();
     static void DeleteShader( u_int uShaderID );
     static void DeleteProgram( u_int uProgramID );

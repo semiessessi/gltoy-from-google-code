@@ -82,9 +82,13 @@ void GLToy_Console::ClearLog()
     s_xLog.Clear();
 }
 
-void GLToy_Console::PrintLine( const GLToy_String& szLine )
+void GLToy_Console::Print( const GLToy_String& szLine )
 {
-    s_xLog.Append( szLine );
+    GLToy_String szCopy = szLine;
+    while( szCopy.GetLength() > 0 )
+    {
+        s_xLog.Append( szCopy.RemoveFirstLine() );
+    }
 }
 
 void GLToy_Console::ExecuteLine( const GLToy_String& szLine, const bool bStoreInHistory )
@@ -197,8 +201,8 @@ bool GLToy_Console::Initialise()
     GLToy_Font_System::InitialiseFont( "Console" );
     s_pxFont = GLToy_Font_System::LookUpFont( "Console" );
 
-    RegisterCommand( "echo", PrintLine );
-    RegisterCommand( "print", PrintLine );
+    RegisterCommand( "echo", Print );
+    RegisterCommand( "print", Print );
 
     return true;
 }

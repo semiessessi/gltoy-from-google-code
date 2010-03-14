@@ -178,7 +178,7 @@ void GLToy::DebugOutput( const char* szFormatString, ... )
     // we no longer need xArgumentList
     va_end( xArgumentList );
 
-    GLToy_Console::PrintLine( szDebugMessageBuffer );
+    GLToy_Console::Print( szDebugMessageBuffer );
     Platform_DebugOutput( szDebugMessageBuffer );
 }
 

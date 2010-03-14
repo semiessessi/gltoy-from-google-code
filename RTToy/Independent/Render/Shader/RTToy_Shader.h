@@ -13,48 +13,23 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class RTToy_Shader
-{
-
-public:
-
-    RTToy_Shader() {}
-    virtual ~RTToy_Shader() {}
-
-protected:
-
-    union
-    {
-        int m_iID;
-        u_int m_uUID;
-    };
-};
-
 class RTToy_ShaderProgram
 {
 
 public:
 
-    RTToy_ShaderProgram( const GLToy_String& szName )
-    : m_szName( szName )
-    {
-    }
+    RTToy_ShaderProgram( const u_int uFSID, const u_int uVSID );
+    virtual ~RTToy_ShaderProgram();
 
-    virtual ~RTToy_ShaderProgram() {}
+    bool IsReady() const { return m_uID != 0; }
 
-    GLToy_Inline GLToy_Hash GetHash() const { return m_szName.GetHash(); }
-    GLToy_Inline const GLToy_String& GetName() const { return m_szName; }
-
-    virtual void Bind() {}
+    void Bind() const;
 
 protected:
 
-    GLToy_String m_szName;
-    union
-    {
-        int m_iID;
-        u_int m_uUID;
-    };
+    u_int m_uID;
+    u_int m_uFSID;
+    u_int m_uVSID;
 };
 
 #endif

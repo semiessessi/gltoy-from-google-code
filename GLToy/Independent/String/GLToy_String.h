@@ -155,6 +155,11 @@ public:
             ++u;
         }
 
+        if( m_pxData[ u ] == '\r' && m_pxData[ u + 1 ] == '\n' )
+        {
+            ++u;
+        }
+
         RemoveAt( 0, u + 1 );
 
         if( m_uCount == 0 )
@@ -177,7 +182,7 @@ public:
             ++u;
         }
 
-        if( m_pxData[ u ] == '\r ' && m_pxData[ u + 1 ] == '\n ' )
+        if( m_pxData[ u ] == '\r' && m_pxData[ u + 1 ] == '\n' )
         {
             ++u;
         }

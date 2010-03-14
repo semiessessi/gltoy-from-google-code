@@ -21,6 +21,26 @@
 #include <gl/glu.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// M A C R O S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#define GL_CURRENT_PROGRAM								  0x8B8D
+#define GL_SHADER_TYPE									  0x8B4E
+#define GL_DELETE_STATUS									0x8B80
+#define GL_COMPILE_STATUS								   0x8B81
+#define GL_LINK_STATUS									  0x8B82
+#define GL_VALIDATE_STATUS								  0x8B83
+#define GL_INFO_LOG_LENGTH								  0x8B84
+#define GL_ATTACHED_SHADERS								 0x8B85
+#define GL_ACTIVE_UNIFORMS								  0x8B86
+#define GL_ACTIVE_UNIFORM_MAX_LENGTH						0x8B87
+#define GL_SHADER_SOURCE_LENGTH							 0x8B88
+#define GL_VERTEX_SHADER									0x8B31
+#define GL_ACTIVE_ATTRIBUTES								0x8B89
+#define GL_ACTIVE_ATTRIBUTE_MAX_LENGTH					  0x8B8A
+#define GL_FRAGMENT_SHADER								  0x8B30
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -329,10 +349,14 @@ void Platform_GLToy_Render::SetCWFaceWinding()
 {
     glFrontFace( GL_CW );
 }
-
-u_int Platform_GLToy_Render::CreateShader( u_int uType )
+u_int Platform_GLToy_Render::CreateFragmentShader()
 {
-    return s_pfnCreateShader( uType );
+    return s_pfnCreateShader( GL_FRAGMENT_SHADER );
+}
+
+u_int Platform_GLToy_Render::CreateVertexShader()
+{
+    return s_pfnCreateShader( GL_VERTEX_SHADER );
 }
 
 u_int Platform_GLToy_Render::CreateProgram()
