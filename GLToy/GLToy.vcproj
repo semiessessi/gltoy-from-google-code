@@ -467,6 +467,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\Maths\GLToy_Ray.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Maths\GLToy_Ray.h"
 					>
 				</File>
@@ -646,6 +650,42 @@
 					RelativePath=".\Independent\Input\GLToy_Input.h"
 					>
 				</File>
+			</Filter>
+			<Filter
+				Name="Entity"
+				>
+				<File
+					RelativePath=".\Independent\Entity\GLToy_Entity.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Entity\GLToy_Entity.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Entity\GLToy_Entity_System.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Entity\GLToy_Entity_System.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Entity\GLToy_EntityTypes.h"
+					>
+				</File>
+				<Filter
+					Name="Model"
+					>
+					<File
+						RelativePath=".\Independent\Entity\Model\GLToy_Entity_ModelStatic.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Entity\Model\GLToy_Entity_ModelStatic.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 	</Files>

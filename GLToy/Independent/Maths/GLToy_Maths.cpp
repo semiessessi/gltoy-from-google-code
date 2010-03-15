@@ -17,6 +17,7 @@
 
 const float GLToy_Maths::Pi = 3.141592654f;
 const GLToy_Vector_3 GLToy_Maths::ZeroVector3 = GLToy_Vector_3();
+const GLToy_Matrix_3 GLToy_Maths::IdentityMatrix3 = GLToy_Matrix_3( GLToy_Vector_3( 1.0f, 0.0f, 0.0f ), GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), GLToy_Vector_3( 0.0f, 0.0f, 1.0f ) );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S

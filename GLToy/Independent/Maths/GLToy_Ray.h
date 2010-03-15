@@ -13,6 +13,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_AABB;
+class GLToy_Bounded;
+class GLToy_OBB;
 class GLToy_Plane;
 class GLToy_Sphere;
 
@@ -34,9 +36,11 @@ public:
     const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
     const GLToy_Vector_3& GetDirection() const { return m_xDirection; }
 
-    bool IntersectsWith( const GLToy_Plane& xPlane, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
-    bool IntersectsWith( const GLToy_AABB& xAABB, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
-    bool IntersectsWith( const GLToy_Sphere& xSphere, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
+    bool IntersectsWithPlane( const GLToy_Plane& xPlane, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
+    bool IntersectsWithAABB( const GLToy_AABB& xAABB, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
+    bool IntersectsWithSphere( const GLToy_Sphere& xSphere, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
+    bool IntersectsWithOBB( const GLToy_OBB& xOBB, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
+    bool IntersectsWith( const GLToy_Bounded& xBounded, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
 
 protected:
 

@@ -5,9 +5,9 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "GLToy_Vector.h"
-
-//#include "Maths/Platform_GLToy_Maths.h"
+// GLToy
+#include <Maths/GLToy_Matrix.h>
+#include <Maths/GLToy_Vector.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -20,6 +20,7 @@ public:
     
     static const float Pi;
     static const GLToy_Vector_3 ZeroVector3;
+    static const GLToy_Matrix_3 IdentityMatrix3;
 
     static bool Initialise();
     static void Shutdown();

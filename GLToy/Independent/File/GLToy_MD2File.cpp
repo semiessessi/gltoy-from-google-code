@@ -72,6 +72,11 @@ struct GLToy_MD2_Frame
 
 GLToy_Model* GLToy_MD2File::LoadModel() const
 {
+    if( m_pxModel )
+    {
+        return m_pxModel;
+    }
+
     if( GetSize() <= sizeof( GLToy_MD2_Header ) )
     {
         return NULL;
@@ -95,6 +100,7 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
     }
 
     GLToy_Model_MD2* pxModel = new GLToy_Model_MD2();
+    m_pxModel = pxModel;
 
     // load frame data, which is coords and normal indices per vertex
     GLToy_MD2_Frame* pxFrame = reinterpret_cast< GLToy_MD2_Frame* >( &( pcData[ pxHeader->m_uOffsetFrames ] ) );

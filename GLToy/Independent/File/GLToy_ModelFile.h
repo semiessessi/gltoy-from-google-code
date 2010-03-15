@@ -5,13 +5,11 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// Parents
 #include <File/GLToy_File.h>
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-class GLToy_Model;
+// GLToy
+#include <Model/GLToy_Model.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -27,12 +25,22 @@ public:
 
     GLToy_ModelFile( const GLToy_String& szFilename )
     : GLToy_Parent( szFilename )
+    , m_pxModel( NULL )
     {
     }
 
-    virtual ~GLToy_ModelFile() {}
+    virtual ~GLToy_ModelFile()
+    {
+        delete m_pxModel;
+    }
 
     virtual GLToy_Model* LoadModel() const = 0;
+
+    const GLToy_Model* GetModelPointer() const { return m_pxModel; }
+
+protected:
+
+    mutable GLToy_Model* m_pxModel;
 
 };
 

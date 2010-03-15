@@ -10,6 +10,8 @@
 
 // GLToy
 #include <Maths/GLToy_Maths.h>
+#include <Maths/GLToy_Matrix.h>
+#include <Maths/GLToy_Vector.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
@@ -150,6 +152,9 @@ public:
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
+    GLToy_Inline const GLToy_Vector_3& GetMax() const { return m_xPointMax; }
+    GLToy_Inline const GLToy_Vector_3& GetMin() const { return m_xPointMin; }
+
 protected:
 
     GLToy_Vector_3 m_xPointMax;
@@ -219,9 +224,84 @@ public:
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
+    GLToy_Inline float GetRadius() const { return m_fRadius; }
+
 protected:
 
     float m_fRadius;
+
+};
+
+class GLToy_OBB
+: public GLToy_Volume
+{
+
+    typedef GLToy_Volume GLToy_Parent;
+
+public:
+    
+    GLToy_OBB()
+    : GLToy_Parent()
+    , m_xBox()
+    , m_xOrientation( GLToy_Maths::IdentityMatrix3 )
+    {
+    } 
+
+    GLToy_OBB( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation, const float fHalfExtentX, const float fHalfExtentY, const float fHalfExtentZ )
+    : GLToy_Parent( xPosition )
+    , m_xBox( xPosition + GLToy_Vector_3( fHalfExtentX, fHalfExtentY, fHalfExtentZ ), xPosition - GLToy_Vector_3( fHalfExtentX, fHalfExtentY, fHalfExtentZ ) )
+    , m_xOrientation( xOrientation )
+    {
+    }
+
+    GLToy_OBB( const GLToy_AABB& xAABB, const GLToy_Matrix_3& xOrientation )
+    : GLToy_Parent( xAABB.GetPosition() )
+    , m_xBox( xAABB )
+    , m_xOrientation( xOrientation )
+    {
+    }
+
+    // surface area and volume are invariant under rotation...
+    virtual float GetSurfaceArea() const
+    {        
+        return m_xBox.GetSurfaceArea();
+    }
+
+    virtual float GetVolume() const
+    {
+        return m_xBox.GetVolume();
+    }
+
+    virtual bool IsInside( const GLToy_Vector_3& xPosition ) const
+    {
+        // TODO - move and rotate the point, then move it back and test with m_xBox
+        // needs matrix multiplication...
+        return false;
+    }
+
+    virtual void SetToPoint( const GLToy_Vector_3& xPosition )
+    {
+        m_xBox.SetToPoint( xPosition );
+    }
+
+    virtual void GrowByPoint( const GLToy_Vector_3& xPosition )
+    {
+        // TODO - move and rotate the point, then move it back and call m_xBox.GrowByPoint
+        // needs matrix multiplication...
+    }
+
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+
+    GLToy_Inline const GLToy_Matrix_3& GetOrientation() const { return m_xOrientation; }
+    GLToy_Inline void SetOrientation( const GLToy_Matrix_3& xOrientation ) { m_xOrientation = xOrientation; }
+
+    GLToy_Inline const GLToy_AABB& GetUnrotatedBB() const { return m_xBox; }
+
+protected:
+
+    GLToy_AABB m_xBox;
+    GLToy_Matrix_3 m_xOrientation;
 
 };
 

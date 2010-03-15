@@ -36,8 +36,6 @@ bool RTToy_Render::Initialise()
 void RTToy_Render::Shutdown()
 {
     GLToy_Texture_System::DestroyTexture( "skins/loadtrucka.png" );
-    delete pxModel;
-    pxModel = NULL;
     pxEnv->Shutdown();
     delete pxEnv;
     pxEnv = NULL;
@@ -47,11 +45,7 @@ void RTToy_Render::Render()
 {
     pxEnv->Render();
 
-    if( !pxModel )
-    {
-        pxModel = GLToy_Model_System::LoadModel( "loadtrucka" );
-    }
-
+    pxModel = GLToy_Model_System::LoadModel( "loadtrucka" );
     GLToy_Texture_System::BindTexture( "skins/loadtrucka.png" );
     pxModel->Render();
 }
