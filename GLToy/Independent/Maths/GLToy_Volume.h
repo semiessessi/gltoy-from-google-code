@@ -154,6 +154,8 @@ public:
 
     GLToy_Inline const GLToy_Vector_3& GetMax() const { return m_xPointMax; }
     GLToy_Inline const GLToy_Vector_3& GetMin() const { return m_xPointMin; }
+    GLToy_Inline GLToy_Vector_3 GetExtents() const { return m_xPointMax - m_xPointMin; }
+    GLToy_Inline GLToy_Vector_3 GetHalfExtents() const { return m_xPosition - m_xPointMin; }
 
 protected:
 
@@ -297,6 +299,9 @@ public:
     GLToy_Inline void SetOrientation( const GLToy_Matrix_3& xOrientation ) { m_xOrientation = xOrientation; }
 
     GLToy_Inline const GLToy_AABB& GetUnrotatedBB() const { return m_xBox; }
+
+    GLToy_Inline GLToy_Vector_3 GetExtents() const { return m_xBox.GetExtents(); }
+    GLToy_Inline GLToy_Vector_3 GetHalfExtents() const { return m_xBox.GetHalfExtents(); }
 
 protected:
 

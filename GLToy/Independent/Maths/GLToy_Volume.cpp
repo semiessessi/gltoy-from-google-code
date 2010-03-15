@@ -63,3 +63,19 @@ void GLToy_Sphere::WriteToBitStream( GLToy_BitStream& xStream ) const
 
     xStream << m_fRadius;
 }
+
+void GLToy_OBB::ReadFromBitStream( const GLToy_BitStream& xStream )
+{
+    GLToy_Parent::ReadFromBitStream( xStream );
+
+    xStream >> m_xBox;
+    // xStream >> m_xOrientation; // TODO
+}
+
+void GLToy_OBB::WriteToBitStream( GLToy_BitStream& xStream ) const
+{
+    GLToy_Parent::WriteToBitStream( xStream );
+
+    xStream << m_xBox;
+    // xStream << m_xOrientation; // TODO
+}

@@ -154,11 +154,12 @@ void GLToy_Model::Render() const
 
 void GLToy_Model::RenderWithPositionAndOrientation( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation ) const
 {
-    GLToy_Render::SetIdentityViewMatrix();
-    GLToy_Render::Transform( -xOrientation );
-    GLToy_Render::Translate( -xPosition );
+    //GLToy_Render::Transform( xOrientation );
+    GLToy_Render::Translate( xPosition );
 
     Render();
+
+    GLToy_Render::Translate( -xPosition ); // TODO - use stack instead to avoid precision issues
 }
 
 void GLToy_Model::UpdateStripPointers()

@@ -1,3 +1,5 @@
+#ifdef GLTOY_USE_FRIDGESCRIPT
+
 #ifndef __GLTOY_FRIDGESCRIPT_H_
 #define __GLTOY_FRIDGESCRIPT_H_
 
@@ -36,5 +38,7 @@ protected:
     static u_int s_uContextID;
 
 };
+
+#endif
 
 #endif

@@ -2,7 +2,7 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
+#include <Core/FSDemo.h>
 
 // This file's header
 #include <Render/FSDemo_Render.h>

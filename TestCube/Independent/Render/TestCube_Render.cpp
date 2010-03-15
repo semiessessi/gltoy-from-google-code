@@ -2,7 +2,7 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
+#include <Core/TestCube.h>
 
 // This file's header
 #include <Render/TestCube_Render.h>

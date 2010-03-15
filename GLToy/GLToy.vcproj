@@ -298,6 +298,10 @@
 					RelativePath=".\Independent\Core\GLToy_Updateable.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Independent\Core\GLToy_UpdateFunctor.h"
+					>
+				</File>
 				<Filter
 					Name="Data Structures"
 					>

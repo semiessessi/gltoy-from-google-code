@@ -217,6 +217,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\Core\Project_GLToy_Config.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Core\TestCube.h"
 					>
 				</File>

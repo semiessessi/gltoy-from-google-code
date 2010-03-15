@@ -8,6 +8,7 @@
 // GLToy headers
 #include <Core/Console/GLToy_Console.h>
 #include <Core/GLToy_Timer.h>
+#include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment_System.h>
 #include <FridgeScript/GLToy_FridgeScript.h>
 #include <Input/GLToy_Input.h>
@@ -111,9 +112,12 @@ bool GLToy::Initialise()
         return false;
     }
 
+#ifdef GLTOY_USE_FRIDGESCRIPT
     GLTOY_INITIALISER_CALL( GLToy_FridgeScript );
+#endif
     GLTOY_INITIALISER_CALL( GLToy_Model_System );
     GLTOY_INITIALISER_CALL( GLToy_Environment_System );
+    GLTOY_INITIALISER_CALL( GLToy_Entity_System );
 
     if( !Project_Initialise() )
     {
@@ -131,9 +135,12 @@ void GLToy::Shutdown()
 
     GLToy_DebugOutput( "\r\nGLToy::Shutdown() - Shutting down systems.\r\n" );
 
+    GLToy_Entity_System::Shutdown();
     GLToy_Environment_System::Shutdown();
     GLToy_Model_System::Shutdown();
+#ifdef GLTOY_USE_FRIDGESCRIPT
     GLToy_FridgeScript::Shutdown();
+#endif
 
     GLToy_Console::Shutdown();
     GLToy_Render::Shutdown();
@@ -157,6 +164,7 @@ bool GLToy::MainLoop()
 
     // Update functions
     GLToy_Environment_System::Update();
+    GLToy_Entity_System::Update();
 
     GLToy_Console::Update();
 
@@ -164,6 +172,7 @@ bool GLToy::MainLoop()
     GLToy_Render::BeginRender();
 
     GLToy_Environment_System::Render();
+    GLToy_Entity_System::Render();
 
     GLToy_Render::Render();
 

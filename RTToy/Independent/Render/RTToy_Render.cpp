@@ -2,7 +2,7 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
+#include <Core/RTToy.h>
 
 // This file's header
 #include <Render/RTToy_Render.h>

@@ -1,3 +1,5 @@
+#ifdef GLTOY_USE_FRIDGESCRIPT
+
 #ifndef __PLATFORM_GLTOY_FRIDGESCRIPT_H_
 #define __PLATFORM_GLTOY_FRIDGESCRIPT_H_
 
@@ -12,5 +14,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <FridgeScript.h>
+
+#endif
 
 #endif

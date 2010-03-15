@@ -9,6 +9,7 @@
 #include <Core/Data Structures/GLToy_DataStructure.h>
 
 // GLToy
+#include <Core/GLToy_Hash.h>
 #include <Core/GLToy_Serialisable.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,6 +46,7 @@ public:
 
     void operator <<( const bool bBool ) { WriteBool( bBool ); }
     void operator <<( const char cChar ) { WriteChar( cChar ); }
+    void operator <<( const u_char ucChar ) { WriteUChar( ucChar ); }
     void operator <<( const short sShort ) { WriteShort( sShort ); }
     void operator <<( const u_short usShort ) { WriteUShort( usShort ); }
     void operator <<( const wchar_t wcChar ) { WriteBits( wcChar, 16 ); }
@@ -58,6 +60,7 @@ public:
 
     void operator >>( bool& bBool ) const { ReadBool( bBool ); }
     void operator >>( char& cChar ) const { ReadChar( cChar ); }
+    void operator >>( u_char& ucChar ) const { ReadUChar( ucChar ); }
     void operator >>( short& sShort ) const { ReadShort( sShort ); }
     void operator >>( u_short& usShort ) const { ReadUShort( usShort ); }
     void operator >>( wchar_t& wcChar ) const { u_int uBits; ReadBits( uBits, 16 ); wcChar = uBits; }
@@ -72,6 +75,7 @@ public:
     void WriteBool( const bool bBool ) { WriteBit( bBool ); }
     void WriteHalfByte( const char cValue ) { WriteBits( cValue, 4 ); }
     void WriteChar( const char cChar ) { WriteBits( cChar, 8 ); }
+    void WriteUChar( const u_char ucChar ) { WriteBits( ucChar, 8 ); }
     void WriteShort( const short sShort ) { WriteBits( sShort, 16 ); }
     void WriteUShort( const u_short usShort ) { WriteBits( usShort, 16 ); }
     void WriteInt( const int iInt ) { WriteBits( iInt, 32 ); }
@@ -81,8 +85,9 @@ public:
     void WriteData( const char* const pcData, const u_int uBitCount );
 
     void ReadBool( bool& bBool ) const { bBool = ReadBit(); }
-    void ReadHalfByte( char& cValue ) { u_int uBits; ReadBits( uBits, 4 ); cValue = uBits; }
+    void ReadHalfByte( char& cValue ) const { u_int uBits; ReadBits( uBits, 4 ); cValue = uBits; }
     void ReadChar( char& cChar ) const { u_int uBits; ReadBits( uBits, 8 ); cChar = uBits; }
+    void ReadUChar( u_char& ucChar ) const { u_int uBits; ReadBits( uBits, 8 ); ucChar = uBits; }
     void ReadShort( short& sShort ) const { u_int uBits; ReadBits( uBits, 16 ); sShort = uBits; }
     void ReadUShort( u_short& usShort ) const { u_int uBits; ReadBits( uBits, 16 ); usShort = uBits; }
     void ReadInt( int& iInt ) const { u_int uBits; ReadBits( uBits, 32 ); iInt = uBits; }

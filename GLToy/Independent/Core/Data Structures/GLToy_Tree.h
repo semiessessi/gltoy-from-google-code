@@ -102,6 +102,11 @@ class GLToy_TreeCountFunctor : public GLToy_ConstFunctor< T >
 
 public:
 
+    GLToy_TreeCountFunctor()
+    : m_uCount( 0 )
+    {
+    }
+
     virtual void operator ()( const T* pxData )
     {
         ++m_uCount;

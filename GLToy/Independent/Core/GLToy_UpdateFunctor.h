@@ -1,5 +1,5 @@
-#ifndef __GLTOY_RENDERFUNCTOR_H_
-#define __GLTOY_RENDERFUNCTOR_H_
+#ifndef __GLTOY_UPDATEFUNCTOR_H_
+#define __GLTOY_UPDATEFUNCTOR_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
@@ -12,28 +12,28 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template < class T >
-class GLToy_RenderFunctor
+class GLToy_UpdateFunctor
 : public GLToy_ConstFunctor< T >
 {
 
 public:
 
-    virtual void operator ()( const T* pxRenderable )
+    virtual void operator ()( const T* pxUpdateable )
     {
-        pxRenderable->Render();
+        pxUpdateable->Update();
     }
 };
 
 template < class T >
-class GLToy_IndirectRenderFunctor
+class GLToy_IndirectUpdateFunctor
 : public GLToy_ConstFunctor< T* >
 {
 
 public:
 
-    virtual void operator ()( T* const* pxRenderable )
+    virtual void operator ()( T* const* pxUpdateable )
     {
-        ( *pxRenderable )->Render();
+        ( *pxUpdateable )->Update();
     }
 };
 
