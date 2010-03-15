@@ -29,6 +29,7 @@ public:
     static void EndRender();
 
     // shader functions
+    static bool IsShader( const u_int uID );
     static u_int CreateFragmentShader();
     static u_int CreateVertexShader();
     static u_int CreateProgram();
@@ -66,6 +67,8 @@ public:
 private:
 
     // GL interface
+    static u_int GetError();
+
     static void SetViewport( const int iX, const int iY, const u_int uWidth, const u_int uHeight );
 
     static void SetIdentityProjectionMatrix();
@@ -105,6 +108,7 @@ private:
 
     static u_int s_uVersion;
 
+    static u_int ( __stdcall* s_pfnIsShader )( u_int );
     static u_int ( __stdcall* s_pfnCreateShader )( u_int );
     static u_int ( __stdcall* s_pfnCreateProgram )();
     static void ( __stdcall* s_pfnDeleteShader )( u_int );

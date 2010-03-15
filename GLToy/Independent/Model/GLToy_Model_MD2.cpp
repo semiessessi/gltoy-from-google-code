@@ -249,6 +249,8 @@ GLToy_Model_MD2::GLToy_Model_MD2()
 
 void GLToy_Model_MD2::Render() const
 {
+    GLToy_Render::UseProgram( 0 );
+
     GLToy_Render::EnableBackFaceCulling();
     GLToy_Render::SetCCWFaceWinding();
 

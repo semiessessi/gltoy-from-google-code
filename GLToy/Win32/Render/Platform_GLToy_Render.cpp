@@ -24,27 +24,15 @@
 // M A C R O S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#define GL_CURRENT_PROGRAM								  0x8B8D
-#define GL_SHADER_TYPE									  0x8B4E
-#define GL_DELETE_STATUS									0x8B80
-#define GL_COMPILE_STATUS								   0x8B81
-#define GL_LINK_STATUS									  0x8B82
-#define GL_VALIDATE_STATUS								  0x8B83
-#define GL_INFO_LOG_LENGTH								  0x8B84
-#define GL_ATTACHED_SHADERS								 0x8B85
-#define GL_ACTIVE_UNIFORMS								  0x8B86
-#define GL_ACTIVE_UNIFORM_MAX_LENGTH						0x8B87
-#define GL_SHADER_SOURCE_LENGTH							 0x8B88
-#define GL_VERTEX_SHADER									0x8B31
-#define GL_ACTIVE_ATTRIBUTES								0x8B89
-#define GL_ACTIVE_ATTRIBUTE_MAX_LENGTH					  0x8B8A
-#define GL_FRAGMENT_SHADER								  0x8B30
+#define GL_VERTEX_SHADER 0x8B31
+#define GL_FRAGMENT_SHADER 0x8B30
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 u_int Platform_GLToy_Render::s_uVersion = 0;
+u_int ( __stdcall* Platform_GLToy_Render::s_pfnIsShader )( u_int ) = 0;
 u_int ( __stdcall* Platform_GLToy_Render::s_pfnCreateShader )( u_int ) = 0;
 u_int ( __stdcall* Platform_GLToy_Render::s_pfnCreateProgram )() = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnDeleteShader )( u_int ) = 0;
@@ -126,6 +114,7 @@ bool Platform_GLToy_Render::Initialise()
     }
 
     // fill extensions - they should be set to null if unsupported...
+    s_pfnIsShader           = reinterpret_cast< u_int ( __stdcall* )( u_int ) >(                            wglGetProcAddress( "glIsShader" ) );
     s_pfnCreateShader       = reinterpret_cast< u_int ( __stdcall* )( u_int ) >(                            wglGetProcAddress( "glCreateShader" ) );
     s_pfnCreateProgram      = reinterpret_cast< u_int ( __stdcall* )() >(                                   wglGetProcAddress( "glCreateProgram" ) );
     s_pfnDeleteShader       = reinterpret_cast< void ( __stdcall* )( u_int ) >(                             wglGetProcAddress( "glDeleteShader" ) );
@@ -180,6 +169,11 @@ void Platform_GLToy_Render::EndRender()
 /////////////////////////////////////////////////////////////////////////////////////////////
 // G L   I N T E R F A C E
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+u_int Platform_GLToy_Render::GetError()
+{
+    return glGetError();
+}
 
 void Platform_GLToy_Render::SetViewport( const int iX, const int iY, const u_int uWidth, const u_int uHeight )
 {
@@ -349,6 +343,13 @@ void Platform_GLToy_Render::SetCWFaceWinding()
 {
     glFrontFace( GL_CW );
 }
+
+bool Platform_GLToy_Render::IsShader( const u_int uID )
+{
+    return s_pfnIsShader( uID ) == GL_TRUE;
+}
+
+
 u_int Platform_GLToy_Render::CreateFragmentShader()
 {
     return s_pfnCreateShader( GL_FRAGMENT_SHADER );
@@ -381,7 +382,7 @@ void Platform_GLToy_Render::ValidateProgram( u_int uProgramID )
 
 void Platform_GLToy_Render::CompileShader( u_int uShaderID )
 {
-    s_pfnDeleteShader( uShaderID );
+    s_pfnCompileShader( uShaderID );
 }
 
 void Platform_GLToy_Render::LinkProgram( u_int uProgramID )
@@ -436,34 +437,42 @@ void Platform_GLToy_Render::BindAttributeID( u_int uProgramID, u_int uIndex, con
 
 void Platform_GLToy_Render::SetUniform( u_int uUniformID, int iValue )
 {
+    s_pfnSetUniform1i( uUniformID, iValue );
 }
 
 void Platform_GLToy_Render::SetUniform( u_int uUniformID, int iValue1, int iValue2 )
 {
+    s_pfnSetUniform2i( uUniformID, iValue1, iValue2 );
 }
 
 void Platform_GLToy_Render::SetUniform( u_int uUniformID, int iValue1, int iValue2, int iValue3 )
 {
+    s_pfnSetUniform3i( uUniformID, iValue1, iValue2, iValue3 );
 }
 
 void Platform_GLToy_Render::SetUniform( u_int uUniformID, int iValue1, int iValue2, int iValue3, int iValue4 )
 {
+    s_pfnSetUniform4i( uUniformID, iValue1, iValue2, iValue3, iValue4 );
 }
 
 void Platform_GLToy_Render::SetUniform( u_int uUniformID, float fValue )
 {
+    s_pfnSetUniform1f( uUniformID, fValue );
 }
 
 void Platform_GLToy_Render::SetUniform( u_int uUniformID, float fValue1, float fValue2 )
 {
+    s_pfnSetUniform2f( uUniformID, fValue1, fValue2 );
 }
 
 void Platform_GLToy_Render::SetUniform( u_int uUniformID, float fValue1, float fValue2, float fValue3 )
 {
+    s_pfnSetUniform3f( uUniformID, fValue1, fValue2, fValue3 );
 }
 
 void Platform_GLToy_Render::SetUniform( u_int uUniformID, float fValue1, float fValue2, float fValue3, float fValue4 )
 {
+    s_pfnSetUniform4f( uUniformID, fValue1, fValue2, fValue3, fValue4 );
 }
 
 void Platform_GLToy_Render::SetAttribute( u_int uAttributeID, int iValue )

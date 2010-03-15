@@ -122,6 +122,11 @@ void GLToy_Render::Platform_EndRender()
 // G L   I N T E R F A C E
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+u_int GLToy_Render::GetError()
+{
+    return Platform_GLToy_Render::GetError();
+}
+
 void GLToy_Render::SetViewport( const int iX, const int iY, const u_int uWidth, const u_int uHeight )
 {
     Platform_GLToy_Render::SetViewport( iX, iY, uWidth, uHeight );
@@ -278,6 +283,11 @@ void GLToy_Render::SetCCWFaceWinding()
 void GLToy_Render::SetCWFaceWinding()
 {
     Platform_GLToy_Render::SetCWFaceWinding();
+}
+
+bool GLToy_Render::IsShader( const u_int uID )
+{
+    return Platform_GLToy_Render::IsShader( uID );
 }
 
 u_int GLToy_Render::CreateFragmentShader()

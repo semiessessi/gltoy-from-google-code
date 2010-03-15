@@ -133,7 +133,12 @@ GLToy_Texture* GLToy_Texture_System::LookUpTexture( const GLToy_String& szName )
 
 void GLToy_Texture_System::CreateTexture( const GLToy_String& szName )
 {
-    GLToy_Texture* pxTexture = LookUpTexture( szName );
+    CreateTexture( szName.GetHash() );
+}
+
+void GLToy_Texture_System::CreateTexture( const GLToy_Hash uHash )
+{
+    GLToy_Texture* pxTexture = FindTexture( uHash );
     if( pxTexture )
     {
         if( !pxTexture->IsDataLoaded() )
@@ -147,7 +152,12 @@ void GLToy_Texture_System::CreateTexture( const GLToy_String& szName )
 
 void GLToy_Texture_System::DestroyTexture( const GLToy_String& szName )
 {
-    GLToy_Texture* pxTexture = LookUpTexture( szName );
+    DestroyTexture( szName.GetHash() );
+}
+
+void GLToy_Texture_System::DestroyTexture( const GLToy_Hash uHash )
+{
+    GLToy_Texture* pxTexture = FindTexture( uHash );
     if( pxTexture && pxTexture->IsReadyForUse() )
     {
         pxTexture->Destroy();

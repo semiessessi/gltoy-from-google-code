@@ -13,6 +13,7 @@
 #include <Input/GLToy_Input.h>
 #include <Maths/GLToy_Maths.h>
 #include <Model/GLToy_Model_System.h>
+#include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 
 // C/C++ headers
@@ -113,9 +114,15 @@ bool GLToy::Initialise()
     GLTOY_INITIALISER_CALL( GLToy_FridgeScript );
     GLTOY_INITIALISER_CALL( GLToy_Model_System );
     GLTOY_INITIALISER_CALL( GLToy_Environment_System );
+
+    if( !Project_Initialise() )
+    {
+        return false;
+    }
+
     GLToy_DebugOutput( "\r\nGLToy::Initialise() - Completed successfully.\r\n" );
 
-    return Project_Initialise();
+    return true;
 }
 
 void GLToy::Shutdown()
@@ -146,6 +153,7 @@ bool GLToy::MainLoop()
     }
 
     GLToy_Timer::Update();
+    GLToy_Camera::Update();
 
     // Update functions
     GLToy_Environment_System::Update();

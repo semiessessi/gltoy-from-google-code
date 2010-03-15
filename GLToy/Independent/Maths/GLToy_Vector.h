@@ -55,11 +55,22 @@ public:
     GLToy_Vector_3 operator -( const GLToy_Vector_3& xVector ) const;
     GLToy_Vector_3 operator *( const float fFloat ) const;
 
+    // TODO - platform version
     GLToy_Inline float operator *( const GLToy_Vector_3& xVector ) const
     {
         return m_fComponents[ 0 ] * xVector[ 0 ]
             + m_fComponents[ 1 ] * xVector[ 1 ]
             + m_fComponents[ 2 ] * xVector[ 2 ];
+    }
+
+    // TODO - platform version
+    GLToy_Vector_3 Cross( const GLToy_Vector_3& xVector ) const
+    {
+        return GLToy_Vector_3(
+            m_fComponents[ 1 ] * xVector[ 2 ] - m_fComponents[ 2 ] * xVector[ 1 ],
+            m_fComponents[ 2 ] * xVector[ 0 ] - m_fComponents[ 0 ] * xVector[ 2 ],
+            m_fComponents[ 0 ] * xVector[ 1 ] - m_fComponents[ 1 ] * xVector[ 0 ]
+            );
     }
 
     void Normalise();

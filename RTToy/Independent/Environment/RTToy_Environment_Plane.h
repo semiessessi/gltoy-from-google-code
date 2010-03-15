@@ -29,6 +29,9 @@ public:
 
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+
+    virtual void Initialise();
+    virtual void Shutdown();
     
     virtual void Render() const;
     virtual void Update();

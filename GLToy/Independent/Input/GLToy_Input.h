@@ -57,9 +57,12 @@ public:
 
     static bool Initialise();
 
+    static void Update();
+
     static void ChangeLayout();
     static void HandleCharacter( const wchar_t wcCharacter );
-    static void HandleKey( const unsigned int uKey );
+    static void HandleKey( const u_int uKey );
+    static bool IsKeyDown( const u_int uKey );
     
     static void SetKeyInputHandler( GLToy_KeyInputHandler* pxKeyInputHandler );
 
@@ -76,6 +79,8 @@ public:
 private:
 
     static void Platform_ChangeLayout();
+    static bool Platform_IsKeyDown( const u_int uKey );
+    static void Platform_Update();
 
     static GLToy_KeyInputHandler* s_pxKeyInputHandler;
     

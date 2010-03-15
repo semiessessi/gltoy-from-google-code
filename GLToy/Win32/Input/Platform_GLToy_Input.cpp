@@ -15,6 +15,15 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+void GLToy_Input_System::Platform_Update()
+{
+}
+
+bool GLToy_Input_System::Platform_IsKeyDown( const u_int uKey )
+{
+    return ( GetAsyncKeyState( uKey ) & 0x8000 ) ? true : false;
+}
+
 void GLToy_Input_System::Platform_ChangeLayout()
 {
     HKL uKeyLayout = GetKeyboardLayout( 0 );

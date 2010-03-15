@@ -8,14 +8,22 @@
 #include <Render/GLToy_Camera.h>
 
 // GLToy
+#include <Core/GLToy_Timer.h>
+#include <Input/GLToy_Input.h>
 #include <Maths/GLToy_Vector.h>
 #include <Render/GLToy_Render.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C O N S T A N T S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+static const float fCAMERA_SPEED = 32.0f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Vector_3 GLToy_Camera::s_xPosition    = GLToy_Vector_3( 0.0f, 0.0f, -200.0f );
+GLToy_Vector_3 GLToy_Camera::s_xPosition    = GLToy_Vector_3( 0.0f, 50.0f, -200.0f );
 GLToy_Vector_3 GLToy_Camera::s_xDirection   = GLToy_Vector_3( 0.0f, 0.0f, 1.0f );
 GLToy_Vector_3 GLToy_Camera::s_xUp          = GLToy_Vector_3( 0.0f, 1.0f, 0.0f );
 
@@ -26,6 +34,33 @@ GLToy_Vector_3 GLToy_Camera::s_xUp          = GLToy_Vector_3( 0.0f, 1.0f, 0.0f )
 bool GLToy_Camera::Initialise()
 {
     return true;
+}
+
+void GLToy_Camera::Update()
+{
+    const GLToy_Vector_3 xLeft = s_xUp.Cross( s_xDirection );
+
+    if( GLToy_Input_System::IsKeyDown( 'W' )
+        || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetUpKey() ) )
+    {
+        s_xPosition = s_xPosition + s_xDirection * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
+    }
+
+    if( GLToy_Input_System::IsKeyDown( 'S' )
+        || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetDownKey() ) )
+    {
+        s_xPosition = s_xPosition - s_xDirection * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
+    }
+
+    if( GLToy_Input_System::IsKeyDown( 'A' ) )
+    {
+        s_xPosition = s_xPosition + xLeft * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
+    }
+
+    if( GLToy_Input_System::IsKeyDown( 'D' ) )
+    {
+        s_xPosition = s_xPosition - xLeft * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
+    }
 }
 
 void GLToy_Camera::ApplyTransforms()

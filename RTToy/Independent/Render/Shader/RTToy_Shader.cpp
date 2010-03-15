@@ -14,12 +14,11 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-RTToy_ShaderProgram::RTToy_ShaderProgram( const u_int uFSID, const u_int uVSID )
-: m_uFSID( uFSID )
+RTToy_ShaderProgram::RTToy_ShaderProgram( const u_int uID, const u_int uFSID, const u_int uVSID )
+: m_uID( uID )
+, m_uFSID( uFSID )
 , m_uVSID( uVSID )
 {
-    m_uID = GLToy_Render::CreateProgram();
-
     if( IsReady() )
     {
         GLToy_Render::AttachShader( m_uID, m_uFSID );

@@ -18,7 +18,7 @@ class RTToy_ShaderProgram
 
 public:
 
-    RTToy_ShaderProgram( const u_int uFSID, const u_int uVSID );
+    RTToy_ShaderProgram( const u_int uID, const u_int uFSID, const u_int uVSID );
     virtual ~RTToy_ShaderProgram();
 
     bool IsReady() const { return m_uID != 0; }

@@ -44,6 +44,11 @@ bool GLToy_Input_System::Initialise()
     return true;
 }
 
+void GLToy_Input_System::Update()
+{
+    Platform_Update();
+}
+
 void GLToy_Input_System::ChangeLayout()
 {
     Platform_ChangeLayout();
@@ -59,12 +64,17 @@ void GLToy_Input_System::HandleCharacter( const wchar_t wcCharacter )
     }
 }
 
-void GLToy_Input_System::HandleKey( const unsigned int uKey )
+void GLToy_Input_System::HandleKey( const u_int uKey )
 {
     if( s_pxKeyInputHandler )
     {
         s_pxKeyInputHandler->HandleKey( uKey );
     }
+}
+
+bool GLToy_Input_System::IsKeyDown( const u_int uKey )
+{
+    return Platform_IsKeyDown( uKey );
 }
 
 GLToy_KeyInputHandler::GLToy_KeyInputHandler()

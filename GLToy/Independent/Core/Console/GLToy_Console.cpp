@@ -264,7 +264,7 @@ void GLToy_Console::Update()
     {
         if( s_fSlideOffset > fGLTOY_CONSOLE_BOTTOM )
         {
-            s_fSlideOffset -= fGLTOY_CONSOLE_SPEED * GLToy_Timer::GetFrameTimer();
+            s_fSlideOffset -= fGLTOY_CONSOLE_SPEED * GLToy_Timer::GetFrameTime();
         }
 
         if( s_fSlideOffset < fGLTOY_CONSOLE_BOTTOM )
@@ -276,7 +276,7 @@ void GLToy_Console::Update()
     {
         if( s_fSlideOffset < fGLTOY_CONSOLE_TOP )
         {
-            s_fSlideOffset += fGLTOY_CONSOLE_SPEED * GLToy_Timer::GetFrameTimer();
+            s_fSlideOffset += fGLTOY_CONSOLE_SPEED * GLToy_Timer::GetFrameTime();
         }
 
         if( s_fSlideOffset > fGLTOY_CONSOLE_TOP)

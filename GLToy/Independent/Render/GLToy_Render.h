@@ -35,6 +35,8 @@ public:
 
     static const GLToy_RenderFunctor< GLToy_Renderable > RenderableFunctor;
 
+    static float GetFOV() { return s_fFOV; }
+
     static bool Initialise();
     static void Shutdown();
 
@@ -43,6 +45,8 @@ public:
     static void EndRender();
 
     // GL interface
+    static u_int GetError();
+
     static void SetViewport( const int iX, const int iY, const u_int uWidth, const u_int uHeight );
 
     static void SetIdentityProjectionMatrix();
@@ -86,6 +90,7 @@ public:
     static void SetCWFaceWinding();
 
     // shader functions
+    static bool IsShader( const u_int uID );
     static u_int CreateFragmentShader();
     static u_int CreateVertexShader();
     static u_int CreateProgram();

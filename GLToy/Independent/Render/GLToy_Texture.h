@@ -98,7 +98,9 @@ public:
 
     static GLToy_Texture* FindTexture( const GLToy_Hash uHash );
     static GLToy_Texture* LookUpTexture( const GLToy_String& szName );
+    static void CreateTexture( const GLToy_Hash uHash );
     static void CreateTexture( const GLToy_String& szName );
+    static void DestroyTexture( const GLToy_Hash uHash );
     static void DestroyTexture( const GLToy_String& szName );
     static void BindTexture( const GLToy_String& szName );
     static void Reset();

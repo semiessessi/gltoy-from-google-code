@@ -18,6 +18,8 @@ public:
 
     static bool Initialise();
 
+    static void Update();
+
     static void ApplyTransforms();
 
     static const GLToy_Vector_3& GetPosition() { return s_xPosition; }

@@ -44,11 +44,11 @@ bool RTToy_Shader_System::Initialise()
 
         GLToy_String szShaderData = xShaderFile.GetString();
 
-        const GLToy_String szFSPath = szShaderData.RemoveFirstLine() + ".fs";
-        const GLToy_String szVSPath = szShaderData.RemoveFirstLine() + ".vs";
+        const GLToy_String szFSPath = GLToy_String( "shaders/" ) + szShaderData.RemoveFirstLine() + ".fs";
+        const GLToy_String szVSPath = GLToy_String( "shaders/" ) + szShaderData.RemoveFirstLine() + ".vs";
 
         GLToy_ANSITextFile xFSFile = GLToy_ANSITextFile( szFSPath );
-        GLToy_ANSITextFile xVSFile = GLToy_ANSITextFile( szVSPath);
+        GLToy_ANSITextFile xVSFile = GLToy_ANSITextFile( szVSPath );
 
         if( xFSFile.GetSize() == 1 )
         {
@@ -62,30 +62,17 @@ bool RTToy_Shader_System::Initialise()
             continue;
         }
 
+        const u_int uID = GLToy_Render::CreateProgram();
+        if( uID == 0 )
+        {
+            GLToy_DebugOutput( "   - Failed to create shader program \"%S\".\r\n", szName.GetWideString() );
+            continue;
+        }
+
         const u_int uFSID = GLToy_Render::CreateFragmentShader();
         if( uFSID == 0 )
         {
             GLToy_DebugOutput( "   - Failed to create fragment shader \"%S\".\r\n", szFSPath.GetWideString() );
-            continue;
-        }
-
-        char* pxFSString = new char[ xFSFile.GetSize() ];
-        xFSFile.GetRawString( pxFSString );
-
-        GLToy_Render::ShaderSource( uFSID, 1, &pxFSString, 0 );
-        GLToy_Render::CompileShader( uFSID );
-
-        delete[] pxFSString;
-
-        char acLog[ 1024 ];
-        int iLogLength = 0;
-
-        GLToy_Render::GetShaderInfoLog( uFSID, 1023, &iLogLength, acLog );
-        if( iLogLength > 0 )
-        {
-            GLToy_DebugOutput( "   - Compile error in fragment shader \"%S\".\r\n", szFSPath.GetWideString() );
-            GLToy_DebugOutput( acLog );
-            GLToy_Render::DeleteShader( uFSID );
             continue;
         }
 
@@ -95,6 +82,33 @@ bool RTToy_Shader_System::Initialise()
             GLToy_DebugOutput( "   - Failed to create vertex shader \"%S\".\r\n", szVSPath.GetWideString() );
             GLToy_Render::DeleteShader( uFSID );
             continue;
+        }
+
+        char* pxFSString = new char[ xFSFile.GetSize() ];
+        xFSFile.GetRawString( pxFSString );
+
+        u_int uFoo = GLToy_Render::GetError();
+        bool bGoo = GLToy_Render::IsShader( uFSID );
+
+        GLToy_Render::ShaderSource( uFSID, 1, &pxFSString, 0 );
+        uFoo = GLToy_Render::GetError();
+        bGoo = GLToy_Render::IsShader( uFSID );
+        GLToy_Render::CompileShader( uFSID );
+        uFoo = GLToy_Render::GetError();
+        bGoo = GLToy_Render::IsShader( uFSID );
+
+        delete[] pxFSString;
+
+        char acLog[ 1024 ];
+        int iLogLength = 0;
+
+        GLToy_Render::GetShaderInfoLog( uFSID, 1023, &iLogLength, acLog );
+        uFoo = GLToy_Render::GetError();
+        bGoo = GLToy_Render::IsShader( uFSID );
+        if( iLogLength > 0 )
+        {
+            GLToy_DebugOutput( "   - Compiling fragment shader \"%S\"...\r\n", szFSPath.GetWideString() );
+            GLToy_DebugOutput( acLog );
         }
 
         char* pxVSString = new char[ xVSFile.GetSize() ];
@@ -108,14 +122,20 @@ bool RTToy_Shader_System::Initialise()
         GLToy_Render::GetShaderInfoLog( uVSID, 1023, &iLogLength, acLog );
         if( iLogLength > 0 )
         {
-            GLToy_DebugOutput( "   - Compile error in vertex shader \"%S\".\r\n", szVSPath.GetWideString() );
+            GLToy_DebugOutput( "   - Compiling vertex shader \"%S\"...\r\n", szVSPath.GetWideString() );
             GLToy_DebugOutput( acLog );
-            GLToy_Render::DeleteShader( uFSID );
-            GLToy_Render::DeleteShader( uVSID );
-            continue;
         }
 
-        s_xPrograms.AddNode( new RTToy_ShaderProgram( uFSID, uVSID ), szName.GetHash() );
+        s_xPrograms.AddNode( new RTToy_ShaderProgram( uID, uFSID, uVSID ), szName.GetHash() );
+
+        GLToy_Render::ValidateProgram( uID );
+        GLToy_Render::GetProgramInfoLog( uID, 1023, &iLogLength, acLog );
+        if( iLogLength > 0 )
+        {
+            GLToy_DebugOutput( "   - Validating shader program \"%S\"...\r\n", szName.GetWideString() );
+            GLToy_DebugOutput( acLog );
+            GLToy_Render::DeleteShader( uFSID );
+        }
     }
 
     return true;
