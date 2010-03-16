@@ -45,6 +45,8 @@ bool GLToy_Camera::Initialise()
 
 void GLToy_Camera::Update()
 {
+    // s_xPosition = GLToy_Maths::ZeroVector3;
+
     // update orientation ...
     if( GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() ) )
     {
@@ -57,18 +59,18 @@ void GLToy_Camera::Update()
     }
 
     s_fRY -= GLToy_Input_System::GetMouseDeltaX() * fCAMERA_MOUSE_SCALE;
-    s_fRX -= GLToy_Input_System::GetMouseDeltaY() * fCAMERA_MOUSE_SCALE;
+    s_fRX += GLToy_Input_System::GetMouseDeltaY() * fCAMERA_MOUSE_SCALE;
     s_fRX = GLToy_Maths::Clamp( s_fRX, -( GLToy_Maths::Pi * 0.5f ), GLToy_Maths::Pi * 0.5f );
 
-    // ... then calculate basis from orientation
+    // ... then calculate basis from the orientation
     const float fSRX = sin( s_fRX );
     const float fCRX = cos( s_fRX );
     const float fSRY = sin( s_fRY );
     const float fCRY = cos( s_fRY );
-    s_xDirection = GLToy_Vector_3( fCRX * fSRY, fSRX, fCRX * fCRY );
+    s_xDirection = GLToy_Vector_3( fCRX * fSRY, -fSRX, fCRX * fCRY );
     s_xUp = GLToy_Vector_3( fSRX * fSRY, fCRX, fSRX * fCRY );
 
-    const GLToy_Vector_3 xLeft = s_xUp.Cross( s_xDirection );
+    const GLToy_Vector_3 xLeft = GetLeft();
 
     if( GLToy_Input_System::IsKeyDown( 'W' )
         || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetUpKey() ) )
@@ -84,12 +86,12 @@ void GLToy_Camera::Update()
 
     if( GLToy_Input_System::IsKeyDown( 'A' ) )
     {
-        s_xPosition = s_xPosition + xLeft * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
+        s_xPosition = s_xPosition - xLeft * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
     }
 
     if( GLToy_Input_System::IsKeyDown( 'D' ) )
     {
-        s_xPosition = s_xPosition - xLeft * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
+        s_xPosition = s_xPosition + xLeft * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
     }
 }
 
@@ -97,14 +99,12 @@ void GLToy_Camera::ApplyTransforms()
 {
     GLToy_Render::SetPerspectiveProjectionMatrix( GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
 
-    // TODO - fix this, gluLookAt is a bit crap
-    //GLToy_Render::SetIdentityViewMatrix();
+    GLToy_Render::SetIdentityViewMatrix();
 
-    //GLToy_Matrix_3 xOrientation = GetOrientation();
-    //xOrientation.Transpose();
-    //GLToy_Render::Transform( xOrientation );
+    GLToy_Matrix_3 xOrientation = GetOrientation();
+    // TODO - re-work platform look at code to avoid gluLookAt and hide this too.
+    xOrientation[ 2 ] = -xOrientation[ 2 ]; // silly OpenGL specific twiddling
+    GLToy_Render::Transform( xOrientation );
 
-    //GLToy_Render::Translate( -s_xPosition );
-
-    GLToy_Render::SetLookAtViewMatrix( s_xPosition, s_xPosition + s_xDirection, s_xUp );
+    GLToy_Render::Translate( -s_xPosition );
 }

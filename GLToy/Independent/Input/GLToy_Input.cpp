@@ -44,13 +44,16 @@ bool GLToy_Input_System::Initialise()
 {
     ChangeLayout();
 
-    Update(); // get initial mouse delta out of the way
-
     return true;
 }
 
 void GLToy_Input_System::Update()
 {
+    if( !GLToy::HasFocus() )
+    {
+        return;
+    }
+
     Platform_Update();
 }
 

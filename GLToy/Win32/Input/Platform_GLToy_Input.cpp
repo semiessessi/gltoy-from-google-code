@@ -17,6 +17,7 @@
 
 void GLToy_Input_System::Platform_Update()
 {
+
     POINT xCentre = { GLToy::GetWindowViewportWidth() >> 1, GLToy::GetWindowViewportHeight() >> 1 };
     POINT xPoint;
     GetCursorPos( &xPoint );
@@ -25,6 +26,14 @@ void GLToy_Input_System::Platform_Update()
     s_fMouseDeltaY = static_cast< float >( xPoint.y - xCentre.y );
 
     SetCursorPos( xCentre.x, xCentre.y );
+
+    static bool bFirst = true;
+    if( bFirst )
+    {
+        s_fMouseDeltaX = 0.0f;
+        s_fMouseDeltaY = 0.0f;
+        bFirst = false;
+    }
 }
 
 bool GLToy_Input_System::Platform_IsKeyDown( const u_int uKey )

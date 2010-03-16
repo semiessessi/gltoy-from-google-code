@@ -266,7 +266,7 @@ void Platform_GLToy_Render::Transform( const GLToy_Matrix_3& xMatrix )
     for( u_int u = 0; u < 3; ++u )
     for( u_int v = 0; v < 3; ++v )
     {
-        aafMatrix[ u ][ v ] = xMatrix[ u ][ v ];
+        aafMatrix[ u ][ v ] = xMatrix[ v ][ u ];
     }
 
     aafMatrix[ 0 ][ 3 ] = aafMatrix[ 1 ][ 3 ] = aafMatrix[ 2 ][ 3 ] = 0.0f;
