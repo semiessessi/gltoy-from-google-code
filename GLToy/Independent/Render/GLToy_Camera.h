@@ -2,10 +2,11 @@
 #define __GLTOY_CAMERA_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Vector_3;
+// GLToy
+#include <Maths/GLToy_Maths.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -23,6 +24,7 @@ public:
     static void ApplyTransforms();
 
     static const GLToy_Vector_3& GetPosition() { return s_xPosition; }
+    static GLToy_Matrix_3 GetOrientation() { return GLToy_Matrix_3( s_xUp.Cross( s_xDirection ), s_xUp, s_xDirection ); }
 
 private:
 

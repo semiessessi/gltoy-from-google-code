@@ -13,6 +13,7 @@
 
 // GL
 #include <gl/gl.h>
+#include <gl/glu.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // M A C R O S
@@ -73,12 +74,14 @@ void GLToy_Texture::Platform_Create()
     glGenTextures( 1, &m_uUID );
     glBindTexture( GL_TEXTURE_2D, m_uUID );
     
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
 
-    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, GetWidth(), GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, GetDataPointer() );
+    // at least have some mipmaps by default
+    // TODO - generate own mipmaps with non-shit filtering
+    gluBuild2DMipmaps( GL_TEXTURE_2D, 4, GetWidth(), GetHeight(), GL_RGBA, GL_UNSIGNED_BYTE, GetDataPointer() );
 }
 
 void GLToy_Texture::Platform_Destroy()
