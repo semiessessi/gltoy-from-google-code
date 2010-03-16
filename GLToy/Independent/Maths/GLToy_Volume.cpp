@@ -10,6 +10,9 @@
 // GLToy
 #include <Core/Data Structures/GLToy_BitStream.h>
 
+// C/C++
+#include <math.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,6 +25,11 @@ GLToy_Sphere GLToy_Volume::GetBoundingSphere() const
 GLToy_AABB GLToy_Volume::GetBoundingAABB() const
 {
     return GLToy_AABB();
+}
+
+GLToy_Sphere GLToy_AABB::GetBoundingSphere() const
+{
+    return GLToy_Sphere( m_xPosition, sqrt( GetHalfExtents() * GetHalfExtents() ) );
 }
 
 void GLToy_Volume::ReadFromBitStream( const GLToy_BitStream& xStream )

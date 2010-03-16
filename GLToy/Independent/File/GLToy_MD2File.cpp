@@ -9,6 +9,7 @@
 
 // GLToy
 #include <Model/GLToy_Model_MD2.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -114,13 +115,12 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
         for( u_int v = 0; v < pxHeader->m_uNumVertices; ++v )
         {
             const u_int uVertexIndex = u * pxHeader->m_uNumVertices + v;
-            // as well as decompressing the vertex, do some component jiggling to correct the axes
-            // from the quake 2 standard
+            // as well as decompressing the vertex, do some component jiggling to correct the axes from the quake 2 standard
             pxModel->m_xVertices[ uVertexIndex ] =
                 GLToy_Vector_3(
-                    static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 0 ] ) * xFrame.m_xScale[ 0 ] + xFrame.m_xTranslate[ 0 ],
+                    static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 1 ] ) * xFrame.m_xScale[ 1 ] + xFrame.m_xTranslate[ 1 ],
                     static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 2 ] ) * xFrame.m_xScale[ 2 ] + xFrame.m_xTranslate[ 2 ],
-                    static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 1 ] ) * xFrame.m_xScale[ 1 ] + xFrame.m_xTranslate[ 1 ] );
+                    static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 0 ] ) * xFrame.m_xScale[ 0 ] + xFrame.m_xTranslate[ 0 ] );
             
             pxModel->GrowBBByPoint( pxModel->m_xVertices[ uVertexIndex ] );
 
@@ -152,6 +152,25 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
         reinterpret_cast< GLToy_MD2_Triangle* >( &( pcData[ pxHeader->m_uOffsetTriangles ] ) ), pxHeader->m_uNumTriangles );
 
     delete[] pcData;
+
+    // try finding a texture from the filename
+    GLToy_String szBaseName = m_szFilename;
+    szBaseName.RemoveAt( 0, 7 ); // Models/
+    szBaseName = GLToy_String( "Skins/" ) + szBaseName;
+    szBaseName.RemoveFromEnd( 4 ); // .md2
+
+    GLToy_Texture* pxTexture = NULL;
+
+    pxTexture = GLToy_Texture_System::LookUpTexture( szBaseName + ".png" );
+    
+    if( pxTexture )
+    {
+        GLToy_Texture_System::CreateTexture( szBaseName + ".png" );
+        pxModel->SetTexture( pxTexture );
+    }
+
+    // TODO - try non .png files
+
     return pxModel;
 
 }

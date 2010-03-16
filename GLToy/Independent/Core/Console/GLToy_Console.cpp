@@ -112,7 +112,7 @@ void GLToy_Console::ExecuteLine( const GLToy_String& szLine, const bool bStoreIn
 void GLToy_Console::Toggle()
 {
     s_bConsoleDown = !s_bConsoleDown;
-    GLToy_Input_System::SetKeyInputHandler( s_bConsoleDown ? &s_xInputHandler : 0 );
+    GLToy_Input_System::SetKeyInputHandler( s_bConsoleDown ? &s_xInputHandler : NULL );
 }
 
 void GLToy_Console::RegisterCommand( const GLToy_String& szName, void ( *pfnFunction )() )

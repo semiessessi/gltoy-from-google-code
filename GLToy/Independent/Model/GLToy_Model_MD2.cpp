@@ -9,6 +9,7 @@
 
 // GLToy
 #include <Render/GLToy_Render.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -46,7 +47,7 @@ struct GLToy_MD2_AnimationState
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const GLToy_MD2_Animation xMD2_ANIM_LIST[ GLToy_Model_MD2::NumAnimIDs ] =
+static const GLToy_MD2_Animation xMD2_ANIM_LIST[ GLToy_Model_MD2::NUM_ANIMIDS ] =
 {
     { 0, 39, 9 },
     { 40, 45, 10 },
@@ -244,6 +245,7 @@ static const GLToy_Vector_3 xMD2_NORMALS[] =
 GLToy_Model_MD2::GLToy_Model_MD2()
 : m_xNormalIndices()
 , m_xGLCommands()
+, m_pxTexture( NULL )
 {
 }
 
@@ -251,10 +253,15 @@ void GLToy_Model_MD2::Render() const
 {
     GLToy_Render::UseProgram( 0 );
 
+    if( m_pxTexture )
+    {
+        m_pxTexture->Bind();
+    }
+
     GLToy_Render::EnableBackFaceCulling();
     GLToy_Render::SetCCWFaceWinding();
 
-    // fall back on triangles for now
+    // fall back on triangles if we have no GL commands
     if( m_xGLCommands.GetCount() == 0 )
     {
         GLToy_Render::StartSubmittingTriangles();

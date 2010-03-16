@@ -6,6 +6,6 @@ varying vec3 xPosition;
 void main()
 {
 	xPosition = vec3( gl_Normal );
-	xDirection = mat3( gl_ModelViewMatrix ) * gl_MultiTexCoord0.xyz;
+	xDirection = transpose( mat3( gl_ModelViewMatrix ) ) * gl_MultiTexCoord0.xyz;
 	gl_Position = gl_Vertex;
 }

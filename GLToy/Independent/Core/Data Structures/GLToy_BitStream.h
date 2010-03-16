@@ -9,7 +9,6 @@
 #include <Core/Data Structures/GLToy_DataStructure.h>
 
 // GLToy
-#include <Core/GLToy_Hash.h>
 #include <Core/GLToy_Serialisable.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////

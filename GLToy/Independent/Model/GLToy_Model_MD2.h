@@ -9,6 +9,12 @@
 #include <Model/GLToy_Model.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// F O R W A R D   D E C L A R A T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+class GLToy_Texture;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -42,29 +48,29 @@ public:
 
     enum AnimID
     {
-        Stand               = 0,
-        Run                 = 1,
-        Attack              = 2,
-        Pain_1              = 3,
-        Pain_2              = 4,
-        Pain_3              = 5,
-        Jump                = 6,
-        Flip                = 7,
-        Salute              = 8,
-        Fallback            = 9,
-        Wave                = 10,
-        Point               = 11,
-        Crouch_Stand        = 12,
-        Crouch_Walk         = 13,
-        Crouch_Attack       = 14,
-        Crouch_Pain         = 15,
-        Crouch_Death        = 16,
-        Death_FallBack      = 17,
-        Death_FallForward   = 18,
-        Death_FallBackSlow  = 19,
-        Boom                = 20,
+        ANIMID_STAND,
+        ANIMID_RUN,
+        ANIMID_ATTACK,
+        ANIMID_PAIN_A,
+        ANIMID_PAIN_B,
+        ANIMID_PAIN_C,
+        ANIMID_JUMP,
+        ANIMID_FLIP,
+        ANIMID_SALUTE,
+        ANIMID_FALLBACK,
+        ANIMID_WAVE,
+        ANIMID_POINT,
+        ANIMID_CROUCH_STAND,
+        ANIMID_CROUCH_WALK,
+        ANIMID_CROUCH_ATTACK,
+        ANIMID_CROUCH_PAIN,
+        ANIMID_CROUCH_DEATH, 
+        ANIMID_DEATH_FALLBACK,
+        ANIMID_DEATH_FALLFORWARD,
+        ANIMID_DEATH_FALLBACKSLOW,
+        ANIMID_BOOM,
 
-        NumAnimIDs          = 21
+        NUM_ANIMIDS
 
     };
 
@@ -78,11 +84,15 @@ protected:
     virtual void AddStripFromQuad( const GLToy_Vector_3& xVertex1, const GLToy_Vector_3& xVertex2, const GLToy_Vector_3& xVertex3, const GLToy_Vector_3& xVertex4 ) {}
     virtual void AddStripFromIndices( const u_int* puIndices, const u_int uCount ) {}
 
+    void SetTexture( GLToy_Texture* const pxTexture ) { m_pxTexture = pxTexture; }
+
     GLToy_Array< u_char > m_xNormalIndices;
     GLToy_Array< int > m_xGLCommands;
 
     GLToy_Array< GLToy_Vector_3 > m_xTexCoords;
     GLToy_Array< GLToy_MD2_Triangle > m_xTriangles;
+
+    GLToy_Texture* m_pxTexture;
 
 };
 

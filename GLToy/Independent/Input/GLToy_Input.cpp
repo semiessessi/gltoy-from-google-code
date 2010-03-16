@@ -26,7 +26,7 @@ u_int GLToy_Input_System::s_uRightKeyCode = 0;
 u_int GLToy_Input_System::s_uPageUpKeyCode = 0;
 u_int GLToy_Input_System::s_uPageDownKeyCode = 0;
 
-GLToy_KeyInputHandler* GLToy_Input_System::s_pxKeyInputHandler = &g_xDefaultKeyInputHandler;
+GLToy_KeyInputHandler* GLToy_Input_System::s_pxKeyInputHandler = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -34,7 +34,7 @@ GLToy_KeyInputHandler* GLToy_Input_System::s_pxKeyInputHandler = &g_xDefaultKeyI
 
 void GLToy_Input_System::SetKeyInputHandler( GLToy_KeyInputHandler* pxKeyInputHandler )
 {
-    s_pxKeyInputHandler = pxKeyInputHandler ? pxKeyInputHandler : &g_xDefaultKeyInputHandler;
+    s_pxKeyInputHandler = pxKeyInputHandler;
 }
 
 bool GLToy_Input_System::Initialise()
@@ -70,11 +70,17 @@ void GLToy_Input_System::HandleKey( const u_int uKey )
     {
         s_pxKeyInputHandler->HandleKey( uKey );
     }
+
+    if( uKey == GLToy_Input_System::GetConsoleKey() )
+    {
+        GLToy_Console::Toggle();
+        return;
+    }
 }
 
 bool GLToy_Input_System::IsKeyDown( const u_int uKey )
 {
-    return Platform_IsKeyDown( uKey );
+    return s_pxKeyInputHandler ? false : Platform_IsKeyDown( uKey );
 }
 
 GLToy_KeyInputHandler::GLToy_KeyInputHandler()
@@ -91,16 +97,11 @@ void GLToy_KeyInputHandler::HandleCharacter( const wchar_t wcCharacter )
     {
         return;
     }
+
     Platform_HandleCharacter( wcCharacter );
 }
 
 void GLToy_KeyInputHandler::HandleKey( const unsigned int uKey )
 {
-    if( uKey == GLToy_Input_System::GetConsoleKey() )
-    {
-        GLToy_Console::Toggle();
-        return;
-    }
-
     Platform_HandleKey( uKey );
 }

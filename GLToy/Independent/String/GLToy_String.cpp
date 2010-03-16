@@ -7,10 +7,6 @@
 // This file's header
 #include <String/GLToy_String.h>
 
-// GLToy
-#include <Core/Console/GLToy_Console.h>
-#include <Environment/GLToy_Environment.h>
-
 // C/C++
 #include <stdarg.h>
 #include <stdio.h>

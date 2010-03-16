@@ -10,8 +10,6 @@
 
 // GLToy
 #include <Maths/GLToy_Maths.h>
-#include <Maths/GLToy_Matrix.h>
-#include <Maths/GLToy_Vector.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
@@ -126,11 +124,14 @@ public:
     }
 
     virtual bool HasBoundingAABB() const { return true; }
+    virtual bool HasBoundingSphere() const { return true; }
 
     virtual GLToy_AABB GetBoundingAABB() const
     {
         return *this;
     }
+
+    virtual GLToy_Sphere GetBoundingSphere() const;
 
     virtual void SetToPoint( const GLToy_Vector_3& xPosition )
     {
@@ -279,6 +280,13 @@ public:
         // TODO - move and rotate the point, then move it back and test with m_xBox
         // needs matrix multiplication...
         return false;
+    }
+
+    virtual bool HasBoundingSphere() const { return true; }
+
+    virtual GLToy_Sphere GetBoundingSphere() const
+    {
+        return m_xBox.GetBoundingSphere();
     }
 
     virtual void SetToPoint( const GLToy_Vector_3& xPosition )

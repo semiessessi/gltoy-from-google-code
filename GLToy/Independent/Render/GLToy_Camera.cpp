@@ -13,19 +13,25 @@
 #include <Maths/GLToy_Vector.h>
 #include <Render/GLToy_Render.h>
 
+// C/C++
+#include <math.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static const float fCAMERA_SPEED = 64.0f;
+static const float fCAMERA_ROTATION_SPEED = 2.0f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Vector_3 GLToy_Camera::s_xPosition    = GLToy_Vector_3( 0.0f, 50.0f, -200.0f );
-GLToy_Vector_3 GLToy_Camera::s_xDirection   = GLToy_Vector_3( 0.0f, 0.0f, 1.0f );
-GLToy_Vector_3 GLToy_Camera::s_xUp          = GLToy_Vector_3( 0.0f, 1.0f, 0.0f );
+GLToy_Vector_3 GLToy_Camera::s_xPosition = GLToy_Vector_3( 0.0f, 50.0f, -200.0f );
+GLToy_Vector_3 GLToy_Camera::s_xDirection = GLToy_Vector_3( 0.0f, 0.0f, 1.0f );
+GLToy_Vector_3 GLToy_Camera::s_xUp = GLToy_Vector_3( 0.0f, 1.0f, 0.0f );
+float GLToy_Camera::s_fRX = 0.0f;
+float GLToy_Camera::s_fRY = 0.0f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -38,6 +44,25 @@ bool GLToy_Camera::Initialise()
 
 void GLToy_Camera::Update()
 {
+    // update orientation ...
+    if( GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() ) )
+    {
+        s_fRY += GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
+    }
+
+    if( GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetRightKey() ) )
+    {
+        s_fRY -= GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
+    }
+
+    // ... then calculate basis from orientation
+    const float fSRX = sin( s_fRX );
+    const float fCRX = cos( s_fRX );
+    const float fSRY = sin( s_fRY );
+    const float fCRY = cos( s_fRY );
+    s_xDirection = GLToy_Vector_3( fCRX * fSRY, fSRX, fCRX * fCRY );
+    s_xUp = GLToy_Vector_3( fSRX * fSRY, fCRX, fSRX * fCRY );
+
     const GLToy_Vector_3 xLeft = s_xUp.Cross( s_xDirection );
 
     if( GLToy_Input_System::IsKeyDown( 'W' )

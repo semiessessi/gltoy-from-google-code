@@ -25,8 +25,6 @@ static RTToy_Environment_Plane* pxEnv = NULL;
 
 bool RTToy_Render::Initialise()
 {
-    GLToy_Texture_System::CreateTexture( "skins/loadtrucka.png" );
-    
     pxEnv = new RTToy_Environment_Plane( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "generic/grid1.png" );
     pxEnv->Initialise();
     
@@ -35,7 +33,6 @@ bool RTToy_Render::Initialise()
 
 void RTToy_Render::Shutdown()
 {
-    GLToy_Texture_System::DestroyTexture( "skins/loadtrucka.png" );
     pxEnv->Shutdown();
     delete pxEnv;
     pxEnv = NULL;
@@ -46,6 +43,5 @@ void RTToy_Render::Render()
     pxEnv->Render();
 
     pxModel = GLToy_Model_System::LoadModel( "loadtrucka" );
-    GLToy_Texture_System::BindTexture( "skins/loadtrucka.png" );
     pxModel->Render();
 }

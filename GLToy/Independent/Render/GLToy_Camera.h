@@ -30,6 +30,9 @@ private:
     static GLToy_Vector_3 s_xDirection;
     static GLToy_Vector_3 s_xUp;
 
+    static float s_fRX;
+    static float s_fRY;
+
 };
 
 #endif
