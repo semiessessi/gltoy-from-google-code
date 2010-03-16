@@ -25,7 +25,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 float GLToy_Render::s_fFOV = 90.0f;
-bool GLToy_Render::s_bDrawFPS = false;
+bool GLToy_Render::s_bDrawFPS = GLToy_IsDebugBuild();
 
 const GLToy_RenderFunctor< GLToy_Renderable > GLToy_Render::RenderableFunctor = GLToy_RenderFunctor< GLToy_Renderable >();
 

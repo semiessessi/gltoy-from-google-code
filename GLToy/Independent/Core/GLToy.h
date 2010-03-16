@@ -29,10 +29,12 @@
 // also set all debug related defines here
 #ifdef _DEBUG
     #define GLTOY_DEBUG
+    #define GLToy_IsDebugBuild() ( true )
     #define GLToy_DebugVar static
     #define GLToy_DebugOutput( format, ... ) GLToy::DebugOutput( format, __VA_ARGS__ )
 #else
     #define GLTOY_RELEASE
+    #define GLToy_IsDebugBuild() ( false )
     #define GLToy_DebugVar static const
     #define GLToy_DebugOutput( format, ... ) ;
 #endif

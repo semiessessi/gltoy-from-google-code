@@ -44,4 +44,7 @@ void RTToy_Render::Render()
 
     pxModel = GLToy_Model_System::LoadModel( "loadtrucka" );
     pxModel->Render();
+
+    pxModel = GLToy_Model_System::LoadModel( "loadtruckb" );
+    pxModel->Render();
 }
