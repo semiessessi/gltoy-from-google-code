@@ -82,6 +82,9 @@ private:
     static void Rotate( const GLToy_Vector_3& xAxis, const float fAngle );
     static void Transform( const GLToy_Matrix_3& xMatrix );
 
+    static void PushViewMatrix();
+    static void PopViewMatrix();
+
     static void StartSubmittingTriangles();
     static void StartSubmittingQuads();
     static void StartSubmittingTriangleStrip();

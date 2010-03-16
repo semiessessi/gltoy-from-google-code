@@ -259,7 +259,7 @@ void GLToy_Model_MD2::Render() const
     }
 
     GLToy_Render::EnableBackFaceCulling();
-    GLToy_Render::SetCCWFaceWinding();
+    GLToy_Render::SetCWFaceWinding();
 
     // fall back on triangles if we have no GL commands
     if( m_xGLCommands.GetCount() == 0 )

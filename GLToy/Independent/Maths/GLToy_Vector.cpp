@@ -101,6 +101,23 @@ bool GLToy_Vector_3::operator ==( const GLToy_Vector_3& xVector ) const
         && ( m_fComponents[2] == xVector[2] );
 }
 
+GLToy_Vector_3 GLToy_Vector_3::operator *( const GLToy_Matrix_3& xMatrix ) const
+{
+    GLToy_Vector_3 xReturnValue;
+    for( u_int u = 0; u < 3; ++u )
+    {
+        xReturnValue[ u ] = 0.0f;
+        
+        // V_a = V^c M^a_c
+        for( u_int w = 0; w < 3; ++w )
+        {
+            xReturnValue[ u ] += m_fComponents[ w ] * xMatrix.m_xComponents[ u ][ w ];
+        }
+    }
+
+    return xReturnValue;
+}
+
 void GLToy_Vector_3::Normalise()
 {
     // TODO - this is lazy shit

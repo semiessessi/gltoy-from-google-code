@@ -35,6 +35,8 @@ private:
 class GLToy_Vector_3
 {
 
+    friend class GLToy_Matrix_3;
+
 public:
 
     GLToy_Vector_3();
@@ -54,6 +56,7 @@ public:
     GLToy_Vector_3 operator +( const GLToy_Vector_3& xVector ) const;
     GLToy_Vector_3 operator -( const GLToy_Vector_3& xVector ) const;
     GLToy_Vector_3 operator *( const float fFloat ) const;
+    GLToy_Vector_3 operator *( const GLToy_Matrix_3& xMatrix ) const;
 
     // TODO - platform version
     GLToy_Inline float operator *( const GLToy_Vector_3& xVector ) const

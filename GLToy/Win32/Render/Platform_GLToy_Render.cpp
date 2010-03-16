@@ -261,7 +261,6 @@ void Platform_GLToy_Render::Rotate( const GLToy_Vector_3& xAxis, const float fAn
 
 void Platform_GLToy_Render::Transform( const GLToy_Matrix_3& xMatrix )
 {
-    glLoadIdentity();
     float aafMatrix[ 4 ][ 4 ];
 
     for( u_int u = 0; u < 3; ++u )
@@ -275,6 +274,18 @@ void Platform_GLToy_Render::Transform( const GLToy_Matrix_3& xMatrix )
     aafMatrix[ 3 ][ 3 ] = 1.0f;
 
     glMultMatrixf( aafMatrix[ 0 ] );
+}
+
+void Platform_GLToy_Render::PushViewMatrix()
+{
+    glMatrixMode( GL_MODELVIEW );
+    glPushMatrix();
+}
+
+void Platform_GLToy_Render::PopViewMatrix()
+{
+    glMatrixMode( GL_MODELVIEW );
+    glPopMatrix();
 }
 
 void Platform_GLToy_Render::SubmitVertex( const GLToy_Vector_3& xVertex )

@@ -13,6 +13,8 @@
 
 class GLToy_Matrix_3
 {
+    
+    friend class GLToy_Vector_3;
 
 public:
 
@@ -33,7 +35,7 @@ public:
     GLToy_Matrix_3 operator +( const GLToy_Matrix_3& xMatrix ) const;
     GLToy_Matrix_3 operator -( const GLToy_Matrix_3& xMatrix ) const;
     GLToy_Matrix_3 operator *( const GLToy_Matrix_3& xMatrix ) const;
-    GLToy_Matrix_3 operator *( const GLToy_Vector_3& xVector ) const;
+    GLToy_Vector_3 operator *( const GLToy_Vector_3& xVector ) const;
     GLToy_Matrix_3 operator *( const float fValue ) const;
 
     void Identity();

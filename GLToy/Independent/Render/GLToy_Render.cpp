@@ -175,6 +175,16 @@ void GLToy_Render::Transform( const GLToy_Matrix_3& xMatrix )
     Platform_GLToy_Render::Transform( xMatrix );
 }
 
+void GLToy_Render::PushViewMatrix()
+{
+    Platform_GLToy_Render::PushViewMatrix();
+}
+
+void GLToy_Render::PopViewMatrix()
+{
+    Platform_GLToy_Render::PopViewMatrix();
+}
+
 void GLToy_Render::SubmitTexturedQuad2D( const float fXMin, const float fYMin, const float fXMax, const float fYMax, const float fUMin, const float fVMin, const float fUMax, const float fVMax )
 {
     GLToy_Render::SubmitTextureCoordinate( GLToy_Vector_3( fUMin, fVMax, 0.0f ) );
