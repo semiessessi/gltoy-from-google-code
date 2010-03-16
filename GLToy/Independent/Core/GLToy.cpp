@@ -30,6 +30,7 @@ int GLToy::s_iWidth = 640;
 int GLToy::s_iHeight = 480;
 
 bool GLToy::s_bQuitFlag = false;
+bool GLToy::s_bHasFocus = false;
 
 static char szDebugMessageBuffer[ uDEBUGOUTPUT_MAX_LENGTH ];
 
@@ -159,10 +160,11 @@ bool GLToy::MainLoop()
         return false;
     }
 
+    // Update functions
     GLToy_Timer::Update();
+    GLToy_Input_System::Update();
     GLToy_Camera::Update();
 
-    // Update functions
     GLToy_Environment_System::Update();
     GLToy_Entity_System::Update();
 

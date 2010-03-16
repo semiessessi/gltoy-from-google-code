@@ -26,6 +26,9 @@ u_int GLToy_Input_System::s_uRightKeyCode = 0;
 u_int GLToy_Input_System::s_uPageUpKeyCode = 0;
 u_int GLToy_Input_System::s_uPageDownKeyCode = 0;
 
+float GLToy_Input_System::s_fMouseDeltaX = 0.0f;
+float GLToy_Input_System::s_fMouseDeltaY = 0.0f;
+
 GLToy_KeyInputHandler* GLToy_Input_System::s_pxKeyInputHandler = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,6 +43,8 @@ void GLToy_Input_System::SetKeyInputHandler( GLToy_KeyInputHandler* pxKeyInputHa
 bool GLToy_Input_System::Initialise()
 {
     ChangeLayout();
+
+    Update(); // get initial mouse delta out of the way
 
     return true;
 }
@@ -80,7 +85,42 @@ void GLToy_Input_System::HandleKey( const u_int uKey )
 
 bool GLToy_Input_System::IsKeyDown( const u_int uKey )
 {
+    if( !GLToy::HasFocus() )
+    {
+        return false;
+    }
+
     return s_pxKeyInputHandler ? false : Platform_IsKeyDown( uKey );
+}
+
+bool GLToy_Input_System::IsMouseLeftButtonDown()
+{
+    if( !GLToy::HasFocus() )
+    {
+        return false;
+    }
+
+    return Platform_IsMouseLeftButtonDown();
+}
+
+bool GLToy_Input_System::IsMouseMiddleButtonDown()
+{
+    if( !GLToy::HasFocus() )
+    {
+        return false;
+    }
+
+    return Platform_IsMouseMiddleButtonDown();
+}
+
+bool GLToy_Input_System::IsMouseRightButtonDown()
+{
+    if( !GLToy::HasFocus() )
+    {
+        return false;
+    }
+
+    return Platform_IsMouseRightButtonDown();
 }
 
 GLToy_KeyInputHandler::GLToy_KeyInputHandler()

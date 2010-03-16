@@ -63,6 +63,11 @@ public:
     static void HandleCharacter( const wchar_t wcCharacter );
     static void HandleKey( const u_int uKey );
     static bool IsKeyDown( const u_int uKey );
+    static bool IsMouseLeftButtonDown();
+    static bool IsMouseMiddleButtonDown();
+    static bool IsMouseRightButtonDown();
+    static float GetMouseDeltaX() { return s_fMouseDeltaX; }
+    static float GetMouseDeltaY() { return s_fMouseDeltaY; }
     
     static void SetKeyInputHandler( GLToy_KeyInputHandler* pxKeyInputHandler );
 
@@ -80,9 +85,10 @@ private:
 
     static void Platform_ChangeLayout();
     static bool Platform_IsKeyDown( const u_int uKey );
-    static void Platform_Update();
-
-    static GLToy_KeyInputHandler* s_pxKeyInputHandler;
+    static bool Platform_IsMouseLeftButtonDown();
+    static bool Platform_IsMouseMiddleButtonDown();
+    static bool Platform_IsMouseRightButtonDown();
+    static void Platform_Update();    
     
     static u_int s_uConsoleKeyCode;
     static u_int s_uExecuteKeyCode;
@@ -93,6 +99,11 @@ private:
     static u_int s_uRightKeyCode;
     static u_int s_uPageUpKeyCode;
     static u_int s_uPageDownKeyCode;
+    
+    static float s_fMouseDeltaX;
+    static float s_fMouseDeltaY;
+
+    static GLToy_KeyInputHandler* s_pxKeyInputHandler;
 
 };
 

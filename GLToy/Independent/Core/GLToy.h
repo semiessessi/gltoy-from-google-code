@@ -93,6 +93,10 @@ public:
 
     static void Quit() { s_bQuitFlag = true; }
 
+    static void LoseFocus() { s_bHasFocus = false; }
+    static void GiveFocus() { s_bHasFocus = true; }
+    static bool HasFocus() { return s_bHasFocus; }
+
 private:
 
     static bool Initialise();
@@ -119,6 +123,7 @@ private:
     static int s_iHeight;
 
     static bool s_bQuitFlag;
+    static bool s_bHasFocus;
 
 #ifdef WIN32
     friend unsigned int WndProc( unsigned int uWindowHandle, unsigned int uMessage,

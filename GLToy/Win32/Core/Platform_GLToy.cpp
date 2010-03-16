@@ -61,8 +61,19 @@ LRESULT CALLBACK WndProc( HWND uWindowHandle, unsigned int uMessage,
             break;
         }
 
-        //case WM_SETFOCUS:
-        //case WM_KILLFOCUS:
+        case WM_SETFOCUS:
+        {
+            GLToy::GiveFocus();
+            ShowCursor( FALSE );
+            break;
+        }
+
+        case WM_KILLFOCUS:
+        {
+            GLToy::LoseFocus();
+            ShowCursor( TRUE );
+            break;
+        }
         //case WM_MOUSEWHEEL:
 
         case WM_KEYDOWN:
@@ -223,6 +234,8 @@ bool GLToy::Platform_LateInitialise()
     ShowWindow( g_uWindowHandle, SW_SHOW );
     SetForegroundWindow( g_uWindowHandle );
     SetFocus( g_uWindowHandle );
+
+    s_bHasFocus = true;
 
     return true;
 }

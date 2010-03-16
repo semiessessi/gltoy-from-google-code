@@ -25,7 +25,7 @@ public:
     static bool Initialise();
     static void Shutdown();
 
-    static float Clamp( float fValue, float fMin, float fMax ) { Min( fMax, Max( fValue, fMin ) ); }
+    static float Clamp( float fValue, float fMin, float fMax ) { return Min( fMax, Max( fValue, fMin ) ); }
     static float Max( float fValue1, float fValue2 ) { return ( fValue1 > fValue2 ) ? fValue1 : fValue2; }
     static float Min( float fValue1, float fValue2 ) { return ( fValue1 < fValue2 ) ? fValue1 : fValue2; }
 

@@ -17,11 +17,34 @@
 
 void GLToy_Input_System::Platform_Update()
 {
+    POINT xCentre = { GLToy::GetWindowViewportWidth() >> 1, GLToy::GetWindowViewportHeight() >> 1 };
+    POINT xPoint;
+    GetCursorPos( &xPoint );
+
+    s_fMouseDeltaX = static_cast< float >( xPoint.x - xCentre.x );
+    s_fMouseDeltaY = static_cast< float >( xPoint.y - xCentre.y );
+
+    SetCursorPos( xCentre.x, xCentre.y );
 }
 
 bool GLToy_Input_System::Platform_IsKeyDown( const u_int uKey )
 {
     return ( GetAsyncKeyState( uKey ) & 0x8000 ) ? true : false;
+}
+
+bool GLToy_Input_System::Platform_IsMouseLeftButtonDown()
+{
+    return Platform_IsKeyDown( VK_LBUTTON );
+}
+
+bool GLToy_Input_System::Platform_IsMouseMiddleButtonDown()
+{
+    return Platform_IsKeyDown( VK_MBUTTON );
+}
+
+bool GLToy_Input_System::Platform_IsMouseRightButtonDown()
+{
+    return Platform_IsKeyDown( VK_RBUTTON );
 }
 
 void GLToy_Input_System::Platform_ChangeLayout()

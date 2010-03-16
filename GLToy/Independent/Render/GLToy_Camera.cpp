@@ -20,8 +20,9 @@
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const float fCAMERA_SPEED = 64.0f;
+static const float fCAMERA_SPEED = 128.0f;
 static const float fCAMERA_ROTATION_SPEED = 2.0f;
+static const float fCAMERA_MOUSE_SCALE = 1.0f / 100.0f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -54,6 +55,10 @@ void GLToy_Camera::Update()
     {
         s_fRY -= GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
     }
+
+    s_fRY -= GLToy_Input_System::GetMouseDeltaX() * fCAMERA_MOUSE_SCALE;
+    s_fRX -= GLToy_Input_System::GetMouseDeltaY() * fCAMERA_MOUSE_SCALE;
+    s_fRX = GLToy_Maths::Clamp( s_fRX, -( GLToy_Maths::Pi * 0.5f ), GLToy_Maths::Pi * 0.5f );
 
     // ... then calculate basis from orientation
     const float fSRX = sin( s_fRX );
@@ -91,6 +96,15 @@ void GLToy_Camera::Update()
 void GLToy_Camera::ApplyTransforms()
 {
     GLToy_Render::SetPerspectiveProjectionMatrix( GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+
+    // TODO - fix this, gluLookAt is a bit crap
+    //GLToy_Render::SetIdentityViewMatrix();
+
+    //GLToy_Matrix_3 xOrientation = GetOrientation();
+    //xOrientation.Transpose();
+    //GLToy_Render::Transform( xOrientation );
+
+    //GLToy_Render::Translate( -s_xPosition );
 
     GLToy_Render::SetLookAtViewMatrix( s_xPosition, s_xPosition + s_xDirection, s_xUp );
 }
