@@ -9,13 +9,81 @@
 
 // GLToy
 #include <Core/Data Structures/GLToy_BitStream.h>
-
-// C/C++
-#include <math.h>
+#include <Render/GLToy_Render.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+void GLToy_AABB::Render() const
+{
+    GLToy_Texture_System::BindWhite();
+
+    // draw two squares, then the remaining 4 lines between them
+    GLToy_Render::StartSubmittingLineLoop();
+
+    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+
+    GLToy_Vector_3 xVertex = m_xPointMin;
+    
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 0 ] = m_xPointMax[ 0 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 1 ] = m_xPointMax[ 1 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 0 ] = m_xPointMin[ 0 ];
+    GLToy_Render::SubmitVertex( xVertex );
+
+    GLToy_Render::EndSubmit();
+
+    GLToy_Render::StartSubmittingLineLoop();
+
+    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+
+    xVertex[ 1 ] = m_xPointMin[ 1 ];
+    xVertex[ 2 ] = m_xPointMax[ 2 ];
+
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 0 ] = m_xPointMax[ 0 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 1 ] = m_xPointMax[ 1 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 0 ] = m_xPointMin[ 0 ];
+    GLToy_Render::SubmitVertex( xVertex );
+
+    GLToy_Render::EndSubmit();
+
+    GLToy_Render::StartSubmittingLines();
+
+    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+
+    xVertex[ 1 ] = m_xPointMin[ 1 ];
+    xVertex[ 2 ] = m_xPointMin[ 2 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 0 ] = m_xPointMax[ 2 ];
+    GLToy_Render::SubmitVertex( xVertex );
+
+    xVertex[ 1 ] = m_xPointMax[ 1 ];
+    xVertex[ 2 ] = m_xPointMin[ 2 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 0 ] = m_xPointMax[ 2 ];
+    GLToy_Render::SubmitVertex( xVertex );
+
+    xVertex[ 0 ] = m_xPointMax[ 0 ];
+    xVertex[ 2 ] = m_xPointMin[ 2 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 0 ] = m_xPointMax[ 2 ];
+    GLToy_Render::SubmitVertex( xVertex );
+
+    xVertex[ 1 ] = m_xPointMin[ 1 ];
+    xVertex[ 2 ] = m_xPointMin[ 2 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 0 ] = m_xPointMax[ 2 ];
+    GLToy_Render::SubmitVertex( xVertex );
+
+    GLToy_Render::EndSubmit();
+}
 
 GLToy_Sphere GLToy_Volume::GetBoundingSphere() const
 {
@@ -29,7 +97,7 @@ GLToy_AABB GLToy_Volume::GetBoundingAABB() const
 
 GLToy_Sphere GLToy_AABB::GetBoundingSphere() const
 {
-    return GLToy_Sphere( m_xPosition, sqrt( GetHalfExtents() * GetHalfExtents() ) );
+    return GLToy_Sphere( m_xPosition, GLToy_Maths::Sqrt( GetHalfExtents() * GetHalfExtents() ) );
 }
 
 void GLToy_Volume::ReadFromBitStream( const GLToy_BitStream& xStream )

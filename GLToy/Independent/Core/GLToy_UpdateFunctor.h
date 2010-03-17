@@ -13,12 +13,12 @@
 
 template < class T >
 class GLToy_UpdateFunctor
-: public GLToy_ConstFunctor< T >
+: public GLToy_Functor< T >
 {
 
 public:
 
-    virtual void operator ()( const T* pxUpdateable )
+    virtual void operator ()( T* pxUpdateable )
     {
         pxUpdateable->Update();
     }

@@ -85,6 +85,9 @@ private:
     static void PushViewMatrix();
     static void PopViewMatrix();
 
+    static void StartSubmittingLines();
+    static void StartSubmittingLineStrip();
+    static void StartSubmittingLineLoop();
     static void StartSubmittingTriangles();
     static void StartSubmittingQuads();
     static void StartSubmittingTriangleStrip();
@@ -97,6 +100,9 @@ private:
     static void DisableBlending();
     static void EnableBlending();
     static void SetBlendFunction( const u_int uSourceBlend, const u_int uDestinationBlend );
+
+    static void DisableDepthTesting();
+    static void EnableDepthTesting();
 
     static void DisableBackFaceCulling();
     static void EnableBackFaceCulling();

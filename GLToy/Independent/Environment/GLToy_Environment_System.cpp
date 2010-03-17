@@ -16,6 +16,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 GLToy_Environment* GLToy_Environment_System::s_pxCurrentEnvironment = NULL;
+bool GLToy_Environment_System::s_bRender = true;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -25,7 +26,8 @@ bool GLToy_Environment_System::Initialise()
 {
     s_pxCurrentEnvironment = NULL;
 
-    GLToy_Console::RegisterCommand( "test", LoadTestEnvironment );
+    GLToy_Console::RegisterVariable( "render.environment", &s_bRender );
+    // GLToy_Console::RegisterCommand( "testenv", LoadTestEnvironment );
 
     return true;
 }
@@ -37,7 +39,7 @@ void GLToy_Environment_System::Shutdown()
 
 void GLToy_Environment_System::Render()
 {
-    if( s_pxCurrentEnvironment )
+    if( s_pxCurrentEnvironment && s_bRender )
     {
         s_pxCurrentEnvironment->Render();
     }

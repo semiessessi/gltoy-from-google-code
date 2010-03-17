@@ -16,7 +16,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template < class T >
-class GLToy_Stack : public GLToy_FlatDataStructure< T >
+class GLToy_Stack
+: public GLToy_FlatDataStructure< T >
 {
 
     typedef GLToy_FlatDataStructure< T > GLToy_Parent;

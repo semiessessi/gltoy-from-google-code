@@ -12,9 +12,6 @@
 #include <Maths/GLToy_Plane.h>
 #include <Maths/GLToy_Volume.h>
 
-// C/C++
-#include <math.h>
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +96,7 @@ bool GLToy_Ray::IntersectsWithSphere( const GLToy_Sphere& xSphere, GLToy_Vector_
     }
 
     fT -= fC;
-    fT = -fB - sqrt( fT );
+    fT = -fB - GLToy_Maths::Sqrt( fT );
 
     const bool bHit = !( ( fT < 0.0f ) ^ ( fA < 0.0f ) );
 

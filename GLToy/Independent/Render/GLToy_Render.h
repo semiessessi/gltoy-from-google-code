@@ -41,7 +41,9 @@ public:
     static void Shutdown();
 
     static void BeginRender();
+    static void BeginRender2D();
     static void Render();
+    static void Render2D();
     static void EndRender();
 
     // GL interface
@@ -65,6 +67,9 @@ public:
 
     static void SubmitTexturedQuad2D( const float fXMin, const float fYMin, const float fXMax, const float fYMax, const float fUMin = 0.0f, const float fVMin = 0.0f, const float fUMax = 1.0f, const float fVMax = 1.0f );
 
+    static void StartSubmittingLines();
+    static void StartSubmittingLineStrip();
+    static void StartSubmittingLineLoop();
     static void StartSubmittingTriangles();
     static void StartSubmittingQuads();
     static void StartSubmittingTriangleStrip();
@@ -83,6 +88,9 @@ public:
     static void DisableBlending();
     static void EnableBlending();
     static void SetBlendFunction( const u_int uSourceBlend, const u_int uDestinationBlend );
+
+    static void DisableDepthTesting();
+    static void EnableDepthTesting();
 
     static void DisableBackFaceCulling();
     static void EnableBackFaceCulling();

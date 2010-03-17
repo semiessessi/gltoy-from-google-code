@@ -13,6 +13,7 @@
 #include <Core/GLToy_UpdateFunctor.h>
 #include <Entity/GLToy_Entity.h>
 #include <Entity/Model/GLToy_Entity_ModelStatic.h>
+#include <Entity/Model/GLToy_Entity_ModelAnimated.h>
 #include <File/GLToy_File_System.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_RenderFunctor.h>
@@ -21,6 +22,7 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+bool GLToy_Entity_System::s_bRender = true;
 GLToy_HashTree< GLToy_Entity* > GLToy_Entity_System::s_xEntities;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,6 +33,8 @@ bool GLToy_Entity_System::Initialise()
 {
     s_xEntities.Clear();
 
+    GLToy_Console::RegisterVariable( "render.entities", &s_bRender );
+    GLToy_Console::RegisterCommand( "spawnanim", SpawnAnim_Console );
     GLToy_Console::RegisterCommand( "spawnmodel", SpawnModel_Console );
 
     return true;
@@ -49,7 +53,10 @@ void GLToy_Entity_System::Update()
 
 void GLToy_Entity_System::Render()
 {
-    s_xEntities.Traverse( GLToy_IndirectRenderFunctor< GLToy_Entity >() );
+    if( s_bRender )
+    {
+        s_xEntities.Traverse( GLToy_IndirectRenderFunctor< GLToy_Entity >() );
+    }
 }
 
 GLToy_Entity* GLToy_Entity_System::FindEntity( const GLToy_Hash uHash )
@@ -73,6 +80,7 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Hash uHash, const G
     {
         case ENTITY_NULL:               pxNewEntity = new GLToy_Entity_Null( uHash, eType ); break;
         case ENTITY_MODELSTATIC:        pxNewEntity = new GLToy_Entity_ModelStatic( uHash, eType ); break;
+        case ENTITY_MODELANIMATED:      pxNewEntity = new GLToy_Entity_ModelAnimated( uHash, eType ); break;
 
         default:
         {
@@ -102,9 +110,27 @@ void GLToy_Entity_System::SpawnModel( const GLToy_String& szName, const GLToy_Ve
     pxModelEntity->SetOrientation( xOrientation );
 }
 
+void GLToy_Entity_System::SpawnAnim( const GLToy_String& szName, const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation )
+{
+    GLToy_String szEntityName;
+    szEntityName.SetToFormatString( "Entity%d", s_xEntities.GetCount() );
+
+    GLToy_Entity* pxEntity = CreateEntity( szEntityName.GetHash(), ENTITY_MODELANIMATED );
+    GLToy_Entity_ModelAnimated* pxModelEntity = reinterpret_cast< GLToy_Entity_ModelAnimated* >( pxEntity );
+
+    pxModelEntity->SetModel( szName );
+    pxModelEntity->SetPosition( xPosition );
+    pxModelEntity->SetOrientation( xOrientation );
+}
+
+void GLToy_Entity_System::SpawnAnim_Console( const GLToy_String& szName )
+{
+    SpawnAnim( szName, GLToy_Camera::GetPosition(), GLToy_Camera::GetOrientation() );
+
+}
 void GLToy_Entity_System::SpawnModel_Console( const GLToy_String& szName )
 {
-    SpawnModel( szName, GLToy_Camera::GetPosition(), GLToy_Maths::IdentityMatrix3 );
+    SpawnModel( szName, GLToy_Camera::GetPosition(), GLToy_Camera::GetOrientation() );
 }
 
 #define TESTFORTYPE( szName, eType ) if( szString.GetHash() == GLToy_Hash_Constant( szName ) ) { return eType; }
@@ -113,8 +139,9 @@ GLToy_EntityType GLToy_EntityTypeFromString( const GLToy_String& szString )
 {
     TESTFORTYPE( "null", ENTITY_NULL );
     TESTFORTYPE( "static model", ENTITY_MODELSTATIC );
+    TESTFORTYPE( "animated model", ENTITY_MODELANIMATED );
 
-    GLToy_Assert( false, "Unrecognised entity type: %S", szString.GetWideString() );
+    GLToy_Assert( false, "Unrecognised entity type: %S. Maybe you forgot to add it to GLToy_EntityTypeFromString?", szString.GetWideString() );
     return ENTITY_NULL;
 }
 

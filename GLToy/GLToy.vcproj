@@ -283,10 +283,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Core\GLToy_State.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Independent\Core\GLToy_Timer.cpp"
 					>
 				</File>
@@ -371,6 +367,18 @@
 					</File>
 					<File
 						RelativePath=".\Independent\Core\Console\GLToy_ConsoleVariable.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="State"
+					>
+					<File
+						RelativePath=".\Independent\Core\State\GLToy_State.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\State\GLToy_State.h"
 						>
 					</File>
 				</Filter>
@@ -681,6 +689,14 @@
 				<Filter
 					Name="Model"
 					>
+					<File
+						RelativePath=".\Independent\Entity\Model\GLToy_Entity_ModelAnimated.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Entity\Model\GLToy_Entity_ModelAnimated.h"
+						>
+					</File>
 					<File
 						RelativePath=".\Independent\Entity\Model\GLToy_Entity_ModelStatic.cpp"
 						>

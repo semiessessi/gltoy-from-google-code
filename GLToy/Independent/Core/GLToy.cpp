@@ -7,6 +7,7 @@
 
 // GLToy headers
 #include <Core/Console/GLToy_Console.h>
+#include <Core/State/GLToy_State.h>
 #include <Core/GLToy_Timer.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment_System.h>
@@ -94,6 +95,7 @@ bool GLToy::Initialise()
     GLTOY_INITIALISER_CALL( GLToy_Timer );
     GLTOY_INITIALISER_CALL( GLToy_Maths );
     GLTOY_INITIALISER_CALL( GLToy_Input_System );
+    GLTOY_INITIALISER_CALL( GLToy_State_System );
 
     if( !Platform_EarlyInitialise() )
     {
@@ -116,6 +118,7 @@ bool GLToy::Initialise()
 #ifdef GLTOY_USE_FRIDGESCRIPT
     GLTOY_INITIALISER_CALL( GLToy_FridgeScript );
 #endif
+
     GLTOY_INITIALISER_CALL( GLToy_Model_System );
     GLTOY_INITIALISER_CALL( GLToy_Environment_System );
     GLTOY_INITIALISER_CALL( GLToy_Entity_System );
@@ -139,6 +142,7 @@ void GLToy::Shutdown()
     GLToy_Entity_System::Shutdown();
     GLToy_Environment_System::Shutdown();
     GLToy_Model_System::Shutdown();
+
 #ifdef GLTOY_USE_FRIDGESCRIPT
     GLToy_FridgeScript::Shutdown();
 #endif
@@ -148,6 +152,7 @@ void GLToy::Shutdown()
 
     Platform_Shutdown();
 
+    GLToy_State_System::Shutdown();
     GLToy_Maths::Shutdown();
 
     GLToy_DebugOutput( "\r\nGLToy::Shutdown() - Completed successfully.\r\n" );
@@ -178,6 +183,9 @@ bool GLToy::MainLoop()
 
     GLToy_Render::Render();
 
+    GLToy_Render::BeginRender2D();
+
+    GLToy_Render::Render2D();
     GLToy_Console::Render();
 
     GLToy_Render::EndRender();

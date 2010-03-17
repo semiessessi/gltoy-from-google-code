@@ -1,0 +1,44 @@
+#ifndef __GLTOY_ENTITY_MODELANIMATED_H_
+#define __GLTOY_ENTITY_MODELANIMATED_H_
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// I N C L U D E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+// Parents
+#include <Entity/Model/GLToy_Entity_ModelStatic.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F O R W A R D   D E C L A R A T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+class GLToy_AnimationStack;
+class GLToy_Model;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C L A S S E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+class GLToy_Entity_ModelAnimated
+: public GLToy_Entity_ModelStatic
+{
+
+    typedef GLToy_Entity_ModelStatic GLToy_Parent;
+
+public:
+
+    GLToy_Entity_ModelAnimated( const GLToy_Hash uHash, const GLToy_EntityType eType );
+    virtual ~GLToy_Entity_ModelAnimated();
+
+    virtual void Render() const;
+    virtual void Update();
+
+    void PlayAnimation( const u_int uAnimID = 0, const float fTweenInTime = 0.0f, const float fTweenOutTime = 0.0f );
+
+protected:
+
+    GLToy_AnimationStack* m_pxAnimStack;
+
+};
+
+#endif

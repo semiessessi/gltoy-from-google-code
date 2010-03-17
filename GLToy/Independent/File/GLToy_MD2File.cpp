@@ -108,6 +108,7 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
 
     pxModel->m_xVertices.Resize( pxHeader->m_uNumVertices * pxHeader->m_uNumFrames );
     pxModel->m_xNormalIndices.Resize( pxHeader->m_uNumVertices * pxHeader->m_uNumFrames );
+    pxModel->SetFrameSize( pxHeader->m_uNumVertices );
 
     for( u_int u = 0; u < pxHeader->m_uNumFrames; ++u )
     {
@@ -118,7 +119,7 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
             // as well as decompressing the vertex, do some component jiggling to correct the axes from the quake 2 standard
             pxModel->m_xVertices[ uVertexIndex ] =
                 GLToy_Vector_3(
-                    static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 1 ] ) * xFrame.m_xScale[ 1 ] + xFrame.m_xTranslate[ 1 ],
+                    -( static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 1 ] ) * xFrame.m_xScale[ 1 ] + xFrame.m_xTranslate[ 1 ] ),
                     static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 2 ] ) * xFrame.m_xScale[ 2 ] + xFrame.m_xTranslate[ 2 ],
                     static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 0 ] ) * xFrame.m_xScale[ 0 ] + xFrame.m_xTranslate[ 0 ] );
             
@@ -170,6 +171,8 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
     }
 
     // TODO - try non .png files
+
+    pxModel->InitialiseFirstFrameData();
 
     return pxModel;
 

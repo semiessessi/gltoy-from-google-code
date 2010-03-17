@@ -8,6 +8,8 @@
 #include <Model/GLToy_Model_MD2.h>
 
 // GLToy
+#include <Core/GLToy_Timer.h>
+#include <Core/GLToy_UpdateFunctor.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
 
@@ -24,30 +26,11 @@ struct GLToy_MD2_CommandVertex
 
 };
 
-
-struct GLToy_MD2_AnimationState
-{
-
-    u_int   m_uFirstFrame;
-    u_int   m_uLastFrame;
-    u_int   m_uFPS;
-
-    float   m_fCurrentTime;
-    float   m_fOldTime;
-    float   m_fInterpolate;
-
-    u_int   m_uType;
-
-    u_int   m_uCurrentFrame;
-    u_int   m_uNextFrame;
-
-};
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const GLToy_MD2_Animation xMD2_ANIM_LIST[ GLToy_Model_MD2::NUM_ANIMIDS ] =
+static const GLToy_MD2_Animation axMD2_ANIMS[ GLToy_Model_MD2::NUM_ANIMIDS ] =
 {
     { 0, 39, 9 },
     { 40, 45, 10 },
@@ -245,8 +228,34 @@ static const GLToy_Vector_3 xMD2_NORMALS[] =
 GLToy_Model_MD2::GLToy_Model_MD2()
 : m_xNormalIndices()
 , m_xGLCommands()
+, m_xTexCoords()
+, m_xTriangles()
+, m_xWorkingVertices()
+, m_xWorkingNormals()
+, m_uFrameSize( 0 )
 , m_pxTexture( NULL )
 {
+}
+
+void GLToy_Model_MD2::InitialiseFirstFrameData()
+{
+    for( u_int u = 0; u < m_uFrameSize; ++u )
+    {
+        m_xWorkingVertices[ u ] = m_xVertices[ u ];
+        m_xWorkingNormals[ u ] = xMD2_NORMALS[ m_xNormalIndices[ u ] ];
+    }
+}
+
+void GLToy_Model_MD2::SetFrameSize( const u_int uFrameSize )
+{
+    m_xWorkingVertices.Resize( uFrameSize );
+    m_xWorkingNormals.Resize( uFrameSize );
+    m_uFrameSize = uFrameSize;
+}
+
+GLToy_AnimationStack* GLToy_Model_MD2::CreateAnimationStack() const
+{
+    return new GLToy_MD2_AnimationStack;
 }
 
 void GLToy_Model_MD2::Render() const
@@ -275,8 +284,8 @@ void GLToy_Model_MD2::Render() const
             for( u_int u = 0; u < 3; ++u )
             {
                 GLToy_Render::SubmitTextureCoordinate( m_xTexCoords[ xTriangle.m_ausTexCoords[ u ] ] );
-                GLToy_Render::SubmitNormal( xMD2_NORMALS[ m_xNormalIndices[ xTriangle.m_ausVertices[ u ] ] ] );
-                GLToy_Render::SubmitVertex( m_xVertices[ xTriangle.m_ausVertices[ u ] ] );
+                GLToy_Render::SubmitNormal( m_xWorkingNormals[ xTriangle.m_ausVertices[ u ] ] );
+                GLToy_Render::SubmitVertex( m_xWorkingVertices[ xTriangle.m_ausVertices[ u ] ] );
             }
         }
 
@@ -308,8 +317,8 @@ void GLToy_Model_MD2::Render() const
         GLToy_ConstIterate( GLToy_MD2_CommandVertex, xIterator, &xCommandList )
         {
             GLToy_Render::SubmitTextureCoordinate( GLToy_Vector_3( xIterator.Current().m_fU, xIterator.Current().m_fV, 0.0f ) );
-            GLToy_Render::SubmitNormal( xMD2_NORMALS[ m_xNormalIndices[ xIterator.Current().m_uIndex ] ] );
-            GLToy_Render::SubmitVertex( m_xVertices[ xIterator.Current().m_uIndex ] );
+            GLToy_Render::SubmitNormal( m_xWorkingNormals[ xIterator.Current().m_uIndex ] );
+            GLToy_Render::SubmitVertex( m_xWorkingVertices[ xIterator.Current().m_uIndex ] );
             
             uIP += 3;
         }
@@ -318,4 +327,147 @@ void GLToy_Model_MD2::Render() const
     }
 
     GLToy_Render::DisableBackFaceCulling();
+}
+
+
+GLToy_MD2_AnimationState::GLToy_MD2_AnimationState()
+: m_eAnimID( GLToy_Model_MD2::ANIMID_STAND )
+, m_fTimer( 0.0f )
+, m_fTweenInTime( 0.0f )
+, m_fTweenOutTime( 0.0f )
+, m_fEndTime( static_cast< float >( axMD2_ANIMS[ 0 ].m_uLastFrame ) / static_cast< float >( axMD2_ANIMS[ 0 ].m_uFPS ) )
+, m_bLoop( true )
+, m_bAnimatedTween( false )
+{
+}
+
+GLToy_MD2_AnimationState::GLToy_MD2_AnimationState( const GLToy_Model_MD2::AnimID eAnimID, const float fTweenInTime, const float fTweenOutTime, const bool bAnimatedTween )
+: m_eAnimID( eAnimID )
+, m_fTimer( 0.0f )
+, m_fTweenInTime( fTweenInTime )
+, m_fTweenOutTime( fTweenOutTime )
+, m_bAnimatedTween( bAnimatedTween )
+{
+    GLToy_Assert( fTweenInTime <= fTweenOutTime, " Bad tween times give to animation state from animation stack" );
+    GLToy_Assert( eAnimID < GLToy_Model_MD2::NUM_ANIMIDS, "Invalid anim ID" );
+    switch( m_eAnimID )
+    {
+        case GLToy_Model_MD2::ANIMID_STAND:
+        case GLToy_Model_MD2::ANIMID_RUN:
+        case GLToy_Model_MD2::ANIMID_CROUCH_STAND:
+        case GLToy_Model_MD2::ANIMID_CROUCH_WALK:
+        {
+            m_bLoop = true;
+            break;
+        }
+
+        default:
+        {
+            m_bLoop = false;
+            break;
+        }
+    }
+
+    m_fEndTime = static_cast< float >( axMD2_ANIMS[ m_eAnimID ].m_uLastFrame - axMD2_ANIMS[ m_eAnimID ].m_uFirstFrame ) / static_cast< float >( axMD2_ANIMS[ m_eAnimID ].m_uFPS );
+}
+
+void GLToy_MD2_AnimationState::Update()
+{
+    m_fTimer += GLToy_Timer::GetFrameTime();
+
+    if(  m_fTimer > m_fEndTime )
+    {
+        m_fTimer = m_bLoop ? 0.0f : m_fEndTime;
+    }
+}
+
+void GLToy_MD2_AnimationState::Evaluate( GLToy_Model_MD2* const pxModel ) const
+{
+    const float fAdjustedTime = m_fTimer * static_cast< float >( axMD2_ANIMS[ m_eAnimID ].m_uFPS ) + static_cast< float >( axMD2_ANIMS[ m_eAnimID ].m_uFirstFrame );
+    const u_int uFrameSize = pxModel->m_uFrameSize;
+    
+    if( ( fAdjustedTime * uFrameSize ) > static_cast< float >( pxModel->m_xVertices.GetCount() ) )
+    {
+        return; // can't animate in this case...
+    }
+    
+    u_int uFrame = static_cast< u_int >( GLToy_Maths::Floor( fAdjustedTime ) );
+    u_int uNextFrame = ( uFrame < axMD2_ANIMS[ m_eAnimID ].m_uLastFrame ) ? uFrame + 1 : axMD2_ANIMS[ m_eAnimID ].m_uFirstFrame;
+    const float fLerp = fAdjustedTime - static_cast< float >( uFrame );
+
+    GLToy_Array< GLToy_Vector_3 >& xVertices = pxModel->m_xVertices;
+    GLToy_Array< u_char >& xNormalIndices = pxModel->m_xNormalIndices;
+    GLToy_Array< GLToy_Vector_3 >& xWorkingVertices = pxModel->m_xWorkingVertices;
+    GLToy_Array< GLToy_Vector_3 >& xWorkingNormals = pxModel->m_xWorkingNormals;
+
+    const float fTween = ( ( m_fTweenInTime > 0.0f ) ? GLToy_Maths::Min( m_fTimer / m_fTweenInTime, 1.0f ) : 1.0f )
+    - ( ( m_fTweenInTime > 0.0f ) ? GLToy_Maths::Max( ( m_fTimer - m_fTweenOutTime ) / ( m_fEndTime - m_fTweenOutTime ), 0.0f ) : 0.0f );
+
+    for( u_int u = 0; u < uFrameSize; ++u )
+    {
+        const u_int uIndex1 = u + uFrameSize * uFrame;
+        const u_int uIndex2 = u + uFrameSize * uNextFrame;
+        xWorkingVertices[ u ] = GLToy_Maths::Lerp( xWorkingVertices[ u ], GLToy_Maths::Lerp( xVertices[ uIndex1 ], xVertices[ uIndex2 ], fLerp ), fTween );
+        xWorkingNormals[ u ] = GLToy_Maths::Lerp( xWorkingNormals[ u ], GLToy_Maths::Lerp( xMD2_NORMALS[ xNormalIndices[ uIndex1 ] ], xMD2_NORMALS[ xNormalIndices[ uIndex2 ] ], fLerp ), fTween );
+    }
+}
+
+
+
+void GLToy_MD2_AnimationStack::Update()
+{
+    for( u_int u = 0; u < GetCount(); ++u )
+    {
+        if( operator []( u ).IsDone() )
+        {
+            RemoveAt( u );
+            --u;
+        }
+    }
+
+    Traverse( GLToy_UpdateFunctor< GLToy_MD2_AnimationState >() );
+}
+
+void GLToy_MD2_AnimationStack::Evaluate( GLToy_Model* const pxModel ) const
+{
+    if( GetCount() == 0 )
+    {
+        return;
+    }
+
+    GLToy_Model_MD2* const pxMD2Model = reinterpret_cast< GLToy_Model_MD2* const >( pxModel );
+    GLToy_Array< GLToy_Vector_3 >& xWorkingVertices = pxMD2Model->m_xWorkingVertices;
+    GLToy_Array< GLToy_Vector_3 >& xWorkingNormals = pxMD2Model->m_xWorkingNormals;
+
+    for( u_int u = 0; u < pxMD2Model->m_uFrameSize; ++u )
+    {
+        xWorkingVertices[ u ] = GLToy_Maths::ZeroVector3;
+        xWorkingNormals[ u ] = GLToy_Maths::ZeroVector3;
+    }
+
+    GLToy_ConstIterate( GLToy_MD2_AnimationState, xIterator, this )
+    {
+        xIterator.Current().Evaluate( pxMD2Model );
+    }
+}
+
+bool GLToy_MD2_AnimationStack::SupportsAnimID( GLToy_Model* const pxModel, const u_int uAnimID ) const
+{
+    if( !pxModel )
+    {
+        return false;
+    }
+    
+    return ( axMD2_ANIMS[ uAnimID ].m_uLastFrame < reinterpret_cast< GLToy_Model_MD2* const >( pxModel )->GetFrameCount() )
+        && ( uAnimID < static_cast< u_int >( GLToy_Model_MD2::NUM_ANIMIDS ) );
+}
+
+void GLToy_MD2_AnimationStack::Push( const u_int uAnimID, const float fTweenInTime, const float fTweenOutTime, const bool bAnimatedTween )
+{
+    const float fEndTime = static_cast< float >( axMD2_ANIMS[ uAnimID ].m_uLastFrame - axMD2_ANIMS[ uAnimID ].m_uFirstFrame ) / static_cast< float >( axMD2_ANIMS[ uAnimID ].m_uFPS );
+    Append( GLToy_MD2_AnimationState( static_cast< GLToy_Model_MD2::AnimID >( uAnimID ), fTweenInTime, fEndTime - fTweenOutTime, bAnimatedTween ) );
+}
+
+void GLToy_MD2_AnimationStack::Stop( const u_int uAnimID, const float fTweenOutTime, const bool bAnimatedTween )
+{
 }

@@ -68,28 +68,39 @@ void GLToy_Render::BeginRender()
 {
     Platform_BeginRender();
 
+    GLToy_Render::EnableDepthTesting();
     GLToy_Camera::ApplyTransforms();
+}
+
+void GLToy_Render::BeginRender2D()
+{
+    GLToy_Render::DisableDepthTesting();
+    GLToy_Render::SetOrthogonalProjectionMatrix();
+    GLToy_Render::SetIdentityViewMatrix();
 }
 
 void GLToy_Render::Render()
 {
     Project_Render();
+}
 
-    GLToy_Render::UseProgram( 0 );
+void GLToy_Render::Render2D()
+{
+    // Project_Render2D();
 
     if( s_bDrawFPS )
     {
+        GLToy_Render::UseProgram( 0 );
         // draw fps counter, we should have the console's font by now
         GLToy_Font* pxFont = GLToy_Font_System::FindFont( GLToy_Hash_Constant( "console" ) );
         GLToy_String szFPSString;
 
         szFPSString.SetToFormatString( "%.2f fps", GLToy_Maths::Max( GLToy_Timer::GetSmoothedFrameRate(), 0.01f ) );
 
-        GLToy_Render::SetOrthogonalProjectionMatrix();
-        GLToy_Render::SetIdentityViewMatrix();
         pxFont->RenderString( szFPSString, -1.0f, 1.0f - pxFont->GetHeight() );
     }
 }
+
 
 void GLToy_Render::EndRender()
 {
@@ -199,6 +210,24 @@ void GLToy_Render::SubmitTexturedQuad2D( const float fXMin, const float fYMin, c
     GLToy_Render::SubmitTextureCoordinate( GLToy_Vector_3( fUMin, fVMin, 0.0f ) );
     GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMin, fYMax , 0.0f ) );
 }
+static void StartSubmittingLines();
+    static void StartSubmittingLineStrip();
+    static void StartSubmittingLineLoop();
+
+void GLToy_Render::StartSubmittingLines()
+{
+    Platform_GLToy_Render::StartSubmittingLines();
+}
+
+void GLToy_Render::StartSubmittingLineStrip()
+{
+    Platform_GLToy_Render::StartSubmittingLineStrip();
+}
+
+void GLToy_Render::StartSubmittingLineLoop()
+{
+    Platform_GLToy_Render::StartSubmittingLineLoop();
+}
 
 void GLToy_Render::StartSubmittingTriangles()
 {
@@ -268,6 +297,16 @@ void GLToy_Render::DisableBlending()
 void GLToy_Render::EnableBlending()
 {
     Platform_GLToy_Render::EnableBlending();
+}
+
+void GLToy_Render::DisableDepthTesting()
+{
+    Platform_GLToy_Render::DisableDepthTesting();
+}
+
+void GLToy_Render::EnableDepthTesting()
+{
+    Platform_GLToy_Render::EnableDepthTesting();
 }
 
 void GLToy_Render::SetBlendFunction( const u_int uSourceBlend, const u_int uDestinationBlend )

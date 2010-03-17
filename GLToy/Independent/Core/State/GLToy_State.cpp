@@ -1,25 +1,21 @@
-#ifndef __GLTOY_ENTITYTYPES_H_
-#define __GLTOY_ENTITYTYPES_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_String;
+#include <Core/GLToy.h>
+
+// This file's header
+#include <Core/State/GLToy_State.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-enum GLToy_EntityType
+bool GLToy_State_System::Initialise()
 {
-    ENTITY_NULL,
-    ENTITY_MODELSTATIC,
-    ENTITY_MODELANIMATED,
+    return true;
+}
 
-    NUM_ENTITY_TYPES
-};
-
-GLToy_EntityType GLToy_EntityTypeFromString( const GLToy_String& szString );
-
-#endif
+void GLToy_State_System::Shutdown()
+{
+}

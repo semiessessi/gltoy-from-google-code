@@ -77,8 +77,6 @@ bool Platform_GLToy_Render::Initialise()
     glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
     glClearDepth( 1.0f );
     glClearStencil( 0 );
-    glEnable( GL_DEPTH_TEST );
-    glDepthFunc( GL_LEQUAL );
 
     // get version
 	GLToy_String szVersionString = reinterpret_cast< const char* >( glGetString( GL_VERSION ) );
@@ -215,6 +213,21 @@ void Platform_GLToy_Render::SetLookAtViewMatrix( const GLToy_Vector_3& xPosition
                 xUp[0], xUp[1], xUp[2] );
 }
 
+void Platform_GLToy_Render::StartSubmittingLines()
+{
+    glBegin( GL_LINES );
+}
+
+void Platform_GLToy_Render::StartSubmittingLineStrip()
+{
+    glBegin( GL_LINE_STRIP );
+}
+
+void Platform_GLToy_Render::StartSubmittingLineLoop()
+{
+    glBegin( GL_LINE_LOOP );
+}
+
 void Platform_GLToy_Render::StartSubmittingTriangles()
 {
     glBegin( GL_TRIANGLES );
@@ -332,6 +345,17 @@ void Platform_GLToy_Render::EnableBlending()
 void Platform_GLToy_Render::SetBlendFunction( const u_int uSourceBlend, const u_int uDestinationBlend )
 {
     glBlendFunc( uSourceBlend, uDestinationBlend );
+}
+
+void Platform_GLToy_Render::DisableDepthTesting()
+{
+    glDisable( GL_DEPTH_TEST );
+}
+
+void Platform_GLToy_Render::EnableDepthTesting()
+{
+    glEnable( GL_DEPTH_TEST );
+    glDepthFunc( GL_LEQUAL );
 }
 
 void Platform_GLToy_Render::EnableBackFaceCulling()

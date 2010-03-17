@@ -27,8 +27,9 @@ void GLToy_Entity_ModelStatic::SetModel( const GLToy_String& szName )
 
 void GLToy_Entity_ModelStatic::Render() const
 {
-    if( m_pxModel )
+    if( m_pxModel && IsActive() )
     {
+        m_pxModel->InitialiseFirstFrameData();
         m_pxModel->RenderWithPositionAndOrientation( GetPosition(), GetOrientation() );
     }
 }

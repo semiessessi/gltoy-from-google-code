@@ -69,6 +69,7 @@ public:
     static float GetMouseDeltaX() { return s_fMouseDeltaX; }
     static float GetMouseDeltaY() { return s_fMouseDeltaY; }
     
+    static GLToy_KeyInputHandler* GetKeyInputHandler() { return s_pxKeyInputHandler; }
     static void SetKeyInputHandler( GLToy_KeyInputHandler* pxKeyInputHandler );
 
     static GLToy_Inline u_int GetConsoleKey() { return s_uConsoleKeyCode; }

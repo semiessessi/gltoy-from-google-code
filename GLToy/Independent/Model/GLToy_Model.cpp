@@ -22,19 +22,19 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 GLToy_ModelStrip::GLToy_ModelStrip()
-: GLToy_DataParent()
+: GLToy_Parent()
 , m_pxVertices( NULL )
 {
 }
 
 GLToy_ModelStrip::GLToy_ModelStrip( const GLToy_ModelStrip& xStrip )
-: GLToy_DataParent( xStrip )
+: GLToy_Parent( xStrip )
 , m_pxVertices( xStrip.m_pxVertices )
 {
 }
 
 GLToy_ModelStrip::GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVertex3 )
-: GLToy_DataParent()
+: GLToy_Parent()
 , m_pxVertices( NULL )
 {
     Append( uVertex1 );
@@ -43,7 +43,7 @@ GLToy_ModelStrip::GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVerte
 }
 
 GLToy_ModelStrip::GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVertex3, u_int uVertex4 )
-: GLToy_DataParent()
+: GLToy_Parent()
 , m_pxVertices( NULL )
 {
     Append( uVertex1 );
@@ -53,7 +53,7 @@ GLToy_ModelStrip::GLToy_ModelStrip( u_int uVertex1, u_int uVertex2, u_int uVerte
 }
 
 GLToy_ModelStrip::GLToy_ModelStrip( const u_int* puVertices, const u_int uCount )
-: GLToy_DataParent()
+: GLToy_Parent()
 , m_pxVertices( NULL )
 {
     for( u_int u = 0; u < uCount; ++u )
@@ -64,7 +64,7 @@ GLToy_ModelStrip::GLToy_ModelStrip( const u_int* puVertices, const u_int uCount 
 
 GLToy_ModelStrip& GLToy_ModelStrip::operator =( const GLToy_ModelStrip& xStrip )
 {
-    GLToy_DataParent::operator =( xStrip );
+    GLToy_Parent::operator =( xStrip );
     m_pxVertices = xStrip.m_pxVertices;
 
     return *this;
@@ -97,7 +97,7 @@ void GLToy_ModelStrip::SubmitVertex( const u_int uIndex ) const
 //
 
 GLToy_Model::GLToy_Model()
-: GLToy_DataParent()
+: GLToy_Parent()
 , m_xVertices()
 {
 }
@@ -155,8 +155,10 @@ void GLToy_Model::Render() const
 void GLToy_Model::RenderWithPositionAndOrientation( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation ) const
 {
     GLToy_Render::PushViewMatrix();
-    GLToy_Render::Transform( xOrientation );
     GLToy_Render::Translate( xPosition );
+    GLToy_Matrix_3 xInverseOri = xOrientation;
+    xInverseOri.Transpose();
+    GLToy_Render::Transform( xInverseOri );
 
     Render();
 
@@ -247,11 +249,11 @@ void GLToy_Model::LoadFromOBJFile( GLToy_Model* const pxModel, const GLToy_Strin
 void GLToy_Model::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
     xStream >> m_xVertices;
-    GLToy_DataParent::ReadFromBitStream( xStream );
+    GLToy_Parent::ReadFromBitStream( xStream );
 }
 
 void GLToy_Model::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
     xStream << m_xVertices;
-    GLToy_DataParent::WriteToBitStream( xStream );
+    GLToy_Parent::WriteToBitStream( xStream );
 }

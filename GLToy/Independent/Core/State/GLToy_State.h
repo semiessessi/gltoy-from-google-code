@@ -2,29 +2,37 @@
 #define __GLTOY_STATE_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// I N C L U D E S
+// F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parent
-#include <Render/GLToy_Renderable.h>
+class GLToy_String;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_State : public GLToy_Renderable
+class GLToy_State
 {
-
-    typedef GLToy_Renderable GLToy_Parent;
 
 public:
     
     GLToy_State();
     virtual ~GLToy_State();
 
-    const char* GetName() const = 0;
+    virtual const GLToy_String& GetName() const = 0;
 
-protected:
+    virtual void Initialise() = 0;
+    virtual void Shutdown() = 0;
+
+};
+
+class GLToy_State_System
+{
+
+public:
+
+    static bool Initialise();
+    static void Shutdown();
 
 };
 

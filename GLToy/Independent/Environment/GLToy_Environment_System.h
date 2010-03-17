@@ -25,10 +25,13 @@ public:
 
     static void LoadTestEnvironment();
 
+    static bool SetRender( const bool bRender ) { s_bRender = bRender; };
+
 private:
 
     static GLToy_Environment* CreateFromOBJFile( const GLToy_String& szFilename );
 
+    static bool s_bRender;
     static GLToy_Environment* s_pxCurrentEnvironment;
 
 };

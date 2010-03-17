@@ -7,6 +7,7 @@
 
 // Parents
 #include <Core/GLToy_Serialisable.h>
+#include <Render/GLToy_Renderable.h>
 
 // GLToy
 #include <Maths/GLToy_Maths.h>
@@ -70,6 +71,7 @@ protected:
 
 class GLToy_AABB
 : public GLToy_Volume
+, public GLToy_Renderable
 {
 
     typedef GLToy_Volume GLToy_Parent;
@@ -96,6 +98,8 @@ public:
     , m_xPointMin( xPointMin )
     {
     }
+
+    virtual void Render() const;
 
     virtual float GetSurfaceArea() const
     {

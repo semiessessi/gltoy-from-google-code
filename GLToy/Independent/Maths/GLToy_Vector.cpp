@@ -78,6 +78,15 @@ GLToy_Vector_3 GLToy_Vector_3::operator -() const
     return GLToy_Vector_3( -m_fComponents[ 0 ], -m_fComponents[ 1 ], -m_fComponents[ 2 ] );
 }
 
+GLToy_Vector_3& GLToy_Vector_3::operator +=( const GLToy_Vector_3& xVector )
+{
+    // TODO - use platform add
+    m_fComponents[ 0 ] += xVector.m_fComponents[ 0 ];
+    m_fComponents[ 1 ] += xVector.m_fComponents[ 1 ];
+    m_fComponents[ 2 ] += xVector.m_fComponents[ 2 ];
+    return *this;
+}
+
 GLToy_Vector_3 GLToy_Vector_3::operator +( const GLToy_Vector_3& xVector ) const
 {
     return Platform_GLToy_Vector::Add( *this, xVector );

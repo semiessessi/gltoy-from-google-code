@@ -58,7 +58,7 @@ void GLToy_Camera::Update()
         s_fRY -= GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
     }
 
-    s_fRY -= GLToy_Input_System::GetMouseDeltaX() * fCAMERA_MOUSE_SCALE;
+    s_fRY += GLToy_Input_System::GetMouseDeltaX() * fCAMERA_MOUSE_SCALE;
     s_fRX += GLToy_Input_System::GetMouseDeltaY() * fCAMERA_MOUSE_SCALE;
     s_fRX = GLToy_Maths::Clamp( s_fRX, -( GLToy_Maths::Pi * 0.5f ), GLToy_Maths::Pi * 0.5f );
 
@@ -70,7 +70,7 @@ void GLToy_Camera::Update()
     s_xDirection = GLToy_Vector_3( fCRX * fSRY, -fSRX, fCRX * fCRY );
     s_xUp = GLToy_Vector_3( fSRX * fSRY, fCRX, fSRX * fCRY );
 
-    const GLToy_Vector_3 xLeft = GetLeft();
+    const GLToy_Vector_3 xRight = GetRight();
 
     if( GLToy_Input_System::IsKeyDown( 'W' )
         || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetUpKey() ) )
@@ -86,12 +86,12 @@ void GLToy_Camera::Update()
 
     if( GLToy_Input_System::IsKeyDown( 'A' ) )
     {
-        s_xPosition = s_xPosition - xLeft * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
+        s_xPosition = s_xPosition - xRight * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
     }
 
     if( GLToy_Input_System::IsKeyDown( 'D' ) )
     {
-        s_xPosition = s_xPosition + xLeft * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
+        s_xPosition = s_xPosition + xRight * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
     }
 }
 

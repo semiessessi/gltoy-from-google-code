@@ -15,6 +15,7 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+const float GLToy_Maths::LargeFloat = 1.0e+35f;
 const float GLToy_Maths::Pi = 3.141592654f;
 const GLToy_Vector_3 GLToy_Maths::ZeroVector3 = GLToy_Vector_3();
 const GLToy_Matrix_3 GLToy_Maths::IdentityMatrix3 = GLToy_Matrix_3( GLToy_Vector_3( 1.0f, 0.0f, 0.0f ), GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), GLToy_Vector_3( 0.0f, 0.0f, 1.0f ) );
@@ -46,4 +47,9 @@ void GLToy_Maths::Platform_Shutdown()
 float GLToy_Maths::Sqrt( const float fValue )
 {
     return sqrt( fValue );
+}
+
+float GLToy_Maths::Floor( const float fValue )
+{
+    return floor( fValue );
 }

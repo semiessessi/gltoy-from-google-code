@@ -8,6 +8,7 @@
 // Parents
 #include <Core/Data Structures/GLToy_Array.h>
 #include <Core/GLToy_Bounded.h>
+#include <Core/GLToy_Updateable.h>
 #include <Render/GLToy_Renderable.h>
 
 // GLToy
@@ -30,13 +31,25 @@ class GLToy_String;
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+class GLToy_AnimationStack
+: public GLToy_Updateable
+{
+
+public:
+
+    virtual void Evaluate( class GLToy_Model* const pxModel ) const = 0;
+    virtual bool SupportsAnimID( GLToy_Model* const pxModel, const u_int uAnimID ) const = 0;
+    virtual void Push( const u_int uAnimID, const float fTweenInTime = 0.0f, const float fTweenOutTime = 0.0f, const bool bAnimatedTween = false ) = 0;
+    virtual void Stop( const u_int uAnimID, const float fTweenOutTime = 0.0f, const bool bAnimatedTween = false ) = 0;
+
+};
+
 class GLToy_ModelStrip
 : public GLToy_Renderable
 , public GLToy_SerialisableArray< u_int >
 {
 
-    typedef GLToy_SerialisableArray< u_int > GLToy_DataParent;
-    typedef GLToy_Renderable GLToy_RenderParent;
+    typedef GLToy_SerialisableArray< u_int > GLToy_Parent;
 
 public:
 
@@ -69,8 +82,7 @@ class GLToy_Model
 , public GLToy_SerialisableIndirectArray< GLToy_ModelStrip >
 {
 
-    typedef GLToy_SerialisableIndirectArray< GLToy_ModelStrip > GLToy_DataParent;
-    typedef GLToy_Renderable GLToy_RenderParent;
+    typedef GLToy_SerialisableIndirectArray< GLToy_ModelStrip > GLToy_Parent;
 
 public:
 
@@ -83,6 +95,9 @@ public:
     virtual void AddStripFromQuad( const GLToy_Vector_3& xVertex1, const GLToy_Vector_3& xVertex2, const GLToy_Vector_3& xVertex3, const GLToy_Vector_3& xVertex4 );
     virtual void AddStripFromIndices( const u_int* puIndices, const u_int uCount );
 
+    virtual GLToy_AnimationStack* CreateAnimationStack() const { return NULL; }
+
+    virtual void InitialiseFirstFrameData() {}
     virtual void Render() const;
     virtual void RenderWithPositionAndOrientation( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation ) const;
 

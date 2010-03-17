@@ -35,7 +35,7 @@ public:
 
     GLToy_Entity( const GLToy_Hash uHash, const GLToy_EntityType eType )
     : GLToy_Parent()
-    , m_bActive( false )
+    , m_bActive( true )
     , m_eType( eType )
     , m_uHash( uHash )
     {
@@ -59,7 +59,7 @@ public:
     GLToy_Hash GetHash() const { return m_uHash; }
     GLToy_Inline GLToy_EntityType GetType() const { return m_eType; }
 
-    bool IsActive() const { return m_bActive; }
+    GLToy_Inline bool IsActive() const { return m_bActive; }
 
 protected:
 
