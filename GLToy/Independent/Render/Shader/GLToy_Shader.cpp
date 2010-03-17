@@ -2,10 +2,10 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/RTToy.h>
+#include <Core/GLToy.h>
 
 // This file's header
-#include <Render/Shader/RTToy_Shader.h>
+#include <Render/Shader/GLToy_Shader.h>
 
 // GLToy
 #include <Render/GLToy_Render.h>
@@ -14,7 +14,7 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-RTToy_ShaderProgram::RTToy_ShaderProgram( const u_int uID, const u_int uFSID, const u_int uVSID )
+GLToy_ShaderProgram::GLToy_ShaderProgram( const u_int uID, const u_int uFSID, const u_int uVSID )
 : m_uID( uID )
 , m_uFSID( uFSID )
 , m_uVSID( uVSID )
@@ -28,7 +28,7 @@ RTToy_ShaderProgram::RTToy_ShaderProgram( const u_int uID, const u_int uFSID, co
     }
 }
 
-RTToy_ShaderProgram::~RTToy_ShaderProgram()
+GLToy_ShaderProgram::~GLToy_ShaderProgram()
 {
     if( IsReady() )
     {
@@ -41,7 +41,7 @@ RTToy_ShaderProgram::~RTToy_ShaderProgram()
     }
 }
 
-void RTToy_ShaderProgram::Bind() const
+void GLToy_ShaderProgram::Bind() const
 {
     GLToy_Render::UseProgram( m_uID );
 }

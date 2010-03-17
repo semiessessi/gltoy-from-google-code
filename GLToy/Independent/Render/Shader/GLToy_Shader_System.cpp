@@ -2,31 +2,29 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/RTToy.h>
+#include <Core/GLToy.h>
 
 // This file's header
-#include <Render/Shader/RTToy_Shader_System.h>
+#include <Render/Shader/GLToy_Shader_System.h>
 
 // GLToy
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <File/GLToy_ANSITextFile.h>
 #include <File/GLToy_File_System.h>
 #include <Render/GLToy_Render.h>
-
-// RTToy
-#include <Render/Shader/RTToy_Shader.h>
+#include <Render/Shader/GLToy_Shader.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_HashTree< RTToy_ShaderProgram* > RTToy_Shader_System::s_xPrograms;
+GLToy_HashTree< GLToy_ShaderProgram* > GLToy_Shader_System::s_xPrograms;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool RTToy_Shader_System::Initialise()
+bool GLToy_Shader_System::Initialise()
 {
     s_xPrograms.Clear();
 
@@ -126,7 +124,7 @@ bool RTToy_Shader_System::Initialise()
             GLToy_DebugOutput( acLog );
         }
 
-        s_xPrograms.AddNode( new RTToy_ShaderProgram( uID, uFSID, uVSID ), szName.GetHash() );
+        s_xPrograms.AddNode( new GLToy_ShaderProgram( uID, uFSID, uVSID ), szName.GetHash() );
 
         GLToy_Render::ValidateProgram( uID );
         GLToy_Render::GetProgramInfoLog( uID, 1023, &iLogLength, acLog );
@@ -141,22 +139,22 @@ bool RTToy_Shader_System::Initialise()
     return true;
 }
 
-void RTToy_Shader_System::Shutdown()
+void GLToy_Shader_System::Shutdown()
 {
     s_xPrograms.DeleteAll();
     s_xPrograms.Clear();
 }
 
-void RTToy_Shader_System::BindShaderProgram( const GLToy_Hash uHash )
+void GLToy_Shader_System::BindShaderProgram( const GLToy_Hash uHash )
 {
-    RTToy_ShaderProgram** ppxShaderProgram = s_xPrograms.FindData( uHash );
+    GLToy_ShaderProgram** ppxShaderProgram = s_xPrograms.FindData( uHash );
     if( ppxShaderProgram )
     {
         ( *ppxShaderProgram )->Bind();
     }
 }
 
-void RTToy_Shader_System::BindShaderProgram( const GLToy_String& szName )
+void GLToy_Shader_System::BindShaderProgram( const GLToy_String& szName )
 {
     return BindShaderProgram( szName.GetHash() );
 }

@@ -1,5 +1,5 @@
-#ifndef __GLTOY_MODEL_SYSTEM_H_
-#define __GLTOY_MODEL_SYSTEM_H_
+#ifndef __GLTOY_SHADER_SYSTEM_H_
+#define __GLTOY_SHADER_SYSTEM_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
@@ -14,13 +14,13 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template < class T > class GLToy_HashTree;
-class RTToy_ShaderProgram;
+class GLToy_ShaderProgram;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class RTToy_Shader_System
+class GLToy_Shader_System
 {
 
 public:
@@ -33,7 +33,7 @@ public:
 
 private:
 
-    static GLToy_HashTree< RTToy_ShaderProgram* > s_xPrograms;
+    static GLToy_HashTree< GLToy_ShaderProgram* > s_xPrograms;
 
 };
 

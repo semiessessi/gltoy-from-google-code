@@ -446,6 +446,26 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Shader"
+					>
+					<File
+						RelativePath=".\Independent\Render\Shader\GLToy_Shader.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Render\Shader\GLToy_Shader.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Render\Shader\GLToy_Shader_System.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Render\Shader\GLToy_Shader_System.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Maths"

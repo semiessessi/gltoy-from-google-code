@@ -19,6 +19,7 @@
 #include <Render/GLToy_Renderable.h>
 #include <Render/GLToy_RenderFunctor.h>
 #include <Render/GLToy_Texture.h>
+#include <Render/Shader/GLToy_Shader_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -41,6 +42,7 @@ bool GLToy_Render::Initialise()
     }
 
     GLTOY_INITIALISER_CALL( GLToy_Camera );
+    GLTOY_INITIALISER_CALL( GLToy_Shader_System );
     GLTOY_INITIALISER_CALL( GLToy_Texture_System );
     GLTOY_INITIALISER_CALL( GLToy_Font_System );
 
@@ -60,6 +62,7 @@ void GLToy_Render::Shutdown()
 
     GLToy_Font_System::Shutdown();
     GLToy_Texture_System::Shutdown();
+    GLToy_Shader_System::Shutdown();
 
     Platform_Shutdown();
 }

@@ -235,26 +235,6 @@
 					RelativePath=".\Independent\Render\RTToy_Render.h"
 					>
 				</File>
-				<Filter
-					Name="Shader"
-					>
-					<File
-						RelativePath=".\Independent\Render\Shader\RTToy_Shader.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\Independent\Render\Shader\RTToy_Shader.h"
-						>
-					</File>
-					<File
-						RelativePath=".\Independent\Render\Shader\RTToy_Shader_System.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\Independent\Render\Shader\RTToy_Shader_System.h"
-						>
-					</File>
-				</Filter>
 			</Filter>
 		</Filter>
 	</Files>

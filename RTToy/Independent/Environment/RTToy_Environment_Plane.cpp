@@ -11,9 +11,7 @@
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
-
-// RTToy
-#include <Render/Shader/RTToy_Shader_System.h>
+#include <Render/Shader/GLToy_Shader_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -54,7 +52,7 @@ void RTToy_Environment_Plane::Render() const
         GLToy_Texture_System::BindWhite();
     }
 
-    RTToy_Shader_System::BindShaderProgram( GLToy_Hash_Constant( "Raytrace_Plane" ) );
+    GLToy_Shader_System::BindShaderProgram( GLToy_Hash_Constant( "Raytrace_Plane" ) );
 
     const float fAspectRatio = static_cast< float >( GLToy::GetWindowViewportWidth() ) / static_cast< float >( GLToy::GetWindowViewportHeight() );
 
