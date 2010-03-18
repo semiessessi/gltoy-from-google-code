@@ -101,8 +101,6 @@ bool GLToy_Shader_System::Initialise()
         int iLogLength = 0;
 
         GLToy_Render::GetShaderInfoLog( uFSID, 1023, &iLogLength, acLog );
-        uFoo = GLToy_Render::GetError();
-        bGoo = GLToy_Render::IsShader( uFSID );
         if( iLogLength > 0 )
         {
             GLToy_DebugOutput( "   - Compiling fragment shader \"%S\"...\r\n", szFSPath.GetWideString() );
