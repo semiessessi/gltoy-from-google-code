@@ -7,6 +7,7 @@
 
 class GLToy_Renderable
 {
+
 public:
 
     GLToy_Renderable() {}
@@ -15,6 +16,7 @@ public:
     virtual void Initialise() {};
     virtual void Render() const = 0;
     virtual void Shutdown() {}
+
 };
 
 #endif
