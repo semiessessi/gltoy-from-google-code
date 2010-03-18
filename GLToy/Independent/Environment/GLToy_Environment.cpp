@@ -13,31 +13,26 @@
 #include <Render/GLToy_RenderFunctor.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C O N S T A N T S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-static const u_int uCURRENT_VERSION = 0;
-
-/////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 void GLToy_Environment::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
-    u_int uVersion;
+    // environment file does this for us...
+    // TODO - remove the asymmetry
+    //u_int uVersion;
 
-    xStream >> uVersion;
+    //xStream >> uVersion;
 
-    if( uVersion > uCURRENT_VERSION )
-    {
-        GLToy_Assert( uVersion <= uCURRENT_VERSION, "Bad version for environment data: %u", uVersion );
-        return;
-    }
+    //if( uVersion > uCURRENT_VERSION )
+    //{
+    //    GLToy_Assert( uVersion <= uCURRENT_VERSION, "Bad version for environment data: %u", uVersion );
+    //    return;
+    //}
 }
 
 void GLToy_Environment::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
-    xStream << uCURRENT_VERSION;
 }
 
 void GLToy_Environment::Render() const

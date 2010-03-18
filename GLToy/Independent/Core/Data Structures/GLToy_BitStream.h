@@ -104,7 +104,8 @@ public:
 
     char* GetData() { return m_pcData; }
     const char* GetData() const { return m_pcData; }
-    void ResetReadPosition() { m_uReadPos = 0; }
+    void ResetReadPosition() const { m_uReadPos = 0; }
+    void SetReadByte( const u_int uByte ) const { m_uReadPos = uByte << 3; }
 
     bool IsDoneReading() const { return m_uReadPos >= m_uPosition; }
 

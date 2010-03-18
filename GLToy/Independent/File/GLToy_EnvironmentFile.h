@@ -31,6 +31,11 @@ public:
 
     virtual void LoadEnvironment() const;
 
+    void LoadBSP29( const GLToy_BitStream& xStream ) const;
+    void LoadBSP30( const GLToy_BitStream& xStream ) const;
+    void LoadBSP38( const GLToy_BitStream& xStream ) const;
+    void LoadBSP46( const GLToy_BitStream& xStream ) const;
+
     static void Save( const GLToy_String& szFilename );
 
 protected:

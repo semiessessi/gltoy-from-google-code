@@ -2,10 +2,10 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/RTToy.h>
+#include <Core/GLToy.h>
 
 // This file's header
-#include <Environment/RTToy_Environment_Plane.h>
+#include <Environment/GLToy_Environment_Plane.h>
 
 // GLToy
 #include <Render/GLToy_Camera.h>
@@ -17,29 +17,29 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void RTToy_Environment_Plane::ReadFromBitStream( const GLToy_BitStream& xStream )
+void GLToy_Environment_Plane::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
     xStream >> m_xPlane;
     xStream >> m_uTextureHash;
 }
 
-void RTToy_Environment_Plane::WriteToBitStream( GLToy_BitStream& xStream ) const
+void GLToy_Environment_Plane::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
     xStream << m_xPlane;
     xStream << m_uTextureHash;
 }
 
-void RTToy_Environment_Plane::Initialise()
+void GLToy_Environment_Plane::Initialise()
 {
     GLToy_Texture_System::CreateTexture( m_uTextureHash );
 }
 
-void RTToy_Environment_Plane::Shutdown()
+void GLToy_Environment_Plane::Shutdown()
 {
     GLToy_Texture_System::DestroyTexture( m_uTextureHash );
 }
 
-void RTToy_Environment_Plane::Render() const
+void GLToy_Environment_Plane::Render() const
 {
     GLToy_Texture* pxTexture = GLToy_Texture_System::FindTexture( m_uTextureHash );
 
@@ -75,6 +75,6 @@ void RTToy_Environment_Plane::Render() const
     GLToy_Render::EndSubmit();
 }
 
-void RTToy_Environment_Plane::Update()
+void GLToy_Environment_Plane::Update()
 {
 }

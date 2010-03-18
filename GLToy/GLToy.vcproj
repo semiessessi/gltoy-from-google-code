@@ -622,6 +622,18 @@
 					RelativePath=".\Independent\File\GLToy_ModelFile.h"
 					>
 				</File>
+				<Filter
+					Name="BSP"
+					>
+					<File
+						RelativePath=".\Independent\File\BSP\GLToy_BSP38.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\File\BSP\GLToy_BSP46.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="FridgeScript"
@@ -656,6 +668,14 @@
 				</File>
 				<File
 					RelativePath=".\Independent\Environment\GLToy_Environment.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Environment\GLToy_Environment_Plane.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Environment\GLToy_Environment_Plane.h"
 					>
 				</File>
 				<File

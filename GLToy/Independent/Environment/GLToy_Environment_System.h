@@ -5,7 +5,9 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+template < class T > class GLToy_HashTree;
 class GLToy_Environment;
+class GLToy_EnvironmentFile;
 class GLToy_String;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,10 +31,10 @@ public:
 
 private:
 
-    static GLToy_Environment* CreateFromOBJFile( const GLToy_String& szFilename );
-
     static bool s_bRender;
     static GLToy_Environment* s_pxCurrentEnvironment;
+
+    static GLToy_HashTree< GLToy_EnvironmentFile* > s_xEnvironments;
 
 };
 

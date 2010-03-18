@@ -209,18 +209,6 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="Environment"
-				>
-				<File
-					RelativePath=".\Independent\Environment\RTToy_Environment_Plane.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Independent\Environment\RTToy_Environment_Plane.h"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="Render"
 				>
 				<File

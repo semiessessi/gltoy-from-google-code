@@ -7,10 +7,10 @@
 // This file's header
 #include <Render/RTToy_Render.h>
 
-// RTToy
-#include <Environment/RTToy_Environment_Plane.h>
+// GLToy
+#include <Environment/GLToy_Environment_Plane.h>
 
-static RTToy_Environment_Plane* pxEnv = NULL;
+static GLToy_Environment_Plane* pxEnv = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -18,7 +18,7 @@ static RTToy_Environment_Plane* pxEnv = NULL;
 
 bool RTToy_Render::Initialise()
 {
-    pxEnv = new RTToy_Environment_Plane( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "generic/grid1.png" );
+    pxEnv = new GLToy_Environment_Plane( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "generic/grid1.png" );
     pxEnv->Initialise();
     
     return true;

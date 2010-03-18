@@ -1,5 +1,5 @@
-#ifndef __RTTOY_ENVIRONMENT_PLANE_H_
-#define __RTTOY_ENVIRONMENT_PLANE_H_
+#ifndef __GLTOY_ENVIRONMENT_PLANE_H_
+#define __GLTOY_ENVIRONMENT_PLANE_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
@@ -12,7 +12,7 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class RTToy_Environment_Plane
+class GLToy_Environment_Plane
 : public GLToy_Environment
 {
 
@@ -20,7 +20,7 @@ class RTToy_Environment_Plane
 
 public:
 
-    RTToy_Environment_Plane( const GLToy_Plane& xPlane, const GLToy_String& szTextureName )
+    GLToy_Environment_Plane( const GLToy_Plane& xPlane, const GLToy_String& szTextureName )
     : GLToy_Parent()
     , m_xPlane( xPlane )
     , m_uTextureHash( szTextureName.GetHash() )
