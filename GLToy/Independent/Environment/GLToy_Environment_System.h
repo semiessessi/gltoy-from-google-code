@@ -14,6 +14,13 @@ class GLToy_String;
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+enum GLToy_EnvironmentType
+{
+    ENV_PLANE = 0,
+
+    NUM_ENV_TYPES
+};
+
 class GLToy_Environment_System
 {
 
@@ -25,9 +32,16 @@ public:
     static void Update();
     static void Render();
 
-    static void LoadTestEnvironment();
+    static void LoadEnvironmentFile( const GLToy_String& szName );
+    static void SaveEnvironmentFile( const GLToy_String& szName );
 
+    static void CreateTestEnvironment();
+    static GLToy_Environment* CreateEnvironmentFromType( const GLToy_EnvironmentType eType );
+
+    static const GLToy_Environment* GetCurrentEnvironment() { return s_pxCurrentEnvironment; }
     static bool SetRender( const bool bRender ) { s_bRender = bRender; };
+
+    static void SwitchEnvironment( GLToy_Environment* const pxEnv );
 
 private:
 

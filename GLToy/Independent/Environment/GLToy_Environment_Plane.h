@@ -31,10 +31,12 @@ public:
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
     virtual void Initialise();
-    virtual void Shutdown();
+    virtual void Shutdown();    
     
     virtual void Render() const;
     virtual void Update();
+
+    virtual int GetType() const;
 
 protected:
 

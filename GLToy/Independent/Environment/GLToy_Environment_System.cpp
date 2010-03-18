@@ -10,9 +10,12 @@
 // GLToy
 #include <Core/Console/GLToy_Console.h>
 #include <Core/Data Structures/GLToy_HashTree.h>
+#include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment.h>
+#include <Environment/GLToy_Environment_Plane.h>
 #include <File/GLToy_EnvironmentFile.h>
 #include <File/GLToy_File_System.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -32,7 +35,11 @@ bool GLToy_Environment_System::Initialise()
     s_pxCurrentEnvironment = NULL;
 
     GLToy_Console::RegisterVariable( "render.env", &s_bRender );
-    // GLToy_Console::RegisterCommand( "testenv", LoadTestEnvironment );
+
+    GLToy_Console::RegisterCommand( "new.testenv", CreateTestEnvironment );
+
+    GLToy_Console::RegisterCommand( "load.env", LoadEnvironmentFile );
+    GLToy_Console::RegisterCommand( "save.env", SaveEnvironmentFile );
     
     s_xEnvironments.Clear();
 
@@ -84,6 +91,64 @@ void GLToy_Environment_System::Update()
     }
 }
 
-void GLToy_Environment_System::LoadTestEnvironment()
+void GLToy_Environment_System::LoadEnvironmentFile( const GLToy_String& szName )
 {
+    // try .env first ...
+    GLToy_EnvironmentFile** ppxEnvFile = s_xEnvironments.FindData( szName.GetHash() );
+    if( !ppxEnvFile )
+    {
+        // ... else .bsp
+        ppxEnvFile = s_xEnvironments.FindData( ( szName + ".bsp" ).GetHash() );
+        if( !ppxEnvFile )
+        {
+            return;
+        }
+    }
+    else
+    {
+        // try loading entities that match environment
+        GLToy_Entity_System::LoadEntityFile( szName );
+    }
+
+    ( *ppxEnvFile )->LoadEnvironment();
+}
+
+void GLToy_Environment_System::SaveEnvironmentFile( const GLToy_String& szName )
+{
+    GLToy_EnvironmentFile::Save( GLToy_String( "Environments/" ) + szName + ".env" );
+}
+
+void GLToy_Environment_System::CreateTestEnvironment()
+{
+    SwitchEnvironment( new GLToy_Environment_Plane( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "generic/grid1.png" ) );
+}
+
+GLToy_Environment* GLToy_Environment_System::CreateEnvironmentFromType( const GLToy_EnvironmentType eType )
+{
+    GLToy_Environment* pxNewEnv = NULL;
+
+    switch( eType )
+    {
+        case ENV_PLANE: pxNewEnv = new GLToy_Environment_Plane( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "generic/grid1.png" ); break;
+
+        default:
+        {
+            GLToy_Assert( false, "Unrecognised environment type: %u", eType );
+            break;
+        }
+    }
+
+    return pxNewEnv;
+}
+
+void GLToy_Environment_System::SwitchEnvironment( GLToy_Environment* const pxEnv )
+{
+        if( s_pxCurrentEnvironment )
+    {
+        s_pxCurrentEnvironment->Shutdown();
+    }
+
+    delete s_pxCurrentEnvironment;
+    s_pxCurrentEnvironment = pxEnv;
+    s_pxCurrentEnvironment->Initialise();
 }
