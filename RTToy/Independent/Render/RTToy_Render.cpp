@@ -7,16 +7,9 @@
 // This file's header
 #include <Render/RTToy_Render.h>
 
-// GLToy
-#include <Model/GLToy_Model.h>
-#include <Model/GLToy_Model_System.h>
-#include <Render/GLToy_Camera.h>
-#include <Render/GLToy_Texture.h>
-
 // RTToy
 #include <Environment/RTToy_Environment_Plane.h>
 
-static GLToy_Model* pxModel = NULL;
 static RTToy_Environment_Plane* pxEnv = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,10 +34,4 @@ void RTToy_Render::Shutdown()
 void RTToy_Render::Render()
 {
     pxEnv->Render();
-
-    pxModel = GLToy_Model_System::LoadModel( "loadtrucka" );
-    pxModel->Render();
-
-    pxModel = GLToy_Model_System::LoadModel( "loadtruckb" );
-    pxModel->Render();
 }

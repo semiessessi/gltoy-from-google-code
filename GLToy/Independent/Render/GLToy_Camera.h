@@ -30,6 +30,8 @@ public:
     static GLToy_Matrix_3 GetOrientation() { return GLToy_Matrix_3( GetRight(), s_xUp, s_xDirection ); }
     static GLToy_Matrix_3 GetInverseOrientation() { static GLToy_Matrix_3 ls_xTranspose; ls_xTranspose = GLToy_Matrix_3( GetRight(), s_xUp, s_xDirection ); ls_xTranspose.Transpose(); return ls_xTranspose; }
 
+    static void SetPosition( const GLToy_Vector_3& xPosition ) { s_xPosition = xPosition; }
+
 private:
 
     static GLToy_Vector_3 s_xPosition;

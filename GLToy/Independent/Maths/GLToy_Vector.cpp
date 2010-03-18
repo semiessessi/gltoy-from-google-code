@@ -87,6 +87,15 @@ GLToy_Vector_3& GLToy_Vector_3::operator +=( const GLToy_Vector_3& xVector )
     return *this;
 }
 
+GLToy_Vector_3& GLToy_Vector_3::operator *=( const float fFloat )
+{
+    // TODO - use platform mul
+    m_fComponents[ 0 ] *= fFloat;
+    m_fComponents[ 1 ] *= fFloat;
+    m_fComponents[ 2 ] *= fFloat;
+    return *this;
+}
+
 GLToy_Vector_3 GLToy_Vector_3::operator +( const GLToy_Vector_3& xVector ) const
 {
     return Platform_GLToy_Vector::Add( *this, xVector );

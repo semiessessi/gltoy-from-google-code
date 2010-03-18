@@ -162,6 +162,8 @@ public:
     GLToy_Inline GLToy_Vector_3 GetExtents() const { return m_xPointMax - m_xPointMin; }
     GLToy_Inline GLToy_Vector_3 GetHalfExtents() const { return m_xPosition - m_xPointMin; }
 
+    bool IntersectsWithAABB( const GLToy_AABB& xAABB ) const;
+
 protected:
 
     GLToy_Vector_3 m_xPointMax;
@@ -233,6 +235,8 @@ public:
 
     GLToy_Inline float GetRadius() const { return m_fRadius; }
 
+    bool IntersectsWithAABB( const GLToy_AABB& xAABB ) const;
+
 protected:
 
     float m_fRadius;
@@ -241,6 +245,7 @@ protected:
 
 class GLToy_OBB
 : public GLToy_Volume
+, public GLToy_Renderable
 {
 
     typedef GLToy_Volume GLToy_Parent;
@@ -267,6 +272,8 @@ public:
     , m_xOrientation( xOrientation )
     {
     }
+
+    virtual void Render() const;
 
     // surface area and volume are invariant under rotation...
     virtual float GetSurfaceArea() const
@@ -314,6 +321,8 @@ public:
 
     GLToy_Inline GLToy_Vector_3 GetExtents() const { return m_xBox.GetExtents(); }
     GLToy_Inline GLToy_Vector_3 GetHalfExtents() const { return m_xBox.GetHalfExtents(); }
+
+    bool IntersectsWithAABB( const GLToy_AABB& xAABB ) const;
 
 protected:
 

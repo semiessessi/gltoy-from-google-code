@@ -54,6 +54,8 @@ public:
     GLToy_Vector_3 operator -() const;
 
     GLToy_Vector_3& operator +=( const GLToy_Vector_3& xVector );
+    GLToy_Vector_3& operator *=( const float fFloat );
+
     GLToy_Vector_3 operator +( const GLToy_Vector_3& xVector ) const;
     GLToy_Vector_3 operator -( const GLToy_Vector_3& xVector ) const;
     GLToy_Vector_3 operator *( const float fFloat ) const;
@@ -79,6 +81,7 @@ public:
 
     void Normalise();
     float Magnitude() const;
+    float MagnitudeSquared() const { return *this * *this; }
 
     bool operator ==( const GLToy_Vector_3& xVector ) const;
 

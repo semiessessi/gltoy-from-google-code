@@ -14,6 +14,7 @@
 #include <Entity/GLToy_Entity.h>
 #include <Entity/Model/GLToy_Entity_ModelStatic.h>
 #include <Entity/Model/GLToy_Entity_ModelAnimated.h>
+#include <File/GLToy_EntityFile.h>
 #include <File/GLToy_File_System.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_RenderFunctor.h>
@@ -23,6 +24,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 bool GLToy_Entity_System::s_bRender = true;
+bool GLToy_Entity_System::s_bRenderAABBs = false;
+bool GLToy_Entity_System::s_bRenderOBBs = false;
+bool GLToy_Entity_System::s_bRenderSpheres = false;
 GLToy_HashTree< GLToy_Entity* > GLToy_Entity_System::s_xEntities;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +37,13 @@ bool GLToy_Entity_System::Initialise()
 {
     s_xEntities.Clear();
 
-    GLToy_Console::RegisterVariable( "render.entities", &s_bRender );
+    GLToy_Console::RegisterVariable( "render.ents", &s_bRender );
+    GLToy_Console::RegisterVariable( "render.aabbs", &s_bRenderAABBs );
+    GLToy_Console::RegisterVariable( "render.obbs", &s_bRenderOBBs );
+    GLToy_Console::RegisterVariable( "render.spheres", &s_bRenderSpheres ); // TODO
+    
+    GLToy_Console::RegisterCommand( "load.ents", LoadEntityFile );
+    GLToy_Console::RegisterCommand( "save.ents", SaveEntityFile );
     GLToy_Console::RegisterCommand( "spawnanim", SpawnAnim_Console );
     GLToy_Console::RegisterCommand( "spawnmodel", SpawnModel_Console );
 
@@ -42,8 +52,7 @@ bool GLToy_Entity_System::Initialise()
 
 void GLToy_Entity_System::Shutdown()
 {
-    s_xEntities.DeleteAll();
-    s_xEntities.Clear();
+    DestroyEntities();
 }
 
 void GLToy_Entity_System::Update()
@@ -57,6 +66,16 @@ void GLToy_Entity_System::Render()
     {
         s_xEntities.Traverse( GLToy_IndirectRenderFunctor< GLToy_Entity >() );
     }
+
+    if( s_bRenderAABBs )
+    {
+        s_xEntities.Traverse( GLToy_IndirectRenderAABBFunctor< GLToy_Entity >() );
+    }
+
+    if( s_bRenderOBBs )
+    {
+        s_xEntities.Traverse( GLToy_IndirectRenderOBBFunctor< GLToy_Entity >() );
+    }
 }
 
 GLToy_Entity* GLToy_Entity_System::FindEntity( const GLToy_Hash uHash )
@@ -68,6 +87,11 @@ GLToy_Entity* GLToy_Entity_System::FindEntity( const GLToy_Hash uHash )
 GLToy_Entity* GLToy_Entity_System::LookUpEntity( const GLToy_String& szName )
 {
     return FindEntity( szName.GetHash() );
+}
+
+void GLToy_Entity_System::Traverse( GLToy_ConstFunctor< GLToy_Entity* >& xFunctor )
+{
+    s_xEntities.Traverse( xFunctor );
 }
 
 GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Hash uHash, const GLToy_EntityType eType )
@@ -91,10 +115,26 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Hash uHash, const G
 
     if( pxNewEntity )
     {
-        s_xEntities.AddNode( pxNewEntity, pxNewEntity->GetHash() );
+        s_xEntities.AddNode( pxNewEntity, uHash );
     }
 
     return pxNewEntity;
+}
+
+void GLToy_Entity_System::DestroyEntities()
+{
+    s_xEntities.DeleteAll();
+    s_xEntities.Clear();
+}
+
+void GLToy_Entity_System::LoadEntityFile( const GLToy_String& szName )
+{
+    GLToy_EntityFile( GLToy_String( "Environments/" ) + szName + ".ents" ).LoadEntities();
+}
+
+void GLToy_Entity_System::SaveEntityFile( const GLToy_String& szName )
+{
+    GLToy_EntityFile::Save( GLToy_String( "Environments/" ) + szName + ".ents" );
 }
 
 void GLToy_Entity_System::SpawnModel( const GLToy_String& szName, const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation )

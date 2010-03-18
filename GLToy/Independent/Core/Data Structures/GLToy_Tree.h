@@ -16,7 +16,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template < class T >
-class GLToy_TreeDeleteFunctor : public GLToy_Functor< T >
+class GLToy_TreeDeleteFunctor
+: public GLToy_Functor< T >
 {
 
 public:
@@ -25,7 +26,7 @@ public:
     {
     }
 
-    virtual void operator ()( T* pxData )
+    virtual void operator ()( T* const pxData )
     {
         delete *pxData;
     }
@@ -33,7 +34,8 @@ public:
 };
 
 template < class T >
-class GLToy_TreeIndexFunctor : public GLToy_Functor< T >
+class GLToy_TreeIndexFunctor
+: public GLToy_Functor< T >
 {
 
 public:
@@ -44,7 +46,7 @@ public:
     {
     }
 
-    virtual void operator ()( T* pxData )
+    virtual void operator ()( T* const pxData )
     {
         if( m_iIndex == 0 )
         {
@@ -65,7 +67,8 @@ protected:
 };
 
 template < class T >
-class GLToy_ConstTreeIndexFunctor : public GLToy_ConstFunctor< T >
+class GLToy_ConstTreeIndexFunctor
+: public GLToy_ConstFunctor< T >
 {
 
 public:
@@ -76,7 +79,7 @@ public:
     {
     }
 
-    virtual void operator ()( const T* pxData )
+    virtual void operator ()( const T* const pxData )
     {
         if( m_iIndex == 0 )
         {
@@ -97,7 +100,8 @@ protected:
 };
 
 template < class T >
-class GLToy_TreeCountFunctor : public GLToy_ConstFunctor< T >
+class GLToy_TreeCountFunctor
+: public GLToy_ConstFunctor< T >
 {
 
 public:
@@ -107,7 +111,7 @@ public:
     {
     }
 
-    virtual void operator ()( const T* pxData )
+    virtual void operator ()( const T* const pxData )
     {
         ++m_uCount;
     }
@@ -123,7 +127,8 @@ protected:
 };
 
 template < class T >
-class GLToy_Tree : public GLToy_DataStructure< T >
+class GLToy_Tree
+: public GLToy_DataStructure< T >
 {
 
     typedef GLToy_DataStructure< T > GLToy_Parent;

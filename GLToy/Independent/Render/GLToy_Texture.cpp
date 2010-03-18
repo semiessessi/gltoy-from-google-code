@@ -98,7 +98,7 @@ void GLToy_Texture_System::Shutdown()
     : public GLToy_Functor< GLToy_Texture >
     {
     public:
-        void operator ()( GLToy_Texture* xTexture )
+        void operator ()( GLToy_Texture* const xTexture )
         {
             if( xTexture->IsReadyForUse() )
             {

@@ -61,28 +61,65 @@ void GLToy_AABB::Render() const
     xVertex[ 1 ] = m_xPointMin[ 1 ];
     xVertex[ 2 ] = m_xPointMin[ 2 ];
     GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 0 ] = m_xPointMax[ 2 ];
+    xVertex[ 2 ] = m_xPointMax[ 2 ];
     GLToy_Render::SubmitVertex( xVertex );
 
     xVertex[ 1 ] = m_xPointMax[ 1 ];
     xVertex[ 2 ] = m_xPointMin[ 2 ];
     GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 0 ] = m_xPointMax[ 2 ];
+    xVertex[ 2 ] = m_xPointMax[ 2 ];
     GLToy_Render::SubmitVertex( xVertex );
 
     xVertex[ 0 ] = m_xPointMax[ 0 ];
     xVertex[ 2 ] = m_xPointMin[ 2 ];
     GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 0 ] = m_xPointMax[ 2 ];
+    xVertex[ 2 ] = m_xPointMax[ 2 ];
     GLToy_Render::SubmitVertex( xVertex );
 
     xVertex[ 1 ] = m_xPointMin[ 1 ];
     xVertex[ 2 ] = m_xPointMin[ 2 ];
     GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 0 ] = m_xPointMax[ 2 ];
+    xVertex[ 2 ] = m_xPointMax[ 2 ];
     GLToy_Render::SubmitVertex( xVertex );
 
     GLToy_Render::EndSubmit();
+}
+
+void GLToy_OBB::Render() const
+{
+    GLToy_Render::PushViewMatrix();
+
+    GLToy_Matrix_3 xInverseOrientation = m_xOrientation;
+    xInverseOrientation.Transpose();
+
+    GLToy_Render::Transform( xInverseOrientation );
+    
+    m_xBox.Render();
+    
+    GLToy_Render::PopViewMatrix();
+}
+
+bool GLToy_AABB::IntersectsWithAABB( const GLToy_AABB& xAABB ) const
+{
+    
+    return !( ( xAABB.m_xPointMax[ 0 ] < m_xPointMin[ 0 ] )
+        || ( xAABB.m_xPointMin[ 0 ] > m_xPointMax[ 0 ] )
+        || ( xAABB.m_xPointMax[ 1 ] < m_xPointMin[ 1 ] )
+        || ( xAABB.m_xPointMin[ 1 ] > m_xPointMax[ 1 ] )
+        || ( xAABB.m_xPointMax[ 2 ] < m_xPointMin[ 2 ] )
+        || ( xAABB.m_xPointMin[ 2 ] > m_xPointMax[ 2 ] ) );
+}
+
+bool GLToy_Sphere::IntersectsWithAABB( const GLToy_AABB& xAABB ) const
+{
+    // TODO
+    return false;
+}
+
+bool GLToy_OBB::IntersectsWithAABB( const GLToy_AABB& xAABB ) const
+{
+    // TODO
+    return false;
 }
 
 GLToy_Sphere GLToy_Volume::GetBoundingSphere() const

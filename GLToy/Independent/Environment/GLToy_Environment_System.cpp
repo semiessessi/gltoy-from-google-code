@@ -26,7 +26,7 @@ bool GLToy_Environment_System::Initialise()
 {
     s_pxCurrentEnvironment = NULL;
 
-    GLToy_Console::RegisterVariable( "render.environment", &s_bRender );
+    GLToy_Console::RegisterVariable( "render.env", &s_bRender );
     // GLToy_Console::RegisterCommand( "testenv", LoadTestEnvironment );
 
     return true;

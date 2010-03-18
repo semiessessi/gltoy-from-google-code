@@ -18,9 +18,35 @@ class GLToy_RenderFunctor
 
 public:
 
-    virtual void operator ()( const T* pxRenderable )
+    virtual void operator ()( const T* const pxRenderable )
     {
         pxRenderable->Render();
+    }
+};
+
+template < class T >
+class GLToy_RenderAABBFunctor
+: public GLToy_ConstFunctor< T >
+{
+
+public:
+
+    virtual void operator ()( const T* const pxRenderable )
+    {
+        pxRenderable->RenderAABB();
+    }
+};
+
+template < class T >
+class GLToy_RenderOBBFunctor
+: public GLToy_ConstFunctor< T >
+{
+
+public:
+
+    virtual void operator ()( const T* const pxRenderable )
+    {
+        pxRenderable->RenderOBB();
     }
 };
 
@@ -31,9 +57,35 @@ class GLToy_IndirectRenderFunctor
 
 public:
 
-    virtual void operator ()( T* const* pxRenderable )
+    virtual void operator ()( T* const* const pxRenderable )
     {
         ( *pxRenderable )->Render();
+    }
+};
+
+template < class T >
+class GLToy_IndirectRenderAABBFunctor
+: public GLToy_ConstFunctor< T* >
+{
+
+public:
+
+    virtual void operator ()( T* const* const pxRenderable )
+    {
+        ( *pxRenderable )->RenderAABB();
+    }
+};
+
+template < class T >
+class GLToy_IndirectRenderOBBFunctor
+: public GLToy_ConstFunctor< T* >
+{
+
+public:
+
+    virtual void operator ()( T* const* const pxRenderable )
+    {
+        ( *pxRenderable )->RenderOBB();
     }
 };
 

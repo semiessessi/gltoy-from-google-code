@@ -21,6 +21,9 @@ public:
     virtual void SetPosition( const GLToy_Vector_3& xPosition ) = 0;
 
     virtual bool IntersectWithRay( const GLToy_Ray& xRay, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const = 0;
+    virtual bool IntersectWithAABB( const GLToy_AABB& xAABB ) const = 0;
+    //virtual bool IntersectWithOBB();
+    //virtual bool IntersectWithSphere();
 
 };
 
@@ -39,8 +42,8 @@ public:
     {
     }
 
-    const GLToy_AABB& GetBB() const { return m_xBoundingBox; }
-    void SetBB( const GLToy_AABB& xBB ) { m_xBoundingBox = xBB; }
+    GLToy_Inline const GLToy_AABB& GetBB() const { return m_xBoundingBox; }
+    GLToy_Inline void SetBB( const GLToy_AABB& xBB ) { m_xBoundingBox = xBB; }
 
     virtual const GLToy_Vector_3& GetPosition() const { return m_xBoundingBox.GetPosition(); }
     
@@ -60,6 +63,11 @@ public:
         GLToy_Vector_3* const pxNormal ) const
     {
         return xRay.IntersectsWithAABB( m_xBoundingBox, pxPosition, pxNormal );
+    }
+
+    virtual bool IntersectWithAABB( const GLToy_AABB& xAABB ) const
+    {
+        return m_xBoundingBox.IntersectsWithAABB( xAABB );
     }
 
 protected:
@@ -100,6 +108,11 @@ public:
         GLToy_Vector_3* const pxNormal ) const
     {
         return xRay.IntersectsWithSphere( m_xBoundingSphere, pxPosition, pxNormal );
+    }
+
+    virtual bool IntersectWithAABB( const GLToy_AABB& xAABB ) const
+    {
+        return m_xBoundingSphere.IntersectsWithAABB( xAABB );
     }
 
 protected:
@@ -144,6 +157,11 @@ public:
         GLToy_Vector_3* const pxNormal ) const
     {
         return xRay.IntersectsWithOBB( m_xBoundingBox, pxPosition, pxNormal );
+    }
+
+    virtual bool IntersectWithAABB( const GLToy_AABB& xAABB ) const
+    {
+        return m_xBoundingBox.IntersectsWithAABB( xAABB );
     }
 
 protected:

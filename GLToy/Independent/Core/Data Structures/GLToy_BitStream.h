@@ -21,7 +21,8 @@ class GLToy_Vector_3;
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_BitStream : public GLToy_DataStructure< bool >
+class GLToy_BitStream
+: public GLToy_DataStructure< bool >
 {
 
 public:
@@ -105,6 +106,8 @@ public:
     const char* GetData() const { return m_pcData; }
     void ResetReadPosition() { m_uReadPos = 0; }
 
+    bool IsDoneReading() const { return m_uReadPos >= m_uPosition; }
+
     // overrides for data structure
     virtual u_int GetCount() const { return GetBitsWritten(); }
     virtual u_int GetMemoryUsage() const { return GetBytesWritten() + sizeof( *this ); }
@@ -126,7 +129,14 @@ public:
         return ls_bDummy;
     }
 
+    // TODO - flesh these out if they would be useful
+    // CopyFrom as well
+    virtual void Traverse( GLToy_Functor< bool >& xFunctor ) {}
+    virtual void Traverse( GLToy_ConstFunctor< bool >& xFunctor ) const {}
+
 protected:
+
+    virtual void CopyFrom( const GLToy_DataStructure< bool >* const pxDataStructure ) {}
 
     void Grow( u_int uNumBytes );
     void WriteBits( const u_int uBits, const u_int uBitCount );

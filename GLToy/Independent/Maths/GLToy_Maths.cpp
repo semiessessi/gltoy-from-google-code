@@ -53,3 +53,8 @@ float GLToy_Maths::Floor( const float fValue )
 {
     return floor( fValue );
 }
+
+float GLToy_Maths::Round( const float fValue )
+{
+    return Floor( fValue + 0.5f );
+}

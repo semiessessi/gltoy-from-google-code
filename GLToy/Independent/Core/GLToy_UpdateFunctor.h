@@ -18,7 +18,7 @@ class GLToy_UpdateFunctor
 
 public:
 
-    virtual void operator ()( T* pxUpdateable )
+    virtual void operator ()( T* const pxUpdateable )
     {
         pxUpdateable->Update();
     }
@@ -31,7 +31,7 @@ class GLToy_IndirectUpdateFunctor
 
 public:
 
-    virtual void operator ()( T* const* pxUpdateable )
+    virtual void operator ()( T* const* const pxUpdateable )
     {
         ( *pxUpdateable )->Update();
     }

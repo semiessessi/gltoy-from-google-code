@@ -11,6 +11,7 @@
 #include <Core/GLToy_Timer.h>
 #include <Maths/GLToy_Vector.h>
 #include <Model/GLToy_Model_Coloured.h>
+#include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,6 +26,8 @@ GLToy_Model_Coloured TestCube_Render::s_xCube;
 
 bool TestCube_Render::Initialise()
 {
+    GLToy_Camera::SetPosition( GLToy_Vector_3( 0.0f, 0.0f, -3.0f ) );
+
     s_xCube.AddStripFromQuad(   GLToy_Vector_3( 1.0f, 1.0f, 1.0f ),
                                 GLToy_Vector_3( 1.0f, -1.0f, 1.0f ),
                                 GLToy_Vector_3( -1.0f, 1.0f, 1.0f ),

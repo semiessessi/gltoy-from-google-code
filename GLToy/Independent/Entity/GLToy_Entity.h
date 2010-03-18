@@ -56,6 +56,10 @@ public:
     virtual void Activate() { m_bActive = true; }
     virtual void Deactivate() { m_bActive = false; }
 
+    virtual void RenderAABB() const = 0;
+    virtual void RenderOBB() const = 0;
+
+    // accessors
     GLToy_Hash GetHash() const { return m_uHash; }
     GLToy_Inline GLToy_EntityType GetType() const { return m_eType; }
 
@@ -86,11 +90,14 @@ public:
 
     virtual void Trigger( const GLToy_Hash uTriggerHash ) { GLToy_Assert( false, "Entity 0x%X is trying to trigger null entity 0x%X - everything is wrong here", uTriggerHash, m_uHash ); }
 
+    virtual void RenderAABB() const {}
+    virtual void RenderOBB() const {}
+
 };
 
-// TODO - GLToy_Entity_OrientedSphere - I'm sure it will be needed eventually
-class GLToy_Entity_Oriented_BB
-: public GLToy_Bounded_OBB
+// TODO - GLToy_Entity_OrientedSphere/OBB - I'm sure they will be needed eventually
+class GLToy_Entity_Oriented_AABB
+: public GLToy_Bounded_AABB
 , public GLToy_Entity
 {
 
@@ -98,17 +105,21 @@ class GLToy_Entity_Oriented_BB
 
 public:
 
-    GLToy_Entity_Oriented_BB( const GLToy_Hash uHash, const GLToy_EntityType eType )
+    GLToy_Entity_Oriented_AABB( const GLToy_Hash uHash, const GLToy_EntityType eType )
     : GLToy_Parent( uHash, eType )
-    , GLToy_Bounded_OBB()
-    , m_xOrientation( GLToy_Maths::IdentityMatrix3 )
+    , GLToy_Bounded_AABB()
     {
     }
+    
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
-    virtual void Trigger( const GLToy_Hash uTriggerHash ) { GLToy_Assert( false, "Entity 0x%X is trying to trigger null entity 0x%X - everything is wrong here", uTriggerHash, m_uHash ); }
+    virtual void Trigger( const GLToy_Hash uTriggerHash ) { GLToy_Assert( false, "Entity 0x%X is trying to trigger oriented BB entity 0x%X - everything is wrong here", uTriggerHash, m_uHash ); }
+    virtual void RenderAABB() const;
+    virtual void RenderOBB() const;
 
-    GLToy_Inline const GLToy_Matrix_3& GetOrientation() const { return m_xOrientation; }
-    GLToy_Inline void SetOrientation( const GLToy_Matrix_3& xOrientation ) { m_xOrientation = xOrientation; }
+    virtual const GLToy_Matrix_3& GetOrientation() const { return m_xOrientation; }
+    virtual void SetOrientation( const GLToy_Matrix_3& xOrientation ) { m_xOrientation = xOrientation; }
 
 protected:
 

@@ -37,8 +37,10 @@ public:
 
     static GLToy_Entity* FindEntity( const GLToy_Hash uHash );
     static GLToy_Entity* LookUpEntity( const GLToy_String& szName );
+    static void Traverse( GLToy_ConstFunctor< GLToy_Entity* >& xFunctor );
 
     static GLToy_Entity* CreateEntity( const GLToy_Hash uHash, const GLToy_EntityType uType );
+    static void DestroyEntities();
 
     static void LoadEntityFile( const GLToy_String& szName );
     static void SaveEntityFile( const GLToy_String& szName );
@@ -54,6 +56,9 @@ private:
     static void SpawnModel_Console( const GLToy_String& szName );
 
     static bool s_bRender;
+    static bool s_bRenderAABBs;
+    static bool s_bRenderOBBs;
+    static bool s_bRenderSpheres;
 
     static GLToy_HashTree< GLToy_Entity* > s_xEntities;
 

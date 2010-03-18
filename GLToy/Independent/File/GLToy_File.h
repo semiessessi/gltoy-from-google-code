@@ -26,10 +26,11 @@ public:
     GLToy_File( const GLToy_String& szFilename );
     virtual ~GLToy_File() {}
 
-    virtual void ReadBitStream( GLToy_BitStream& xStream ) const;
-    virtual void WriteBitStream( const GLToy_BitStream& xStream );
+    virtual void ReadToBitStream( GLToy_BitStream& xStream ) const;
+    virtual void WriteFromBitStream( const GLToy_BitStream& xStream );
 
     virtual u_int GetSize() const { return m_uSize; }
+    const GLToy_String& GetFilename() const { return m_szFilename; }
 
 protected:
 

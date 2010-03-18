@@ -19,27 +19,32 @@ class GLToy_Model;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Entity_ModelStatic
-: public GLToy_Entity_Oriented_BB
+: public GLToy_Entity_Oriented_AABB
 {
 
-    typedef GLToy_Entity_Oriented_BB GLToy_Parent;
+    typedef GLToy_Entity_Oriented_AABB GLToy_Parent;
 
 public:
 
     GLToy_Entity_ModelStatic( const GLToy_Hash uHash, const GLToy_EntityType eType )
     : GLToy_Parent( uHash, eType )
     , m_pxModel( NULL )
+    , m_uModelHash( uGLTOY_BAD_HASH )
     {
     }
 
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+
     virtual void Render() const;
 
-    void SetModel( const GLToy_Hash uHash );
+    void SetModel( const GLToy_Hash uHash, const bool bNoBBUpdate = false );
     void SetModel( const GLToy_String& szName );
 
 protected:
 
     GLToy_Model* m_pxModel;
+    GLToy_Hash m_uModelHash;
 
 };
 
