@@ -156,3 +156,14 @@ void GLToy_Shader_System::BindShaderProgram( const GLToy_String& szName )
 {
     return BindShaderProgram( szName.GetHash() );
 }
+
+GLToy_ShaderProgram* GLToy_Shader_System::FindShader( const GLToy_Hash uHash )
+{
+	GLToy_ShaderProgram** ppxShaderProgram = s_xPrograms.FindData( uHash );
+	return ppxShaderProgram ? *ppxShaderProgram : NULL;
+}
+
+GLToy_ShaderProgram* GLToy_Shader_System::LookUpShader( const GLToy_String& szName )
+{
+	return FindShader( szName.GetHash() );
+}

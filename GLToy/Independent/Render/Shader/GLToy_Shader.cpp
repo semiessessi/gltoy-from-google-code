@@ -45,3 +45,11 @@ void GLToy_ShaderProgram::Bind() const
 {
     GLToy_Render::UseProgram( m_uID );
 }
+
+void GLToy_ShaderProgram::SetUniform( const GLToy_String& szName, const int iValue )
+{
+	char* szString = szName.CreateANSIString();
+	u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
+	delete[] szString;
+	GLToy_Render::SetUniform( uUniformID, iValue );
+}

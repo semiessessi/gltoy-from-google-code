@@ -31,6 +31,9 @@ public:
     static void BindShaderProgram( const GLToy_Hash uHash );
     static void BindShaderProgram( const GLToy_String& szName );
 
+	static GLToy_ShaderProgram* FindShader( const GLToy_Hash uHash );
+	static GLToy_ShaderProgram* LookUpShader( const GLToy_String& szName );
+
 private:
 
     static GLToy_HashTree< GLToy_ShaderProgram* > s_xPrograms;
