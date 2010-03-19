@@ -19,4 +19,16 @@ public:
 
 };
 
+class GLToy_Renderable_Transparent
+: public GLToy_Renderable
+{
+
+public:
+
+    virtual ~GLToy_Renderable_Transparent() {}
+
+    virtual void RenderTransparent() const = 0;
+
+};
+
 #endif

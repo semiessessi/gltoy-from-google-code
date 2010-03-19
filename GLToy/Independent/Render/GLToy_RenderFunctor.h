@@ -25,6 +25,19 @@ public:
 };
 
 template < class T >
+class GLToy_RenderTransparentFunctor
+: public GLToy_ConstFunctor< T >
+{
+
+public:
+
+    virtual void operator ()( const T* const pxRenderable )
+    {
+        pxRenderable->RenderTransparent();
+    }
+};
+
+template < class T >
 class GLToy_RenderAABBFunctor
 : public GLToy_ConstFunctor< T >
 {
@@ -52,6 +65,19 @@ public:
 
 template < class T >
 class GLToy_IndirectRenderFunctor
+: public GLToy_ConstFunctor< T* >
+{
+
+public:
+
+    virtual void operator ()( T* const* const pxRenderable )
+    {
+        ( *pxRenderable )->Render();
+    }
+};
+
+template < class T >
+class GLToy_IndirectRenderTransparentFunctor
 : public GLToy_ConstFunctor< T* >
 {
 

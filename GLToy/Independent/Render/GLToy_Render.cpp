@@ -11,6 +11,7 @@
 
 // GLToy
 #include <Core/Console/GLToy_Console.h>
+#include <Core/Data Structures/GLToy_BinaryTree.h>
 #include <Core/GLToy_Timer.h>
 #include <Maths/GLToy_Maths.h>
 #include <Maths/GLToy_Vector.h>
@@ -27,8 +28,7 @@
 
 float GLToy_Render::s_fFOV = 90.0f;
 bool GLToy_Render::s_bDrawFPS = GLToy_IsDebugBuild();
-
-const GLToy_RenderFunctor< GLToy_Renderable > GLToy_Render::RenderableFunctor = GLToy_RenderFunctor< GLToy_Renderable >();
+GLToy_BinaryTree< const GLToy_Renderable_Transparent*, float > GLToy_Render::s_xTransparents;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -69,6 +69,8 @@ void GLToy_Render::Shutdown()
 
 void GLToy_Render::BeginRender()
 {
+    s_xTransparents.Clear();
+
     Platform_BeginRender();
 
     GLToy_Render::EnableDepthTesting();
@@ -85,6 +87,11 @@ void GLToy_Render::BeginRender2D()
 void GLToy_Render::Render()
 {
     Project_Render();
+
+    // here we render the transparent object tree
+    // the magic of binary trees sorts everything :)
+    EnableBlending();
+    s_xTransparents.Traverse( GLToy_IndirectRenderTransparentFunctor< const GLToy_Renderable_Transparent >() );
 }
 
 void GLToy_Render::Render2D()
@@ -111,6 +118,11 @@ void GLToy_Render::EndRender()
     GLToy_Render::Flush();
 
     Platform_EndRender();
+}
+
+void GLToy_Render::RegisterTransparent( const GLToy_Renderable_Transparent* const pxTransparent, const float fSquaredDistanceFromCamera )
+{
+    s_xTransparents.AddNode( pxTransparent, fSquaredDistanceFromCamera );
 }
 
 bool GLToy_Render::Platform_Initialise()

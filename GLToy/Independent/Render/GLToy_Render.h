@@ -18,9 +18,12 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+template < class DataType, class KeyType > class GLToy_BinaryTree;
 class GLToy_Matrix_3;
 class GLToy_Renderable;
+class GLToy_Renderable_Transparent;
 template < class T > class GLToy_RenderFunctor;
+template < class T > class GLToy_RenderTransparentFunctor;
 class GLToy_Vector_3;
 class GLToy_Vector_4;
 
@@ -33,8 +36,6 @@ class GLToy_Render
 
 public:
 
-    static const GLToy_RenderFunctor< GLToy_Renderable > RenderableFunctor;
-
     static float GetFOV() { return s_fFOV; }
 
     static bool Initialise();
@@ -45,6 +46,8 @@ public:
     static void Render();
     static void Render2D();
     static void EndRender();
+
+    static void RegisterTransparent( const GLToy_Renderable_Transparent* const pxTransparent, const float fSquaredDistanceFromCamera );
 
     // GL interface
     static u_int GetError();
@@ -148,6 +151,8 @@ private:
 
     static float s_fFOV;
     static bool s_bDrawFPS;
+
+    static GLToy_BinaryTree< const GLToy_Renderable_Transparent*, float > s_xTransparents;
 
 };
 

@@ -6,3 +6,20 @@
 
 // This file's header
 #include <Render/GLToy_Sprite.h>
+
+// GLToy
+#include <Render/GLToy_Camera.h>
+#include <Render/GLToy_Render.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F U N C T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+void GLToy_Sprite::Render() const
+{
+    GLToy_Render::RegisterTransparent( this, ( m_xPosition - GLToy_Camera::GetPosition() ).MagnitudeSquared() );
+}
+
+void GLToy_Sprite::RenderTransparent() const
+{
+}
