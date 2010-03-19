@@ -754,6 +754,18 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Sprite"
+					>
+					<File
+						RelativePath=".\Independent\Entity\Sprite\GLToy_Entity_Sprite.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Entity\Sprite\GLToy_Entity_Sprite.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 	</Files>

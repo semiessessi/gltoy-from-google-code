@@ -61,3 +61,17 @@ void GLToy_Entity_Oriented_AABB::WriteToBitStream( GLToy_BitStream& xStream ) co
     xStream << m_xBoundingBox;
     xStream << GLToy_Compress::OrthonormalMatrix_4Bytes( GetOrientation() );
 }
+
+void GLToy_Entity_Sphere::ReadFromBitStream( const GLToy_BitStream& xStream )
+{
+    GLToy_Parent::ReadFromBitStream( xStream );
+
+    xStream >> m_xBoundingSphere;
+}
+
+void GLToy_Entity_Sphere::WriteToBitStream( GLToy_BitStream& xStream ) const
+{
+    GLToy_Parent::WriteToBitStream( xStream );
+
+    xStream << m_xBoundingSphere;
+}

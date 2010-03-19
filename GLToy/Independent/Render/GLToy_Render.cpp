@@ -28,7 +28,7 @@
 
 float GLToy_Render::s_fFOV = 90.0f;
 bool GLToy_Render::s_bDrawFPS = GLToy_IsDebugBuild();
-GLToy_BinaryTree< const GLToy_Renderable_Transparent*, float > GLToy_Render::s_xTransparents;
+GLToy_BinaryTree< const GLToy_Renderable*, float > GLToy_Render::s_xTransparents;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -69,29 +69,35 @@ void GLToy_Render::Shutdown()
 
 void GLToy_Render::BeginRender()
 {
-    s_xTransparents.Clear();
+    EnableDepthTesting();
+    EnableDepthWrites();
 
     Platform_BeginRender();
 
-    GLToy_Render::EnableDepthTesting();
     GLToy_Camera::ApplyTransforms();
 }
 
 void GLToy_Render::BeginRender2D()
 {
-    GLToy_Render::DisableDepthTesting();
-    GLToy_Render::SetOrthogonalProjectionMatrix();
-    GLToy_Render::SetIdentityViewMatrix();
+    DisableDepthTesting();
+    SetOrthogonalProjectionMatrix();
+    SetIdentityViewMatrix();
 }
 
 void GLToy_Render::Render()
 {
     Project_Render();
 
-    // here we render the transparent object tree
-    // the magic of binary trees sorts everything :)
+    // here we render the transparent object tree ...
     EnableBlending();
-    s_xTransparents.Traverse( GLToy_IndirectRenderTransparentFunctor< const GLToy_Renderable_Transparent >() );
+    EnableDepthTesting();
+    DisableDepthWrites();
+
+    // the magic of binary trees draws everything depth sorted
+    s_xTransparents.Traverse( GLToy_IndirectRenderTransparentFunctor< const GLToy_Renderable >() );
+
+    // clean up for next frame
+    s_xTransparents.Clear();
 }
 
 void GLToy_Render::Render2D()
@@ -100,7 +106,7 @@ void GLToy_Render::Render2D()
 
     if( s_bDrawFPS )
     {
-        GLToy_Render::UseProgram( 0 );
+        UseProgram( 0 );
         // draw fps counter, we should have the console's font by now
         GLToy_Font* pxFont = GLToy_Font_System::FindFont( GLToy_Hash_Constant( "console" ) );
 		if( pxFont )
@@ -115,14 +121,14 @@ void GLToy_Render::Render2D()
 
 void GLToy_Render::EndRender()
 {
-    GLToy_Render::Flush();
+    Flush();
 
     Platform_EndRender();
 }
 
-void GLToy_Render::RegisterTransparent( const GLToy_Renderable_Transparent* const pxTransparent, const float fSquaredDistanceFromCamera )
+void GLToy_Render::RegisterTransparent( const GLToy_Renderable* const pxTransparent, const float fSquaredDistanceFromCamera )
 {
-    s_xTransparents.AddNode( pxTransparent, fSquaredDistanceFromCamera );
+    s_xTransparents.AddNode( pxTransparent, -fSquaredDistanceFromCamera );
 }
 
 bool GLToy_Render::Platform_Initialise()
@@ -323,6 +329,16 @@ void GLToy_Render::DisableDepthTesting()
 void GLToy_Render::EnableDepthTesting()
 {
     Platform_GLToy_Render::EnableDepthTesting();
+}
+
+void GLToy_Render::DisableDepthWrites()
+{
+    Platform_GLToy_Render::DisableDepthWrites();
+}
+
+void GLToy_Render::EnableDepthWrites()
+{
+    Platform_GLToy_Render::EnableDepthWrites();
 }
 
 void GLToy_Render::SetBlendFunction( const u_int uSourceBlend, const u_int uDestinationBlend )

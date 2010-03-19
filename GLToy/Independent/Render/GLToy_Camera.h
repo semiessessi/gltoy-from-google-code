@@ -27,8 +27,8 @@ public:
     static const GLToy_Vector_3& GetDirection() { return s_xDirection; }
     static const GLToy_Vector_3& GetUp() { return s_xUp; }
     static const GLToy_Vector_3 GetRight() { return s_xUp.Cross( s_xDirection ); }
-    static GLToy_Matrix_3 GetOrientation() { return GLToy_Matrix_3( GetRight(), s_xUp, s_xDirection ); }
-    static GLToy_Matrix_3 GetInverseOrientation() { static GLToy_Matrix_3 ls_xTranspose; ls_xTranspose = GLToy_Matrix_3( GetRight(), s_xUp, s_xDirection ); ls_xTranspose.Transpose(); return ls_xTranspose; }
+    static GLToy_Matrix_3 GetOrientation() { return s_xOrientation; }
+    static GLToy_Matrix_3 GetInverseOrientation() { return s_xInverseOrientation; }
 
     static void SetPosition( const GLToy_Vector_3& xPosition ) { s_xPosition = xPosition; }
 
@@ -40,6 +40,9 @@ private:
 
     static float s_fRX;
     static float s_fRY;
+
+    static GLToy_Matrix_3 s_xOrientation;
+    static GLToy_Matrix_3 s_xInverseOrientation;
 
 };
 

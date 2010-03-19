@@ -24,13 +24,21 @@ GLToy_Texture* GLToy_Texture_System::s_pxWhiteTexture = NULL;
 
 void GLToy_Texture::LoadFromFile()
 {
+    if( m_uWidth != 0 ) // already loaded?
+    {
+        return;
+    }
+
     Unload();
     Platform_LoadFromFile();
 }
 
 void GLToy_Texture::Create()
 {
-    GLToy_Assert( IsDataLoaded(), "Texture \"%S\" being created before it has been loaded", m_szName.GetWideString() );
+    if( !IsDataLoaded() )
+    {
+        LoadFromFile();
+    }
 
     Platform_Create();
 }
@@ -166,7 +174,12 @@ void GLToy_Texture_System::DestroyTexture( const GLToy_Hash uHash )
 
 void GLToy_Texture_System::BindTexture( const GLToy_String& szName )
 {
-    GLToy_Texture* pxTexture = LookUpTexture( szName );
+    BindTexture( szName.GetHash() );
+}
+
+void GLToy_Texture_System::BindTexture( const GLToy_Hash uHash )
+{
+    GLToy_Texture* pxTexture = FindTexture( uHash );
     if( pxTexture && pxTexture->IsReadyForUse() )
     {
         pxTexture->Bind();

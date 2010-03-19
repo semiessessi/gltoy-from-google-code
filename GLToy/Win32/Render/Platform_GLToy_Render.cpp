@@ -358,6 +358,16 @@ void Platform_GLToy_Render::EnableDepthTesting()
     glDepthFunc( GL_LEQUAL );
 }
 
+void Platform_GLToy_Render::DisableDepthWrites()
+{
+    glDepthMask( GL_FALSE );
+}
+
+void Platform_GLToy_Render::EnableDepthWrites()
+{
+    glDepthMask( GL_TRUE );
+}
+
 void Platform_GLToy_Render::EnableBackFaceCulling()
 {
     glEnable( GL_CULL_FACE );

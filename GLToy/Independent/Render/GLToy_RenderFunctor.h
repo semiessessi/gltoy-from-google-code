@@ -85,7 +85,7 @@ public:
 
     virtual void operator ()( T* const* const pxRenderable )
     {
-        ( *pxRenderable )->Render();
+        ( *pxRenderable )->RenderTransparent();
     }
 };
 

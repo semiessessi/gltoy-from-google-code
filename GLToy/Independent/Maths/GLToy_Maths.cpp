@@ -44,6 +44,16 @@ void GLToy_Maths::Platform_Shutdown()
 
 }
 
+float GLToy_Maths::Sin( const float fValue )
+{
+    return sin( fValue );
+}
+
+float GLToy_Maths::Cos( const float fValue )
+{
+    return cos( fValue );
+}
+
 float GLToy_Maths::Sqrt( const float fValue )
 {
     return sqrt( fValue );

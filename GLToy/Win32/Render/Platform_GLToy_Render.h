@@ -103,6 +103,8 @@ private:
 
     static void DisableDepthTesting();
     static void EnableDepthTesting();
+    static void DisableDepthWrites();
+    static void EnableDepthWrites();
 
     static void DisableBackFaceCulling();
     static void EnableBackFaceCulling();

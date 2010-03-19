@@ -8,9 +8,11 @@
 #include <Render/RTToy_Render.h>
 
 // GLToy
-#include <Environment/GLToy_Environment_Plane.h>
+#include <Render/GLToy_Sprite.h>
+#include <String/GLToy_String.h>
 
-//static GLToy_Environment_Plane* pxEnv = NULL;
+const u_int uNUM_SPRITES = 10;
+static GLToy_Sprite* pxSprite[ uNUM_SPRITES ];
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -18,20 +20,31 @@
 
 bool RTToy_Render::Initialise()
 {
-    //pxEnv = new GLToy_Environment_Plane( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "generic/grid1.png" );
-    //pxEnv->Initialise();
+    for( u_int u = 0; u < uNUM_SPRITES; ++u )
+    {
+        pxSprite[ u ] = new GLToy_Sprite();
+        pxSprite[ u ]->SetTexture( "sprites/star.png" );
+        pxSprite[ u ]->SetSize( 10.0f );
+        pxSprite[ u ]->SetPosition( GLToy_Vector_3( 0.0f, 25.0f, 0.0f ) + GLToy_Vector_3( 20.0f, 0.0f, 20.0f ) * ( static_cast< float >( u ) - 2.0f ) );
+    }
 
     return true;
 }
 
 void RTToy_Render::Shutdown()
 {
-    //pxEnv->Shutdown();
-    //delete pxEnv;
-    //pxEnv = NULL;
+    for( u_int u = 0; u < uNUM_SPRITES; ++u )
+    {
+        pxSprite[ u ]->Shutdown();
+        delete pxSprite[ u ];
+        pxSprite[ u ] = NULL;
+    }
 }
 
 void RTToy_Render::Render()
 {
-    //pxEnv->Render();
+    for( u_int u = 0; u < uNUM_SPRITES; ++u )
+    {
+        pxSprite[ u ]->Render();
+    }
 }

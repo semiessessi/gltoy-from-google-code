@@ -126,4 +126,25 @@ protected:
     GLToy_Matrix_3 m_xOrientation;
 };
 
+// plain unoriented sphere - probably want AABB version of this too
+class GLToy_Entity_Sphere
+: public GLToy_Bounded_Sphere
+, public GLToy_Entity
+{
+
+    typedef GLToy_Entity GLToy_Parent;
+
+public:
+
+    GLToy_Entity_Sphere( const GLToy_Hash uHash, const GLToy_EntityType eType )
+    : GLToy_Parent( uHash, eType )
+    , GLToy_Bounded_Sphere()
+    {
+    }
+
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+
+};
+
 #endif

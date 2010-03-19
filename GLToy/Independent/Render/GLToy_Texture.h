@@ -102,6 +102,7 @@ public:
     static void CreateTexture( const GLToy_String& szName );
     static void DestroyTexture( const GLToy_Hash uHash );
     static void DestroyTexture( const GLToy_String& szName );
+    static void BindTexture( const GLToy_Hash uHash );
     static void BindTexture( const GLToy_String& szName );
     static void Reset();
 

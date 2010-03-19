@@ -13,21 +13,16 @@ public:
     GLToy_Renderable() {}
     virtual ~GLToy_Renderable() {}
 
-    virtual void Initialise() {};
-    virtual void Render() const = 0;
+    virtual void Initialise() {}
     virtual void Shutdown() {}
 
-};
-
-class GLToy_Renderable_Transparent
-: public GLToy_Renderable
-{
-
-public:
-
-    virtual ~GLToy_Renderable_Transparent() {}
-
-    virtual void RenderTransparent() const = 0;
+    // "normal" render function - must be overloaded
+    virtual void Render() const = 0;
+    
+    // these aren't important yet
+    virtual void RenderDepth() const {}
+    virtual void RenderNormals() const {}
+    virtual void RenderTransparent() const {}
 
 };
 

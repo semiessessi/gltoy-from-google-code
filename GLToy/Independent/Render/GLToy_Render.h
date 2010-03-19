@@ -21,7 +21,6 @@
 template < class DataType, class KeyType > class GLToy_BinaryTree;
 class GLToy_Matrix_3;
 class GLToy_Renderable;
-class GLToy_Renderable_Transparent;
 template < class T > class GLToy_RenderFunctor;
 template < class T > class GLToy_RenderTransparentFunctor;
 class GLToy_Vector_3;
@@ -47,7 +46,7 @@ public:
     static void Render2D();
     static void EndRender();
 
-    static void RegisterTransparent( const GLToy_Renderable_Transparent* const pxTransparent, const float fSquaredDistanceFromCamera );
+    static void RegisterTransparent( const GLToy_Renderable* const pxTransparent, const float fSquaredDistanceFromCamera );
 
     // GL interface
     static u_int GetError();
@@ -94,6 +93,8 @@ public:
 
     static void DisableDepthTesting();
     static void EnableDepthTesting();
+    static void DisableDepthWrites();
+    static void EnableDepthWrites();
 
     static void DisableBackFaceCulling();
     static void EnableBackFaceCulling();
@@ -152,7 +153,7 @@ private:
     static float s_fFOV;
     static bool s_bDrawFPS;
 
-    static GLToy_BinaryTree< const GLToy_Renderable_Transparent*, float > s_xTransparents;
+    static GLToy_BinaryTree< const GLToy_Renderable*, float > s_xTransparents;
 
 };
 

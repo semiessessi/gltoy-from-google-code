@@ -48,6 +48,7 @@ protected:
         {
             if( m_pxHigher )
             {
+                GLToy_Assert( m_pxHigher != this, "Get ready for a stack overflow, we have a loop in our tree!" );
                 m_pxHigher->AddNode( xData, xKey );
             }
             else
@@ -59,6 +60,7 @@ protected:
         {
             if( m_pxLower )
             {
+                GLToy_Assert( m_pxLower != this, "Get ready for a stack overflow, we have a loop in our tree!" );
                 m_pxLower->AddNode( xData, xKey );
             }
             else
@@ -72,11 +74,13 @@ protected:
     {
         if( xKey > m_xKey )
         {
+            GLToy_Assert( m_pxHigher != this, "Get ready for a stack overflow, we have a loop in our tree!" );
             return m_pxHigher ? m_pxHigher->FindNode( xKey ) : NULL;
         }
 
         if( xKey < m_xKey )
         {
+            GLToy_Assert( m_pxLower != this, "Get ready for a stack overflow, we have a loop in our tree!" );
             return m_pxLower ? m_pxLower->FindNode( xKey ) : NULL;
         }
 
@@ -85,30 +89,34 @@ protected:
 
     virtual void Traverse( GLToy_Functor< DataType >& xFunctor )
     {
-        xFunctor( &m_xData );
-
         if( m_pxLower )
         {
+            GLToy_Assert( m_pxLower != this, "Get ready for a stack overflow, we have a loop in our tree!" );
             m_pxLower->Traverse( xFunctor );
         }
 
+        xFunctor( &m_xData );
+
         if( m_pxHigher )
         {
+            GLToy_Assert( m_pxHigher != this, "Get ready for a stack overflow, we have a loop in our tree!" );
             m_pxHigher->Traverse( xFunctor );
         }
     }
 
     virtual void Traverse( GLToy_ConstFunctor< DataType >& xFunctor ) const
     {
-        xFunctor( &m_xData );
-
         if( m_pxLower )
         {
+            GLToy_Assert( m_pxLower != this, "Get ready for a stack overflow, we have a loop in our tree!" );
             m_pxLower->Traverse( xFunctor );
         }
 
+        xFunctor( &m_xData );
+
         if( m_pxHigher )
         {
+            GLToy_Assert( m_pxHigher != this, "Get ready for a stack overflow, we have a loop in our tree!" );
             m_pxHigher->Traverse( xFunctor );
         }
     }
@@ -143,7 +151,7 @@ public:
         delete m_pxHead;
     }
 
-    void AddNode( const DataType& xData, const KeyType xKey )
+    virtual void AddNode( const DataType& xData, const KeyType xKey )
     {
         if( m_pxHead )
         {
@@ -155,7 +163,7 @@ public:
         }
     }
 
-    DataType* FindData( const KeyType xKey )
+    virtual DataType* FindData( const KeyType xKey )
     {
         if( !m_pxHead )
         {
@@ -183,7 +191,7 @@ public:
         }
     }
     
-    void Clear()
+    virtual void Clear()
     {
         delete m_pxHead;
         m_pxHead = NULL;
