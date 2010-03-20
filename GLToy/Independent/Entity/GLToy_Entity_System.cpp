@@ -121,7 +121,7 @@ void GLToy_Entity_System::SpawnModel( const GLToy_String& szName, const GLToy_Ve
     szEntityName.SetToFormatString( "Entity%d", s_xEntities.GetCount() );
 
     GLToy_Entity* pxEntity = CreateEntity( szEntityName.GetHash(), ENTITY_MODELSTATIC );
-    GLToy_Entity_ModelStatic* pxModelEntity = reinterpret_cast< GLToy_Entity_ModelStatic* >( pxEntity );
+    GLToy_Entity_ModelStatic* pxModelEntity = static_cast< GLToy_Entity_ModelStatic* >( pxEntity );
 
     pxModelEntity->SetModel( szName );
     pxModelEntity->SetPosition( xPosition );
@@ -134,7 +134,7 @@ void GLToy_Entity_System::SpawnAnim( const GLToy_String& szName, const GLToy_Vec
     szEntityName.SetToFormatString( "Entity%d", s_xEntities.GetCount() );
 
     GLToy_Entity* pxEntity = CreateEntity( szEntityName.GetHash(), ENTITY_MODELANIMATED );
-    GLToy_Entity_ModelAnimated* pxModelEntity = reinterpret_cast< GLToy_Entity_ModelAnimated* >( pxEntity );
+    GLToy_Entity_ModelAnimated* pxModelEntity = static_cast< GLToy_Entity_ModelAnimated* >( pxEntity );
 
     pxModelEntity->SetModel( szName );
     pxModelEntity->SetPosition( xPosition );
@@ -147,14 +147,12 @@ void GLToy_Entity_System::SpawnSprite( const GLToy_String& szName, const GLToy_V
     szEntityName.SetToFormatString( "Entity%d", s_xEntities.GetCount() );
 
     GLToy_Entity* pxEntity = CreateEntity( szEntityName.GetHash(), ENTITY_SPRITE );
+    GLToy_Entity_Sprite* pxSpriteEntity = static_cast< GLToy_Entity_Sprite* >( pxEntity );
 
-    // TODO - fix this, not sure why the vtable pointer is shit from the pxSpriteEntity pointer
-    pxEntity->SetPosition( xPosition );
-
-    GLToy_Entity_Sprite* pxSpriteEntity = reinterpret_cast< GLToy_Entity_Sprite* >( pxEntity );
-
+    pxSpriteEntity->SetPosition( xPosition );
     pxSpriteEntity->SetTexture( szName );
     pxSpriteEntity->SetSize( 25.0f );
+    pxSpriteEntity->SetBlendFunction( ucSPRITE_BLEND_NORMAL );
 }
 
 void GLToy_Entity_System::SpawnAnim_Console( const GLToy_String& szName )

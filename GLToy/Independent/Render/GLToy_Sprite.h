@@ -37,6 +37,7 @@ class GLToy_Sprite
 {
 
 public:
+
     GLToy_Sprite()
     : m_xPosition( GLToy_Maths::ZeroVector3 )
     , m_fSize( 1.0f )
@@ -55,9 +56,11 @@ public:
 
     const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
     float GetSize() const { return m_fSize; }
+    u_char GetBlendFunction() const { return m_ucBlendFunc; }
     
     void SetPosition( const GLToy_Vector_3& xPosition ) { m_xPosition = xPosition; }
     void SetSize( const float fSize ) { m_fSize = fSize; }
+    void SetBlendFunction( const u_char ucBlendFunc ) { m_ucBlendFunc = ucBlendFunc; }
     void SetTexture( const GLToy_Hash uHash );
     void SetTexture( const GLToy_String& szName );
 

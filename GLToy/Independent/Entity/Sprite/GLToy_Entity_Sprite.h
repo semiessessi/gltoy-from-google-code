@@ -40,6 +40,9 @@ public:
     virtual void SetPosition( const GLToy_Vector_3& xPosition ) { GLToy_Parent::SetPosition( xPosition ); m_xSprite.SetPosition( xPosition ); }
 
     virtual const GLToy_Vector_3& GetPosition() const { return m_xSprite.GetPosition(); }
+    
+    GLToy_Inline void SetBlendFunction( const u_char fBlendFunction ) { m_xSprite.SetBlendFunction( fBlendFunction ); }
+    GLToy_Inline u_char GetBlendFunction() const { return m_xSprite.GetBlendFunction(); }
 
     GLToy_Inline void SetSize( const float fSize ) { GLToy_Parent::SetRadius( fSize ); m_xSprite.SetSize( fSize ); }
     GLToy_Inline float GetSize() const { return m_xSprite.GetSize(); }
