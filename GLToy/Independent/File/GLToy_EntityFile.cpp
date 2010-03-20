@@ -79,10 +79,12 @@ void GLToy_EntityFile::LoadEntities() const
         }
         else
         {
-            GLToy_Assert( pxEntity != NULL, "Fatal error whilst loading entity file \"%S\"", GetFilename().GetWideString() );
+            GLToy_Assert( pxEntity != NULL, "Fatal error whilst loading entity file \"%S\" - can not continue processing stream", GetFilename().GetWideString() );
             return;
         }
     }
+
+    GLToy_DebugOutput_Release( "Loaded entity file \"%S\" successfully", m_szFilename.GetWideString() );
 }
 
 void GLToy_EntityFile::Save( const GLToy_String& szFilename )

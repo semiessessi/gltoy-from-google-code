@@ -96,6 +96,7 @@ void GLToy_EnvironmentFile::LoadEnvironment() const
 
     pxEnv->ReadFromBitStream( xStream );
 
+    GLToy_DebugOutput_Release( "Loaded environment file \"%S\" successfully", m_szFilename.GetWideString() );
     GLToy_Environment_System::SwitchEnvironment( pxEnv );
 }
 

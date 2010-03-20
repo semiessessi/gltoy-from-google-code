@@ -54,12 +54,12 @@ void GLToy_Camera::Update()
     // update orientation ...
     if( GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() ) )
     {
-        s_fRY += GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
+        s_fRY -= GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
     }
 
     if( GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetRightKey() ) )
     {
-        s_fRY -= GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
+        s_fRY += GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
     }
 
     s_fRY += GLToy_Input_System::GetMouseDeltaX() * fCAMERA_MOUSE_SCALE;

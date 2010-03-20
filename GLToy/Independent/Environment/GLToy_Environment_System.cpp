@@ -93,6 +93,7 @@ void GLToy_Environment_System::Update()
 
 void GLToy_Environment_System::LoadEnvironmentFile( const GLToy_String& szName )
 {
+    bool bNative = true;
     // try .env first ...
     GLToy_EnvironmentFile** ppxEnvFile = s_xEnvironments.FindData( szName.GetHash() );
     if( !ppxEnvFile )
@@ -103,14 +104,17 @@ void GLToy_Environment_System::LoadEnvironmentFile( const GLToy_String& szName )
         {
             return;
         }
+
+        bNative = false;
     }
-    else
+
+    ( *ppxEnvFile )->LoadEnvironment();
+
+    if( bNative )
     {
         // try loading entities that match environment
         GLToy_Entity_System::LoadEntityFile( szName );
     }
-
-    ( *ppxEnvFile )->LoadEnvironment();
 }
 
 void GLToy_Environment_System::SaveEnvironmentFile( const GLToy_String& szName )

@@ -15,6 +15,6 @@ void main()
 	
 	vec3 xSolution = xDirection * fT + xPosition;
 	
-	gl_FragDepth = 0.995; // TODO - something clever about this
+	gl_FragDepth = ( fT > 0.0 ) ? 0.99999 : 1.0; // TODO - something clever about this
 	gl_FragColor = ( fT > 0.0 ) ? texture2D( xTexture, 0.015625 * vec2( xSolution.x, xSolution.z ) ) : vec4( 0.0, 0.0, 0.0, 0.0 );
 }
