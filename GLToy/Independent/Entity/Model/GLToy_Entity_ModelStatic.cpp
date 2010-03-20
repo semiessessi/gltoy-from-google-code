@@ -15,17 +15,14 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Entity_ModelStatic::SetModel( const GLToy_Hash uHash, const bool bNoBBUpdate )
+void GLToy_Entity_ModelStatic::SetModel( const GLToy_Hash uHash )
 {
     m_pxModel = GLToy_Model_System::LoadModel( uHash );
 
     if( m_pxModel )
     {
         m_uModelHash = uHash;
-        if( !bNoBBUpdate )
-        {
-            SetBB( m_pxModel->GetBB() );
-        }
+        SetBB( m_pxModel->GetBB() + GetPosition() );
     }
 }
 
@@ -40,7 +37,7 @@ void GLToy_Entity_ModelStatic::ReadFromBitStream( const GLToy_BitStream& xStream
 
     xStream >> m_uModelHash;
 
-    SetModel( m_uModelHash, true );
+    SetModel( m_uModelHash );
 }
 
 void GLToy_Entity_ModelStatic::WriteToBitStream( GLToy_BitStream& xStream ) const

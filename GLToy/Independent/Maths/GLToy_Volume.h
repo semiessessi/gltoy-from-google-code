@@ -164,6 +164,11 @@ public:
 
     bool IntersectsWithAABB( const GLToy_AABB& xAABB ) const;
 
+    GLToy_AABB operator +( const GLToy_Vector_3& xVector ) const
+    {
+        return GLToy_AABB( m_xPointMax + xVector, m_xPointMin + xVector );
+    }
+
 protected:
 
     GLToy_Vector_3 m_xPointMax;
