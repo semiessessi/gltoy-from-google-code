@@ -52,16 +52,16 @@ void GLToy_EnvironmentFile::LoadEnvironment() const
             //{
             //    return LoadBSP29( xStream );
             //}
-            //// Half-Life
+            //// Quake / Half-Life
             //case 30:
             //{
             //    return LoadBSP30( xStream );
             //}
-            //// Quake 2
-            //case 38:
-            //{
-            //    return LoadBSP38( xStream );
-            //}
+            // Quake 2 / Kingpin
+            case 38:
+            {
+                return LoadBSP38( xStream );
+            }
             //// Quake 3
             //case 46:
             //{

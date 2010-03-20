@@ -15,11 +15,22 @@
 
 struct GLToy_ParticleProperties
 {
+
+    GLToy_ParticleProperties()
+    : m_xPosition()
+    , m_xVelocity()
+    , m_fSize( 1.0f )
+    , m_fLifetime( 3.0f )
+    , m_uTextureHash( uGLTOY_BAD_HASH )
+    {
+    }
+
     GLToy_Vector_3 m_xPosition;
     GLToy_Vector_3 m_xVelocity;
     float m_fSize;
     float m_fLifetime;
     GLToy_Hash m_uTextureHash;
+
 };
 
 class GLToy_Particle
@@ -40,6 +51,11 @@ public:
         SetSize( xProperties.m_fSize );
         SetTexture( xProperties.m_uTextureHash );
     }
+
+    virtual void GLToy_Particle::ReadFromBitStream( const GLToy_BitStream& xStream );
+    virtual void GLToy_Particle::WriteToBitStream( GLToy_BitStream& xStream ) const;
+
+    virtual void Update();
 
     // TODO - really this belongs to a future physics system
     // the particle class should probably derive from a non-interacting physics object

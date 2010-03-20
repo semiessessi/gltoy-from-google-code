@@ -14,6 +14,7 @@
 #include <Entity/GLToy_Entity.h>
 #include <Entity/Model/GLToy_Entity_ModelStatic.h>
 #include <Entity/Model/GLToy_Entity_ModelAnimated.h>
+#include <Entity/Sprite/GLToy_Entity_Sprite.h>
 #include <File/GLToy_EntityFile.h>
 #include <File/GLToy_File_System.h>
 #include <Render/GLToy_Camera.h>
@@ -95,32 +96,7 @@ void GLToy_Entity_System::Traverse( GLToy_ConstFunctor< GLToy_Entity* >& xFuncto
     s_xEntities.Traverse( xFunctor );
 }
 
-GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Hash uHash, const GLToy_EntityType eType )
-{
-    GLToy_Assert( !FindEntity( uHash ), "Trying to add entity with duplicate hash 0x%X", uHash );
-    
-    GLToy_Entity* pxNewEntity = NULL;
-
-    switch( eType )
-    {
-        case ENTITY_NULL:               pxNewEntity = new GLToy_Entity_Null( uHash, eType ); break;
-        case ENTITY_MODELSTATIC:        pxNewEntity = new GLToy_Entity_ModelStatic( uHash, eType ); break;
-        case ENTITY_MODELANIMATED:      pxNewEntity = new GLToy_Entity_ModelAnimated( uHash, eType ); break;
-
-        default:
-        {
-            GLToy_Assert( false, "Unrecognised entity type: %u", eType );
-            break;
-        }
-    }
-
-    if( pxNewEntity )
-    {
-        s_xEntities.AddNode( pxNewEntity, uHash );
-    }
-
-    return pxNewEntity;
-}
+// CreateEntity is at the bottom of the file...
 
 void GLToy_Entity_System::DestroyEntities()
 {
@@ -147,8 +123,9 @@ void GLToy_Entity_System::SpawnModel( const GLToy_String& szName, const GLToy_Ve
     GLToy_Entity_ModelStatic* pxModelEntity = reinterpret_cast< GLToy_Entity_ModelStatic* >( pxEntity );
 
     pxModelEntity->SetModel( szName );
-    pxModelEntity->SetPosition( xPosition );
-    pxModelEntity->SetOrientation( xOrientation );
+    // TODO - clearly I need to learn more about virtual inheritance - this just seems silly
+    pxEntity->SetPosition( xPosition );
+    reinterpret_cast< GLToy_Entity_Oriented_AABB* >( pxModelEntity )->SetOrientation( xOrientation );
 }
 
 void GLToy_Entity_System::SpawnAnim( const GLToy_String& szName, const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation )
@@ -160,8 +137,9 @@ void GLToy_Entity_System::SpawnAnim( const GLToy_String& szName, const GLToy_Vec
     GLToy_Entity_ModelAnimated* pxModelEntity = reinterpret_cast< GLToy_Entity_ModelAnimated* >( pxEntity );
 
     pxModelEntity->SetModel( szName );
-    pxModelEntity->SetPosition( xPosition );
-    pxModelEntity->SetOrientation( xOrientation );
+    // TODO - clearly I need to learn more about virtual inheritance - this just seems silly
+    pxEntity->SetPosition( xPosition );
+    reinterpret_cast< GLToy_Entity_Oriented_AABB* >( pxModelEntity )->SetOrientation( xOrientation );
 }
 
 void GLToy_Entity_System::SpawnAnim_Console( const GLToy_String& szName )
@@ -187,3 +165,33 @@ GLToy_EntityType GLToy_EntityTypeFromString( const GLToy_String& szString )
 }
 
 #undef TESTFORTYPE
+
+GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Hash uHash, const GLToy_EntityType eType )
+{
+    GLToy_Assert( !FindEntity( uHash ), "Trying to add entity with duplicate hash 0x%X", uHash );
+    
+    GLToy_Entity* pxNewEntity = NULL;
+
+    switch( eType )
+    {
+        case ENTITY_NULL:               pxNewEntity = new GLToy_Entity_Null( uHash, eType ); break;
+
+        case ENTITY_MODELSTATIC:        pxNewEntity = new GLToy_Entity_ModelStatic( uHash, eType ); break;
+        case ENTITY_MODELANIMATED:      pxNewEntity = new GLToy_Entity_ModelAnimated( uHash, eType ); break;
+
+        // case ENTITY_SPRITE:             pxNewEntity = new GLToy_Entity_Sprite( uHash, eType ); break;
+
+        default:
+        {
+            GLToy_Assert( false, "Unrecognised entity type: %u", eType );
+            break;
+        }
+    }
+
+    if( pxNewEntity )
+    {
+        s_xEntities.AddNode( pxNewEntity, uHash );
+    }
+
+    return pxNewEntity;
+}

@@ -767,6 +767,42 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="Particle"
+				>
+				<File
+					RelativePath=".\Independent\Particle\GLToy_Particle.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Particle\GLToy_Particle.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Particle\GLToy_ParticleSource.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Particle\GLToy_ParticleSource.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Particle\GLToy_PFX.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Particle\GLToy_PFX.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Particle\GLToy_PFX_System.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Particle\GLToy_PFX_System.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

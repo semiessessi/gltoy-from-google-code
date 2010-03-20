@@ -135,7 +135,10 @@ void GLToy_KeyInputHandler::Platform_HandleKey( const unsigned int uKey )
 
         case VK_DELETE:
         { 
-            m_szInput.RemoveAt( m_uCaret );
+            if( m_uCaret < m_szInput.GetLength() )
+            {
+                m_szInput.RemoveAt( m_uCaret );
+            }
             break;
         }
 

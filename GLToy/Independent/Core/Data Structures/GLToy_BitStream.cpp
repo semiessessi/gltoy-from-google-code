@@ -9,20 +9,6 @@
 
 #include <Maths/GLToy_Vector.h>
 
-void GLToy_BitStream::WriteVector( const GLToy_Vector_3& xVector )
-{
-    WriteFloat( xVector[ 0 ] );
-    WriteFloat( xVector[ 1 ] );
-    WriteFloat( xVector[ 2 ] );
-}
-
-void GLToy_BitStream::ReadVector( GLToy_Vector_3& xVector ) const
-{
-    ReadFloat( xVector[ 0 ] );
-    ReadFloat( xVector[ 1 ] );
-    ReadFloat( xVector[ 2 ] );
-}
-
 void GLToy_BitStream::WriteBits( const unsigned int uBits, const unsigned int uBitCount )
 {
     for( unsigned int u = 0; u < uBitCount; ++u )

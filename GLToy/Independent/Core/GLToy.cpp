@@ -15,6 +15,7 @@
 #include <Input/GLToy_Input.h>
 #include <Maths/GLToy_Maths.h>
 #include <Model/GLToy_Model_System.h>
+#include <Particle/GLToy_PFX_System.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 
@@ -122,6 +123,7 @@ bool GLToy::Initialise()
     GLTOY_INITIALISER_CALL( GLToy_Model_System );
     GLTOY_INITIALISER_CALL( GLToy_Environment_System );
     GLTOY_INITIALISER_CALL( GLToy_Entity_System );
+    GLTOY_INITIALISER_CALL( GLToy_PFX_System );
 
     if( !Project_Initialise() )
     {
@@ -139,6 +141,7 @@ void GLToy::Shutdown()
 
     GLToy_DebugOutput( "\r\nGLToy::Shutdown() - Shutting down systems.\r\n" );
 
+    GLToy_PFX_System::Shutdown();
     GLToy_Entity_System::Shutdown();
     GLToy_Environment_System::Shutdown();
     GLToy_Model_System::Shutdown();

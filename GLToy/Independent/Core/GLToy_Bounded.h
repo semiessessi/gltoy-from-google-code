@@ -34,11 +34,12 @@ class GLToy_Bounded_AABB
 public:
 
     GLToy_Bounded_AABB()
-    : m_xBoundingBox()
+    : GLToy_Bounded()
+    , m_xBoundingBox()
     {
     }
 
-    ~GLToy_Bounded_AABB()
+    virtual ~GLToy_Bounded_AABB()
     {
     }
 
@@ -83,11 +84,12 @@ class GLToy_Bounded_Sphere
 public:
 
     GLToy_Bounded_Sphere()
-    : m_xBoundingSphere()
+    : GLToy_Bounded()
+    , m_xBoundingSphere()
     {
     }
 
-    ~GLToy_Bounded_Sphere()
+    virtual ~GLToy_Bounded_Sphere()
     {
     }
 
@@ -128,11 +130,12 @@ class GLToy_Bounded_OBB
 public:
 
     GLToy_Bounded_OBB()
-    : m_xBoundingBox()
+    : GLToy_Bounded()
+    , m_xBoundingBox()
     {
     }
 
-    ~GLToy_Bounded_OBB()
+    virtual ~GLToy_Bounded_OBB()
     {
     }
 

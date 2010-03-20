@@ -28,6 +28,7 @@ public:
 
     GLToy_Entity_ModelStatic( const GLToy_Hash uHash, const GLToy_EntityType eType )
     : GLToy_Parent( uHash, eType )
+    , GLToy_Bounded()
     , m_pxModel( NULL )
     , m_uModelHash( uGLTOY_BAD_HASH )
     {

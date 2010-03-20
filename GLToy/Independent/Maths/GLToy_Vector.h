@@ -5,13 +5,15 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
+// Parents
+#include <Core/GLToy_Serialisable.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Vector_2
+//: public GLToy_Serialisable
 {
 
 public:
@@ -33,6 +35,7 @@ private:
 };
 
 class GLToy_Vector_3
+: public GLToy_Serialisable
 {
 
     friend class GLToy_Matrix_3;
@@ -42,6 +45,11 @@ public:
     GLToy_Vector_3();
     GLToy_Vector_3( float fX, float fY, float fZ );
     GLToy_Vector_3( const GLToy_Vector_3& xVector );
+
+    virtual ~GLToy_Vector_3() {}
+
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
     GLToy_Vector_3& operator =( const GLToy_Vector_3& xVector );
 
@@ -92,6 +100,7 @@ private:
 };
 
 class GLToy_Vector_4
+//: public GLToy_Serialisable
 {
 
 public:

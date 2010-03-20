@@ -2,10 +2,13 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <Core/GLToy.h>
+
 // This file's headers
 #include <Maths/GLToy_Matrix.h>
 
 // GLToy
+#include <Core/Data Structures/GLToy_BitStream.h>
 #include <Maths/GLToy_Maths.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,6 +34,20 @@ GLToy_Matrix_3::GLToy_Matrix_3( const GLToy_Matrix_3& xMatrix )
     m_xComponents[ 0 ] = xMatrix.m_xComponents[ 0 ];
     m_xComponents[ 1 ] = xMatrix.m_xComponents[ 1 ];
     m_xComponents[ 2 ] = xMatrix.m_xComponents[ 2 ];
+}
+
+void GLToy_Matrix_3::ReadFromBitStream( const GLToy_BitStream& xStream )
+{
+    xStream >> m_xComponents[ 0 ];
+    xStream >> m_xComponents[ 1 ];
+    xStream >> m_xComponents[ 2 ];
+}
+
+void GLToy_Matrix_3::WriteToBitStream( GLToy_BitStream& xStream ) const
+{
+    xStream << m_xComponents[ 0 ];
+    xStream << m_xComponents[ 1 ];
+    xStream << m_xComponents[ 2 ];
 }
 
 GLToy_Matrix_3& GLToy_Matrix_3::operator =( const GLToy_Matrix_3& xMatrix )

@@ -355,7 +355,10 @@ void Platform_GLToy_Render::DisableDepthTesting()
 void Platform_GLToy_Render::EnableDepthTesting()
 {
     glEnable( GL_DEPTH_TEST );
-    glDepthFunc( GL_LEQUAL );
+    // GL_LEQUAL allows last rendered primitive to render on top of what is already there at the same depth
+    // GL_LESS has the first on top - this is handy for using clipping geometry since multiple passes won't break it
+    // I think there is some kind of gotcha here I am missing - possibly to do with stand alone depth renders in a deferred render or shadow map pass
+    glDepthFunc( GL_LESS );
 }
 
 void Platform_GLToy_Render::DisableDepthWrites()
@@ -522,32 +525,40 @@ void Platform_GLToy_Render::SetUniform( u_int uUniformID, float fValue1, float f
 
 void Platform_GLToy_Render::SetAttribute( u_int uAttributeID, int iValue )
 {
+    s_pfnSetAttribute1i( uAttributeID, iValue );
 }
 
 void Platform_GLToy_Render::SetAttribute( u_int uAttributeID, int iValue1, int iValue2 )
 {
+    s_pfnSetAttribute2i( uAttributeID, iValue1, iValue2 );
 }
 
 void Platform_GLToy_Render::SetAttribute( u_int uAttributeID, int iValue1, int iValue2, int iValue3 )
 {
+    s_pfnSetAttribute3i( uAttributeID, iValue1, iValue2, iValue3 );
 }
 
 void Platform_GLToy_Render::SetAttribute( u_int uAttributeID, int iValue1, int iValue2, int iValue3, int iValue4 )
 {
+    s_pfnSetAttribute4i( uAttributeID, iValue1, iValue2, iValue3, iValue4 );
 }
 
 void Platform_GLToy_Render::SetAttribute( u_int uAttributeID, float fValue )
 {
+    s_pfnSetAttribute1f( uAttributeID, fValue );
 }
 
 void Platform_GLToy_Render::SetAttribute( u_int uAttributeID, float fValue1, float fValue2 )
 {
+    s_pfnSetAttribute2f( uAttributeID, fValue1, fValue2 );
 }
 
 void Platform_GLToy_Render::SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3 )
 {
+    s_pfnSetAttribute3f( uAttributeID, fValue1, fValue2, fValue3 );
 }
 
 void Platform_GLToy_Render::SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3, float fValue4 )
 {
+    s_pfnSetAttribute4f( uAttributeID, fValue1, fValue2, fValue3, fValue4 );
 }
