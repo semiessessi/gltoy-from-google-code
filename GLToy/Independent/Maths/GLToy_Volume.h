@@ -238,6 +238,7 @@ public:
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
+    GLToy_Inline void SetRadius( const float fRadius ) { m_fRadius = fRadius; }
     GLToy_Inline float GetRadius() const { return m_fRadius; }
 
     bool IntersectsWithAABB( const GLToy_AABB& xAABB ) const;

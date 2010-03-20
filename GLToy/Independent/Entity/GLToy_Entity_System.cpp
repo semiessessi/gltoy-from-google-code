@@ -48,6 +48,7 @@ bool GLToy_Entity_System::Initialise()
 
     GLToy_Console::RegisterCommand( "spawnanim", SpawnAnim_Console );
     GLToy_Console::RegisterCommand( "spawnmodel", SpawnModel_Console );
+    GLToy_Console::RegisterCommand( "spawnsprite", SpawnSprite_Console );
 
     return true;
 }
@@ -140,14 +141,35 @@ void GLToy_Entity_System::SpawnAnim( const GLToy_String& szName, const GLToy_Vec
     pxModelEntity->SetOrientation( xOrientation );
 }
 
+void GLToy_Entity_System::SpawnSprite( const GLToy_String& szName, const GLToy_Vector_3& xPosition )
+{
+    GLToy_String szEntityName;
+    szEntityName.SetToFormatString( "Entity%d", s_xEntities.GetCount() );
+
+    GLToy_Entity* pxEntity = CreateEntity( szEntityName.GetHash(), ENTITY_SPRITE );
+
+    // TODO - fix this, not sure why the vtable pointer is shit from the pxSpriteEntity pointer
+    pxEntity->SetPosition( xPosition );
+
+    GLToy_Entity_Sprite* pxSpriteEntity = reinterpret_cast< GLToy_Entity_Sprite* >( pxEntity );
+
+    pxSpriteEntity->SetTexture( szName );
+    pxSpriteEntity->SetSize( 25.0f );
+}
+
 void GLToy_Entity_System::SpawnAnim_Console( const GLToy_String& szName )
 {
     SpawnAnim( szName, GLToy_Camera::GetPosition(), GLToy_Camera::GetOrientation() );
-
 }
+
 void GLToy_Entity_System::SpawnModel_Console( const GLToy_String& szName )
 {
     SpawnModel( szName, GLToy_Camera::GetPosition(), GLToy_Camera::GetOrientation() );
+}
+
+void GLToy_Entity_System::SpawnSprite_Console( const GLToy_String& szName )
+{
+    SpawnSprite( szName, GLToy_Camera::GetPosition() );
 }
 
 #define TESTFORTYPE( szName, eType ) if( szString.GetHash() == GLToy_Hash_Constant( szName ) ) { return eType; }
@@ -157,6 +179,7 @@ GLToy_EntityType GLToy_EntityTypeFromString( const GLToy_String& szString )
     TESTFORTYPE( "null", ENTITY_NULL );
     TESTFORTYPE( "static model", ENTITY_MODELSTATIC );
     TESTFORTYPE( "animated model", ENTITY_MODELANIMATED );
+    TESTFORTYPE( "sprite", ENTITY_SPRITE );
 
     GLToy_Assert( false, "Unrecognised entity type: %S. Maybe you forgot to add it to GLToy_EntityTypeFromString?", szString.GetWideString() );
     return ENTITY_NULL;
@@ -177,7 +200,7 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Hash uHash, const G
         case ENTITY_MODELSTATIC:        pxNewEntity = new GLToy_Entity_ModelStatic( uHash, eType ); break;
         case ENTITY_MODELANIMATED:      pxNewEntity = new GLToy_Entity_ModelAnimated( uHash, eType ); break;
 
-        // case ENTITY_SPRITE:             pxNewEntity = new GLToy_Entity_Sprite( uHash, eType ); break;
+        case ENTITY_SPRITE:             pxNewEntity = new GLToy_Entity_Sprite( uHash, eType ); break;
 
         default:
         {

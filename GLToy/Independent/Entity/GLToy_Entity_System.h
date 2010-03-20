@@ -47,6 +47,7 @@ public:
 
     static void SpawnAnim( const GLToy_String& szName, const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation );
     static void SpawnModel( const GLToy_String& szName, const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation );
+    static void SpawnSprite( const GLToy_String& szName, const GLToy_Vector_3& xPosition );
 
     static bool SetRender( const bool bRender ) { s_bRender = bRender; };
 
@@ -54,6 +55,7 @@ private:
 
     static void SpawnAnim_Console( const GLToy_String& szName );
     static void SpawnModel_Console( const GLToy_String& szName );
+    static void SpawnSprite_Console( const GLToy_String& szName );
 
     static bool s_bRender;
     static bool s_bRenderAABBs;

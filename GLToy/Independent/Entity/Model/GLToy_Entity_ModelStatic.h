@@ -33,6 +33,8 @@ public:
     {
     }
 
+    virtual ~GLToy_Entity_ModelStatic() {}
+
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 

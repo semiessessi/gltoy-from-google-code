@@ -34,8 +34,7 @@ class GLToy_Entity
 public:
 
     GLToy_Entity( const GLToy_Hash uHash, const GLToy_EntityType eType )
-    : GLToy_Parent()
-    , m_bActive( true )
+    : m_bActive( true )
     , m_eType( eType )
     , m_uHash( uHash )
     {
@@ -51,13 +50,13 @@ public:
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
     // own virtuals
-    virtual void Trigger( const GLToy_Hash uTriggerHash ) = 0;
+    virtual void Trigger( const GLToy_Hash uTriggerHash ) { GLToy_Assert( false, "Entity 0x%X is trying to trigger a non-triggerable entity 0x%X", uTriggerHash, m_uHash ); }
 
     virtual void Activate() { m_bActive = true; }
     virtual void Deactivate() { m_bActive = false; }
 
-    virtual void RenderAABB() const = 0;
-    virtual void RenderOBB() const = 0;
+    virtual void RenderAABB() const {}
+    virtual void RenderOBB() const {}
 
     // accessors
     GLToy_Hash GetHash() const { return m_uHash; }
@@ -88,10 +87,7 @@ public:
     {
     }
 
-    virtual void Trigger( const GLToy_Hash uTriggerHash ) { GLToy_Assert( false, "Entity 0x%X is trying to trigger null entity 0x%X - everything is wrong here", uTriggerHash, m_uHash ); }
-
-    virtual void RenderAABB() const {}
-    virtual void RenderOBB() const {}
+    virtual ~GLToy_Entity_Null() {}
 
 };
 
@@ -110,11 +106,12 @@ public:
     , GLToy_Bounded_AABB()
     {
     }
+
+    virtual ~GLToy_Entity_Oriented_AABB() {}
     
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
-    virtual void Trigger( const GLToy_Hash uTriggerHash ) { GLToy_Assert( false, "Entity 0x%X is trying to trigger oriented BB entity 0x%X - everything is wrong here", uTriggerHash, m_uHash ); }
     virtual void RenderAABB() const;
     virtual void RenderOBB() const;
 
@@ -141,6 +138,8 @@ public:
     , GLToy_Bounded_Sphere()
     {
     }
+
+    virtual ~GLToy_Entity_Sphere() {}
 
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;

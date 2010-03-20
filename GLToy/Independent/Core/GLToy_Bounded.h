@@ -17,7 +17,10 @@ class GLToy_Bounded
 
 public:
 
-    GLToy_Bounded() {}
+    GLToy_Bounded()
+    {
+    }
+
     virtual ~GLToy_Bounded() {}
 
     virtual const GLToy_Vector_3& GetPosition() const = 0;
@@ -97,12 +100,12 @@ public:
     }
 
     const GLToy_Sphere& GetBoundingSphere() const { return m_xBoundingSphere; }
-    virtual const GLToy_Vector_3& GetPosition() const { return m_xBoundingSphere.GetPosition(); }
 
-    virtual void SetPosition( const GLToy_Vector_3& xPosition )
-    {
-        m_xBoundingSphere = GLToy_Sphere( xPosition, m_xBoundingSphere.GetRadius() );
-    }
+    virtual void SetPosition( const GLToy_Vector_3& xPosition ) { m_xBoundingSphere = GLToy_Sphere( xPosition, m_xBoundingSphere.GetRadius() ); }
+    virtual const GLToy_Vector_3& GetPosition() const { return m_xBoundingSphere.GetPosition(); }
+    
+    virtual void SetRadius( const float fRadius ) { return m_xBoundingSphere.SetRadius( fRadius ); }
+    virtual float GetRadius() { return m_xBoundingSphere.GetRadius(); }
 
     void SetBoundingSphereToPoint( const GLToy_Vector_3& xPosition ) { m_xBoundingSphere.SetToPoint( xPosition ); }
     void GrowBoundingSphereByPoint( const GLToy_Vector_3& xPosition ) { m_xBoundingSphere.GrowByPoint( xPosition ); }
