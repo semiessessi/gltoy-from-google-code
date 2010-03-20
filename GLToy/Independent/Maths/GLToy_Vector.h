@@ -13,7 +13,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Vector_2
-//: public GLToy_Serialisable
+// : public GLToy_Serialisable - don't do this, its nicer if we can map this to float[ 3 ], which we can't if it needs a virtual function table pointer
 {
 
 public:
@@ -35,7 +35,7 @@ private:
 };
 
 class GLToy_Vector_3
-: public GLToy_Serialisable
+// : public GLToy_Serialisable - don't do this, its nicer if we can map this to float[ 3 ], which we can't if it needs a virtual function table pointer
 {
 
     friend class GLToy_Matrix_3;
@@ -46,10 +46,8 @@ public:
     GLToy_Vector_3( float fX, float fY, float fZ );
     GLToy_Vector_3( const GLToy_Vector_3& xVector );
 
-    virtual ~GLToy_Vector_3() {}
-
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+    void ReadFromBitStream( const GLToy_BitStream& xStream );
+    void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
     GLToy_Vector_3& operator =( const GLToy_Vector_3& xVector );
 
@@ -100,7 +98,7 @@ private:
 };
 
 class GLToy_Vector_4
-//: public GLToy_Serialisable
+// : public GLToy_Serialisable - don't do this, its nicer if we can map this to float[ 3 ], which we can't if it needs a virtual function table pointer
 {
 
 public:

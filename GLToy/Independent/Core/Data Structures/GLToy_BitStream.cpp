@@ -7,7 +7,12 @@
 // This file's header
 #include <Core/Data Structures/GLToy_BitStream.h>
 
+// GLToy
 #include <Maths/GLToy_Vector.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F U N C T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 void GLToy_BitStream::WriteBits( const unsigned int uBits, const unsigned int uBitCount )
 {
@@ -46,6 +51,16 @@ void GLToy_BitStream::ReadData( char* pcOutput, const unsigned int uBitCount ) c
     unsigned int uBits;
     ReadBits( uBits, uBitCount & 7 );
     pcOutput[ ( uBitCount >> 3 ) + 1 ] = uBits & 0xFF;
+}
+
+void GLToy_BitStream::WriteVector( const GLToy_Vector_3& xVector )
+{
+    xVector.WriteToBitStream( *this );
+}
+
+void GLToy_BitStream::ReadVector( GLToy_Vector_3& xVector ) const
+{
+    xVector.ReadFromBitStream( *this );
 }
 
 void GLToy_BitStream::Grow( const unsigned int uNumBytes = 1 )

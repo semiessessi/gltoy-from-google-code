@@ -54,6 +54,7 @@ public:
     void operator <<( const u_int uUint ) { WriteUInt( uUint ); }
     void operator <<( const float fFloat ) { WriteFloat( fFloat ); }
     void operator <<( const double dDouble ) { WriteDouble( dDouble ); }
+    void operator <<( const GLToy_Vector_3& xVector ) { WriteVector( xVector ); }
     void operator <<( const GLToy_Serialisable& xSerialisable ) { xSerialisable.WriteToBitStream( *this ); }
     void operator <<( const GLToy_Serialisable* const pxSerialisable ) { pxSerialisable->WriteToBitStream( *this ); }
 
@@ -67,6 +68,7 @@ public:
     void operator >>( u_int& uUint ) const { ReadUInt( uUint ); }
     void operator >>( float& fFloat ) const { ReadFloat( fFloat ); }
     void operator >>( double& dDouble ) const { ReadDouble( dDouble ); }
+    void operator >>( GLToy_Vector_3& xVector ) const { ReadVector( xVector ); }
     void operator >>( GLToy_Serialisable& xSerialisable ) const { xSerialisable.ReadFromBitStream( *this ); }
     void operator >>( GLToy_Serialisable* const pxSerialisable ) const { pxSerialisable->ReadFromBitStream( *this ); }
 
@@ -78,9 +80,10 @@ public:
     void WriteUShort( const u_short usShort ) { WriteBits( usShort, 16 ); }
     void WriteInt( const int iInt ) { WriteBits( iInt, 32 ); }
     void WriteUInt( const u_int uUint ) { WriteBits( uUint, 32 ); }
-    void WriteFloat( float fFloat ){ WriteData( reinterpret_cast< char* >( &fFloat ), 4 ); }
-    void WriteDouble( double dDouble){ WriteData( reinterpret_cast< char* >( &dDouble ), 8 ); }
+    void WriteFloat( const float fFloat ){ WriteData( reinterpret_cast< const char* >( &fFloat ), 4 ); }
+    void WriteDouble( const double dDouble ){ WriteData( reinterpret_cast< const char* >( &dDouble ), 8 ); }
     void WriteData( const char* const pcData, const u_int uBitCount );
+    void WriteVector( const GLToy_Vector_3& xVector );
 
     void ReadBool( bool& bBool ) const { bBool = ReadBit(); }
     void ReadHalfByte( char& cValue ) const { u_int uBits; ReadBits( uBits, 4 ); cValue = uBits; }
@@ -93,6 +96,7 @@ public:
     void ReadFloat( float& fFloat ) const { ReadData( reinterpret_cast< char* >( &fFloat ), 4 ); }
     void ReadDouble( double& dDouble) const { ReadData( reinterpret_cast< char* >( &dDouble ), 8 ); }
     void ReadData( char* pcOutput, const u_int uBitCount ) const;
+    void ReadVector( GLToy_Vector_3& xVector ) const;
 
     u_int GetBitsWritten() const { return m_uPosition; }
     u_int GetBytesWritten() const { return ( m_uPosition + 7 ) >> 3; }

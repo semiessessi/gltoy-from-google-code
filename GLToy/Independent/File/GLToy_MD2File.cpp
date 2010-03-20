@@ -146,7 +146,6 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
         pxModel->m_xTexCoords[ u ][ 0 ] = static_cast< float >( xTexCoords[ u ].m_sS ) * ( 1.0f / pxHeader->m_uSkinWidth );
         pxModel->m_xTexCoords[ u ][ 1 ] = static_cast< float >( xTexCoords[ u ].m_sT ) * ( 1.0f / pxHeader->m_uSkinHeight );
         pxModel->m_xTexCoords[ u ][ 2 ] = 0.0f;
-;
     }
 
     pxModel->m_xTriangles = GLToy_PointerArray< GLToy_MD2_Triangle >(
