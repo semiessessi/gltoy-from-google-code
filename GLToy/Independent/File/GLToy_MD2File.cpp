@@ -131,6 +131,18 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
         pxFrame = reinterpret_cast< GLToy_MD2_Frame* >( reinterpret_cast< char* >( pxFrame ) + pxHeader->m_uFrameSize );
     }
 
+    // fix up positions so they are relative to the bb position, and the bb is centered
+    for( u_int u = 0; u < pxHeader->m_uNumFrames; ++u )
+    {
+        for( u_int v = 0; v < pxHeader->m_uNumVertices; ++v )
+        {
+            const u_int uVertexIndex = u * pxHeader->m_uNumVertices + v;
+            pxModel->m_xVertices[ uVertexIndex ] -= pxModel->GetBB().GetPosition();
+        }
+    }
+
+    pxModel->SetBB( pxModel->GetBB() - pxModel->GetBB().GetPosition() );
+
     // load GL commands
     pxModel->m_xGLCommands = GLToy_PointerArray< int >(
         reinterpret_cast< int* >( &( pcData[ pxHeader->m_uOffsetGLCommands ] ) ), pxHeader->m_uNumGLCommands );

@@ -144,6 +144,8 @@ public:
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
+    virtual void RenderAABB() const { m_xBoundingSphere.GetBoundingAABB().Render(); }
+
 };
 
 #endif

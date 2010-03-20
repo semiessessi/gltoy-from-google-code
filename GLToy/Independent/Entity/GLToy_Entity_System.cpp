@@ -120,8 +120,7 @@ void GLToy_Entity_System::SpawnModel( const GLToy_String& szName, const GLToy_Ve
     GLToy_String szEntityName;
     szEntityName.SetToFormatString( "Entity%d", s_xEntities.GetCount() );
 
-    GLToy_Entity* pxEntity = CreateEntity( szEntityName.GetHash(), ENTITY_MODELSTATIC );
-    GLToy_Entity_ModelStatic* pxModelEntity = static_cast< GLToy_Entity_ModelStatic* >( pxEntity );
+    GLToy_Entity_ModelStatic* pxModelEntity = static_cast< GLToy_Entity_ModelStatic* >( CreateEntity( szEntityName.GetHash(), ENTITY_MODELSTATIC ) );
 
     pxModelEntity->SetModel( szName );
     pxModelEntity->SetPosition( xPosition );
@@ -133,8 +132,7 @@ void GLToy_Entity_System::SpawnAnim( const GLToy_String& szName, const GLToy_Vec
     GLToy_String szEntityName;
     szEntityName.SetToFormatString( "Entity%d", s_xEntities.GetCount() );
 
-    GLToy_Entity* pxEntity = CreateEntity( szEntityName.GetHash(), ENTITY_MODELANIMATED );
-    GLToy_Entity_ModelAnimated* pxModelEntity = static_cast< GLToy_Entity_ModelAnimated* >( pxEntity );
+    GLToy_Entity_ModelAnimated* pxModelEntity = static_cast< GLToy_Entity_ModelAnimated* >( CreateEntity( szEntityName.GetHash(), ENTITY_MODELANIMATED ) );
 
     pxModelEntity->SetModel( szName );
     pxModelEntity->SetPosition( xPosition );
@@ -146,8 +144,7 @@ void GLToy_Entity_System::SpawnSprite( const GLToy_String& szName, const GLToy_V
     GLToy_String szEntityName;
     szEntityName.SetToFormatString( "Entity%d", s_xEntities.GetCount() );
 
-    GLToy_Entity* pxEntity = CreateEntity( szEntityName.GetHash(), ENTITY_SPRITE );
-    GLToy_Entity_Sprite* pxSpriteEntity = static_cast< GLToy_Entity_Sprite* >( pxEntity );
+    GLToy_Entity_Sprite* pxSpriteEntity = static_cast< GLToy_Entity_Sprite* >( CreateEntity( szEntityName.GetHash(), ENTITY_SPRITE ) );
 
     pxSpriteEntity->SetPosition( xPosition );
     pxSpriteEntity->SetTexture( szName );

@@ -104,6 +104,15 @@ GLToy_Vector_3& GLToy_Vector_3::operator +=( const GLToy_Vector_3& xVector )
     return *this;
 }
 
+GLToy_Vector_3& GLToy_Vector_3::operator -=( const GLToy_Vector_3& xVector )
+{
+    // TODO - use platform sub
+    m_fComponents[ 0 ] -= xVector.m_fComponents[ 0 ];
+    m_fComponents[ 1 ] -= xVector.m_fComponents[ 1 ];
+    m_fComponents[ 2 ] -= xVector.m_fComponents[ 2 ];
+    return *this;
+}
+
 GLToy_Vector_3& GLToy_Vector_3::operator *=( const float fFloat )
 {
     // TODO - use platform mul

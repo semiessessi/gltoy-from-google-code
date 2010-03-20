@@ -60,6 +60,7 @@ public:
     GLToy_Vector_3 operator -() const;
 
     GLToy_Vector_3& operator +=( const GLToy_Vector_3& xVector );
+    GLToy_Vector_3& operator -=( const GLToy_Vector_3& xVector );
     GLToy_Vector_3& operator *=( const float fFloat );
 
     GLToy_Vector_3 operator +( const GLToy_Vector_3& xVector ) const;
