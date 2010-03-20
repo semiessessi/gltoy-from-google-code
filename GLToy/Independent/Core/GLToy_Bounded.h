@@ -17,6 +17,9 @@ class GLToy_Bounded
 
 public:
 
+    GLToy_Bounded() {}
+    virtual ~GLToy_Bounded() {}
+
     virtual const GLToy_Vector_3& GetPosition() const = 0;
     virtual void SetPosition( const GLToy_Vector_3& xPosition ) = 0;
 

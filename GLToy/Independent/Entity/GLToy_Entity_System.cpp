@@ -123,9 +123,8 @@ void GLToy_Entity_System::SpawnModel( const GLToy_String& szName, const GLToy_Ve
     GLToy_Entity_ModelStatic* pxModelEntity = reinterpret_cast< GLToy_Entity_ModelStatic* >( pxEntity );
 
     pxModelEntity->SetModel( szName );
-    // TODO - clearly I need to learn more about virtual inheritance - this just seems silly
-    pxEntity->SetPosition( xPosition );
-    reinterpret_cast< GLToy_Entity_Oriented_AABB* >( pxModelEntity )->SetOrientation( xOrientation );
+    pxModelEntity->SetPosition( xPosition );
+    pxModelEntity->SetOrientation( xOrientation );
 }
 
 void GLToy_Entity_System::SpawnAnim( const GLToy_String& szName, const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation )
@@ -137,9 +136,8 @@ void GLToy_Entity_System::SpawnAnim( const GLToy_String& szName, const GLToy_Vec
     GLToy_Entity_ModelAnimated* pxModelEntity = reinterpret_cast< GLToy_Entity_ModelAnimated* >( pxEntity );
 
     pxModelEntity->SetModel( szName );
-    // TODO - clearly I need to learn more about virtual inheritance - this just seems silly
-    pxEntity->SetPosition( xPosition );
-    reinterpret_cast< GLToy_Entity_Oriented_AABB* >( pxModelEntity )->SetOrientation( xOrientation );
+    pxModelEntity->SetPosition( xPosition );
+    pxModelEntity->SetOrientation( xOrientation );
 }
 
 void GLToy_Entity_System::SpawnAnim_Console( const GLToy_String& szName )

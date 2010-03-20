@@ -73,7 +73,15 @@ void GLToy_EntityFile::LoadEntities() const
 
         GLToy_Entity* pxEntity = GLToy_Entity_System::CreateEntity( uHash, static_cast< GLToy_EntityType >( ucType ) );
 
-        pxEntity->ReadFromBitStream( xStream );
+        if( pxEntity )
+        {
+            pxEntity->ReadFromBitStream( xStream );
+        }
+        else
+        {
+            GLToy_Assert( pxEntity != NULL, "Fatal error whilst loading entity file \"%S\"", GetFilename().GetWideString() );
+            return;
+        }
     }
 }
 

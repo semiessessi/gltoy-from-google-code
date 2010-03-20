@@ -138,7 +138,6 @@ public:
 
     GLToy_Entity_Sphere( const GLToy_Hash uHash, const GLToy_EntityType eType )
     : GLToy_Parent( uHash, eType )
-    //, GLToy_Bounded()
     , GLToy_Bounded_Sphere()
     {
     }
