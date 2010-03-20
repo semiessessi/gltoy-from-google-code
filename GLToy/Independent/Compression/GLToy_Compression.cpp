@@ -181,6 +181,23 @@ static const GLToy_Vector_3 xBYTE_NORMALS[] =
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+u_int GLToy_Compress::Float_3Bytes( const float fFloat )
+{
+    // (sign) (6-bit exponent) (17-bit mantissa)
+    // put the sign the msb
+    u_int uReturnValue = ( fFloat < 0.0f ) ? ( 1 << 23 ) : 0;
+
+    // extract the exponent and throw away two bits
+    const u_int uFloat = *reinterpret_cast< const u_int* >( &fFloat );
+    int iExponent = ( uFloat & 0x78000000 ) ? GLToy_Maths::Min( 32, GLToy_Maths::Max( -31, ( ( uFloat & 0x78000000 ) >> 23 ) - 127 ) ) : 0;
+    uReturnValue |= ( iExponent + 31 ) << 22;
+
+    // finally throwaway the trailing 6 bits of mantissa
+    uReturnValue |= ( uFloat & 0x7FFFFF ) >> 6;
+
+    return uReturnValue;
+}
+
 u_char GLToy_Compress::UnitVector_Byte( const GLToy_Vector_3& xVector )
 {
     u_char ucMin = 0;
@@ -216,6 +233,20 @@ u_int GLToy_Compress::OrthonormalMatrix_4Bytes( const GLToy_Matrix_3& xMatrix )
 }
 
 
+float GLToy_Decompress::Float_3Bytes( const u_int uInt )
+{
+    // get the sign bit in position
+    u_int uReturnValue = ( uInt << 8 ) & 0x80000000;
+
+    // extract the exponent and re-scale it
+    int iExponent = ( ( uInt >> 17 ) & 0x3F ) - 31;
+    uReturnValue |= ( iExponent == 0 ) ? 0 : ( iExponent + 127 ) << 23;
+
+    // extract the mantissa
+    uReturnValue |= ( uInt & 0x1FFFF ) << 6;
+
+    return *reinterpret_cast< float * >( &uReturnValue );
+}
 
 GLToy_Vector_3 GLToy_Decompress::UnitVector_Byte( const u_char ucChar )
 {

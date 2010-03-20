@@ -17,6 +17,7 @@ class GLToy_Compress
 
 public:
 
+    static u_int Float_3Bytes( const float fFloat );
     static u_char UnitVector_Byte( const GLToy_Vector_3& xVector );
     static u_short UnitVector_2Bytes( const GLToy_Vector_3& xVector );
     static u_short OrthonormalMatrix_2Bytes( const GLToy_Matrix_3& xMatrix );
@@ -29,6 +30,7 @@ class GLToy_Decompress
 
 public:
 
+    static float Float_3Bytes( const u_int uInt );
     static GLToy_Vector_3 UnitVector_Byte( const u_char ucChar );
     static GLToy_Vector_3 UnitVector_2Bytes( const u_short usShort );
     static GLToy_Matrix_3 OrthonormalMatrix_2Bytes( const u_short usShort );
