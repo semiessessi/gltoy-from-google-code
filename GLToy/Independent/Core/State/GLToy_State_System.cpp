@@ -25,9 +25,6 @@ GLToy_State* GLToy_State_System::s_pxCurrentState = 0;
 bool GLToy_State_System::Initialise()
 {
     s_xStates.Clear();
-
-
-
     return true;
 }
 
@@ -35,4 +32,32 @@ void GLToy_State_System::Shutdown()
 {
     s_xStates.DeleteAll();
     s_xStates.Clear();
+}
+
+void GLToy_State_System::RegisterState( GLToy_State* const pxState, const GLToy_Hash uStateHash )
+{
+    if( !pxState )
+    {
+        GLToy_Assert( pxState != NULL, "Passing null pointer into GLToy_State_System::RegisterState!" );
+        return;
+    }
+
+    s_xStates.AddNode( pxState, uStateHash );
+}
+
+void GLToy_State_System::ChangeState( const GLToy_Hash uStateHash )
+{
+    if( s_pxCurrentState )
+    {
+        s_pxCurrentState->Shutdown();
+        s_pxCurrentState = NULL;
+    }
+
+    GLToy_State** ppxState = s_xStates.FindData( uStateHash );
+
+    if( ppxState )
+    {
+        s_pxCurrentState = *ppxState;
+        s_pxCurrentState->Initialise();
+    }
 }

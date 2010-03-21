@@ -148,12 +148,15 @@ GLToy_Environment* GLToy_Environment_System::CreateEnvironmentFromType( const GL
 
 void GLToy_Environment_System::SwitchEnvironment( GLToy_Environment* const pxEnv )
 {
-        if( s_pxCurrentEnvironment )
+    if( s_pxCurrentEnvironment )
     {
         s_pxCurrentEnvironment->Shutdown();
     }
 
     delete s_pxCurrentEnvironment;
     s_pxCurrentEnvironment = pxEnv;
-    s_pxCurrentEnvironment->Initialise();
+    if( s_pxCurrentEnvironment )
+    {
+        s_pxCurrentEnvironment->Initialise();
+    }
 }

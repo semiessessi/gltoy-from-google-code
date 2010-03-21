@@ -5,7 +5,7 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <Core/State/GLToy_State.h>
+#include <Core/State/GLToy_State_Editor.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S

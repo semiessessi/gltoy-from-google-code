@@ -377,11 +377,23 @@
 					Name="State"
 					>
 					<File
-						RelativePath=".\Independent\Core\State\GLToy_State.cpp"
+						RelativePath=".\Independent\Core\State\GLToy_State.h"
 						>
 					</File>
 					<File
-						RelativePath=".\Independent\Core\State\GLToy_State.h"
+						RelativePath=".\Independent\Core\State\GLToy_State_Editor.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\State\GLToy_State_Editor.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\State\GLToy_State_EditorFrontEnd.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\State\GLToy_State_EditorFrontEnd.h"
 						>
 					</File>
 					<File
