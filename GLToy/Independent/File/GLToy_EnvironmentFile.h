@@ -8,6 +8,9 @@
 // Parent
 #include <File/GLToy_File.h>
 
+// GLToy
+#include <String/GLToy_String.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,6 +31,8 @@ public:
     virtual ~GLToy_EnvironmentFile()
     {
     }
+
+    GLToy_String GetName() const;
 
     virtual void LoadEnvironment() const;
 

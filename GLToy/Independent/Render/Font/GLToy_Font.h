@@ -7,6 +7,7 @@
 
 // GLToy
 #include <Core/GLToy_Hash.h>
+#include <Maths/GLToy_Vector.h>
 #include <String/GLToy_String.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +41,8 @@ public:
     virtual void Initialise() = 0;
     virtual void Shutdown() = 0;
 
-    virtual void RenderString( const GLToy_String& szString, const float fX, const float fY ) const = 0;
+    virtual void RenderString( const GLToy_String& szString, const float fX, const float fY ) const { RenderString( szString, fX, fY, GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) ); }
+    virtual void RenderString( const GLToy_String& szString, const float fX, const float fY, const GLToy_Vector_4& xColour ) const = 0;
 
 protected:
 

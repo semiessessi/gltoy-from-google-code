@@ -26,6 +26,15 @@ GLToy_Inline const bool GLToy_EnvironmentFile_IsFileHeaderValid( const u_int uHe
     return ( uHeader == GLToy_HeaderBytes( "ENVR" ) || uHeader == GLToy_HeaderBytes( "IBSP" ) );
 }
 
+GLToy_String GLToy_EnvironmentFile::GetName() const
+{
+    GLToy_String szName = GetFilename();
+    szName.RemoveAt( 0, 13 ); // remove "Environments/"
+    szName.RemoveFromEnd( 4 ); // remove .env
+
+    return szName;
+}
+
 void GLToy_EnvironmentFile::LoadEnvironment() const
 {
     GLToy_BitStream xStream;

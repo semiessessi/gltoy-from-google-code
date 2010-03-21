@@ -36,7 +36,7 @@ public:
     virtual void Initialise();
     virtual void Shutdown();
 
-    virtual void RenderString( const GLToy_String& szString, const float fX, const float fY ) const;
+    virtual void RenderString( const GLToy_String& szString, const float fX, const float fY, const GLToy_Vector_4& xColour ) const;
 
 protected:
 

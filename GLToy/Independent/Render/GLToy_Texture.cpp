@@ -154,7 +154,10 @@ void GLToy_Texture_System::CreateTexture( const GLToy_Hash uHash )
             pxTexture->LoadFromFile();
         }
 
-        pxTexture->Create();
+        if( !pxTexture->IsReadyForUse() )
+        {
+            pxTexture->Create();
+        }
     }
 }
 

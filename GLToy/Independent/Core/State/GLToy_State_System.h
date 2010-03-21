@@ -30,6 +30,7 @@ public:
     static void Shutdown();
 
     static void Render();
+    static void Render2D();
     static void Update();
 
     static void RegisterState( GLToy_State* const pxState, const GLToy_Hash uStateHash );

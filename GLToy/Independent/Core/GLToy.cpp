@@ -96,7 +96,6 @@ bool GLToy::Initialise()
     GLTOY_INITIALISER_CALL( GLToy_Timer );
     GLTOY_INITIALISER_CALL( GLToy_Maths );
     GLTOY_INITIALISER_CALL( GLToy_Input_System );
-    GLTOY_INITIALISER_CALL( GLToy_State_System );
 
     if( !Platform_EarlyInitialise() )
     {
@@ -105,6 +104,7 @@ bool GLToy::Initialise()
 
     GLTOY_INITIALISER_CALL( GLToy_Render );
     GLTOY_INITIALISER_CALL( GLToy_Console );
+    GLTOY_INITIALISER_CALL( GLToy_State_System );
 
     if( !Platform_LateInitialise() )
     {
@@ -150,12 +150,12 @@ void GLToy::Shutdown()
     GLToy_FridgeScript::Shutdown();
 #endif
 
+    GLToy_State_System::Shutdown();
     GLToy_Console::Shutdown();
     GLToy_Render::Shutdown();
 
     Platform_Shutdown();
 
-    GLToy_State_System::Shutdown();
     GLToy_Maths::Shutdown();
 
     GLToy_DebugOutput( "\r\nGLToy::Shutdown() - Completed successfully.\r\n" );
@@ -170,6 +170,7 @@ bool GLToy::MainLoop()
 
     // Update functions
     GLToy_Timer::Update();
+    GLToy_State_System::Update();
     GLToy_Input_System::Update();
     GLToy_Camera::Update();
 
@@ -184,10 +185,12 @@ bool GLToy::MainLoop()
     GLToy_Environment_System::Render();
     GLToy_Entity_System::Render();
 
+    GLToy_State_System::Render();
     GLToy_Render::Render();
 
     GLToy_Render::BeginRender2D();
 
+    GLToy_State_System::Render2D();
     GLToy_Render::Render2D();
     GLToy_Console::Render();
 

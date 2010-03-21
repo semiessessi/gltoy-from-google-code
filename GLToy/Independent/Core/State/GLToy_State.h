@@ -26,13 +26,18 @@ class GLToy_State
 
 public:
     
-    GLToy_State();
-    virtual ~GLToy_State();
+    GLToy_State() {}
+    virtual ~GLToy_State() {}
 
     virtual const GLToy_String& GetName() const = 0;
 
-    virtual void Initialise() = 0;
-    virtual void Shutdown() = 0;
+    virtual void Initialise() {};
+    virtual void Shutdown() {};
+
+    virtual void Render() const {}
+    virtual void Render2D() const {}
+
+    virtual void Update() {}
 
 };
 

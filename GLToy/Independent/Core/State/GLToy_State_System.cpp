@@ -10,6 +10,8 @@
 // GLToy
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <Core/State/GLToy_State.h>
+#include <Core/State/GLToy_State_Editor.h>
+#include <Core/State/GLToy_State_EditorFrontEnd.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -25,6 +27,10 @@ GLToy_State* GLToy_State_System::s_pxCurrentState = 0;
 bool GLToy_State_System::Initialise()
 {
     s_xStates.Clear();
+
+    RegisterState( new GLToy_State_EditorFrontEnd(), GLToy_Hash_Constant( "EditorFrontEnd" ) );
+    RegisterState( new GLToy_State_Editor(), GLToy_Hash_Constant( "Editor" ) );
+
     return true;
 }
 
@@ -32,6 +38,30 @@ void GLToy_State_System::Shutdown()
 {
     s_xStates.DeleteAll();
     s_xStates.Clear();
+}
+
+void GLToy_State_System::Render()
+{
+    if( s_pxCurrentState )
+    {
+        s_pxCurrentState->Render();
+    }
+}
+
+void GLToy_State_System::Render2D()
+{
+    if( s_pxCurrentState )
+    {
+        s_pxCurrentState->Render2D();
+    }
+}
+
+void GLToy_State_System::Update()
+{
+    if( s_pxCurrentState )
+    {
+        s_pxCurrentState->Update();
+    }
 }
 
 void GLToy_State_System::RegisterState( GLToy_State* const pxState, const GLToy_Hash uStateHash )

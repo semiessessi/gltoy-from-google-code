@@ -40,7 +40,7 @@ void GLToy_Font_Bitmap::Shutdown()
     m_pxTexture = NULL;
 }
 
-void GLToy_Font_Bitmap::RenderString( const GLToy_String& szString, const float fX, const float fY ) const
+void GLToy_Font_Bitmap::RenderString( const GLToy_String& szString, const float fX, const float fY, const GLToy_Vector_4& xColour ) const
 {
     // TODO - something more sensible about the widths
     const float fTW = 1.0f / 16.0f;
@@ -56,7 +56,7 @@ void GLToy_Font_Bitmap::RenderString( const GLToy_String& szString, const float 
     GLToy_Render::SetBlendFunction( BLEND_ONE, BLEND_ONE_MINUS_SRC_COLOR );
     GLToy_Render::StartSubmittingQuads();
 
-    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+    GLToy_Render::SubmitColour( xColour );
 
     GLToy_ConstIterate( wchar_t, xIterator, &szString )
     {

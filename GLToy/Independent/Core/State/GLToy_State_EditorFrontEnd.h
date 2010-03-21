@@ -7,6 +7,7 @@
 
 // GLToy
 #include <Core/State/GLToy_State.h>
+#include <String/GLToy_String.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -21,8 +22,10 @@ public:
     virtual void Initialise();
     virtual void Shutdown();
 
-    virtual void Render() const;
+    virtual void Render2D() const;
     virtual void Update();
+
+    virtual const GLToy_String& GetName() const { static GLToy_String ls_szName = "EditorFrontEnd"; return ls_szName; }
 
 };
 

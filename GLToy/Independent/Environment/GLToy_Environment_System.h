@@ -43,6 +43,8 @@ public:
 
     static void SwitchEnvironment( GLToy_Environment* const pxEnv );
 
+    static GLToy_HashTree< GLToy_EnvironmentFile* >& GetEnvironmentFileTree() { return s_xEnvironments; }
+
 private:
 
     static bool s_bRender;
