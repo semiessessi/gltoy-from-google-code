@@ -10,6 +10,7 @@
 #include <Render/GLToy_Renderable.h>
 
 // GLToy
+#include <Core/Data Structures/GLToy_Array.h>
 #include <Particle/GLToy_ParticleSource.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,6 +30,8 @@ public:
 
     virtual void Render() const;
     virtual void Update();
+
+    GLToy_IndirectArray< GLToy_ParticleSource > m_xSources;
 
 };
 

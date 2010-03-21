@@ -16,10 +16,9 @@
 
 bool GLToy_PFX_System::Initialise()
 {
-    return GLToy_ParticleSource_System::Initialise();
+    return true;
 }
 
 void GLToy_PFX_System::Shutdown()
 {
-    GLToy_ParticleSource_System::Shutdown();
 }

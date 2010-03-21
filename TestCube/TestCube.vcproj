@@ -46,6 +46,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				EnableFunctionLevelLinking="true"
+				RuntimeTypeInfo="false"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -126,6 +127,7 @@
 				BufferSecurityCheck="false"
 				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"
+				RuntimeTypeInfo="false"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>

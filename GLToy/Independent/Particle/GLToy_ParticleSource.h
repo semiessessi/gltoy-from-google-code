@@ -10,6 +10,7 @@
 #include <Render/GLToy_Renderable.h>
 
 // GLToy
+#include <Core/Data Structures/GLToy_Array.h>
 #include <Particle/GLToy_Particle.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,8 +40,10 @@ class GLToy_ParticleSource
 public:
 
     GLToy_ParticleSource( const GLToy_ParticleSourceProperties& xProperties )
-    : m_fReleaseRate( 1.0f )
-    , m_xParticleProperties()
+    : m_xParticleProperties()
+    , m_fReleaseRate( 1.0f )
+    , m_fReleaseTimer( 0.0f )
+    , m_xParticles()
     {
     }
 
@@ -50,15 +53,11 @@ public:
     GLToy_ParticleProperties m_xParticleProperties;
     float m_fReleaseRate;
 
-};
+    float m_fReleaseTimer;
 
-class GLToy_ParticleSource_System
-{
-
-public:
-
-    static bool Initialise();
-    static void Shutdown();
+    // TODO - this would almost certainly be better as a linked list
+    // since we do insertion, removal and sequential access only
+    GLToy_IndirectArray< GLToy_Particle > m_xParticles;
 
 };
 

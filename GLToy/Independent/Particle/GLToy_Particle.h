@@ -52,10 +52,12 @@ public:
         SetTexture( xProperties.m_uTextureHash );
     }
 
-    virtual void GLToy_Particle::ReadFromBitStream( const GLToy_BitStream& xStream );
-    virtual void GLToy_Particle::WriteToBitStream( GLToy_BitStream& xStream ) const;
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
     virtual void Update();
+
+    virtual bool IsDone() const { return m_fLifetime <= 0.0f; }
 
     // TODO - really this belongs to a future physics system
     // the particle class should probably derive from a non-interacting physics object
