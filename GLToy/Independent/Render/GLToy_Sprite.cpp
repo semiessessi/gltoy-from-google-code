@@ -68,6 +68,8 @@ void GLToy_Sprite::RenderTransparent() const
 
     GLToy_Render::StartSubmittingQuads();
 
+    GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+
     GLToy_Render::SubmitTextureCoordinate( GLToy_Vector_3( 1.0f, 1.0f, 0.0f ) );
     GLToy_Render::SubmitVertex( m_xPosition + ( xRight + xUp ) * m_fSize );
     GLToy_Render::SubmitTextureCoordinate( GLToy_Vector_3( 1.0f, 0.0f, 0.0f ) );

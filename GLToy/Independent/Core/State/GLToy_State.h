@@ -26,14 +26,4 @@ public:
 
 };
 
-class GLToy_State_System
-{
-
-public:
-
-    static bool Initialise();
-    static void Shutdown();
-
-};
-
 #endif

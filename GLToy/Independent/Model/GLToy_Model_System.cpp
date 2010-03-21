@@ -13,12 +13,14 @@
 #include <File/GLToy_MD2File.h>
 #include <File/GLToy_ModelFile.h>
 #include <Model/GLToy_Model.h>
+#include <Model/GLToy_Model_Placeholder.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 GLToy_HashTree< GLToy_ModelFile* > GLToy_Model_System::s_xModels;
+GLToy_Model_Placeholder GLToy_Model_System::s_xPlaceholder;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -53,7 +55,7 @@ void GLToy_Model_System::Shutdown()
 GLToy_Model* GLToy_Model_System::LoadModel( const GLToy_Hash uHash )
 {
     GLToy_ModelFile** ppxModelFile = s_xModels.FindData( uHash );
-    return ppxModelFile ? ( *ppxModelFile )->LoadModel() : NULL;
+    return ppxModelFile ? ( *ppxModelFile )->LoadModel() : &s_xPlaceholder;
 }
 
 GLToy_Model* GLToy_Model_System::LoadModel( const GLToy_String& xName )

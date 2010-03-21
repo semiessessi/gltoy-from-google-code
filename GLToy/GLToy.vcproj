@@ -384,6 +384,14 @@
 						RelativePath=".\Independent\Core\State\GLToy_State.h"
 						>
 					</File>
+					<File
+						RelativePath=".\Independent\Core\State\GLToy_State_System.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\State\GLToy_State_System.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter

@@ -1,5 +1,5 @@
-#ifndef __GLTOY_MODEL_SYSTEM_H_
-#define __GLTOY_MODEL_SYSTEM_H_
+#ifndef __GLTOY_STATE_SYSTEM_H_
+#define __GLTOY_STATE_SYSTEM_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
@@ -13,16 +13,15 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+template < class T > class GLToy_Array;
 template < class T > class GLToy_HashTree;
-class GLToy_Model;
-class GLToy_Model_Placeholder;
-class GLToy_ModelFile;
+class GLToy_State;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Model_System
+class GLToy_State_System
 {
 
 public:
@@ -30,13 +29,16 @@ public:
     static bool Initialise();
     static void Shutdown();
 
-    static GLToy_Model* LoadModel( const GLToy_Hash uHash );
-    static GLToy_Model* LoadModel( const GLToy_String& xName );
+    static void Render();
+    static void Update();
+
+    static void RegisterState( GLToy_State* const pxState );
+    static void ChangeState( const GLToy_Hash uState );
 
 private:
 
-    static GLToy_HashTree< GLToy_ModelFile* > s_xModels;
-    static GLToy_Model_Placeholder s_xPlaceholder;
+    static GLToy_HashTree< GLToy_State* > s_xStates;
+    static GLToy_State* s_pxCurrentState;
 
 };
 

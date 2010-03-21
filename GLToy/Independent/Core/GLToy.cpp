@@ -7,7 +7,7 @@
 
 // GLToy headers
 #include <Core/Console/GLToy_Console.h>
-#include <Core/State/GLToy_State.h>
+#include <Core/State/GLToy_State_System.h>
 #include <Core/GLToy_Timer.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment_System.h>
