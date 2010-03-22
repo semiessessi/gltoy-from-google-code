@@ -102,7 +102,6 @@ void GLToy_Entity_System::Traverse( GLToy_ConstFunctor< GLToy_Entity* >& xFuncto
 void GLToy_Entity_System::DestroyEntities()
 {
     s_xEntities.DeleteAll();
-    s_xEntities.Clear();
 }
 
 void GLToy_Entity_System::LoadEntityFile( const GLToy_String& szName )

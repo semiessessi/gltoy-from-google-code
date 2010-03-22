@@ -58,7 +58,6 @@ bool GLToy_Font_System::Initialise()
 void GLToy_Font_System::Shutdown()
 {
     s_xFonts.DeleteAll();
-    s_xFonts.Clear();
 }
 
 GLToy_Font* GLToy_Font_System::FindFont( const GLToy_Hash uHash )

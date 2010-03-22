@@ -72,7 +72,6 @@ bool GLToy_Environment_System::Initialise()
 void GLToy_Environment_System::Shutdown()
 {
     s_xEnvironments.DeleteAll();
-    s_xEnvironments.Clear();
 }
 
 void GLToy_Environment_System::Render()

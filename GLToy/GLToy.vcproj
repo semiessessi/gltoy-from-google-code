@@ -842,6 +842,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\UI\GLToy_Widget_Label.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\UI\GLToy_Widget_Label.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\UI\GLToy_WidgetTypes.h"
 					>
 				</File>

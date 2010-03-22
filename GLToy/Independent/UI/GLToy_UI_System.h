@@ -12,7 +12,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_IndirectArray;
+template < class T > class GLToy_Array;
 class GLToy_Widget;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,11 +30,12 @@ public:
 	static void Render2D();
 	static void Update();
 
-	static GLToy_Widget* CreateWidgetFromType( const GLToy_WidgetType eType );
+    static void ClearWidgets();
+	static GLToy_Widget* CreateWidget( const GLToy_WidgetType eType, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f );
 
 private:
 
-	static GLToy_IndirectArray< GLToy_Widget* > s_xTopWidgets;
+	static GLToy_Array< GLToy_Widget* > s_xTopWidgets;
 
 };
 

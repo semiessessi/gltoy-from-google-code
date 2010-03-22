@@ -40,7 +40,6 @@ bool GLToy_State_System::Initialise()
 void GLToy_State_System::Shutdown()
 {
     s_xStates.DeleteAll();
-    s_xStates.Clear();
 }
 
 void GLToy_State_System::Render()

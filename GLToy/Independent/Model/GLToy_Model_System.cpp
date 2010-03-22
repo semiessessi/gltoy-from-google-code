@@ -49,7 +49,6 @@ bool GLToy_Model_System::Initialise()
 void GLToy_Model_System::Shutdown()
 {
     s_xModels.DeleteAll();
-    s_xModels.Clear();
 }
 
 GLToy_Model* GLToy_Model_System::LoadModel( const GLToy_Hash uHash )

@@ -12,12 +12,13 @@
 #include <Core/GLToy_UpdateFunctor.h>
 #include <Render/GLToy_RenderFunctor.h>
 #include <UI/GLToy_Widget.h>
+#include <UI/GLToy_Widget_Label.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_IndirectArray< GLToy_Widget* > GLToy_UI_System::s_xTopWidgets;
+GLToy_Array< GLToy_Widget* > GLToy_UI_System::s_xTopWidgets;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -30,6 +31,7 @@ bool GLToy_UI_System::Initialise()
 
 void GLToy_UI_System::Shutdown()
 {
+    ClearWidgets();
 }
 
 void GLToy_UI_System::Render2D()
@@ -42,7 +44,12 @@ void GLToy_UI_System::Update()
 	s_xTopWidgets.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Widget >() );
 }
 
-GLToy_Widget* GLToy_UI_System::CreateWidgetFromType( const GLToy_WidgetType eType )
+void GLToy_UI_System::ClearWidgets()
+{
+    s_xTopWidgets.DeleteAll();
+}
+
+GLToy_Widget* GLToy_UI_System::CreateWidget( const GLToy_WidgetType eType, const float fX, const float fY, const float fWidth, const float fHeight )
 {
 	GLToy_Widget* pxWidget = NULL;
 
@@ -51,8 +58,15 @@ GLToy_Widget* GLToy_UI_System::CreateWidgetFromType( const GLToy_WidgetType eTyp
 		case WIDGET_NULL:
 		{
 			GLToy_Assert( false, "Creating a null widget, are you sure this is correct?" );
-			pxWidget = new GLToy_Widget( eType );
+			pxWidget = new GLToy_Widget( eType, fX, fY, fWidth, fHeight );
+            break;
 		}
+
+        case WIDGET_LABEL:
+        {
+            pxWidget = new GLToy_Widget_Label( eType, fX, fY, fWidth, fHeight );
+            break;
+        }
 
 		default:
 		{
@@ -60,6 +74,11 @@ GLToy_Widget* GLToy_UI_System::CreateWidgetFromType( const GLToy_WidgetType eTyp
 			break;
 		}
 	}
+
+    if( pxWidget )
+    {
+        s_xTopWidgets.Append( pxWidget );
+    }
 
 	return pxWidget;
 }

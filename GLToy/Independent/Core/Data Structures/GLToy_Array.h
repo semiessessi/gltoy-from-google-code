@@ -187,6 +187,16 @@ public:
         m_uCount = 0;
     }
 
+    void DeleteAll()
+    {
+        GLToy_Iterate( T, xIterator, this )
+        {
+            delete xIterator.Current();
+        }
+
+        Clear();
+    }
+
 protected:
 
     u_int m_uCount;
@@ -216,15 +226,31 @@ public:
 
     virtual void Traverse( GLToy_Functor< T >& xFunctor )
     {
-        GLToy_Iterate( T, xIterator, this )
+        GLToy_Iterate( T*, xIterator, &m_xArray )
         {
-            xFunctor( &( xIterator.Current() ) );
+            xFunctor( xIterator.Current() );
         }
     }
 
     virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
     {
-        GLToy_ConstIterate( T, xIterator, this )
+        GLToy_ConstIterate( T*, xIterator, &m_xArray )
+        {
+            xFunctor( xIterator.Current() );
+        }
+    }
+
+    virtual void Traverse( GLToy_Functor< T* >& xFunctor )
+    {
+        GLToy_Iterate( T*, xIterator, &m_xArray )
+        {
+            xFunctor( &( xIterator.Current() ) );
+        }
+    }
+
+    virtual void Traverse( GLToy_ConstFunctor< T* >& xFunctor ) const
+    {
+        GLToy_ConstIterate( T*, xIterator, &m_xArray )
         {
             xFunctor( &( xIterator.Current() ) );
         }

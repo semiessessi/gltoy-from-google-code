@@ -140,7 +140,6 @@ bool GLToy_Shader_System::Initialise()
 void GLToy_Shader_System::Shutdown()
 {
     s_xPrograms.DeleteAll();
-    s_xPrograms.Clear();
 }
 
 void GLToy_Shader_System::BindShaderProgram( const GLToy_Hash uHash )

@@ -25,12 +25,31 @@ class GLToy_Widget
 
 public:
 
+    GLToy_Widget()
+    : m_fX( 0.0f )
+	, m_fY( 0.0f )
+	, m_fWidth( 0.0f )
+	, m_fHeight( 0.0f )
+	, m_eType( WIDGET_NULL )
+    {
+
+    }
+
 	GLToy_Widget( const GLToy_WidgetType eType, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f )
     : m_fX( fX )
 	, m_fY( fY )
 	, m_fWidth( fWidth )
 	, m_fHeight( fHeight )
 	, m_eType( eType )
+    {
+    }
+
+    GLToy_Widget( const GLToy_Widget& xWidget )
+    : m_fX( 0.0f )
+	, m_fY( 0.0f )
+	, m_fWidth( 0.0f )
+	, m_fHeight( 0.0f )
+	, m_eType( WIDGET_NULL )
     {
     }
 
