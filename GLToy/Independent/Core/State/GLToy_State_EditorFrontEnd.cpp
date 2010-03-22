@@ -37,7 +37,8 @@ protected:
 
     virtual void HandleKey( const unsigned int uKey )
     {
-        GLToy_HashTree< GLToy_EnvironmentFile* >& xEnvTree = GLToy_Environment_System::GetEnvironmentFileTree();
+        GLToy_HashTree< GLToy_EnvironmentFile* >& xEnvTree =
+            GLToy_Environment_System::GetEnvironmentFileTree();
 
         if( uKey == GLToy_Input_System::GetUpKey() )
         {
@@ -95,7 +96,9 @@ protected:
 
                 case 1:
                 {
-                    GLToy_Environment_System::LoadEnvironmentFile( xEnvTree[ g_uCurrentEnvironment ]->GetName() );
+                    GLToy_Environment_System::LoadEnvironmentFile(
+                        xEnvTree[ g_uCurrentEnvironment ]->GetName() );
+
                     GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Editor" ) );
                     break;
                 }
@@ -146,36 +149,53 @@ void GLToy_State_EditorFrontEnd::Shutdown()
 
 void GLToy_State_EditorFrontEnd::Render2D() const
 {
-    if( g_pxFont )
+    if( !g_pxFont )
     {
-        g_pxFont->RenderString( "GLToy Editor", -0.95f, 0.85f );
-        g_pxFont->RenderString( "New environment", -0.95f, 0.5f, ( g_uSelection == 0 ) ? GLToy_Vector_4( 0.35f, 0.8f, 0.35f, 1.0f ) : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
+        return;
     }
 
-    GLToy_HashTree< GLToy_EnvironmentFile* >& xEnvTree = GLToy_Environment_System::GetEnvironmentFileTree();
+    g_pxFont->RenderString( "GLToy Editor", -0.95f, 0.85f );
+    g_pxFont->RenderString(
+        "New environment",
+        -0.95f, 0.5f,
+        ( g_uSelection == 0 )
+            ? GLToy_Vector_4( 0.35f, 0.8f, 0.35f, 1.0f )
+            : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
+
+    GLToy_HashTree< GLToy_EnvironmentFile* >& xEnvTree =
+        GLToy_Environment_System::GetEnvironmentFileTree();
     if( xEnvTree.GetCount() > 0 )
     {
-        if( g_pxFont )
-        {
-            g_pxFont->RenderString( "Load environment:", -0.95f, 0.35f, ( g_uSelection == 1 ) ? GLToy_Vector_4( 0.35f, 0.8f, 0.35f, 1.0f ) : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
-            g_pxFont->RenderString( xEnvTree[ g_uCurrentEnvironment ]->GetFilename(), -0.95f, 0.2f, ( g_uSelection == 1 ) ? GLToy_Vector_4( 0.35f, 0.8f, 0.35f, 1.0f ) : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
-        }
+        g_pxFont->RenderString(
+            "Load environment:",
+            -0.95f, 0.2f,
+            ( g_uSelection == 1 )
+                ? GLToy_Vector_4( 0.35f, 0.8f, 0.35f, 1.0f )
+                : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
+
+        g_pxFont->RenderString(
+            xEnvTree[ g_uCurrentEnvironment ]->GetFilename(),
+            -0.95f, 0.05f,
+            ( g_uSelection == 1 )
+                ? GLToy_Vector_4( 0.35f, 0.8f, 0.35f, 1.0f )
+                : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
     }
     else
     {
-        if( g_pxFont )
-        {
-            g_pxFont->RenderString( "No environment files found!", -0.95f, 0.35f, ( g_uSelection == 1 ) ? GLToy_Vector_4( 0.35f, 0.8f, 0.35f, 1.0f ) : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
-        }
+        g_pxFont->RenderString(
+            "No environment files found!",
+            -0.95f, 0.2f,
+            ( g_uSelection == 1 )
+                ? GLToy_Vector_4( 0.35f, 0.8f, 0.35f, 1.0f )
+                : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
     }
-
-    if( g_pxFont )
-    {
-        if( g_pxFont )
-        {
-            g_pxFont->RenderString( "Quit", -0.95f, -0.8f, ( g_uSelection == 2 ) ? GLToy_Vector_4( 0.35f, 0.8f, 0.35f, 1.0f ) : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
-        }
-    }
+    
+    g_pxFont->RenderString(
+        "Quit",
+        -0.95f, -0.8f,
+        ( g_uSelection == 2 )
+            ? GLToy_Vector_4( 0.35f, 0.8f, 0.35f, 1.0f )
+            : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
 }
 
 void GLToy_State_EditorFrontEnd::Update()

@@ -38,7 +38,10 @@ void GLToy_BitStream::WriteData( const char* const pcData, const unsigned int uB
         WriteChar( pcData[ u ] );
     }
 
-    WriteBits( pcData[ ( uBitCount >> 3 ) + 1 ], uBitCount & 7 );
+    if( uBitCount & 7 )
+    {
+        WriteBits( pcData[ ( uBitCount >> 3 ) + 1 ], uBitCount & 7 );
+    }
 }
 
 void GLToy_BitStream::ReadData( char* pcOutput, const unsigned int uBitCount ) const
@@ -48,9 +51,12 @@ void GLToy_BitStream::ReadData( char* pcOutput, const unsigned int uBitCount ) c
         ReadChar( pcOutput[ u ] );
     }
 
-    unsigned int uBits;
-    ReadBits( uBits, uBitCount & 7 );
-    pcOutput[ ( uBitCount >> 3 ) + 1 ] = uBits & 0xFF;
+    if( uBitCount & 7 )
+    {
+        unsigned int uBits;
+        ReadBits( uBits, uBitCount & 7 );
+        pcOutput[ ( uBitCount >> 3 ) + 1 ] = uBits & 0xFF;
+    }
 }
 
 void GLToy_BitStream::WriteVector( const GLToy_Vector_3& xVector )
