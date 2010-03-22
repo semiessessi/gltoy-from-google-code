@@ -181,8 +181,13 @@ void GLToy_Texture_System::BindTexture( const GLToy_String& szName )
 void GLToy_Texture_System::BindTexture( const GLToy_Hash uHash )
 {
     GLToy_Texture* pxTexture = FindTexture( uHash );
-    if( pxTexture && pxTexture->IsReadyForUse() )
+    if( pxTexture )
     {
+		if( !pxTexture->IsReadyForUse() )
+		{
+			pxTexture->Create();
+		}
+
         pxTexture->Bind();
     }
 }

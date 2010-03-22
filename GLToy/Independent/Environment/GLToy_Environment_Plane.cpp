@@ -81,6 +81,8 @@ void GLToy_Environment_Plane::Render() const
     GLToy_Render::SubmitVertex( GLToy_Vector_3( -1.0f, 1.0f, 0.0f ) );
 
     GLToy_Render::EndSubmit();
+
+	GLToy_Render::UseProgram( 0 );
 }
 
 void GLToy_Environment_Plane::Update()
