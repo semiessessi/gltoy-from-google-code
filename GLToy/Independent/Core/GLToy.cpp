@@ -18,6 +18,7 @@
 #include <Particle/GLToy_PFX_System.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
+#include <UI/GLToy_UI_System.h>
 
 // C/C++ headers
 #include <stdarg.h>
@@ -104,6 +105,7 @@ bool GLToy::Initialise()
 
     GLTOY_INITIALISER_CALL( GLToy_Render );
     GLTOY_INITIALISER_CALL( GLToy_Console );
+	GLTOY_INITIALISER_CALL( GLToy_UI_System );
     GLTOY_INITIALISER_CALL( GLToy_State_System );
 
     if( !Platform_LateInitialise() )
@@ -151,6 +153,7 @@ void GLToy::Shutdown()
 #endif
 
     GLToy_State_System::Shutdown();
+	GLToy_UI_System::Shutdown();
     GLToy_Console::Shutdown();
     GLToy_Render::Shutdown();
 
@@ -170,14 +173,14 @@ bool GLToy::MainLoop()
 
     // Update functions
     GLToy_Timer::Update();
+	GLToy_Input_System::Update();
+	GLToy_Console::Update();
+	GLToy_UI_System::Update();
     GLToy_State_System::Update();
-    GLToy_Input_System::Update();
     GLToy_Camera::Update();
 
     GLToy_Environment_System::Update();
     GLToy_Entity_System::Update();
-
-    GLToy_Console::Update();
 
     // Render functions
     GLToy_Render::BeginRender();
@@ -190,9 +193,11 @@ bool GLToy::MainLoop()
 
     GLToy_Render::BeginRender2D();
 
+	GLToy_UI_System::Render2D();
+
     GLToy_State_System::Render2D();
     GLToy_Render::Render2D();
-    GLToy_Console::Render();
+    GLToy_Console::Render2D();
 
     GLToy_Render::EndRender();
 

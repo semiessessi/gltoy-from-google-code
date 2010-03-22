@@ -31,8 +31,9 @@ public:
     static bool Initialise();
     static void Shutdown();
 
+	static void Render2D();
+
     static void Update();
-    static void Render();
 
     static void ClearLog();
     static void Print( const GLToy_String& szLine );

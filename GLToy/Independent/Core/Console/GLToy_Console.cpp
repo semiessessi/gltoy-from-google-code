@@ -218,7 +218,7 @@ void GLToy_Console::Shutdown()
     s_pxFont = NULL;
 }
 
-void GLToy_Console::Render()
+void GLToy_Console::Render2D()
 {
     if( !s_bConsoleDown && s_fSlideOffset >= 1.1f )
     {

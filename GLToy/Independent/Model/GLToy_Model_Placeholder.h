@@ -22,6 +22,8 @@ public:
 
     GLToy_Model_Placeholder();
 
+	virtual void Render() const;
+
 protected:
 
 };

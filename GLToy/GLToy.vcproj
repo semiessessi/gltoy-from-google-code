@@ -826,6 +826,26 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="UI"
+				>
+				<File
+					RelativePath=".\Independent\UI\GLToy_UI_System.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\UI\GLToy_UI_System.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\UI\GLToy_Widget.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\UI\GLToy_WidgetTypes.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>
