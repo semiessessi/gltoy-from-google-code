@@ -80,8 +80,8 @@ public:
     void WriteUShort( const u_short usShort ) { WriteBits( usShort, 16 ); }
     void WriteInt( const int iInt ) { WriteBits( iInt, 32 ); }
     void WriteUInt( const u_int uUint ) { WriteBits( uUint, 32 ); }
-    void WriteFloat( const float fFloat ){ WriteData( reinterpret_cast< const char* >( &fFloat ), 4 ); }
-    void WriteDouble( const double dDouble ){ WriteData( reinterpret_cast< const char* >( &dDouble ), 8 ); }
+    void WriteFloat( const float fFloat ){ WriteData( reinterpret_cast< const char* >( &fFloat ), 32 ); }
+    void WriteDouble( const double dDouble ){ WriteData( reinterpret_cast< const char* >( &dDouble ), 64 ); }
     void WriteData( const char* const pcData, const u_int uBitCount );
     void WriteVector( const GLToy_Vector_3& xVector );
 
@@ -93,8 +93,8 @@ public:
     void ReadUShort( u_short& usShort ) const { u_int uBits; ReadBits( uBits, 16 ); usShort = uBits; }
     void ReadInt( int& iInt ) const { u_int uBits; ReadBits( uBits, 32 ); iInt = uBits; }
     void ReadUInt( u_int& uUint ) const { ReadBits( uUint, 32 ); }
-    void ReadFloat( float& fFloat ) const { ReadData( reinterpret_cast< char* >( &fFloat ), 4 ); }
-    void ReadDouble( double& dDouble) const { ReadData( reinterpret_cast< char* >( &dDouble ), 8 ); }
+    void ReadFloat( float& fFloat ) const { ReadData( reinterpret_cast< char* >( &fFloat ), 32 ); }
+    void ReadDouble( double& dDouble) const { ReadData( reinterpret_cast< char* >( &dDouble ), 64 ); }
     void ReadData( char* pcOutput, const u_int uBitCount ) const;
     void ReadVector( GLToy_Vector_3& xVector ) const;
 
