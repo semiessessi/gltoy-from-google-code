@@ -17,6 +17,8 @@
 #include <Input/GLToy_Input.h>
 #include <Maths/GLToy_Maths.h>
 #include <Render/Font/GLToy_Font.h>
+#include <Render/GLToy_Render.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -138,6 +140,10 @@ void GLToy_State_EditorFrontEnd::Initialise()
     }
 
     GLToy_Input_System::SetKeyInputHandler( &g_xInputHandler );
+
+    GLToy_Texture_System::CreateTexture( "Widgets/File.png" );
+    GLToy_Texture_System::CreateTexture( "Widgets/Folder.png" );
+    GLToy_Texture_System::CreateTexture( "Widgets/Shutdown.png" );
 }
 
 void GLToy_State_EditorFrontEnd::Shutdown()
@@ -150,6 +156,7 @@ void GLToy_State_EditorFrontEnd::Shutdown()
     GLToy_Input_System::SetKeyInputHandler( NULL );
 }
 
+// not sure if this should be changed to used widgets - it works well enough as is
 void GLToy_State_EditorFrontEnd::Render2D() const
 {
     if( !g_pxFont )
@@ -157,13 +164,48 @@ void GLToy_State_EditorFrontEnd::Render2D() const
         return;
     }
 
+    const float fTextX = -0.7f;
+
     g_pxFont->RenderString( "GLToy Editor", -0.95f, 0.85f );
+
+    GLToy_Render::EnableBlending();
+    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+
+    GLToy_Texture_System::BindTexture( "Widgets/File.png" );
+    
+    GLToy_Render::StartSubmittingQuads();
+    
+    GLToy_Render::SubmitColour(
+        ( g_uSelection == 0 )
+            ? GLToy_Vector_4( 0.92f + g_fStrobe, 0.92f + g_fStrobe, 0.92f + g_fStrobe, 1.0f )
+            : GLToy_Vector_4( 0.84f, 0.84f, 0.84f, 0.84f ) );
+
+    GLToy_Render::SubmitTexturedQuad2D( -0.95f, 0.45f, -0.75f, 0.65f );
+    
+    GLToy_Render::EndSubmit();
+
     g_pxFont->RenderString(
         "New environment",
-        -0.95f, 0.5f,
+        fTextX, 0.5f,
         ( g_uSelection == 0 )
             ? GLToy_Vector_4( 0.35f + g_fStrobe, 0.8f + g_fStrobe, 0.35f + g_fStrobe, 1.0f )
             : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
+
+    GLToy_Render::EnableBlending();
+    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+
+    GLToy_Texture_System::BindTexture( "Widgets/Folder.png" );
+    
+    GLToy_Render::StartSubmittingQuads();
+
+    GLToy_Render::SubmitColour(
+        ( g_uSelection == 1 )
+            ? GLToy_Vector_4( 0.92f + g_fStrobe, 0.92f + g_fStrobe, 0.92f + g_fStrobe, 1.0f )
+            : GLToy_Vector_4( 0.84f, 0.84f, 0.84f, 0.84f ) );
+    
+    GLToy_Render::SubmitTexturedQuad2D( -0.95f, 0.15f, -0.75f, 0.35f );
+    
+    GLToy_Render::EndSubmit();
 
     GLToy_HashTree< GLToy_EnvironmentFile* >& xEnvTree =
         GLToy_Environment_System::GetEnvironmentFileTree();
@@ -171,14 +213,14 @@ void GLToy_State_EditorFrontEnd::Render2D() const
     {
         g_pxFont->RenderString(
             "Load environment:",
-            -0.95f, 0.2f,
+            fTextX, 0.2f,
             ( g_uSelection == 1 )
                 ? GLToy_Vector_4( 0.35f + g_fStrobe, 0.8f + g_fStrobe, 0.35f + g_fStrobe, 1.0f )
                 : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
 
         g_pxFont->RenderString(
             xEnvTree[ g_uCurrentEnvironment ]->GetFilename(),
-            -0.95f, 0.05f,
+            fTextX, 0.05f,
             ( g_uSelection == 1 )
                 ? GLToy_Vector_4( 0.35f + g_fStrobe, 0.8f + g_fStrobe, 0.35f + g_fStrobe, 1.0f )
                 : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
@@ -187,15 +229,31 @@ void GLToy_State_EditorFrontEnd::Render2D() const
     {
         g_pxFont->RenderString(
             "No environment files found!",
-            -0.95f, 0.2f,
+            fTextX, 0.2f,
             ( g_uSelection == 1 )
                 ? GLToy_Vector_4( 0.35f + g_fStrobe, 0.8f + g_fStrobe, 0.35f + g_fStrobe, 1.0f )
                 : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
     }
     
+    GLToy_Render::EnableBlending();
+    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+
+    GLToy_Texture_System::BindTexture( "Widgets/Shutdown.png" );
+    
+    GLToy_Render::StartSubmittingQuads();
+    
+    GLToy_Render::SubmitColour(
+        ( g_uSelection == 2 )
+            ? GLToy_Vector_4( 0.92f + g_fStrobe, 0.92f + g_fStrobe, 0.92f + g_fStrobe, 1.0f )
+            : GLToy_Vector_4( 0.84f, 0.84f, 0.84f, 0.84f ) );
+
+    GLToy_Render::SubmitTexturedQuad2D( -0.95f, -0.85f, -0.75f, -0.65f );
+    
+    GLToy_Render::EndSubmit();
+
     g_pxFont->RenderString(
         "Quit",
-        -0.95f, -0.8f,
+        fTextX, -0.8f,
         ( g_uSelection == 2 )
             ? GLToy_Vector_4( 0.35f + g_fStrobe, 0.8f + g_fStrobe, 0.35f + g_fStrobe, 1.0f )
             : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
