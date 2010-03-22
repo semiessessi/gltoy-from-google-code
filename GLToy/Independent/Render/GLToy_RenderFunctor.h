@@ -74,6 +74,7 @@ public:
     {
         ( *pxRenderable )->Render();
     }
+
 };
 
 template < class T >

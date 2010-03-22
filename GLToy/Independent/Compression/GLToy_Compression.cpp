@@ -198,6 +198,18 @@ u_int GLToy_Compress::Float_3Bytes( const float fFloat )
     return uReturnValue;
 }
 
+GLToy_5Bytes GLToy_Compress::Vector_5Bytes( const GLToy_Vector_3& xVector )
+{
+    const float fMag = xVector.Magnitude();
+
+    GLToy_Vector_3 xDir = xVector;
+    xDir.Normalise();
+    const u_short usDir = UnitVector_2Bytes( xDir );
+
+    GLToy_5Bytes xReturnValue = { Float_3Bytes( fMag ) | ( static_cast< u_int >( usDir & 0xFF00 ) << 24 ), usDir && 0xFF };
+    return xReturnValue;
+}
+
 u_char GLToy_Compress::UnitVector_Byte( const GLToy_Vector_3& xVector )
 {
     u_char ucMin = 0;
@@ -246,6 +258,11 @@ float GLToy_Decompress::Float_3Bytes( const u_int uInt )
     uReturnValue |= ( uInt & 0x1FFFF ) << 6;
 
     return *reinterpret_cast< float * >( &uReturnValue );
+}
+
+GLToy_Vector_3 GLToy_Decompress::Vector_5Bytes( const GLToy_5Bytes& u5Bytes )
+{
+   return UnitVector_2Bytes( u5Bytes.m_uByte | ( ( u5Bytes.m_u4Bytes >> 16 ) & 0xFF00 ) ) * Float_3Bytes( u5Bytes.m_u4Bytes & 0xFFFFFF );
 }
 
 GLToy_Vector_3 GLToy_Decompress::UnitVector_Byte( const u_char ucChar )

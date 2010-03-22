@@ -18,15 +18,17 @@
 void GLToy_Plane::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
     u_short usNormal;
+    u_int uDistanceBits;
 
     xStream >> usNormal;
-    xStream >> m_fDistance;
+    xStream.ReadBits( uDistanceBits, 24 );
 
     m_xNormal = GLToy_Decompress::UnitVector_2Bytes( usNormal );
+    m_fDistance = GLToy_Decompress::Float_3Bytes( uDistanceBits );
 }
 
 void GLToy_Plane::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
     xStream << GLToy_Compress::UnitVector_2Bytes( m_xNormal );
-    xStream << m_fDistance;
+    xStream.WriteBits( GLToy_Compress::Float_3Bytes( m_fDistance ), 24 );
 }

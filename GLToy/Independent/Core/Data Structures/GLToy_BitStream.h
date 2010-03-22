@@ -82,9 +82,10 @@ public:
     void WriteUInt( const u_int uUint ) { WriteBits( uUint, 32 ); }
     void WriteFloat( const float fFloat ){ WriteData( reinterpret_cast< const char* >( &fFloat ), 32 ); }
     void WriteDouble( const double dDouble ){ WriteData( reinterpret_cast< const char* >( &dDouble ), 64 ); }
+    void WriteBits( const u_int uBits, const u_int uBitCount );
     void WriteData( const char* const pcData, const u_int uBitCount );
     void WriteVector( const GLToy_Vector_3& xVector );
-
+    
     void ReadBool( bool& bBool ) const { bBool = ReadBit(); }
     void ReadHalfByte( char& cValue ) const { u_int uBits; ReadBits( uBits, 4 ); cValue = uBits; }
     void ReadChar( char& cChar ) const { u_int uBits; ReadBits( uBits, 8 ); cChar = uBits; }
@@ -95,6 +96,7 @@ public:
     void ReadUInt( u_int& uUint ) const { ReadBits( uUint, 32 ); }
     void ReadFloat( float& fFloat ) const { ReadData( reinterpret_cast< char* >( &fFloat ), 32 ); }
     void ReadDouble( double& dDouble) const { ReadData( reinterpret_cast< char* >( &dDouble ), 64 ); }
+    void ReadBits( u_int& uBits, const u_int uBitCount ) const;
     void ReadData( char* pcOutput, const u_int uBitCount ) const;
     void ReadVector( GLToy_Vector_3& xVector ) const;
 
@@ -139,8 +141,6 @@ protected:
     virtual void CopyFrom( const GLToy_DataStructure< bool >* const pxDataStructure ) {}
 
     void Grow( u_int uNumBytes );
-    void WriteBits( const u_int uBits, const u_int uBitCount );
-    void ReadBits( u_int& uBits, const u_int uBitCount ) const;
     void WriteBit( bool bBit );
     bool ReadBit() const;
 

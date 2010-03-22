@@ -180,8 +180,18 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
         GLToy_Texture_System::CreateTexture( szBaseName + ".png" );
         pxModel->SetTexture( pxTexture );
     }
+    else
+    {
+        pxTexture = GLToy_Texture_System::LookUpTexture( szBaseName + ".jpg" );
+    
+        if( pxTexture )
+        {
+            GLToy_Texture_System::CreateTexture( szBaseName + ".jpg" );
+            pxModel->SetTexture( pxTexture );
+        }
+    }
 
-    // TODO - try non .png files
+    // TODO - try non .jpg/.png files
 
     pxModel->InitialiseFirstFrameData();
 

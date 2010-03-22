@@ -190,12 +190,12 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Hash uHash, const G
 
     switch( eType )
     {
-        case ENTITY_NULL:               pxNewEntity = new GLToy_Entity_Null( uHash, eType ); break;
+        case ENTITY_NULL:               pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_Null( uHash, eType ) ); break;
 
-        case ENTITY_MODELSTATIC:        pxNewEntity = new GLToy_Entity_ModelStatic( uHash, eType ); break;
-        case ENTITY_MODELANIMATED:      pxNewEntity = new GLToy_Entity_ModelAnimated( uHash, eType ); break;
+        case ENTITY_MODELSTATIC:        pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_ModelStatic( uHash, eType ) ); break;
+        case ENTITY_MODELANIMATED:      pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_ModelAnimated( uHash, eType ) ); break;
 
-        case ENTITY_SPRITE:             pxNewEntity = new GLToy_Entity_Sprite( uHash, eType ); break;
+        case ENTITY_SPRITE:             pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_Sprite( uHash, eType ) ); break;
 
         default:
         {

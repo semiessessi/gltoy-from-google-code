@@ -91,11 +91,11 @@ void GLToy_EnvironmentFile::LoadEnvironment() const
 
     // version handling would go here
 
-    u_short usType;
+    u_int uType;
 
-    xStream >> usType;
+    xStream.ReadBits( uType, 3 );
 
-    GLToy_Environment* pxEnv = GLToy_Environment_System::CreateEnvironmentFromType( static_cast< GLToy_EnvironmentType >( usType ) );
+    GLToy_Environment* pxEnv = GLToy_Environment_System::CreateEnvironmentFromType( static_cast< GLToy_EnvironmentType >( uType ) );
 
     if( !pxEnv )
     {
@@ -123,8 +123,10 @@ void GLToy_EnvironmentFile::Save( const GLToy_String& szFilename )
     xStream << GLToy_HeaderBytes( "ENVR" );
     xStream << uCURRENT_VERSION + 0x80000000;
 
-    xStream << static_cast< u_short >( pxEnv->GetType() );
+    xStream.WriteBits( pxEnv->GetType(), 3 );
     pxEnv->WriteToBitStream( xStream );
 
     GLToy_EnvironmentFile( szFilename ).WriteFromBitStream( xStream );
+
+    GLToy_DebugOutput_Release( "Saved environment file \"%S\" successfully", szFilename.GetWideString() );
 }

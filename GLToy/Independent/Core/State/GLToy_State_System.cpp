@@ -8,6 +8,7 @@
 #include <Core/State/GLToy_State_System.h>
 
 // GLToy
+#include <Core/Console/GLToy_Console.h>
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <Core/State/GLToy_State.h>
 #include <Core/State/GLToy_State_Editor.h>
@@ -30,6 +31,8 @@ bool GLToy_State_System::Initialise()
 
     RegisterState( new GLToy_State_EditorFrontEnd(), GLToy_Hash_Constant( "EditorFrontEnd" ) );
     RegisterState( new GLToy_State_Editor(), GLToy_Hash_Constant( "Editor" ) );
+
+    GLToy_Console::RegisterCommand( "changestate", ChangeState_Console );
 
     return true;
 }

@@ -18,17 +18,6 @@
 
 void GLToy_Environment::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
-    // environment file does this for us...
-    // TODO - remove the asymmetry
-    //u_int uVersion;
-
-    //xStream >> uVersion;
-
-    //if( uVersion > uCURRENT_VERSION )
-    //{
-    //    GLToy_Assert( uVersion <= uCURRENT_VERSION, "Bad version for environment data: %u", uVersion );
-    //    return;
-    //}
 }
 
 void GLToy_Environment::WriteToBitStream( GLToy_BitStream& xStream ) const

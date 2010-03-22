@@ -96,4 +96,6 @@ void GLToy_EntityFile::Save( const GLToy_String& szFilename )
     GLToy_Entity_System::Traverse( GLToy_EntitySaveFunctor( xStream ) );
 
     GLToy_EntityFile( szFilename ).WriteFromBitStream( xStream );
+
+    GLToy_DebugOutput_Release( "Saved entity file \"%S\" successfully", szFilename.GetWideString() );
 }

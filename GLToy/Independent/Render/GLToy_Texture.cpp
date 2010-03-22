@@ -134,9 +134,7 @@ GLToy_Texture* GLToy_Texture_System::FindTexture( const GLToy_Hash uHash )
 
 GLToy_Texture* GLToy_Texture_System::LookUpTexture( const GLToy_String& szName )
 {
-    GLToy_Texture* pxTexture = s_xTextures.FindData( szName.GetHash() );
-    GLToy_Assert( pxTexture != NULL, "Failed to look up texture \"%S\"", szName.GetWideString() );
-    return pxTexture;
+    return FindTexture( szName.GetHash() );
 }
 
 void GLToy_Texture_System::CreateTexture( const GLToy_String& szName )
