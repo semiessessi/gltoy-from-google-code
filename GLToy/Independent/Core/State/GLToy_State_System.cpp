@@ -94,3 +94,13 @@ void GLToy_State_System::ChangeState( const GLToy_Hash uStateHash )
         s_pxCurrentState->Initialise();
     }
 }
+
+void GLToy_State_System::ChangeState_Console( const GLToy_String& szName )
+{
+	if( GLToy_Console::IsDown() )
+	{
+		GLToy_Console::Toggle();
+	}
+
+	ChangeState( szName.GetHash() );
+}
