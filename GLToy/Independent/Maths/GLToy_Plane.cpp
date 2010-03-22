@@ -8,6 +8,7 @@
 #include <Maths/GLToy_Plane.h>
 
 // GLToy
+#include <Compression/GLToy_Compression.h>
 #include <Core/Data Structures/GLToy_BitStream.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,12 +17,16 @@
 
 void GLToy_Plane::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
-    xStream >> m_xNormal;
+    u_short usNormal;
+
+    xStream >> usNormal;
     xStream >> m_fDistance;
+
+    m_xNormal = GLToy_Decompress::UnitVector_2Bytes( usNormal );
 }
 
 void GLToy_Plane::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
-    xStream << m_xNormal;
+    xStream << GLToy_Compress::UnitVector_2Bytes( m_xNormal );
     xStream << m_fDistance;
 }
