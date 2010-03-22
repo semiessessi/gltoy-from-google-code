@@ -10,10 +10,12 @@
 // GLToy
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <Core/State/GLToy_State_System.h>
+#include <Core/GLToy_Timer.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment_System.h>
 #include <File/GLToy_EnvironmentFile.h>
 #include <Input/GLToy_Input.h>
+#include <Maths/GLToy_Maths.h>
 #include <Render/Font/GLToy_Font.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,6 +25,7 @@
 static u_int g_uCurrentEnvironment = 0;
 static u_int g_uSelection;
 static GLToy_Font* g_pxFont;
+static float g_fStrobe = 0.0f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -159,7 +162,7 @@ void GLToy_State_EditorFrontEnd::Render2D() const
         "New environment",
         -0.95f, 0.5f,
         ( g_uSelection == 0 )
-            ? GLToy_Vector_4( 0.35f, 0.8f, 0.35f, 1.0f )
+            ? GLToy_Vector_4( 0.35f + g_fStrobe, 0.8f + g_fStrobe, 0.35f + g_fStrobe, 1.0f )
             : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
 
     GLToy_HashTree< GLToy_EnvironmentFile* >& xEnvTree =
@@ -170,14 +173,14 @@ void GLToy_State_EditorFrontEnd::Render2D() const
             "Load environment:",
             -0.95f, 0.2f,
             ( g_uSelection == 1 )
-                ? GLToy_Vector_4( 0.35f, 0.8f, 0.35f, 1.0f )
+                ? GLToy_Vector_4( 0.35f + g_fStrobe, 0.8f + g_fStrobe, 0.35f + g_fStrobe, 1.0f )
                 : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
 
         g_pxFont->RenderString(
             xEnvTree[ g_uCurrentEnvironment ]->GetFilename(),
             -0.95f, 0.05f,
             ( g_uSelection == 1 )
-                ? GLToy_Vector_4( 0.35f, 0.8f, 0.35f, 1.0f )
+                ? GLToy_Vector_4( 0.35f + g_fStrobe, 0.8f + g_fStrobe, 0.35f + g_fStrobe, 1.0f )
                 : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
     }
     else
@@ -186,7 +189,7 @@ void GLToy_State_EditorFrontEnd::Render2D() const
             "No environment files found!",
             -0.95f, 0.2f,
             ( g_uSelection == 1 )
-                ? GLToy_Vector_4( 0.35f, 0.8f, 0.35f, 1.0f )
+                ? GLToy_Vector_4( 0.35f + g_fStrobe, 0.8f + g_fStrobe, 0.35f + g_fStrobe, 1.0f )
                 : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
     }
     
@@ -194,10 +197,11 @@ void GLToy_State_EditorFrontEnd::Render2D() const
         "Quit",
         -0.95f, -0.8f,
         ( g_uSelection == 2 )
-            ? GLToy_Vector_4( 0.35f, 0.8f, 0.35f, 1.0f )
+            ? GLToy_Vector_4( 0.35f + g_fStrobe, 0.8f + g_fStrobe, 0.35f + g_fStrobe, 1.0f )
             : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
 }
 
 void GLToy_State_EditorFrontEnd::Update()
 {
+    g_fStrobe = 0.08f * GLToy_Maths::Cos( 7.5f * GLToy_Timer::GetTime() );
 }
