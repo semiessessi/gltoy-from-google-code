@@ -41,6 +41,8 @@ ULONG_PTR g_xGDIToken = NULL;
 void GLToy_Texture::Platform_LoadFromFile()
 {
     const GLToy_String szPath = GLToy_String( "textures/" ) + m_szName;
+
+	// TODO - pick out .tga and .wal and load them
     Bitmap* pxBitmap = new Bitmap( szPath.GetWideString() );
 
     if( !pxBitmap )
@@ -51,6 +53,8 @@ void GLToy_Texture::Platform_LoadFromFile()
 
     m_uWidth = pxBitmap->GetWidth();
     m_uHeight = pxBitmap->GetHeight();
+
+	// TODO - check width + height and load a "unloadable texture" texture for this one if they are zero
 
     Resize( m_uWidth * m_uHeight );
 
