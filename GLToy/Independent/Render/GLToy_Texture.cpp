@@ -63,6 +63,22 @@ void GLToy_Texture::Unload()
     m_uWidth = m_uHeight = 0;
 }
 
+void GLToy_Texture::InitialiseFromData( const u_int* const puData, const u_int uWidth, const u_int uHeight )
+{
+    if( !puData )
+    {
+        GLToy_Assert( puData != NULL, "Trying to create texture \"%S\" from NULL data pointer", m_szName.GetWideString() );
+    }
+
+    m_uWidth = uWidth;
+    m_uHeight = uHeight;
+
+    GLToy_ConstPointerArray< u_int > xData( puData, uWidth * uHeight );
+    CopyFrom( &xData );
+
+    Create();
+}
+
 bool GLToy_Texture_System::Initialise()
 {
     if( !Platform_Initialise() )
@@ -220,4 +236,23 @@ void GLToy_Texture_System::BindWhite()
     {
         s_pxWhiteTexture->Bind();
     }
+}
+
+void GLToy_Texture_System::CreateTextureFromRGBAData( const GLToy_String& szName, u_int *const puData, const u_int uWidth, const u_int uHeight )
+{
+    const u_int uHash = szName.GetHash();
+    GLToy_Texture* pxTexture = FindTexture( uHash );
+    if( pxTexture )
+    {
+        // texture already exists
+        return;
+    }
+
+    s_xTextures.AddNode( GLToy_Texture( szName ), uHash );
+
+    pxTexture = FindTexture( uHash );
+
+    GLToy_Assert( pxTexture != NULL, "Something went really wrong and we have a null pointer where we shoudln't!" );
+
+    pxTexture->InitialiseFromData( puData, uWidth, uHeight );
 }

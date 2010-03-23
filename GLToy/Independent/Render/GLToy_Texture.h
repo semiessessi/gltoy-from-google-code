@@ -67,9 +67,10 @@ protected:
         Append( uRGBA );
     }
 
-
     void LoadFromFile();
     void Unload();
+
+    void InitialiseFromData( const u_int* const puData, const u_int uWidth, const u_int uHeight );
 
     void Platform_Create();
     void Platform_Destroy();
@@ -107,6 +108,8 @@ public:
     static void Reset();
 
     static void BindWhite();
+
+    static void CreateTextureFromRGBAData( const GLToy_String& szName, u_int* const puData, const u_int uWidth, const u_int uHeight );
 
 private:
 
