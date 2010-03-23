@@ -14,16 +14,20 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// TODO - optimise
 void GLToy_BitStream::WriteBits( const unsigned int uBits, const unsigned int uBitCount )
 {
+    GLToy_Assert( uBitCount < 33, "Bit count is too great to write: %u", uBitCount );
     for( unsigned int u = 0; u < uBitCount; ++u )
     {
         WriteBit( ( uBits >> u ) & 0x1 );
     }
 }
 
+// TODO - optimise
 void GLToy_BitStream::ReadBits( unsigned int& uBits, const unsigned int uBitCount ) const
 {
+    GLToy_Assert( uBitCount < 33, "Bit count is too great to read: %u", uBitCount );
     uBits = 0;
     for( unsigned int u = 0; u < uBitCount; ++u )
     {
@@ -31,6 +35,7 @@ void GLToy_BitStream::ReadBits( unsigned int& uBits, const unsigned int uBitCoun
     }
 }
 
+// TODO - optimise
 void GLToy_BitStream::WriteData( const char* const pcData, const unsigned int uBitCount )
 {
     for( unsigned int u = 0; u < ( uBitCount >> 3 ); ++u )
@@ -44,6 +49,7 @@ void GLToy_BitStream::WriteData( const char* const pcData, const unsigned int uB
     }
 }
 
+// TODO - optimise
 void GLToy_BitStream::ReadData( char* pcOutput, const unsigned int uBitCount ) const
 {
     for( unsigned int u = 0; u < ( uBitCount >> 3 ); ++u )

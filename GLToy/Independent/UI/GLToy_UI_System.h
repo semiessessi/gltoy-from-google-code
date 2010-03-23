@@ -33,7 +33,12 @@ public:
     static void ClearWidgets();
 	static GLToy_Widget* CreateWidget( const GLToy_WidgetType eType, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f );
 
+    static void ShowPointer( const bool bShow ) { s_bShowPointer = bShow; }
+    static bool IsPointerShown() { return s_bShowPointer; }
+
 private:
+
+    static bool s_bShowPointer;
 
 	static GLToy_Array< GLToy_Widget* > s_xTopWidgets;
 

@@ -39,6 +39,14 @@ public:
         }
     }
 
+    GLToy_BitStream( char* pcData, const u_int uByteCount )
+    : m_pcData( pcData )
+    , m_uPosition( 0 )
+    , m_uReadPos( 0 )
+    , m_uNumBytes( uByteCount )
+    {
+    }
+
     virtual ~GLToy_BitStream()
     {
         delete[] m_pcData;
@@ -115,6 +123,14 @@ public:
     virtual u_int GetMemoryUsage() const { return GetBytesWritten() + sizeof( *this ); }
 
     virtual bool IsFlat() const { return false; }
+
+    void SetFromByteArray( char* pcData, const u_int uByteCount )
+    {
+        delete m_pcData;
+        m_pcData = pcData;
+        m_uPosition = m_uReadPos = 0;
+        m_uNumBytes = uByteCount;
+    }
 
     // the bit stream can never be written to by index operators...
     virtual bool& operator []( const int iIndex )

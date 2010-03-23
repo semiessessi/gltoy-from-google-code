@@ -49,14 +49,9 @@ void GLToy_File::GetAllData( void* const pPointer ) const
 
 void GLToy_File::ReadToBitStream( GLToy_BitStream &xStream ) const
 {
-    // TODO - this does a redundant copy that could be cleaned up by adding a function
-    // to bitstream which provides a pointer to its internal data to write n bytes to
     char* pcData = new char[ m_uSize ];
     GetAllData( pcData );
-    xStream.WriteData( pcData, m_uSize << 3 );
-    delete[] pcData;
-
-    xStream.ResetReadPosition();
+    xStream.SetFromByteArray( pcData, m_uSize );
 }
 
 void GLToy_File::WriteFromBitStream( const GLToy_BitStream &xStream )
