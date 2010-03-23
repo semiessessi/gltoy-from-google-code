@@ -122,6 +122,8 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
                     -( static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 1 ] ) * xFrame.m_xScale[ 1 ] + xFrame.m_xTranslate[ 1 ] ),
                     static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 2 ] ) * xFrame.m_xScale[ 2 ] + xFrame.m_xTranslate[ 2 ],
                     static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 0 ] ) * xFrame.m_xScale[ 0 ] + xFrame.m_xTranslate[ 0 ] );
+
+            // TODO - flip normals to match
             
             pxModel->GrowBBByPoint( pxModel->m_xVertices[ uVertexIndex ] );
 

@@ -470,6 +470,13 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         }
     }
 
+    // re-orient vertices - this must be done after setting up the faces to ensure texcoords are generated correctly
+    GLToy_Iterate( GLToy_Vector_3, xIterator, &( pxEnv->m_xVertices ) )
+    {
+        GLToy_Vector_3& xCurrent = xIterator.Current();
+        xCurrent = GLToy_Vector_3( -( xCurrent[ 1 ] ), xCurrent[ 2 ], xCurrent[ 0 ] );
+    }
+
     GLToy_DebugOutput_Release( "Loaded environment file \"%S\" successfully", m_szFilename.GetWideString() );
     GLToy_Environment_System::SwitchEnvironment( pxEnv );
 }
