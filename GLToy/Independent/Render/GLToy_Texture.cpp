@@ -30,17 +30,33 @@ void GLToy_Texture::LoadFromFile()
     }
 
     Unload();
+
+    if( m_szName.EndsWith( ".tga" ) )
+    {
+        LoadTGA();
+        return;
+    }
+
+    // TODO - load .wal
+
     Platform_LoadFromFile();
 }
 
 void GLToy_Texture::Create()
 {
+    if( IsReadyForUse() )
+    {
+        return;
+    }
+
     if( !IsDataLoaded() )
     {
         LoadFromFile();
     }
 
     Platform_Create();
+
+    Unload(); // texture created, might as well free memory..
 }
 
 void GLToy_Texture::Destroy()

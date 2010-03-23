@@ -489,6 +489,14 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="TGA"
+					>
+					<File
+						RelativePath=".\Independent\Render\TGA\GLToy_TGA.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Maths"

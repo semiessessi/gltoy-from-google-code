@@ -108,6 +108,8 @@ public:
     void ReadData( char* pcOutput, const u_int uBitCount ) const;
     void ReadVector( GLToy_Vector_3& xVector ) const;
 
+    void ByteAlignedWrite( char* const pcData, const u_int uNumBytes ) const;
+
     u_int GetBitsWritten() const { return m_uPosition; }
     u_int GetBytesWritten() const { return ( m_uPosition + 7 ) >> 3; }
 
@@ -116,6 +118,7 @@ public:
     void ResetReadPosition() const { m_uReadPos = 0; }
     void SetReadByte( const u_int uByte ) const { m_uReadPos = uByte << 3; }
 
+    void IgnoreNBytes( const u_int uN ) const { m_uReadPos += uN << 3; }
     bool HasNMoreBytes( const u_int uN ) { return ( m_uReadPos + ( uN << 3 ) ) <= m_uPosition; }
     bool IsDoneReading() const { return m_uReadPos >= m_uPosition; }
 

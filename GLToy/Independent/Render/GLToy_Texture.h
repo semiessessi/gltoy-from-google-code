@@ -74,6 +74,8 @@ protected:
     void LoadFromFile();
     void Unload();
 
+    void LoadTGA();
+
     void Platform_Create();
     void Platform_Destroy();
     void Platform_LoadFromFile();

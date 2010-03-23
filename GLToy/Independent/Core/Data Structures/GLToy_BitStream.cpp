@@ -75,6 +75,19 @@ void GLToy_BitStream::ReadVector( GLToy_Vector_3& xVector ) const
     xVector.ReadFromBitStream( *this );
 }
 
+void GLToy_BitStream::ByteAlignedWrite( char* const pcData, const u_int uNumBytes ) const
+{
+    GLToy_Assert( ( m_uReadPos & 0x7 ) == 0, "Trying a byte aligned write out of bitstream without byte alignment" );
+
+    // TODO - this can be optimised by using ints (4-bytes) and ideally 16-bytes at a time MOVDQA with non-temporal cache hints
+    for( u_int u = 0; u < uNumBytes; ++u )
+    {
+        pcData[ u ] = m_pcData[ ( m_uReadPos >> 3 ) + u ];
+    }
+
+    m_uReadPos += uNumBytes << 3;
+}
+
 void GLToy_BitStream::Grow( const unsigned int uNumBytes = 1 )
 {
     char* pxNewBuffer = new char[ m_uNumBytes + uNumBytes ];

@@ -121,6 +121,20 @@ public:
         return true;
     }
 
+    GLToy_Inline bool EndsWith( const GLToy_String& xString ) const
+    {
+        const u_int uOffset = GetLength() - xString.GetLength();
+        for( u_int u = 0; u < xString.GetLength(); ++u )
+        {
+            if( xString[ u ] != m_pxData[ u + uOffset ] )
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     virtual void RemoveFromEnd( const u_int uAmount = 1 )
     {
         GLToy_Parent::RemoveFromEnd( uAmount + 1 );
