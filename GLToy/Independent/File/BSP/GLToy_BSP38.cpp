@@ -419,8 +419,8 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         xFace.m_aucLightmapStyles[ 6 ] = 0;
         xFace.m_aucLightmapStyles[ 7 ] = 0;
 
-        xFace.m_uTextureHash = GLToy_String( xTexInfos[ xBSPFace.m_usTextureInfo ].m_szTextureName ).GetHash();
-        GLToy_Texture* pxTexture = GLToy_Texture_System::FindTexture( xFace.m_uTextureHash );
+		GLToy_Texture* pxTexture = GLToy_Texture_System::LookUpTextureNoExt( xTexInfos[ xBSPFace.m_usTextureInfo ].m_szTextureName );
+		xFace.m_uTextureHash = pxTexture ? pxTexture->GetHash() : uGLTOY_BAD_HASH;
         const u_int uTexWidth = pxTexture ? pxTexture->GetWidth() : 64;
         const u_int uTexHeight = pxTexture ? pxTexture->GetHeight() : 64;
 

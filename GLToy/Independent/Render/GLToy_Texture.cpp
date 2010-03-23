@@ -102,6 +102,7 @@ bool GLToy_Texture_System::Initialise()
     xTexturePaths.Append( GLToy_File_System::PathsFromFilter( "Textures/", "*.pcx" ) );
     xTexturePaths.Append( GLToy_File_System::PathsFromFilter( "Textures/", "*.png" ) );
     xTexturePaths.Append( GLToy_File_System::PathsFromFilter( "Textures/", "*.tga" ) );
+	xTexturePaths.Append( GLToy_File_System::PathsFromFilter( "Textures/", "*.wal" ) );
 
     GLToy_ConstIterate( GLToy_String, xIterator, &xTexturePaths )
     {
@@ -145,12 +146,49 @@ void GLToy_Texture_System::Shutdown()
 
 GLToy_Texture* GLToy_Texture_System::FindTexture( const GLToy_Hash uHash )
 {
-    return s_xTextures.FindData( uHash );
+	return s_xTextures.FindData( uHash );
 }
 
 GLToy_Texture* GLToy_Texture_System::LookUpTexture( const GLToy_String& szName )
-{
-    return FindTexture( szName.GetHash() );
+{	
+	return FindTexture( szName.GetHash() );
+}
+
+GLToy_Texture* GLToy_Texture_System::LookUpTextureNoExt( const GLToy_String& szName )
+{	
+	GLToy_Texture* pxTexture = FindTexture( szName.GetHash() );
+
+	if( !pxTexture )
+	{
+		pxTexture = LookUpTexture( szName + ".wal" );
+	}
+
+	if( !pxTexture )
+	{
+		pxTexture = LookUpTexture( szName + ".tga" );
+	}
+
+	if( !pxTexture )
+	{
+		pxTexture = LookUpTexture( szName + ".png" );
+	}
+
+	if( !pxTexture )
+	{
+		pxTexture = LookUpTexture( szName + ".jpg" );
+	}
+
+	if( !pxTexture )
+	{
+		pxTexture = LookUpTexture( szName + ".bmp" );
+	}
+
+	if( !pxTexture )
+	{
+		pxTexture = LookUpTexture( szName + ".pcx" );
+	}
+
+	return pxTexture;
 }
 
 void GLToy_Texture_System::CreateTexture( const GLToy_String& szName )

@@ -26,11 +26,14 @@ static const float fGLTOY_CONSOLE_TOP = 1.1f;
 static const float fGLTOY_CONSOLE_BOTTOM = 0.0f;
 static const float fGLTOY_CONSOLE_SPEED = 3.0f;
 
+static const u_int uGLTOY_CONSOLE_MAX_LOG_LINES = 256;
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Console_KeyInputHandler : public GLToy_KeyInputHandler
+class GLToy_Console_KeyInputHandler
+: public GLToy_KeyInputHandler
 {
     
     typedef GLToy_KeyInputHandler GLToy_Parent;
@@ -87,6 +90,11 @@ void GLToy_Console::Print( const GLToy_String& szLine )
     GLToy_String szCopy = szLine;
     while( szCopy.GetLength() > 0 )
     {
+		if( s_xLog.GetCount() > uGLTOY_CONSOLE_MAX_LOG_LINES )
+		{
+			s_xLog.RemoveAt( s_xLog.GetCount() - uGLTOY_CONSOLE_MAX_LOG_LINES );
+		}
+
         s_xLog.Append( szCopy.RemoveFirstLine() );
     }
 }
@@ -100,7 +108,12 @@ void GLToy_Console::ExecuteLine( const GLToy_String& szLine, const bool bStoreIn
     if( pxCommand )
     {
         pxCommand->Execute( szParameters );
+		Print( GLToy_String( "> " ) + szLine );
     }
+	else
+	{
+		Print( GLToy_String( "Unrecognised command \"" ) + szCommand + "\"" );
+	}
 
     if( bStoreInHistory )
     {

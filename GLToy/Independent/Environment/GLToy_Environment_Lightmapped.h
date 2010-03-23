@@ -54,8 +54,8 @@ public:
     virtual ~GLToy_Environment_Lightmapped() {}
 
     // TODO
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) {}
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const {}
+	virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { GLToy_Assert( false, "Need ReadFromBitStream for GLToy_Environment_Lightmapped" ); }
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { GLToy_Assert( false, "Need WriteToBitStream for GLToy_Environment_Lightmapped" ); }
 
     virtual void Initialise();
     virtual void Shutdown();    
