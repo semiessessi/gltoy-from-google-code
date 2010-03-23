@@ -24,7 +24,7 @@ GLToy_Texture* GLToy_Texture_System::s_pxWhiteTexture = NULL;
 
 void GLToy_Texture::LoadFromFile()
 {
-    if( m_uWidth != 0 ) // already loaded?
+    if( IsDataLoaded() ) // already loaded?
     {
         return;
     }
@@ -76,7 +76,6 @@ void GLToy_Texture::Bind( const u_int uTextureUnit ) const
 void GLToy_Texture::Unload()
 {
     Clear();
-    m_uWidth = m_uHeight = 0;
 }
 
 void GLToy_Texture::InitialiseFromData( const u_int* const puData, const u_int uWidth, const u_int uHeight )

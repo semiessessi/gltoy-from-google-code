@@ -421,13 +421,14 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 
 		GLToy_Texture* pxTexture = GLToy_Texture_System::LookUpTextureNoExt( xTexInfos[ xBSPFace.m_usTextureInfo ].m_szTextureName );
 		xFace.m_uTextureHash = pxTexture ? pxTexture->GetHash() : uGLTOY_BAD_HASH;
-        const u_int uTexWidth = pxTexture ? pxTexture->GetWidth() : 64;
-        const u_int uTexHeight = pxTexture ? pxTexture->GetHeight() : 64;
 
         if( pxTexture )
         {
             pxTexture->Create();
         }
+
+        const u_int uTexWidth = pxTexture ? pxTexture->GetWidth() : 64;
+        const u_int uTexHeight = pxTexture ? pxTexture->GetHeight() : 64;
 
         // work out the verts from the elaborate edge data
         for( u_int u = 0; u < xBSPFace.m_usEdgeCount; ++u )
