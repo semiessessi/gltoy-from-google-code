@@ -9,9 +9,11 @@
 
 // GLToy
 #include <Environment/GLToy_Environment.h>
+#include <Environment/GLToy_Environment_Lightmapped.h>
 #include <Environment/GLToy_Environment_System.h>
+#include <Render/GLToy_Texture.h>
 
-// TODO - finish BSP v38 environment geometry loading
+// TODO - finish environment creation - verify loading
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
@@ -24,6 +26,10 @@ static const u_int uBSP38_LUMP_NODES = 4;
 static const u_int uBSP38_LUMP_TEXTURES = 5;
 static const u_int uBSP38_LUMP_FACES = 6;
 static const u_int uBSP38_LUMP_LIGHTMAPS = 7;
+static const u_int uBSP38_LUMP_LEAVES = 8;
+static const u_int uBSP38_LUMP_LEAFFACETABLE = 9;
+static const u_int uBSP38_LUMP_EDGES = 11;
+static const u_int uBSP38_LUMP_EDGEFACETABLE = 12;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -116,19 +122,6 @@ public:
 
 };
 
-class GLToy_BSP38_ShortPoint
-: public GLToy_Serialisable
-{
-
-public:
-
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { for( u_int u = 0; u < 3; ++u ) { xStream >> m_usPoints[ u ]; } }
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { for( u_int u = 0; u < 3; ++u ) { xStream << m_usPoints[ u ]; } }
-
-    u_short m_usPoints[ 3 ];
-
-};
-
 class GLToy_BSP38_Node
 : public GLToy_Serialisable
 {
@@ -140,8 +133,12 @@ public:
         xStream >> m_uPlane;
         xStream >> m_iFrontChild;
         xStream >> m_iBackChild;
-        xStream >> m_xBBMin;
-        xStream >> m_xBBMax;
+        xStream >> m_usBBMin[ 0 ];
+        xStream >> m_usBBMin[ 1 ];
+        xStream >> m_usBBMin[ 2 ];
+        xStream >> m_usBBMax[ 0 ];
+        xStream >> m_usBBMax[ 1 ];
+        xStream >> m_usBBMax[ 2 ];
         xStream >> m_usFirstFace;
         xStream >> m_usFaceCount;
     }
@@ -151,8 +148,12 @@ public:
         xStream << m_uPlane;
         xStream << m_iFrontChild;
         xStream << m_iBackChild;
-        xStream << m_xBBMin;
-        xStream << m_xBBMax;
+        xStream << m_usBBMin[ 0 ];
+        xStream << m_usBBMin[ 1 ];
+        xStream << m_usBBMin[ 2 ];
+        xStream << m_usBBMax[ 0 ];
+        xStream << m_usBBMax[ 1 ];
+        xStream << m_usBBMax[ 2 ];
         xStream << m_usFirstFace;
         xStream << m_usFaceCount;
     }
@@ -160,8 +161,8 @@ public:
     u_int m_uPlane;
     int m_iFrontChild;
     int m_iBackChild;
-    GLToy_BSP38_ShortPoint m_xBBMin;
-    GLToy_BSP38_ShortPoint m_xBBMax;
+    u_short m_usBBMin[ 3 ];
+    u_short m_usBBMax[ 3 ];
     u_short m_usFirstFace;
     u_short m_usFaceCount;
 
@@ -178,8 +179,12 @@ public:
         xStream >> m_uBrushOr;
         xStream >> m_usCluster;
         xStream >> m_usArea;
-        xStream >> m_xBBMin;
-        xStream >> m_xBBMax;
+        xStream >> m_usBBMin[ 0 ];
+        xStream >> m_usBBMin[ 1 ];
+        xStream >> m_usBBMin[ 2 ];
+        xStream >> m_usBBMax[ 0 ];
+        xStream >> m_usBBMax[ 1 ];
+        xStream >> m_usBBMax[ 2 ];
         xStream >> m_usFirstLeafBrush;
         xStream >> m_usLeafBrushCount;
     }
@@ -189,8 +194,12 @@ public:
         xStream << m_uBrushOr;
         xStream << m_usCluster;
         xStream << m_usArea;
-        xStream << m_xBBMin;
-        xStream << m_xBBMax;
+        xStream << m_usBBMin[ 0 ];
+        xStream << m_usBBMin[ 1 ];
+        xStream << m_usBBMin[ 2 ];
+        xStream << m_usBBMax[ 0 ];
+        xStream << m_usBBMax[ 1 ];
+        xStream << m_usBBMax[ 2 ];
         xStream << m_usFirstLeafBrush;
         xStream << m_usLeafBrushCount;
     }
@@ -198,8 +207,8 @@ public:
     u_int m_uBrushOr;
     u_short m_usCluster;
     u_short m_usArea;
-    GLToy_BSP38_ShortPoint m_xBBMin;
-    GLToy_BSP38_ShortPoint m_xBBMax;
+    u_short m_usBBMin[ 3 ];
+    u_short m_usBBMax[ 3 ];
     u_short m_usFirstLeafBrush;
     u_short m_usLeafBrushCount;
 
@@ -260,18 +269,41 @@ public:
 
 };
 
+class GLToy_BSP38_Edge
+: public GLToy_Serialisable
+{
+
+public:
+    
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_usVertex1; xStream >> m_usVertex2; }
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_usVertex1; xStream << m_usVertex2; }
+
+    u_short m_usVertex1;
+    u_short m_usVertex2;
+
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 {
+    GLToy_Environment_Lightmapped* pxEnv = static_cast< GLToy_Environment_Lightmapped* >( GLToy_Environment_System::CreateEnvironmentFromType( ENV_LIGHTMAPPED ) );
+
+    if( !pxEnv )
+    {
+        // TODO - some kind of user feedback
+        return;
+    }
+
+    // note that the magic numbers are intentional...
     GLToy_BSP38_LumpDirectory xLumps;
     xStream >> xLumps;
 
     // plane lump
     GLToy_Array< GLToy_BSP38_Plane > xPlanes;
-    xPlanes.Resize( xLumps.m_axLumps[ uBSP38_LUMP_PLANES ].m_uSize / sizeof( GLToy_BSP38_Plane ) );
+    xPlanes.Resize( xLumps.m_axLumps[ uBSP38_LUMP_PLANES ].m_uSize / 20 );
     xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_PLANES ].m_uOffset );
     for( u_int u = 0; u < xPlanes.GetCount(); ++u )
     {
@@ -279,12 +311,11 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
     }
 
     // vertex lump
-    GLToy_Array< GLToy_Vector_3 > xVertices;
-    xVertices.Resize( xLumps.m_axLumps[ uBSP38_LUMP_VERTICES ].m_uSize / sizeof( GLToy_Vector_3 ) );
+    pxEnv->m_xVertices.Resize( xLumps.m_axLumps[ uBSP38_LUMP_VERTICES ].m_uSize / sizeof( GLToy_Vector_3 ) );
     xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_VERTICES ].m_uOffset );
-    for( u_int u = 0; u < xVertices.GetCount(); ++u )
+    for( u_int u = 0; u < pxEnv->m_xVertices.GetCount(); ++u )
     {
-        xStream >> xVertices[ u ];
+        xStream >> pxEnv->m_xVertices[ u ];
     }
 
     // vis lump
@@ -300,5 +331,144 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         xStream >> xVisOffsets[ u ];
     }
 
-    // TODO ...
+    // nodes
+    GLToy_Array< GLToy_BSP38_Node > xNodes;
+    xNodes.Resize( xLumps.m_axLumps[ uBSP38_LUMP_NODES ].m_uSize / 28 );
+    xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_NODES ].m_uOffset );
+
+    for( u_int u = 0; u < xNodes.GetCount(); ++u )
+    {
+        xStream >> xNodes[ u ];
+    }
+
+    // texture info
+    GLToy_Array< GLToy_BSP38_TextureInfo > xTexInfos;
+    xTexInfos.Resize( xLumps.m_axLumps[ uBSP38_LUMP_TEXTURES ].m_uSize / 76 );
+    xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_TEXTURES ].m_uOffset );
+
+    for( u_int u = 0; u < xTexInfos.GetCount(); ++u )
+    {
+        xStream >> xTexInfos[ u ];
+    }
+
+    // faces
+    GLToy_Array< GLToy_BSP38_Face > xFaces;
+    xFaces.Resize( xLumps.m_axLumps[ uBSP38_LUMP_FACES ].m_uSize / 20 );
+    xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_FACES ].m_uOffset );
+
+    for( u_int u = 0; u < xFaces.GetCount(); ++u )
+    {
+        xStream >> xFaces[ u ];
+    }
+
+    // lightmaps
+    // do these later...
+
+    // leaves
+    GLToy_Array< GLToy_BSP38_Leaf > xLeaves;
+    xLeaves.Resize( xLumps.m_axLumps[ uBSP38_LUMP_LEAVES ].m_uSize / 28 );
+    xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_LEAVES ].m_uOffset );
+
+    for( u_int u = 0; u < xLeaves.GetCount(); ++u )
+    {
+        xStream >> xLeaves[ u ];
+    }
+
+    // leaf-face table
+    GLToy_Array< u_short > xLeafFaces;
+    xLeafFaces.Resize( xLumps.m_axLumps[ uBSP38_LUMP_LEAFFACETABLE ].m_uSize / sizeof( u_short ) );
+    xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_LEAFFACETABLE ].m_uOffset );
+
+    for( u_int u = 0; u < xLeafFaces.GetCount(); ++u )
+    {
+        xStream >> xLeafFaces[ u ];
+    }
+
+    // edges
+    GLToy_Array< GLToy_BSP38_Edge > xEdges;
+    xEdges.Resize( xLumps.m_axLumps[ uBSP38_LUMP_EDGES ].m_uSize / 4 );
+    xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_EDGES ].m_uOffset );
+
+    for( u_int u = 0; u < xEdges.GetCount(); ++u )
+    {
+        xStream >> xEdges[ u ];
+    }
+
+    // face edges
+    GLToy_Array< int > xFaceEdges;
+    xFaceEdges.Resize( xLumps.m_axLumps[ uBSP38_LUMP_EDGEFACETABLE ].m_uSize / 4 );
+    xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_EDGEFACETABLE ].m_uOffset );
+
+    for( u_int u = 0; u < xFaceEdges.GetCount(); ++u )
+    {
+        xStream >> xFaceEdges[ u ];
+    }
+
+    // set up faces
+    pxEnv->m_xFaces.Resize( xFaces.GetCount() );
+    GLToy_Iterate( GLToy_Environment_LightmappedFace, xIterator, &( pxEnv->m_xFaces ) )
+    {
+        GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
+        GLToy_BSP38_Face& xBSPFace = xFaces[ xIterator.Index() ];
+        xFace.m_aucLightmapStyles[ 0 ] = xBSPFace.m_aucLightmapStyles[ 0 ];
+        xFace.m_aucLightmapStyles[ 1 ] = xBSPFace.m_aucLightmapStyles[ 1 ];
+        xFace.m_aucLightmapStyles[ 2 ] = xBSPFace.m_aucLightmapStyles[ 2 ];
+        xFace.m_aucLightmapStyles[ 3 ] = xBSPFace.m_aucLightmapStyles[ 3 ];
+        xFace.m_aucLightmapStyles[ 4 ] = 0;
+        xFace.m_aucLightmapStyles[ 5 ] = 0;
+        xFace.m_aucLightmapStyles[ 6 ] = 0;
+        xFace.m_aucLightmapStyles[ 7 ] = 0;
+
+        xFace.m_uTextureHash = GLToy_String( xTexInfos[ xBSPFace.m_usTextureInfo ].m_szTextureName ).GetHash();
+        GLToy_Texture* pxTexture = GLToy_Texture_System::FindTexture( xFace.m_uTextureHash );
+        const u_int uTexWidth = pxTexture ? pxTexture->GetWidth() : 64;
+        const u_int uTexHeight = pxTexture ? pxTexture->GetHeight() : 64;
+
+        if( pxTexture )
+        {
+            pxTexture->Create();
+        }
+
+        // work out the verts from the elaborate edge data
+        for( u_int u = 0; u < xBSPFace.m_usEdgeCount; ++u )
+        {
+            const u_int uFaceEdge = u + xBSPFace.m_uFirstEdge;
+            const int iEdge = xFaceEdges[ uFaceEdge ];
+
+            if( iEdge < 0 )
+            {
+                if( u == 0 )
+                {
+                    xFace.m_xVertexIndices.Append( xEdges[ -iEdge ].m_usVertex2 );
+                }
+                xFace.m_xVertexIndices.Append( xEdges[ -iEdge ].m_usVertex1 );
+            }
+            else
+            {
+                if( u == 0 )
+                {
+                    xFace.m_xVertexIndices.Append( xEdges[ iEdge ].m_usVertex1 );
+                }
+                xFace.m_xVertexIndices.Append( xEdges[ iEdge ].m_usVertex2 );
+            }
+            
+            if( u == 0 )
+            {
+                xFace.m_xTexCoords.Append(
+                    GLToy_Vector_3(
+                        ( xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis * pxEnv->m_xVertices[ xFace.m_xVertexIndices[ 0 ] ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fUOffset ) / static_cast< float >( uTexWidth ),
+                        ( xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis * pxEnv->m_xVertices[ xFace.m_xVertexIndices[ 0 ] ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fVOffset ) / static_cast< float >( uTexHeight ),
+                        0.0f ) );
+            }
+            xFace.m_xTexCoords.Append(
+                GLToy_Vector_3(
+                    ( xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis * pxEnv->m_xVertices[ xFace.m_xVertexIndices.End() ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fUOffset ) / static_cast< float >( uTexWidth ),
+                    ( xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis * pxEnv->m_xVertices[ xFace.m_xVertexIndices.End() ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fVOffset ) / static_cast< float >( uTexHeight ),
+                    0.0f ) );
+                    
+        }
+    }
+
+    GLToy_DebugOutput_Release( "Loaded environment file \"%S\" successfully", m_szFilename.GetWideString() );
+    GLToy_Environment_System::SwitchEnvironment( pxEnv );
 }

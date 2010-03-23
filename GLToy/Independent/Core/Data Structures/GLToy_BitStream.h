@@ -116,6 +116,7 @@ public:
     void ResetReadPosition() const { m_uReadPos = 0; }
     void SetReadByte( const u_int uByte ) const { m_uReadPos = uByte << 3; }
 
+    bool HasNMoreBytes( const u_int uN ) { return ( m_uReadPos + ( uN << 3 ) ) <= m_uPosition; }
     bool IsDoneReading() const { return m_uReadPos >= m_uPosition; }
 
     // overrides for data structure
@@ -128,8 +129,9 @@ public:
     {
         delete m_pcData;
         m_pcData = pcData;
-        m_uPosition = m_uReadPos = 0;
+        m_uReadPos = 0;
         m_uNumBytes = uByteCount;
+        m_uPosition = m_uNumBytes << 3;
     }
 
     // the bit stream can never be written to by index operators...

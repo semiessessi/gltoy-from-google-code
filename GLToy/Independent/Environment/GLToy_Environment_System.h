@@ -17,6 +17,7 @@ class GLToy_String;
 enum GLToy_EnvironmentType
 {
     ENV_PLANE = 0,
+    ENV_LIGHTMAPPED = 1,
 
     NUM_ENV_TYPES
 };

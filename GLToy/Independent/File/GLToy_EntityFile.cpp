@@ -63,7 +63,7 @@ void GLToy_EntityFile::LoadEntities() const
 
     GLToy_Entity_System::DestroyEntities();
 
-    while( !xStream.IsDoneReading() )
+    while( xStream.HasNMoreBytes( 5 ) )
     {
         u_char ucType;
         GLToy_Hash uHash;

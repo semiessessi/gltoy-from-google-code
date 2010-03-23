@@ -44,6 +44,7 @@ public:
     {
     }
 
+    // TODO - I think this can be safely deleted
     GLToy_Widget( const GLToy_Widget& xWidget )
     : m_fX( 0.0f )
 	, m_fY( 0.0f )

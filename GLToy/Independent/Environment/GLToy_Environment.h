@@ -17,46 +17,13 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_EnvironmentStrip
-: public GLToy_ModelStrip
-{
-
-    typedef GLToy_ModelStrip GLToy_Parent;
-
-public:
-
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
-
-protected:
-
-    union
-    {
-        struct
-        {
-            u_int m_bPortal             : 1;
-            u_int m_bTransparent        : 1;
-            u_int m_bInvisible          : 1;
-            u_int m_bCollidable         : 1;
-        };
-
-        u_int m_uFlags;
-    };
-
-};
-
 class GLToy_EnvironmentLeaf
-: public GLToy_Model
+: public GLToy_Renderable
 {
-
-    typedef GLToy_Model GLToy_Parent;
 
 public:
 
-    GLToy_EnvironmentLeaf() : GLToy_Parent() {}
-
-protected:
-
+    virtual void Render() const;
 };
 
 class GLToy_Environment

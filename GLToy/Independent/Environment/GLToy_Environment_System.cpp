@@ -12,6 +12,7 @@
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment.h>
+#include <Environment/GLToy_Environment_Lightmapped.h>
 #include <Environment/GLToy_Environment_Plane.h>
 #include <File/GLToy_EnvironmentFile.h>
 #include <File/GLToy_File_System.h>
@@ -133,7 +134,8 @@ GLToy_Environment* GLToy_Environment_System::CreateEnvironmentFromType( const GL
 
     switch( eType )
     {
-        case ENV_PLANE: pxNewEnv = new GLToy_Environment_Plane( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "generic/grid1.png" ); break;
+        case ENV_PLANE:         pxNewEnv = new GLToy_Environment_Plane( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "generic/grid1.png" ); break;
+        case ENV_LIGHTMAPPED:   pxNewEnv = new GLToy_Environment_Lightmapped(); break;
 
         default:
         {

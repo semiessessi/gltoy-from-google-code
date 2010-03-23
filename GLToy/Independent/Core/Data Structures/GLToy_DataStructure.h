@@ -88,7 +88,7 @@ protected:
 
 };
 
-#define GLToy_Iterate( T, xIteratorName, pxDataStructure ) for( GLToy_Iterator< T > xIterator( pxDataStructure ); !xIterator.Done(); xIterator.Next() )
-#define GLToy_ConstIterate( T, xIteratorName, pxDataStructure ) for( GLToy_ConstIterator< T > xIterator( pxDataStructure ); !xIterator.Done(); xIterator.Next() )
+#define GLToy_Iterate( T, xIteratorName, pxDataStructure ) for( GLToy_Iterator< T > xIteratorName( pxDataStructure ); !xIteratorName.Done(); xIteratorName.Next() )
+#define GLToy_ConstIterate( T, xIteratorName, pxDataStructure ) for( GLToy_ConstIterator< T > xIteratorName( pxDataStructure ); !xIteratorName.Done(); xIteratorName.Next() )
 
 #endif

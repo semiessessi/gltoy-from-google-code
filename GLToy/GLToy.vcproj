@@ -694,6 +694,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\Environment\GLToy_Environment_Lightmapped.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Environment\GLToy_Environment_Lightmapped.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Environment\GLToy_Environment_Plane.cpp"
 					>
 				</File>

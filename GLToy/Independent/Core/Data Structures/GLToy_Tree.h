@@ -167,7 +167,10 @@ public:
     {
         GLToy_TreeDeleteFunctor< T > xFunctor;
         Traverse( xFunctor );
+        Clear();
     }
+
+    virtual void Clear() = 0;
 
 protected:
 

@@ -190,6 +190,19 @@ void GLToy_Texture_System::BindTexture( const GLToy_Hash uHash )
 
         pxTexture->Bind();
     }
+    else
+    {
+        pxTexture = FindTexture( GLToy_Hash_Constant( "Generic/Invalid.png" ) );
+        if( pxTexture )
+        {
+            if( !pxTexture->IsReadyForUse() )
+		    {
+			    pxTexture->Create();
+		    }
+
+            pxTexture->Bind();
+        }
+    }
 }
 
 void GLToy_Texture_System::Reset()

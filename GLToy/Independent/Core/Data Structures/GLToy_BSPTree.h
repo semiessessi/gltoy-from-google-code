@@ -371,6 +371,12 @@ public:
         }
     }
 
+    virtual void Clear()
+    {
+        delete m_pxHead;
+        m_pxHead = NULL;
+    }
+
 protected:
 
     GLToy_BSPNode< T >* m_pxHead;
