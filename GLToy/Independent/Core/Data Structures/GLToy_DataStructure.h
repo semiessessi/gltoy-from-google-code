@@ -51,7 +51,7 @@ public:
     }
 
     T& Current() const { return m_pxDataStructure->operator []( m_iIndex ); }
-    int Index() const { return m_iIndex; }
+    const int& Index() const { return m_iIndex; }
 
     void Next() { ++m_iIndex; }
     bool Done() const { return static_cast< u_int >( m_iIndex ) >= m_pxDataStructure->GetCount(); }
@@ -76,7 +76,7 @@ public:
     }
 
     const T& Current() const { return m_pxDataStructure->operator []( m_iIndex ); }
-    int Index() const { return m_iIndex; }
+    const int& Index() const { return m_iIndex; }
 
     void Next() { ++m_iIndex; }
     bool Done() const { return static_cast< u_int >( m_iIndex ) >= m_pxDataStructure->GetCount(); }

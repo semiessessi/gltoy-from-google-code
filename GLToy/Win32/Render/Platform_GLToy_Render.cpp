@@ -355,10 +355,7 @@ void Platform_GLToy_Render::DisableDepthTesting()
 void Platform_GLToy_Render::EnableDepthTesting()
 {
     glEnable( GL_DEPTH_TEST );
-    // GL_LEQUAL allows last rendered primitive to render on top of what is already there at the same depth
-    // GL_LESS has the first on top - this is handy for using clipping geometry since multiple passes won't break it
-    // I think there is some kind of gotcha here I am missing - possibly to do with stand alone depth renders in a deferred render or shadow map pass
-    glDepthFunc( GL_LESS );
+    glDepthFunc( GL_LEQUAL);
 }
 
 void Platform_GLToy_Render::DisableDepthWrites()

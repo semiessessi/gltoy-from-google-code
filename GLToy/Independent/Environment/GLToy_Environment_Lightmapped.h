@@ -48,27 +48,31 @@ public:
     GLToy_Environment_Lightmapped()
     : GLToy_Parent()
     , m_xVertices()
+    , m_xFaces()
+    , m_xLightmapData()
     {
     }
 
     virtual ~GLToy_Environment_Lightmapped() {}
 
     // TODO
-	virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { GLToy_Assert( false, "Need ReadFromBitStream for GLToy_Environment_Lightmapped" ); }
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { GLToy_Assert( false, "Need WriteToBitStream for GLToy_Environment_Lightmapped" ); }
+	virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
     virtual void Initialise();
     virtual void Shutdown();    
     
     virtual void Render() const;
+    virtual void RenderTransparent() const;
     virtual void Update();
 
     virtual int GetType() const;
 
 protected:
 
-    GLToy_Array< GLToy_Vector_3 > m_xVertices;
+    GLToy_SerialisableArray< GLToy_Vector_3 > m_xVertices;
     GLToy_Array< GLToy_Environment_LightmappedFace > m_xFaces;
+    GLToy_SerialisableArray< u_char > m_xLightmapData;
 
 };
 

@@ -59,6 +59,11 @@ float GLToy_Maths::Sqrt( const float fValue )
     return sqrt( fValue );
 }
 
+float GLToy_Maths::Ceiling( const float fValue )
+{
+    return ceil( fValue );
+}
+
 float GLToy_Maths::Floor( const float fValue )
 {
     return floor( fValue );

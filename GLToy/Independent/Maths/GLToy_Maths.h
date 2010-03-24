@@ -26,6 +26,7 @@ public:
     static bool Initialise();
     static void Shutdown();
 
+    static float Ceiling( const float fValue );
     static float Floor( const float fValue );
     static float Round( const float fValue );
 

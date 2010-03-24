@@ -114,7 +114,9 @@ public:
 
     static void BindWhite();
 
-    static void CreateTextureFromRGBAData( const GLToy_String& szName, u_int* const puData, const u_int uWidth, const u_int uHeight );
+    // TODO - find a better solution for lightmaps = creating from the hash directly leaves the name blank, which might be flakey
+    static void CreateTextureFromRGBAData( const GLToy_Hash uHash, u_int* const puData, const u_int uWidth, const u_int uHeight );
+    static void CreateTextureFromRGBData( const GLToy_Hash uHash, u_char* const pucData, const u_int uWidth, const u_int uHeight );
 
 private:
 
