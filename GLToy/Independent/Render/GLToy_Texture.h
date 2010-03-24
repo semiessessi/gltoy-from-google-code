@@ -48,8 +48,6 @@ public:
     void Destroy();
     void Bind( const u_int uTextureUnit = 0 ) const;
 
-	void InitialiseFromData( const u_int* const puData, const u_int uWidth, const u_int uHeight );
-
 protected:
 
     GLToy_Texture( const GLToy_String& szName )

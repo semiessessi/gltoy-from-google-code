@@ -78,22 +78,6 @@ void GLToy_Texture::Unload()
     Clear();
 }
 
-void GLToy_Texture::InitialiseFromData( const u_int* const puData, const u_int uWidth, const u_int uHeight )
-{
-    if( !puData )
-    {
-        GLToy_Assert( puData != NULL, "Trying to create texture \"%S\" from NULL data pointer", m_szName.GetWideString() );
-    }
-
-    m_uWidth = uWidth;
-    m_uHeight = uHeight;
-
-    GLToy_ConstPointerArray< u_int > xData( puData, uWidth * uHeight );
-    CopyFrom( &xData );
-
-    Create();
-}
-
 bool GLToy_Texture_System::Initialise()
 {
     if( !Platform_Initialise() )
@@ -306,7 +290,16 @@ void GLToy_Texture_System::CreateTextureFromRGBAData( const GLToy_Hash uHash, u_
 
     GLToy_Assert( pxTexture != NULL, "Something went really wrong and we have a null pointer where we shoudln't!" );
 
-    pxTexture->InitialiseFromData( puData, uWidth, uHeight );
+    const u_int uSize = uWidth * uHeight;
+    pxTexture->Resize( uSize );
+
+    for( u_int u = 0; u < uSize; ++u )
+    {
+        ( *pxTexture )[ u ] = puData[ u ];
+    }
+
+    pxTexture->m_uWidth = uWidth;
+    pxTexture->m_uHeight = uHeight;
 }
 
 void GLToy_Texture_System::CreateTextureFromRGBData( const GLToy_Hash uHash, u_char *const pucData, const u_int uWidth, const u_int uHeight )
@@ -329,7 +322,7 @@ void GLToy_Texture_System::CreateTextureFromRGBData( const GLToy_Hash uHash, u_c
 
     for( u_int u = 0; u < uSize; ++u )
     {
-        ( *pxTexture )[ u ] = pucData[ 3 * u ] | ( static_cast< u_int >( pucData[ 3 * u + 1 ] ) << 8 ) | ( static_cast< u_int >( pucData[ 3 * u + 2 ] ) << 16 );
+        ( *pxTexture )[ u ] = pucData[ 3 * u ] | ( static_cast< u_int >( pucData[ 3 * u + 1 ] ) << 8 ) | ( static_cast< u_int >( pucData[ 3 * u + 2 ] ) << 16 ) | 0xFF000000;
     }
 
     pxTexture->m_uWidth = uWidth;

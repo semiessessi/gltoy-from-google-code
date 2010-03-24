@@ -59,8 +59,9 @@ void GLToy_Environment_Lightmapped::Render() const
     {
         const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
 
-        GLToy_Texture_System::BindTexture( xFace.m_uTextureHash );
-        //GLToy_Texture_System::BindTexture( _GLToy_GetHash( reinterpret_cast< const char* const >( &( xIterator.Index() ) ), 4 ) );
+        //GLToy_Texture_System::BindTexture( xFace.m_uTextureHash );
+        const u_int uHashSource = 1337 * xIterator.Index();
+        GLToy_Texture_System::BindTexture( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ) );
 
         GLToy_Render::StartSubmittingPolygon();
 
@@ -87,6 +88,8 @@ void GLToy_Environment_Lightmapped::Render() const
 
 void GLToy_Environment_Lightmapped::RenderTransparent() const
 {
+    return;
+
     // TODO - for now abuse the transparent render for a second pass to do lightmaps
     GLToy_Render::EnableBlending();
     GLToy_Render::SetBlendFunction( BLEND_ZERO, BLEND_SRC_COLOR );
@@ -101,7 +104,8 @@ void GLToy_Environment_Lightmapped::RenderTransparent() const
         const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
 
         //GLToy_Texture_System::BindTexture( xFace.m_uTextureHash );
-        GLToy_Texture_System::BindTexture( _GLToy_GetHash( reinterpret_cast< const char* const >( &( xIterator.Index() ) ), 4 ) );
+        const u_int uHashSource = 1337 * xIterator.Index();
+        GLToy_Texture_System::BindTexture( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ) );
 
         GLToy_Render::StartSubmittingPolygon();
 

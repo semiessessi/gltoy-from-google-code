@@ -31,7 +31,7 @@ static const u_int uBSP38_LUMP_LEAFFACETABLE = 9;
 static const u_int uBSP38_LUMP_EDGES = 11;
 static const u_int uBSP38_LUMP_EDGEFACETABLE = 12;
 
-static const float fBSP38_TCSCALE = 256.0f;
+static const u_int uBSP38_TCSCALE = 256;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -429,8 +429,8 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
             pxTexture->Create();
         }
 
-        const u_int uTexWidth = static_cast< u_int >( fBSP38_TCSCALE ); /*pxTexture ? pxTexture->GetWidth() : 64;*/
-        const u_int uTexHeight = static_cast< u_int >( fBSP38_TCSCALE ); /*pxTexture ? pxTexture->GetHeight() : 64;*/
+        const u_int uTexWidth = pxTexture ? pxTexture->GetWidth() : uBSP38_TCSCALE;
+        const u_int uTexHeight = pxTexture ? pxTexture->GetHeight() : uBSP38_TCSCALE;
 
         // work out the verts from the elaborate edge data
         for( u_int u = 0; u < xBSPFace.m_usEdgeCount; ++u )
@@ -489,28 +489,38 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         // work out the dimensions from the texture coordinates
         GLToy_Environment_LightmappedFace& xEnvFace = pxEnv->m_xFaces[ u ];
         GLToy_Texture* pxTexture = GLToy_Texture_System::FindTexture( xEnvFace.m_uTextureHash );
+        const u_int uW = pxTexture ? pxTexture->GetWidth() : uBSP38_TCSCALE;
+        const u_int uH = pxTexture ? pxTexture->GetHeight() : uBSP38_TCSCALE;
         float fUMax = -GLToy_Maths::LargeFloat;
         float fUMin = GLToy_Maths::LargeFloat;
         float fVMax = -GLToy_Maths::LargeFloat;
         float fVMin = GLToy_Maths::LargeFloat;
         GLToy_Iterate( GLToy_Vector_3, xIterator, &( xEnvFace.m_xTexCoords ) )
         {
-            //fUMax = GLToy_Maths::Max( xIterator.Current()[ 0 ] * static_cast< float >( pxTexture->GetWidth() ), fUMax );
-            //fUMin = GLToy_Maths::Min( xIterator.Current()[ 0 ] * static_cast< float >( pxTexture->GetWidth() ), fUMin );
-            //fVMax = GLToy_Maths::Max( xIterator.Current()[ 1 ] * static_cast< float >( pxTexture->GetHeight() ), fVMax );
-            //fVMin = GLToy_Maths::Min( xIterator.Current()[ 1 ] * static_cast< float >( pxTexture->GetHeight() ), fVMin );
-            fUMax = GLToy_Maths::Max( xIterator.Current()[ 0 ] * fBSP38_TCSCALE, fUMax );
-            fUMin = GLToy_Maths::Min( xIterator.Current()[ 0 ] * fBSP38_TCSCALE, fUMin );
-            fVMax = GLToy_Maths::Max( xIterator.Current()[ 1 ] * fBSP38_TCSCALE, fVMax );
-            fVMin = GLToy_Maths::Min( xIterator.Current()[ 1 ] * fBSP38_TCSCALE, fVMin );
+            fUMax = GLToy_Maths::Max( xIterator.Current()[ 0 ] * static_cast< float >( uW ), fUMax );
+            fUMin = GLToy_Maths::Min( xIterator.Current()[ 0 ] * static_cast< float >( uW ), fUMin );
+            fVMax = GLToy_Maths::Max( xIterator.Current()[ 1 ] * static_cast< float >( uH ), fVMax );
+            fVMin = GLToy_Maths::Min( xIterator.Current()[ 1 ] * static_cast< float >( uH ), fVMin );
         }
 
-        const u_int uWidth = ( static_cast< u_int >( GLToy_Maths::Ceiling( fUMax - fUMin ) ) >> 4 ) + 1;
-        const u_int uHeight = ( static_cast< u_int >( GLToy_Maths::Ceiling( fVMax - fVMin ) ) >> 4 ) + 1;
+        const u_int uWidth = ( static_cast< u_int >( GLToy_Maths::Ceiling( fUMax ) - GLToy_Maths::Floor( fUMin ) ) >> 4 ) + 1;
+        const u_int uHeight = ( static_cast< u_int >( GLToy_Maths::Ceiling( fVMax ) - GLToy_Maths::Floor( fVMin ) ) >> 4 ) + 1;
+
+        // sanity checks
+        GLToy_Assert( xFaces[ u ].m_uLightmapOffset % 3 == 0, "Lightmap offset should really divide 3" );
 
         // TODO - this needs to be redone on reloads
         // this nasty hashing is so we don't screw the tree balance and turn a large part of it into a linked list
-        GLToy_Texture_System::CreateTextureFromRGBData( _GLToy_GetHash( reinterpret_cast< char* const >( &u ), 4 ), &( pxEnv->m_xLightmapData[ xFaces[ u ].m_uLightmapOffset ] ), uWidth, uHeight );
+        const u_int uHashSource = 1337 * u;
+        if( xFaces[ u ].m_uLightmapOffset != 0xFFFFFFFF )
+        {
+            GLToy_Texture_System::CreateTextureFromRGBData( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ), &( pxEnv->m_xLightmapData[ xFaces[ u ].m_uLightmapOffset ] ), uWidth, uHeight );
+        }
+        else
+        {
+            u_int uData = 0xFFFFFFFF;
+            GLToy_Texture_System::CreateTextureFromRGBAData( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ), &uData, 1, 1 );
+        }
     }
 
     GLToy_DebugOutput_Release( "Loaded environment file \"%S\" successfully", m_szFilename.GetWideString() );

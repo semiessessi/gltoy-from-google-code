@@ -47,6 +47,7 @@ public:
     static void RegisterCommand( const GLToy_String& szName, void ( *pfnFunction )( const GLToy_String& ) );
 
     static void RegisterVariable( const GLToy_String& szName, bool* pbVariable );
+    static void RegisterVariable( const GLToy_String& szName, u_int* puVariable );
 
 private:
 
