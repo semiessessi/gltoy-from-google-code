@@ -527,5 +527,5 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
     }
 
     GLToy_DebugOutput_Release( "Loaded environment file \"%S\" successfully", m_szFilename.GetWideString() );
-    GLToy_Environment_System::SwitchEnvironment( pxEnv );
+    GLToy_Environment_System::SetCurrentEnvironment( pxEnv );
 }

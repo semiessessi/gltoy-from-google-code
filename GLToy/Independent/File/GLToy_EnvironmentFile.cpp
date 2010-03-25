@@ -37,6 +37,8 @@ GLToy_String GLToy_EnvironmentFile::GetName() const
 
 void GLToy_EnvironmentFile::LoadEnvironment() const
 {
+    GLToy_Environment_System::ClearCurrentEnvironment();
+
     GLToy_BitStream xStream;
     ReadToBitStream( xStream );
 
@@ -106,7 +108,7 @@ void GLToy_EnvironmentFile::LoadEnvironment() const
     pxEnv->ReadFromBitStream( xStream );
 
     GLToy_DebugOutput_Release( "Loaded environment file \"%S\" successfully", m_szFilename.GetWideString() );
-    GLToy_Environment_System::SwitchEnvironment( pxEnv );
+    GLToy_Environment_System::SetCurrentEnvironment( pxEnv );
 }
 
 void GLToy_EnvironmentFile::Save( const GLToy_String& szFilename )

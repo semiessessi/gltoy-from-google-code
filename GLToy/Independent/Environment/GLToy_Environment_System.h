@@ -44,6 +44,9 @@ public:
 
     static void SwitchEnvironment( GLToy_Environment* const pxEnv );
 
+    static void ClearCurrentEnvironment();
+    static void SetCurrentEnvironment( GLToy_Environment* const pxEnv );
+
     static GLToy_HashTree< GLToy_EnvironmentFile* >& GetEnvironmentFileTree() { return s_xEnvironments; }
 
     static bool IsRenderingLightmap() { return s_bRenderLightmap; }

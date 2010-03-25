@@ -47,6 +47,12 @@ void GLToy_Environment_Lightmapped::Initialise()
 
 void GLToy_Environment_Lightmapped::Shutdown()
 {
+    // clean up lightmap textures
+    GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
+    {
+        const u_int uHashSource = 1337 * xIterator.Index() + 7;
+        GLToy_Texture_System::DestroyTexture( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ) );
+    }
 }
 
 // TODO - many optimisations
@@ -95,10 +101,13 @@ void GLToy_Environment_Lightmapped::Render() const
         if( GLToy_Environment_System::IsRenderingLightmap() )
         {
             GLToy_Render::EnableBlending();
+            GLToy_Render::DisableDepthWrites();
+
             GLToy_Render::SetBlendFunction( BLEND_ZERO, BLEND_SRC_COLOR );
             
             RenderLightmap();
             
+            GLToy_Render::EnableDepthWrites();
             GLToy_Render::DisableBlending();
         }
     }

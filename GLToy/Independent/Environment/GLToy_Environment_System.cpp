@@ -168,3 +168,22 @@ void GLToy_Environment_System::SwitchEnvironment( GLToy_Environment* const pxEnv
         s_pxCurrentEnvironment->Initialise();
     }
 }
+
+void GLToy_Environment_System::ClearCurrentEnvironment()
+{
+    if( s_pxCurrentEnvironment )
+    {
+        s_pxCurrentEnvironment->Shutdown();
+    }
+
+    delete s_pxCurrentEnvironment;
+}
+
+void GLToy_Environment_System::SetCurrentEnvironment( GLToy_Environment* const pxEnv )
+{
+    s_pxCurrentEnvironment = pxEnv;
+    if( s_pxCurrentEnvironment )
+    {
+        s_pxCurrentEnvironment->Initialise();
+    }
+}
