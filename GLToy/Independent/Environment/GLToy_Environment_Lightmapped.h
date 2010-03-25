@@ -12,15 +12,62 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+class GLToy_Environment_LightmappedFaceVertex
+{
+
+public:
+
+    GLToy_Environment_LightmappedFaceVertex()
+    : m_uVertexIndex( 0 )
+    , m_fU( 0.0f )
+    , m_fV( 0.0f )
+    , m_fLightmapU( 0.0f )
+    , m_fLightmapV( 0.0f )
+    {
+    }
+
+    GLToy_Environment_LightmappedFaceVertex( const GLToy_Environment_LightmappedFaceVertex& xVertex )
+    : m_uVertexIndex( xVertex.m_uVertexIndex )
+    , m_fU( xVertex.m_fU )
+    , m_fV( xVertex.m_fV )
+    , m_fLightmapU( xVertex.m_fLightmapU )
+    , m_fLightmapV( xVertex.m_fLightmapV )
+    {
+    }
+
+    GLToy_Environment_LightmappedFaceVertex& operator =( const GLToy_Environment_LightmappedFaceVertex& xVertex )
+    {
+        m_uVertexIndex = xVertex.m_uVertexIndex;
+        m_fU = xVertex.m_fU;
+        m_fV = xVertex.m_fV;
+        m_fLightmapU = xVertex.m_fLightmapU;
+        m_fLightmapV = xVertex.m_fLightmapV;
+
+        return *this;
+    }
+
+    u_int m_uVertexIndex;
+    float m_fU;
+    float m_fV;
+    float m_fLightmapU;
+    float m_fLightmapV;
+
+};
+
 class GLToy_Environment_LightmappedFace
 {
 
 public:
 
+    GLToy_Environment_LightmappedFace()
+    : m_uTextureHash( uGLTOY_BAD_HASH )
+    , m_xVertices()
+    {
+    }
+
     u_char m_aucLightmapStyles[ 8 ]; // inherited from quakes
     GLToy_Hash m_uTextureHash;
-    GLToy_Array< u_int > m_xVertexIndices;
-    GLToy_Array< GLToy_Vector_3 > m_xTexCoords;
+    GLToy_Array< GLToy_Environment_LightmappedFaceVertex > m_xVertices;
 
 };
 
@@ -63,7 +110,7 @@ public:
     virtual void Shutdown();    
     
     virtual void Render() const;
-    virtual void RenderTransparent() const;
+    virtual void RenderLightmap() const;
     virtual void Update();
 
     virtual int GetType() const;

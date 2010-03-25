@@ -49,55 +49,64 @@ void GLToy_Environment_Lightmapped::Shutdown()
 {
 }
 
+// TODO - many optimisations
+// * use PVS to cull
+// * frustrum cull PVS
+// * vertex/index buffers
+// * single pass lightmapping with shader - although it will need its own pass anyway when there is a deferred renderer
 void GLToy_Environment_Lightmapped::Render() const
 {
     GLToy_Render::EnableBackFaceCulling();
     GLToy_Render::SetCWFaceWinding();
 
-    // placeholder
-    GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
+    if( GLToy_Environment_System::IsRenderingLightmapOnly() )
     {
-        const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
-
-        //GLToy_Texture_System::BindTexture( xFace.m_uTextureHash );
-        const u_int uHashSource = 1337 * xIterator.Index();
-        GLToy_Texture_System::BindTexture( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ) );
-
-        GLToy_Render::StartSubmittingPolygon();
-
-        GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-
-        GLToy_ConstIterate( u_int, xVertexIterator, &( xFace.m_xVertexIndices ) )
+        RenderLightmap();
+    }
+    else
+    {
+        // placeholder
+        GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
         {
-            GLToy_Render::SubmitTextureCoordinate(
-                GLToy_Vector_3( 
-                    xFace.m_xTexCoords[ xVertexIterator.Index() ][ 0 ],
-                    xFace.m_xTexCoords[ xVertexIterator.Index() ][ 1 ],
-                    0.0f ) );
+            const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
 
-            GLToy_Render::SubmitVertex( m_xVertices[ xVertexIterator.Current() ] );
+            GLToy_Texture_System::BindTexture( xFace.m_uTextureHash );
+
+            GLToy_Render::StartSubmittingPolygon();
+
+            GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+
+            GLToy_ConstIterate( GLToy_Environment_LightmappedFaceVertex, xVertexIterator, &( xFace.m_xVertices ) )
+            {
+                const GLToy_Environment_LightmappedFaceVertex& xVertex = xVertexIterator.Current();
+                GLToy_Render::SubmitTextureCoordinate(
+                    GLToy_Vector_3( 
+                        xVertex.m_fU,
+                        xVertex.m_fV,
+                        0.0f ) );
+
+                GLToy_Render::SubmitVertex( m_xVertices[ xVertex.m_uVertexIndex ] );
+            }
+
+            GLToy_Render::EndSubmit();
         }
 
-        GLToy_Render::EndSubmit();
+        if( GLToy_Environment_System::IsRenderingLightmap() )
+        {
+            GLToy_Render::EnableBlending();
+            GLToy_Render::SetBlendFunction( BLEND_ZERO, BLEND_SRC_COLOR );
+            
+            RenderLightmap();
+            
+            GLToy_Render::DisableBlending();
+        }
     }
 
     GLToy_Render::DisableBackFaceCulling();
-
-    RenderTransparent();
 }
 
-void GLToy_Environment_Lightmapped::RenderTransparent() const
+void GLToy_Environment_Lightmapped::RenderLightmap() const
 {
-    return;
-
-    // TODO - for now abuse the transparent render for a second pass to do lightmaps
-    GLToy_Render::EnableBlending();
-    GLToy_Render::SetBlendFunction( BLEND_ZERO, BLEND_SRC_COLOR );
-    GLToy_Render::EnableBackFaceCulling();
-    GLToy_Render::SetCWFaceWinding();
-
-    GLToy_Render::DisableDepthWrites();
-
     // placeholder
     GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
     {
@@ -111,23 +120,20 @@ void GLToy_Environment_Lightmapped::RenderTransparent() const
 
         GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-        GLToy_ConstIterate( u_int, xVertexIterator, &( xFace.m_xVertexIndices ) )
+        GLToy_ConstIterate( GLToy_Environment_LightmappedFaceVertex, xVertexIterator, &( xFace.m_xVertices ) )
         {
+            const GLToy_Environment_LightmappedFaceVertex& xVertex = xVertexIterator.Current();
             GLToy_Render::SubmitTextureCoordinate(
                 GLToy_Vector_3( 
-                    xFace.m_xTexCoords[ xVertexIterator.Index() ][ 0 ],
-                    xFace.m_xTexCoords[ xVertexIterator.Index() ][ 1 ],
+                    xVertex.m_fLightmapU,
+                    xVertex.m_fLightmapV,
                     0.0f ) );
 
-            GLToy_Render::SubmitVertex( m_xVertices[ xVertexIterator.Current() ] );
+            GLToy_Render::SubmitVertex( m_xVertices[ xVertex.m_uVertexIndex ] );
         }
 
         GLToy_Render::EndSubmit();
     }
-
-    GLToy_Render::DisableBackFaceCulling();
-    GLToy_Render::EnableDepthWrites();
-    GLToy_Render::DisableBlending();
 }
 
 void GLToy_Environment_Lightmapped::Update()

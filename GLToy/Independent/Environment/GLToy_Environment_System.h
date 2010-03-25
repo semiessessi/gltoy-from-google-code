@@ -46,9 +46,14 @@ public:
 
     static GLToy_HashTree< GLToy_EnvironmentFile* >& GetEnvironmentFileTree() { return s_xEnvironments; }
 
+    static bool IsRenderingLightmap() { return s_bRenderLightmap; }
+    static bool IsRenderingLightmapOnly() { return s_bRenderLightmapOnly; }
+
 private:
 
     static bool s_bRender;
+    static bool s_bRenderLightmap;
+    static bool s_bRenderLightmapOnly;
     static GLToy_Environment* s_pxCurrentEnvironment;
 
     static GLToy_HashTree< GLToy_EnvironmentFile* > s_xEnvironments;

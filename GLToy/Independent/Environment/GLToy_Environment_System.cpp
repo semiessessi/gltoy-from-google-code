@@ -24,6 +24,8 @@
 
 GLToy_Environment* GLToy_Environment_System::s_pxCurrentEnvironment = NULL;
 bool GLToy_Environment_System::s_bRender = true;
+bool GLToy_Environment_System::s_bRenderLightmap = true;
+bool GLToy_Environment_System::s_bRenderLightmapOnly = false;
 
 GLToy_HashTree< GLToy_EnvironmentFile* > GLToy_Environment_System::s_xEnvironments;
 
@@ -36,6 +38,8 @@ bool GLToy_Environment_System::Initialise()
     s_pxCurrentEnvironment = NULL;
 
     GLToy_Console::RegisterVariable( "render.env", &s_bRender );
+    GLToy_Console::RegisterVariable( "render.lightmap", &s_bRenderLightmap );
+    GLToy_Console::RegisterVariable( "render.lightmaponly", &s_bRenderLightmapOnly );
 
     GLToy_Console::RegisterCommand( "new.testenv", CreateTestEnvironment );
 

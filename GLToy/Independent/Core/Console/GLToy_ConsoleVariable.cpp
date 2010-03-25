@@ -29,7 +29,9 @@ void GLToy_ConsoleVariable_Bool::Execute( const GLToy_String& szParameterString 
 void GLToy_ConsoleVariable_Uint::Execute( const GLToy_String& szParameterString )
 {
     *m_puVariable = szParameterString.ExtractUnsignedInt();
-    //GLToy_Console::Print( m_szName + " set to " + ( *m_pbVariable ? "true" : "false" ) );
+    GLToy_String szU;
+    szU.SetToFormatString( "%u", *m_puVariable );
+    GLToy_Console::Print( m_szName + " set to " + szU );
 }
 
 void GLToy_ConsoleVariable_String::Execute( const GLToy_String& szParameterString )
