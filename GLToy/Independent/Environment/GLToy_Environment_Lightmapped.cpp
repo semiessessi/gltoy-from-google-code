@@ -113,7 +113,7 @@ void GLToy_Environment_Lightmapped::RenderLightmap() const
         const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
 
         //GLToy_Texture_System::BindTexture( xFace.m_uTextureHash );
-        const u_int uHashSource = 1337 * xIterator.Index();
+        const u_int uHashSource = 1337 * xIterator.Index() + 7;
         GLToy_Texture_System::BindTexture( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ) );
 
         GLToy_Render::StartSubmittingPolygon();

@@ -474,14 +474,15 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
     {
         GLToy_Environment_LightmappedFace& xEnvFace = pxEnv->m_xFaces[ u ];
 
+        // this nasty hashing is so we don't screw the tree balance and turn a large part of it into a linked list
+        const u_int uHashSource = 1337 * u + 7;
+
         // create the texture
         // TODO - this needs to be redone on reloads
-        // this nasty hashing is so we don't screw the tree balance and turn a large part of it into a linked list
-        const u_int uHashSource = 1337 * u;
         if( ( xFaces[ u ].m_uLightmapOffset != 0xFFFFFFFF ) && ( xFaces[ u ].m_uLightmapOffset != 0 ) )
         {
             // this tries to replicate what Quake 2 does to build the lightmaps and the lightmap texcoords
-            // but without using sticking lightmaps together
+            // but without sticking lightmaps together
             float fUMax = -GLToy_Maths::LargeFloat;
             float fUMin = GLToy_Maths::LargeFloat;
             float fVMax = -GLToy_Maths::LargeFloat;
