@@ -25,5 +25,5 @@
 bool Platform_GLToy_Assert( const char* szTitle, const char* szMessage )
 {
     MessageBoxA( 0, szMessage, szTitle, MB_OK | MB_ICONEXCLAMATION );
-    return MessageBoxA( 0, "Break?", szTitle, MB_YESNO | MB_ICONQUESTION ) == IDYES;
+    return MessageBoxA( 0, "Break?", szTitle, MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 ) == IDYES;
 }
