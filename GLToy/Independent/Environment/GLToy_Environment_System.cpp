@@ -26,6 +26,7 @@ GLToy_Environment* GLToy_Environment_System::s_pxCurrentEnvironment = NULL;
 bool GLToy_Environment_System::s_bRender = true;
 bool GLToy_Environment_System::s_bRenderLightmap = true;
 bool GLToy_Environment_System::s_bRenderLightmapOnly = false;
+bool GLToy_Environment_System::s_bBSPQuadRes = true;
 
 GLToy_HashTree< GLToy_EnvironmentFile* > GLToy_Environment_System::s_xEnvironments;
 
@@ -45,6 +46,8 @@ bool GLToy_Environment_System::Initialise()
 
     GLToy_Console::RegisterCommand( "load.env", LoadEnvironmentFile );
     GLToy_Console::RegisterCommand( "save.env", SaveEnvironmentFile );
+
+    GLToy_Console::RegisterVariable( "bsp.quadres", &s_bBSPQuadRes );
     
     s_xEnvironments.Clear();
 

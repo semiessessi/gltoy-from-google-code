@@ -42,7 +42,6 @@ void GLToy_Texture::Platform_LoadFromFile()
 {
     const GLToy_String szPath = GLToy_String( "textures/" ) + m_szName;
 
-	// TODO - pick out .tga and .wal and load them
     Bitmap* pxBitmap = new Bitmap( szPath.GetWideString() );
 
     if( !pxBitmap )

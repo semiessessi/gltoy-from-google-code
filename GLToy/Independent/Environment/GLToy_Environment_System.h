@@ -49,11 +49,14 @@ public:
     static bool IsRenderingLightmap() { return s_bRenderLightmap; }
     static bool IsRenderingLightmapOnly() { return s_bRenderLightmapOnly; }
 
+    static bool IsBSPQuadRes() { return s_bBSPQuadRes; }
+
 private:
 
     static bool s_bRender;
     static bool s_bRenderLightmap;
     static bool s_bRenderLightmapOnly;
+    static bool s_bBSPQuadRes;
     static GLToy_Environment* s_pxCurrentEnvironment;
 
     static GLToy_HashTree< GLToy_EnvironmentFile* > s_xEnvironments;

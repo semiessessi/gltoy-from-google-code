@@ -66,6 +66,7 @@ void GLToy_Environment_Lightmapped::Render() const
     else
     {
         // placeholder
+        const bool bQuadRes = GLToy_Environment_System::IsBSPQuadRes();
         GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
         {
             const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
@@ -83,7 +84,7 @@ void GLToy_Environment_Lightmapped::Render() const
                     GLToy_Vector_3( 
                         xVertex.m_fU,
                         xVertex.m_fV,
-                        0.0f ) );
+                        0.0f ) * ( bQuadRes ? 4.0f : 1.0f ) );
 
                 GLToy_Render::SubmitVertex( m_xVertices[ xVertex.m_uVertexIndex ] );
             }
@@ -112,7 +113,6 @@ void GLToy_Environment_Lightmapped::RenderLightmap() const
     {
         const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
 
-        //GLToy_Texture_System::BindTexture( xFace.m_uTextureHash );
         const u_int uHashSource = 1337 * xIterator.Index() + 7;
         GLToy_Texture_System::BindTexture( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ) );
 

@@ -38,6 +38,11 @@ void GLToy_Texture::LoadFromFile()
     }
 
     // TODO - load .wal
+    if( m_szName.EndsWith( ".wal" ) )
+    {
+        GLToy_Assert( false, ".wal textures are not yet supported" );
+        return;
+    }
 
     Platform_LoadFromFile();
 }
