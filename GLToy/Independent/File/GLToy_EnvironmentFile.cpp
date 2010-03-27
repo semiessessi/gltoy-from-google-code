@@ -23,7 +23,7 @@ static const u_int uCURRENT_VERSION = 0;
 
 GLToy_Inline const bool GLToy_EnvironmentFile_IsFileHeaderValid( const u_int uHeader )
 {
-    return ( uHeader == GLToy_HeaderBytes( "ENVR" ) || uHeader == GLToy_HeaderBytes( "IBSP" ) );
+    return ( uHeader == GLToy_HeaderBytes( "ENVR" ) || uHeader == GLToy_HeaderBytes( "IBSP" ) || uHeader == GLToy_HeaderBytes( "VBSP" ) );
 }
 
 GLToy_String GLToy_EnvironmentFile::GetName() const
@@ -83,7 +83,37 @@ void GLToy_EnvironmentFile::LoadEnvironment() const
             default:
             {
                 // TODO - some kind of modal dialog system
-                GLToy_Assert( false, "Version %d BSP files are not supported by GLToy.", uVersion );
+                GLToy_Assert( false, "Version %d id BSP files are not supported by GLToy.", uVersion );
+                break;
+            }
+        };
+    }
+
+    if( uHeader == GLToy_HeaderBytes( "VBSP" ) )
+    {
+        switch( uVersion )
+        {
+            // TODO - it would be nice to support all of these - but maybe a *little* ambitious
+            //// Source (pre-HDR)
+            //case 19:
+            //{
+            //    return LoadVBSP19( xStream );
+            //}
+            //// Source
+            //case 20:
+            //{
+            //    return LoadVBSP20( xStream );
+            //}
+            //// L4D2
+            //case 21:
+            //{
+            //    return LoadVBSP21( xStream );
+            //}
+            case 0:
+            default:
+            {
+                // TODO - some kind of modal dialog system
+                GLToy_Assert( false, "Version %d Valve BSP files are not supported by GLToy.", uVersion );
                 break;
             }
         };

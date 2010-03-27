@@ -437,8 +437,8 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         xFace.m_xVertices[ 0 ].m_uVertexIndex = ( iEdge < 0 ) ? xEdges[ -iEdge ].m_usVertex2 : xEdges[ iEdge ].m_usVertex1;
 
         // these need adjusting later...
-        xFace.m_xVertices[ 0 ].m_fLightmapU = ( xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis * pxEnv->m_xVertices[ xFace.m_xVertices[ 0 ].m_uVertexIndex ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fUOffset );
-        xFace.m_xVertices[ 0 ].m_fLightmapV = ( xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis * pxEnv->m_xVertices[ xFace.m_xVertices[ 0 ].m_uVertexIndex ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fVOffset );
+        xFace.m_xVertices[ 0 ].m_fLightmapU = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis * pxEnv->m_xVertices[ xFace.m_xVertices[ 0 ].m_uVertexIndex ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fUOffset;
+        xFace.m_xVertices[ 0 ].m_fLightmapV = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis * pxEnv->m_xVertices[ xFace.m_xVertices[ 0 ].m_uVertexIndex ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fVOffset;
         // TODO - maybe some console command for double res textures?
         xFace.m_xVertices[ 0 ].m_fU = xFace.m_xVertices[ 0 ].m_fLightmapU / static_cast< float >( uTexWidth );
         xFace.m_xVertices[ 0 ].m_fV = xFace.m_xVertices[ 0 ].m_fLightmapV / static_cast< float >( uTexHeight );
@@ -451,8 +451,8 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
             GLToy_Environment_LightmappedFaceVertex& xVertex = xFace.m_xVertices[ u + 1 ];
 
             xVertex.m_uVertexIndex = ( iEdge < 0 ) ? xEdges[ -iEdge ].m_usVertex1 : xEdges[ iEdge ].m_usVertex2;                    
-            xVertex.m_fLightmapU = ( xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis * pxEnv->m_xVertices[ xVertex.m_uVertexIndex ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fUOffset );
-            xVertex.m_fLightmapV = ( xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis * pxEnv->m_xVertices[ xVertex.m_uVertexIndex ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fVOffset );
+            xVertex.m_fLightmapU = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis * pxEnv->m_xVertices[ xVertex.m_uVertexIndex ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fUOffset;
+            xVertex.m_fLightmapV = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis * pxEnv->m_xVertices[ xVertex.m_uVertexIndex ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fVOffset;
             xVertex.m_fU = xVertex.m_fLightmapU / static_cast< float >( uTexWidth );
             xVertex.m_fV = xVertex.m_fLightmapV / static_cast< float >( uTexHeight );
         }

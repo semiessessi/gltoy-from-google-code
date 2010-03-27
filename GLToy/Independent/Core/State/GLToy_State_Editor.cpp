@@ -7,18 +7,14 @@
 // This file's header
 #include <Core/State/GLToy_State_Editor.h>
 
+// GLToy
+#include <UI/GLToy_UI_System.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-//void GLToy_State_Editor::Initialise()
-//{
-//}
-//
-//void GLToy_State_Editor::Shutdown()
-//{
-//}
-//
-//void GLToy_State_EditorFrontEnd::Update()
-//{
-//}
+void GLToy_State_Editor::Initialise()
+{
+    GLToy_UI_System::ShowPointer( false );
+}

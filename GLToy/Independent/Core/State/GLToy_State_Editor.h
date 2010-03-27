@@ -21,6 +21,7 @@ public:
 
     virtual const GLToy_String& GetName() const { static GLToy_String ls_szName = "Editor"; return ls_szName; }
 
+    virtual void Initialise();
 };
 
 #endif

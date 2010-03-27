@@ -19,6 +19,7 @@
 #include <Render/Font/GLToy_Font.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
+#include <UI/GLToy_UI_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -144,6 +145,8 @@ void GLToy_State_EditorFrontEnd::Initialise()
     GLToy_Texture_System::CreateTexture( "Widgets/File.png" );
     GLToy_Texture_System::CreateTexture( "Widgets/Folder.png" );
     GLToy_Texture_System::CreateTexture( "Widgets/Shutdown.png" );
+
+    GLToy_UI_System::ShowPointer( true );
 }
 
 void GLToy_State_EditorFrontEnd::Shutdown()

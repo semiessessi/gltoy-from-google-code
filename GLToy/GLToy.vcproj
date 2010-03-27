@@ -657,11 +657,27 @@
 					Name="BSP"
 					>
 					<File
+						RelativePath=".\Independent\File\BSP\GLToy_BSP30.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\Independent\File\BSP\GLToy_BSP38.cpp"
 						>
 					</File>
 					<File
 						RelativePath=".\Independent\File\BSP\GLToy_BSP46.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\File\BSP\GLToy_VBSP19.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\File\BSP\GLToy_VBSP20.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\File\BSP\GLToy_VBSP21.cpp"
 						>
 					</File>
 				</Filter>

@@ -35,6 +35,7 @@ float GLToy_Camera::s_fRX = 0.0f;
 float GLToy_Camera::s_fRY = 0.0f;
 GLToy_Matrix_3 GLToy_Camera::s_xOrientation;
 GLToy_Matrix_3 GLToy_Camera::s_xInverseOrientation;
+bool GLToy_Camera::s_bFlyCam = true;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -51,20 +52,23 @@ void GLToy_Camera::Update()
     s_xInverseOrientation = s_xOrientation;
     s_xInverseOrientation.Transpose();
 
-    // update orientation ...
-    if( GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() ) )
+    if( s_bFlyCam )
     {
-        s_fRY -= GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
-    }
+        // update orientation ...
+        if( GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() ) )
+        {
+            s_fRY -= GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
+        }
 
-    if( GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetRightKey() ) )
-    {
-        s_fRY += GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
-    }
+        if( GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetRightKey() ) )
+        {
+            s_fRY += GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
+        }
 
-    s_fRY += GLToy_Input_System::GetMouseDeltaX() * fCAMERA_MOUSE_SCALE;
-    s_fRX += GLToy_Input_System::GetMouseDeltaY() * fCAMERA_MOUSE_SCALE;
-    s_fRX = GLToy_Maths::Clamp( s_fRX, -( GLToy_Maths::Pi * 0.5f ), GLToy_Maths::Pi * 0.5f );
+        s_fRY += GLToy_Input_System::GetMouseDeltaX() * fCAMERA_MOUSE_SCALE;
+        s_fRX += GLToy_Input_System::GetMouseDeltaY() * fCAMERA_MOUSE_SCALE;
+        s_fRX = GLToy_Maths::Clamp( s_fRX, -( GLToy_Maths::Pi * 0.5f ), GLToy_Maths::Pi * 0.5f );
+    }
 
     // ... then calculate basis from the orientation
     const float fSRX = sin( s_fRX );
@@ -73,29 +77,31 @@ void GLToy_Camera::Update()
     const float fCRY = cos( s_fRY );
     s_xDirection = GLToy_Vector_3( fCRX * fSRY, -fSRX, fCRX * fCRY );
     s_xUp = GLToy_Vector_3( fSRX * fSRY, fCRX, fSRX * fCRY );
-
-    const GLToy_Vector_3 xRight = GetRight();
-
-    if( GLToy_Input_System::IsKeyDown( 'W' )
-        || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetUpKey() ) )
+    if( s_bFlyCam )
     {
-        s_xPosition = s_xPosition + s_xDirection * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
-    }
+        const GLToy_Vector_3 xRight = GetRight();
 
-    if( GLToy_Input_System::IsKeyDown( 'S' )
-        || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetDownKey() ) )
-    {
-        s_xPosition = s_xPosition - s_xDirection * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
-    }
+        if( GLToy_Input_System::IsKeyDown( 'W' )
+            || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetUpKey() ) )
+        {
+            s_xPosition = s_xPosition + s_xDirection * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
+        }
 
-    if( GLToy_Input_System::IsKeyDown( 'A' ) )
-    {
-        s_xPosition = s_xPosition - xRight * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
-    }
+        if( GLToy_Input_System::IsKeyDown( 'S' )
+            || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetDownKey() ) )
+        {
+            s_xPosition = s_xPosition - s_xDirection * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
+        }
 
-    if( GLToy_Input_System::IsKeyDown( 'D' ) )
-    {
-        s_xPosition = s_xPosition + xRight * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
+        if( GLToy_Input_System::IsKeyDown( 'A' ) )
+        {
+            s_xPosition = s_xPosition - xRight * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
+        }
+
+        if( GLToy_Input_System::IsKeyDown( 'D' ) )
+        {
+            s_xPosition = s_xPosition + xRight * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
+        }
     }
 }
 

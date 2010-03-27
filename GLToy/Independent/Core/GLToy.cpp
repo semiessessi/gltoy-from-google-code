@@ -174,9 +174,10 @@ bool GLToy::MainLoop()
     // Update functions
     GLToy_Timer::Update();
 	GLToy_Input_System::Update();
+    GLToy_State_System::Update();
+
 	GLToy_Console::Update();
 	GLToy_UI_System::Update();
-    GLToy_State_System::Update();
     GLToy_Camera::Update();
 
     GLToy_Environment_System::Update();
@@ -193,9 +194,8 @@ bool GLToy::MainLoop()
 
     GLToy_Render::BeginRender2D();
 
-	GLToy_UI_System::Render2D();
-
     GLToy_State_System::Render2D();
+    GLToy_UI_System::Render2D();
     GLToy_Render::Render2D();
     GLToy_Console::Render2D();
 

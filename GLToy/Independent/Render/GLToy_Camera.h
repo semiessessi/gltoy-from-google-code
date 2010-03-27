@@ -32,6 +32,8 @@ public:
 
     static void SetPosition( const GLToy_Vector_3& xPosition ) { s_xPosition = xPosition; }
 
+    static void SetFlyCamEnabled( const bool bEnabled = true ) { s_bFlyCam = bEnabled; }
+
 private:
 
     static GLToy_Vector_3 s_xPosition;
@@ -43,6 +45,8 @@ private:
 
     static GLToy_Matrix_3 s_xOrientation;
     static GLToy_Matrix_3 s_xInverseOrientation;
+
+    static bool s_bFlyCam;
 
 };
 
