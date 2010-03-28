@@ -28,6 +28,7 @@ bool GLToy_Entity_System::s_bRender = true;
 bool GLToy_Entity_System::s_bRenderAABBs = false;
 bool GLToy_Entity_System::s_bRenderOBBs = false;
 bool GLToy_Entity_System::s_bRenderSpheres = false;
+GLToy_Entity* ( *GLToy_Entity_System::s_pfnProject_CreateFromType )( const GLToy_Hash, const u_int ) = NULL;
 GLToy_HashTree< GLToy_Entity* > GLToy_Entity_System::s_xEntities;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -187,19 +188,27 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Hash uHash, const G
     
     GLToy_Entity* pxNewEntity = NULL;
 
-    switch( eType )
+    if( s_pfnProject_CreateFromType )
     {
-        case ENTITY_NULL:               pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_Null( uHash, eType ) ); break;
+        pxNewEntity = s_pfnProject_CreateFromType( uHash, eType );
+    }
 
-        case ENTITY_MODELSTATIC:        pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_ModelStatic( uHash, eType ) ); break;
-        case ENTITY_MODELANIMATED:      pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_ModelAnimated( uHash, eType ) ); break;
-
-        case ENTITY_SPRITE:             pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_Sprite( uHash, eType ) ); break;
-
-        default:
+    if( !pxNewEntity )
+    {
+        switch( eType )
         {
-            GLToy_Assert( false, "Unrecognised entity type: %u", eType );
-            break;
+            case ENTITY_NULL:               pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_Null( uHash, eType ) ); break;
+
+            case ENTITY_MODELSTATIC:        pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_ModelStatic( uHash, eType ) ); break;
+            case ENTITY_MODELANIMATED:      pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_ModelAnimated( uHash, eType ) ); break;
+
+            case ENTITY_SPRITE:             pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_Sprite( uHash, eType ) ); break;
+
+            default:
+            {
+                GLToy_Assert( false, "Unrecognised entity type: %u", eType );
+                break;
+            }
         }
     }
 

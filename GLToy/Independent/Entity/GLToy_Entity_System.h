@@ -51,6 +51,8 @@ public:
 
     static bool SetRender( const bool bRender ) { s_bRender = bRender; };
 
+    static void SetProjectEntityCreateCallback( GLToy_Entity* ( *pfnCreateFromType )( const GLToy_Hash, const u_int ) ) { s_pfnProject_CreateFromType = pfnCreateFromType; }
+
 private:
 
     static void SpawnAnim_Console( const GLToy_String& szName );
@@ -61,6 +63,8 @@ private:
     static bool s_bRenderAABBs;
     static bool s_bRenderOBBs;
     static bool s_bRenderSpheres;
+
+    static GLToy_Entity* ( *s_pfnProject_CreateFromType )( const GLToy_Hash, const u_int );
 
     static GLToy_HashTree< GLToy_Entity* > s_xEntities;
 
