@@ -15,6 +15,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+class GLToy_Vector_2;
 class GLToy_Vector_3;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +63,7 @@ public:
     void operator <<( const u_int uUint ) { WriteUInt( uUint ); }
     void operator <<( const float fFloat ) { WriteFloat( fFloat ); }
     void operator <<( const double dDouble ) { WriteDouble( dDouble ); }
+    void operator <<( const GLToy_Vector_2& xVector ) { WriteVector( xVector ); }
     void operator <<( const GLToy_Vector_3& xVector ) { WriteVector( xVector ); }
     void operator <<( const GLToy_Serialisable& xSerialisable ) { xSerialisable.WriteToBitStream( *this ); }
     void operator <<( const GLToy_Serialisable* const pxSerialisable ) { pxSerialisable->WriteToBitStream( *this ); }
@@ -76,6 +78,7 @@ public:
     void operator >>( u_int& uUint ) const { ReadUInt( uUint ); }
     void operator >>( float& fFloat ) const { ReadFloat( fFloat ); }
     void operator >>( double& dDouble ) const { ReadDouble( dDouble ); }
+    void operator >>( GLToy_Vector_2& xVector ) const { ReadVector( xVector ); }
     void operator >>( GLToy_Vector_3& xVector ) const { ReadVector( xVector ); }
     void operator >>( GLToy_Serialisable& xSerialisable ) const { xSerialisable.ReadFromBitStream( *this ); }
     void operator >>( GLToy_Serialisable* const pxSerialisable ) const { pxSerialisable->ReadFromBitStream( *this ); }
@@ -92,6 +95,7 @@ public:
     void WriteDouble( const double dDouble ){ WriteData( reinterpret_cast< const char* >( &dDouble ), 64 ); }
     void WriteBits( const u_int uBits, const u_int uBitCount );
     void WriteData( const char* const pcData, const u_int uBitCount );
+    void WriteVector( const GLToy_Vector_2& xVector );
     void WriteVector( const GLToy_Vector_3& xVector );
     
     void ReadBool( bool& bBool ) const { bBool = ReadBit(); }
@@ -106,6 +110,7 @@ public:
     void ReadDouble( double& dDouble) const { ReadData( reinterpret_cast< char* >( &dDouble ), 64 ); }
     void ReadBits( u_int& uBits, const u_int uBitCount ) const;
     void ReadData( char* pcOutput, const u_int uBitCount ) const;
+    void ReadVector( GLToy_Vector_2& xVector ) const;
     void ReadVector( GLToy_Vector_3& xVector ) const;
 
     void ByteAlignedWrite( char* const pcData, const u_int uNumBytes ) const;

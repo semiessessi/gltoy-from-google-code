@@ -28,6 +28,9 @@ static const u_int uBSP46_LUMP_FACES = 13;
 static const u_int uBSP46_LUMP_VIS = 16;
 
 static const u_int uBSP46_FACE_POLYGON = 1;
+static const u_int uBSP46_FACE_PATCH = 2;
+static const u_int uBSP46_FACE_MESH = 3;
+static const u_int uBSP46_FACE_SPRITE = 4;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -67,11 +70,32 @@ class GLToy_BSP46_Vertex
 
 public:
 
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
+    {
+        xStream >> m_xVertex;
+        xStream >> m_xUV;
+        xStream >> m_xLightmapUV;
+        xStream >> m_xNormal;
+        xStream >> m_uRGBA;
+    }
+
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
+    {
+        xStream << m_xVertex;
+        xStream << m_xUV;
+        xStream << m_xLightmapUV;
+        xStream << m_xNormal;
+        xStream << m_uRGBA;
+    }
+
+    static size_t GetSize() { return sizeof( GLToy_BSP46_Vertex ) - sizeof( void ( * )() ); }  // subtract vtable pointer size
+
     GLToy_Vector_3 m_xVertex;
     GLToy_Vector_2 m_xUV;
     GLToy_Vector_2 m_xLightmapUV;
     GLToy_Vector_3 m_xNormal;
     u_int m_uRGBA;
+
 };
 
 class GLToy_BSP46_Face
@@ -162,12 +186,13 @@ void GLToy_EnvironmentFile::LoadBSP46( const GLToy_BitStream& xStream ) const
     xStream >> xLumps;
 
     // vertices
-    //pxEnv->m_xVertices.Resize( xLumps.m_axLumps[ uBSP46_LUMP_VERTICES ].m_uSize / sizeof( GLToy_Vector_3 ) );
-    //xStream.SetReadByte( xLumps.m_axLumps[ uBSP46_LUMP_VERTICES ].m_uOffset );
-    //for( u_int u = 0; u < pxEnv->m_xVertices.GetCount(); ++u )
-    //{
-    //    xStream >> pxEnv->m_xVertices[ u ];
-    //}
+    GLToy_Array< GLToy_BSP46_Vertex > xVertices;
+    xVertices.Resize( xLumps.m_axLumps[ uBSP46_LUMP_VERTICES ].m_uSize / GLToy_BSP46_Vertex::GetSize() );
+    xStream.SetReadByte( xLumps.m_axLumps[ uBSP46_LUMP_VERTICES ].m_uOffset );
+    for( u_int u = 0; u < xVertices.GetCount(); ++u )
+    {
+        xStream >> xVertices[ u ];
+    }
 
     // faces
     GLToy_Array< GLToy_BSP46_Face > xFaces;
@@ -179,10 +204,53 @@ void GLToy_EnvironmentFile::LoadBSP46( const GLToy_BitStream& xStream ) const
         xStream >> xFaces[ u ];
     }
 
+    // set up vertices
+    pxEnv->m_xVertices.Resize( xVertices.GetCount() );
+    for( u_int u = 0; u < xVertices.GetCount(); ++u )
+    {
+        pxEnv->m_xVertices[ u ].m_xVertex = GLToy_Vector_3( -xVertices[ u ].m_xVertex[ 1 ], xVertices[ u ].m_xVertex[ 2 ], xVertices[ u ].m_xVertex[ 0 ] );
+        pxEnv->m_xVertices[ u ].m_xUV = xVertices[ u ].m_xUV;
+        pxEnv->m_xVertices[ u ].m_xLightmapUV = xVertices[ u ].m_xLightmapUV;
+        pxEnv->m_xVertices[ u ].m_xNormal = xVertices[ u ].m_xNormal;
+        // pxEnv->m_xVertices[ u ].m_xColour = xVertices[ u ].m_uRGBA;
+    }
+
     // set up faces
     pxEnv->m_xFaces.Resize( xFaces.GetCount() );
+    for( u_int u = 0; u < xFaces.GetCount(); ++u )
+    {
+        pxEnv->m_xFaces[ u ].m_uTextureHash = uGLTOY_BAD_HASH;
+        
+        const u_int uType = xFaces[ u ].m_uType;
+        switch( uType )
+        {
 
-    GLToy_Assert( false, "BSP 46 loader is not finished, but we are switching to an environment created from a v46 id BSP file!!!" );
+            case uBSP46_FACE_POLYGON:
+            {
+                pxEnv->m_xFaces[ u ].m_xIndices.Resize( xFaces[ u ].m_uNumVertices );
+                for( u_int v = 0; v < xFaces[ u ].m_uNumVertices; ++v )
+                {
+                    pxEnv->m_xFaces[ u ].m_xIndices[ v ] = xFaces[ u ].m_iFirstVertex + v;
+                }
+
+                break;
+            }
+
+            case uBSP46_FACE_PATCH:
+            case uBSP46_FACE_MESH:
+            case uBSP46_FACE_SPRITE:
+            {
+                break;
+            }
+
+            default:
+            {
+                GLToy_Assert( false, "Bad face type in BSP file" );
+                return;
+            }
+
+        }
+    }
 
     GLToy_Environment_System::SetCurrentEnvironment( pxEnv );
 }

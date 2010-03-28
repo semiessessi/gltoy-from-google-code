@@ -26,7 +26,7 @@ GLToy_Environment* GLToy_Environment_System::s_pxCurrentEnvironment = NULL;
 bool GLToy_Environment_System::s_bRender = true;
 bool GLToy_Environment_System::s_bRenderLightmap = true;
 bool GLToy_Environment_System::s_bRenderLightmapOnly = false;
-bool GLToy_Environment_System::s_bBSPQuadRes = true;
+bool GLToy_Environment_System::s_bBSPQuadRes = false;
 
 GLToy_HashTree< GLToy_EnvironmentFile* > GLToy_Environment_System::s_xEnvironments;
 

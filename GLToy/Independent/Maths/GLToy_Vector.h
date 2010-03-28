@@ -22,6 +22,9 @@ public:
     GLToy_Vector_2( float fX, float fY );
     GLToy_Vector_2( const GLToy_Vector_2& xVector );
 
+    void ReadFromBitStream( const GLToy_BitStream& xStream );
+    void WriteToBitStream( GLToy_BitStream& xStream ) const;
+
     GLToy_Vector_2& operator =( const GLToy_Vector_2& xVector );
 
     GLToy_Inline float& operator[] ( int i ) { return m_fComponents[ i ]; }

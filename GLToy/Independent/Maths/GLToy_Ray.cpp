@@ -51,9 +51,8 @@ bool GLToy_Ray::IntersectsWithAABB( const GLToy_AABB& xAABB, GLToy_Vector_3* con
     // ^         |
     // | - - - - o__       o - BB corner
     // |                   * - ray pos
-    // x   *--->    the x component in the direction shown is zero.
-    //              we can see that if the pos is below the bb minimum in x we must
-    //              have positive x component in the direction to intersect
+    // y   *--->    we can see that if the pos is below the bb minimum in x we must
+    //              have a positive y component to intersect
 
     const GLToy_Vector_3& xMin = xAABB.GetMin();
     const GLToy_Vector_3& xMax = xAABB.GetMax();

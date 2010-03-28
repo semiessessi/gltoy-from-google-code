@@ -65,9 +65,19 @@ void GLToy_BitStream::ReadData( char* pcOutput, const unsigned int uBitCount ) c
     }
 }
 
+void GLToy_BitStream::WriteVector( const GLToy_Vector_2& xVector )
+{
+    xVector.WriteToBitStream( *this );
+}
+
 void GLToy_BitStream::WriteVector( const GLToy_Vector_3& xVector )
 {
     xVector.WriteToBitStream( *this );
+}
+
+void GLToy_BitStream::ReadVector( GLToy_Vector_2& xVector ) const
+{
+    xVector.ReadFromBitStream( *this );
 }
 
 void GLToy_BitStream::ReadVector( GLToy_Vector_3& xVector ) const

@@ -46,6 +46,20 @@ GLToy_Vector_2& GLToy_Vector_2::operator =( const GLToy_Vector_2& xVector )
     return *this;
 }
 
+
+void GLToy_Vector_2::ReadFromBitStream( const GLToy_BitStream& xStream )
+{
+    xStream >> m_fComponents[ 0 ];
+    xStream >> m_fComponents[ 1 ];
+}
+
+void GLToy_Vector_2::WriteToBitStream( GLToy_BitStream& xStream ) const
+{
+    xStream << m_fComponents[ 0 ];
+    xStream << m_fComponents[ 1 ];
+}
+
+
 GLToy_Vector_2 GLToy_Vector_2::operator *( const float fFloat ) const
 {
     return GLToy_Vector_2( m_fComponents[ 0 ] * fFloat, m_fComponents[ 1 ] * fFloat );
