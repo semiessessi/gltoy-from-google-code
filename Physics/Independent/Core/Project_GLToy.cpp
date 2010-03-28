@@ -5,8 +5,8 @@
 // This file's header
 #include <Core/GLToy.h>
 
-// Empty
-#include <Core/Empty.h>
+// Physics
+#include <Core/Physics.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -14,10 +14,10 @@
 
 bool GLToy::Project_Initialise()
 {
-    return Empty::Initialise();
+    return Physics::Initialise();
 }
 
 void GLToy::Project_Shutdown()
 {
-    Empty::Shutdown();
+    Physics::Shutdown();
 }

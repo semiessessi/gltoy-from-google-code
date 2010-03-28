@@ -2,11 +2,11 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/Empty.h>
+#include <Core/Physics.h>
 
 // This file's header
 #include <Render/GLToy_Render.h>
-#include <Render/Empty_Render.h>
+#include <Render/Physics_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -14,15 +14,15 @@
 
 bool GLToy_Render::Project_Initialise()
 {
-    return Empty_Render::Initialise();
+    return Physics_Render::Initialise();
 }
 
 void GLToy_Render::Project_Shutdown()
 {
-    Empty_Render::Shutdown();
+    Physics_Render::Shutdown();
 }
 
 void GLToy_Render::Project_Render()
 {
-    Empty_Render::Render();
+    Physics_Render::Render();
 }

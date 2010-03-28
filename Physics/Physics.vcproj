@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Empty"
-	ProjectGUID="{451F6CAD-AF6B-479E-9321-C4DAE0F40260}"
-	RootNamespace="Empty"
+	Name="Physics"
+	ProjectGUID="{A75E7C31-BA9E-4903-A1F2-062A75317612}"
+	RootNamespace="Physics"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -178,11 +178,11 @@
 				Name="Core"
 				>
 				<File
-					RelativePath=".\Win32\Core\Platform_Empty.cpp"
+					RelativePath=".\Win32\Core\Platform_Physics.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Win32\Core\Platform_Empty.h"
+					RelativePath=".\Win32\Core\Platform_Physics.h"
 					>
 				</File>
 			</Filter>
@@ -194,11 +194,11 @@
 				Name="Render"
 				>
 				<File
-					RelativePath=".\Independent\Render\Empty_Render.cpp"
+					RelativePath=".\Independent\Render\Physics_Render.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Render\Empty_Render.h"
+					RelativePath=".\Independent\Render\Physics_Render.h"
 					>
 				</File>
 				<File
@@ -210,11 +210,11 @@
 				Name="Core"
 				>
 				<File
-					RelativePath=".\Independent\Core\Empty.cpp"
+					RelativePath=".\Independent\Core\Physics.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Independent\Core\Empty.h"
+					RelativePath=".\Independent\Core\Physics.h"
 					>
 				</File>
 				<File
