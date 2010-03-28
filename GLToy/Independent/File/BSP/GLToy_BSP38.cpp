@@ -490,7 +490,7 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         }
     }
 
-    // re-orient vertices - this must be done after setting up the faces to ensure texcoords are generated correctly
+    // re-orient vertices - this must be done after setting up the faces to ensure UVs are generated correctly
     GLToy_Iterate( GLToy_Environment_LightmappedFaceVertex, xIterator, &( pxEnv->m_xVertices ) )
     {
         GLToy_Environment_LightmappedFaceVertex& xCurrent = xIterator.Current();
@@ -513,7 +513,7 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         // TODO - this needs to be redone on reloads
         if( ( xFaces[ u ].m_uLightmapOffset != 0xFFFFFFFF ) && ( xFaces[ u ].m_uLightmapOffset != 0 ) )
         {
-            // this tries to replicate what Quake 2 does to build the lightmaps and the lightmap texcoords
+            // this tries to replicate what Quake 2 does to build the lightmaps and the lightmap UVs
             // but without sticking lightmaps together
             float fUMax = -GLToy_Maths::LargeFloat;
             float fUMin = GLToy_Maths::LargeFloat;
@@ -539,7 +539,7 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 
             GLToy_Texture_System::CreateTextureFromRGBData( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ), &( pxEnv->m_xLightmapData[ xFaces[ u ].m_uLightmapOffset ] ), uWidth, uHeight );
 
-            // fix up texcoords
+            // fix up UVs
             for( u_int v = 0; v < xEnvFace.m_xIndices.GetCount(); ++v )
             {
                 GLToy_Environment_LightmappedFaceVertex& xVertex = pxEnv->m_xVertices[ xEnvFace.m_xIndices[ v ] ];

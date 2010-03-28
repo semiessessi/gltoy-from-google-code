@@ -26,7 +26,7 @@ struct GLToy_MD2_Triangle
 {
 
     u_short m_ausVertices[ 3 ];
-    u_short m_ausTexCoords[ 3 ];
+    u_short m_ausUVs[ 3 ];
 
 };
 
@@ -98,7 +98,7 @@ protected:
     GLToy_Array< u_char > m_xNormalIndices;
     GLToy_Array< int > m_xGLCommands;
 
-    GLToy_Array< GLToy_Vector_3 > m_xTexCoords;
+    GLToy_Array< GLToy_Vector_3 > m_xUVs;
     GLToy_Array< GLToy_MD2_Triangle > m_xTriangles;
 
     GLToy_Array< GLToy_Vector_3 > m_xWorkingVertices;

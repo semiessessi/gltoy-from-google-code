@@ -113,8 +113,8 @@ private:
     static void SubmitNormal( const GLToy_Vector_3& xNormal );
     static void SubmitColour( const GLToy_Vector_3& xColour );
     static void SubmitColour( const GLToy_Vector_4& xColour );
-    static void SubmitTextureCoordinate( const GLToy_Vector_2& xTexCoord, const u_int uTextureUnit );
-    static void SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit );
+    static void SubmitTextureCoordinate( const GLToy_Vector_2& xUV, const u_int uTextureUnit );
+    static void SubmitTextureCoordinate( const GLToy_Vector_3& xUV, const u_int uTextureUnit );
 
     static u_int s_uVersion;
 

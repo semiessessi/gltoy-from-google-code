@@ -68,8 +68,8 @@ class GLToy_BSP46_Vertex
 public:
 
     GLToy_Vector_3 m_xVertex;
-    GLToy_Vector_2 m_xTexCoord;
-    GLToy_Vector_2 m_xLightmapTexCoord;
+    GLToy_Vector_2 m_xUV;
+    GLToy_Vector_2 m_xLightmapUV;
     GLToy_Vector_3 m_xNormal;
     u_int m_uRGBA;
 };
@@ -181,7 +181,6 @@ void GLToy_EnvironmentFile::LoadBSP46( const GLToy_BitStream& xStream ) const
 
     // set up faces
     pxEnv->m_xFaces.Resize( xFaces.GetCount() );
-    // TODO - refactor BSP 38 loader first...
 
     GLToy_Assert( false, "BSP 46 loader is not finished, but we are switching to an environment created from a v46 id BSP file!!!" );
 

@@ -228,7 +228,7 @@ static const GLToy_Vector_3 xMD2_NORMALS[] =
 GLToy_Model_MD2::GLToy_Model_MD2()
 : m_xNormalIndices()
 , m_xGLCommands()
-, m_xTexCoords()
+, m_xUVs()
 , m_xTriangles()
 , m_xWorkingVertices()
 , m_xWorkingNormals()
@@ -281,7 +281,7 @@ void GLToy_Model_MD2::Render() const
 
             for( u_int u = 0; u < 3; ++u )
             {
-                GLToy_Render::SubmitTextureCoordinate( m_xTexCoords[ xTriangle.m_ausTexCoords[ u ] ] );
+                GLToy_Render::SubmitTextureCoordinate( m_xUVs[ xTriangle.m_ausUVs[ u ] ] );
                 GLToy_Render::SubmitNormal( m_xWorkingNormals[ xTriangle.m_ausVertices[ u ] ] );
                 GLToy_Render::SubmitVertex( m_xWorkingVertices[ xTriangle.m_ausVertices[ u ] ] );
             }

@@ -18,26 +18,26 @@
 struct GLToy_MD2_Header
 {
 
-    u_int   m_uIdentifier; // IDP2
-    u_int   m_uVersion; // 8
+    u_int m_uIdentifier; // IDP2
+    u_int m_uVersion; // 8
 
-    u_int   m_uSkinWidth;
-    u_int   m_uSkinHeight;
-    u_int   m_uFrameSize;
+    u_int m_uSkinWidth;
+    u_int m_uSkinHeight;
+    u_int m_uFrameSize;
 
-    u_int   m_uNumSkins;
-    u_int   m_uNumVertices;
-    u_int   m_uNumTexCoords;
-    u_int   m_uNumTriangles;
-    u_int   m_uNumGLCommands;
-    u_int   m_uNumFrames;
+    u_int m_uNumSkins;
+    u_int m_uNumVertices;
+    u_int m_uNumUVs;
+    u_int m_uNumTriangles;
+    u_int m_uNumGLCommands;
+    u_int m_uNumFrames;
 
-    u_int   m_uOffsetSkins;
-    u_int   m_uOffsetTexCoords;
-    u_int   m_uOffsetTriangles;
-    u_int   m_uOffsetFrames;
-    u_int   m_uOffsetGLCommands;
-    u_int   m_uOffsetEnd;
+    u_int m_uOffsetSkins;
+    u_int m_uOffsetUVs;
+    u_int m_uOffsetTriangles;
+    u_int m_uOffsetFrames;
+    u_int m_uOffsetGLCommands;
+    u_int m_uOffsetEnd;
 
 };
 
@@ -49,7 +49,7 @@ struct GLToy_MD2_Vertex
 
 };
 
-struct GLToy_MD2_TexCoord
+struct GLToy_MD2_UV
 {
 
     short m_sS;
@@ -150,16 +150,16 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
         reinterpret_cast< int* >( &( pcData[ pxHeader->m_uOffsetGLCommands ] ) ), pxHeader->m_uNumGLCommands );
 
     // load remaining data
-    GLToy_PointerArray< GLToy_MD2_TexCoord > xTexCoords(
-        reinterpret_cast< GLToy_MD2_TexCoord* >( &( pcData[ pxHeader->m_uOffsetTexCoords ] ) ), pxHeader->m_uNumTexCoords );
+    GLToy_PointerArray< GLToy_MD2_UV > xUVs(
+        reinterpret_cast< GLToy_MD2_UV* >( &( pcData[ pxHeader->m_uOffsetUVs ] ) ), pxHeader->m_uNumUVs );
 
-    pxModel->m_xTexCoords.Resize( pxHeader->m_uNumTexCoords );
+    pxModel->m_xUVs.Resize( pxHeader->m_uNumUVs );
 
-    for( u_int u = 0; u < pxHeader->m_uNumTexCoords; ++u )
+    for( u_int u = 0; u < pxHeader->m_uNumUVs; ++u )
     {
-        pxModel->m_xTexCoords[ u ][ 0 ] = static_cast< float >( xTexCoords[ u ].m_sS ) * ( 1.0f / pxHeader->m_uSkinWidth );
-        pxModel->m_xTexCoords[ u ][ 1 ] = static_cast< float >( xTexCoords[ u ].m_sT ) * ( 1.0f / pxHeader->m_uSkinHeight );
-        pxModel->m_xTexCoords[ u ][ 2 ] = 0.0f;
+        pxModel->m_xUVs[ u ][ 0 ] = static_cast< float >( xUVs[ u ].m_sS ) * ( 1.0f / pxHeader->m_uSkinWidth );
+        pxModel->m_xUVs[ u ][ 1 ] = static_cast< float >( xUVs[ u ].m_sT ) * ( 1.0f / pxHeader->m_uSkinHeight );
+        pxModel->m_xUVs[ u ][ 2 ] = 0.0f;
     }
 
     pxModel->m_xTriangles = GLToy_PointerArray< GLToy_MD2_Triangle >(
