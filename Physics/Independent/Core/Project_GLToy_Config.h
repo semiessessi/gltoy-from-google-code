@@ -2,5 +2,6 @@
 #define __PROJECT_GLTOY_CONFIG_H_
 
 //#define GLTOY_USE_FRIDGESCRIPT
+#define GLTOY_USE_HAVOK_PHYSICS
 
 #endif

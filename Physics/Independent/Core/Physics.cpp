@@ -5,15 +5,21 @@
 // This file's header
 #include <Core/Physics.h>
 
+// Physics
+#include <Physics/Physics_Physics_System.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 bool Physics::Initialise()
 {
+    GLTOY_INITIALISER_CALL( Physics_Physics_System );
+
     return true;
 }
 
 void Physics::Shutdown()
 {
+    Physics_Physics_System::Shutdown();
 }

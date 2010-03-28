@@ -226,6 +226,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Physics"
+				>
+				<File
+					RelativePath=".\Independent\Physics\Physics_Physics_System.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Physics\Physics_Physics_System.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

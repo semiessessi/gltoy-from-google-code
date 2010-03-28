@@ -246,6 +246,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Physics"
+				>
+				<File
+					RelativePath=".\Win32\Physics\Platform_GLToy_Havok_Physics.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Independent"
