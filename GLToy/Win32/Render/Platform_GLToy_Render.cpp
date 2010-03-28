@@ -321,6 +321,12 @@ void Platform_GLToy_Render::SubmitColour( const GLToy_Vector_4& xColour )
     glColor4fv( xColour.GetFloatPointer() );
 }
 
+void Platform_GLToy_Render::SubmitTextureCoordinate( const GLToy_Vector_2& xTexCoord, const u_int uTextureUnit )
+{
+    // TODO - ignore texture unit for now...
+    glTexCoord3fv( xTexCoord.GetFloatPointer() );
+}
+
 void Platform_GLToy_Render::SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit )
 {
     // TODO - ignore texture unit for now...

@@ -301,6 +301,11 @@ void GLToy_Render::SubmitColour( const GLToy_Vector_4& xColour )
     Platform_GLToy_Render::SubmitColour( xColour );
 }
 
+void GLToy_Render::SubmitTextureCoordinate( const GLToy_Vector_2& xTexCoord, const u_int uTextureUnit )
+{
+    Platform_GLToy_Render::SubmitTextureCoordinate( xTexCoord, uTextureUnit );
+}
+
 void GLToy_Render::SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit )
 {
     Platform_GLToy_Render::SubmitTextureCoordinate( xTexCoord, uTextureUnit );

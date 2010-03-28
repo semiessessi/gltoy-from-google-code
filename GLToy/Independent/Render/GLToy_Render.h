@@ -23,6 +23,7 @@ class GLToy_Matrix_3;
 class GLToy_Renderable;
 template < class T > class GLToy_RenderFunctor;
 template < class T > class GLToy_RenderTransparentFunctor;
+class GLToy_Vector_2;
 class GLToy_Vector_3;
 class GLToy_Vector_4;
 
@@ -83,6 +84,7 @@ public:
     static void SubmitNormal( const GLToy_Vector_3& xNormal );
     static void SubmitColour( const GLToy_Vector_3& xColour );
     static void SubmitColour( const GLToy_Vector_4& xColour );
+    static void SubmitTextureCoordinate( const GLToy_Vector_2& xTexCoord, const u_int uTextureUnit = 0 );
     static void SubmitTextureCoordinate( const GLToy_Vector_3& xTexCoord, const u_int uTextureUnit = 0 );
 
     static void Flush();

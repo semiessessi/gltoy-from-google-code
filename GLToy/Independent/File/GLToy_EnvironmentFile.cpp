@@ -73,11 +73,11 @@ void GLToy_EnvironmentFile::LoadEnvironment() const
             {
                 return LoadBSP38( xStream );
             }
-            //// Quake 3
-            //case 46:
-            //{
-            //    return LoadBSP46( xStream );
-            //}
+            // Quake 3
+            case 46:
+            {
+                return LoadBSP46( xStream );
+            }
 
             case 0:
             default:

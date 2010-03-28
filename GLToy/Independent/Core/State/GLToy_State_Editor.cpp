@@ -8,6 +8,7 @@
 #include <Core/State/GLToy_State_Editor.h>
 
 // GLToy
+#include <Render/GLToy_Camera.h>
 #include <UI/GLToy_UI_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -17,4 +18,5 @@
 void GLToy_State_Editor::Initialise()
 {
     GLToy_UI_System::ShowPointer( false );
+    GLToy_Camera::SetFlyCamEnabled( true );
 }

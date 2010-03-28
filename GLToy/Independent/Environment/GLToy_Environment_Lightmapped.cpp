@@ -24,10 +24,6 @@ void GLToy_Environment_Lightmapped::ReadFromBitStream( const GLToy_BitStream& xS
     GLToy_Parent::ReadFromBitStream( xStream );
 
     GLToy_Assert( false, "Need to finish ReadFromBitStream for GLToy_Environment_Lightmapped" );
-
-    xStream >> m_xVertices;
-    //xStream >> m_xFaces;
-    xStream >> m_xLightmapData;
 }
 
 void GLToy_Environment_Lightmapped::WriteToBitStream( GLToy_BitStream& xStream ) const
@@ -35,10 +31,6 @@ void GLToy_Environment_Lightmapped::WriteToBitStream( GLToy_BitStream& xStream )
     GLToy_Parent::WriteToBitStream( xStream );
 
     GLToy_Assert( false, "Need to finish WriteToBitStream for GLToy_Environment_Lightmapped" );
-
-    xStream << m_xVertices;
-    //xStream << m_xFaces;
-    xStream << m_xLightmapData;
 }
 
 void GLToy_Environment_Lightmapped::Initialise()
@@ -83,16 +75,12 @@ void GLToy_Environment_Lightmapped::Render() const
 
             GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-            GLToy_ConstIterate( GLToy_Environment_LightmappedFaceVertex, xVertexIterator, &( xFace.m_xVertices ) )
+            GLToy_ConstIterate( u_int, xIndexIterator, &( xFace.m_xIndices ) )
             {
-                const GLToy_Environment_LightmappedFaceVertex& xVertex = xVertexIterator.Current();
-                GLToy_Render::SubmitTextureCoordinate(
-                    GLToy_Vector_3( 
-                        xVertex.m_fU,
-                        xVertex.m_fV,
-                        0.0f ) * ( bQuadRes ? 4.0f : 1.0f ) );
+                const GLToy_Environment_LightmappedFaceVertex& xVertex = m_xVertices[ xIndexIterator.Current() ];
 
-                GLToy_Render::SubmitVertex( m_xVertices[ xVertex.m_uVertexIndex ] );
+                GLToy_Render::SubmitTextureCoordinate( xVertex.m_xUV * ( bQuadRes ? 4.0f : 1.0f ) );
+                GLToy_Render::SubmitVertex( xVertex.m_xVertex );
             }
 
             GLToy_Render::EndSubmit();
@@ -129,16 +117,12 @@ void GLToy_Environment_Lightmapped::RenderLightmap() const
 
         GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-        GLToy_ConstIterate( GLToy_Environment_LightmappedFaceVertex, xVertexIterator, &( xFace.m_xVertices ) )
+        GLToy_ConstIterate( u_int, xIndexIterator, &( xFace.m_xIndices ) )
         {
-            const GLToy_Environment_LightmappedFaceVertex& xVertex = xVertexIterator.Current();
-            GLToy_Render::SubmitTextureCoordinate(
-                GLToy_Vector_3( 
-                    xVertex.m_fLightmapU,
-                    xVertex.m_fLightmapV,
-                    0.0f ) );
+            const GLToy_Environment_LightmappedFaceVertex& xVertex = m_xVertices[ xIndexIterator.Current() ];
 
-            GLToy_Render::SubmitVertex( m_xVertices[ xVertex.m_uVertexIndex ] );
+            GLToy_Render::SubmitTextureCoordinate( xVertex.m_xLightmapUV );
+            GLToy_Render::SubmitVertex( xVertex.m_xVertex );
         }
 
         GLToy_Render::EndSubmit();
@@ -152,4 +136,19 @@ void GLToy_Environment_Lightmapped::Update()
 int GLToy_Environment_Lightmapped::GetType() const
 {
     return ENV_LIGHTMAPPED;
+}
+
+u_int GLToy_Environment_Lightmapped::GetVertexIndex( const GLToy_Environment_LightmappedFaceVertex& xVertex )
+{
+    GLToy_ConstIterate( GLToy_Environment_LightmappedFaceVertex, xIterator, &m_xVertices )
+    {
+        if( xVertex == xIterator.Current() )
+        {
+            return xIterator.Index();
+        }
+    }
+
+    m_xVertices.Append( xVertex );
+
+    return m_xVertices.GetCount() - 1;
 }

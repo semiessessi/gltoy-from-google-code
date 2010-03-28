@@ -45,6 +45,14 @@ public:
 
         return *this;
     }
+
+    virtual ~GLToy_Array()
+    {
+        GLToy_Iterate( T, xIterator, this )
+        {
+            xIterator.Current().~T();
+        }
+    }
     
     virtual void Append( const T& xValue )
     {

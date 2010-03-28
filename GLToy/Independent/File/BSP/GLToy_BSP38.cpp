@@ -298,6 +298,7 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
     }
 
     // note that the magic numbers are intentional...
+    // in hindsight I should have added "GetSize" members to the lump component classes (see BSP v46 loader)
     GLToy_BSP38_LumpDirectory xLumps;
     xStream >> xLumps;
 
@@ -311,11 +312,13 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
     }
 
     // vertex lump
-    pxEnv->m_xVertices.Resize( xLumps.m_axLumps[ uBSP38_LUMP_VERTICES ].m_uSize / sizeof( GLToy_Vector_3 ) );
+    // build a local list of vertices because they don't match what we want in the environment proper
+    GLToy_Array< GLToy_Vector_3 > xVertices;
+    xVertices.Resize( xLumps.m_axLumps[ uBSP38_LUMP_VERTICES ].m_uSize / sizeof( GLToy_Vector_3 ) );
     xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_VERTICES ].m_uOffset );
-    for( u_int u = 0; u < pxEnv->m_xVertices.GetCount(); ++u )
+    for( u_int u = 0; u < xVertices.GetCount(); ++u )
     {
-        xStream >> pxEnv->m_xVertices[ u ];
+        xStream >> xVertices[ u ];
     }
 
     // vis lump
@@ -404,8 +407,19 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         xStream >> xFaceEdges[ u ];
     }
 
+    // initialise vertices
+    u_int uNumVertices = 0;
+    GLToy_Iterate( GLToy_BSP38_Face, xIterator, &xFaces )
+    {
+        GLToy_BSP38_Face& xBSPFace = xIterator.Current();
+        uNumVertices += xBSPFace.m_usEdgeCount;
+    }
+
+    pxEnv->m_xVertices.Resize( uNumVertices );
+
     // set up faces
     pxEnv->m_xFaces.Resize( xFaces.GetCount() );
+    u_int uCurrentVertex = 0;
     GLToy_Iterate( GLToy_Environment_LightmappedFace, xIterator, &( pxEnv->m_xFaces ) )
     {
         GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
@@ -430,39 +444,57 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         const u_int uTexWidth = pxTexture ? pxTexture->GetWidth() : uBSP38_TCSCALE;
         const u_int uTexHeight = pxTexture ? pxTexture->GetHeight() : uBSP38_TCSCALE;
 
-        xFace.m_xVertices.Resize( xBSPFace.m_usEdgeCount );
+        xFace.m_xIndices.Resize( xBSPFace.m_usEdgeCount );
 
+        // TODO - this loop can be refactored to not do something to entry zero first, i just can't be bothered right now
         u_int uFaceEdge = xBSPFace.m_uFirstEdge;
         int iEdge = xFaceEdges[ uFaceEdge ];
-        xFace.m_xVertices[ 0 ].m_uVertexIndex = ( iEdge < 0 ) ? xEdges[ -iEdge ].m_usVertex2 : xEdges[ iEdge ].m_usVertex1;
+        xFace.m_xIndices[ 0 ] = uCurrentVertex;
+        
+        pxEnv->m_xVertices[ uCurrentVertex ].m_xVertex = xVertices[ ( iEdge < 0 ) ? xEdges[ -iEdge ].m_usVertex2 : xEdges[ iEdge ].m_usVertex1 ];
 
         // these need adjusting later...
-        xFace.m_xVertices[ 0 ].m_fLightmapU = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis * pxEnv->m_xVertices[ xFace.m_xVertices[ 0 ].m_uVertexIndex ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fUOffset;
-        xFace.m_xVertices[ 0 ].m_fLightmapV = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis * pxEnv->m_xVertices[ xFace.m_xVertices[ 0 ].m_uVertexIndex ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fVOffset;
-        // TODO - maybe some console command for double res textures?
-        xFace.m_xVertices[ 0 ].m_fU = xFace.m_xVertices[ 0 ].m_fLightmapU / static_cast< float >( uTexWidth );
-        xFace.m_xVertices[ 0 ].m_fV = xFace.m_xVertices[ 0 ].m_fLightmapV / static_cast< float >( uTexHeight );
-
+        pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV =
+            GLToy_Vector_2(
+                xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis * pxEnv->m_xVertices[ uCurrentVertex ].m_xVertex + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fUOffset,
+                xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis * pxEnv->m_xVertices[ uCurrentVertex ].m_xVertex + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fVOffset );
+        
+        pxEnv->m_xVertices[ uCurrentVertex ].m_xUV = 
+            GLToy_Vector_2(
+            pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 0 ] / static_cast< float >( uTexWidth ),
+            pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 1 ] / static_cast< float >( uTexHeight ) );
+        
         // work out the verts from the edges
+        ++uCurrentVertex;
         for( u_int u = 0; ( u + 1 ) < xBSPFace.m_usEdgeCount; ++u )
         {
             uFaceEdge = u + xBSPFace.m_uFirstEdge;
             iEdge = xFaceEdges[ uFaceEdge ];
-            GLToy_Environment_LightmappedFaceVertex& xVertex = xFace.m_xVertices[ u + 1 ];
 
-            xVertex.m_uVertexIndex = ( iEdge < 0 ) ? xEdges[ -iEdge ].m_usVertex1 : xEdges[ iEdge ].m_usVertex2;                    
-            xVertex.m_fLightmapU = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis * pxEnv->m_xVertices[ xVertex.m_uVertexIndex ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fUOffset;
-            xVertex.m_fLightmapV = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis * pxEnv->m_xVertices[ xVertex.m_uVertexIndex ] + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fVOffset;
-            xVertex.m_fU = xVertex.m_fLightmapU / static_cast< float >( uTexWidth );
-            xVertex.m_fV = xVertex.m_fLightmapV / static_cast< float >( uTexHeight );
+            xFace.m_xIndices[ u + 1 ] = uCurrentVertex;
+
+            GLToy_Environment_LightmappedFaceVertex& xVertex = pxEnv->m_xVertices[ uCurrentVertex ];
+
+            xVertex.m_xVertex = xVertices[ ( iEdge < 0 ) ? xEdges[ -iEdge ].m_usVertex1 : xEdges[ iEdge ].m_usVertex2 ];
+            xVertex.m_xLightmapUV =
+                GLToy_Vector_2(
+                    xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis * xVertex.m_xVertex + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fUOffset,
+                    xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis * xVertex.m_xVertex + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fVOffset );
+            
+            xVertex.m_xUV = 
+                GLToy_Vector_2(
+                pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 0 ] / static_cast< float >( uTexWidth ),
+                pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 1 ] / static_cast< float >( uTexHeight ) );
+
+            ++uCurrentVertex;
         }
     }
 
     // re-orient vertices - this must be done after setting up the faces to ensure texcoords are generated correctly
-    GLToy_Iterate( GLToy_Vector_3, xIterator, &( pxEnv->m_xVertices ) )
+    GLToy_Iterate( GLToy_Environment_LightmappedFaceVertex, xIterator, &( pxEnv->m_xVertices ) )
     {
-        GLToy_Vector_3& xCurrent = xIterator.Current();
-        xCurrent = GLToy_Vector_3( -( xCurrent[ 1 ] ), xCurrent[ 2 ], xCurrent[ 0 ] );
+        GLToy_Environment_LightmappedFaceVertex& xCurrent = xIterator.Current();
+        xCurrent.m_xVertex = GLToy_Vector_3( -( xCurrent.m_xVertex[ 1 ] ), xCurrent.m_xVertex[ 2 ], xCurrent.m_xVertex[ 0 ] );
     }
 
     // create the lightmap textures
@@ -488,12 +520,14 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
             float fVMax = -GLToy_Maths::LargeFloat;
             float fVMin = GLToy_Maths::LargeFloat;
 
-            GLToy_Iterate( GLToy_Environment_LightmappedFaceVertex, xIterator, &( xEnvFace.m_xVertices ) )
+            GLToy_Iterate( u_int, xIterator, &( xEnvFace.m_xIndices ) )
             {
-                fUMax = GLToy_Maths::Max( xIterator.Current().m_fLightmapU, fUMax );
-                fUMin = GLToy_Maths::Min( xIterator.Current().m_fLightmapU, fUMin );
-                fVMax = GLToy_Maths::Max( xIterator.Current().m_fLightmapV, fVMax );
-                fVMin = GLToy_Maths::Min( xIterator.Current().m_fLightmapV, fVMin );
+                GLToy_Vector_2& xUV = pxEnv->m_xVertices[ xIterator.Current() ].m_xLightmapUV;
+
+                fUMax = GLToy_Maths::Max( xUV[ 0 ], fUMax );
+                fUMin = GLToy_Maths::Min( xUV[ 0 ], fUMin );
+                fVMax = GLToy_Maths::Max( xUV[ 1 ], fVMax );
+                fVMin = GLToy_Maths::Min( xUV[ 1 ], fVMin );
             }
 
             const u_int uWidth = static_cast< u_int >( GLToy_Maths::Ceiling( fUMax / 16.0f ) - GLToy_Maths::Floor( fUMin / 16.0f ) ) + 1;
@@ -506,17 +540,17 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
             GLToy_Texture_System::CreateTextureFromRGBData( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ), &( pxEnv->m_xLightmapData[ xFaces[ u ].m_uLightmapOffset ] ), uWidth, uHeight );
 
             // fix up texcoords
-            for( u_int v = 0; v < xEnvFace.m_xVertices.GetCount(); ++v )
+            for( u_int v = 0; v < xEnvFace.m_xIndices.GetCount(); ++v )
             {
-                GLToy_Environment_LightmappedFaceVertex& xVertex = xEnvFace.m_xVertices[ v ];
+                GLToy_Environment_LightmappedFaceVertex& xVertex = pxEnv->m_xVertices[ xEnvFace.m_xIndices[ v ] ];
 
-                xVertex.m_fLightmapU -= GLToy_Maths::Floor( fUMin / 16.0f ) * 16.0f;
-                xVertex.m_fLightmapU += 8;
-                xVertex.m_fLightmapU /= uWidth * 16.0f;
+                xVertex.m_xLightmapUV[ 0 ] -= GLToy_Maths::Floor( fUMin / 16.0f ) * 16.0f;
+                xVertex.m_xLightmapUV[ 0 ] += 8;
+                xVertex.m_xLightmapUV[ 0 ] /= uWidth * 16.0f;
 
-                xVertex.m_fLightmapV -= GLToy_Maths::Floor( fVMin / 16.0f ) * 16.0f;
-                xVertex.m_fLightmapV += 8;
-                xVertex.m_fLightmapV /= uHeight * 16.0f;
+                xVertex.m_xLightmapUV[ 1 ] -= GLToy_Maths::Floor( fVMin / 16.0f ) * 16.0f;
+                xVertex.m_xLightmapUV[ 1 ] += 8;
+                xVertex.m_xLightmapUV[ 1 ] /= uHeight * 16.0f;
             }
         }
         else

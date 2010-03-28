@@ -18,39 +18,49 @@ class GLToy_Environment_LightmappedFaceVertex
 public:
 
     GLToy_Environment_LightmappedFaceVertex()
-    : m_uVertexIndex( 0 )
-    , m_fU( 0.0f )
-    , m_fV( 0.0f )
-    , m_fLightmapU( 0.0f )
-    , m_fLightmapV( 0.0f )
+    : m_xVertex()
+    , m_xUV()
+    , m_xLightmapUV()
+    , m_xNormal()
+    , m_xColour()
     {
     }
 
     GLToy_Environment_LightmappedFaceVertex( const GLToy_Environment_LightmappedFaceVertex& xVertex )
-    : m_uVertexIndex( xVertex.m_uVertexIndex )
-    , m_fU( xVertex.m_fU )
-    , m_fV( xVertex.m_fV )
-    , m_fLightmapU( xVertex.m_fLightmapU )
-    , m_fLightmapV( xVertex.m_fLightmapV )
+    : m_xVertex( xVertex.m_xVertex )
+    , m_xUV( xVertex.m_xUV )
+    , m_xLightmapUV( xVertex.m_xLightmapUV )
+    , m_xNormal( xVertex.m_xNormal )
+    , m_xColour( xVertex.m_xColour )
     {
     }
 
     GLToy_Environment_LightmappedFaceVertex& operator =( const GLToy_Environment_LightmappedFaceVertex& xVertex )
     {
-        m_uVertexIndex = xVertex.m_uVertexIndex;
-        m_fU = xVertex.m_fU;
-        m_fV = xVertex.m_fV;
-        m_fLightmapU = xVertex.m_fLightmapU;
-        m_fLightmapV = xVertex.m_fLightmapV;
+        m_xVertex = xVertex.m_xVertex;
+        m_xUV = xVertex.m_xUV;
+        m_xLightmapUV = xVertex.m_xLightmapUV;
+        m_xNormal = xVertex.m_xNormal;
+        m_xColour = xVertex.m_xColour;
 
         return *this;
     }
 
-    u_int m_uVertexIndex;
-    float m_fU;
-    float m_fV;
-    float m_fLightmapU;
-    float m_fLightmapV;
+    bool operator ==( const GLToy_Environment_LightmappedFaceVertex& xVertex ) const
+    {
+        return
+            ( m_xVertex == xVertex.m_xVertex )
+            && ( m_xUV == xVertex.m_xUV )
+            && ( m_xLightmapUV == xVertex.m_xLightmapUV )
+            && ( m_xNormal == xVertex.m_xNormal )
+            && ( m_xColour == xVertex.m_xColour );
+    }
+
+    GLToy_Vector_3 m_xVertex;
+    GLToy_Vector_2 m_xUV;
+    GLToy_Vector_2 m_xLightmapUV;
+    GLToy_Vector_3 m_xNormal;
+    GLToy_Vector_4 m_xColour;
 
 };
 
@@ -61,13 +71,13 @@ public:
 
     GLToy_Environment_LightmappedFace()
     : m_uTextureHash( uGLTOY_BAD_HASH )
-    , m_xVertices()
+    , m_xIndices()
     {
     }
 
     u_char m_aucLightmapStyles[ 8 ]; // inherited from quakes
     GLToy_Hash m_uTextureHash;
-    GLToy_Array< GLToy_Environment_LightmappedFaceVertex > m_xVertices;
+    GLToy_Array< u_int > m_xIndices;
 
 };
 
@@ -115,9 +125,12 @@ public:
 
     virtual int GetType() const;
 
+    virtual u_int GetVertexIndex( const GLToy_Environment_LightmappedFaceVertex& xVertex );
+
 protected:
 
-    GLToy_SerialisableArray< GLToy_Vector_3 > m_xVertices;
+    // GLToy_SerialisableArray< GLToy_Vector_3 > m_xVertices;
+    GLToy_Array< GLToy_Environment_LightmappedFaceVertex > m_xVertices;
     GLToy_Array< GLToy_Environment_LightmappedFace > m_xFaces;
     GLToy_SerialisableArray< u_char > m_xLightmapData;
 

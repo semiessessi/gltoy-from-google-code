@@ -22,11 +22,18 @@ public:
     GLToy_Vector_2( float fX, float fY );
     GLToy_Vector_2( const GLToy_Vector_2& xVector );
 
+    GLToy_Vector_2& operator =( const GLToy_Vector_2& xVector );
+
     GLToy_Inline float& operator[] ( int i ) { return m_fComponents[ i ]; }
     GLToy_Inline const float& operator[] ( int i ) const { return m_fComponents[ i ]; }
 
     GLToy_Inline float* GetFloatPointer() { return m_fComponents; }
     GLToy_Inline const float* GetFloatPointer() const { return m_fComponents; }
+
+    GLToy_Vector_2 operator *( const float fFloat ) const;
+    GLToy_Vector_2 operator /( const float fFloat ) const;
+
+    bool operator ==( const GLToy_Vector_2& xVector ) const;
 
 private:
     
@@ -113,6 +120,8 @@ public:
 
     float* GetFloatPointer() { return m_fComponents; }
     const float* GetFloatPointer() const { return m_fComponents; }
+
+    bool operator ==( const GLToy_Vector_4& xVector ) const;
 
 private:
     
