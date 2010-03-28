@@ -34,7 +34,7 @@ public:
     static void Update();
 
     static void RegisterState( GLToy_State* const pxState, const GLToy_Hash uStateHash );
-    static void ChangeState( const GLToy_Hash uStateHash );
+    static bool ChangeState( const GLToy_Hash uStateHash );
     static void ChangeState_Console( const GLToy_String& szName );
 
 private:

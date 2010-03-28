@@ -77,7 +77,7 @@ void GLToy_State_System::RegisterState( GLToy_State* const pxState, const GLToy_
     s_xStates.AddNode( pxState, uStateHash );
 }
 
-void GLToy_State_System::ChangeState( const GLToy_Hash uStateHash )
+bool GLToy_State_System::ChangeState( const GLToy_Hash uStateHash )
 {
     if( s_pxCurrentState )
     {
@@ -91,7 +91,10 @@ void GLToy_State_System::ChangeState( const GLToy_Hash uStateHash )
     {
         s_pxCurrentState = *ppxState;
         s_pxCurrentState->Initialise();
+        return true;
     }
+
+    return false;
 }
 
 void GLToy_State_System::ChangeState_Console( const GLToy_String& szName )

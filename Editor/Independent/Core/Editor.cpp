@@ -14,8 +14,16 @@
 
 bool Editor::Initialise()
 {
-    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "EditorFrontEnd" ) );
-    return true;
+    if( GLToy_State_System::ChangeState( GLToy_Hash_Constant( "EditorFrontEnd" ) ) )
+    {
+        return true;
+    }
+
+    GLToy_Assert( false, "Failed to enter state \"EditorFrontEnd\"." );
+
+    GLToy_DebugOutput_Release( "Fatal error - could not enter edtior front end state!" );
+    
+    return false;
 }
 
 void Editor::Shutdown()
