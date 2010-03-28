@@ -17,3 +17,7 @@ bool Empty::Initialise()
 void Empty::Shutdown()
 {
 }
+
+void Empty::Update()
+{
+}

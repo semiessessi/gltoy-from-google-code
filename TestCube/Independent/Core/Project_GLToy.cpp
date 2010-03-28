@@ -17,3 +17,7 @@ bool GLToy::Project_Initialise()
 void GLToy::Project_Shutdown()
 {
 }
+
+void GLToy::Project_Update()
+{
+}

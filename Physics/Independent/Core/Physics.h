@@ -22,6 +22,8 @@ public:
     static bool Initialise();
     static void Shutdown();
 
+    static void Update();
+
 };
 
 #endif

@@ -114,6 +114,8 @@ private:
     static bool Project_Initialise();
     static void Project_Shutdown();
 
+    static void Project_Update();
+
     static void Platform_DebugOutput( const char* sString );
 
     static bool s_bFullscreen;

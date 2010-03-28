@@ -21,3 +21,8 @@ void GLToy::Project_Shutdown()
 {
     Empty::Shutdown();
 }
+
+void GLToy::Project_Update()
+{
+    Empty::Update();
+}

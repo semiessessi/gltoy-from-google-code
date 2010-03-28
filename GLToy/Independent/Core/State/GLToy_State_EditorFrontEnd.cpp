@@ -164,7 +164,13 @@ void GLToy_State_EditorFrontEnd::Render2D() const
 {
     if( !g_pxFont )
     {
-        return;
+        g_pxFont = GLToy_Font_System::FindFont( GLToy_Hash_Constant( "FrontEnd" ) );
+        if( !g_pxFont )
+        {
+            return;
+        }
+        
+        g_pxFont->Initialise();
     }
 
     const float fTextX = -0.7f;

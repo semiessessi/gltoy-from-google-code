@@ -7,6 +7,9 @@
 // This file's header
 #include <Physics/Physics_Physics_System.h>
 
+// GLToy
+#include <Core/GLToy_Timer.h>
+
 // Havok
 #include <Physics/Platform_GLToy_Havok_Physics.h>
 #ifdef GLTOY_USE_HAVOK_PHYSICS
@@ -42,6 +45,9 @@ bool Physics_Physics_System::Initialise()
     
     g_pxHavokWorld = new hkpWorld( xHavokWorldInfo );
 
+    // for now set up a plane to match the test plane
+    // - worry about hooking up with environment when this moves into GLToy
+
 #endif
 
     return true;
@@ -53,6 +59,22 @@ void Physics_Physics_System::Shutdown()
 #ifdef GLTOY_USE_HAVOK_PHYSICS
     
     delete g_pxHavokWorld;
+
+#endif
+
+}
+
+void Physics_Physics_System::Update()
+{
+
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+    
+    if( !g_pxHavokWorld )
+    {
+        return;
+    }
+
+    g_pxHavokWorld->stepDeltaTime( GLToy_Timer::GetFrameTime() );
 
 #endif
 

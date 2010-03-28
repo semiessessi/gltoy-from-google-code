@@ -21,3 +21,8 @@ void GLToy::Project_Shutdown()
 {
     Physics::Shutdown();
 }
+
+void GLToy::Project_Update()
+{
+    Physics::Update();
+}

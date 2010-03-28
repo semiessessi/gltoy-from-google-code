@@ -23,3 +23,8 @@ void Physics::Shutdown()
 {
     Physics_Physics_System::Shutdown();
 }
+
+void Physics::Update()
+{
+    Physics_Physics_System::Update();
+}
