@@ -613,6 +613,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\Maths\GLToy_Quaternion.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Maths\GLToy_Quaternion.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Maths\GLToy_Ray.cpp"
 					>
 				</File>

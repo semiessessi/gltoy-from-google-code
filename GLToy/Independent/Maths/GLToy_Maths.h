@@ -7,6 +7,7 @@
 
 // GLToy
 #include <Maths/GLToy_Matrix.h>
+#include <Maths/GLToy_Quaternion.h>
 #include <Maths/GLToy_Vector.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,6 +23,7 @@ public:
     static const float Pi;
     static const GLToy_Vector_3 ZeroVector3;
     static const GLToy_Matrix_3 IdentityMatrix3;
+    static const GLToy_Quaternion IdentityQuaternion;
 
     static bool Initialise();
     static void Shutdown();

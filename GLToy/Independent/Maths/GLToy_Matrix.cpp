@@ -29,6 +29,13 @@ GLToy_Matrix_3::GLToy_Matrix_3( const GLToy_Vector_3& xX, const GLToy_Vector_3& 
     m_xComponents[ 2 ] = xZ;
 }
 
+GLToy_Matrix_3::GLToy_Matrix_3( const float f00, const float f01, const float f02, const float f10, const float f11, const float f12, const float f20, const float f21, const float f22 )
+{
+    m_xComponents[ 0 ] = GLToy_Vector_3( f00, f01, f02 );
+    m_xComponents[ 1 ] = GLToy_Vector_3( f10, f11, f12 );
+    m_xComponents[ 2 ] = GLToy_Vector_3( f20, f21, f22 );
+}
+
 GLToy_Matrix_3::GLToy_Matrix_3( const GLToy_Matrix_3& xMatrix )
 {
     m_xComponents[ 0 ] = xMatrix.m_xComponents[ 0 ];
