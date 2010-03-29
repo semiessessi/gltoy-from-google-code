@@ -23,8 +23,8 @@ class GLToy_Entity_Sprite
 
 public:
 
-    GLToy_Entity_Sprite( const GLToy_Hash uHash, const GLToy_EntityType eType )
-    : GLToy_Parent( uHash, eType )
+    GLToy_Entity_Sprite( const GLToy_Hash uHash, const u_int uType )
+    : GLToy_Parent( uHash, uType )
     , m_xSprite()
     {
         SetSize( 1.0f );

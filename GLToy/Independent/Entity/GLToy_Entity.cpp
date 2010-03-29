@@ -28,7 +28,7 @@ void GLToy_Entity::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
     // entity file may load these, but write them here
     // TODO - remove this asymmetry
-    xStream << static_cast< u_char >( m_eType );
+    xStream << static_cast< u_char >( m_uType );
     xStream << m_uHash;
     xStream << m_bActive;
 }

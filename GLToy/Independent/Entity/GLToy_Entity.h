@@ -33,9 +33,9 @@ class GLToy_Entity
 
 public:
 
-    GLToy_Entity( const GLToy_Hash uHash, const GLToy_EntityType eType )
+    GLToy_Entity( const GLToy_Hash uHash, const u_int uType )
     : m_bActive( true )
-    , m_eType( eType )
+    , m_uType( uType )
     , m_uHash( uHash )
     {
     }
@@ -59,15 +59,15 @@ public:
     virtual void RenderOBB() const {}
 
     // accessors
-    GLToy_Hash GetHash() const { return m_uHash; }
-    GLToy_Inline GLToy_EntityType GetType() const { return m_eType; }
+    GLToy_Inline GLToy_Hash GetHash() const { return m_uHash; }
+    GLToy_Inline u_int GetType() const { return m_uType; }
 
     GLToy_Inline bool IsActive() const { return m_bActive; }
 
 protected:
 
     bool m_bActive;
-    GLToy_EntityType m_eType;
+    u_int m_uType;
     GLToy_Hash m_uHash;
 
 };
@@ -81,8 +81,8 @@ class GLToy_Entity_Null
 
 public:
 
-    GLToy_Entity_Null( const GLToy_Hash uHash, const GLToy_EntityType eType )
-    : GLToy_Parent( uHash, eType )
+    GLToy_Entity_Null( const GLToy_Hash uHash, const u_int uType )
+    : GLToy_Parent( uHash, uType )
     , GLToy_Bounded_AABB()
     {
     }
@@ -101,8 +101,8 @@ class GLToy_Entity_Oriented_AABB
 
 public:
 
-    GLToy_Entity_Oriented_AABB( const GLToy_Hash uHash, const GLToy_EntityType eType )
-    : GLToy_Parent( uHash, eType )
+    GLToy_Entity_Oriented_AABB( const GLToy_Hash uHash, const u_int uType )
+    : GLToy_Parent( uHash, uType )
     , GLToy_Bounded_AABB()
     {
     }
@@ -133,8 +133,8 @@ class GLToy_Entity_Sphere
 
 public:
 
-    GLToy_Entity_Sphere( const GLToy_Hash uHash, const GLToy_EntityType eType )
-    : GLToy_Parent( uHash, eType )
+    GLToy_Entity_Sphere( const GLToy_Hash uHash, const u_int uType )
+    : GLToy_Parent( uHash, uType )
     , GLToy_Bounded_Sphere()
     {
     }

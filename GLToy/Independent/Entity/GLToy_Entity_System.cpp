@@ -127,6 +127,11 @@ void GLToy_Entity_System::SpawnModel( const GLToy_String& szName, const GLToy_Ve
     pxModelEntity->SetOrientation( xOrientation );
 }
 
+u_int GLToy_Entity_System::GetEntityCount()
+{
+    return s_xEntities.GetCount();
+}
+
 void GLToy_Entity_System::SpawnAnim( const GLToy_String& szName, const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation )
 {
     GLToy_String szEntityName;
@@ -167,7 +172,7 @@ void GLToy_Entity_System::SpawnSprite_Console( const GLToy_String& szName )
     SpawnSprite( szName, GLToy_Camera::GetPosition() );
 }
 
-#define TESTFORTYPE( szName, eType ) if( szString.GetHash() == GLToy_Hash_Constant( szName ) ) { return eType; }
+#define TESTFORTYPE( szName, uType ) if( szString.GetHash() == GLToy_Hash_Constant( szName ) ) { return uType; }
 
 GLToy_EntityType GLToy_EntityTypeFromString( const GLToy_String& szString )
 {
@@ -182,7 +187,7 @@ GLToy_EntityType GLToy_EntityTypeFromString( const GLToy_String& szString )
 
 #undef TESTFORTYPE
 
-GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Hash uHash, const GLToy_EntityType eType )
+GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Hash uHash, const u_int uType )
 {
     GLToy_Assert( !FindEntity( uHash ), "Trying to add entity with duplicate hash 0x%X", uHash );
     
@@ -190,23 +195,23 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Hash uHash, const G
 
     if( s_pfnProject_CreateFromType )
     {
-        pxNewEntity = s_pfnProject_CreateFromType( uHash, eType );
+        pxNewEntity = s_pfnProject_CreateFromType( uHash, uType );
     }
 
     if( !pxNewEntity )
     {
-        switch( eType )
+        switch( uType )
         {
-            case ENTITY_NULL:               pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_Null( uHash, eType ) ); break;
+            case ENTITY_NULL:               pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_Null( uHash, uType ) ); break;
 
-            case ENTITY_MODELSTATIC:        pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_ModelStatic( uHash, eType ) ); break;
-            case ENTITY_MODELANIMATED:      pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_ModelAnimated( uHash, eType ) ); break;
+            case ENTITY_MODELSTATIC:        pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_ModelStatic( uHash, uType ) ); break;
+            case ENTITY_MODELANIMATED:      pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_ModelAnimated( uHash, uType ) ); break;
 
-            case ENTITY_SPRITE:             pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_Sprite( uHash, eType ) ); break;
+            case ENTITY_SPRITE:             pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_Sprite( uHash, uType ) ); break;
 
             default:
             {
-                GLToy_Assert( false, "Unrecognised entity type: %u", eType );
+                GLToy_Assert( false, "Unrecognised entity type: %u", uType );
                 break;
             }
         }

@@ -14,7 +14,6 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_BSPTree;
 template < class T > class GLToy_HashTree;
 class GLToy_Entity;
 class GLToy_Matrix_3;
@@ -39,11 +38,13 @@ public:
     static GLToy_Entity* LookUpEntity( const GLToy_String& szName );
     static void Traverse( GLToy_ConstFunctor< GLToy_Entity* >& xFunctor );
 
-    static GLToy_Entity* CreateEntity( const GLToy_Hash uHash, const GLToy_EntityType uType );
+    static GLToy_Entity* CreateEntity( const GLToy_Hash uHash, const u_int uType );
     static void DestroyEntities();
 
     static void LoadEntityFile( const GLToy_String& szName );
     static void SaveEntityFile( const GLToy_String& szName );
+
+    static u_int GetEntityCount();
 
     static void SpawnAnim( const GLToy_String& szName, const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation );
     static void SpawnModel( const GLToy_String& szName, const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation );

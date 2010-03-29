@@ -27,7 +27,7 @@ class GLToy_Entity_ModelAnimated
 
 public:
 
-    GLToy_Entity_ModelAnimated( const GLToy_Hash uHash, const GLToy_EntityType eType );
+    GLToy_Entity_ModelAnimated( const GLToy_Hash uHash, const u_int uType );
     virtual ~GLToy_Entity_ModelAnimated();
 
     virtual void Render() const;
