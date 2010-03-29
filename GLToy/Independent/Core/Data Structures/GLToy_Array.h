@@ -428,7 +428,37 @@ class GLToy_SerialisableArray
 , public GLToy_Serialisable
 {
 
+    typedef GLToy_Array< T > GLToy_Parent;
+
 public:
+
+    GLToy_SerialisableArray()
+    : GLToy_Parent()
+    {
+    }
+    
+    GLToy_SerialisableArray( const GLToy_Array& xArray )
+    : GLToy_Parent( xArray )
+    {
+        CopyFrom( &xArray );
+        m_uCount = xArray.m_uCount;
+    }
+    
+    GLToy_SerialisableArray& operator =( const GLToy_DataStructure< T >& xDataStructure )
+    {
+        CopyFrom( &xDataStructure );
+        m_uCount = xDataStructure.GetCount();
+
+        return *this;
+    }
+
+    virtual ~GLToy_SerialisableArray()
+    {
+        GLToy_Iterate( T, xIterator, this )
+        {
+            xIterator.Current().~T();
+        }
+    }
     
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
     {

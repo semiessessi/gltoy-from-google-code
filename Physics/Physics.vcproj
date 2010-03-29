@@ -238,6 +238,30 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Entity"
+				>
+				<File
+					RelativePath=".\Independent\Entity\Physics_EntityTypes.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Entity\Physics_EntityTypes.h"
+					>
+				</File>
+				<Filter
+					Name="Physics"
+					>
+					<File
+						RelativePath=".\Independent\Entity\Physics\Physics_Entity_PhysicsBox.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Entity\Physics\Physics_Entity_PhysicsBox.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

@@ -89,10 +89,14 @@ void GLToy_OBB::Render() const
 {
     GLToy_Render::PushViewMatrix();
 
+    GLToy_Render::Translate( GetPosition() );
+
     GLToy_Matrix_3 xInverseOrientation = m_xOrientation;
     xInverseOrientation.Transpose();
 
     GLToy_Render::Transform( xInverseOrientation );
+
+    GLToy_Render::Translate( -GetPosition() );
     
     m_xBox.Render();
     
