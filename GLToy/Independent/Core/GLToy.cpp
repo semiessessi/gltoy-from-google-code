@@ -182,6 +182,7 @@ bool GLToy::MainLoop()
 
     GLToy_Environment_System::Update();
     GLToy_Entity_System::Update();
+    Project_Update();
 
     // Render functions
     GLToy_Render::BeginRender();
