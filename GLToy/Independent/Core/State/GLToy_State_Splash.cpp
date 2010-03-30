@@ -26,43 +26,26 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <Particle/GLToy_ParticleSource.h>
+#include <Core/State/GLToy_State_Splash.h>
 
 // GLToy
-#include <Core/GLToy_Timer.h>
-#include <Render/GLToy_RenderFunctor.h>
+#include <Render/GLToy_Camera.h>
+#include <UI/GLToy_UI_System.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C O N S T A N T S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+const GLToy_String szGLTOY_STRING = "GLToy is LGPL software, you should have recieved a copy of the source code and license with this software, if not, visit http://code.google.com/p/gltoy";
+const GLToy_String szHAVOK_STRING = "GLToy uses Havok®.  ©Copyright 1999-2008 Havok.com Inc. (and its Licensors). All Rights Reserved.  See www.havok.com for details.";
+const GLToy_String szOPENGL_STRING = "OpenGL® and the oval logo are trademarks or registered trademarks of Silicon Graphics, Inc. in the United States and/or other countries worldwide.";
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_ParticleSource::Render() const
+void GLToy_State_Splash::Initialise()
 {
-    m_xParticles.Traverse( GLToy_RenderFunctor< GLToy_Particle >() );
-}
-
-void GLToy_ParticleSource::Update()
-{
-    // release a particle if we can
-    m_fReleaseTimer += GLToy_Timer::GetFrameTime();
-    if( ( m_fReleaseTimer > m_fReleaseRate ) && ( m_xParticles.GetCount() < uMAX_PARTICLES_PER_SOURCE ) )
-    {
-        const u_int uCount = static_cast< u_int >( GLToy_Maths::Floor( m_fReleaseTimer / m_fReleaseRate ) );
-        for( u_int u = 0; u < uCount; ++u )
-        {
-            m_xParticles.Append( new GLToy_Particle( m_xParticleProperties ) );
-        }
-
-        m_fReleaseTimer -= static_cast< float >( uCount ) * m_fReleaseRate;
-    }
-
-    // remove any particles we can
-    for( u_int u = 0; u < m_xParticles.GetCount(); ++u )
-    {
-        if( m_xParticles[ u ].IsDone() )
-        {
-            m_xParticles.RemoveAt( u );
-            --u;
-        }
-    }
+    GLToy_UI_System::ShowPointer( false );
+    GLToy_Camera::SetFlyCamEnabled( false );
 }

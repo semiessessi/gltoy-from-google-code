@@ -480,6 +480,14 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Independent\Core\State\GLToy_State_Splash.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Core\State\GLToy_State_Splash.h"
+						>
+					</File>
+					<File
 						RelativePath=".\Independent\Core\State\GLToy_State_System.cpp"
 						>
 					</File>
