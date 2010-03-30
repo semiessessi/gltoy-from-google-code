@@ -44,6 +44,7 @@ public:
 
     virtual void Initialise();
 
+    virtual void Render2D() const;
     virtual void Update();
 
     virtual bool IsDone() const;

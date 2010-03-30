@@ -59,6 +59,8 @@ void Physics_Entity_PhysicsBox::Render() const
         const GLToy_Vector_3& xMax = xOBB.GetUnrotatedBB().GetMax();
         const GLToy_Vector_3& xMin = xOBB.GetUnrotatedBB().GetMin();
 
+        GLToy_Render::DisableBlending();
+
         GLToy_Render::PushViewMatrix();
 
         GLToy_Render::Translate( xOBB.GetPosition() );

@@ -30,18 +30,24 @@
 
 // GLToy
 #include <Core/GLToy_Timer.h>
-#include <Render/GLToy_Camera.h>
 #include <Environment/GLToy_Environment_System.h>
 #include <Entity/GLToy_Entity_System.h>
+#include <Render/Font/GLToy_Font.h>
+#include <Render/GLToy_Camera.h>
+#include <Render/GLToy_Render.h>
+#include <Render/GLToy_Texture.h>
 #include <UI/GLToy_UI_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-const GLToy_String szGLTOY_STRING = "GLToy is LGPL software, you should have recieved a copy of the source code and license with this software, if not, visit http://code.google.com/p/gltoy";
-const GLToy_String szHAVOK_STRING = "GLToy uses Havok®.  ©Copyright 1999-2008 Havok.com Inc. (and its Licensors). All Rights Reserved.  See www.havok.com for details.";
-const GLToy_String szOPENGL_STRING = "OpenGL® and the oval logo are trademarks or registered trademarks of Silicon Graphics, Inc. in the United States and/or other countries worldwide.";
+const GLToy_String szGLTOY_STRING1 = "GLToy is LGPL software, you should have recieved a copy of the source code";
+const GLToy_String szGLTOY_STRING2 = "and license with this software, if not, visit http://code.google.com/p/gltoy";
+const GLToy_String szHAVOK_STRING1 = "GLToy uses Havok®.  ©Copyright 1999-2008 Havok.com Inc. (and its Licensors).";
+const GLToy_String szHAVOK_STRING2 = "All Rights Reserved.  See www.havok.com for details.";
+const GLToy_String szOPENGL_STRING1 = "OpenGL® and the oval logo are trademarks or registered trademarks of ";
+const GLToy_String szOPENGL_STRING2 = "Silicon Graphics, Inc. in the United States and/or other countries worldwide.";
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -58,6 +64,29 @@ void GLToy_State_Splash::Initialise()
     m_fTimer = 0.0f;
 }
 
+void GLToy_State_Splash::Render2D() const
+{
+    GLToy_Texture_System::BindTexture( "Widgets/SplashBanner.png" );
+
+    GLToy_Render::StartSubmittingQuads();
+    GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    GLToy_Render::SubmitTexturedQuad2D( -1.0f, -0.6f, 1.0f, -0.35f );
+    GLToy_Render::EndSubmit();
+
+    GLToy_Font* pxFont = GLToy_Font_System::FindFont( GLToy_Hash_Constant( "Console" ) );
+    if( !pxFont )
+    {
+        return;
+    }
+
+    pxFont->RenderString( szGLTOY_STRING1, -0.985f, -0.7f );
+    pxFont->RenderString( szGLTOY_STRING2, -0.985f, -0.75f );
+    pxFont->RenderString( szHAVOK_STRING1, -0.985f, -0.8f );
+    pxFont->RenderString( szHAVOK_STRING2, -0.985f, -0.85f );
+    pxFont->RenderString( szOPENGL_STRING1, -0.985f, -0.9f );
+    pxFont->RenderString( szOPENGL_STRING2, -0.985f, -0.95f );
+}
+
 void GLToy_State_Splash::Update()
 {
     m_fTimer += GLToy_Timer::GetFrameTime();
@@ -65,5 +94,5 @@ void GLToy_State_Splash::Update()
 
 bool GLToy_State_Splash::IsDone() const
 {
-    return m_fTimer > 2.0f;
+    return m_fTimer > 3.0f;
 }

@@ -315,6 +315,7 @@ void Physics_Physics_System::Update()
 
     if( ls_fAccumulatedTimer > 1.0f / 30.0f )
     {
+        // this seems dumb, but it has higher quality
         g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, ls_fAccumulatedTimer * 0.5f );
         g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, ls_fAccumulatedTimer * 0.5f );
         ls_fAccumulatedTimer = 0.0f;
