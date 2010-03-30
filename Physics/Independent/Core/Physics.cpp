@@ -9,6 +9,7 @@
 #include <Core/State/GLToy_State_System.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment_System.h>
+#include <Input/GLToy_Input.h>
 
 // Physics
 #include <Entity/Physics_EntityTypes.h>
@@ -37,5 +38,16 @@ void Physics::Shutdown()
 
 void Physics::Update()
 {
+    static bool s_bMouseDown = false;
+    static bool s_bOldMouseDown = false;
+
+    s_bMouseDown = GLToy_Input_System::IsMouseLeftButtonDown();
+
+    if( !s_bOldMouseDown && s_bMouseDown )
+    {
+        Physics_Physics_System::TestBox_Console();
+    }
+
+    s_bOldMouseDown = s_bMouseDown;
     Physics_Physics_System::Update();
 }

@@ -51,6 +51,7 @@ public:
 
     void Identity();
     void Transpose();
+    void Orthonormalise();
 
 private:
     

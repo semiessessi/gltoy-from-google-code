@@ -79,7 +79,7 @@ void GLToy_Environment_Lightmapped::Render() const
             {
                 const GLToy_Environment_LightmappedFaceVertex& xVertex = m_xVertices[ xIndexIterator.Current() ];
 
-                GLToy_Render::SubmitTextureCoordinate( xVertex.m_xUV * ( bQuadRes ? 4.0f : 1.0f ) );
+                GLToy_Render::SubmitUV( xVertex.m_xUV * ( bQuadRes ? 4.0f : 1.0f ) );
                 GLToy_Render::SubmitVertex( xVertex.m_xVertex );
             }
 
@@ -121,7 +121,7 @@ void GLToy_Environment_Lightmapped::RenderLightmap() const
         {
             const GLToy_Environment_LightmappedFaceVertex& xVertex = m_xVertices[ xIndexIterator.Current() ];
 
-            GLToy_Render::SubmitTextureCoordinate( xVertex.m_xLightmapUV );
+            GLToy_Render::SubmitUV( xVertex.m_xLightmapUV );
             GLToy_Render::SubmitVertex( xVertex.m_xVertex );
         }
 

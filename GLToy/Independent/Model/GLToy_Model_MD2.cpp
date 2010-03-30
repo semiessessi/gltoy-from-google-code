@@ -281,7 +281,7 @@ void GLToy_Model_MD2::Render() const
 
             for( u_int u = 0; u < 3; ++u )
             {
-                GLToy_Render::SubmitTextureCoordinate( m_xUVs[ xTriangle.m_ausUVs[ u ] ] );
+                GLToy_Render::SubmitUV( m_xUVs[ xTriangle.m_ausUVs[ u ] ] );
                 GLToy_Render::SubmitNormal( m_xWorkingNormals[ xTriangle.m_ausVertices[ u ] ] );
                 GLToy_Render::SubmitVertex( m_xWorkingVertices[ xTriangle.m_ausVertices[ u ] ] );
             }
@@ -314,7 +314,7 @@ void GLToy_Model_MD2::Render() const
 
         GLToy_ConstIterate( GLToy_MD2_CommandVertex, xIterator, &xCommandList )
         {
-            GLToy_Render::SubmitTextureCoordinate( GLToy_Vector_3( xIterator.Current().m_fU, xIterator.Current().m_fV, 0.0f ) );
+            GLToy_Render::SubmitUV( GLToy_Vector_3( xIterator.Current().m_fU, xIterator.Current().m_fV, 0.0f ) );
             GLToy_Render::SubmitNormal( m_xWorkingNormals[ xIterator.Current().m_uIndex ] );
             GLToy_Render::SubmitVertex( m_xWorkingVertices[ xIterator.Current().m_uIndex ] );
             

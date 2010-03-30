@@ -220,16 +220,16 @@ void GLToy_Render::PopViewMatrix()
 
 void GLToy_Render::SubmitTexturedQuad2D( const float fXMin, const float fYMin, const float fXMax, const float fYMax, const float fUMin, const float fVMin, const float fUMax, const float fVMax )
 {
-    GLToy_Render::SubmitTextureCoordinate( GLToy_Vector_3( fUMin, fVMax, 0.0f ) );
+    GLToy_Render::SubmitUV( GLToy_Vector_3( fUMin, fVMax, 0.0f ) );
     GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMin, fYMin , 0.0f ) );
 
-    GLToy_Render::SubmitTextureCoordinate( GLToy_Vector_3( fUMax, fVMax, 0.0f ) );
+    GLToy_Render::SubmitUV( GLToy_Vector_3( fUMax, fVMax, 0.0f ) );
     GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMax, fYMin , 0.0f ) );
 
-    GLToy_Render::SubmitTextureCoordinate( GLToy_Vector_3( fUMax, fVMin, 0.0f ) );
+    GLToy_Render::SubmitUV( GLToy_Vector_3( fUMax, fVMin, 0.0f ) );
     GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMax, fYMax , 0.0f ) );
 
-    GLToy_Render::SubmitTextureCoordinate( GLToy_Vector_3( fUMin, fVMin, 0.0f ) );
+    GLToy_Render::SubmitUV( GLToy_Vector_3( fUMin, fVMin, 0.0f ) );
     GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMin, fYMax , 0.0f ) );
 }
 static void StartSubmittingLines();
@@ -301,14 +301,14 @@ void GLToy_Render::SubmitColour( const GLToy_Vector_4& xColour )
     Platform_GLToy_Render::SubmitColour( xColour );
 }
 
-void GLToy_Render::SubmitTextureCoordinate( const GLToy_Vector_2& xUV, const u_int uTextureUnit )
+void GLToy_Render::SubmitUV( const GLToy_Vector_2& xUV, const u_int uTextureUnit )
 {
-    Platform_GLToy_Render::SubmitTextureCoordinate( xUV, uTextureUnit );
+    Platform_GLToy_Render::SubmitUV( xUV, uTextureUnit );
 }
 
-void GLToy_Render::SubmitTextureCoordinate( const GLToy_Vector_3& xUV, const u_int uTextureUnit )
+void GLToy_Render::SubmitUV( const GLToy_Vector_3& xUV, const u_int uTextureUnit )
 {
-    Platform_GLToy_Render::SubmitTextureCoordinate( xUV, uTextureUnit );
+    Platform_GLToy_Render::SubmitUV( xUV, uTextureUnit );
 }
 
 void GLToy_Render::Flush()

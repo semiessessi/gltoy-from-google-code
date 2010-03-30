@@ -139,3 +139,10 @@ void GLToy_Matrix_3::Transpose()
     m_xComponents[ 1 ] = xY;
     m_xComponents[ 2 ] = xZ;
 }
+
+void GLToy_Matrix_3::Orthonormalise()
+{
+    m_xComponents[ 0 ].Normalise();
+    m_xComponents[ 1 ].Normalise();
+    m_xComponents[ 2 ] = m_xComponents[ 0 ].Cross( m_xComponents[ 1 ] );
+}

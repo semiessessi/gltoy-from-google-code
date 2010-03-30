@@ -41,6 +41,7 @@
 #include <Physics/Dynamics/hkpDynamics.h>
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
 #include <Physics/Dynamics/World/hkpWorld.h>
+#include <Physics/Utilities/Dynamics/Inertia/hkpInertiaTensorComputer.h>
 
 // keycode - this needs to go somewhere, this seems as good a place as any
 #include <Common/Base/KeyCode.cxx>
@@ -93,6 +94,9 @@ GLToy_OBB Physics_Physics_Object::GetOBB()
         return GLToy_OBB();
     }
 
+    g_pxHavokWorld->lockReadOnly();
+    g_pxHavokWorld->markForRead();
+
     const hkVector4& xPos = m_pxHavokRigidBody->getPosition();
     const hkQuaternion& xQuat = m_pxHavokRigidBody->getRotation();
     const hkTransform& xTransform = m_pxHavokRigidBody->getTransform();
@@ -108,7 +112,10 @@ GLToy_OBB Physics_Physics_Object::GetOBB()
 
     hkAabb xHKAABB;
     pxShape->getAabb( xTransform, 1.0f, xHKAABB );
-    
+
+    g_pxHavokWorld->unmarkForRead();
+    g_pxHavokWorld->unlockReadOnly();
+
     hkVector4 xHalfExtents;
     xHKAABB.getHalfExtents( xHalfExtents );
 
@@ -138,7 +145,7 @@ bool Physics_Physics_System::Initialise()
 
     // leave one thread for the renderer and other logic
     hkCpuJobThreadPoolCinfo xThreadPoolCInfo;
-    xThreadPoolCInfo.m_numThreads = GLToy_Maths::Max( g_iMaxThreads - 1, 1 );
+    xThreadPoolCInfo.m_numThreads = g_iMaxThreads - 1;
 
     //// This line enables timers collection, by allocating 200 Kb per thread.  If you leave this at its default (0),
     //// timer collection will not be enabled.
@@ -159,8 +166,9 @@ bool Physics_Physics_System::Initialise()
 
     hkpWorldCinfo xHavokWorldInfo;
     xHavokWorldInfo.m_simulationType = hkpWorldCinfo::SIMULATION_TYPE_MULTITHREADED;
-    xHavokWorldInfo.m_gravity.set( 0.0f, -640.0f, 0.0f );
-    xHavokWorldInfo.m_collisionTolerance = 1.0f;
+    xHavokWorldInfo.m_gravity.set( 0.0f, -150.0f, 0.0f );
+    xHavokWorldInfo.m_collisionTolerance = 0.1f;
+    xHavokWorldInfo.m_expectedMaxLinearVelocity = 50000.0f;
     xHavokWorldInfo.setBroadPhaseWorldSize( 10000.0f );
     xHavokWorldInfo.setupSolverInfo( hkpWorldCinfo::SOLVER_TYPE_4ITERS_MEDIUM );
     
@@ -168,7 +176,12 @@ bool Physics_Physics_System::Initialise()
 
     g_pxHavokWorld->lock();
     g_pxHavokWorld->markForWrite();
+
     hkpAgentRegisterUtil::registerAllAgents( g_pxHavokWorld->getCollisionDispatcher() );
+    g_pxHavokWorld->registerWithJobQueue( g_pxJobQueue );
+    
+    g_pxHavokWorld->unmarkForWrite();
+    g_pxHavokWorld->unlock();
 
 #endif
 
@@ -211,11 +224,7 @@ void Physics_Physics_System::Update()
         return;
     }
 
-    g_pxHavokWorld->unmarkForWrite();
-    g_pxHavokWorld->unlock();
     g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, GLToy_Timer::GetFrameTime() );
-    g_pxHavokWorld->lock();
-    g_pxHavokWorld->markForWrite();
 
 #endif
 
@@ -228,7 +237,7 @@ void Physics_Physics_System::TestBox_Console()
 
     Physics_Entity_PhysicsBox* pxBox = static_cast< Physics_Entity_PhysicsBox* >( GLToy_Entity_System::CreateEntity( szEntityName.GetHash(), PHYSICS_ENTITY_PHYSICSBOX ) );
 
-    pxBox->Spawn( GLToy_AABB( GLToy_Camera::GetPosition(), 25.0f, 25.0f, 25.0f ), GLToy_Camera::GetDirection() * 40.0f );
+    pxBox->Spawn( GLToy_AABB( GLToy_Camera::GetPosition(), 5.0f, 5.0f, 5.0f ), GLToy_Camera::GetDirection() * 800.0f );
 }
 
 Physics_Physics_Object* Physics_Physics_System::CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane &xPlane )
@@ -253,7 +262,9 @@ Physics_Physics_Object* Physics_Physics_System::CreatePhysicsPlane( const GLToy_
     hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
 
     g_pxHavokWorld->lock();
+    g_pxHavokWorld->markForWrite();
     g_pxHavokWorld->addEntity( pxRigidBody );
+    g_pxHavokWorld->unmarkForWrite();
     g_pxHavokWorld->unlock();
 
     pxRigidBody->removeReference();
@@ -277,19 +288,27 @@ Physics_Physics_Object* Physics_Physics_System::CreatePhysicsBox( const GLToy_Ha
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
     const GLToy_Vector_3 xExtents = xAABB.GetExtents();
-    hkpBoxShape* pxBox = new hkpBoxShape( hkVector4( xExtents[ 0 ], xExtents[ 1 ], xExtents[ 2 ], 0.0f ), 0 );
+    hkVector4 xHKExtents = hkVector4( xExtents[ 0 ], xExtents[ 1 ], xExtents[ 2 ] );
+    hkpBoxShape* pxBox = new hkpBoxShape( xHKExtents, 0 );
     
     hkpRigidBodyCinfo xRigidBodyInfo;
 
     xRigidBodyInfo.m_motionType = hkpMotion::MOTION_BOX_INERTIA; // maybe use sphere inertia as optimisation?
     xRigidBodyInfo.m_shape = pxBox;
-    xRigidBodyInfo.m_position = hkVector4( xAABB.GetPosition()[ 0 ] , xAABB.GetPosition()[ 1 ], xAABB.GetPosition()[ 2 ], 0.0f );
-    xRigidBodyInfo.m_linearVelocity = hkVector4( xVelocity[ 0 ], xVelocity[ 1 ], xVelocity[ 2 ], 0.0f );
+    xRigidBodyInfo.m_position = hkVector4( xAABB.GetPosition()[ 0 ] , xAABB.GetPosition()[ 1 ], xAABB.GetPosition()[ 2 ] );
+    //xRigidBodyInfo.m_linearVelocity = hkVector4( xVelocity[ 0 ], xVelocity[ 1 ], xVelocity[ 2 ] );
+
+    hkpMassProperties xMassProperties;
+    hkpInertiaTensorComputer::computeBoxVolumeMassProperties( xHKExtents, 1.0f, xMassProperties );
+    xRigidBodyInfo.m_inertiaTensor = xMassProperties.m_inertiaTensor;
 
     hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
 
     g_pxHavokWorld->lock();
+    g_pxHavokWorld->markForWrite();
     g_pxHavokWorld->addEntity( pxRigidBody );
+    pxRigidBody->setLinearVelocity( hkVector4( xVelocity[ 0 ], xVelocity[ 1 ], xVelocity[ 2 ] ) );
+    g_pxHavokWorld->unmarkForWrite();
     g_pxHavokWorld->unlock();
 
     pxPhysicsObject->SetHavokRigidBodyPointer( pxRigidBody );
