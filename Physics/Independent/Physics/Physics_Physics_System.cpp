@@ -74,7 +74,7 @@
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-static const float fHAVOK_SCALE = 1.0f / 64.0f;
+static const float fHAVOK_SCALE = 1.0f / 32.0f;
 static const float fINVERSE_HAVOK_SCALE = 1.0f / fHAVOK_SCALE;
 
 #endif
@@ -241,32 +241,23 @@ bool Physics_Physics_System::Initialise()
     // leave one thread for the renderer and other logic
     hkCpuJobThreadPoolCinfo xThreadPoolCInfo;
     xThreadPoolCInfo.m_numThreads = g_iMaxThreads - 1;
-
-    // TODO - work out what this means, I've put it back in after having it commented out
-    // because it seems to do no harm, here is the original comment -
-    // This line enables timers collection, by allocating 200 Kb per thread.  If you leave this at its default (0),
-    // timer collection will not be enabled.
-    xThreadPoolCInfo.m_timerBufferPerThreadAllocation = 200000;
-
     g_pxThreadPool = new hkCpuJobThreadPool( xThreadPoolCInfo );
 
     hkJobQueueCinfo xJobQueueInfo;
     xJobQueueInfo.m_jobQueueHwSetup.m_numCpuThreads = g_iMaxThreads;
     g_pxJobQueue = new hkJobQueue( xJobQueueInfo );
 
-    // TODO - work out what this means, here is the original comment -
-    // Monitors have been enabled for thread pool threads already (see above comment).
-    hkMonitorStream::getInstance().resize( 200000 );
-
     hkpWorldCinfo xHavokWorldInfo;
     xHavokWorldInfo.m_simulationType = hkpWorldCinfo::SIMULATION_TYPE_MULTITHREADED;
     xHavokWorldInfo.m_gravity.set( 0.0f, -9.8f, 0.0f );
     xHavokWorldInfo.m_collisionTolerance = 0.01f;
-    xHavokWorldInfo.m_expectedMaxLinearVelocity = 500.0f;
-    xHavokWorldInfo.m_expectedMinPsiDeltaTime = 1.0f / 41.0f; // it should always be below 40fps
+    xHavokWorldInfo.m_expectedMaxLinearVelocity = 10000.0f; // this seems to be the best magic number to prevent penetration.
+    xHavokWorldInfo.m_expectedMinPsiDeltaTime = 1.0f / 31.0f; // it should always be below 30fps infact...
     xHavokWorldInfo.setBroadPhaseWorldSize( 1500.0f );
-    xHavokWorldInfo.setupSolverInfo( hkpWorldCinfo::SOLVER_TYPE_4ITERS_MEDIUM );
-    
+    xHavokWorldInfo.setupSolverInfo( hkpWorldCinfo::SOLVER_TYPE_2ITERS_HARD );
+    xHavokWorldInfo.m_solverMicrosteps = 2;
+    xHavokWorldInfo.m_contactRestingVelocity = 0.1f;
+    xHavokWorldInfo.m_contactPointGeneration = hkpWorldCinfo::CONTACT_POINT_ACCEPT_ALWAYS;
     g_pxHavokWorld = new hkpWorld( xHavokWorldInfo );
 
     g_pxHavokWorld->lock();
@@ -322,9 +313,10 @@ void Physics_Physics_System::Update()
     static float ls_fAccumulatedTimer = 0.0f;
     ls_fAccumulatedTimer += GLToy_Timer::GetFrameTime();
 
-    if( ls_fAccumulatedTimer > 1.0f / 40.0f )
+    if( ls_fAccumulatedTimer > 1.0f / 30.0f )
     {
-        g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, ls_fAccumulatedTimer );
+        g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, ls_fAccumulatedTimer * 0.5f );
+        g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, ls_fAccumulatedTimer * 0.5f );
         ls_fAccumulatedTimer = 0.0f;
     }
 
@@ -339,7 +331,7 @@ void Physics_Physics_System::TestBox_Console()
 
     Physics_Entity_PhysicsBox* pxBox = static_cast< Physics_Entity_PhysicsBox* >( GLToy_Entity_System::CreateEntity( szEntityName.GetHash(), PHYSICS_ENTITY_PHYSICSBOX ) );
 
-    pxBox->Spawn( GLToy_AABB( GLToy_Camera::GetPosition(), 5.0f, 5.0f, 5.0f ), GLToy_Camera::GetDirection() * 200.0f );
+    pxBox->Spawn( GLToy_AABB( GLToy_Camera::GetPosition(), 5.0f, 5.0f, 5.0f ), GLToy_Camera::GetDirection() * 250.0f );
 }
 
 Physics_Physics_Object* Physics_Physics_System::CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane &xPlane )
@@ -360,14 +352,13 @@ Physics_Physics_Object* Physics_Physics_System::CreatePhysicsPlane( const GLToy_
     xRigidBodyInfo.m_motionType = hkpMotion::MOTION_FIXED;
     xRigidBodyInfo.m_shape = pxPlane;
     xRigidBodyInfo.m_position = hkVector4( 0.0f, 0.0f, 0.0f, 0.0f );
-    xRigidBodyInfo.m_allowedPenetrationDepth = 0.01f;
 
     hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
 
     g_pxHavokWorld->lock();
     Physics_Havok_MarkForWrite();
     g_pxHavokWorld->addEntity( pxRigidBody );
-    pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_FIXED );
+    pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_CRITICAL );
     Physics_Havok_UnmarkForWrite();
     g_pxHavokWorld->unlock();
 
@@ -397,14 +388,13 @@ Physics_Physics_Object* Physics_Physics_System::CreatePhysicsBox( const GLToy_Ha
     
     hkpRigidBodyCinfo xRigidBodyInfo;
 
-    xRigidBodyInfo.m_motionType = hkpMotion::MOTION_BOX_INERTIA; // maybe use sphere inertia as optimisation?
+    xRigidBodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
     xRigidBodyInfo.m_shape = pxBox;
     xRigidBodyInfo.m_position = hkVector4( xAABB.GetPosition()[ 0 ] * fHAVOK_SCALE , xAABB.GetPosition()[ 1 ] * fHAVOK_SCALE, xAABB.GetPosition()[ 2 ] * fHAVOK_SCALE );
 
     hkpMassProperties xMassProperties;
     hkpInertiaTensorComputer::computeBoxVolumeMassProperties( xHKExtents, 1.0f, xMassProperties );
     xRigidBodyInfo.m_inertiaTensor = xMassProperties.m_inertiaTensor;
-    xRigidBodyInfo.m_allowedPenetrationDepth = 0.01f;
 
     hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
 
