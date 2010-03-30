@@ -69,6 +69,17 @@
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// C O N S T A N T S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+
+static const float fHAVOK_SCALE = 1.0f / 64.0f;
+static const float fINVERSE_HAVOK_SCALE = 1.0f / fHAVOK_SCALE;
+
+#endif
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -126,24 +137,31 @@ GLToy_OBB Physics_Physics_Object::GetOBB()
     if( !pxCollidable )
     {
         // return a point at the position
-        return GLToy_OBB( GLToy_Vector_3( xPos( 0 ), xPos( 1 ), xPos( 2 ) ), GLToy_Maths::IdentityMatrix3, 0.0f, 0.0f, 0.0f );
+        return GLToy_OBB( GLToy_Vector_3( xPos( 0 ) * fINVERSE_HAVOK_SCALE, xPos( 1 ) * fINVERSE_HAVOK_SCALE, xPos( 2 ) * fINVERSE_HAVOK_SCALE ), GLToy_Maths::IdentityMatrix3, 0.0f, 0.0f, 0.0f );
     }
 
     const hkpShape* const pxShape = pxCollidable->getShape();
-
-    hkAabb xHKAABB;
-    pxShape->getAabb( xTransform, 1.0f, xHKAABB );
 
     g_pxHavokWorld->unmarkForRead();
     g_pxHavokWorld->unlockReadOnly();
 
     hkVector4 xHalfExtents;
-    xHKAABB.getHalfExtents( xHalfExtents );
+    if( pxShape->getType() == HK_SHAPE_BOX )
+    {
+        const hkpBoxShape* const pxBox = static_cast< const hkpBoxShape* const >( pxShape );
+        xHalfExtents = pxBox->getHalfExtents();
+    }
+    else
+    {
+        hkAabb xHKAABB;
+        pxShape->getAabb( xTransform, 0.01f, xHKAABB );
+        xHKAABB.getHalfExtents( xHalfExtents );
+    }
 
     return GLToy_OBB(
-        GLToy_Vector_3( xPos( 0 ), xPos( 1 ), xPos( 2 ) ),
-        GLToy_Quaternion( xQuat( 0 ), xQuat( 1 ), xQuat( 2 ), xQuat( 3 ) ).GetOrientationMatrix(),
-        xHalfExtents( 0 ), xHalfExtents( 1 ), xHalfExtents( 2 ) );
+        GLToy_Vector_3( xPos( 0 ), xPos( 1 ), xPos( 2 ) ) * fINVERSE_HAVOK_SCALE,
+        GLToy_Quaternion( xQuat( 3 ), -xQuat( 0 ), -xQuat( 1 ), -xQuat( 2 ) ).GetOrientationMatrix(),
+        xHalfExtents( 0 ) * fINVERSE_HAVOK_SCALE, xHalfExtents( 1 ) * fINVERSE_HAVOK_SCALE, xHalfExtents( 2 ) * fINVERSE_HAVOK_SCALE );
 
 #endif
 
@@ -168,9 +186,11 @@ bool Physics_Physics_System::Initialise()
     hkCpuJobThreadPoolCinfo xThreadPoolCInfo;
     xThreadPoolCInfo.m_numThreads = g_iMaxThreads - 1;
 
-    //// This line enables timers collection, by allocating 200 Kb per thread.  If you leave this at its default (0),
-    //// timer collection will not be enabled.
-    //threadPoolCinfo.m_timerBufferPerThreadAllocation = 200000;
+    // TODO - work out what this means, I've put it back in after having it commented out
+    // because it seems to do no harm, here is the original comment -
+    // This line enables timers collection, by allocating 200 Kb per thread.  If you leave this at its default (0),
+    // timer collection will not be enabled.
+    xThreadPoolCInfo.m_timerBufferPerThreadAllocation = 200000;
 
     g_pxThreadPool = new hkCpuJobThreadPool( xThreadPoolCInfo );
 
@@ -178,20 +198,18 @@ bool Physics_Physics_System::Initialise()
     xJobQueueInfo.m_jobQueueHwSetup.m_numCpuThreads = g_iMaxThreads;
     g_pxJobQueue = new hkJobQueue( xJobQueueInfo );
 
-    ////
-    //// Enable monitors for this thread.
-    ////
-
-    //// Monitors have been enabled for thread pool threads already (see above comment).
-    //hkMonitorStream::getInstance().resize(200000);
+    // TODO - work out what this means, here is the original comment -
+    // Monitors have been enabled for thread pool threads already (see above comment).
+    hkMonitorStream::getInstance().resize( 200000 );
 
     hkpWorldCinfo xHavokWorldInfo;
     xHavokWorldInfo.m_simulationType = hkpWorldCinfo::SIMULATION_TYPE_MULTITHREADED;
-    xHavokWorldInfo.m_gravity.set( 0.0f, -150.0f, 0.0f );
-    xHavokWorldInfo.m_collisionTolerance = 0.1f;
-    xHavokWorldInfo.m_expectedMaxLinearVelocity = 50000.0f;
-    xHavokWorldInfo.setBroadPhaseWorldSize( 10000.0f );
-    xHavokWorldInfo.setupSolverInfo( hkpWorldCinfo::SOLVER_TYPE_4ITERS_MEDIUM );
+    xHavokWorldInfo.m_gravity.set( 0.0f, -9.8f, 0.0f );
+    xHavokWorldInfo.m_collisionTolerance = 0.001f;
+    xHavokWorldInfo.m_expectedMaxLinearVelocity = 4000.0f;
+    xHavokWorldInfo.m_expectedMinPsiDeltaTime = 1.0f / 1000.0f; // 1000fps
+    xHavokWorldInfo.setBroadPhaseWorldSize( 2000.0f );
+    xHavokWorldInfo.setupSolverInfo( hkpWorldCinfo::SOLVER_TYPE_8ITERS_MEDIUM );
     
     g_pxHavokWorld = new hkpWorld( xHavokWorldInfo );
 
@@ -258,7 +276,7 @@ void Physics_Physics_System::TestBox_Console()
 
     Physics_Entity_PhysicsBox* pxBox = static_cast< Physics_Entity_PhysicsBox* >( GLToy_Entity_System::CreateEntity( szEntityName.GetHash(), PHYSICS_ENTITY_PHYSICSBOX ) );
 
-    pxBox->Spawn( GLToy_AABB( GLToy_Camera::GetPosition(), 5.0f, 5.0f, 5.0f ), GLToy_Camera::GetDirection() * 800.0f );
+    pxBox->Spawn( GLToy_AABB( GLToy_Camera::GetPosition(), 5.0f, 5.0f, 5.0f ), GLToy_Camera::GetDirection() * 200.0f );
 }
 
 Physics_Physics_Object* Physics_Physics_System::CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane &xPlane )
@@ -270,9 +288,9 @@ Physics_Physics_Object* Physics_Physics_System::CreatePhysicsPlane( const GLToy_
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
     hkpPlaneShape* pxPlane = new hkpPlaneShape(
-        hkVector4( xPlane.GetNormal()[ 0 ], xPlane.GetNormal()[ 1 ], xPlane.GetNormal()[ 2 ], xPlane.GetDistance() ),
+        hkVector4( xPlane.GetNormal()[ 0 ], xPlane.GetNormal()[ 1 ], xPlane.GetNormal()[ 2 ], xPlane.GetDistance() * fHAVOK_SCALE ),
         hkVector4( 0.0f, 0.0f, 0.0f, 0.0f ),
-        hkVector4( 4000.0f, 4000.0f, 4000.0f, 0.0f ) );
+        hkVector4( 500.0f, 500.0f, 500.0f, 0.0f ) );
     
     hkpRigidBodyCinfo xRigidBodyInfo;
 
@@ -308,7 +326,7 @@ Physics_Physics_Object* Physics_Physics_System::CreatePhysicsBox( const GLToy_Ha
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-    const GLToy_Vector_3 xExtents = xAABB.GetExtents();
+    const GLToy_Vector_3 xExtents = xAABB.GetExtents() * fHAVOK_SCALE;
     hkVector4 xHKExtents = hkVector4( xExtents[ 0 ], xExtents[ 1 ], xExtents[ 2 ] );
     hkpBoxShape* pxBox = new hkpBoxShape( xHKExtents, 0 );
     
@@ -316,8 +334,7 @@ Physics_Physics_Object* Physics_Physics_System::CreatePhysicsBox( const GLToy_Ha
 
     xRigidBodyInfo.m_motionType = hkpMotion::MOTION_BOX_INERTIA; // maybe use sphere inertia as optimisation?
     xRigidBodyInfo.m_shape = pxBox;
-    xRigidBodyInfo.m_position = hkVector4( xAABB.GetPosition()[ 0 ] , xAABB.GetPosition()[ 1 ], xAABB.GetPosition()[ 2 ] );
-    //xRigidBodyInfo.m_linearVelocity = hkVector4( xVelocity[ 0 ], xVelocity[ 1 ], xVelocity[ 2 ] );
+    xRigidBodyInfo.m_position = hkVector4( xAABB.GetPosition()[ 0 ] * fHAVOK_SCALE , xAABB.GetPosition()[ 1 ] * fHAVOK_SCALE, xAABB.GetPosition()[ 2 ] * fHAVOK_SCALE );
 
     hkpMassProperties xMassProperties;
     hkpInertiaTensorComputer::computeBoxVolumeMassProperties( xHKExtents, 1.0f, xMassProperties );
@@ -328,7 +345,7 @@ Physics_Physics_Object* Physics_Physics_System::CreatePhysicsBox( const GLToy_Ha
     g_pxHavokWorld->lock();
     g_pxHavokWorld->markForWrite();
     g_pxHavokWorld->addEntity( pxRigidBody );
-    pxRigidBody->setLinearVelocity( hkVector4( xVelocity[ 0 ], xVelocity[ 1 ], xVelocity[ 2 ] ) );
+    pxRigidBody->setLinearVelocity( hkVector4( xVelocity[ 0 ] * fHAVOK_SCALE, xVelocity[ 1 ] * fHAVOK_SCALE, xVelocity[ 2 ] * fHAVOK_SCALE ) );
     g_pxHavokWorld->unmarkForWrite();
     g_pxHavokWorld->unlock();
 
