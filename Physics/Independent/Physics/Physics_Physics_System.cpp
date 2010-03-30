@@ -105,6 +105,62 @@ static void HK_CALL Physics_Havok_ErrorReport( const char* szMessage, void* pDat
     GLToy_DebugOutput_Release( "Havok error: %s", szMessage );
 }
 
+static void Physics_Havok_MarkForRead()
+{
+
+#ifdef _DEBUG
+
+    if( g_pxHavokWorld )
+    {
+        g_pxHavokWorld->markForRead();
+    }
+
+#endif
+
+}
+
+static void Physics_Havok_MarkForWrite()
+{
+
+#ifdef _DEBUG
+
+    if( g_pxHavokWorld )
+    {
+        g_pxHavokWorld->markForWrite();
+    }
+
+#endif
+
+}
+
+static void Physics_Havok_UnmarkForRead()
+{
+
+#ifdef _DEBUG
+
+    if( g_pxHavokWorld )
+    {
+        g_pxHavokWorld->unmarkForRead();
+    }
+
+#endif
+
+}
+
+static void Physics_Havok_UnmarkForWrite()
+{
+
+#ifdef _DEBUG
+
+    if( g_pxHavokWorld )
+    {
+        g_pxHavokWorld->unmarkForWrite();
+    }
+
+#endif
+
+}
+
 #endif
 
 void Physics_Physics_Object::SetPosition( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity )
@@ -127,7 +183,7 @@ GLToy_OBB Physics_Physics_Object::GetOBB()
     }
 
     g_pxHavokWorld->lockReadOnly();
-    g_pxHavokWorld->markForRead();
+    Physics_Havok_MarkForRead();
 
     const hkVector4& xPos = m_pxHavokRigidBody->getPosition();
     const hkQuaternion& xQuat = m_pxHavokRigidBody->getRotation();
@@ -142,7 +198,7 @@ GLToy_OBB Physics_Physics_Object::GetOBB()
 
     const hkpShape* const pxShape = pxCollidable->getShape();
 
-    g_pxHavokWorld->unmarkForRead();
+    Physics_Havok_UnmarkForRead();
     g_pxHavokWorld->unlockReadOnly();
 
     hkVector4 xHalfExtents;
@@ -205,21 +261,21 @@ bool Physics_Physics_System::Initialise()
     hkpWorldCinfo xHavokWorldInfo;
     xHavokWorldInfo.m_simulationType = hkpWorldCinfo::SIMULATION_TYPE_MULTITHREADED;
     xHavokWorldInfo.m_gravity.set( 0.0f, -9.8f, 0.0f );
-    xHavokWorldInfo.m_collisionTolerance = 0.001f;
-    xHavokWorldInfo.m_expectedMaxLinearVelocity = 4000.0f;
-    xHavokWorldInfo.m_expectedMinPsiDeltaTime = 1.0f / 1000.0f; // 1000fps
-    xHavokWorldInfo.setBroadPhaseWorldSize( 2000.0f );
-    xHavokWorldInfo.setupSolverInfo( hkpWorldCinfo::SOLVER_TYPE_8ITERS_MEDIUM );
+    xHavokWorldInfo.m_collisionTolerance = 0.01f;
+    xHavokWorldInfo.m_expectedMaxLinearVelocity = 500.0f;
+    xHavokWorldInfo.m_expectedMinPsiDeltaTime = 1.0f / 41.0f; // it should always be below 40fps
+    xHavokWorldInfo.setBroadPhaseWorldSize( 1500.0f );
+    xHavokWorldInfo.setupSolverInfo( hkpWorldCinfo::SOLVER_TYPE_4ITERS_MEDIUM );
     
     g_pxHavokWorld = new hkpWorld( xHavokWorldInfo );
 
     g_pxHavokWorld->lock();
-    g_pxHavokWorld->markForWrite();
+    Physics_Havok_MarkForWrite();
 
     hkpAgentRegisterUtil::registerAllAgents( g_pxHavokWorld->getCollisionDispatcher() );
     g_pxHavokWorld->registerWithJobQueue( g_pxJobQueue );
     
-    g_pxHavokWorld->unmarkForWrite();
+    Physics_Havok_UnmarkForWrite();
     g_pxHavokWorld->unlock();
 
 #endif
@@ -263,7 +319,14 @@ void Physics_Physics_System::Update()
         return;
     }
 
-    g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, GLToy_Timer::GetFrameTime() );
+    static float ls_fAccumulatedTimer = 0.0f;
+    ls_fAccumulatedTimer += GLToy_Timer::GetFrameTime();
+
+    if( ls_fAccumulatedTimer > 1.0f / 40.0f )
+    {
+        g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, ls_fAccumulatedTimer );
+        ls_fAccumulatedTimer = 0.0f;
+    }
 
 #endif
 
@@ -297,13 +360,15 @@ Physics_Physics_Object* Physics_Physics_System::CreatePhysicsPlane( const GLToy_
     xRigidBodyInfo.m_motionType = hkpMotion::MOTION_FIXED;
     xRigidBodyInfo.m_shape = pxPlane;
     xRigidBodyInfo.m_position = hkVector4( 0.0f, 0.0f, 0.0f, 0.0f );
+    xRigidBodyInfo.m_allowedPenetrationDepth = 0.01f;
 
     hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
 
     g_pxHavokWorld->lock();
-    g_pxHavokWorld->markForWrite();
+    Physics_Havok_MarkForWrite();
     g_pxHavokWorld->addEntity( pxRigidBody );
-    g_pxHavokWorld->unmarkForWrite();
+    pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_FIXED );
+    Physics_Havok_UnmarkForWrite();
     g_pxHavokWorld->unlock();
 
     pxRigidBody->removeReference();
@@ -339,14 +404,16 @@ Physics_Physics_Object* Physics_Physics_System::CreatePhysicsBox( const GLToy_Ha
     hkpMassProperties xMassProperties;
     hkpInertiaTensorComputer::computeBoxVolumeMassProperties( xHKExtents, 1.0f, xMassProperties );
     xRigidBodyInfo.m_inertiaTensor = xMassProperties.m_inertiaTensor;
+    xRigidBodyInfo.m_allowedPenetrationDepth = 0.01f;
 
     hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
 
     g_pxHavokWorld->lock();
-    g_pxHavokWorld->markForWrite();
+    Physics_Havok_MarkForWrite();
     g_pxHavokWorld->addEntity( pxRigidBody );
+    pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_CRITICAL );
     pxRigidBody->setLinearVelocity( hkVector4( xVelocity[ 0 ] * fHAVOK_SCALE, xVelocity[ 1 ] * fHAVOK_SCALE, xVelocity[ 2 ] * fHAVOK_SCALE ) );
-    g_pxHavokWorld->unmarkForWrite();
+    Physics_Havok_UnmarkForWrite();
     g_pxHavokWorld->unlock();
 
     pxPhysicsObject->SetHavokRigidBodyPointer( pxRigidBody );
