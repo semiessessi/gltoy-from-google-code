@@ -43,6 +43,14 @@ public:
     virtual const GLToy_String& GetName() const { static GLToy_String ls_szName = "Splash"; return ls_szName; }
 
     virtual void Initialise();
+
+    virtual void Update();
+
+    virtual bool IsDone() const;
+
+protected:
+
+    float m_fTimer;
 };
 
 #endif

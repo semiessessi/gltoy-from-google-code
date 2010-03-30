@@ -71,7 +71,7 @@ public:
     static void SpawnModel( const GLToy_String& szName, const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation );
     static void SpawnSprite( const GLToy_String& szName, const GLToy_Vector_3& xPosition );
 
-    static bool SetRender( const bool bRender ) { s_bRender = bRender; };
+    static void SetRender( const bool bRender ) { s_bRender = bRender; };
 
     static void SetProjectEntityCreateCallback( GLToy_Entity* ( *pfnCreateFromType )( const GLToy_Hash, const u_int ) ) { s_pfnProject_CreateFromType = pfnCreateFromType; }
 

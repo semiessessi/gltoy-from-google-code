@@ -115,7 +115,6 @@ bool GLToy::Initialise()
 {
     GLToy_DebugOutput( "\r\nGLToy::Initialise() - Initialising systems:\r\n" );
 
-    GLTOY_INITIALISER_CALL( GLToy_Timer );
     GLTOY_INITIALISER_CALL( GLToy_Maths );
     GLTOY_INITIALISER_CALL( GLToy_Input_System );
 
@@ -152,6 +151,8 @@ bool GLToy::Initialise()
     {
         return false;
     }
+
+    GLTOY_INITIALISER_CALL( GLToy_Timer ); // always initialise last
 
     GLToy_DebugOutput( "\r\nGLToy::Initialise() - Completed successfully.\r\n" );
 

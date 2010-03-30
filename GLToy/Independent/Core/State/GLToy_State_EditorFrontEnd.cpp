@@ -167,6 +167,9 @@ void GLToy_State_EditorFrontEnd::Initialise()
     GLToy_Texture_System::CreateTexture( "Widgets/Folder.png" );
     GLToy_Texture_System::CreateTexture( "Widgets/Shutdown.png" );
 
+    GLToy_Entity_System::SetRender( false );
+    GLToy_Environment_System::SetRender( false );
+
     GLToy_UI_System::ShowPointer( true );
 }
 

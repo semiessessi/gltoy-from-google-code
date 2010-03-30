@@ -58,10 +58,13 @@ public:
     static bool ChangeState( const GLToy_Hash uStateHash );
     static void ChangeState_Console( const GLToy_String& szName );
 
+    static void SetNextState( const GLToy_Hash uStateHash ) { s_uNextState = uStateHash; }
+
 private:
 
     static GLToy_HashTree< GLToy_State* > s_xStates;
     static GLToy_State* s_pxCurrentState;
+    static GLToy_Hash s_uNextState;
 
 };
 

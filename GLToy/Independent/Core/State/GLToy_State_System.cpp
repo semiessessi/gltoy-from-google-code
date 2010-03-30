@@ -34,6 +34,7 @@
 #include <Core/State/GLToy_State.h>
 #include <Core/State/GLToy_State_Editor.h>
 #include <Core/State/GLToy_State_EditorFrontEnd.h>
+#include <Core/State/GLToy_State_Splash.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -41,6 +42,7 @@
 
 GLToy_HashTree< GLToy_State* > GLToy_State_System::s_xStates;
 GLToy_State* GLToy_State_System::s_pxCurrentState = 0;
+GLToy_Hash GLToy_State_System::s_uNextState = uGLTOY_BAD_HASH;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -52,6 +54,7 @@ bool GLToy_State_System::Initialise()
 
     RegisterState( new GLToy_State_EditorFrontEnd(), GLToy_Hash_Constant( "EditorFrontEnd" ) );
     RegisterState( new GLToy_State_Editor(), GLToy_Hash_Constant( "Editor" ) );
+    RegisterState( new GLToy_State_Splash(), GLToy_Hash_Constant( "Splash" ) );
 
     GLToy_Console::RegisterCommand( "changestate", ChangeState_Console );
 
@@ -83,6 +86,12 @@ void GLToy_State_System::Update()
 {
     if( s_pxCurrentState )
     {
+        if( s_pxCurrentState->IsDone() )
+        {
+            ChangeState( s_uNextState );
+            s_uNextState = uGLTOY_BAD_HASH;
+        }
+
         s_pxCurrentState->Update();
     }
 }

@@ -61,7 +61,7 @@ public:
     static GLToy_Environment* CreateEnvironmentFromType( const GLToy_EnvironmentType eType );
 
     static const GLToy_Environment* GetCurrentEnvironment() { return s_pxCurrentEnvironment; }
-    static bool SetRender( const bool bRender ) { s_bRender = bRender; };
+    static void SetRender( const bool bRender ) { s_bRender = bRender; };
 
     static void SwitchEnvironment( GLToy_Environment* const pxEnv );
 

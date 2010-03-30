@@ -29,7 +29,10 @@
 #include <Core/State/GLToy_State_Splash.h>
 
 // GLToy
+#include <Core/GLToy_Timer.h>
 #include <Render/GLToy_Camera.h>
+#include <Environment/GLToy_Environment_System.h>
+#include <Entity/GLToy_Entity_System.h>
 #include <UI/GLToy_UI_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,4 +51,19 @@ void GLToy_State_Splash::Initialise()
 {
     GLToy_UI_System::ShowPointer( false );
     GLToy_Camera::SetFlyCamEnabled( false );
+
+    GLToy_Entity_System::SetRender( false );
+    GLToy_Environment_System::SetRender( false );
+
+    m_fTimer = 0.0f;
+}
+
+void GLToy_State_Splash::Update()
+{
+    m_fTimer += GLToy_Timer::GetFrameTime();
+}
+
+bool GLToy_State_Splash::IsDone() const
+{
+    return m_fTimer > 2.0f;
 }

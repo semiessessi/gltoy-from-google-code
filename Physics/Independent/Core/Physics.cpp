@@ -47,7 +47,8 @@ bool Physics::Initialise()
     GLToy_Entity_System::SetProjectEntityCreateCallback( Physics_CreateEntity );
     GLToy_Environment_System::CreateTestEnvironment();
 
-    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Editor" ) );
+    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Splash" ) );
+    GLToy_State_System::SetNextState( GLToy_Hash_Constant( "Editor" ) );
 
     return true;
 }

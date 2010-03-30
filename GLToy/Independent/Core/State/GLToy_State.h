@@ -60,6 +60,8 @@ public:
 
     virtual void Update() {}
 
+    virtual bool IsDone() const { return false; }
+
 };
 
 #endif
