@@ -183,7 +183,7 @@ void GLToy_State_EditorFrontEnd::Shutdown()
     GLToy_Input_System::SetKeyInputHandler( NULL );
 }
 
-// not sure if this should be changed to used widgets - it works well enough as is
+// TODO - use widgets for this
 void GLToy_State_EditorFrontEnd::Render2D() const
 {
     if( !g_pxFont )

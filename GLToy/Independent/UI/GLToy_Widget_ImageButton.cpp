@@ -26,22 +26,37 @@
 #include <Core/GLToy.h>
 
 // this file's header
-#include <UI/GLToy_Widget_Label.h>
+#include <UI/GLToy_Widget_ImageButton.h>
 
 // GLToy
+#include <Maths/GLToy_Maths.h>
 #include <Render/Font/GLToy_Font.h>
+#include <Render/GLToy_Render.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Widget_Label::Render2D() const
+void GLToy_Widget_ImageButton::Render2D() const
 {
+    GLToy_Render::EnableBlending();
+    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+
+    GLToy_Texture_System::BindTexture( m_uTextureHash );
+
+    GLToy_Render::StartSubmittingQuads();
+    GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    GLToy_Render::SubmitTexturedQuad2D( GetX(), GetY(), GetWidth(), GetHeight() );
+    GLToy_Render::EndSubmit();
+
+    GLToy_Render::DisableBlending();
+
     GLToy_Font* const pxFont = GLToy_Font_System::FindFont( GetFont() );
     if( !pxFont )
     {
         return;
     }
 
-    pxFont->RenderString( GetString(), GetX(), GetY() - pxFont->GetHeight() );
+    pxFont->RenderString( GetLabelString(), GetX() + GetWidth(), GetY() - 0.5f * ( GetHeight() - pxFont->GetHeight() ) );
 }

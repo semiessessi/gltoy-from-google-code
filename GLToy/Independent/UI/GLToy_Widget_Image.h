@@ -19,29 +19,49 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __GLTOY_WIDGET_IMAGE_H_
+#define __GLTOY_WIDGET_IMAGE_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
-
-// this file's header
-#include <UI/GLToy_Widget_Label.h>
+// Parents
+#include <UI/GLToy_Widget.h>
 
 // GLToy
-#include <Render/Font/GLToy_Font.h>
+#include <Core/GLToy_Hash.h>
+#include <String/GLToy_String.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Widget_Label::Render2D() const
+class GLToy_Widget_Image
+: public GLToy_Widget
 {
-    GLToy_Font* const pxFont = GLToy_Font_System::FindFont( GetFont() );
-    if( !pxFont )
+
+    typedef GLToy_Widget GLToy_Parent;
+
+public:
+
+    GLToy_Widget_Image( const GLToy_WidgetType eType, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f )
+    : GLToy_Parent( eType, fX, fY, fWidth, fHeight )
+    , m_uTextureHash( uGLTOY_BAD_HASH )
     {
-        return;
     }
 
-    pxFont->RenderString( GetString(), GetX(), GetY() - pxFont->GetHeight() );
-}
+    virtual ~GLToy_Widget_Image() {}
+
+    virtual void Render2D() const;
+
+    GLToy_Inline void SetTexture( const GLToy_String& szString ) { m_uTextureHash = szString.GetHash(); }
+    GLToy_Inline void SetTexture( const GLToy_Hash& uHash ) { m_uTextureHash = uHash; }
+
+protected:
+
+    GLToy_Hash m_uTextureHash;
+
+};
+
+#endif

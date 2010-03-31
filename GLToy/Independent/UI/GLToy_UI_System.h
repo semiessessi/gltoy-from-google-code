@@ -34,6 +34,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template < class T > class GLToy_Array;
+class GLToy_String;
 class GLToy_Vector_2;
 class GLToy_Widget;
 
@@ -53,12 +54,17 @@ public:
 	static void Update();
 
     static void ClearWidgets();
-	static GLToy_Widget* CreateWidget( const GLToy_WidgetType eType, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f );
 
     static void ShowPointer( const bool bShow = true );
     static bool IsPointerShown() { return s_bShowPointer; }
 
+    static GLToy_Widget* CreateLabel( const GLToy_String& szLabel, const float fX, const float fY );
+    static GLToy_Widget* CreateImage( const GLToy_String& szTexture, const float fX, const float fY, const float fWidth, const float fHeight );
+    static GLToy_Widget* CreateImageButton( const GLToy_String& szTexture, const GLToy_String& szLabel, const float fX, const float fY, const float fWidth, const float fHeight );
+
 private:
+
+    static GLToy_Widget* CreateWidget( const GLToy_WidgetType eType, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f );
 
     static bool s_bShowPointer;
     static GLToy_Vector_2 s_xMousePosition;

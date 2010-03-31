@@ -973,6 +973,22 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\UI\GLToy_Widget_Image.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\UI\GLToy_Widget_Image.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\UI\GLToy_Widget_ImageButton.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\UI\GLToy_Widget_ImageButton.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\UI\GLToy_Widget_Label.cpp"
 					>
 				</File>

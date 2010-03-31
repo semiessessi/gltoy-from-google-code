@@ -38,6 +38,7 @@
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
 #include <UI/GLToy_Widget.h>
+#include <UI/GLToy_Widget_Image.h>
 #include <UI/GLToy_Widget_Label.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,7 +122,13 @@ GLToy_Widget* GLToy_UI_System::CreateWidget( const GLToy_WidgetType eType, const
             break;
         }
 
-		default:
+		case WIDGET_IMAGE:
+        {
+            pxWidget = new GLToy_Widget_Image( eType, fX, fY, fWidth, fHeight );
+            break;
+        }
+        
+        default:
 		{
 			GLToy_Assert( false, "Unable to create unrecognised widget type: %d", eType );
 			break;

@@ -89,6 +89,8 @@ public:
 	GLToy_Inline float GetY() const { return m_fY; }
 	GLToy_Inline float GetWidth() const { return m_fWidth; }
 	GLToy_Inline float GetHeight() const { return m_fHeight; }
+
+    GLToy_Inline GLToy_WidgetType GetType() const { return m_eType; }
     
     GLToy_Inline void SetPosition( const float fX, const float fY ) { m_fX = fX; m_fY = fY; }
     GLToy_Inline void SetSize( const float fWidth, const float fHeight ) { m_fWidth = fWidth; m_fHeight = fHeight; }
@@ -100,8 +102,6 @@ protected:
 	float m_fWidth;
 	float m_fHeight;
 	GLToy_WidgetType m_eType;
-
-	GLToy_HashTree< GLToy_Widget* > m_xChildren;
 
 };
 
