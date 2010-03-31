@@ -1,0 +1,1 @@
+GLToy itself is covered by the LGPL and the data by the CC license. If there are exceptions they will be highlighted by text files next to the relevant files in the repository.
