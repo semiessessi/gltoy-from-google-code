@@ -14,6 +14,9 @@ Section ""
 
   SetOutPath $INSTDIR
   File ..\..\Data\Physics.exe
+  File ..\..\Data\licensing.txt
+  File ..\..\Data\lgpl.license.txt
+  File ..\..\Data\cc.license.txt
   
   SetOutPath $INSTDIR\Fonts
   File ..\..\Data\Fonts\Console.font
@@ -32,6 +35,7 @@ Section ""
   
   SetOutPath $INSTDIR\Textures\Widgets
   File ..\..\Data\Textures\Widgets\SplashBanner.png
+  File ..\..\Data\Textures\Widgets\SplashBanner.license.txt
   
   SetOutPath $INSTDIR
   
