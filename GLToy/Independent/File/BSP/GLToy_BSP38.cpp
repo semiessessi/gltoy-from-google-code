@@ -556,7 +556,8 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 
             // sanity checks
             GLToy_Assert( xFaces[ u ].m_uLightmapOffset % 3 == 0, "Lightmap offset should really divide 3" );
-            GLToy_Assert( ( uWidth < 17 ) && ( uHeight < 17 ), "Lightmap is too big: %dx%d", uWidth, uHeight );
+            // GLToy_Assert( ( uWidth < 17 ) && ( uHeight < 17 ), "Lightmap is too big: %dx%d", uWidth, uHeight );
+			GLToy_Assert( ( uWidth < 18 ) && ( uHeight < 18 ), "Lightmap is too big: %dx%d", uWidth, uHeight );
 
             GLToy_Texture_System::CreateTextureFromRGBData( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ), &( pxEnv->m_xLightmapData[ xFaces[ u ].m_uLightmapOffset ] ), uWidth, uHeight );
 
