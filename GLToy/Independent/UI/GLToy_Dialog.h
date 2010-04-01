@@ -19,70 +19,63 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_UI_SYSTEM_H_
-#define __GLTOY_UI_SYSTEM_H_
+#ifndef __GLTOY_DIALOG_H_
+#define __GLTOY_DIALOG_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// Parents
+#include <Core/GLToy_Updateable.h>
+#include <Render/GLToy_Renderable.h>
+
 // GLToy
+#include <Core/Data Structures/GLToy_Array.h>
 #include <UI/GLToy_WidgetTypes.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_Array;
-class GLToy_Dialog;
-class GLToy_String;
-class GLToy_Vector_2;
 class GLToy_Widget;
-class GLToy_Widget_Image;
-class GLToy_Widget_ImageButton;
-class GLToy_Widget_Label;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// T Y P E D E F S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+typedef u_char GLToy_DialogStyle;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C O N S T A N T S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+static const GLToy_DialogStyle DIALOG_STYLE_DEFAULT = 0;
+static const GLToy_DialogStyle DIALOG_STYLE_CENTRE = 1;
+static const GLToy_DialogStyle DIALOG_STYLE_MODAL = 2;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_UI_System
+class GLToy_Dialog
+: public GLToy_Renderable
+, public GLToy_Updateable
 {
 
 public:
 
-    static bool Initialise();
-    static void Shutdown();
+	GLToy_Dialog();
+	virtual ~GLToy_Dialog() {}
 
-	static void Render2D();
-	static void Update();
+	virtual void Render2D() const;
+	virtual void Update();
 
-    static void ClearWidgets();
+protected:
 
-    static void ShowPointer( const bool bShow = true );
-    static bool IsPointerShown() { return s_bShowPointer; }
+	GLToy_DialogStyle m_ucStyle;
 
-    static GLToy_Widget_Label* CreateLabel( const GLToy_String& szLabel, const float fX, const float fY );
-    static GLToy_Widget_Image* CreateImage( const GLToy_String& szTexture, const float fX, const float fY, const float fWidth, const float fHeight );
-    static GLToy_Widget_ImageButton* CreateImageButton(
-		const GLToy_String& szTexture,
-		const GLToy_String& szLabel,
-		void ( * const pfnCallback )( void* const pData ),
-		const float fX, const float fY,
-		const float fWidth, const float fHeight );
-
-	static const GLToy_Vector_2& GetMousePosition() { return s_xMousePosition; }
-	static float GetPulse();
-
-private:
-
-    static GLToy_Widget* CreateWidget( const GLToy_WidgetType eType, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f );
-
-    static bool s_bShowPointer;
-    static GLToy_Vector_2 s_xMousePosition;
-
-	static GLToy_Array< GLToy_Dialog* > s_xDialogs;
-	static GLToy_Array< GLToy_Widget* > s_xTopWidgets;
+	GLToy_Array< GLToy_Widget* > m_xWidgets;
 
 };
 

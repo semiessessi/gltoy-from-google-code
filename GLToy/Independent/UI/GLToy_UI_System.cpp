@@ -38,6 +38,7 @@
 #include <Render/GLToy_RenderFunctor.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
+#include <UI/GLToy_Dialog.h>
 #include <UI/GLToy_Widget.h>
 #include <UI/GLToy_Widget_Image.h>
 #include <UI/GLToy_Widget_ImageButton.h>
@@ -55,6 +56,7 @@ static const float fUI_MOUSE_WIDTH = 1.0f / 12.5f;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 bool GLToy_UI_System::s_bShowPointer = false;
+GLToy_Array< GLToy_Dialog* > GLToy_UI_System::s_xDialogs;
 GLToy_Array< GLToy_Widget* > GLToy_UI_System::s_xTopWidgets;
 GLToy_Vector_2 GLToy_UI_System::s_xMousePosition = GLToy_Vector_2( 0.0f, 0.0f );
 

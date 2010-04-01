@@ -961,6 +961,14 @@
 				Name="UI"
 				>
 				<File
+					RelativePath=".\Independent\UI\GLToy_Dialog.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\UI\GLToy_Dialog.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\UI\GLToy_UI_System.cpp"
 					>
 				</File>

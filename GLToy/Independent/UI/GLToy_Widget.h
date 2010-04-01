@@ -31,7 +31,6 @@
 #include <Render/GLToy_Renderable.h>
 
 // GLToy
-#include <Core/Data Structures/GLToy_HashTree.h>
 #include <Core/GLToy_Hash.h>
 #include <UI/GLToy_WidgetTypes.h>
 
