@@ -48,7 +48,7 @@ public:
     GLToy_Widget_Label( const GLToy_WidgetType eType, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f )
     : GLToy_Parent( eType, fX, fY, fWidth, fHeight )
     , m_szString()
-    , m_uFont( uGLTOY_BAD_HASH )
+    , m_uFont( GLToy_Hash_Constant( "FrontEnd" ) )
     {
     }
 

@@ -47,9 +47,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static u_int g_uCurrentEnvironment = 0;
-static u_int g_uSelection;
 static GLToy_Font* g_pxFont;
-static float g_fStrobe = 0.0f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -67,75 +65,35 @@ protected:
         GLToy_HashTree< GLToy_EnvironmentFile* >& xEnvTree =
             GLToy_Environment_System::GetEnvironmentFileTree();
 
-        if( uKey == GLToy_Input_System::GetUpKey() )
+        if( uKey == GLToy_Input_System::GetLeftKey() )
         {
-            if( g_uSelection > 0 )
+            if( g_uCurrentEnvironment > 0 )
             {
-                --g_uSelection;
+                --g_uCurrentEnvironment;
             }
-        }
-        else if( uKey == GLToy_Input_System::GetDownKey() )
-        {
-            if( g_uSelection < 2 )
+            else
             {
-                ++g_uSelection;
-            }
-        }
-        else if( uKey == GLToy_Input_System::GetLeftKey() )
-        {
-            if( g_uSelection == 1 )
-            {
-                if( g_uCurrentEnvironment > 0 )
-                {
-                    --g_uCurrentEnvironment;
-                }
-                else
-                {
-                    g_uCurrentEnvironment = xEnvTree.GetCount() - 1;
-                }
+                g_uCurrentEnvironment = xEnvTree.GetCount() - 1;
             }
         }
         else if( uKey == GLToy_Input_System::GetRightKey() )
         {
-            if( g_uSelection == 1 )
+            if( g_uCurrentEnvironment < ( xEnvTree.GetCount() - 1 ) )
             {
-                if( g_uCurrentEnvironment < ( xEnvTree.GetCount() - 1 ) )
-                {
-                    ++g_uCurrentEnvironment;
-                }
-                else
-                {
-                    g_uCurrentEnvironment = 0;
-                }
+                ++g_uCurrentEnvironment;
+            }
+            else
+            {
+                g_uCurrentEnvironment = 0;
             }
         }
         else if( ( uKey == GLToy_Input_System::GetExecuteKey() )
             || ( uKey == GLToy_Input_System::GetReturnKey() ) )
         {
-            switch( g_uSelection )
-            {
-                case 0:
-                {
-                    GLToy_Environment_System::CreateTestEnvironment();
-                    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Editor" ) );
-                    break;
-                }
+			GLToy_Environment_System::LoadEnvironmentFile(
+                xEnvTree[ g_uCurrentEnvironment ]->GetName() );
 
-                case 1:
-                {
-                    GLToy_Environment_System::LoadEnvironmentFile(
-                        xEnvTree[ g_uCurrentEnvironment ]->GetName() );
-
-                    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Editor" ) );
-                    break;
-                }
-
-                case 2:
-                {
-                    GLToy::Quit();
-                    break;
-                }
-            }
+            GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Editor" ) );
         }
     }
 };
@@ -149,6 +107,28 @@ GLToy_EditorFrontEnd_KeyInputHandler g_xInputHandler;
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+void GLToy_State_EditorFrontEnd_NewEnvironmentCallback( void* const pData )
+{
+	GLToy_Environment_System::CreateTestEnvironment();
+    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Editor" ) );
+}
+
+void GLToy_State_EditorFrontEnd_LoadEnvironmentCallback( void* const pData )
+{
+	GLToy_HashTree< GLToy_EnvironmentFile* >& xEnvTree =
+        GLToy_Environment_System::GetEnvironmentFileTree();
+
+	GLToy_Environment_System::LoadEnvironmentFile(
+		xEnvTree[ g_uCurrentEnvironment ]->GetName() );
+
+	GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Editor" ) );
+}
+
+void GLToy_State_EditorFrontEnd_QuitCallback( void* const pData )
+{
+	GLToy::Quit();
+}
 
 void GLToy_State_EditorFrontEnd::Initialise()
 {
@@ -171,14 +151,28 @@ void GLToy_State_EditorFrontEnd::Initialise()
     GLToy_Environment_System::SetRender( false );
 
     GLToy_UI_System::ShowPointer( true );
+
+	GLToy_UI_System::CreateLabel( "GLToy Editor", -0.95f, 0.85f );
+	
+	GLToy_UI_System::CreateImageButton(
+		"Widgets/File.png", "New environment",
+		GLToy_State_EditorFrontEnd_NewEnvironmentCallback,
+		-0.95f, 0.45f, 0.2f, 0.2f );
+
+	GLToy_UI_System::CreateImageButton(
+		"Widgets/Folder.png", "Load environment",
+		GLToy_State_EditorFrontEnd_LoadEnvironmentCallback,
+		-0.95f, 0.15f, 0.2f, 0.2f );
+	
+	GLToy_UI_System::CreateImageButton(
+		"Widgets/Shutdown.png", "Quit",
+		GLToy_State_EditorFrontEnd_QuitCallback,
+		-0.95f, -0.85f, 0.2f, 0.2f );
 }
 
 void GLToy_State_EditorFrontEnd::Shutdown()
 {
-    if( g_pxFont )
-    {
-        g_pxFont->Shutdown();
-    }
+	GLToy_UI_System::ClearWidgets();
 
     GLToy_Input_System::SetKeyInputHandler( NULL );
 }
@@ -198,101 +192,20 @@ void GLToy_State_EditorFrontEnd::Render2D() const
     }
 
     const float fTextX = -0.7f;
-
-    g_pxFont->RenderString( "GLToy Editor", -0.95f, 0.85f );
-
-    GLToy_Render::EnableBlending();
-    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
-
-    GLToy_Texture_System::BindTexture( "Widgets/File.png" );
-    
-    GLToy_Render::StartSubmittingQuads();
-    
-    GLToy_Render::SubmitColour(
-        ( g_uSelection == 0 )
-            ? GLToy_Vector_4( 0.92f + g_fStrobe, 0.92f + g_fStrobe, 0.92f + g_fStrobe, 1.0f )
-            : GLToy_Vector_4( 0.84f, 0.84f, 0.84f, 0.84f ) );
-
-    GLToy_Render::SubmitTexturedQuad2D( -0.95f, 0.45f, -0.75f, 0.65f );
-    
-    GLToy_Render::EndSubmit();
-
-    g_pxFont->RenderString(
-        "New environment",
-        fTextX, 0.5f,
-        ( g_uSelection == 0 )
-            ? GLToy_Vector_4( 0.35f + g_fStrobe, 0.8f + g_fStrobe, 0.35f + g_fStrobe, 1.0f )
-            : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
-
-    GLToy_Render::EnableBlending();
-    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
-
-    GLToy_Texture_System::BindTexture( "Widgets/Folder.png" );
-    
-    GLToy_Render::StartSubmittingQuads();
-
-    GLToy_Render::SubmitColour(
-        ( g_uSelection == 1 )
-            ? GLToy_Vector_4( 0.92f + g_fStrobe, 0.92f + g_fStrobe, 0.92f + g_fStrobe, 1.0f )
-            : GLToy_Vector_4( 0.84f, 0.84f, 0.84f, 0.84f ) );
-    
-    GLToy_Render::SubmitTexturedQuad2D( -0.95f, 0.15f, -0.75f, 0.35f );
-    
-    GLToy_Render::EndSubmit();
-
     GLToy_HashTree< GLToy_EnvironmentFile* >& xEnvTree =
         GLToy_Environment_System::GetEnvironmentFileTree();
     if( xEnvTree.GetCount() > 0 )
     {
         g_pxFont->RenderString(
-            "Load environment:",
-            fTextX, 0.2f,
-            ( g_uSelection == 1 )
-                ? GLToy_Vector_4( 0.35f + g_fStrobe, 0.8f + g_fStrobe, 0.35f + g_fStrobe, 1.0f )
-                : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
-
-        g_pxFont->RenderString(
             xEnvTree[ g_uCurrentEnvironment ]->GetFilename(),
             fTextX, 0.05f,
-            ( g_uSelection == 1 )
-                ? GLToy_Vector_4( 0.35f + g_fStrobe, 0.8f + g_fStrobe, 0.35f + g_fStrobe, 1.0f )
-                : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
+            GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
     }
     else
     {
         g_pxFont->RenderString(
             "No environment files found!",
             fTextX, 0.2f,
-            ( g_uSelection == 1 )
-                ? GLToy_Vector_4( 0.35f + g_fStrobe, 0.8f + g_fStrobe, 0.35f + g_fStrobe, 1.0f )
-                : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
+            GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
     }
-    
-    GLToy_Render::EnableBlending();
-    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
-
-    GLToy_Texture_System::BindTexture( "Widgets/Shutdown.png" );
-    
-    GLToy_Render::StartSubmittingQuads();
-    
-    GLToy_Render::SubmitColour(
-        ( g_uSelection == 2 )
-            ? GLToy_Vector_4( 0.92f + g_fStrobe, 0.92f + g_fStrobe, 0.92f + g_fStrobe, 1.0f )
-            : GLToy_Vector_4( 0.84f, 0.84f, 0.84f, 0.84f ) );
-
-    GLToy_Render::SubmitTexturedQuad2D( -0.95f, -0.85f, -0.75f, -0.65f );
-    
-    GLToy_Render::EndSubmit();
-
-    g_pxFont->RenderString(
-        "Quit",
-        fTextX, -0.8f,
-        ( g_uSelection == 2 )
-            ? GLToy_Vector_4( 0.35f + g_fStrobe, 0.8f + g_fStrobe, 0.35f + g_fStrobe, 1.0f )
-            : GLToy_Vector_4( 0.7f, 0.7f, 0.7f, 1.0f ) );
-}
-
-void GLToy_State_EditorFrontEnd::Update()
-{
-    g_fStrobe = 0.08f * GLToy_Maths::Cos( 7.5f * GLToy_Timer::GetTime() );
 }

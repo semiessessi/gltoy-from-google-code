@@ -30,6 +30,7 @@
 
 // GLToy
 #include <Core/Data Structures/GLToy_Array.h>
+#include <Core/GLToy_Timer.h>
 #include <Core/GLToy_UpdateFunctor.h>
 #include <Input/GLToy_Input.h>
 #include <Maths/GLToy_Maths.h>
@@ -39,6 +40,7 @@
 #include <Render/GLToy_Texture.h>
 #include <UI/GLToy_Widget.h>
 #include <UI/GLToy_Widget_Image.h>
+#include <UI/GLToy_Widget_ImageButton.h>
 #include <UI/GLToy_Widget_Label.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,7 +85,12 @@ void GLToy_UI_System::Render2D()
         GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
 
         GLToy_Render::StartSubmittingQuads();
-        GLToy_Render::SubmitTexturedQuad2D( s_xMousePosition[ 0 ], s_xMousePosition[ 1 ] - fUI_MOUSE_WIDTH, s_xMousePosition[ 0 ] + fUI_MOUSE_WIDTH, s_xMousePosition[ 1 ] );
+		
+		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+        GLToy_Render::SubmitTexturedQuad2D(
+			s_xMousePosition[ 0 ], s_xMousePosition[ 1 ] - fUI_MOUSE_WIDTH,
+			s_xMousePosition[ 0 ] + fUI_MOUSE_WIDTH, s_xMousePosition[ 1 ] );
+
         GLToy_Render::EndSubmit();
 
         GLToy_Render::DisableBlending();
@@ -92,8 +99,10 @@ void GLToy_UI_System::Render2D()
 
 void GLToy_UI_System::Update()
 {
-    s_xMousePosition[ 0 ] = GLToy_Maths::Clamp( s_xMousePosition[ 0 ] + GLToy_Input_System::GetMouseDeltaX() * fUI_MOUSE_SCALE, -1.0f, 1.0f );
-    s_xMousePosition[ 1 ] = GLToy_Maths::Clamp( s_xMousePosition[ 1 ] - GLToy_Input_System::GetMouseDeltaY() * fUI_MOUSE_SCALE, -1.0f, 1.0f );
+    s_xMousePosition[ 0 ] =
+		GLToy_Maths::Clamp( s_xMousePosition[ 0 ] + GLToy_Input_System::GetMouseDeltaX() * fUI_MOUSE_SCALE, -1.0f, 1.0f );
+    s_xMousePosition[ 1 ] =
+		GLToy_Maths::Clamp( s_xMousePosition[ 1 ] - GLToy_Input_System::GetMouseDeltaY() * fUI_MOUSE_SCALE, -1.0f, 1.0f );
 
 	s_xTopWidgets.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Widget >() );
 }
@@ -103,7 +112,38 @@ void GLToy_UI_System::ClearWidgets()
     s_xTopWidgets.DeleteAll();
 }
 
-GLToy_Widget* GLToy_UI_System::CreateWidget( const GLToy_WidgetType eType, const float fX, const float fY, const float fWidth, const float fHeight )
+GLToy_Widget_Label* GLToy_UI_System::CreateLabel( const GLToy_String& szLabel, const float fX, const float fY )
+{
+	GLToy_Widget_Label* pxLabel =
+		static_cast< GLToy_Widget_Label* >(
+			CreateWidget( WIDGET_LABEL, fX, fY ) );
+
+	pxLabel->SetString( szLabel );
+
+	return pxLabel;
+}
+
+GLToy_Widget_ImageButton* GLToy_UI_System::CreateImageButton(
+	const GLToy_String& szTexture,
+	const GLToy_String& szLabel,
+	void ( * const pfnCallback )( void* const pData ),
+	const float fX, const float fY,
+	const float fWidth, const float fHeight )
+{
+	GLToy_Widget_ImageButton* pxImageButton =
+		static_cast< GLToy_Widget_ImageButton* >(
+			CreateWidget( WIDGET_IMAGEBUTTON, fX, fY, fWidth, fHeight ) );
+
+	pxImageButton->SetTexture( szTexture.GetHash() );
+	pxImageButton->SetLabelString( szLabel );
+	pxImageButton->SetCallback( pfnCallback );
+
+	return pxImageButton;
+}
+
+GLToy_Widget* GLToy_UI_System::CreateWidget( const GLToy_WidgetType eType,
+											const float fX, const float fY,
+											const float fWidth, const float fHeight )
 {
 	GLToy_Widget* pxWidget = NULL;
 
@@ -127,6 +167,12 @@ GLToy_Widget* GLToy_UI_System::CreateWidget( const GLToy_WidgetType eType, const
             pxWidget = new GLToy_Widget_Image( eType, fX, fY, fWidth, fHeight );
             break;
         }
+
+		case WIDGET_IMAGEBUTTON:
+        {
+            pxWidget = new GLToy_Widget_ImageButton( eType, fX, fY, fWidth, fHeight );
+            break;
+        }
         
         default:
 		{
@@ -147,4 +193,9 @@ void GLToy_UI_System::ShowPointer( const bool bShow )
 {
     GLToy_Camera::SetFlyCamEnabled( false );
     s_bShowPointer = bShow;
+}
+
+float GLToy_UI_System::GetPulse()
+{
+	return 0.92f + 0.08f * GLToy_Maths::Cos( 7.5f * GLToy_Timer::GetTime() );
 }

@@ -44,7 +44,6 @@ public:
     virtual void Shutdown();
 
     virtual void Render2D() const;
-    virtual void Update();
 
     virtual const GLToy_String& GetName() const { static GLToy_String ls_szName = "EditorFrontEnd"; return ls_szName; }
 

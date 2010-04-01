@@ -49,13 +49,16 @@ public:
     : GLToy_Parent( eType, fX, fY, fWidth, fHeight )
     , m_uTextureHash( uGLTOY_BAD_HASH )
     , m_szString()
-    , m_uFont( uGLTOY_BAD_HASH )
+    , m_uFont( GLToy_Hash_Constant( "FrontEnd" ) )
+	, m_pfnCallback( NULL )
+	, m_uFlags( 0 )
     {
     }
 
     virtual ~GLToy_Widget_ImageButton() {}
 
     virtual void Render2D() const;
+	virtual void Update();
 
     GLToy_Inline void SetTexture( const GLToy_String& szString ) { m_uTextureHash = szString.GetHash(); }
     GLToy_Inline void SetTexture( const GLToy_Hash& uHash ) { m_uTextureHash = uHash; }
@@ -65,13 +68,26 @@ public:
 
     GLToy_Inline void SetFont( const GLToy_String& szString ) { m_uFont = szString.GetHash(); }
     GLToy_Inline GLToy_Hash GetFont() const { return m_uFont; }
+
+	GLToy_Inline void SetCallback( void ( * const pfnCallback )( void* const pData ) ) { m_pfnCallback = pfnCallback; }
+
 protected:
 
     GLToy_Hash m_uTextureHash;
     GLToy_String m_szString;
     GLToy_Hash m_uFont;
+    void ( * m_pfnCallback )( void* const pData );
 
-    void ( *m_pfnCallback )( void* const pData );
+	union
+	{
+		struct
+		{
+			u_int m_bClickFlag : 1;
+			u_int m_bHighlightFlag : 1;
+		};
+
+		u_int m_uFlags;
+	};
 };
 
 #endif

@@ -37,6 +37,9 @@ template < class T > class GLToy_Array;
 class GLToy_String;
 class GLToy_Vector_2;
 class GLToy_Widget;
+class GLToy_Widget_Image;
+class GLToy_Widget_ImageButton;
+class GLToy_Widget_Label;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -58,9 +61,17 @@ public:
     static void ShowPointer( const bool bShow = true );
     static bool IsPointerShown() { return s_bShowPointer; }
 
-    static GLToy_Widget* CreateLabel( const GLToy_String& szLabel, const float fX, const float fY );
-    static GLToy_Widget* CreateImage( const GLToy_String& szTexture, const float fX, const float fY, const float fWidth, const float fHeight );
-    static GLToy_Widget* CreateImageButton( const GLToy_String& szTexture, const GLToy_String& szLabel, const float fX, const float fY, const float fWidth, const float fHeight );
+    static GLToy_Widget_Label* CreateLabel( const GLToy_String& szLabel, const float fX, const float fY );
+    static GLToy_Widget_Image* CreateImage( const GLToy_String& szTexture, const float fX, const float fY, const float fWidth, const float fHeight );
+    static GLToy_Widget_ImageButton* CreateImageButton(
+		const GLToy_String& szTexture,
+		const GLToy_String& szLabel,
+		void ( * const pfnCallback )( void* const pData ),
+		const float fX, const float fY,
+		const float fWidth, const float fHeight );
+
+	static const GLToy_Vector_2& GetMousePosition() { return s_xMousePosition; }
+	static float GetPulse();
 
 private:
 
