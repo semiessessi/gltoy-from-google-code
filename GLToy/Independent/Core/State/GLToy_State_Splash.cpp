@@ -79,12 +79,22 @@ void GLToy_State_Splash::Render2D() const
         return;
     }
 
-    pxFont->RenderString( szGLTOY_STRING1, -0.985f, -0.7f );
-    pxFont->RenderString( szGLTOY_STRING2, -0.985f, -0.75f );
-    pxFont->RenderString( szHAVOK_STRING1, -0.985f, -0.8f );
-    pxFont->RenderString( szHAVOK_STRING2, -0.985f, -0.85f );
-    pxFont->RenderString( szOPENGL_STRING1, -0.985f, -0.9f );
-    pxFont->RenderString( szOPENGL_STRING2, -0.985f, -0.95f );
+    const float afX[] =
+    {
+        -( static_cast< float >( szGLTOY_STRING1.GetLength() ) * pxFont->GetWidth() * 0.5f ),
+        -( static_cast< float >( szGLTOY_STRING2.GetLength() ) * pxFont->GetWidth() * 0.5f ),
+        -( static_cast< float >( szHAVOK_STRING1.GetLength() ) * pxFont->GetWidth() * 0.5f ),
+        -( static_cast< float >( szHAVOK_STRING2.GetLength() ) * pxFont->GetWidth() * 0.5f ),
+        -( static_cast< float >( szOPENGL_STRING1.GetLength() ) * pxFont->GetWidth() * 0.5f ),
+        -( static_cast< float >( szOPENGL_STRING2.GetLength() ) * pxFont->GetWidth() * 0.5f ),
+    };
+
+    pxFont->RenderString( szGLTOY_STRING1, afX[ 0 ], -0.7f );
+    pxFont->RenderString( szGLTOY_STRING2, afX[ 1 ], -0.75f );
+    pxFont->RenderString( szHAVOK_STRING1, afX[ 2 ], -0.8f );
+    pxFont->RenderString( szHAVOK_STRING2, afX[ 3 ], -0.85f );
+    pxFont->RenderString( szOPENGL_STRING1, afX[ 4 ], -0.9f );
+    pxFont->RenderString( szOPENGL_STRING2, afX[ 5 ], -0.95f );
 }
 
 void GLToy_State_Splash::Update()
