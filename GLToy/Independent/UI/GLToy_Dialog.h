@@ -32,6 +32,7 @@
 
 // GLToy
 #include <Core/Data Structures/GLToy_Array.h>
+#include <Maths/GLToy_Vector.h>
 #include <UI/GLToy_WidgetTypes.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,6 +75,8 @@ public:
 protected:
 
 	GLToy_DialogStyle m_ucStyle;
+    GLToy_Vector_2 m_xPosition;
+    GLToy_Vector_2 m_xSize;
 
 	GLToy_Array< GLToy_Widget* > m_xWidgets;
 

@@ -82,7 +82,7 @@ private:
     static GLToy_Vector_2 s_xMousePosition;
 
 	static GLToy_Array< GLToy_Dialog* > s_xDialogs;
-	static GLToy_Array< GLToy_Widget* > s_xTopWidgets;
+	static GLToy_Array< GLToy_Widget* > s_xWidgets;
 
 };
 

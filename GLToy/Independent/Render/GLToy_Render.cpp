@@ -241,20 +241,32 @@ void GLToy_Render::PopViewMatrix()
 void GLToy_Render::SubmitTexturedQuad2D( const float fXMin, const float fYMin, const float fXMax, const float fYMax, const float fUMin, const float fVMin, const float fUMax, const float fVMax )
 {
     GLToy_Render::SubmitUV( GLToy_Vector_3( fUMin, fVMax, 0.0f ) );
-    GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMin, fYMin , 0.0f ) );
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMin, fYMin, 0.0f ) );
 
     GLToy_Render::SubmitUV( GLToy_Vector_3( fUMax, fVMax, 0.0f ) );
-    GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMax, fYMin , 0.0f ) );
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMax, fYMin, 0.0f ) );
 
     GLToy_Render::SubmitUV( GLToy_Vector_3( fUMax, fVMin, 0.0f ) );
-    GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMax, fYMax , 0.0f ) );
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMax, fYMax, 0.0f ) );
 
     GLToy_Render::SubmitUV( GLToy_Vector_3( fUMin, fVMin, 0.0f ) );
-    GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMin, fYMax , 0.0f ) );
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMin, fYMax, 0.0f ) );
 }
-static void StartSubmittingLines();
-    static void StartSubmittingLineStrip();
-    static void StartSubmittingLineLoop();
+
+void GLToy_Render::SubmitTexturedQuad2D( const GLToy_Vector_2& xPosition, const GLToy_Vector_2& xSize, const float fUMin, const float fVMin, const float fUMax, const float fVMax )
+{
+    GLToy_Render::SubmitUV( GLToy_Vector_3( fUMin, fVMax, 0.0f ) );
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( xPosition[ 0 ], xPosition[ 1 ], 0.0f ) );
+
+    GLToy_Render::SubmitUV( GLToy_Vector_3( fUMax, fVMax, 0.0f ) );
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( xPosition[ 0 ] + xSize[ 0 ], xPosition[ 1 ], 0.0f ) );
+
+    GLToy_Render::SubmitUV( GLToy_Vector_3( fUMax, fVMin, 0.0f ) );
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( xPosition[ 0 ] + xSize[ 0 ], xPosition[ 1 ] + xSize[ 1 ], 0.0f ) );
+
+    GLToy_Render::SubmitUV( GLToy_Vector_3( fUMin, fVMin, 0.0f ) );
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( xPosition[ 0 ], xPosition[ 1 ] + xSize[ 1 ], 0.0f ) );
+}
 
 void GLToy_Render::StartSubmittingLines()
 {

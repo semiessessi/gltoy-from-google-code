@@ -32,6 +32,7 @@
 
 // GLToy
 #include <Core/GLToy_Hash.h>
+#include <Maths/GLToy_Vector.h>
 #include <UI/GLToy_WidgetTypes.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,30 +47,24 @@ class GLToy_Widget
 public:
 
     GLToy_Widget()
-    : m_fX( 0.0f )
-	, m_fY( 0.0f )
-	, m_fWidth( 0.0f )
-	, m_fHeight( 0.0f )
+    : m_xPosition()
+    , m_xSize()
 	, m_eType( WIDGET_NULL )
     {
 
     }
 
 	GLToy_Widget( const GLToy_WidgetType eType, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f )
-    : m_fX( fX )
-	, m_fY( fY )
-	, m_fWidth( fWidth )
-	, m_fHeight( fHeight )
+    : m_xPosition( fX, fY )
+    , m_xSize( fWidth, fHeight )
 	, m_eType( eType )
     {
     }
 
     // TODO - I think this can be safely deleted
     GLToy_Widget( const GLToy_Widget& xWidget )
-    : m_fX( 0.0f )
-	, m_fY( 0.0f )
-	, m_fWidth( 0.0f )
-	, m_fHeight( 0.0f )
+    : m_xPosition()
+    , m_xSize()
 	, m_eType( WIDGET_NULL )
     {
     }
@@ -84,22 +79,24 @@ public:
 
 	virtual void Execute() {}
 
-	GLToy_Inline float GetX() const { return m_fX; }
-	GLToy_Inline float GetY() const { return m_fY; }
-	GLToy_Inline float GetWidth() const { return m_fWidth; }
-	GLToy_Inline float GetHeight() const { return m_fHeight; }
+	GLToy_Inline float GetX() const { return m_xPosition[ 0 ]; }
+	GLToy_Inline float GetY() const { return m_xPosition[ 1 ]; }
+    GLToy_Inline const GLToy_Vector_2& GetPosition() const { return m_xPosition; }
+	GLToy_Inline float GetWidth() const { return m_xSize[ 0 ]; }
+	GLToy_Inline float GetHeight() const { return m_xSize[ 1 ]; }
+    GLToy_Inline const GLToy_Vector_2& GetSize() const { return m_xSize; }
 
     GLToy_Inline GLToy_WidgetType GetType() const { return m_eType; }
     
-    GLToy_Inline void SetPosition( const float fX, const float fY ) { m_fX = fX; m_fY = fY; }
-    GLToy_Inline void SetSize( const float fWidth, const float fHeight ) { m_fWidth = fWidth; m_fHeight = fHeight; }
+    GLToy_Inline void SetPosition( const float fX, const float fY ) { m_xPosition[ 0 ] = fX; m_xPosition[ 1 ] = fY; }
+    GLToy_Inline void SetPosition( const GLToy_Vector_2& xPosition ) { m_xPosition = xPosition; }
+    GLToy_Inline void SetSize( const float fWidth, const float fHeight ) { m_xSize[ 0 ] = fWidth; m_xSize[ 1 ] = fHeight; }
+    GLToy_Inline void SetSize( const GLToy_Vector_2& xSize ) { m_xSize = xSize; }
 
 protected:
 
-    float m_fX;
-	float m_fY;
-	float m_fWidth;
-	float m_fHeight;
+    GLToy_Vector_2 m_xPosition;
+    GLToy_Vector_2 m_xSize;
 	GLToy_WidgetType m_eType;
 
 };

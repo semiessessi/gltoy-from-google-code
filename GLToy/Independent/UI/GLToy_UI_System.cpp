@@ -57,7 +57,7 @@ static const float fUI_MOUSE_WIDTH = 1.0f / 12.5f;
 
 bool GLToy_UI_System::s_bShowPointer = false;
 GLToy_Array< GLToy_Dialog* > GLToy_UI_System::s_xDialogs;
-GLToy_Array< GLToy_Widget* > GLToy_UI_System::s_xTopWidgets;
+GLToy_Array< GLToy_Widget* > GLToy_UI_System::s_xWidgets;
 GLToy_Vector_2 GLToy_UI_System::s_xMousePosition = GLToy_Vector_2( 0.0f, 0.0f );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,7 +77,7 @@ void GLToy_UI_System::Shutdown()
 
 void GLToy_UI_System::Render2D()
 {
-	s_xTopWidgets.Traverse( GLToy_IndirectRender2DFunctor< GLToy_Widget >() );
+	s_xWidgets.Traverse( GLToy_IndirectRender2DFunctor< GLToy_Widget >() );
 
     // render the pointer
     if( s_bShowPointer )
@@ -106,12 +106,12 @@ void GLToy_UI_System::Update()
     s_xMousePosition[ 1 ] =
 		GLToy_Maths::Clamp( s_xMousePosition[ 1 ] - GLToy_Input_System::GetMouseDeltaY() * fUI_MOUSE_SCALE, -1.0f, 1.0f );
 
-	s_xTopWidgets.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Widget >() );
+	s_xWidgets.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Widget >() );
 }
 
 void GLToy_UI_System::ClearWidgets()
 {
-    s_xTopWidgets.DeleteAll();
+    s_xWidgets.DeleteAll();
 }
 
 GLToy_Widget_Label* GLToy_UI_System::CreateLabel( const GLToy_String& szLabel, const float fX, const float fY )
@@ -185,7 +185,7 @@ GLToy_Widget* GLToy_UI_System::CreateWidget( const GLToy_WidgetType eType,
 
     if( pxWidget )
     {
-        s_xTopWidgets.Append( pxWidget );
+        s_xWidgets.Append( pxWidget );
     }
 
 	return pxWidget;

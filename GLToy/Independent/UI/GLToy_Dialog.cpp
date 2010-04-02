@@ -39,7 +39,16 @@
 
 GLToy_Dialog::GLToy_Dialog()
 : m_ucStyle( DIALOG_STYLE_DEFAULT )
+, m_xPosition()
+, m_xSize()
 , m_xWidgets()
 {
+}
 
+void GLToy_Dialog::Render2D() const
+{
+}
+
+void GLToy_Dialog::Update()
+{
 }

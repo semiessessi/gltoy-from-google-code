@@ -76,6 +76,7 @@
 
 static const float fHAVOK_SCALE = 1.0f / 32.0f;
 static const float fINVERSE_HAVOK_SCALE = 1.0f / fHAVOK_SCALE;
+static const float fPHYSICS_STEP_TIME = 1.0f / 42.0f;
 
 #endif
 
@@ -252,7 +253,7 @@ bool Physics_Physics_System::Initialise()
     xHavokWorldInfo.m_gravity.set( 0.0f, -9.8f, 0.0f );
     xHavokWorldInfo.m_collisionTolerance = 0.01f;
     xHavokWorldInfo.m_expectedMaxLinearVelocity = 10000.0f; // this seems to be the best magic number to prevent penetration.
-    xHavokWorldInfo.m_expectedMinPsiDeltaTime = 1.0f / 31.0f; // it should always be below 30fps infact...
+    xHavokWorldInfo.m_expectedMinPsiDeltaTime = fPHYSICS_STEP_TIME * 0.475f;
     xHavokWorldInfo.setBroadPhaseWorldSize( 1500.0f );
     xHavokWorldInfo.setupSolverInfo( hkpWorldCinfo::SOLVER_TYPE_2ITERS_HARD );
     xHavokWorldInfo.m_solverMicrosteps = 2;
@@ -313,7 +314,7 @@ void Physics_Physics_System::Update()
     static float ls_fAccumulatedTimer = 0.0f;
     ls_fAccumulatedTimer += GLToy_Timer::GetFrameTime();
 
-    if( ls_fAccumulatedTimer > 1.0f / 30.0f )
+    if( ls_fAccumulatedTimer > fPHYSICS_STEP_TIME )
     {
         // this seems dumb, but it has higher quality
         g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, ls_fAccumulatedTimer * 0.5f );
@@ -359,7 +360,7 @@ Physics_Physics_Object* Physics_Physics_System::CreatePhysicsPlane( const GLToy_
     g_pxHavokWorld->lock();
     Physics_Havok_MarkForWrite();
     g_pxHavokWorld->addEntity( pxRigidBody );
-    pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_CRITICAL );
+    pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_FIXED );
     Physics_Havok_UnmarkForWrite();
     g_pxHavokWorld->unlock();
 
