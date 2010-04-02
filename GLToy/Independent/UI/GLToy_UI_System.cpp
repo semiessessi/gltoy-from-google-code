@@ -56,9 +56,11 @@ static const float fUI_MOUSE_WIDTH = 1.0f / 12.5f;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 bool GLToy_UI_System::s_bShowPointer = false;
+GLToy_Vector_2 GLToy_UI_System::s_xMousePosition = GLToy_Vector_2( 0.0f, 0.0f );
+
+GLToy_Dialog* GLToy_UI_System::s_pxCurrentModalDialog = NULL;
 GLToy_Array< GLToy_Dialog* > GLToy_UI_System::s_xDialogs;
 GLToy_Array< GLToy_Widget* > GLToy_UI_System::s_xWidgets;
-GLToy_Vector_2 GLToy_UI_System::s_xMousePosition = GLToy_Vector_2( 0.0f, 0.0f );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -79,12 +81,20 @@ void GLToy_UI_System::Render2D()
 {
 	s_xWidgets.Traverse( GLToy_IndirectRender2DFunctor< GLToy_Widget >() );
 
+    // we use the depth buffer and alpha blending for dialogs...
+    GLToy_Render::EnableDepthTesting();
+    GLToy_Render::EnableBlending();
+    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+    s_xDialogs.Traverse( GLToy_IndirectRender2DFunctor< GLToy_Dialog >() );
+
+    // reset the depth functions etc.
+    GLToy_Render::ClearDepth( 1.0f );
+    GLToy_Render::DisableDepthTesting();
+
     // render the pointer
     if( s_bShowPointer )
     {
         GLToy_Texture_System::BindTexture( "Widgets/Pointer.png" );
-        GLToy_Render::EnableBlending();
-        GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
 
         GLToy_Render::StartSubmittingQuads();
 		
@@ -94,18 +104,19 @@ void GLToy_UI_System::Render2D()
 			s_xMousePosition[ 0 ] + fUI_MOUSE_WIDTH, s_xMousePosition[ 1 ] );
 
         GLToy_Render::EndSubmit();
-
-        GLToy_Render::DisableBlending();
     }
+
+    GLToy_Render::DisableBlending();
 }
 
 void GLToy_UI_System::Update()
 {
     s_xMousePosition[ 0 ] =
-		GLToy_Maths::Clamp( s_xMousePosition[ 0 ] + GLToy_Input_System::GetMouseDeltaX() * fUI_MOUSE_SCALE, -1.0f, 1.0f );
+		GLToy_Maths::Clamp( s_xMousePosition[ 0 ] + GLToy_Input_System::GetMouseDeltaX() * fUI_MOUSE_SCALE, GLToy_Render::GetMinX(), GLToy_Render::GetMaxX() );
     s_xMousePosition[ 1 ] =
 		GLToy_Maths::Clamp( s_xMousePosition[ 1 ] - GLToy_Input_System::GetMouseDeltaY() * fUI_MOUSE_SCALE, -1.0f, 1.0f );
 
+    s_xDialogs.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Dialog >() );
 	s_xWidgets.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Widget >() );
 }
 
@@ -143,9 +154,39 @@ GLToy_Widget_ImageButton* GLToy_UI_System::CreateImageButton(
 	return pxImageButton;
 }
 
-GLToy_Widget* GLToy_UI_System::CreateWidget( const GLToy_WidgetType eType,
-											const float fX, const float fY,
-											const float fWidth, const float fHeight )
+GLToy_Dialog* GLToy_UI_System::CreateDialog(
+    const GLToy_DialogStyle ucStyle,
+	const float fX, const float fY,
+	const float fWidth, const float fHeight )
+{
+    if( ucStyle & DIALOG_STYLE_MODAL )
+    {
+        if( s_pxCurrentModalDialog )
+        {
+            GLToy_Assert( s_pxCurrentModalDialog == NULL, "Cannot create a modal dialog whilst one is already active." );
+            return NULL;
+        }
+        else
+        {
+            s_pxCurrentModalDialog  = new GLToy_Dialog( ucStyle, fX, fY, fWidth, fHeight );
+            return s_pxCurrentModalDialog;
+        }
+    }
+
+    GLToy_Dialog* pxDialog = new GLToy_Dialog( ucStyle, fX, fY, fWidth, fHeight );
+
+    return pxDialog;
+}
+
+void GLToy_UI_System::ShowQuitDialog()
+{
+    GLToy_Dialog* pxQuitDialog = CreateDialog( DIALOG_STYLE_CENTRE | DIALOG_STYLE_MODAL );
+}
+
+GLToy_Widget* GLToy_UI_System::CreateWidget(
+    const GLToy_WidgetType eType,
+	const float fX, const float fY,
+	const float fWidth, const float fHeight )
 {
 	GLToy_Widget* pxWidget = NULL;
 
@@ -189,6 +230,12 @@ GLToy_Widget* GLToy_UI_System::CreateWidget( const GLToy_WidgetType eType,
     }
 
 	return pxWidget;
+}
+
+void GLToy_UI_System::DestroyCurrentModalDialog()
+{
+    delete s_pxCurrentModalDialog;
+    s_pxCurrentModalDialog = NULL;
 }
 
 void GLToy_UI_System::ShowPointer( const bool bShow )

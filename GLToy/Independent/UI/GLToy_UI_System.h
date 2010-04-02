@@ -27,6 +27,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // GLToy
+#include <UI/GLToy_DialogStyles.h>
 #include <UI/GLToy_WidgetTypes.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +49,8 @@ class GLToy_Widget_Label;
 
 class GLToy_UI_System
 {
+
+    friend class GLToy_Dialog;
 
 public:
 
@@ -71,16 +74,21 @@ public:
 		const float fX, const float fY,
 		const float fWidth, const float fHeight );
 
+    static GLToy_Dialog* CreateDialog( const GLToy_DialogStyle ucStyle, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f );
+    static void ShowQuitDialog();
+
 	static const GLToy_Vector_2& GetMousePosition() { return s_xMousePosition; }
 	static float GetPulse();
 
 private:
 
     static GLToy_Widget* CreateWidget( const GLToy_WidgetType eType, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f );
+    static void DestroyCurrentModalDialog();
 
     static bool s_bShowPointer;
     static GLToy_Vector_2 s_xMousePosition;
 
+    static GLToy_Dialog* s_pxCurrentModalDialog;
 	static GLToy_Array< GLToy_Dialog* > s_xDialogs;
 	static GLToy_Array< GLToy_Widget* > s_xWidgets;
 

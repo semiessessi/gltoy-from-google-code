@@ -57,6 +57,7 @@ public:
     GLToy_Inline GLToy_Hash GetHash() const { return m_szName.GetHash(); }
     GLToy_Inline const GLToy_String& GetName() const { return m_szName; }
     GLToy_Inline u_int GetSize() const { return m_uSize; }
+    GLToy_Inline float GetWidth() const { return GetHeight() * 0.55f; }
     GLToy_Inline float GetHeight() const { return static_cast< float >( m_uSize ) / 256.0f; }
 
     virtual void Initialise() = 0;

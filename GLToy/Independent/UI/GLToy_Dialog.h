@@ -33,27 +33,15 @@
 // GLToy
 #include <Core/Data Structures/GLToy_Array.h>
 #include <Maths/GLToy_Vector.h>
+#include <UI/GLToy_DialogStyles.h>
 #include <UI/GLToy_WidgetTypes.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+class GLToy_String;
 class GLToy_Widget;
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// T Y P E D E F S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef u_char GLToy_DialogStyle;
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// C O N S T A N T S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-static const GLToy_DialogStyle DIALOG_STYLE_DEFAULT = 0;
-static const GLToy_DialogStyle DIALOG_STYLE_CENTRE = 1;
-static const GLToy_DialogStyle DIALOG_STYLE_MODAL = 2;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -66,11 +54,34 @@ class GLToy_Dialog
 
 public:
 
-	GLToy_Dialog();
-	virtual ~GLToy_Dialog() {}
+	GLToy_Dialog(
+        const GLToy_DialogStyle ucStyle = DIALOG_STYLE_DEFAULT,
+        const float fX = 0.0f, const float fY = 0.0f,
+        const float fWidth = 0.1f, const float fHeight = 0.1f );
 
+	virtual ~GLToy_Dialog();
+
+    // we should never want to render these in 3D...
+    virtual void Render() const {}
 	virtual void Render2D() const;
 	virtual void Update();
+
+	GLToy_Inline float GetX() const { return m_xPosition[ 0 ]; }
+	GLToy_Inline float GetY() const { return m_xPosition[ 1 ]; }
+    GLToy_Inline const GLToy_Vector_2& GetPosition() const { return m_xPosition; }
+	GLToy_Inline float GetWidth() const { return m_xSize[ 0 ]; }
+	GLToy_Inline float GetHeight() const { return m_xSize[ 1 ]; }
+    GLToy_Inline const GLToy_Vector_2& GetSize() const { return m_xSize; }
+
+    GLToy_Inline GLToy_DialogStyle GetStyle() const { return m_ucStyle; }
+    
+    GLToy_Inline void SetPosition( const float fX, const float fY ) { m_xPosition[ 0 ] = fX; m_xPosition[ 1 ] = fY; }
+    GLToy_Inline void SetPosition( const GLToy_Vector_2& xPosition ) { m_xPosition = xPosition; }
+    GLToy_Inline void SetSize( const float fWidth, const float fHeight ) { m_xSize[ 0 ] = fWidth; m_xSize[ 1 ] = fHeight; }
+    GLToy_Inline void SetSize( const GLToy_Vector_2& xSize ) { m_xSize = xSize; }
+
+    void AddText( const GLToy_String& szString );
+    void AddWidget( GLToy_Widget* const pxWidget );
 
 protected:
 

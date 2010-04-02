@@ -152,22 +152,23 @@ void GLToy_State_EditorFrontEnd::Initialise()
 
     GLToy_UI_System::ShowPointer( true );
 
-	GLToy_UI_System::CreateLabel( "GLToy Editor", -0.95f, 0.85f );
+    const float fBaseX = GLToy_Render::GetMinX() + 0.05f;
+	GLToy_UI_System::CreateLabel( "GLToy Editor", fBaseX, 0.85f );
 	
 	GLToy_UI_System::CreateImageButton(
 		"Widgets/File.png", "New environment",
 		GLToy_State_EditorFrontEnd_NewEnvironmentCallback,
-		-0.95f, 0.45f, 0.2f, 0.2f );
+		fBaseX, 0.45f, 0.2f, 0.2f );
 
 	GLToy_UI_System::CreateImageButton(
 		"Widgets/Folder.png", "Load environment",
 		GLToy_State_EditorFrontEnd_LoadEnvironmentCallback,
-		-0.95f, 0.15f, 0.2f, 0.2f );
+		fBaseX, 0.15f, 0.2f, 0.2f );
 	
 	GLToy_UI_System::CreateImageButton(
 		"Widgets/Shutdown.png", "Quit",
 		GLToy_State_EditorFrontEnd_QuitCallback,
-		-0.95f, -0.85f, 0.2f, 0.2f );
+		fBaseX, -0.85f, 0.2f, 0.2f );
 }
 
 void GLToy_State_EditorFrontEnd::Shutdown()
@@ -191,7 +192,7 @@ void GLToy_State_EditorFrontEnd::Render2D() const
         g_pxFont->Initialise();
     }
 
-    const float fTextX = -0.7f;
+    const float fTextX = GLToy_Render::GetMinX() + 0.3f;
     GLToy_HashTree< GLToy_EnvironmentFile* >& xEnvTree =
         GLToy_Environment_System::GetEnvironmentFileTree();
     if( xEnvTree.GetCount() > 0 )

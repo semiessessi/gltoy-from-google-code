@@ -35,6 +35,15 @@
 #define BLEND_DST_ALPHA                      0x0304
 #define BLEND_ONE_MINUS_DST_ALPHA            0x0305
 
+#define DEPTH_NEVER                          0x0200
+#define DEPTH_LESS                           0x0201
+#define DEPTH_EQUAL                          0x0202
+#define DEPTH_LEQUAL                         0x0203
+#define DEPTH_GREATER                        0x0204
+#define DEPTH_NOTEQUAL                       0x0205
+#define DEPTH_GEQUAL                         0x0206
+#define DEPTH_ALWAYS                         0x0207
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,6 +67,10 @@ class GLToy_Render
 public:
 
     static float GetFOV() { return s_fFOV; }
+    static float GetAspectRatio() { return s_fAspectRatio; }
+    static float GetMinX() { return -GetAspectRatio(); }
+    static float GetMaxX() { return GetAspectRatio(); }
+    static float Get2DWidth() { return 2.0f * GetAspectRatio(); }
 
     static bool Initialise();
     static void Shutdown();
@@ -73,10 +86,13 @@ public:
     // GL interface
     static u_int GetError();
 
+    static void ClearDepth( const float fDepth );
+    static void SetDepthFunction( const u_int uDepthFunction );
+
     static void SetViewport( const int iX, const int iY, const u_int uWidth, const u_int uHeight );
 
     static void SetIdentityProjectionMatrix();
-    static void SetPerspectiveProjectionMatrix( const u_int uViewportWidth, const u_int uViewportHeight );
+    static void SetPerspectiveProjectionMatrix();
     static void SetOrthogonalProjectionMatrix();
 
     static void SetIdentityViewMatrix();
@@ -102,6 +118,7 @@ public:
     static void StartSubmittingPolygon();
     static void EndSubmit();
 
+    static void SubmitVertex( const float fX, const float fY, const float fZ );
     static void SubmitVertex( const GLToy_Vector_3& xVertex );
     static void SubmitNormal( const GLToy_Vector_3& xNormal );
     static void SubmitColour( const GLToy_Vector_3& xColour );
@@ -175,6 +192,7 @@ private:
     static void Platform_EndRender();
 
     static float s_fFOV;
+    static float s_fAspectRatio;
     static bool s_bDrawFPS;
 
     static GLToy_BinaryTree< const GLToy_Renderable*, float > s_xTransparents;

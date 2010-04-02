@@ -969,6 +969,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\UI\GLToy_DialogStyles.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\UI\GLToy_UI_System.cpp"
 					>
 				</File>

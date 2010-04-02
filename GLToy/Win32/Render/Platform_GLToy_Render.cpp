@@ -194,6 +194,17 @@ u_int Platform_GLToy_Render::GetError()
     return glGetError();
 }
 
+void Platform_GLToy_Render::ClearDepth( const float fDepth )
+{
+    glClearDepth( fDepth );
+    glClear( GL_DEPTH_BUFFER_BIT );
+}
+
+void Platform_GLToy_Render::SetDepthFunction( const u_int uDepthFunction )
+{
+    glDepthFunc( uDepthFunction );
+}
+
 void Platform_GLToy_Render::SetViewport( const int iX, const int iY, const u_int uWidth, const u_int uHeight )
 {
     glViewport( iX, iY, uWidth, uHeight );
@@ -205,18 +216,18 @@ void Platform_GLToy_Render::SetIdentityProjectionMatrix()
     glLoadIdentity();
 }
 
-void Platform_GLToy_Render::SetPerspectiveProjectionMatrix( const float fFOV, const u_int uViewportWidth, const u_int uViewportHeight )
+void Platform_GLToy_Render::SetPerspectiveProjectionMatrix( const float fFOV, const float fAspectRatio )
 {
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
-    gluPerspective( fFOV, static_cast<float>( uViewportWidth ) / static_cast< float >( uViewportHeight ), 0.01f, 10000.0f );
+    gluPerspective( fFOV, fAspectRatio, 0.01f, 10000.0f );
 }
 
-void Platform_GLToy_Render::SetOrthogonalProjectionMatrix()
+void Platform_GLToy_Render::SetOrthogonalProjectionMatrix( const float fAspectRatio )
 {
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
-    glOrtho( -1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f );
+    glOrtho( -fAspectRatio, fAspectRatio, -1.0f, 1.0f, -1.0f, 1.0f );
 }
 
 void Platform_GLToy_Render::SetIdentityViewMatrix()
@@ -320,6 +331,11 @@ void Platform_GLToy_Render::PopViewMatrix()
 {
     glMatrixMode( GL_MODELVIEW );
     glPopMatrix();
+}
+
+void Platform_GLToy_Render::SubmitVertex( const float fX, const float fY, const float fZ )
+{
+    glVertex3f( fX, fY, fZ );
 }
 
 void Platform_GLToy_Render::SubmitVertex( const GLToy_Vector_3& xVertex )

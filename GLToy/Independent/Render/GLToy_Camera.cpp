@@ -128,7 +128,7 @@ void GLToy_Camera::Update()
 
 void GLToy_Camera::ApplyTransforms()
 {
-    GLToy_Render::SetPerspectiveProjectionMatrix( GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+    GLToy_Render::SetPerspectiveProjectionMatrix();
 
     GLToy_Render::SetIdentityViewMatrix();
 

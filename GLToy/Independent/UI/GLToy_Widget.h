@@ -54,7 +54,10 @@ public:
 
     }
 
-	GLToy_Widget( const GLToy_WidgetType eType, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f )
+	GLToy_Widget(
+        const GLToy_WidgetType eType,
+        const float fX = 0.0f, const float fY = 0.0f,
+        const float fWidth = 0.1f, const float fHeight = 0.1f )
     : m_xPosition( fX, fY )
     , m_xSize( fWidth, fHeight )
 	, m_eType( eType )

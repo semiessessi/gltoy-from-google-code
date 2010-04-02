@@ -47,6 +47,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 float GLToy_Render::s_fFOV = 90.0f;
+float GLToy_Render::s_fAspectRatio = 1.0f;
 bool GLToy_Render::s_bDrawFPS = GLToy_IsDebugBuild();
 GLToy_BinaryTree< const GLToy_Renderable*, float > GLToy_Render::s_xTransparents;
 
@@ -133,7 +134,7 @@ void GLToy_Render::Render2D()
 		{
 			GLToy_String szFPSString;
 			szFPSString.SetToFormatString( "%.2f fps", GLToy_Maths::Max( GLToy_Timer::GetSmoothedFrameRate(), 0.01f ) );
-			pxFont->RenderString( szFPSString, -1.0f, 1.0f - pxFont->GetHeight() );
+			pxFont->RenderString( szFPSString, GLToy_Render::GetMaxX() - szFPSString.GetLength() * pxFont->GetWidth(), 1.0f - pxFont->GetHeight() );
 		}
     }
 }
@@ -180,8 +181,19 @@ u_int GLToy_Render::GetError()
     return Platform_GLToy_Render::GetError();
 }
 
+void GLToy_Render::ClearDepth( const float fDepth )
+{
+    Platform_GLToy_Render::ClearDepth( fDepth );
+}
+
+void GLToy_Render::SetDepthFunction( const u_int uDepthFunction )
+{
+    Platform_GLToy_Render::SetDepthFunction( uDepthFunction );
+}
+
 void GLToy_Render::SetViewport( const int iX, const int iY, const u_int uWidth, const u_int uHeight )
 {
+    s_fAspectRatio = static_cast< float >( uWidth ) / static_cast< float >( uHeight );
     Platform_GLToy_Render::SetViewport( iX, iY, uWidth, uHeight );
 }
 
@@ -190,16 +202,16 @@ void GLToy_Render::SetIdentityProjectionMatrix()
     Platform_GLToy_Render::SetIdentityProjectionMatrix();
 }
 
-void GLToy_Render::SetPerspectiveProjectionMatrix( const u_int uViewportWidth, const u_int uViewportHeight )
+void GLToy_Render::SetPerspectiveProjectionMatrix()
 {
     Platform_GLToy_Render::SetIdentityProjectionMatrix();
-    Platform_GLToy_Render::SetPerspectiveProjectionMatrix( s_fFOV, uViewportWidth, uViewportHeight );
+    Platform_GLToy_Render::SetPerspectiveProjectionMatrix( s_fFOV, s_fAspectRatio );
 }
 
 void GLToy_Render::SetOrthogonalProjectionMatrix()
 {
     Platform_GLToy_Render::SetIdentityProjectionMatrix();
-    Platform_GLToy_Render::SetOrthogonalProjectionMatrix();
+    Platform_GLToy_Render::SetOrthogonalProjectionMatrix( s_fAspectRatio );
 }
 
 void GLToy_Render::SetIdentityViewMatrix()
@@ -316,6 +328,11 @@ void GLToy_Render::EndSubmit()
 void GLToy_Render::SubmitVertex( const GLToy_Vector_3& xVertex )
 {
     Platform_GLToy_Render::SubmitVertex( xVertex );
+}
+
+void GLToy_Render::SubmitVertex( const float fX, const float fY, const float fZ )
+{
+    Platform_GLToy_Render::SubmitVertex( fX, fY, fZ );
 }
 
 void GLToy_Render::SubmitNormal( const GLToy_Vector_3& xNormal )

@@ -87,11 +87,14 @@ private:
     // GL interface
     static u_int GetError();
 
+    static void ClearDepth( const float fDepth );
+    static void SetDepthFunction( const u_int uDepthFunction );
+
     static void SetViewport( const int iX, const int iY, const u_int uWidth, const u_int uHeight );
 
     static void SetIdentityProjectionMatrix();
-    static void SetPerspectiveProjectionMatrix( const float fFOV, const u_int uViewportWidth, const u_int uViewportHeight );
-    static void SetOrthogonalProjectionMatrix();
+    static void SetPerspectiveProjectionMatrix( const float fFOV, const float fAspectRatio );
+    static void SetOrthogonalProjectionMatrix( const float fAspectRatio );
 
     static void SetIdentityViewMatrix();
     static void SetLookAtViewMatrix( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xLookAt, const GLToy_Vector_3& xUp );
@@ -129,6 +132,7 @@ private:
     static void SetCCWFaceWinding();
     static void SetCWFaceWinding();
 
+    static void SubmitVertex( const float fX, const float fY, const float fZ );
     static void SubmitVertex( const GLToy_Vector_3& xVertex );
     static void SubmitNormal( const GLToy_Vector_3& xNormal );
     static void SubmitColour( const GLToy_Vector_3& xColour );

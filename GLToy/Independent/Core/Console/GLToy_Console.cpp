@@ -274,7 +274,7 @@ void GLToy_Console::Render2D()
 
     GLToy_Render::StartSubmittingQuads();
     GLToy_Render::SubmitColour( GLToy_Vector_4( 0.4f, 0.4f, 0.4f, 0.85f ) );
-    GLToy_Render::SubmitTexturedQuad2D( -1.0f, 0.0f + s_fSlideOffset, 1.0f, 1.0f + s_fSlideOffset );
+    GLToy_Render::SubmitTexturedQuad2D( GLToy_Render::GetMinX(), 0.0f + s_fSlideOffset, GLToy_Render::GetMaxX(), 1.0f + s_fSlideOffset );
     GLToy_Render::EndSubmit();
 
     GLToy_Render::DisableBlending();
@@ -287,7 +287,7 @@ void GLToy_Console::Render2D()
     // render input string
     const float fOffset = 0.01f + s_fSlideOffset;
     const float fLineSpace = 1.1f;
-    s_pxFont->RenderString( s_xInputHandler.GetInputBuffer(), -1.0f, fOffset );
+    s_pxFont->RenderString( s_xInputHandler.GetInputBuffer(), GLToy_Render::GetMinX(), fOffset );
 
     float fYPos = fOffset + s_pxFont->GetHeight() * fLineSpace;
 
@@ -297,7 +297,7 @@ void GLToy_Console::Render2D()
     const u_int uEndPos = ( uStartPos < 24 ) ? 0 : uStartPos - 24;
     for( u_int u = uStartPos; ( u >= uEndPos ) && ( u != 0xffffffff ); --u )
     {
-        s_pxFont->RenderString( s_xLog[ u ], -1.0f, fYPos );
+        s_pxFont->RenderString( s_xLog[ u ], GLToy_Render::GetMinX(), fYPos );
         fYPos += s_pxFont->GetHeight() * fLineSpace;
     }
 }
