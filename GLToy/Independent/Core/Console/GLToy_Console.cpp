@@ -34,7 +34,7 @@
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <Core/GLToy_Timer.h>
 #include <Input/GLToy_Input.h>
-#include <Maths/GLToy_Vector.h>
+#include <Maths/GLToy_Maths.h>
 #include <Render/Font/GLToy_Font.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
@@ -277,10 +277,9 @@ void GLToy_Console::Render2D()
     GLToy_Render::SubmitTexturedQuad2D( GLToy_Render::GetMinX(), 0.0f + s_fSlideOffset, GLToy_Render::GetMaxX(), 1.0f + s_fSlideOffset );
     GLToy_Render::EndSubmit();
 
-    GLToy_Render::DisableBlending();
-
     if( !s_pxFont )
     {
+        GLToy_Render::DisableBlending();
         return;
     }
 
@@ -289,10 +288,25 @@ void GLToy_Console::Render2D()
     const float fLineSpace = 1.1f;
     s_pxFont->RenderString( s_xInputHandler.GetInputBuffer(), GLToy_Render::GetMinX(), fOffset );
 
-    float fYPos = fOffset + s_pxFont->GetHeight() * fLineSpace;
+    // render caret
+    GLToy_Render::EnableBlending();
+    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+
+    GLToy_Texture_System::BindWhite();
+
+    GLToy_Render::StartSubmittingLines();
+
+    const bool bFlash = ( GLToy_Timer::GetTime() - GLToy_Maths::Floor( GLToy_Timer::GetTime() ) ) > 0.5f;
+    GLToy_Render::SubmitColour( bFlash ? GLToy_Maths::ZeroVector4 : GLToy_Vector_4( 0.8f, 0.8f, 0.8f, 1.0f ) );
+    const float fCaretX = GLToy_Render::GetMinX() + static_cast< float >( s_xInputHandler.GetCaret() ) * s_pxFont->GetWidth();
+    GLToy_Render::SubmitVertex( fCaretX, fOffset, 0.0f );
+    GLToy_Render::SubmitVertex( fCaretX, fOffset + s_pxFont->GetHeight(), 0.0f );
+
+    GLToy_Render::EndSubmit();
 
     // render log
     // TODO - this is some crappy loopage, I'm certain it can be rewritten to something cleaner
+    float fYPos = fOffset + s_pxFont->GetHeight() * fLineSpace;
     const u_int uStartPos = s_xLog.GetCount() - s_uVerticalPosition - 1;
     const u_int uEndPos = ( uStartPos < 24 ) ? 0 : uStartPos - 24;
     for( u_int u = uStartPos; ( u >= uEndPos ) && ( u != 0xffffffff ); --u )
@@ -300,6 +314,8 @@ void GLToy_Console::Render2D()
         s_pxFont->RenderString( s_xLog[ u ], GLToy_Render::GetMinX(), fYPos );
         fYPos += s_pxFont->GetHeight() * fLineSpace;
     }
+
+    GLToy_Render::DisableBlending();
 }
 
 void GLToy_Console::Update()

@@ -55,6 +55,7 @@ public:
     void DisableStringInput() { m_bHandleStringInput = false; }
     void EnableStringInput() { m_bHandleStringInput = true; }
     
+    GLToy_Inline u_int GetCaret() const { return m_uCaret; }
 
 protected:
 
