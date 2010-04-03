@@ -58,6 +58,8 @@ public:
     virtual void Shutdown();
 
     virtual void RenderString( const GLToy_String& szString, const float fX, const float fY, const GLToy_Vector_4& xColour ) const;
+    virtual void RenderStringDown( const GLToy_String& szString, const float fX, const float fY, const GLToy_Vector_4& xColour ) const;
+    virtual void RenderStringUp( const GLToy_String& szString, const float fX, const float fY, const GLToy_Vector_4& xColour ) const;
 
 protected:
 

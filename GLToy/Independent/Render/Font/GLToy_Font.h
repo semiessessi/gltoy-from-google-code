@@ -66,6 +66,12 @@ public:
     virtual void RenderString( const GLToy_String& szString, const float fX, const float fY ) const { RenderString( szString, fX, fY, GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) ); }
     virtual void RenderString( const GLToy_String& szString, const float fX, const float fY, const GLToy_Vector_4& xColour ) const = 0;
 
+    virtual void RenderStringDown( const GLToy_String& szString, const float fX, const float fY ) const { RenderStringDown( szString, fX, fY, GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) ); }
+    virtual void RenderStringDown( const GLToy_String& szString, const float fX, const float fY, const GLToy_Vector_4& xColour ) const = 0;
+
+    virtual void RenderStringUp( const GLToy_String& szString, const float fX, const float fY ) const { RenderStringDown( szString, fX, fY, GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) ); }
+    virtual void RenderStringUp( const GLToy_String& szString, const float fX, const float fY, const GLToy_Vector_4& xColour ) const = 0;
+
 protected:
 
     GLToy_String m_szName;

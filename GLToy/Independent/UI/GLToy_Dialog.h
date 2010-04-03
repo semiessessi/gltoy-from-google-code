@@ -79,9 +79,18 @@ public:
     GLToy_Inline void SetPosition( const GLToy_Vector_2& xPosition ) { m_xPosition = xPosition; }
     GLToy_Inline void SetSize( const float fWidth, const float fHeight ) { m_xSize[ 0 ] = fWidth; m_xSize[ 1 ] = fHeight; }
     GLToy_Inline void SetSize( const GLToy_Vector_2& xSize ) { m_xSize = xSize; }
+    void Expand( const float fWidth, const float fHeight );
 
     void AddText( const GLToy_String& szString );
     void AddWidget( GLToy_Widget* const pxWidget );
+    void AddYesNoButtons(
+        void ( * const pfnYesCallback )( void* const ),
+        void ( * const pfnNoCallback )( void* const ),
+        void* const pYesData = NULL, void* const pNoData = NULL );
+
+    void SizeToText( const GLToy_String& szString );
+
+    void Destroy() { m_bDelete = true; }
 
 protected:
 
@@ -90,6 +99,8 @@ protected:
     GLToy_Vector_2 m_xSize;
 
 	GLToy_Array< GLToy_Widget* > m_xWidgets;
+
+    bool m_bDelete;
 
 };
 

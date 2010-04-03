@@ -127,7 +127,8 @@ void GLToy_State_EditorFrontEnd_LoadEnvironmentCallback( void* const pData )
 
 void GLToy_State_EditorFrontEnd_QuitCallback( void* const pData )
 {
-	GLToy::Quit();
+    GLToy_UI_System::ShowQuitDialog();
+	//GLToy::Quit();
 }
 
 void GLToy_State_EditorFrontEnd::Initialise()

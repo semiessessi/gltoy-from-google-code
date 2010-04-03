@@ -139,7 +139,7 @@ void GLToy_Console::ExecuteLine( const GLToy_String& szLine, const bool bStoreIn
     if( bStoreInHistory )
     {
         s_xHistory.Append( szLine );
-        ++s_uHistoryPosition;
+        s_uHistoryPosition = s_xHistory.GetCount();
     }
 }
 
@@ -339,7 +339,7 @@ void GLToy_Console::Update()
             s_fSlideOffset += fGLTOY_CONSOLE_SPEED * GLToy_Timer::GetFrameTime();
         }
 
-        if( s_fSlideOffset > fGLTOY_CONSOLE_TOP)
+        if( s_fSlideOffset > fGLTOY_CONSOLE_TOP )
         {
             s_fSlideOffset = fGLTOY_CONSOLE_TOP;
         }

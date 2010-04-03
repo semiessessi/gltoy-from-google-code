@@ -34,6 +34,7 @@
 #include <Render/Font/GLToy_Font.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
+#include <UI/GLToy_Dialog.h>
 #include <UI/GLToy_UI_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +67,8 @@ void GLToy_Widget_ImageButton::Render2D() const
 
 void GLToy_Widget_ImageButton::Update()
 {
-	const GLToy_Vector_2& xMousePosition = GLToy_UI_System::GetMousePosition();
+    const GLToy_Vector_2 xOffset = GetParent() ? GetParent()->GetPosition() : GLToy_Maths::ZeroVector2;
+	const GLToy_Vector_2 xMousePosition = GLToy_UI_System::GetMousePosition() - xOffset;
 	if( ( xMousePosition[ 0 ] > GetX() )
 		&& ( xMousePosition[ 1 ] > GetY() )
 		&& ( xMousePosition[ 0 ] < ( GetX() + GetWidth() ) )

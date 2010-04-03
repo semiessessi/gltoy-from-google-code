@@ -104,5 +104,9 @@ void GLToy_State_Splash::Update()
 
 bool GLToy_State_Splash::IsDone() const
 {
+#ifdef GLTOY_DEBUG
+    return true;
+#else
     return m_fTimer > 3.0f;
+#endif
 }

@@ -92,6 +92,7 @@ void GLToy_Render::BeginRender()
 {
     EnableDepthTesting();
     EnableDepthWrites();
+    SetDepthFunction( DEPTH_LEQUAL );
 
     Platform_BeginRender();
 

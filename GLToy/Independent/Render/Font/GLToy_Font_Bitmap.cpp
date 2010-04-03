@@ -105,3 +105,113 @@ void GLToy_Font_Bitmap::RenderString( const GLToy_String& szString, const float 
 
     GLToy_Render::DisableBlending();
 }
+
+void GLToy_Font_Bitmap::RenderStringDown( const GLToy_String& szString, const float fX, const float fY, const GLToy_Vector_4& xColour ) const
+{
+    // TODO - something more sensible about the widths
+    const float fTW = 1.0f / 16.0f;
+    const float fW = GetWidth();
+
+    if( m_pxTexture )
+    {
+        m_pxTexture->Bind();
+    }
+
+    float fPosY = fY;
+    GLToy_Render::EnableBlending();
+    GLToy_Render::SetBlendFunction( BLEND_ONE, BLEND_ONE_MINUS_SRC_COLOR );
+    GLToy_Render::StartSubmittingQuads();
+
+    GLToy_Render::SubmitColour( xColour );
+
+    GLToy_ConstIterate( wchar_t, xIterator, &szString )
+    {
+        const wchar_t wcChar = xIterator.Current();
+        
+        if( wcChar == L'\r' )
+        {
+            continue;
+        }
+
+        if( wcChar == L'\n' )
+        {
+            continue;
+        }
+
+        const float fTX = static_cast< float >( ( wcChar - 32 ) & 0xF ) / 16.0f;
+        const float fTY = static_cast< float >( ( wcChar - 32 ) >> 4 ) / 16.0f;
+
+        GLToy_Render::SubmitUV( GLToy_Vector_3( fTX + fTW, fTY + fTW, 0.0f ) );
+        GLToy_Render::SubmitVertex( GLToy_Vector_3( fX, fPosY, 0.0f ) );
+
+        GLToy_Render::SubmitUV( GLToy_Vector_3( fTX + fTW, fTY, 0.0f ) );
+        GLToy_Render::SubmitVertex( GLToy_Vector_3( fX + fW, fPosY, 0.0f ) );
+
+        GLToy_Render::SubmitUV( GLToy_Vector_3( fTX, fTY, 0.0f ) );
+        GLToy_Render::SubmitVertex( GLToy_Vector_3( fX + fW, fPosY + fW, 0.0f ) );
+
+        GLToy_Render::SubmitUV( GLToy_Vector_3( fTX, fTY + fTW, 0.0f ) );
+        GLToy_Render::SubmitVertex( GLToy_Vector_3( fX, fPosY + fW, 0.0f ) );
+
+        fPosY -= fW * 0.55f;
+    }
+
+    GLToy_Render::EndSubmit();
+
+    GLToy_Render::DisableBlending();
+}
+
+void GLToy_Font_Bitmap::RenderStringUp( const GLToy_String& szString, const float fX, const float fY, const GLToy_Vector_4& xColour ) const
+{
+    // TODO - something more sensible about the widths
+    const float fTW = 1.0f / 16.0f;
+    const float fW = GetWidth();
+
+    if( m_pxTexture )
+    {
+        m_pxTexture->Bind();
+    }
+
+    float fPosY = fY;
+    GLToy_Render::EnableBlending();
+    GLToy_Render::SetBlendFunction( BLEND_ONE, BLEND_ONE_MINUS_SRC_COLOR );
+    GLToy_Render::StartSubmittingQuads();
+
+    GLToy_Render::SubmitColour( xColour );
+
+    GLToy_ConstIterate( wchar_t, xIterator, &szString )
+    {
+        const wchar_t wcChar = xIterator.Current();
+        
+        if( wcChar == L'\r' )
+        {
+            continue;
+        }
+
+        if( wcChar == L'\n' )
+        {
+            continue;
+        }
+
+        const float fTX = static_cast< float >( ( wcChar - 32 ) & 0xF ) / 16.0f;
+        const float fTY = static_cast< float >( ( wcChar - 32 ) >> 4 ) / 16.0f;
+
+        GLToy_Render::SubmitUV( GLToy_Vector_3( fTX, fTY, 0.0f ) );
+        GLToy_Render::SubmitVertex( GLToy_Vector_3( fX, fPosY, 0.0f ) );
+
+        GLToy_Render::SubmitUV( GLToy_Vector_3( fTX, fTY + fTW, 0.0f ) );
+        GLToy_Render::SubmitVertex( GLToy_Vector_3( fX + fW, fPosY, 0.0f ) );
+
+        GLToy_Render::SubmitUV( GLToy_Vector_3( fTX + fTW, fTY + fTW, 0.0f ) );
+        GLToy_Render::SubmitVertex( GLToy_Vector_3( fX + fW, fPosY + fW, 0.0f ) );
+
+        GLToy_Render::SubmitUV( GLToy_Vector_3( fTX + fTW, fTY, 0.0f ) );
+        GLToy_Render::SubmitVertex( GLToy_Vector_3( fX, fPosY + fW, 0.0f ) );
+
+        fPosY += fW * 0.55f;
+    }
+
+    GLToy_Render::EndSubmit();
+
+    GLToy_Render::DisableBlending();
+}

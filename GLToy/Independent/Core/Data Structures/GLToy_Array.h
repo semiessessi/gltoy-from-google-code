@@ -104,14 +104,14 @@ public:
         ++m_uCount;
         CheckAlloc( m_uCount );
 
+        // make sure to construct the new entry
+        new ( &( m_pxData[ m_uCount - 1 ] ) ) T( m_pxData[ m_uCount - 2 ] );
+
         // move the existing xValues along to make room
         for( int i = m_uCount - 2; i > iIndex; --i )
         {
             m_pxData[ i ] = m_pxData[ i - 1 ];
         }
-
-        // make sure to construct the new entry
-        new ( &( m_pxData[ m_uCount - 1 ] ) ) T( m_pxData[ m_uCount - 2 ] );
 
         // set the new value
         m_pxData[ iIndex ] = xValue;

@@ -66,6 +66,16 @@ GLToy_Array< GLToy_Widget* > GLToy_UI_System::s_xWidgets;
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+void GLToy_UI_QuitCallback( void* const pData )
+{
+    GLToy::Quit();
+}
+
+void GLToy_UI_DefaultModalCallback( void* const pData )
+{
+    GLToy_UI_System::DestroyCurrentModalDialog();
+}
+
 bool GLToy_UI_System::Initialise()
 {
     GLToy_Texture_System::CreateTexture( "Widgets/Pointer.png" );
@@ -79,13 +89,13 @@ void GLToy_UI_System::Shutdown()
 
 void GLToy_UI_System::Render2D()
 {
-	s_xWidgets.Traverse( GLToy_IndirectRender2DFunctor< GLToy_Widget >() );
-
-    // we use the depth buffer and alpha blending for dialogs...
-    GLToy_Render::EnableDepthTesting();
-    GLToy_Render::EnableBlending();
-    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+	s_xWidgets.Traverse( GLToy_IndirectRender2DFunctor< GLToy_Widget >() );    
     s_xDialogs.Traverse( GLToy_IndirectRender2DFunctor< GLToy_Dialog >() );
+
+    if( s_pxCurrentModalDialog )
+    {
+        s_pxCurrentModalDialog->Render2D();
+    }
 
     // reset the depth functions etc.
     GLToy_Render::ClearDepth( 1.0f );
@@ -94,6 +104,9 @@ void GLToy_UI_System::Render2D()
     // render the pointer
     if( s_bShowPointer )
     {
+        GLToy_Render::EnableBlending();
+        GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+
         GLToy_Texture_System::BindTexture( "Widgets/Pointer.png" );
 
         GLToy_Render::StartSubmittingQuads();
@@ -116,8 +129,15 @@ void GLToy_UI_System::Update()
     s_xMousePosition[ 1 ] =
 		GLToy_Maths::Clamp( s_xMousePosition[ 1 ] - GLToy_Input_System::GetMouseDeltaY() * fUI_MOUSE_SCALE, -1.0f, 1.0f );
 
-    s_xDialogs.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Dialog >() );
-	s_xWidgets.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Widget >() );
+    if( s_pxCurrentModalDialog )
+    {
+        s_pxCurrentModalDialog->Update();
+    }
+    else
+    {
+        s_xDialogs.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Dialog >() );
+	    s_xWidgets.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Widget >() );
+    }
 }
 
 void GLToy_UI_System::ClearWidgets()
@@ -181,6 +201,10 @@ GLToy_Dialog* GLToy_UI_System::CreateDialog(
 void GLToy_UI_System::ShowQuitDialog()
 {
     GLToy_Dialog* pxQuitDialog = CreateDialog( DIALOG_STYLE_CENTRE | DIALOG_STYLE_MODAL );
+
+    pxQuitDialog->AddText( "Are you sure you want to quit?" );
+    pxQuitDialog->SizeToText( "Are you sure you want to quit?" );
+    pxQuitDialog->AddYesNoButtons( GLToy_UI_QuitCallback, GLToy_UI_DefaultModalCallback );
 }
 
 GLToy_Widget* GLToy_UI_System::CreateWidget(
@@ -234,8 +258,11 @@ GLToy_Widget* GLToy_UI_System::CreateWidget(
 
 void GLToy_UI_System::DestroyCurrentModalDialog()
 {
-    delete s_pxCurrentModalDialog;
-    s_pxCurrentModalDialog = NULL;
+    if( s_pxCurrentModalDialog )
+    {
+        s_pxCurrentModalDialog->Destroy();
+        s_pxCurrentModalDialog = NULL;
+    }
 }
 
 void GLToy_UI_System::ShowPointer( const bool bShow )

@@ -26,22 +26,18 @@
 #include <Core/GLToy.h>
 
 // this file's header
-#include <UI/GLToy_Widget_Label.h>
+#include <UI/GLToy_Widget_EditorMenu.h>
 
 // GLToy
-#include <Render/Font/GLToy_Font.h>
+#include <Maths/GLToy_Maths.h>
+#include <Render/GLToy_Render.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Widget_Label::Render2D() const
+void GLToy_Widget_EditorMenu::Render2D() const
 {
-    GLToy_Font* const pxFont = GLToy_Font_System::FindFont( GetFont() );
-    if( !pxFont )
-    {
-        return;
-    }
 
-    pxFont->RenderString( GetString(), GetX(), GetY() );
 }

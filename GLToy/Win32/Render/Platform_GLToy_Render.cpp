@@ -227,7 +227,7 @@ void Platform_GLToy_Render::SetOrthogonalProjectionMatrix( const float fAspectRa
 {
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
-    glOrtho( -fAspectRatio, fAspectRatio, -1.0f, 1.0f, -1.0f, 1.0f );
+    glOrtho( -fAspectRatio, fAspectRatio, -1.0f, 1.0f, -4.0f, 4.0f );
 }
 
 void Platform_GLToy_Render::SetIdentityViewMatrix()

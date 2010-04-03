@@ -985,6 +985,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\UI\GLToy_Widget_EditorMenu.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\UI\GLToy_Widget_EditorMenu.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\UI\GLToy_Widget_Image.cpp"
 					>
 				</File>

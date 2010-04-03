@@ -75,6 +75,7 @@ public:
 		const float fWidth, const float fHeight );
 
     static GLToy_Dialog* CreateDialog( const GLToy_DialogStyle ucStyle, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f );
+    static void DestroyCurrentModalDialog();
     static void ShowQuitDialog();
 
 	static const GLToy_Vector_2& GetMousePosition() { return s_xMousePosition; }
@@ -83,7 +84,6 @@ public:
 private:
 
     static GLToy_Widget* CreateWidget( const GLToy_WidgetType eType, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f );
-    static void DestroyCurrentModalDialog();
 
     static bool s_bShowPointer;
     static GLToy_Vector_2 s_xMousePosition;

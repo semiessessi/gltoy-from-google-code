@@ -53,6 +53,8 @@ public:
     GLToy_Inline float* GetFloatPointer() { return m_fComponents; }
     GLToy_Inline const float* GetFloatPointer() const { return m_fComponents; }
 
+    GLToy_Inline GLToy_Vector_2 operator +( const GLToy_Vector_2& xVector ) const { return GLToy_Vector_2( m_fComponents[ 0 ] + xVector[ 0 ], m_fComponents[ 1 ] + xVector[ 1 ] ); }
+    GLToy_Inline GLToy_Vector_2 operator -( const GLToy_Vector_2& xVector ) const { return GLToy_Vector_2( m_fComponents[ 0 ] - xVector[ 0 ], m_fComponents[ 1 ] - xVector[ 1 ] ); }
     GLToy_Vector_2 operator *( const float fFloat ) const;
     GLToy_Vector_2 operator /( const float fFloat ) const;
 

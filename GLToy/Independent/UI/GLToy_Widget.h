@@ -44,12 +44,15 @@ class GLToy_Widget
 , public GLToy_Updateable
 {
 
+    friend class GLToy_Dialog;
+
 public:
 
     GLToy_Widget()
     : m_xPosition()
     , m_xSize()
 	, m_eType( WIDGET_NULL )
+    , m_pxParent( NULL )
     {
 
     }
@@ -61,6 +64,7 @@ public:
     : m_xPosition( fX, fY )
     , m_xSize( fWidth, fHeight )
 	, m_eType( eType )
+    , m_pxParent( NULL )
     {
     }
 
@@ -69,6 +73,7 @@ public:
     : m_xPosition()
     , m_xSize()
 	, m_eType( WIDGET_NULL )
+    , m_pxParent( NULL )
     {
     }
 
@@ -96,11 +101,17 @@ public:
     GLToy_Inline void SetSize( const float fWidth, const float fHeight ) { m_xSize[ 0 ] = fWidth; m_xSize[ 1 ] = fHeight; }
     GLToy_Inline void SetSize( const GLToy_Vector_2& xSize ) { m_xSize = xSize; }
 
+    GLToy_Inline const GLToy_Dialog* GetParent() const { return m_pxParent; }
+
 protected:
+
+    GLToy_Inline void SetParent( const GLToy_Dialog* const pxParent ) { m_pxParent = pxParent; }
 
     GLToy_Vector_2 m_xPosition;
     GLToy_Vector_2 m_xSize;
 	GLToy_WidgetType m_eType;
+
+    const GLToy_Dialog* m_pxParent;
 
 };
 
