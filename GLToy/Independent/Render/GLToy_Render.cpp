@@ -62,10 +62,10 @@ bool GLToy_Render::Initialise()
         return false;
     }
 
-    GLTOY_INITIALISER_CALL( GLToy_Camera );
-    GLTOY_INITIALISER_CALL( GLToy_Shader_System );
-    GLTOY_INITIALISER_CALL( GLToy_Texture_System );
-    GLTOY_INITIALISER_CALL( GLToy_Font_System );
+    GLToy_InitialiserCall( GLToy_Camera );
+    GLToy_InitialiserCall( GLToy_Shader_System );
+    GLToy_InitialiserCall( GLToy_Texture_System );
+    GLToy_InitialiserCall( GLToy_Font_System );
 
     if( !Project_Initialise() )
     {

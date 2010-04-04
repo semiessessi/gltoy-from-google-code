@@ -29,6 +29,7 @@
 template < class T > class GLToy_HashTree;
 class GLToy_Environment;
 class GLToy_EnvironmentFile;
+class GLToy_Ray;
 class GLToy_String;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +54,8 @@ public:
 
     static void Update();
     static void Render();
+
+    static float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f );
 
     static void LoadEnvironmentFile( const GLToy_String& szName );
     static void SaveEnvironmentFile( const GLToy_String& szName );

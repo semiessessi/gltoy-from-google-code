@@ -38,6 +38,7 @@
 #include <Entity/Sprite/GLToy_Entity_Sprite.h>
 #include <File/GLToy_EntityFile.h>
 #include <File/GLToy_File_System.h>
+#include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_RenderFunctor.h>
 
@@ -101,6 +102,11 @@ void GLToy_Entity_System::Render()
     {
         s_xEntities.Traverse( GLToy_IndirectRenderOBBFunctor< GLToy_Entity >() );
     }
+}
+
+float GLToy_Entity_System::Trace( const GLToy_Ray& xRay, const float fLimitingDistance ) 
+{
+    return -1.0f;
 }
 
 GLToy_Entity* GLToy_Entity_System::FindEntity( const GLToy_Hash uHash )

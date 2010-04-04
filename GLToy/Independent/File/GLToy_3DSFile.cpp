@@ -19,53 +19,66 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_ENVIRONMENT_PLANE_H_
-#define __GLTOY_ENVIRONMENT_PLANE_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parent
-#include <Environment/GLToy_Environment.h>
+#include <Core/GLToy.h>
+
+// This file's header
+#include <File/GLToy_3DSFile.h>
+
+// GLToy
+//#include <Model/GLToy_Model_3DS.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Environment_Plane
-: public GLToy_Environment
+struct GLToy_3DS_ChunkHeader
 {
 
-    typedef GLToy_Environment GLToy_Parent;
-
-public:
-
-    GLToy_Environment_Plane( const GLToy_Plane& xPlane, const GLToy_String& szTextureName )
-    : GLToy_Parent()
-    , m_xPlane( xPlane )
-    , m_uTextureHash( szTextureName.GetHash() )
-    {
-    }
-
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
-
-    virtual void Initialise();
-    virtual void Shutdown();    
-    
-    virtual void Render() const;
-    virtual void Update();
-
-    virtual int GetType() const;
-
-    virtual float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f ) const;
-
-protected:
-
-    GLToy_Plane m_xPlane;
-    GLToy_Hash m_uTextureHash;
+    u_short m_usID;
+    u_int m_uSize;
 
 };
 
-#endif
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F U N C T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+GLToy_Model* GLToy_3DSFile::LoadModel() const
+{
+    if( m_pxModel )
+    {
+        return m_pxModel;
+    }
+
+    char* pcData = new char[ GetSize() ];
+    GetAllData( pcData );
+
+    GLToy_3DS_ChunkHeader* pxFirstChunk = reinterpret_cast< GLToy_3DS_ChunkHeader* >( pcData );
+
+    // TODO - proper error if the file is crap
+
+    if( pxFirstChunk->m_usID != 0x4D4D )
+    {
+        GLToy_DebugOutput_Release( "Failed to load .3DS file - unrecognised chunk at start of file" );
+        delete[] pcData;
+        return NULL;
+    }
+
+    if( pxFirstChunk->m_uSize != GetSize() )
+    {
+        GLToy_DebugOutput_Release( "Failed to load .3DS file - the size of the top level chunk (%d) does not reflect the file size (%d).", pxFirstChunk->m_uSize, GetSize() );
+        delete[] pcData;
+        return NULL;
+    }
+
+    delete[] pcData;
+
+    // TODO - finish
+
+    return NULL;
+}

@@ -19,52 +19,40 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_ENVIRONMENT_PLANE_H_
-#define __GLTOY_ENVIRONMENT_PLANE_H_
+#ifndef __GLTOY_OBJFILE_H_
+#define __GLTOY_OBJFILE_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // Parent
-#include <Environment/GLToy_Environment.h>
+#include <File/GLToy_ModelFile.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Environment_Plane
-: public GLToy_Environment
+class GLToy_OBJFile
+: public GLToy_ModelFile
 {
 
-    typedef GLToy_Environment GLToy_Parent;
+    typedef GLToy_ModelFile GLToy_Parent;
 
 public:
-
-    GLToy_Environment_Plane( const GLToy_Plane& xPlane, const GLToy_String& szTextureName )
-    : GLToy_Parent()
-    , m_xPlane( xPlane )
-    , m_uTextureHash( szTextureName.GetHash() )
+    
+    GLToy_OBJFile( const GLToy_String& szFilename )
+    : GLToy_Parent( szFilename )
     {
     }
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+    virtual ~GLToy_OBJFile()
+    {
+    }
 
-    virtual void Initialise();
-    virtual void Shutdown();    
-    
-    virtual void Render() const;
-    virtual void Update();
-
-    virtual int GetType() const;
-
-    virtual float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f ) const;
+    virtual GLToy_Model* LoadModel() const;
 
 protected:
-
-    GLToy_Plane m_xPlane;
-    GLToy_Hash m_uTextureHash;
 
 };
 

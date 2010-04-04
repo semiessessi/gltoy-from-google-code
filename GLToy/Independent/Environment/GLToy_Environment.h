@@ -79,7 +79,7 @@ public:
     virtual void Update();
 
     // raytrace function - takes a ray and returns the intersection parameter or a negative value if there is no intersection
-    virtual float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f ) = 0;
+    virtual float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f ) const = 0;
 
 protected:
 

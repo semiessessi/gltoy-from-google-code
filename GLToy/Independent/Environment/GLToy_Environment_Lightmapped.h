@@ -146,7 +146,7 @@ public:
 
     virtual int GetType() const;
 
-    virtual float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f );
+    virtual float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f ) const;
 
     virtual u_int GetVertexIndex( const GLToy_Environment_LightmappedFaceVertex& xVertex );
 

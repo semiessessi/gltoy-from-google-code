@@ -42,7 +42,7 @@
 
 bool Physics::Initialise()
 {
-    GLTOY_INITIALISER_CALL( Physics_Physics_System );
+    GLToy_InitialiserCall( Physics_Physics_System );
 
     GLToy_Entity_System::SetProjectEntityCreateCallback( Physics_CreateEntity );
     GLToy_Environment_System::CreateTestEnvironment();

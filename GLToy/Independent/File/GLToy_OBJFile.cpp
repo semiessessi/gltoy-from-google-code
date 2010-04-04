@@ -19,53 +19,41 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_ENVIRONMENT_PLANE_H_
-#define __GLTOY_ENVIRONMENT_PLANE_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parent
-#include <Environment/GLToy_Environment.h>
+#include <Core/GLToy.h>
+
+// This file's header
+#include <File/GLToy_OBJFile.h>
+
+// GLToy
+//#include <Model/GLToy_Model_OBJ.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Environment_Plane
-: public GLToy_Environment
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F U N C T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+GLToy_Model* GLToy_OBJFile::LoadModel() const
 {
-
-    typedef GLToy_Environment GLToy_Parent;
-
-public:
-
-    GLToy_Environment_Plane( const GLToy_Plane& xPlane, const GLToy_String& szTextureName )
-    : GLToy_Parent()
-    , m_xPlane( xPlane )
-    , m_uTextureHash( szTextureName.GetHash() )
+    if( m_pxModel )
     {
+        return m_pxModel;
     }
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+    char* pcData = new char[ GetSize() ];
+    GetAllData( pcData );
 
-    virtual void Initialise();
-    virtual void Shutdown();    
-    
-    virtual void Render() const;
-    virtual void Update();
+    delete[] pcData;
 
-    virtual int GetType() const;
 
-    virtual float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f ) const;
+    // TODO - finish
 
-protected:
-
-    GLToy_Plane m_xPlane;
-    GLToy_Hash m_uTextureHash;
-
-};
-
-#endif
+    return NULL;
+}

@@ -115,18 +115,18 @@ bool GLToy::Initialise()
 {
     GLToy_DebugOutput( "\r\nGLToy::Initialise() - Initialising systems:\r\n" );
 
-    GLTOY_INITIALISER_CALL( GLToy_Maths );
-    GLTOY_INITIALISER_CALL( GLToy_Input_System );
+    GLToy_InitialiserCall( GLToy_Maths );
+    GLToy_InitialiserCall( GLToy_Input_System );
 
     if( !Platform_EarlyInitialise() )
     {
         return false;
     }
 
-    GLTOY_INITIALISER_CALL( GLToy_Render );
-    GLTOY_INITIALISER_CALL( GLToy_Console );
-	GLTOY_INITIALISER_CALL( GLToy_UI_System );
-    GLTOY_INITIALISER_CALL( GLToy_State_System );
+    GLToy_InitialiserCall( GLToy_Render );
+    GLToy_InitialiserCall( GLToy_Console );
+	GLToy_InitialiserCall( GLToy_UI_System );
+    GLToy_InitialiserCall( GLToy_State_System );
 
     if( !Platform_LateInitialise() )
     {
@@ -139,20 +139,20 @@ bool GLToy::Initialise()
     }
 
 #ifdef GLTOY_USE_FRIDGESCRIPT
-    GLTOY_INITIALISER_CALL( GLToy_FridgeScript );
+    GLToy_InitialiserCall( GLToy_FridgeScript );
 #endif
 
-    GLTOY_INITIALISER_CALL( GLToy_Model_System );
-    GLTOY_INITIALISER_CALL( GLToy_Environment_System );
-    GLTOY_INITIALISER_CALL( GLToy_Entity_System );
-    GLTOY_INITIALISER_CALL( GLToy_PFX_System );
+    GLToy_InitialiserCall( GLToy_Model_System );
+    GLToy_InitialiserCall( GLToy_Environment_System );
+    GLToy_InitialiserCall( GLToy_Entity_System );
+    GLToy_InitialiserCall( GLToy_PFX_System );
 
     if( !Project_Initialise() )
     {
         return false;
     }
 
-    GLTOY_INITIALISER_CALL( GLToy_Timer ); // always initialise last
+    GLToy_InitialiserCall( GLToy_Timer ); // always initialise last
 
     GLToy_DebugOutput( "\r\nGLToy::Initialise() - Completed successfully.\r\n" );
 

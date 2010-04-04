@@ -661,6 +661,10 @@
 				Name="Model"
 				>
 				<File
+					RelativePath=".\Independent\File\GLToy_LWOFile.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Model\GLToy_Model.cpp"
 					>
 				</File>
@@ -700,10 +704,22 @@
 					RelativePath=".\Independent\Model\GLToy_Model_System.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Independent\File\GLToy_OBJFile.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="File"
 				>
+				<File
+					RelativePath=".\Independent\File\GLToy_3DSFile.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\File\GLToy_3DSFile.h"
+					>
+				</File>
 				<File
 					RelativePath=".\Independent\File\GLToy_ANSITextFile.cpp"
 					>
@@ -745,6 +761,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\File\GLToy_LWOFile.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\File\GLToy_MD2File.cpp"
 					>
 				</File>
@@ -754,6 +774,10 @@
 				</File>
 				<File
 					RelativePath=".\Independent\File\GLToy_ModelFile.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\File\GLToy_OBJFile.h"
 					>
 				</File>
 				<Filter

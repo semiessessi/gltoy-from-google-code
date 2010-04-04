@@ -64,7 +64,7 @@
 
 #define GLToy_HeaderBytes( string ) ( ( string[ 3 ] << 24 ) | ( string[ 2 ] << 16 ) | ( string[ 1 ] << 8 ) | string[ 0 ] )
 
-#define GLTOY_INITIALISER_CALL( system ) GLToy_DebugOutput( "\r\n  " #system "\r\n" ); if( !system::Initialise() ) { return false; }
+#define GLToy_InitialiserCall( system ) GLToy_DebugOutput( "\r\n  " #system "\r\n" ); if( !system::Initialise() ) { return false; }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // T Y P E D E F S

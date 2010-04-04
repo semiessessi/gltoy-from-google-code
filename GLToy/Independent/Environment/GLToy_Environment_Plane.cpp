@@ -116,9 +116,9 @@ int GLToy_Environment_Plane::GetType() const
     return static_cast< int >( ENV_PLANE );
 }
 
-float GLToy_Environment_Plane::Trace( const GLToy_Ray& xRay, const float fLimitingDistance )
+float GLToy_Environment_Plane::Trace( const GLToy_Ray& xRay, const float fLimitingDistance ) const
 {
     float fDistance = 0.0f;
     bool bHit = xRay.IntersectsWithPlane( m_xPlane, &fDistance );
-    return bHit ? GLToy_Maths::Min( fDistance, fLimitingDistance ) : -1.0f;
+    return bHit ? ( ( fLimitingDistance > 0.0f ) ? GLToy_Maths::Min( fDistance, fLimitingDistance ) : fDistance ) : -1.0f;
 }

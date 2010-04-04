@@ -49,7 +49,7 @@ bool FSDemo_Render::Initialise()
 {
     GLToy_Camera::SetPosition( GLToy_Vector_3( 0.0f, 0.0f, -3.0f ) );
 
-    GLTOY_INITIALISER_CALL( FSDemo_FridgeScript );
+    GLToy_InitialiserCall( FSDemo_FridgeScript );
 
     // register API
     FSDemo_FridgeScript::RegisterAPI( "GetTime", FSAPI_GetTime, 0 );

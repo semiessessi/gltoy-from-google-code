@@ -109,14 +109,17 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
 
     GLToy_MD2_Header* pxHeader = reinterpret_cast< GLToy_MD2_Header* >( pcData );
 
+    // TODO - some proper, in your face, errors
     if( pxHeader->m_uIdentifier != GLToy_HeaderBytes( "IDP2" ) )
     {
+        GLToy_DebugOutput_Release( "Failed to load .MD2 file - bad header (not IDP2)" );
         delete[] pcData;
         return NULL;
     }
 
     if( pxHeader->m_uVersion != 8 )
     {
+        GLToy_DebugOutput_Release( "Failed to load .MD2 file - unrecognised version: %d", pxHeader->m_uVersion );
         delete[] pcData;
         return NULL;
     }

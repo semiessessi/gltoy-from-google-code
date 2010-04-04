@@ -31,7 +31,10 @@
 // GLToy
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <File/GLToy_File_System.h>
+#include <File/GLToy_3DSFile.h>
+#include <File/GLToy_LWOFile.h>
 #include <File/GLToy_MD2File.h>
+#include <File/GLToy_OBJFile.h>
 #include <File/GLToy_ModelFile.h>
 #include <Model/GLToy_Model.h>
 #include <Model/GLToy_Model_Placeholder.h>
@@ -62,6 +65,45 @@ bool GLToy_Model_System::Initialise()
         GLToy_DebugOutput( "   - Found model \"%S\".\r\n", xName.GetWideString() );
 
         s_xModels.AddNode( new GLToy_MD2File( xIterator.Current() ), xName.GetHash() );
+    }
+
+    GLToy_Array< GLToy_String > x3DSPaths = GLToy_File_System::PathsFromFilter( "Models/", "*.3ds" );
+
+    GLToy_ConstIterate( GLToy_String, xIterator, &x3DSPaths )
+    {
+        GLToy_String xName = xIterator.Current();
+        xName.RemoveAt( 0, 7 ); // remove "Models/"
+        xName.RemoveFromEnd( 4 ); // remove extension
+        
+        GLToy_DebugOutput( "   - Found model \"%S\".\r\n", xName.GetWideString() );
+
+        s_xModels.AddNode( new GLToy_3DSFile( xIterator.Current() ), xName.GetHash() );
+    }
+
+    GLToy_Array< GLToy_String > xOBJPaths = GLToy_File_System::PathsFromFilter( "Models/", "*.obj" );
+
+    GLToy_ConstIterate( GLToy_String, xIterator, &xOBJPaths )
+    {
+        GLToy_String xName = xIterator.Current();
+        xName.RemoveAt( 0, 7 ); // remove "Models/"
+        xName.RemoveFromEnd( 4 ); // remove extension
+        
+        GLToy_DebugOutput( "   - Found model \"%S\".\r\n", xName.GetWideString() );
+
+        s_xModels.AddNode( new GLToy_OBJFile( xIterator.Current() ), xName.GetHash() );
+    }
+
+    GLToy_Array< GLToy_String > xLWOPaths = GLToy_File_System::PathsFromFilter( "Models/", "*.lwo" );
+
+    GLToy_ConstIterate( GLToy_String, xIterator, &xLWOPaths )
+    {
+        GLToy_String xName = xIterator.Current();
+        xName.RemoveAt( 0, 7 ); // remove "Models/"
+        xName.RemoveFromEnd( 4 ); // remove extension
+        
+        GLToy_DebugOutput( "   - Found model \"%S\".\r\n", xName.GetWideString() );
+
+        s_xModels.AddNode( new GLToy_LWOFile( xIterator.Current() ), xName.GetHash() );
     }
 
     return true;

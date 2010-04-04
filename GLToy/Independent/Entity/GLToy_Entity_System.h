@@ -38,6 +38,7 @@
 template < class T > class GLToy_HashTree;
 class GLToy_Entity;
 class GLToy_Matrix_3;
+class GLToy_Ray;
 class GLToy_Vector_3;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,6 +55,8 @@ public:
 
     static void Update();
     static void Render();
+
+    static float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f );
 
     static GLToy_Entity* FindEntity( const GLToy_Hash uHash );
     static GLToy_Entity* LookUpEntity( const GLToy_String& szName );

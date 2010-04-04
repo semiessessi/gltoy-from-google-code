@@ -37,6 +37,7 @@
 #include <Environment/GLToy_Environment_Plane.h>
 #include <File/GLToy_EnvironmentFile.h>
 #include <File/GLToy_File_System.h>
+#include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -117,6 +118,11 @@ void GLToy_Environment_System::Update()
     {
         s_pxCurrentEnvironment->Update();
     }
+}
+
+float GLToy_Environment_System::Trace( const GLToy_Ray& xRay, const float fLimitingDistance )
+{
+    return s_pxCurrentEnvironment ? s_pxCurrentEnvironment->Trace( xRay, fLimitingDistance ) : -1.0f;
 }
 
 void GLToy_Environment_System::LoadEnvironmentFile( const GLToy_String& szName )

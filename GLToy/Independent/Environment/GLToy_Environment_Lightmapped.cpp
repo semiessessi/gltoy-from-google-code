@@ -160,7 +160,8 @@ int GLToy_Environment_Lightmapped::GetType() const
     return ENV_LIGHTMAPPED;
 }
 
-float GLToy_Environment_Lightmapped::Trace( const GLToy_Ray& xRay, const float fLimitingDistance )
+// TODO - implement trace
+float GLToy_Environment_Lightmapped::Trace( const GLToy_Ray& xRay, const float fLimitingDistance ) const
 {
     return -1.0f;
 }
