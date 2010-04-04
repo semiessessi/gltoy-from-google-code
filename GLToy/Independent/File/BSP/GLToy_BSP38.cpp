@@ -18,7 +18,14 @@
 // If not, see <http://www.gnu.org/licenses/>.
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
-
+//
+// MD2 file loader
+//
+/////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Based the information here: http://www.flipcode.com/archives/Quake_2_BSP_File_Format.shtml
+// but with additional details inferred from the Quake 2 source: http://www.idsoftware.com/
+//
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -582,6 +589,6 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         }
     }
 
-    GLToy_DebugOutput_Release( "Loaded environment file \"%S\" successfully", m_szFilename.GetWideString() );
+    GLToy_DebugOutput_Release( "Loaded BSP v38 (Quake 2/Kingpin) environment file \"%S\" successfully", m_szFilename.GetWideString() );
     GLToy_Environment_System::SetCurrentEnvironment( pxEnv );
 }
