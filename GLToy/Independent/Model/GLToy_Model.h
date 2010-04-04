@@ -102,8 +102,6 @@ class GLToy_Model
 , public GLToy_Renderable
 , public GLToy_SerialisableIndirectArray< GLToy_ModelStrip >
 {
-    // TODO - get rid of this when its not needed - need a GLToy_Model_3DS
-    friend class GLToy_3DSFile;
 
     typedef GLToy_SerialisableIndirectArray< GLToy_ModelStrip > GLToy_Parent;
 

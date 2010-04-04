@@ -669,6 +669,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\Model\GLToy_Model_3DS.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Model\GLToy_Model_3DS.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Model\GLToy_Model_Coloured.cpp"
 					>
 				</File>

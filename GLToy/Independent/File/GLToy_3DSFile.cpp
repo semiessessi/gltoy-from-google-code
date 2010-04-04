@@ -38,8 +38,7 @@
 
 // GLToy
 #include <Maths/GLToy_Maths.h>
-//#include <Model/GLToy_Model_3DS.h>
-#include <Model/GLToy_Model_Coloured.h> // TODO - remove this once done with it
+#include <Model/GLToy_Model_3DS.h>
 #include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -303,34 +302,29 @@ GLToy_Model* GLToy_3DSFile::LoadModel() const
 
     // TODO - finish
     // for now just create a temporary coloured model
-    GLToy_Model_Coloured* pxModel = new GLToy_Model_Coloured();
-    pxModel->SetBBToPoint( xObjects[ 0 ].m_xVertices[ xObjects[ 0 ].m_xFaces[ 0 ].m_auIDs[ 0 ] ] );
+    // this wastes loads of time building a vertex list (stupidly) though
+    GLToy_Model_3DS* pxModel = new GLToy_Model_3DS();
 
-    GLToy_ConstIterate( GLToy_3DS_TempObject, xObjectIterator, &xObjects )
+    pxModel->m_xObjects.Resize( xObjects.GetCount() );
+
+    for( u_int u = 0; u < xObjects.GetCount(); ++u )
     {
-        const GLToy_3DS_TempObject& xObject = xObjectIterator.Current();
-        GLToy_ConstIterate( GLToy_3DS_Triangle, xIterator, &( xObject.m_xFaces ) )
+        GLToy_3DS_Object& xModelObject = pxModel->m_xObjects[ u ];
+
+        xModelObject.m_xIndices.Resize( xObjects[ u ].m_xFaces.GetCount() * 3 );
+        for( u_int v = 0; v < xObjects[ u ].m_xFaces.GetCount(); ++v )
         {
-            const u_int uIndex1 = xIterator.Current().m_auIDs[ 0 ];
-            const u_int uIndex2 = xIterator.Current().m_auIDs[ 1 ];
-            const u_int uIndex3 = xIterator.Current().m_auIDs[ 2 ];
-            const GLToy_Vector_3 xV1 = xObject.m_xVertices[ uIndex1 ];
-            const GLToy_Vector_3 xV2 = xObject.m_xVertices[ uIndex2 ];
-            const GLToy_Vector_3 xV3 = xObject.m_xVertices[ uIndex3 ];
-            pxModel->AddStripFromTriangle( xV1, xV2, xV3, GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
-            pxModel->GrowBBByPoint( xV1 );
-            pxModel->GrowBBByPoint( xV2 );
-            pxModel->GrowBBByPoint( xV3 );
+            xModelObject.m_xIndices[ 3 * v ] = xObjects[ u ].m_xFaces[ v ].m_auIDs[ 0 ];
+            xModelObject.m_xIndices[ 3 * v + 1 ] = xObjects[ u ].m_xFaces[ v ].m_auIDs[ 1 ];
+            xModelObject.m_xIndices[ 3 * v + 2 ] = xObjects[ u ].m_xFaces[ v ].m_auIDs[ 2 ];
+        }
+
+        xModelObject.m_xVertices.Resize( xObjects[ u ].m_xVertices.GetCount() );
+        for( u_int v = 0; v < xObjects[ u ].m_xVertices.GetCount(); ++v )
+        {
+            xModelObject.m_xVertices[ v ] = xObjects[ u ].m_xVertices[ v ];
         }
     }
-
-    // fix up positions so they are relative to the bb position, and the bb is centered
-    for( u_int u = 0; u < pxModel->m_xVertices.GetCount(); ++u )
-    {
-        pxModel->m_xVertices[ u ] -= pxModel->GetBB().GetPosition();
-    }
-
-    pxModel->SetBB( pxModel->GetBB() - pxModel->GetBB().GetPosition() );
 
     GLToy_DebugOutput_Release( "Loaded 3DS model file \"%S\" successfully", m_szFilename.GetWideString() );
 

@@ -42,7 +42,7 @@ class GLToy_Texture;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // TODO - this could be derived from model strip, but that seems a little silly...
-// need to rething strip vs. general component (patch etc.) possibly.
+// need to rethink strip vs. general component (patch etc.) possibly.
 struct GLToy_MD2_Triangle
 {
 
