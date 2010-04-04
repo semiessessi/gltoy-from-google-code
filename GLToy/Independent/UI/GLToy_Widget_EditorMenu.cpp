@@ -34,10 +34,40 @@
 #include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// C O N S T A N T S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+static const float fTAB_SIZE = 0.3f;
+static const float fMENU_SIZE = 0.6f;
+
+struct GLToy_EditorMenu_SecondLevelItem
+{
+    GLToy_Hash m_uTextureHash;
+    GLToy_String m_szName;
+    void ( * m_pfnButtonCallback )( void* const pData );
+};
+
+struct GLToy_EditorMenu_TopLevelItem
+{
+    GLToy_Hash m_uTextureHash;
+    GLToy_String m_szName;
+    u_int m_uSecondLevelSize;
+    GLToy_EditorMenu_SecondLevelItem* m_pxSecondLevelItems;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 void GLToy_Widget_EditorMenu::Render2D() const
 {
+    float fY = GetY();
+    for( u_int u = 0; u < 4; ++u )
+    {
 
+    }
+}
+
+void GLToy_Widget_EditorMenu::Update()
+{
 }

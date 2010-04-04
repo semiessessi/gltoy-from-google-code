@@ -117,27 +117,6 @@ public:
         m_pxData[ iIndex ] = xValue;
     }
     
-    // TODO - fix leaks
-    //virtual void InsertAt( const int iIndex, const GLToy_Array& xValues )
-    //{
-    //    // increase m_uCount and check allocation
-    //    m_uCount += xValues.m_uCount;
-    //    CheckAlloc( m_uCount );
-
-    //    // move the existing xValues along to make room
-    //    // LEAK
-    //    for( u_int i = m_uCount - 1; i >= ( iIndex + xValues.m_uCount ); --i )
-    //    {
-    //        new ( &( m_pxData[ i ] ) ) T( m_pxData[ i - xValues.m_uCount ] );
-    //    }
-
-    //    // insert new xValues
-    //    for( u_int i = 0; i < xValues.m_uCount; ++i )
-    //    {
-    //        m_pxData[ iIndex + i ] = xValues.m_pxData[ i ];
-    //    }
-    //}
-    
     virtual void RemoveAt( const int iIndex, const u_int uAmount = 1 )
     {
         m_uCount -= uAmount;

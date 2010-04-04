@@ -30,9 +30,17 @@ enum GLToy_WidgetType
 {
 	WIDGET_NULL = 0,
 
+    // "normal" widgets
     WIDGET_IMAGE,
     WIDGET_IMAGEBUTTON,
 	WIDGET_LABEL,
+
+    // add new widgets here unless they are especially strange...
+
+    // "special" widgets
+    WIDGET_EDITORMENU = 128,
+
+    // ... new special or one off widgets go here
 
     NUM_WIDGET_TYPES
 };

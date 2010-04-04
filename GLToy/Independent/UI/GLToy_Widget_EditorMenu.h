@@ -37,6 +37,15 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+enum GLToy_EditorMenuState
+{
+    EDITORMENUSTATE_DEFAULT = 0,
+    EDITORMENUSTATE_EXTENDEDONCE,
+    EDITORMENUSTATE_EXTENDEDTWICE,
+
+    NUM_EDITORMENUSTATES
+};
+
 class GLToy_Widget_EditorMenu
 : public GLToy_Widget
 {
@@ -47,6 +56,7 @@ public:
 
     GLToy_Widget_EditorMenu( const GLToy_WidgetType eType, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f )
     : GLToy_Parent( eType, fX, fY, fWidth, fHeight )
+    , m_eState( EDITORMENUSTATE_DEFAULT )
     {
     }
 
@@ -54,6 +64,10 @@ public:
 
     virtual void Render2D() const;
     virtual void Update();
+
+protected:
+
+    GLToy_EditorMenuState m_eState;
 
 };
 

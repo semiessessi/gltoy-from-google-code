@@ -40,6 +40,7 @@
 #include <Render/GLToy_Texture.h>
 #include <UI/GLToy_Dialog.h>
 #include <UI/GLToy_Widget.h>
+#include <UI/GLToy_Widget_EditorMenu.h>
 #include <UI/GLToy_Widget_Image.h>
 #include <UI/GLToy_Widget_ImageButton.h>
 #include <UI/GLToy_Widget_Label.h>
@@ -238,6 +239,12 @@ GLToy_Widget* GLToy_UI_System::CreateWidget(
 		case WIDGET_IMAGEBUTTON:
         {
             pxWidget = new GLToy_Widget_ImageButton( eType, fX, fY, fWidth, fHeight );
+            break;
+        }
+
+        case WIDGET_EDITORMENU:
+        {
+            pxWidget = new GLToy_Widget_EditorMenu( eType, fX, fY, fWidth, fHeight );
             break;
         }
         
