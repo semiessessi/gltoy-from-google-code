@@ -160,6 +160,11 @@ int GLToy_Environment_Lightmapped::GetType() const
     return ENV_LIGHTMAPPED;
 }
 
+float GLToy_Environment_Lightmapped::Trace( const GLToy_Ray& xRay, const float fLimitingDistance )
+{
+    return -1.0f;
+}
+
 u_int GLToy_Environment_Lightmapped::GetVertexIndex( const GLToy_Environment_LightmappedFaceVertex& xVertex )
 {
     GLToy_ConstIterate( GLToy_Environment_LightmappedFaceVertex, xIterator, &m_xVertices )

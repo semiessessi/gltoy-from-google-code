@@ -37,15 +37,24 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool GLToy_Ray::IntersectsWithPlane( const GLToy_Plane& xPlane, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const
+bool GLToy_Ray::IntersectsWithPlane( const GLToy_Plane& xPlane, float* const pfParameter, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const
 {
     const float fTop = xPlane.GetDistance() + xPlane.GetNormal() * m_xPosition;
     const float fBottom = xPlane.GetNormal() * m_xDirection;
 
     // this answers "is fTop / fBottom negative?", which is the same as if we hit, and should be cheaper than a division
     const bool bHit = ( ( fTop < 0.0f ) ^ ( fBottom < 0.0f ) );
-    
-    if( pxPosition )
+
+    if( pfParameter )
+    {
+        *pfParameter = -fTop / fBottom;
+
+        if( pxPosition )
+        {
+            *pxPosition = m_xPosition + m_xDirection * *pfParameter;
+        }
+    }
+    else if( pxPosition )
     {
         const float fT = -fTop / fBottom;
         *pxPosition = m_xPosition + m_xDirection * fT;

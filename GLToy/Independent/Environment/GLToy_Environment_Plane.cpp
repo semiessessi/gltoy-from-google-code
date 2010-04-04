@@ -30,6 +30,7 @@
 
 // GLToy
 #include <Environment/GLToy_Environment_System.h>
+#include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
@@ -113,4 +114,11 @@ void GLToy_Environment_Plane::Update()
 int GLToy_Environment_Plane::GetType() const
 {
     return static_cast< int >( ENV_PLANE );
+}
+
+float GLToy_Environment_Plane::Trace( const GLToy_Ray& xRay, const float fLimitingDistance )
+{
+    float fDistance = 0.0f;
+    bool bHit = xRay.IntersectsWithPlane( m_xPlane, &fDistance );
+    return bHit ? GLToy_Maths::Min( fDistance, fLimitingDistance ) : -1.0f;
 }

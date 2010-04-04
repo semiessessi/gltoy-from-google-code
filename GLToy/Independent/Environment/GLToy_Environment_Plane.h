@@ -59,6 +59,8 @@ public:
 
     virtual int GetType() const;
 
+    virtual float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f );
+
 protected:
 
     GLToy_Plane m_xPlane;
