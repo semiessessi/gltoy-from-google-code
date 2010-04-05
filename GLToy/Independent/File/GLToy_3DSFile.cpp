@@ -268,8 +268,8 @@ GLToy_Model* GLToy_3DSFile::LoadModel() const
             case u3DS_CHUNK_TRI_MOREFACES:
             {
                 // second face list
-                // TODO - load this instead of ignoring it
-                GLToy_DebugOutput_Release( "Warning: Unhandled chunk id in 3DS file: 0x%X. This chunk contains extra faces for the object, which will be missing.", pxChunkHeader->m_usID );
+                // TODO - work out what this is actually for
+                // GLToy_DebugOutput_Release( "Warning: Unhandled chunk id in 3DS file: 0x%X.", pxChunkHeader->m_usID );
                 pcCurrent += pxChunkHeader->m_uSize;
                 break;
             }
@@ -322,7 +322,8 @@ GLToy_Model* GLToy_3DSFile::LoadModel() const
         xModelObject.m_xVertices.Resize( xObjects[ u ].m_xVertices.GetCount() );
         for( u_int v = 0; v < xObjects[ u ].m_xVertices.GetCount(); ++v )
         {
-            xModelObject.m_xVertices[ v ] = xObjects[ u ].m_xVertices[ v ];
+            xModelObject.m_xVertices[ v ] =
+                GLToy_Vector_3( -( xObjects[ u ].m_xVertices[ v ][ 1 ] ), xObjects[ u ].m_xVertices[ v ][ 2 ], xObjects[ u ].m_xVertices[ v ][ 0 ] );
         }
     }
 
