@@ -321,7 +321,7 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 
     if( !pxEnv )
     {
-        // TODO - some kind of user feedback
+        GLToy_Assert( pxEnv != NULL, "Failed to create lightmapped environment" );
         return;
     }
 

@@ -31,6 +31,7 @@
 // GLToy
 #include <Environment/GLToy_Environment.h>
 #include <Environment/GLToy_Environment_System.h>
+#include <UI/GLToy_UI_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
@@ -63,6 +64,11 @@ void GLToy_EnvironmentFile::LoadEnvironment() const
     GLToy_BitStream xStream;
     ReadToBitStream( xStream );
 
+    if( xStream.GetBytesWritten() == 0 )
+    {
+        GLToy_UI_System::ShowErrorDialog( "Unable to load environment file \"%S\", the file does not exist or is empty", m_szFilename.GetWideString() );
+    }
+
     u_int uHeader = 0;
     u_int uVersion = 0;
     xStream >> uHeader;
@@ -70,7 +76,7 @@ void GLToy_EnvironmentFile::LoadEnvironment() const
 
     if( !GLToy_EnvironmentFile_IsFileHeaderValid( uHeader ) )
     {
-        GLToy_Assert( GLToy_EnvironmentFile_IsFileHeaderValid( uHeader ), "Wrong header for environment file \"%S\"! Aborting load.", GetFilename().GetWideString() );
+        GLToy_UI_System::ShowErrorDialog( "Wrong header for environment file \"%S\"! Aborting load.", GetFilename().GetWideString() );
         return;
     }
 
@@ -79,16 +85,16 @@ void GLToy_EnvironmentFile::LoadEnvironment() const
         switch( uVersion )
         {
             // TODO - it would be nice to support all of these - but maybe a *little* ambitious
-            //// Quake
-            //case 29:
-            //{
-            //    return LoadBSP29( xStream );
-            //}
-            //// Quake / Half-Life
-            //case 30:
-            //{
-            //    return LoadBSP30( xStream );
-            //}
+            // Quake
+            case 29:
+            {
+                return LoadBSP29( xStream );
+            }
+            // Quake / Half-Life
+            case 30:
+            {
+                return LoadBSP30( xStream );
+            }
             // Quake 2 / Kingpin
             case 38:
             {
@@ -103,8 +109,7 @@ void GLToy_EnvironmentFile::LoadEnvironment() const
             case 0:
             default:
             {
-                // TODO - some kind of modal dialog system
-                GLToy_Assert( false, "Version %d id BSP files are not supported by GLToy.", uVersion );
+                GLToy_UI_System::ShowErrorDialog( "Version %d id BSP files are not supported by GLToy.", uVersion );
                 break;
             }
         };
@@ -115,26 +120,25 @@ void GLToy_EnvironmentFile::LoadEnvironment() const
         switch( uVersion )
         {
             // TODO - it would be nice to support all of these - but maybe a *little* ambitious
-            //// Source (pre-HDR)
-            //case 19:
-            //{
-            //    return LoadVBSP19( xStream );
-            //}
-            //// Source
-            //case 20:
-            //{
-            //    return LoadVBSP20( xStream );
-            //}
-            //// L4D2
-            //case 21:
-            //{
-            //    return LoadVBSP21( xStream );
-            //}
+            // Source (pre-HDR)
+            case 19:
+            {
+                return LoadVBSP19( xStream );
+            }
+            // Source
+            case 20:
+            {
+                return LoadVBSP20( xStream );
+            }
+            // L4D2
+            case 21:
+            {
+                return LoadVBSP21( xStream );
+            }
             case 0:
             default:
             {
-                // TODO - some kind of modal dialog system
-                GLToy_Assert( false, "Version %d Valve BSP files are not supported by GLToy.", uVersion );
+                GLToy_UI_System::ShowErrorDialog( "Version %d Valve BSP files are not supported by GLToy.", uVersion );
                 break;
             }
         };
@@ -152,7 +156,7 @@ void GLToy_EnvironmentFile::LoadEnvironment() const
 
     if( !pxEnv )
     {
-        // TODO - some kind of user feedback
+        GLToy_Assert( pxEnv != NULL, "Failed to create environment of type %d", uType );
         return;
     }
 

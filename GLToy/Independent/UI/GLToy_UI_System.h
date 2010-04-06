@@ -76,6 +76,7 @@ public:
 
     static GLToy_Dialog* CreateDialog( const GLToy_DialogStyle ucStyle, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f );
     static void DestroyCurrentModalDialog();
+    static void ShowErrorDialog( const GLToy_String& szError, ... );
     static void ShowQuitDialog();
 
 	static const GLToy_Vector_2& GetMousePosition() { return s_xMousePosition; }

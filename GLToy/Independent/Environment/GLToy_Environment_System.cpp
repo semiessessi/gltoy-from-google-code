@@ -39,6 +39,7 @@
 #include <File/GLToy_File_System.h>
 #include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Texture.h>
+#include <UI/GLToy_UI_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -136,6 +137,7 @@ void GLToy_Environment_System::LoadEnvironmentFile( const GLToy_String& szName )
         ppxEnvFile = s_xEnvironments.FindData( ( szName + ".bsp" ).GetHash() );
         if( !ppxEnvFile )
         {
+            GLToy_UI_System::ShowErrorDialog( "Unable to load environment \"%S\", the file for it could not be found", szName.GetWideString() );
             return;
         }
 

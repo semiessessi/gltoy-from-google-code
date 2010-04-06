@@ -148,6 +148,24 @@ void GLToy_Dialog::AddWidget( GLToy_Widget* const pxWidget )
     pxWidget->SetParent( this );
 }
 
+void GLToy_Dialog::AddOKButton(
+    void ( * const pfnCallback )( void * const ),
+    void* const pYData )
+{
+    Expand( 0.0f, 0.2f + fDIALOG_TEXT_OFFSET );
+
+    GLToy_Widget_ImageButton* pxOKButton =
+        new GLToy_Widget_ImageButton(
+            WIDGET_IMAGEBUTTON,
+            GetWidth() * 0.5f - 0.1f,
+            fDIALOG_TEXT_OFFSET );
+
+    pxOKButton->SetLabelString( "OK" );
+    pxOKButton->SetFont( "Console" );
+    pxOKButton->SetTexture( "Widgets/Base_Round.png" );
+    pxOKButton->SetCallback( pfnCallback );
+}
+
 void GLToy_Dialog::AddYesNoButtons(
     void ( * const pfnYesCallback )( void * const ),
     void ( * const pfnNoCallback )( void * const ),
@@ -155,13 +173,23 @@ void GLToy_Dialog::AddYesNoButtons(
 {
     Expand( 0.0f, 0.2f + fDIALOG_TEXT_OFFSET );
 
-    GLToy_Widget_ImageButton* pxYesButton = new GLToy_Widget_ImageButton( WIDGET_IMAGEBUTTON, GetWidth() * 0.5f - 0.35f, fDIALOG_TEXT_OFFSET );
+    GLToy_Widget_ImageButton* pxYesButton =
+        new GLToy_Widget_ImageButton(
+            WIDGET_IMAGEBUTTON,
+            GetWidth() * 0.5f - 0.35f,
+            fDIALOG_TEXT_OFFSET );
+
     pxYesButton->SetLabelString( "Yes" );
     pxYesButton->SetFont( "Console" );
     pxYesButton->SetTexture( "Widgets/Tick.png" );
     pxYesButton->SetCallback( pfnYesCallback );
 
-    GLToy_Widget_ImageButton* pxNoButton = new GLToy_Widget_ImageButton( WIDGET_IMAGEBUTTON, GetWidth() * 0.5f + 0.05f, fDIALOG_TEXT_OFFSET );
+    GLToy_Widget_ImageButton* pxNoButton =
+        new GLToy_Widget_ImageButton(
+            WIDGET_IMAGEBUTTON,
+            GetWidth() * 0.5f + 0.05f,
+            fDIALOG_TEXT_OFFSET );
+
     pxNoButton->SetLabelString( "No" );
     pxNoButton->SetFont( "Console" );
     pxNoButton->SetTexture( "Widgets/Cross.png" );

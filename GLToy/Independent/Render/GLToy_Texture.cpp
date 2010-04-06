@@ -31,6 +31,7 @@
 // GLToy
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <File/GLToy_File_System.h>
+#include <UI/GLToy_UI_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -61,7 +62,7 @@ void GLToy_Texture::LoadFromFile()
     // TODO - load .wal
     if( m_szName.EndsWith( ".wal" ) )
     {
-        GLToy_Assert( false, ".wal textures are not yet supported" );
+        GLToy_UI_System::ShowErrorDialog( ".wal textures are not yet supported" );
         return;
     }
 

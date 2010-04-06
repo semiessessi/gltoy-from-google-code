@@ -29,7 +29,6 @@
 #include <String/GLToy_String.h>
 
 // C/C++
-#include <stdarg.h>
 #include <stdio.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,10 +40,19 @@ void GLToy_String::SetToFormatString( const GLToy_String szFormatString, ... )
     va_list xArgumentList;
 
     va_start( xArgumentList, szFormatString );
-    int iLength = _vscwprintf( szFormatString.GetWideString(), xArgumentList ) + 1;
 
+    int iLength = _vscwprintf( szFormatString.GetWideString(), xArgumentList ) + 1;
     Resize( static_cast< u_int >( iLength ) );
+
     vswprintf( GetWideString(), iLength, szFormatString.GetWideString(), xArgumentList );
 
     va_end( xArgumentList );
+}
+
+void GLToy_String::SetToFormatString( const GLToy_String szFormatString, const va_list& xArgumentList )
+{
+    int iLength = _vscwprintf( szFormatString.GetWideString(), xArgumentList ) + 1;
+    Resize( static_cast< u_int >( iLength ) );
+
+    vswprintf( GetWideString(), iLength, szFormatString.GetWideString(), xArgumentList );
 }

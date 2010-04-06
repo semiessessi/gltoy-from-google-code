@@ -32,6 +32,6 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_EnvironmentFile::LoadBSP30( const GLToy_BitStream& xStream ) const
+void GLToy_EnvironmentFile::LoadBSP29( const GLToy_BitStream& xStream ) const
 {
 }

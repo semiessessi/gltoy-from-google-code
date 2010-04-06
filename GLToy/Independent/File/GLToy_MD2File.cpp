@@ -37,6 +37,7 @@
 // GLToy
 #include <Model/GLToy_Model_MD2.h>
 #include <Render/GLToy_Texture.h>
+#include <UI/GLToy_UI_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -114,18 +115,16 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
     GetAllData( pcData );
 
     GLToy_MD2_Header* pxHeader = reinterpret_cast< GLToy_MD2_Header* >( pcData );
-
-    // TODO - some proper, in your face, errors
     if( pxHeader->m_uIdentifier != GLToy_HeaderBytes( "IDP2" ) )
     {
-        GLToy_DebugOutput_Release( "Failed to load .MD2 file - bad header (not IDP2)" );
+        GLToy_UI_System::ShowErrorDialog( "Failed to load .MD2 file - bad header (not IDP2)" );
         delete[] pcData;
         return NULL;
     }
 
     if( pxHeader->m_uVersion != 8 )
     {
-        GLToy_DebugOutput_Release( "Failed to load .MD2 file - unrecognised version: %d", pxHeader->m_uVersion );
+        GLToy_UI_System::ShowErrorDialog( "Failed to load .MD2 file - unrecognised version: %d", pxHeader->m_uVersion );
         delete[] pcData;
         return NULL;
     }
@@ -205,25 +204,13 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
 
     GLToy_Texture* pxTexture = NULL;
 
-    pxTexture = GLToy_Texture_System::LookUpTexture( szBaseName + ".png" );
+    pxTexture = GLToy_Texture_System::LookUpTextureNoExt( szBaseName );
     
     if( pxTexture )
     {
-        GLToy_Texture_System::CreateTexture( szBaseName + ".png" );
+        GLToy_Texture_System::CreateTexture( szBaseName );
         pxModel->SetTexture( pxTexture );
     }
-    else
-    {
-        pxTexture = GLToy_Texture_System::LookUpTexture( szBaseName + ".jpg" );
-    
-        if( pxTexture )
-        {
-            GLToy_Texture_System::CreateTexture( szBaseName + ".jpg" );
-            pxModel->SetTexture( pxTexture );
-        }
-    }
-
-    // TODO - try non .jpg/.png files
     
     GLToy_DebugOutput_Release( "Loaded MD2 model file \"%S\" successfully", m_szFilename.GetWideString() );
 

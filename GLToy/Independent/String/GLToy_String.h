@@ -32,6 +32,9 @@
 // GLToy
 #include <Core/GLToy_Hash.h>
 
+// C/C++
+#include <stdarg.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -247,6 +250,7 @@ public:
 
     // TODO - can't pass by reference due to va_args - I'm sure there is a portable way around it though
     void SetToFormatString( const GLToy_String szFormatString, ... );
+    void SetToFormatString( const GLToy_String szFormatString, const va_list& xArgumentList );
 
 protected:
 

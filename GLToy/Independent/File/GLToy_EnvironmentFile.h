@@ -61,6 +61,9 @@ public:
     void LoadBSP30( const GLToy_BitStream& xStream ) const;
     void LoadBSP38( const GLToy_BitStream& xStream ) const;
     void LoadBSP46( const GLToy_BitStream& xStream ) const;
+    void LoadVBSP19( const GLToy_BitStream& xStream ) const;
+    void LoadVBSP20( const GLToy_BitStream& xStream ) const;
+    void LoadVBSP21( const GLToy_BitStream& xStream ) const;
 
     static void Save( const GLToy_String& szFilename );
 

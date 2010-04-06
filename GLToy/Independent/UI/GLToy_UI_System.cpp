@@ -199,6 +199,24 @@ GLToy_Dialog* GLToy_UI_System::CreateDialog(
     return pxDialog;
 }
 
+void GLToy_UI_System::ShowErrorDialog( const GLToy_String& szError, ... )
+{
+    va_list xArgumentList;
+
+    va_start( xArgumentList, szError );
+    
+    GLToy_String xErrorMessage;
+    xErrorMessage.SetToFormatString( szError, xArgumentList );
+
+    va_end( xArgumentList );
+
+    GLToy_Dialog* pxQuitDialog = CreateDialog( DIALOG_STYLE_CENTRE | DIALOG_STYLE_MODAL );
+
+    pxQuitDialog->AddText( szError );
+    pxQuitDialog->SizeToText( szError );
+    pxQuitDialog->AddOKButton( GLToy_UI_DefaultModalCallback );
+}
+
 void GLToy_UI_System::ShowQuitDialog()
 {
     GLToy_Dialog* pxQuitDialog = CreateDialog( DIALOG_STYLE_CENTRE | DIALOG_STYLE_MODAL );

@@ -40,6 +40,7 @@
 #include <Maths/GLToy_Maths.h>
 #include <Model/GLToy_Model_3DS.h>
 #include <Render/GLToy_Texture.h>
+#include <UI/GLToy_UI_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
@@ -153,11 +154,9 @@ GLToy_Model* GLToy_3DSFile::LoadModel() const
     char* pcCurrent = pcData;
     GLToy_3DS_ChunkHeader* pxChunkHeader = reinterpret_cast< GLToy_3DS_ChunkHeader* >( pcCurrent );
 
-    // TODO - proper error if the file is crap
-
     if( pxChunkHeader->m_usID != 0x4D4D )
     {
-        GLToy_DebugOutput_Release( "Failed to load .3DS file - unrecognised chunk at start of file" );
+        GLToy_UI_System::ShowErrorDialog( "Failed to load .3DS file - unrecognised chunk at start of file" );
         delete[] pcData;
         return NULL;
     }

@@ -83,6 +83,7 @@ public:
 
     void AddText( const GLToy_String& szString );
     void AddWidget( GLToy_Widget* const pxWidget );
+    void AddOKButton( void ( * const pfnCallback )( void* const ), void* const pData = NULL );
     void AddYesNoButtons(
         void ( * const pfnYesCallback )( void* const ),
         void ( * const pfnNoCallback )( void* const ),

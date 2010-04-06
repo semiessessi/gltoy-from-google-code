@@ -792,6 +792,10 @@
 					Name="BSP"
 					>
 					<File
+						RelativePath=".\Independent\File\BSP\GLToy_BSP29.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\Independent\File\BSP\GLToy_BSP30.cpp"
 						>
 					</File>
@@ -886,6 +890,10 @@
 				</File>
 				<File
 					RelativePath=".\Independent\String\GLToy_String.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\String\GLToy_StringTools.h"
 					>
 				</File>
 			</Filter>

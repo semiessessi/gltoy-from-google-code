@@ -28,6 +28,7 @@
 
 // GLToy
 #include <Maths/GLToy_Matrix.h>
+#include <Maths/GLToy_Plane.h>
 #include <Maths/GLToy_Ray.h>
 #include <Maths/GLToy_Quaternion.h>
 #include <Maths/GLToy_Vector.h>
