@@ -53,7 +53,12 @@ public:
 
     static void SetPosition( const GLToy_Vector_3& xPosition ) { s_xPosition = xPosition; }
 
-    static void SetFlyCamEnabled( const bool bEnabled = true ) { s_bFlyCam = bEnabled; }
+    static void SetLocked( const bool bLocked = true );
+    static void SetFlyCamEnabled( const bool bEnabled = true );
+    static void SetControllerCamEnabled( const bool bEnabled = true );
+
+    static bool IsFlyCamEnabled() { return s_bFlyCam; }
+    static bool IsControllerCamEnabled() { return s_bControllerCam; }
 
 private:
 
@@ -67,7 +72,9 @@ private:
     static GLToy_Matrix_3 s_xOrientation;
     static GLToy_Matrix_3 s_xInverseOrientation;
 
+    static bool s_bLockedCam;
     static bool s_bFlyCam;
+    static bool s_bControllerCam;
 
 };
 

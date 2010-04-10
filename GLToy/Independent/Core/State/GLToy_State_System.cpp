@@ -92,7 +92,10 @@ void GLToy_State_System::Update()
             s_uNextState = uGLTOY_BAD_HASH;
         }
 
-        s_pxCurrentState->Update();
+        if( s_pxCurrentState )
+        {
+            s_pxCurrentState->Update();
+        }
     }
 }
 

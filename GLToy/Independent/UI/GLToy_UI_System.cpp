@@ -292,8 +292,11 @@ void GLToy_UI_System::DestroyCurrentModalDialog()
 
 void GLToy_UI_System::ShowPointer( const bool bShow )
 {
-    GLToy_Camera::SetFlyCamEnabled( false );
     s_bShowPointer = bShow;
+    if( bShow )
+    {
+        GLToy_Camera::SetFlyCamEnabled( false );
+    }
 }
 
 float GLToy_UI_System::GetPulse()

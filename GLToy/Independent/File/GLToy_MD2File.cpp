@@ -208,7 +208,7 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
     
     if( pxTexture )
     {
-        GLToy_Texture_System::CreateTexture( szBaseName );
+        pxTexture->Create();
         pxModel->SetTexture( pxTexture );
     }
     

@@ -57,6 +57,8 @@ float GLToy_Camera::s_fRY = 0.0f;
 GLToy_Matrix_3 GLToy_Camera::s_xOrientation;
 GLToy_Matrix_3 GLToy_Camera::s_xInverseOrientation;
 bool GLToy_Camera::s_bFlyCam = true;
+bool GLToy_Camera::s_bLockedCam = false;
+bool GLToy_Camera::s_bControllerCam = false;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -67,13 +69,15 @@ bool GLToy_Camera::Initialise()
     return true;
 }
 
+// TODO - find a better home for the fly-cam code
+
 void GLToy_Camera::Update()
 {
     s_xOrientation = GLToy_Matrix_3( GetRight(), s_xUp, s_xDirection );
     s_xInverseOrientation = s_xOrientation;
     s_xInverseOrientation.Transpose();
 
-    if( s_bFlyCam )
+    if( s_bFlyCam || s_bControllerCam )
     {
         // update orientation ...
         if( GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() ) )
@@ -138,4 +142,38 @@ void GLToy_Camera::ApplyTransforms()
     GLToy_Render::Transform( xOrientation );
 
     GLToy_Render::Translate( -s_xPosition );
+}
+
+void GLToy_Camera::SetLocked( const bool bLocked )
+{
+    s_bLockedCam = bLocked;
+    if( bLocked )
+    {
+        s_bFlyCam = false;
+        s_bControllerCam = false;
+    }
+}
+
+void GLToy_Camera::SetControllerCamEnabled( const bool bEnabled )
+{
+    if( !s_bLockedCam )
+    {
+        s_bControllerCam = bEnabled;
+        if( bEnabled )
+        {
+            s_bFlyCam = false;
+        }
+    }
+}
+
+void GLToy_Camera::SetFlyCamEnabled( const bool bEnabled )
+{
+    if( !s_bLockedCam )
+    {
+        s_bFlyCam = bEnabled;
+        if( bEnabled )
+        {
+            s_bControllerCam = false;
+        }
+    }
 }

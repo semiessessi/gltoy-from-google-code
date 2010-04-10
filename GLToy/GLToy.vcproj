@@ -357,6 +357,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\Core\GLToy_Config.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Core\GLToy_Functor.h"
 					>
 				</File>

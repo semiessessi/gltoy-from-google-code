@@ -26,7 +26,8 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// this should always come first
+// these should always come first
+#include <Core/GLToy_Config.h>
 #include <Core/Platform_GLToy.h>
 
 // core

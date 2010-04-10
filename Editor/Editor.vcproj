@@ -311,10 +311,6 @@
 					RelativePath=".\Independent\Core\Project_GLToy.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\Independent\Core\Project_GLToy_Config.h"
-					>
-				</File>
 			</Filter>
 		</Filter>
 	</Files>

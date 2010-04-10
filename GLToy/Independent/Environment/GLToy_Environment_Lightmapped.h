@@ -102,15 +102,52 @@ public:
 
 };
 
+class GLToy_Environment_LightmappedCluster
+{
+
+    friend class GLToy_EnvironmentFile;
+    friend class GLToy_Environment_Lightmapped;
+
+public:
+
+    GLToy_Environment_LightmappedCluster()
+    : m_xPVS()
+    , m_xIndices()
+    {
+    }
+
+protected:
+
+    GLToy_Array< u_int > m_xPVS;
+    GLToy_Array< u_int > m_xIndices;
+};
+
 class GLToy_EnvironmentLeaf_Lightmapped
 : public GLToy_EnvironmentLeaf
 {
 
     friend class GLToy_EnvironmentFile;
+    friend class GLToy_Environment_Lightmapped;
 
     typedef GLToy_EnvironmentLeaf GLToy_Parent;
 
 public:
+
+    GLToy_EnvironmentLeaf_Lightmapped( const GLToy_Environment_Lightmapped* const pxParent = NULL )
+    : m_uCluster( 0xFFFFFFFF )
+    , m_xIndices()
+    , m_pxParent( pxParent )
+    {
+    }
+
+    virtual void Render() const;
+    virtual void RenderLightmap() const;
+
+protected:
+    
+    u_int m_uCluster;
+    GLToy_Array< u_int > m_xIndices;
+    const GLToy_Environment_Lightmapped* m_pxParent;
 
 };
 
@@ -118,6 +155,7 @@ class GLToy_Environment_Lightmapped
 : public GLToy_Environment
 {
     friend class GLToy_EnvironmentFile;
+    friend class GLToy_EnvironmentLeaf_Lightmapped;
 
     typedef GLToy_Environment GLToy_Parent;
 
@@ -155,6 +193,8 @@ protected:
     // GLToy_SerialisableArray< GLToy_Vector_3 > m_xVertices;
     GLToy_Array< GLToy_Environment_LightmappedFaceVertex > m_xVertices;
     GLToy_Array< GLToy_Environment_LightmappedFace > m_xFaces;
+    GLToy_Array< GLToy_EnvironmentLeaf_Lightmapped > m_xLeaves;
+    GLToy_Array< GLToy_Environment_LightmappedCluster > m_xClusters;
     GLToy_SerialisableArray< u_char > m_xLightmapData;
 
 };

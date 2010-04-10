@@ -97,3 +97,15 @@ float GLToy_Maths::Round( const float fValue )
 {
     return Floor( fValue + 0.5f );
 }
+
+float GLToy_Maths::Deg2Rad( const float fValue )
+{
+    static const float ls_fConversionFactor = Pi / 180.0f;
+    return ls_fConversionFactor * fValue;
+}
+
+float GLToy_Maths::Rad2Deg( const float fValue )
+{
+    static const float ls_fConversionFactor = 180.0f / Pi;
+    return ls_fConversionFactor * fValue;
+}

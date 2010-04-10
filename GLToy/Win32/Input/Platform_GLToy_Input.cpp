@@ -92,6 +92,7 @@ void GLToy_Input_System::Platform_ChangeLayout()
     s_uRightKeyCode = VK_RIGHT;
     s_uPageUpKeyCode = VK_PRIOR;
     s_uPageDownKeyCode = VK_NEXT;
+    s_uSpaceKeyCode = VK_SPACE;
 
     // this would be the approriate time to change key labels...
 }

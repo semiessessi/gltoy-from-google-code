@@ -66,7 +66,16 @@ void GLToy_State_Splash::Initialise()
 
 void GLToy_State_Splash::Render2D() const
 {
+
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+
     GLToy_Texture_System::BindTexture( "Widgets/SplashBanner.png" );
+
+#else
+
+    GLToy_Texture_System::BindTexture( "Widgets/SplashBanner_NoHavok.png" );
+
+#endif
 
     GLToy_Render::StartSubmittingQuads();
     GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );

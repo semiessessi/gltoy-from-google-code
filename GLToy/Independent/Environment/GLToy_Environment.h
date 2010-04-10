@@ -47,11 +47,6 @@ class GLToy_Ray;
 class GLToy_EnvironmentLeaf
 : public GLToy_Renderable
 {
-
-public:
-
-    virtual void Render() const;
-
 };
 
 class GLToy_Environment

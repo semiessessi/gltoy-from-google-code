@@ -19,10 +19,10 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef GLTOY_USE_HAVOK_PHYSICS
-
 #ifndef __PLATFORM_GLTOY_HAVOK_PHYSICS_H_
 #define __PLATFORM_GLTOY_HAVOK_PHYSICS_H_
+
+#ifdef GLTOY_USE_HAVOK_PHYSICS
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // M A C R O S
@@ -50,6 +50,7 @@
 #pragma comment( lib, "hkscenedata" )
 #pragma comment( lib, "hkinternal" )
 #pragma comment( lib, "hkgeometryutilities" )
+#pragma comment( lib, "hkvisualize" )
 
 #pragma comment( lib, "hkpconstraintsolver" )
 #pragma comment( lib, "hkpcollide" )

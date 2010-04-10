@@ -68,6 +68,8 @@ public:
     GLToy_Inline const GLToy_Vector_3& GetNormal() const { return m_xNormal; }
     GLToy_Inline float GetDistance() const { return m_fDistance; }
 
+    GLToy_Inline void SetNormal( const GLToy_Vector_3& xNormal ) { m_xNormal = xNormal; }
+
 protected:
 
     GLToy_Vector_3 m_xNormal;

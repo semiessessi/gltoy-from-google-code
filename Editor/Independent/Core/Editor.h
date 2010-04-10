@@ -26,7 +26,6 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/Project_GLToy_Config.h>
 #include <Core/GLToy.h>
 
 #include <Core/Platform_Editor.h>

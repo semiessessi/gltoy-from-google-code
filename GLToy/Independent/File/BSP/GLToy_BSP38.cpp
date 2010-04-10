@@ -142,8 +142,20 @@ class GLToy_BSP38_Plane
 
 public:
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_xPlane; xStream >> m_uType; }
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_xPlane; xStream << m_uType; }
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
+    {
+        GLToy_Vector_3 xNormal;
+        float fDistance;
+        
+        xStream >> xNormal;
+        xStream >> fDistance;
+        xStream >> m_uType;
+
+        m_xPlane = GLToy_Plane( GLToy_Vector_3( -xNormal[ 1 ], xNormal[ 2 ], xNormal[ 0 ] ), fDistance );
+    }
+    
+    // TODO - do we ever want to write one of these files?
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const {}
 
     GLToy_Plane m_xPlane;
     u_int m_uType;
@@ -213,6 +225,8 @@ public:
         xStream >> m_usBBMax[ 0 ];
         xStream >> m_usBBMax[ 1 ];
         xStream >> m_usBBMax[ 2 ];
+        xStream >> m_usFirstLeafFace;
+        xStream >> m_usLeafFaceCount;
         xStream >> m_usFirstLeafBrush;
         xStream >> m_usLeafBrushCount;
     }
@@ -228,6 +242,8 @@ public:
         xStream << m_usBBMax[ 0 ];
         xStream << m_usBBMax[ 1 ];
         xStream << m_usBBMax[ 2 ];
+        xStream << m_usFirstLeafFace;
+        xStream << m_usLeafFaceCount;
         xStream << m_usFirstLeafBrush;
         xStream << m_usLeafBrushCount;
     }
@@ -237,6 +253,8 @@ public:
     u_short m_usArea;
     u_short m_usBBMin[ 3 ];
     u_short m_usBBMax[ 3 ];
+    u_short m_usFirstLeafFace;
+    u_short m_usLeafFaceCount;
     u_short m_usFirstLeafBrush;
     u_short m_usLeafBrushCount;
 
@@ -361,6 +379,11 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
     {
         xStream >> xVisOffsets[ u ];
     }
+
+    GLToy_SerialisableArray< u_char > xVisData;
+    xVisData.Resize( xLumps.m_axLumps[ uBSP38_LUMP_VIS ].m_uSize );
+    xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_VIS ].m_uOffset );
+    xStream.ByteAlignedWrite( reinterpret_cast< char* >( xVisData.GetDataPointer() ), xVisData.GetCount() );
 
     // nodes
     GLToy_Array< GLToy_BSP38_Node > xNodes;
@@ -586,6 +609,82 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         {
             u_int uData = 0xFFFFFFFF;
             GLToy_Texture_System::CreateTextureFromRGBAData( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ), &uData, 1, 1 );
+        }
+    }
+
+    // create leaves and clusters
+    if( xLeaves.GetCount() > 0 )
+    {
+        pxEnv->m_xLeaves.Resize( xLeaves.GetCount() );
+        pxEnv->m_xClusters.Resize( uNumClusters );
+        for( u_int u = 0; u < xLeaves.GetCount(); ++u )
+        {
+            pxEnv->m_xLeaves[ u ].m_pxParent = pxEnv;
+            pxEnv->m_xLeaves[ u ].m_xIndices.Resize( xLeaves[ u ].m_usLeafFaceCount );
+            pxEnv->m_xLeaves[ u ].m_uCluster = xLeaves[ u ].m_usCluster;
+            if( xLeaves[ u ].m_usCluster != 0xFFFF )
+            {
+                pxEnv->m_xClusters[ xLeaves[ u ].m_usCluster ].m_xIndices.Append( u );
+            }
+
+            for( u_int v = 0; v < xLeaves[ u ].m_usLeafFaceCount; ++v )
+            {
+                pxEnv->m_xLeaves[ u ].m_xIndices[ v ] = xLeafFaces[ xLeaves[ u ].m_usFirstLeafFace + v ];
+            }
+        }
+
+        if( xNodes.GetCount() > 0 )
+        {
+            // create the BSP nodes
+            GLToy_BSPNode< GLToy_EnvironmentLeaf >** ppxNodes = new GLToy_BSPNode< GLToy_EnvironmentLeaf >*[ xNodes.GetCount() ];
+
+            for( u_int u = 0 ; u < xNodes.GetCount(); ++u )
+            {
+                ppxNodes[ u ] =
+                    new GLToy_BSPNode< GLToy_EnvironmentLeaf >(
+                        xPlanes[ xNodes[ u ].m_uPlane ].m_xPlane.GetNormal(),
+                        xPlanes[ xNodes[ u ].m_uPlane ].m_xPlane.GetDistance() );
+            }
+
+            for( u_int u = 0 ; u < xNodes.GetCount(); ++u )
+            {
+                ppxNodes[ u ]->m_pxPositive =
+                    ( xNodes[ u ].m_iBackChild >= 0 )
+                        ? ppxNodes[ xNodes[ u ].m_iBackChild ]
+                        : new GLToy_BSPNode< GLToy_EnvironmentLeaf >( &pxEnv->m_xLeaves[ -1 - xNodes[ u ].m_iBackChild ] );
+
+                ppxNodes[ u ]->m_pxNegative =
+                    ( xNodes[ u ].m_iFrontChild >= 0 )
+                        ? ppxNodes[ xNodes[ u ].m_iFrontChild ]
+                        : new GLToy_BSPNode< GLToy_EnvironmentLeaf >( &pxEnv->m_xLeaves[ -1 - xNodes[ u ].m_iFrontChild ] );
+            }
+
+            pxEnv->SetToNodePointer( ppxNodes[ 0 ] );
+
+            delete[] ppxNodes;
+        }
+
+        // decompress the PVSs
+        for( u_int w = 0; w < uNumClusters; ++w )
+        {
+            for( u_int u = 0, v = xVisOffsets[ w ].m_uPVS; u < uNumClusters; ++v )
+            {
+               if( xVisData[ v ] == 0 )
+               {
+                  ++v;     
+                  u += 8 * xVisData[ v ];
+               }
+               else
+               {
+                  for( u_char ucBit = 1; ucBit != 0; ucBit <<= 1, ++u )
+                  {
+                     if( xVisData[ v ] & ucBit )
+                     {
+                        pxEnv->m_xClusters[ w ].m_xPVS.Append( u );
+                     }
+                  }
+               }   
+            }
         }
     }
 

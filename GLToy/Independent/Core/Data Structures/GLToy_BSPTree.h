@@ -47,6 +47,7 @@ template < class T >
 class GLToy_BSPNode
 {
     friend GLToy_BSPTree< T >;
+    friend class GLToy_EnvironmentFile;
 
 public:
 
@@ -63,8 +64,6 @@ public:
         delete m_pxPositive;
         delete m_pxNegative;
     }
-
-protected:
 
     GLToy_BSPNode( const GLToy_Vector_3& xNormal, const float fDistance )
     : m_pxPositive( NULL )
@@ -111,6 +110,16 @@ protected:
     }
 
     GLToy_BSPNode* FindLeaf( const GLToy_Vector_3& xPosition )
+    {
+        if( m_pData )
+        {
+            return this;
+        }
+
+        return GetChild( xPosition )->FindLeaf( xPosition );
+    }
+
+    const GLToy_BSPNode* FindLeaf( const GLToy_Vector_3& xPosition ) const
     {
         if( m_pData )
         {
@@ -278,8 +287,9 @@ protected:
         }
     }
 
-    GLToy_Inline T* GetData() { return m_pData; }
-    GLToy_Inline const T* GetData() const { return m_pData; }
+    GLToy_Inline T* GetData() const { return m_pData; }
+
+protected:
 
     GLToy_BSPNode* m_pxPositive;
     GLToy_BSPNode* m_pxNegative;
@@ -317,6 +327,13 @@ public:
     }
 
     GLToy_Inline T* GetLeafData( const GLToy_Vector_3& xPosition )
+    {
+        return m_pxHead
+            ? m_pxHead->FindLeaf( xPosition )->GetData()
+            : 0;
+    }
+
+    GLToy_Inline T* GetLeafData( const GLToy_Vector_3& xPosition ) const
     {
         return m_pxHead
             ? m_pxHead->FindLeaf( xPosition )->GetData()
@@ -390,6 +407,14 @@ public:
         {
             m_pxHead->ReverseDistanceSortedLeafTraverse( xFunctor, xPosition );
         }
+    }
+
+    GLToy_Inline bool IsEmpty() const { return m_pxHead == NULL; }
+
+    void SetToNodePointer( GLToy_BSPNode< T >* const pxNode )
+    {
+        delete m_pxHead;
+        m_pxHead = pxNode;
     }
 
     virtual void Clear()

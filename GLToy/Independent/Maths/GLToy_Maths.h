@@ -57,6 +57,9 @@ public:
     static float Floor( const float fValue );
     static float Round( const float fValue );
 
+    static float Deg2Rad( const float fDegrees );
+    static float Rad2Deg( const float fDegrees );
+
     static float Clamp( const float fValue, const float fMin, const float fMax ) { return Min( fMax, Max( fValue, fMin ) ); }
     static float Max( const float fValue1, const float fValue2 ) { return ( fValue1 > fValue2 ) ? fValue1 : fValue2; }
     static float Min( const float fValue1, const float fValue2 ) { return ( fValue1 < fValue2 ) ? fValue1 : fValue2; }
