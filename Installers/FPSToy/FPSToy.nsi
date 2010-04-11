@@ -1,8 +1,8 @@
-Name "Physics"
+Name "FPSToy"
 
-OutFile "Physics.exe"
+OutFile "FPSToy.exe"
 
-InstallDir "$PROGRAMFILES\GLToy Physics Demo"
+InstallDir "$PROGRAMFILES\FPSToy"
 
 ; Request application privileges for Windows Vista
 RequestExecutionLevel user
@@ -13,10 +13,12 @@ Page instfiles
 Section ""
 
   SetOutPath $INSTDIR
-  File ..\..\Data\Physics.exe
+  File ..\..\Data\FPSToy.exe
   File ..\..\Data\licensing.txt
   File ..\..\Data\lgpl.license.txt
   File ..\..\Data\cc.license.txt
+  File ..\..\Data\FridgeScript.dll
+  File ..\..\Data\FSAssembler.dll
   
   SetOutPath $INSTDIR\Fonts
   File ..\..\Data\Fonts\Console.font
@@ -39,7 +41,7 @@ Section ""
   
   SetOutPath $INSTDIR
   
-  CreateDirectory "$SMPROGRAMS\GLToy Physics Demo"
-  CreateShortCut "$SMPROGRAMS\GLToy Physics Demo\GLToy Physics Demo.lnk" "$INSTDIR\Physics.exe" "" "$INSTDIR\Physics.exe" 0
+  CreateDirectory "$SMPROGRAMS\FPSToy"
+  CreateShortCut "$SMPROGRAMS\FPSToy\FPSToy.lnk" "$INSTDIR\FPSToy.exe" "" "$INSTDIR\FPSToy.exe" 0
   
 SectionEnd
