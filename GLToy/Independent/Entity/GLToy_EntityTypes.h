@@ -35,9 +35,13 @@ class GLToy_String;
 enum GLToy_EntityType
 {
     ENTITY_NULL,
+    
     ENTITY_MODELSTATIC,
     ENTITY_MODELANIMATED,
+    
     ENTITY_SPRITE,
+
+    ENTITY_PHYSICSBOX,
 
     NUM_ENTITY_TYPES
 };

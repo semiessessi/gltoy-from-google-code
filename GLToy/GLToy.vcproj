@@ -968,6 +968,18 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Physics"
+					>
+					<File
+						RelativePath=".\Independent\Entity\Physics\GLToy_Entity_PhysicsBox.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Entity\Physics\GLToy_Entity_PhysicsBox.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Particle"
@@ -1066,6 +1078,26 @@
 				</File>
 				<File
 					RelativePath=".\Independent\UI\GLToy_WidgetTypes.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Physics"
+				>
+				<File
+					RelativePath=".\Independent\Physics\GLToy_Physics_Controller.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Physics\GLToy_Physics_Controller.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Physics\GLToy_Physics_System.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Physics\GLToy_Physics_System.h"
 					>
 				</File>
 			</Filter>

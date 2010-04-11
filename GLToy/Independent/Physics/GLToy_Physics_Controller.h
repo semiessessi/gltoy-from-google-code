@@ -4,23 +4,23 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// This file is part of FPSToy.
+// This file is part of GLToy.
 //
-// FPSToy is free software: you can redistribute it and/or modify it under the terms of the
+// GLToy is free software: you can redistribute it and/or modify it under the terms of the
 // GNU Lesser General Public License as published by the Free Software Foundation, either
 // version 3 of the License, or (at your option) any later version.
 //
-// FPSToy is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+// GLToy is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
 // even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License along with FPSToy.
+// You should have received a copy of the GNU Lesser General Public License along with GLToy.
 // If not, see <http://www.gnu.org/licenses/>.
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __FPSTOY_PHYSICS_CONTROLLER_
-#define __FPSTOY_PHYSICS_CONTROLLER_
+#ifndef __GLTOY_PHYSICS_CONTROLLER_
+#define __GLTOY_PHYSICS_CONTROLLER_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
@@ -42,12 +42,12 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class FPSToy_Physics_Controller
+class GLToy_Physics_Controller
 {
 
 public:
 
-    FPSToy_Physics_Controller( const GLToy_Hash uHash )
+    GLToy_Physics_Controller( const GLToy_Hash uHash )
     : m_uHash( uHash )
     , m_bOldJump( false )
 #ifdef GLTOY_USE_HAVOK_PHYSICS

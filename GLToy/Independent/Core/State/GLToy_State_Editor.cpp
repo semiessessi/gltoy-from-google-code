@@ -41,7 +41,7 @@
 void GLToy_State_Editor::Initialise()
 {
     GLToy_UI_System::ShowPointer( false );
-    // GLToy_Camera::SetFlyCamEnabled( true );
+    GLToy_Camera::SetFlyCamEnabled( true );
 
     GLToy_Entity_System::SetRender( true );
     GLToy_Environment_System::SetRender( true );

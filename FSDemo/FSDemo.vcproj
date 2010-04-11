@@ -137,6 +137,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="/NODEFAULTLIB:libcmtd"
 				OutputFile="$(OutDir)\$(ProjectName)_$(ConfigurationName).exe"
 				GenerateManifest="false"
 				GenerateDebugInformation="true"

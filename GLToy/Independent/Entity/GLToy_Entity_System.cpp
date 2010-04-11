@@ -35,6 +35,7 @@
 #include <Entity/GLToy_Entity.h>
 #include <Entity/Model/GLToy_Entity_ModelStatic.h>
 #include <Entity/Model/GLToy_Entity_ModelAnimated.h>
+#include <Entity/Physics/GLToy_Entity_PhysicsBox.h>
 #include <Entity/Sprite/GLToy_Entity_Sprite.h>
 #include <File/GLToy_EntityFile.h>
 #include <File/GLToy_File_System.h>
@@ -235,6 +236,8 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Hash uHash, const u
             case ENTITY_MODELANIMATED:      pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_ModelAnimated( uHash, uType ) ); break;
 
             case ENTITY_SPRITE:             pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_Sprite( uHash, uType ) ); break;
+
+            case ENTITY_PHYSICSBOX:         pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_PhysicsBox( uHash, uType ) ); break;
 
             default:
             {

@@ -4,17 +4,17 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// This file is part of FPSToy.
+// This file is part of GLToy.
 //
-// FPSToy is free software: you can redistribute it and/or modify it under the terms of the
+// GLToy is free software: you can redistribute it and/or modify it under the terms of the
 // GNU Lesser General Public License as published by the Free Software Foundation, either
 // version 3 of the License, or (at your option) any later version.
 //
-// FPSToy is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+// GLToy is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
 // even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License along with FPSToy.
+// You should have received a copy of the GNU Lesser General Public License along with GLToy.
 // If not, see <http://www.gnu.org/licenses/>.
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,18 +23,18 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/FPSToy.h>
+#include <Core/GLToy.h>
 
 // This file's header
-#include <Physics/FPSToy_Physics_Controller.h>
+#include <Physics/GLToy_Physics_Controller.h>
 
 // GLToy
 #include <Input/GLToy_Input.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 
-// FPSToy
-#include <Physics/FPSToy_Physics_System.h>
+// GLToy
+#include <Physics/GLToy_Physics_System.h>
 
 // Havok
 #ifdef GLTOY_USE_HAVOK_PHYSICS
@@ -55,12 +55,12 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void FPSToy_Physics_Controller::Create()
+void GLToy_Physics_Controller::Create()
 {
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-    hkpWorld* pxWorld = FPSToy_Physics_System::GetHavokWorld();
+    hkpWorld* pxWorld = GLToy_Physics_System::GetHavokWorld();
 
     if( !pxWorld )
     {
@@ -93,7 +93,7 @@ void FPSToy_Physics_Controller::Create()
 	pxListener->removeReference();
 
     pxWorld->lock();
-    FPSToy_Havok_MarkForWrite();
+    GLToy_Havok_MarkForWrite();
 
     pxWorld->addEntity( m_pxHavokRigidBody->getRigidBody() );
 
@@ -124,7 +124,7 @@ void FPSToy_Physics_Controller::Create()
 	//m_xPreviousGroundInfo = new hkpSurfaceInfo();
 	//m_uFramesInAir = 0;
 
-    FPSToy_Havok_UnmarkForWrite();
+    GLToy_Havok_UnmarkForWrite();
     pxWorld->unlock();
 
 #else
@@ -135,12 +135,12 @@ void FPSToy_Physics_Controller::Create()
 
 }
 
-void FPSToy_Physics_Controller::Destroy()
+void GLToy_Physics_Controller::Destroy()
 {
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
     
-    hkpWorld* pxWorld = FPSToy_Physics_System::GetHavokWorld();
+    hkpWorld* pxWorld = GLToy_Physics_System::GetHavokWorld();
 
     if( !pxWorld )
     {
@@ -159,12 +159,12 @@ void FPSToy_Physics_Controller::Destroy()
 
 }
 
-void FPSToy_Physics_Controller::Update( const float fTimestep )
+void GLToy_Physics_Controller::Update( const float fTimestep )
 {
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-    hkpWorld* pxWorld = FPSToy_Physics_System::GetHavokWorld();
+    hkpWorld* pxWorld = GLToy_Physics_System::GetHavokWorld();
 
     if( !pxWorld )
     {
@@ -180,7 +180,7 @@ void FPSToy_Physics_Controller::Update( const float fTimestep )
     m_bOldJump = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetSpaceKey() );
 
     pxWorld->lock();
-    FPSToy_Havok_MarkForWrite();
+    GLToy_Havok_MarkForWrite();
 
     // TODO - implement something similar to this
 	////
@@ -311,21 +311,21 @@ void FPSToy_Physics_Controller::Update( const float fTimestep )
 
 	m_pxHavokRigidBody->setLinearVelocity( xOutput.m_velocity, fTimestep );
 
-    FPSToy_Havok_UnmarkForWrite();
+    GLToy_Havok_UnmarkForWrite();
     pxWorld->unlock();
 
 #endif
 
 }
 
-void FPSToy_Physics_Controller::LateUpdate()
+void GLToy_Physics_Controller::LateUpdate()
 {
 
     // TODO - third person cam here
     const GLToy_Vector_3 xCameraOffset = GLToy_Vector_3( 0.0f, 0.5f, 0.0f );
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-    hkpWorld* pxWorld = FPSToy_Physics_System::GetHavokWorld();
+    hkpWorld* pxWorld = GLToy_Physics_System::GetHavokWorld();
 
     if( !pxWorld )
     {
@@ -338,7 +338,7 @@ void FPSToy_Physics_Controller::LateUpdate()
     if( GLToy_Camera::IsControllerCamEnabled() )
     {
         pxWorld->lockReadOnly();
-        FPSToy_Havok_MarkForRead();
+        GLToy_Havok_MarkForRead();
 
         GLToy_Camera::SetPosition(
             ( GLToy_Vector_3(
@@ -346,7 +346,7 @@ void FPSToy_Physics_Controller::LateUpdate()
                 m_pxHavokRigidBody->getPosition()( 1 ),
                 m_pxHavokRigidBody->getPosition()( 2 ) ) + xCameraOffset ) * fINVERSE_HAVOK_SCALE );
 
-        FPSToy_Havok_UnmarkForRead();
+        GLToy_Havok_UnmarkForRead();
         pxWorld->unlockReadOnly();
     }
 

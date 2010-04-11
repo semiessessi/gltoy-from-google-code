@@ -29,6 +29,7 @@
 #include <Render/GLToy_Camera.h>
 
 // GLToy
+#include <Core/Console/GLToy_Console.h>
 #include <Core/GLToy_Timer.h>
 #include <Input/GLToy_Input.h>
 #include <Maths/GLToy_Vector.h>
@@ -66,6 +67,8 @@ bool GLToy_Camera::s_bControllerCam = false;
 
 bool GLToy_Camera::Initialise()
 {
+    GLToy_Console::RegisterCommand( "fpscam", SetControllerCamEnabled );
+    GLToy_Console::RegisterCommand( "flycam", SetFlyCamEnabled );
     return true;
 }
 
@@ -159,6 +162,8 @@ void GLToy_Camera::SetControllerCamEnabled( const bool bEnabled )
     if( !s_bLockedCam )
     {
         s_bControllerCam = bEnabled;
+        // pretend this is a console variable
+        GLToy_Console::Print( GLToy_String( "fpscam is set to " ) + ( bEnabled ? "true" : "false" ) );
         if( bEnabled )
         {
             s_bFlyCam = false;
@@ -171,6 +176,8 @@ void GLToy_Camera::SetFlyCamEnabled( const bool bEnabled )
     if( !s_bLockedCam )
     {
         s_bFlyCam = bEnabled;
+        // pretend this is a console variable
+        GLToy_Console::Print( GLToy_String( "flycam is set to " ) + ( bEnabled ? "true" : "false" ) );
         if( bEnabled )
         {
             s_bControllerCam = false;

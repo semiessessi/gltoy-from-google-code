@@ -4,17 +4,17 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// This file is part of FPSToy.
+// This file is part of GLToy.
 //
-// FPSToy is free software: you can redistribute it and/or modify it under the terms of the
+// GLToy is free software: you can redistribute it and/or modify it under the terms of the
 // GNU Lesser General Public License as published by the Free Software Foundation, either
 // version 3 of the License, or (at your option) any later version.
 //
-// FPSToy is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+// GLToy is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
 // even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License along with FPSToy.
+// You should have received a copy of the GNU Lesser General Public License along with GLToy.
 // If not, see <http://www.gnu.org/licenses/>.
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,10 +23,10 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/FPSToy.h>
+#include <Core/GLToy.h>
 
 // This file's header
-#include <Physics/FPSToy_Physics_System.h>
+#include <Physics/GLToy_Physics_System.h>
 
 // GLToy
 #include <Core/Console/GLToy_Console.h>
@@ -38,10 +38,10 @@
 #include <Maths/GLToy_Volume.h>
 #include <Render/GLToy_Camera.h>
 
-// FPSToy
-#include <Entity/FPSToy_EntityTypes.h>
-#include <Entity/Physics/FPSToy_Entity_PhysicsBox.h>
-#include <Physics/FPSToy_Physics_Controller.h>
+// GLToy
+#include <Entity/GLToy_EntityTypes.h>
+#include <Entity/Physics/GLToy_Entity_PhysicsBox.h>
+#include <Physics/GLToy_Physics_Controller.h>
 
 // Havok
 #include <Physics/Platform_GLToy_Havok_Physics.h>
@@ -73,8 +73,8 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_HashTree< FPSToy_Physics_Object* > FPSToy_Physics_System::s_xFPSToyObjects;
-FPSToy_Physics_Controller FPSToy_Physics_System::s_xDefaultController = FPSToy_Physics_Controller( GLToy_Hash_Constant( "DefaultController" ) );
+GLToy_HashTree< GLToy_Physics_Object* > GLToy_Physics_System::s_xGLToyObjects;
+GLToy_Physics_Controller GLToy_Physics_System::s_xDefaultController = GLToy_Physics_Controller( GLToy_Hash_Constant( "DefaultController" ) );
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
@@ -91,12 +91,12 @@ hkJobQueue*         g_pxJobQueue        = NULL;
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-static void HK_CALL FPSToy_Havok_ErrorReport( const char* szMessage, void* pData )
+static void HK_CALL GLToy_Havok_ErrorReport( const char* szMessage, void* pData )
 {
     GLToy_DebugOutput_Release( "Havok error: %s", szMessage );
 }
 
-void FPSToy_Havok_MarkForRead()
+void GLToy_Havok_MarkForRead()
 {
 
 #ifdef _DEBUG
@@ -110,7 +110,7 @@ void FPSToy_Havok_MarkForRead()
 
 }
 
-void FPSToy_Havok_MarkForWrite()
+void GLToy_Havok_MarkForWrite()
 {
 
 #ifdef _DEBUG
@@ -124,7 +124,7 @@ void FPSToy_Havok_MarkForWrite()
 
 }
 
-void FPSToy_Havok_UnmarkForRead()
+void GLToy_Havok_UnmarkForRead()
 {
 
 #ifdef _DEBUG
@@ -138,7 +138,7 @@ void FPSToy_Havok_UnmarkForRead()
 
 }
 
-void FPSToy_Havok_UnmarkForWrite()
+void GLToy_Havok_UnmarkForWrite()
 {
 
 #ifdef _DEBUG
@@ -152,23 +152,23 @@ void FPSToy_Havok_UnmarkForWrite()
 
 }
 
-hkpWorld* FPSToy_Physics_System::GetHavokWorld()
+hkpWorld* GLToy_Physics_System::GetHavokWorld()
 {
     return g_pxHavokWorld;
 }
 
 #endif
 
-void FPSToy_Physics_Object::SetPosition( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity )
+void GLToy_Physics_Object::SetPosition( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity )
 {
     SetVelocity( xVelocity );
 }
 
-void FPSToy_Physics_Object::SetVelocity( const GLToy_Vector_3& xVelocity )
+void GLToy_Physics_Object::SetVelocity( const GLToy_Vector_3& xVelocity )
 {
 }
 
-GLToy_OBB FPSToy_Physics_Object::GetOBB()
+GLToy_OBB GLToy_Physics_Object::GetOBB()
 {
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
@@ -179,7 +179,7 @@ GLToy_OBB FPSToy_Physics_Object::GetOBB()
     }
 
     g_pxHavokWorld->lockReadOnly();
-    FPSToy_Havok_MarkForRead();
+    GLToy_Havok_MarkForRead();
 
     const hkVector4& xPos = m_pxHavokRigidBody->getPosition();
     const hkQuaternion& xQuat = m_pxHavokRigidBody->getRotation();
@@ -194,7 +194,7 @@ GLToy_OBB FPSToy_Physics_Object::GetOBB()
 
     const hkpShape* const pxShape = pxCollidable->getShape();
 
-    FPSToy_Havok_UnmarkForRead();
+    GLToy_Havok_UnmarkForRead();
     g_pxHavokWorld->unlockReadOnly();
 
     hkVector4 xHalfExtents;
@@ -223,7 +223,7 @@ GLToy_OBB FPSToy_Physics_Object::GetOBB()
 
 }
 
-bool FPSToy_Physics_System::Initialise()
+bool GLToy_Physics_System::Initialise()
 {
 
     GLToy_Console::RegisterCommand( "testbox", TestBox_Console );
@@ -232,7 +232,7 @@ bool FPSToy_Physics_System::Initialise()
 
     // this initialisation routine is inspired by the ConsoleExampleMt_win32_9-0 example in the Havok SDK
     hkMemoryRouter* pxMemoryRouter = hkMemoryInitUtil::initDefault();
-    hkBaseSystem::init( pxMemoryRouter, FPSToy_Havok_ErrorReport );
+    hkBaseSystem::init( pxMemoryRouter, GLToy_Havok_ErrorReport );
 
     hkHardwareInfo xHardwareInfo;
     hkGetHardwareInfo( xHardwareInfo );
@@ -261,12 +261,12 @@ bool FPSToy_Physics_System::Initialise()
     g_pxHavokWorld = new hkpWorld( xHavokWorldInfo );
 
     g_pxHavokWorld->lock();
-    FPSToy_Havok_MarkForWrite();
+    GLToy_Havok_MarkForWrite();
 
     hkpAgentRegisterUtil::registerAllAgents( g_pxHavokWorld->getCollisionDispatcher() );
     g_pxHavokWorld->registerWithJobQueue( g_pxJobQueue );
     
-    FPSToy_Havok_UnmarkForWrite();
+    GLToy_Havok_UnmarkForWrite();
     g_pxHavokWorld->unlock();
 
 #endif
@@ -278,10 +278,10 @@ bool FPSToy_Physics_System::Initialise()
     return true;
 }
 
-void FPSToy_Physics_System::Shutdown()
+void GLToy_Physics_System::Shutdown()
 {
 
-    s_xFPSToyObjects.DeleteAll();
+    s_xGLToyObjects.DeleteAll();
     s_xDefaultController.Destroy();
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
@@ -303,7 +303,7 @@ void FPSToy_Physics_System::Shutdown()
 
 }
 
-void FPSToy_Physics_System::Update()
+void GLToy_Physics_System::Update()
 {
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
@@ -335,21 +335,21 @@ void FPSToy_Physics_System::Update()
 
 }
 
-void FPSToy_Physics_System::TestBox_Console()
+void GLToy_Physics_System::TestBox_Console()
 {
     GLToy_String szEntityName;
     szEntityName.SetToFormatString( "Entity%d", GLToy_Entity_System::GetEntityCount() );
 
-    FPSToy_Entity_PhysicsBox* pxBox = static_cast< FPSToy_Entity_PhysicsBox* >( GLToy_Entity_System::CreateEntity( szEntityName.GetHash(), PHYSICS_ENTITY_PHYSICSBOX ) );
+    GLToy_Entity_PhysicsBox* pxBox = static_cast< GLToy_Entity_PhysicsBox* >( GLToy_Entity_System::CreateEntity( szEntityName.GetHash(), ENTITY_PHYSICSBOX ) );
 
     pxBox->Spawn( GLToy_AABB( GLToy_Camera::GetPosition(), 5.0f, 5.0f, 5.0f ), GLToy_Camera::GetDirection() * 250.0f );
 }
 
-FPSToy_Physics_Object* FPSToy_Physics_System::CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane &xPlane )
+GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane &xPlane )
 {
 
-    FPSToy_Physics_Object* pxFPSToyObject = new FPSToy_Physics_Object( uHash );
-    s_xFPSToyObjects.AddNode( pxFPSToyObject, uHash );
+    GLToy_Physics_Object* pxGLToyObject = new GLToy_Physics_Object( uHash );
+    s_xGLToyObjects.AddNode( pxGLToyObject, uHash );
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
@@ -367,10 +367,10 @@ FPSToy_Physics_Object* FPSToy_Physics_System::CreatePhysicsPlane( const GLToy_Ha
     hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
 
     g_pxHavokWorld->lock();
-    FPSToy_Havok_MarkForWrite();
+    GLToy_Havok_MarkForWrite();
     g_pxHavokWorld->addEntity( pxRigidBody );
     pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_FIXED );
-    FPSToy_Havok_UnmarkForWrite();
+    GLToy_Havok_UnmarkForWrite();
     g_pxHavokWorld->unlock();
 
     pxRigidBody->removeReference();
@@ -382,14 +382,14 @@ FPSToy_Physics_Object* FPSToy_Physics_System::CreatePhysicsPlane( const GLToy_Ha
 
 #endif
 
-    return pxFPSToyObject;
+    return pxGLToyObject;
 }
 
-FPSToy_Physics_Object* FPSToy_Physics_System::CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_AABB &xAABB, const GLToy_Vector_3& xVelocity )
+GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_AABB &xAABB, const GLToy_Vector_3& xVelocity )
 {
 
-    FPSToy_Physics_Object* pxFPSToyObject = new FPSToy_Physics_Object( uHash );
-    s_xFPSToyObjects.AddNode( pxFPSToyObject, uHash );
+    GLToy_Physics_Object* pxGLToyObject = new GLToy_Physics_Object( uHash );
+    s_xGLToyObjects.AddNode( pxGLToyObject, uHash );
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
@@ -411,14 +411,14 @@ FPSToy_Physics_Object* FPSToy_Physics_System::CreatePhysicsBox( const GLToy_Hash
     hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
 
     g_pxHavokWorld->lock();
-    FPSToy_Havok_MarkForWrite();
+    GLToy_Havok_MarkForWrite();
     g_pxHavokWorld->addEntity( pxRigidBody );
     pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_CRITICAL );
     pxRigidBody->setLinearVelocity( hkVector4( xVelocity[ 0 ] * fHAVOK_SCALE, xVelocity[ 1 ] * fHAVOK_SCALE, xVelocity[ 2 ] * fHAVOK_SCALE ) );
-    FPSToy_Havok_UnmarkForWrite();
+    GLToy_Havok_UnmarkForWrite();
     g_pxHavokWorld->unlock();
 
-    pxFPSToyObject->SetHavokRigidBodyPointer( pxRigidBody );
+    pxGLToyObject->SetHavokRigidBodyPointer( pxRigidBody );
 
     pxRigidBody->removeReference();
     pxBox->removeReference();
@@ -429,5 +429,5 @@ FPSToy_Physics_Object* FPSToy_Physics_System::CreatePhysicsBox( const GLToy_Hash
 
 #endif
 
-    return pxFPSToyObject;
+    return pxGLToyObject;
 }

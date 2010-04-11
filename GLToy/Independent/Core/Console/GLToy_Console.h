@@ -73,6 +73,7 @@ public:
 private:
 
     static GLToy_ConsoleCommand* LookUpCommand( const GLToy_String& szName );
+    static void ListAll();
 
     static void HandleCharacter( const wchar_t wcCharacter );
     static void HandleKey( const unsigned int uKey );

@@ -4,23 +4,23 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// This file is part of FPSToy.
+// This file is part of GLToy.
 //
-// FPSToy is free software: you can redistribute it and/or modify it under the terms of the
+// GLToy is free software: you can redistribute it and/or modify it under the terms of the
 // GNU Lesser General Public License as published by the Free Software Foundation, either
 // version 3 of the License, or (at your option) any later version.
 //
-// FPSToy is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+// GLToy is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
 // even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License along with FPSToy.
+// You should have received a copy of the GNU Lesser General Public License along with GLToy.
 // If not, see <http://www.gnu.org/licenses/>.
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_ENTITY_MODELSTATIC_H_
-#define __GLTOY_ENTITY_MODELSTATIC_H_
+#ifndef __GLTOY_ENTITY_PHYSICSBOX_H_
+#define __GLTOY_ENTITY_PHYSICSBOX_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
@@ -33,13 +33,13 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class FPSToy_Physics_Object;
+class GLToy_Physics_Object;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class FPSToy_Entity_PhysicsBox
+class GLToy_Entity_PhysicsBox
 : public GLToy_Entity_Oriented_AABB // TODO - need that GLToy_Entity_Oriented_OBB really...
 {
 
@@ -47,8 +47,8 @@ class FPSToy_Entity_PhysicsBox
 
 public:
 
-    FPSToy_Entity_PhysicsBox( const GLToy_Hash uHash, const u_int uType );
-    virtual ~FPSToy_Entity_PhysicsBox() {}
+    GLToy_Entity_PhysicsBox( const GLToy_Hash uHash, const u_int uType );
+    virtual ~GLToy_Entity_PhysicsBox() {}
 
     void Spawn( const GLToy_AABB& xBB, const GLToy_Vector_3& xVelocity );
 
@@ -56,7 +56,7 @@ public:
 
 protected:
 
-    FPSToy_Physics_Object* m_pxFPSToyObject;
+    GLToy_Physics_Object* m_pxGLToyObject;
 
 };
 

@@ -4,23 +4,23 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// This file is part of FPSToy.
+// This file is part of GLToy.
 //
-// FPSToy is free software: you can redistribute it and/or modify it under the terms of the
+// GLToy is free software: you can redistribute it and/or modify it under the terms of the
 // GNU Lesser General Public License as published by the Free Software Foundation, either
 // version 3 of the License, or (at your option) any later version.
 //
-// FPSToy is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+// GLToy is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
 // even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License along with FPSToy.
+// You should have received a copy of the GNU Lesser General Public License along with GLToy.
 // If not, see <http://www.gnu.org/licenses/>.
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __FPSTOY_PHYSICS_SYSTEM_
-#define __FPSTOY_PHYSICS_SYSTEM_
+#ifndef __GLTOY_PHYSICS_SYSTEM_
+#define __GLTOY_PHYSICS_SYSTEM_
 
 // TODO - there is absolutely no good reason to use a hash tree for physics objects
 // ( unless laziness counts as a good reason - which obviously it does )
@@ -55,18 +55,18 @@ template < class T > class GLToy_HashTree;
 class GLToy_OBB;
 class GLToy_Plane;
 
-class FPSToy_Physics_Controller;
+class GLToy_Physics_Controller;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class FPSToy_Physics_Object
+class GLToy_Physics_Object
 {
 
 public:
 
-    FPSToy_Physics_Object( const GLToy_Hash uHash )
+    GLToy_Physics_Object( const GLToy_Hash uHash )
     : m_uHash( uHash )
 #ifdef GLTOY_USE_HAVOK_PHYSICS
     , m_pxHavokRigidBody( NULL )
@@ -98,7 +98,7 @@ protected:
 
 };
 
-class FPSToy_Physics_System
+class GLToy_Physics_System
 {
 
 public:
@@ -110,9 +110,9 @@ public:
 
     static void TestBox_Console();
 
-    static FPSToy_Physics_Object* CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane& xPlane );
-    static FPSToy_Physics_Object* CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_AABB& xAABB, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
-    static FPSToy_Physics_Object* CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_OBB& xOBB, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
+    static GLToy_Physics_Object* CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane& xPlane );
+    static GLToy_Physics_Object* CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_AABB& xAABB, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
+    static GLToy_Physics_Object* CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_OBB& xOBB, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
@@ -122,17 +122,17 @@ public:
 
 private:
 
-    static GLToy_HashTree< FPSToy_Physics_Object* > s_xFPSToyObjects;
-    static FPSToy_Physics_Controller s_xDefaultController;
+    static GLToy_HashTree< GLToy_Physics_Object* > s_xGLToyObjects;
+    static GLToy_Physics_Controller s_xDefaultController;
 
 };
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-void FPSToy_Havok_MarkForRead();
-void FPSToy_Havok_MarkForWrite();
-void FPSToy_Havok_UnmarkForRead();
-void FPSToy_Havok_UnmarkForWrite();
+void GLToy_Havok_MarkForRead();
+void GLToy_Havok_MarkForWrite();
+void GLToy_Havok_UnmarkForRead();
+void GLToy_Havok_UnmarkForWrite();
 
 #endif
 

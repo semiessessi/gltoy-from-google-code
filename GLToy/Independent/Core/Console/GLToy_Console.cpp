@@ -190,6 +190,14 @@ GLToy_ConsoleCommand* GLToy_Console::LookUpCommand( const GLToy_String& szName )
     return ppxCommand ? *ppxCommand : NULL;
 }
 
+void GLToy_Console::ListAll()
+{
+    GLToy_Iterate( GLToy_ConsoleCommand*, xIterator, &s_xCommandTree )
+    {
+        GLToy_Console::Print( xIterator.Current()->GetName() );
+    }
+}
+
 void GLToy_Console::HandleCharacter( const wchar_t wcCharacter )
 {
 }
@@ -246,6 +254,8 @@ bool GLToy_Console::Initialise()
     s_pxFont = GLToy_Font_System::LookUpFont( "Console" );
 
     RegisterCommand( "echo", Print );
+    RegisterCommand( "help", ListAll ); // TODO - a real help function and help...
+    RegisterCommand( "listall", ListAll );
     RegisterCommand( "print", Print );
 
     return true;

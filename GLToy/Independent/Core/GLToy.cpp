@@ -37,6 +37,7 @@
 #include <Maths/GLToy_Maths.h>
 #include <Model/GLToy_Model_System.h>
 #include <Particle/GLToy_PFX_System.h>
+#include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 #include <UI/GLToy_UI_System.h>
@@ -127,6 +128,7 @@ bool GLToy::Initialise()
     GLToy_InitialiserCall( GLToy_Console );
 	GLToy_InitialiserCall( GLToy_UI_System );
     GLToy_InitialiserCall( GLToy_State_System );
+    GLToy_InitialiserCall( GLToy_Physics_System );
 
     if( !Platform_LateInitialise() )
     {
@@ -174,6 +176,7 @@ void GLToy::Shutdown()
     GLToy_FridgeScript::Shutdown();
 #endif
 
+    GLToy_Physics_System::Shutdown();
     GLToy_State_System::Shutdown();
 	GLToy_UI_System::Shutdown();
     GLToy_Console::Shutdown();
@@ -200,6 +203,7 @@ bool GLToy::MainLoop()
 
 	GLToy_Console::Update();
 	GLToy_UI_System::Update();
+    GLToy_Physics_System::Update(); // this comes before camera to avoid a frame of lag on user controlled physics objects
     GLToy_Camera::Update();
 
     GLToy_Environment_System::Update();

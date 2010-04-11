@@ -31,11 +31,8 @@
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment_System.h>
 #include <Input/GLToy_Input.h>
+#include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Camera.h>
-
-// FPSToy
-#include <Entity/FPSToy_EntityTypes.h>
-#include <Physics/FPSToy_Physics_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -43,9 +40,6 @@
 
 bool FPSToy::Initialise()
 {
-    GLToy_InitialiserCall( FPSToy_Physics_System );
-
-    GLToy_Entity_System::SetProjectEntityCreateCallback( FPSToy_CreateEntity );
     GLToy_Environment_System::CreateTestEnvironment();
 
     GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Splash" ) );
@@ -58,7 +52,6 @@ bool FPSToy::Initialise()
 
 void FPSToy::Shutdown()
 {
-    FPSToy_Physics_System::Shutdown();
 }
 
 void FPSToy::Update()
@@ -70,9 +63,8 @@ void FPSToy::Update()
 
     if( !s_bOldMouseDown && s_bMouseDown )
     {
-        FPSToy_Physics_System::TestBox_Console();
+        GLToy_Physics_System::TestBox_Console();
     }
 
     s_bOldMouseDown = s_bMouseDown;
-    FPSToy_Physics_System::Update();
 }
