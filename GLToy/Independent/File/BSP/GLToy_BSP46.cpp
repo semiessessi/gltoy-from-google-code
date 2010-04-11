@@ -229,7 +229,7 @@ void GLToy_EnvironmentFile::LoadBSP46( const GLToy_BitStream& xStream ) const
     pxEnv->m_xVertices.Resize( xVertices.GetCount() );
     for( u_int u = 0; u < xVertices.GetCount(); ++u )
     {
-        pxEnv->m_xVertices[ u ].m_xVertex = GLToy_Vector_3( -xVertices[ u ].m_xVertex[ 1 ], xVertices[ u ].m_xVertex[ 2 ], xVertices[ u ].m_xVertex[ 0 ] );
+        pxEnv->m_xVertices[ u ].m_xVertex = GLToy_Vector_3( xVertices[ u ].m_xVertex[ 1 ], xVertices[ u ].m_xVertex[ 2 ], xVertices[ u ].m_xVertex[ 0 ] );
         pxEnv->m_xVertices[ u ].m_xUV = xVertices[ u ].m_xUV;
         pxEnv->m_xVertices[ u ].m_xLightmapUV = xVertices[ u ].m_xLightmapUV;
         pxEnv->m_xVertices[ u ].m_xNormal = xVertices[ u ].m_xNormal;

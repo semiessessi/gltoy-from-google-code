@@ -153,7 +153,7 @@ public:
 
         // this flips the normals to GLToy orientation
         // also id BSP files use the backwards convention for the plane distance.
-        m_xPlane = GLToy_Plane( GLToy_Vector_3( -( xNormal[ 1 ] ), xNormal[ 2 ], xNormal[ 0 ] ), -fDistance );
+        m_xPlane = GLToy_Plane( GLToy_Vector_3( xNormal[ 1 ], xNormal[ 2 ], xNormal[ 0 ] ), -fDistance );
         //m_xPlane = GLToy_Plane( xNormal, -fDistance );
     }
     
@@ -548,7 +548,7 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
     GLToy_Iterate( GLToy_Environment_LightmappedFaceVertex, xIterator, &( pxEnv->m_xVertices ) )
     {
         GLToy_Environment_LightmappedFaceVertex& xCurrent = xIterator.Current();
-        xCurrent.m_xVertex = GLToy_Vector_3( -( xCurrent.m_xVertex[ 1 ] ), xCurrent.m_xVertex[ 2 ], xCurrent.m_xVertex[ 0 ] );
+        xCurrent.m_xVertex = GLToy_Vector_3( xCurrent.m_xVertex[ 1 ], xCurrent.m_xVertex[ 2 ], xCurrent.m_xVertex[ 0 ] );
     }
 
     // create the lightmap textures

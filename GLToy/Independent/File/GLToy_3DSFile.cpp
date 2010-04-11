@@ -322,7 +322,7 @@ GLToy_Model* GLToy_3DSFile::LoadModel() const
         for( u_int v = 0; v < xObjects[ u ].m_xVertices.GetCount(); ++v )
         {
             xModelObject.m_xVertices[ v ] =
-                GLToy_Vector_3( -( xObjects[ u ].m_xVertices[ v ][ 1 ] ), xObjects[ u ].m_xVertices[ v ][ 2 ], xObjects[ u ].m_xVertices[ v ][ 0 ] );
+                GLToy_Vector_3( xObjects[ u ].m_xVertices[ v ][ 1 ], xObjects[ u ].m_xVertices[ v ][ 2 ], xObjects[ u ].m_xVertices[ v ][ 0 ] );
         }
     }
 

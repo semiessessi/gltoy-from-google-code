@@ -76,7 +76,7 @@ void GLToy_Environment_Lightmapped::Shutdown()
 void GLToy_Environment_Lightmapped::Render() const
 {
     GLToy_Render::EnableBackFaceCulling();
-    GLToy_Render::SetCWFaceWinding();
+    GLToy_Render::SetCCWFaceWinding();
     GLToy_Render::DisableBlending();
 
     if( GLToy_Environment_System::IsRenderingLightmapOnly() )

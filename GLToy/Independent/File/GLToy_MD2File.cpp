@@ -145,10 +145,10 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
         for( u_int v = 0; v < pxHeader->m_uNumVertices; ++v )
         {
             const u_int uVertexIndex = u * pxHeader->m_uNumVertices + v;
-            // as well as decompressing the vertex, do some component jiggling to correct the axes from the quake 2 standard
+            // as well as decompressing the vertex, do some swizzling to correct the axes from the Quake 2 convention
             pxModel->m_xVertices[ uVertexIndex ] =
                 GLToy_Vector_3(
-                    -( static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 1 ] ) * xFrame.m_xScale[ 1 ] + xFrame.m_xTranslate[ 1 ] ),
+                    static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 1 ] ) * xFrame.m_xScale[ 1 ] + xFrame.m_xTranslate[ 1 ],
                     static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 2 ] ) * xFrame.m_xScale[ 2 ] + xFrame.m_xTranslate[ 2 ],
                     static_cast< float >( xFrame.m_axVertices[ v ].m_aucCoordinates[ 0 ] ) * xFrame.m_xScale[ 0 ] + xFrame.m_xTranslate[ 0 ] );
 
