@@ -172,7 +172,7 @@ public:
         m_pData = NULL;
     }
 
-    void Traverse( GLToy_Functor< T >& xFunctor )
+    virtual void Traverse( GLToy_Functor< T >& xFunctor )
     {
         if( m_pData )
         {
@@ -185,7 +185,7 @@ public:
         }
     }
 
-    void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
+    virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
     {
         if( m_pData )
         {
@@ -196,6 +196,24 @@ public:
         {
             m_pxPositive->Traverse( xFunctor );
             m_pxNegative->Traverse( xFunctor );
+        }
+    }
+
+    virtual void TraverseNodes( GLToy_ConstFunctor< GLToy_BSPNode< T > >& xFunctor ) const
+    {
+        xFunctor( this );
+
+        if( !m_pData )
+        {
+            if( m_pxPositive )
+            {
+                m_pxPositive->TraverseNodes( xFunctor );
+            }
+
+            if( m_pxNegative )
+            {
+                m_pxNegative->TraverseNodes( xFunctor );
+            }
         }
     }
 
@@ -288,6 +306,9 @@ public:
     }
 
     GLToy_Inline T* GetData() const { return m_pData; }
+    GLToy_Inline GLToy_BSPNode* GetPositiveNode() const { return m_pxPositive; }
+    GLToy_Inline GLToy_BSPNode* GetNegativeNode() const { return m_pxNegative; }
+    GLToy_Inline const GLToy_Plane& GetPlane() const { return m_xPlane; }
 
 protected:
 
@@ -374,6 +395,14 @@ public:
         if( m_pxHead )
         {
             m_pxHead->Traverse( xFunctor );
+        }
+    }
+
+    virtual void TraverseNodes( GLToy_ConstFunctor< GLToy_BSPNode< T > >& xFunctor ) const
+    {
+        if( m_pxHead )
+        {
+            m_pxHead->TraverseNodes( xFunctor );
         }
     }
 

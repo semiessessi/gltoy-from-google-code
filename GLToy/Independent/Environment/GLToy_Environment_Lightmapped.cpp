@@ -100,7 +100,7 @@ void GLToy_Environment_Lightmapped::Render() const
         }
         else
         {
-            // fallback - render with no bsp tree and visibilty culling
+            // fallback - render with no bsp tree or visibilty culling
             const bool bQuadRes = GLToy_Environment_System::IsBSPQuadRes();
             GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
             {
@@ -158,7 +158,7 @@ void GLToy_Environment_Lightmapped::RenderLightmap() const
     }
     else
     {
-        // fallback - render with no bsp tree and visibilty culling
+        // fallback - render with no bsp tree or visibilty culling
         GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
         {
             const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
@@ -213,6 +213,84 @@ u_int GLToy_Environment_Lightmapped::GetVertexIndex( const GLToy_Environment_Lig
     return m_xVertices.GetCount() - 1;
 }
 
+bool GLToy_Environment_Lightmapped::ValidateBSPTree() const
+{
+    class ValidateFunctor
+    : public GLToy_ConstFunctor< GLToy_BSPNode< GLToy_EnvironmentLeaf > >
+    {
+
+        public:
+
+            ValidateFunctor()
+            : m_bValid( true )
+            {
+            }
+
+            virtual void operator ()( const GLToy_BSPNode< GLToy_EnvironmentLeaf >* const pxData )
+            {
+                // is it already been shown invalid?
+                if( !m_bValid )
+                {
+                    return;
+                }
+
+                // is this a leaf?
+                if( pxData->GetData() )
+                {
+                    return;
+                }
+
+                // check if the children are leaves, if they are check their points are on the correct side of the plane
+                const GLToy_Plane& xPlane = pxData->GetPlane();
+
+                const GLToy_BSPNode< GLToy_EnvironmentLeaf >* const pxPositive = pxData->GetPositiveNode();
+                if( pxPositive->GetData() )
+                {
+                    const GLToy_EnvironmentLeaf_Lightmapped* const pxLeaf = static_cast< const GLToy_EnvironmentLeaf_Lightmapped* const >( pxPositive->GetData() );
+                    for( u_int u = 0; u < pxLeaf->GetFaceCount(); ++u )
+                    {
+                        for( u_int v = 0; v < pxLeaf->GetFace( u ).GetVertexCount(); ++v )
+                        {
+                            const GLToy_Vector_3& xTestPoint = pxLeaf->GetFaceVertex( u, v ).m_xVertex;
+                            const float fDistance = xPlane.SignedDistance( xTestPoint );
+                            if( fDistance < 0.0f )
+                            {
+                                m_bValid = false;
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                const GLToy_BSPNode< GLToy_EnvironmentLeaf >* const pxNegative = pxData->GetNegativeNode();
+                if( pxNegative->GetData() )
+                {
+                    const GLToy_EnvironmentLeaf_Lightmapped* const pxLeaf = static_cast< const GLToy_EnvironmentLeaf_Lightmapped* const >( pxNegative->GetData() );
+                    for( u_int u = 0; u < pxLeaf->GetFaceCount(); ++u )
+                    {
+                        for( u_int v = 0; v < pxLeaf->GetFace( u ).GetVertexCount(); ++v )
+                        {
+                            const GLToy_Vector_3& xTestPoint = pxLeaf->GetFaceVertex( u, v ).m_xVertex;
+                            const float fDistance = xPlane.SignedDistance( xTestPoint );
+                            if( fDistance > 0.0f )
+                            {
+                                m_bValid = false;
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+
+            bool m_bValid;
+    };
+
+    ValidateFunctor xFunctor;
+    TraverseNodes( xFunctor );
+
+    return xFunctor.m_bValid;
+}
+
 void GLToy_EnvironmentLeaf_Lightmapped::Render() const
 {
     if( !m_pxParent )
@@ -256,7 +334,7 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderLightmap() const
     {
         const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ xIterator.Current() ];
 
-        const u_int uHashSource = 1337 * xIterator.Index() + 7;
+        const u_int uHashSource = 1337 * xIterator.Current() + 7;
         GLToy_Texture_System::BindTexture( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ) );
 
         GLToy_Render::StartSubmittingPolygon();
@@ -274,3 +352,21 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderLightmap() const
         GLToy_Render::EndSubmit();
     }
 }
+
+const GLToy_Environment_LightmappedFace& GLToy_EnvironmentLeaf_Lightmapped::GetFace( const u_int uFace ) const
+{
+    GLToy_Assert( m_pxParent != NULL, "Trying to get a face from a leaf with no associated environment!" );
+    GLToy_Assert( uFace < GetFaceCount(), "This leaf has %d faces, but we are asking for face %d.", GetFaceCount(), uFace );
+
+    return m_pxParent->m_xFaces[ m_xIndices[ uFace ] ];
+}
+
+const GLToy_Environment_LightmappedFaceVertex& GLToy_EnvironmentLeaf_Lightmapped::GetFaceVertex( const u_int uFace, const u_int uVertex ) const
+{
+    const GLToy_Environment_LightmappedFace& xFace = GetFace( uFace );
+    
+    GLToy_Assert( uVertex < xFace.GetVertexCount(), "This face has %d vertices, but we are asking for vertex %d", xFace.GetVertexCount(), uVertex );
+
+    return m_pxParent->m_xVertices[ xFace.m_xIndices[ uVertex ] ];
+}
+

@@ -96,6 +96,8 @@ public:
     {
     }
 
+    u_int GetVertexCount() const { return m_xIndices.GetCount(); }
+
     u_char m_aucLightmapStyles[ 8 ]; // inherited from quakes
     GLToy_Hash m_uTextureHash;
     GLToy_Array< u_int > m_xIndices;
@@ -143,6 +145,12 @@ public:
     virtual void Render() const;
     virtual void RenderLightmap() const;
 
+    const GLToy_Array< u_int >& GetIndices() const;
+    const u_int GetFaceCount() const { return m_xIndices.GetCount(); }
+    const GLToy_Environment_LightmappedFace& GetFace( const u_int uFace ) const;
+    const GLToy_Environment_LightmappedFaceVertex& GetFaceVertex( const u_int uFace, const u_int uVertex ) const;
+
+
 protected:
     
     u_int m_uCluster;
@@ -187,6 +195,8 @@ public:
     virtual float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f ) const;
 
     virtual u_int GetVertexIndex( const GLToy_Environment_LightmappedFaceVertex& xVertex );
+
+    virtual bool ValidateBSPTree() const;
 
 protected:
 

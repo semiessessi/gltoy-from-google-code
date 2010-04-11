@@ -151,7 +151,10 @@ public:
         xStream >> fDistance;
         xStream >> m_uType;
 
-        m_xPlane = GLToy_Plane( GLToy_Vector_3( -xNormal[ 1 ], xNormal[ 2 ], xNormal[ 0 ] ), fDistance );
+        // this flips the normals to GLToy orientation
+        // also id BSP files use the backwards convention for the plane distance.
+        m_xPlane = GLToy_Plane( GLToy_Vector_3( -( xNormal[ 1 ] ), xNormal[ 2 ], xNormal[ 0 ] ), -fDistance );
+        //m_xPlane = GLToy_Plane( xNormal, -fDistance );
     }
     
     // TODO - do we ever want to write one of these files?
@@ -512,8 +515,8 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         
         pxEnv->m_xVertices[ uCurrentVertex ].m_xUV = 
             GLToy_Vector_2(
-            pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 0 ] / static_cast< float >( uTexWidth ),
-            pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 1 ] / static_cast< float >( uTexHeight ) );
+                pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 0 ] / static_cast< float >( uTexWidth ),
+                pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 1 ] / static_cast< float >( uTexHeight ) );
         
         // work out the verts from the edges
         ++uCurrentVertex;
@@ -534,8 +537,8 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
             
             xVertex.m_xUV = 
                 GLToy_Vector_2(
-                pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 0 ] / static_cast< float >( uTexWidth ),
-                pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 1 ] / static_cast< float >( uTexHeight ) );
+                    pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 0 ] / static_cast< float >( uTexWidth ),
+                    pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 1 ] / static_cast< float >( uTexHeight ) );
 
             ++uCurrentVertex;
         }
@@ -648,18 +651,20 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 
             for( u_int u = 0 ; u < xNodes.GetCount(); ++u )
             {
-                ppxNodes[ u ]->m_pxPositive =
+                ppxNodes[ u ]->m_pxNegative =
                     ( xNodes[ u ].m_iBackChild >= 0 )
                         ? ppxNodes[ xNodes[ u ].m_iBackChild ]
                         : new GLToy_BSPNode< GLToy_EnvironmentLeaf >( &pxEnv->m_xLeaves[ -1 - xNodes[ u ].m_iBackChild ] );
 
-                ppxNodes[ u ]->m_pxNegative =
+                ppxNodes[ u ]->m_pxPositive =
                     ( xNodes[ u ].m_iFrontChild >= 0 )
                         ? ppxNodes[ xNodes[ u ].m_iFrontChild ]
                         : new GLToy_BSPNode< GLToy_EnvironmentLeaf >( &pxEnv->m_xLeaves[ -1 - xNodes[ u ].m_iFrontChild ] );
             }
 
             pxEnv->SetToNodePointer( ppxNodes[ 0 ] );
+
+            GLToy_Assert( pxEnv->ValidateBSPTree(), "BSP tree is not valid! At least some leaves have faces that are on the wrong side of their parent node's plane." );
 
             delete[] ppxNodes;
         }

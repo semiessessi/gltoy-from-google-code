@@ -52,12 +52,25 @@ public:
     {
     }
 
+    GLToy_Plane( const GLToy_Plane& xPlane )
+    : m_xNormal( xPlane.m_xNormal )
+    , m_fDistance( xPlane.m_fDistance )
+    {
+    }
+
+    GLToy_Plane& operator =( const GLToy_Plane& xPlane )
+    {
+        m_xNormal = xPlane.m_xNormal;
+        m_fDistance = xPlane.m_fDistance;
+        return *this;
+    }
+
     GLToy_Inline bool IsOnPositiveSide( const GLToy_Vector_3& xPosition ) const
     {
         return xPosition * m_xNormal > -m_fDistance;
     }
 
-    GLToy_Inline double SignedDistance( const GLToy_Vector_3& xPosition ) const
+    GLToy_Inline float SignedDistance( const GLToy_Vector_3& xPosition ) const
     {
         return xPosition * m_xNormal + m_fDistance;
     }    
