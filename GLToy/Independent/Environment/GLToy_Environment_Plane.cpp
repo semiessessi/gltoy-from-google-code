@@ -31,6 +31,7 @@
 // GLToy
 #include <Environment/GLToy_Environment_System.h>
 #include <Maths/GLToy_Maths.h>
+#include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
@@ -56,11 +57,13 @@ void GLToy_Environment_Plane::WriteToBitStream( GLToy_BitStream& xStream ) const
 void GLToy_Environment_Plane::Initialise()
 {
     GLToy_Texture_System::CreateTexture( m_uTextureHash );
+    m_pxPhysicsObject = GLToy_Physics_System::CreatePhysicsPlane( GLToy_Hash_Constant( "Plane" ), GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ) );
 }
 
 void GLToy_Environment_Plane::Shutdown()
 {
     GLToy_Texture_System::DestroyTexture( m_uTextureHash );
+    GLToy_Physics_System::Reset();
 }
 
 void GLToy_Environment_Plane::Render() const

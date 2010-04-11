@@ -35,6 +35,9 @@ class Platform_GLToy_Maths
 public:
 
     static bool Initialise();
+    static void Update();
+
+    static float Sqrt( const float fValue );
 
 private:
 

@@ -76,3 +76,21 @@ bool Platform_GLToy_Maths::Initialise()
     // demand that we at least have an FPU
     return s_xCPUFeatures.m_bFPU;
 }
+
+void Platform_GLToy_Maths::Update()
+{
+    // TODO - intrinsics or something
+    unsigned short usCW;
+    __asm fstcw [ usCW ];
+    usCW &= ~0x300; // clear bits 8 and 9 - force low precision
+    __asm fldcw [ usCW ];
+}
+
+float Platform_GLToy_Maths::Sqrt( const float fValue )
+{
+    __asm
+    {
+        fld [ fValue ]
+        fsqrt
+    }
+}

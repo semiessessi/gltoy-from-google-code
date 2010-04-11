@@ -58,6 +58,11 @@ void GLToy_Maths::Shutdown()
     Platform_Shutdown();
 }
 
+void GLToy_Maths::Update()
+{
+    Platform_Update();
+}
+
 bool GLToy_Maths::Platform_Initialise()
 {
     return Platform_GLToy_Maths::Initialise();
@@ -65,7 +70,11 @@ bool GLToy_Maths::Platform_Initialise()
 
 void GLToy_Maths::Platform_Shutdown()
 {
+}
 
+void GLToy_Maths::Platform_Update()
+{
+    Platform_GLToy_Maths::Update();
 }
 
 float GLToy_Maths::Sin( const float fValue )
@@ -80,7 +89,7 @@ float GLToy_Maths::Cos( const float fValue )
 
 float GLToy_Maths::Sqrt( const float fValue )
 {
-    return sqrt( fValue );
+    return Platform_GLToy_Maths::Sqrt( fValue );
 }
 
 float GLToy_Maths::Ceiling( const float fValue )

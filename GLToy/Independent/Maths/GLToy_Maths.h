@@ -53,6 +53,8 @@ public:
     static bool Initialise();
     static void Shutdown();
 
+    static void Update();
+
     static float Ceiling( const float fValue );
     static float Floor( const float fValue );
     static float Round( const float fValue );
@@ -80,6 +82,8 @@ private:
     
     static bool Platform_Initialise();
     static void Platform_Shutdown();
+
+    static void Platform_Update();
 
 };
 

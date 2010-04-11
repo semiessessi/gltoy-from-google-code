@@ -30,6 +30,7 @@
 
 // GLToy
 #include <Environment/GLToy_Environment_System.h>
+#include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
@@ -56,6 +57,7 @@ void GLToy_Environment_Lightmapped::WriteToBitStream( GLToy_BitStream& xStream )
 
 void GLToy_Environment_Lightmapped::Initialise()
 {
+    GLToy_Physics_System::Reset();
 }
 
 void GLToy_Environment_Lightmapped::Shutdown()

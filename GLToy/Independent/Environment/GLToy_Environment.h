@@ -38,6 +38,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+class GLToy_Physics_Object;
 class GLToy_Ray;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,8 +81,11 @@ protected:
 
     GLToy_Environment()
     : GLToy_BSPTree< GLToy_EnvironmentLeaf >()
+    , m_pxPhysicsObject( NULL )
     {
     }
+
+    GLToy_Physics_Object* m_pxPhysicsObject;
     
 };
 

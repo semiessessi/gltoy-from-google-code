@@ -73,7 +73,7 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_HashTree< GLToy_Physics_Object* > GLToy_Physics_System::s_xGLToyObjects;
+GLToy_HashTree< GLToy_Physics_Object* > GLToy_Physics_System::s_xPhysicsObjects;
 GLToy_Physics_Controller GLToy_Physics_System::s_xDefaultController = GLToy_Physics_Controller( GLToy_Hash_Constant( "DefaultController" ) );
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
@@ -271,17 +271,13 @@ bool GLToy_Physics_System::Initialise()
 
 #endif
 
-    CreatePhysicsPlane( GLToy_Hash_Constant( "Plane" ), GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ) );
-    
-    s_xDefaultController.Create();
-
     return true;
 }
 
 void GLToy_Physics_System::Shutdown()
 {
 
-    s_xGLToyObjects.DeleteAll();
+    s_xPhysicsObjects.DeleteAll();
     s_xDefaultController.Destroy();
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
@@ -345,11 +341,28 @@ void GLToy_Physics_System::TestBox_Console()
     pxBox->Spawn( GLToy_AABB( GLToy_Camera::GetPosition(), 5.0f, 5.0f, 5.0f ), GLToy_Camera::GetDirection() * 250.0f );
 }
 
+void GLToy_Physics_System::SetDefaultControllerActive( const bool bActive, const GLToy_Vector_3& xPosition )
+{
+    if( bActive )
+    {
+        s_xDefaultController.Create( xPosition );
+    }
+    else
+    {
+        s_xDefaultController.Destroy();
+    }
+}
+
+void GLToy_Physics_System::SetDefaultControllerPosition( const GLToy_Vector_3& xVector )
+{
+    s_xDefaultController.SetPosition( xVector );
+}
+
 GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane &xPlane )
 {
 
     GLToy_Physics_Object* pxGLToyObject = new GLToy_Physics_Object( uHash );
-    s_xGLToyObjects.AddNode( pxGLToyObject, uHash );
+    s_xPhysicsObjects.AddNode( pxGLToyObject, uHash );
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
@@ -389,7 +402,7 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsBox( const GLToy_Hash u
 {
 
     GLToy_Physics_Object* pxGLToyObject = new GLToy_Physics_Object( uHash );
-    s_xGLToyObjects.AddNode( pxGLToyObject, uHash );
+    s_xPhysicsObjects.AddNode( pxGLToyObject, uHash );
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 

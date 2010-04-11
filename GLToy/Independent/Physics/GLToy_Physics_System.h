@@ -110,6 +110,12 @@ public:
 
     static void TestBox_Console();
 
+    static void Reset() { Shutdown(); Initialise(); }
+
+    static const GLToy_Physics_Controller& GetDefaultController() { return s_xDefaultController; }
+    static void SetDefaultControllerActive( const bool bActive, const GLToy_Vector_3& xPosition = GLToy_Maths::ZeroVector3 );
+    static void SetDefaultControllerPosition( const GLToy_Vector_3& xVector );
+
     static GLToy_Physics_Object* CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane& xPlane );
     static GLToy_Physics_Object* CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_AABB& xAABB, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
     static GLToy_Physics_Object* CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_OBB& xOBB, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
@@ -122,7 +128,7 @@ public:
 
 private:
 
-    static GLToy_HashTree< GLToy_Physics_Object* > s_xGLToyObjects;
+    static GLToy_HashTree< GLToy_Physics_Object* > s_xPhysicsObjects;
     static GLToy_Physics_Controller s_xDefaultController;
 
 };

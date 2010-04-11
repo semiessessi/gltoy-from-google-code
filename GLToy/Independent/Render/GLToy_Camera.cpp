@@ -33,6 +33,7 @@
 #include <Core/GLToy_Timer.h>
 #include <Input/GLToy_Input.h>
 #include <Maths/GLToy_Vector.h>
+#include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Render.h>
 
 // C/C++
@@ -152,6 +153,7 @@ void GLToy_Camera::SetLocked( const bool bLocked )
     s_bLockedCam = bLocked;
     if( bLocked )
     {
+        GLToy_Physics_System::SetDefaultControllerActive( false );
         s_bFlyCam = false;
         s_bControllerCam = false;
     }
@@ -166,6 +168,7 @@ void GLToy_Camera::SetControllerCamEnabled( const bool bEnabled )
         GLToy_Console::Print( GLToy_String( "fpscam is set to " ) + ( bEnabled ? "true" : "false" ) );
         if( bEnabled )
         {
+            GLToy_Physics_System::SetDefaultControllerActive( true, GetPosition() );
             s_bFlyCam = false;
         }
     }
@@ -180,6 +183,7 @@ void GLToy_Camera::SetFlyCamEnabled( const bool bEnabled )
         GLToy_Console::Print( GLToy_String( "flycam is set to " ) + ( bEnabled ? "true" : "false" ) );
         if( bEnabled )
         {
+            GLToy_Physics_System::SetDefaultControllerActive( false );
             s_bControllerCam = false;
         }
     }

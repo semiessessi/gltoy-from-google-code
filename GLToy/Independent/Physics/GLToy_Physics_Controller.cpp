@@ -55,8 +55,16 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Physics_Controller::Create()
+void GLToy_Physics_Controller::Create( const GLToy_Vector_3& xPosition )
 {
+    if( m_bActive )
+    {
+        return;
+    }
+
+    m_bActive = true;
+
+    const GLToy_Vector_3 xScaledPosition = xPosition * fHAVOK_SCALE;
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
@@ -82,7 +90,7 @@ void GLToy_Physics_Controller::Create()
 
 	xCharacterRigidBodyCInfo.m_maxForce = 1000.0f;
 	xCharacterRigidBodyCInfo.m_up.set( 0.0f, 1.0f, 0.0f );
-	xCharacterRigidBodyCInfo.m_position.set( 0.0f, 2.0f, 0.0f );
+	xCharacterRigidBodyCInfo.m_position.set( xScaledPosition[ 0 ], xScaledPosition[ 1 ], xScaledPosition[ 2 ] );
     xCharacterRigidBodyCInfo.m_maxSlope = GLToy_Maths::Deg2Rad( 70.0f );
     xCharacterRigidBodyCInfo.m_friction = 0.95f;
 	
@@ -137,6 +145,12 @@ void GLToy_Physics_Controller::Create()
 
 void GLToy_Physics_Controller::Destroy()
 {
+    if( !m_bActive )
+    {
+        return;
+    }
+
+    m_bActive = false;
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
     
@@ -352,4 +366,18 @@ void GLToy_Physics_Controller::LateUpdate()
 
 #endif
 
+}
+
+void GLToy_Physics_Controller::SetPosition( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity )
+{
+
+    Destroy();
+    Create();
+
+    SetVelocity( xVelocity );
+
+}
+
+void GLToy_Physics_Controller::SetVelocity( const GLToy_Vector_3& xVelocity )
+{
 }

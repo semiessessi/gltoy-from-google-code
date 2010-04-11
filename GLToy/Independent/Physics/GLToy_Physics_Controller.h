@@ -55,25 +55,28 @@ public:
     , m_pxHavokContext( NULL )
     , m_pxStandShape( NULL )
     , m_pxCrouchShape( NULL )
+    , m_bActive( false )
 #endif
     {
     }
 
-    virtual void Create();
+    virtual void Create( const GLToy_Vector_3& xPosition = GLToy_Maths::ZeroVector3 );
     virtual void Destroy();
 
     virtual void Update( const float fTimestep );
     virtual void LateUpdate();
+
+    GLToy_Inline bool IsActive() const { return m_bActive; }
 
     void SetPosition( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
     void SetVelocity( const GLToy_Vector_3& xVelocity );
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-    void SetHavokRigidBodyPointer( class hkpCharacterRigidBody* const pxRigidBody ) { m_pxHavokRigidBody = pxRigidBody; }
-    const class hkpCharacterRigidBody* GetHavokRigidBodyPointer() const { return m_pxHavokRigidBody; }
-    void SetHavokContextPointer( class hkpCharacterContext* const pxContext ) { m_pxHavokContext = pxContext; }
-    const class hkpCharacterContext* GetHavokContextPointer() const { return m_pxHavokContext; }
+    GLToy_Inline void SetHavokRigidBodyPointer( class hkpCharacterRigidBody* const pxRigidBody ) { m_pxHavokRigidBody = pxRigidBody; }
+    GLToy_Inline const class hkpCharacterRigidBody* GetHavokRigidBodyPointer() const { return m_pxHavokRigidBody; }
+    GLToy_Inline void SetHavokContextPointer( class hkpCharacterContext* const pxContext ) { m_pxHavokContext = pxContext; }
+    GLToy_Inline const class hkpCharacterContext* GetHavokContextPointer() const { return m_pxHavokContext; }
 
 #endif
 
@@ -81,6 +84,7 @@ protected:
 
     GLToy_Hash m_uHash;
     bool m_bOldJump;
+    bool m_bActive;
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
     
