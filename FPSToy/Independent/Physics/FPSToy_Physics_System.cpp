@@ -215,6 +215,10 @@ GLToy_OBB FPSToy_Physics_Object::GetOBB()
         GLToy_Quaternion( xQuat( 3 ), -xQuat( 0 ), -xQuat( 1 ), -xQuat( 2 ) ).GetOrientationMatrix(),
         xHalfExtents( 0 ) * fINVERSE_HAVOK_SCALE, xHalfExtents( 1 ) * fINVERSE_HAVOK_SCALE, xHalfExtents( 2 ) * fINVERSE_HAVOK_SCALE );
 
+#else
+    
+    return GLToy_OBB();
+
 #endif
 
 }
