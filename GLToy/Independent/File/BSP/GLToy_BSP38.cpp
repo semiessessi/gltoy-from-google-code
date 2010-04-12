@@ -56,10 +56,16 @@ static const u_int uBSP38_LUMP_LEAVES = 8;
 static const u_int uBSP38_LUMP_LEAFFACETABLE = 9;
 static const u_int uBSP38_LUMP_EDGES = 11;
 static const u_int uBSP38_LUMP_EDGEFACETABLE = 12;
+static const u_int uBSP38_LUMP_BRUSHES = 14;
+static const u_int uBSP38_LUMP_BRUSHSIDES = 15;
 
 static const u_int uBSP38_TCSCALE = 256;
 
 static const u_int uBSP38_FACEFLAG_NODRAW = 0x80;
+
+static const u_int uBSP38_BRUSHFLAGS_SOLID = 0x1;
+static const u_int uBSP38_BRUSHFLAGS_PLAYERCLIP = 0x10000;
+static const u_int uBSP38_BRUSHFLAGS_AICLIP = 0x20000;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -333,6 +339,35 @@ public:
 
 };
 
+class GLToy_BSP38_Brush
+: public GLToy_Serialisable
+{
+
+public:
+
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_uFirstSide; xStream >> m_uNumSides; xStream >> m_uFlags; }
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_uFirstSide; xStream << m_uNumSides; xStream << m_uFlags; }
+
+	u_int m_uFirstSide;
+	u_int m_uNumSides;
+	u_int m_uFlags;
+
+};
+
+class GLToy_BSP38_BrushSide
+: public GLToy_Serialisable
+{
+
+public:
+
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_usPlane; xStream >> m_sTexInfo; }
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_usPlane; xStream << m_sTexInfo; }
+
+	u_short m_usPlane;
+    short m_sTexInfo;
+
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -362,13 +397,30 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
     }
 
     // vertex lump
-    // build a local list of vertices because they don't match what we want in the environment proper
     GLToy_Array< GLToy_Vector_3 > xVertices;
     xVertices.Resize( xLumps.m_axLumps[ uBSP38_LUMP_VERTICES ].m_uSize / sizeof( GLToy_Vector_3 ) );
     xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_VERTICES ].m_uOffset );
     for( u_int u = 0; u < xVertices.GetCount(); ++u )
     {
         xStream >> xVertices[ u ];
+    }
+
+    // brush lump
+    GLToy_Array< GLToy_BSP38_Brush > xBrushes;
+    xBrushes.Resize( xLumps.m_axLumps[ uBSP38_LUMP_BRUSHES ].m_uSize / 12 );
+    xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_BRUSHES ].m_uOffset );
+    for( u_int u = 0; u < xBrushes.GetCount(); ++u )
+    {
+        xStream >> xBrushes[ u ];
+    }
+
+    // brush side lump
+    GLToy_Array< GLToy_BSP38_BrushSide > xBrushSides;
+    xBrushSides.Resize( xLumps.m_axLumps[ uBSP38_LUMP_BRUSHSIDES ].m_uSize / 4 );
+    xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_BRUSHSIDES ].m_uOffset );
+    for( u_int u = 0; u < xBrushSides.GetCount(); ++u )
+    {
+        xStream >> xBrushSides[ u ];
     }
 
     // vis lump
@@ -694,6 +746,20 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
                }   
             }
         }
+    }
+
+    // create brushes
+    pxEnv->m_xBrushes.Resize( xBrushes.GetCount() );
+    for( u_int u = 0; u < xBrushes.GetCount(); ++u )
+    {
+        for( u_int v = 0; v < xBrushes[ u ].m_uNumSides; ++v )
+        {
+            pxEnv->m_xBrushes[ u ].m_xPlanes.Append( xPlanes[ xBrushSides[ xBrushes[ u ].m_uFirstSide + v ].m_usPlane ].m_xPlane );
+        }
+
+        pxEnv->m_xBrushes[ u ].m_bSolid = ( xBrushes[ u ].m_uFlags & uBSP38_BRUSHFLAGS_SOLID ) != 0;
+        pxEnv->m_xBrushes[ u ].m_bPlayerClip = ( xBrushes[ u ].m_uFlags & uBSP38_BRUSHFLAGS_PLAYERCLIP ) != 0;
+        pxEnv->m_xBrushes[ u ].m_bAIClip = ( xBrushes[ u ].m_uFlags & uBSP38_BRUSHFLAGS_AICLIP ) != 0;
     }
 
     GLToy_DebugOutput_Release( "Loaded BSP v38 (Quake 2/Kingpin) environment file \"%S\" successfully", m_szFilename.GetWideString() );

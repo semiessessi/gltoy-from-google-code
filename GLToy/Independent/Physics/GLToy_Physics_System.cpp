@@ -56,6 +56,7 @@
 #include <Common/Base/Memory/System/hkMemorySystem.h>
 #include <Common/Base/Thread/Job/ThreadPool/Cpu/hkCpuJobThreadPool.h>
 #include <Common/Base/Thread/JobQueue/hkJobQueue.h>
+#include <Common/Internal/ConvexHull/hkGeometryUtility.h>
 
 // physics
 #include <Physics/Collide/Dispatch/hkpAgentRegisterUtil.h>
@@ -63,6 +64,7 @@
 #include <Physics/Collide/Shape/Compound/Tree/MOPP/hkpMoppBvTreeShape.h>
 #include <Physics/Collide/Shape/Compound/Tree/MOPP/hkpMoppUtility.h>
 #include <Physics/Collide/Shape/Convex/Box/hkpBoxShape.h>
+#include <Physics/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesShape.h>
 #include <Physics/Collide/Shape/Convex/Triangle/hkpTriangleShape.h>
 #include <Physics/Collide/Shape/HeightField/Plane/hkpPlaneShape.h>
 #include <Physics/Dynamics/hkpDynamics.h>
@@ -415,45 +417,77 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsEnvironment( const GLTo
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-    u_int uTriangleCount = 0;
-    for( u_int u = 0; u < xEnvironment.GetFaceCount(); ++u )
+    hkArray< hkpShape* > xShapeArray;
+
+    // create the brushes...
+    xShapeArray.reserve( xEnvironment.GetBrushCount() );
+
+    for( u_int u = 0; u < xEnvironment.GetBrushCount(); ++u )
     {
-        uTriangleCount += xEnvironment.GetVertexCount( u ) - 2;
-    }
-
-    hkArray< hkpShape* > xTriangleArray;
-
-    xTriangleArray.reserve( uTriangleCount );
-
-    // create the triangles...
-    // TODO - use brushes instead if its a BSP file...
-    for( u_int u = 0; u < xEnvironment.GetFaceCount(); ++u )
-    {
-        if( xEnvironment.GetVertexCount( u ) > 2 )
+        const GLToy_Environment_LightmappedBrush& xBrush = xEnvironment.GetBrush( u );
+        if( !xBrush.IsCollidable() )
         {
-            for( u_int v = 0; v < xEnvironment.GetVertexCount( u ) - 2; ++v )
-            {
-                const GLToy_Vector_3 xVertex1 = xEnvironment.GetFaceVertexPosition( u, 0 ) * fHAVOK_SCALE;
-                const GLToy_Vector_3 xVertex2 = xEnvironment.GetFaceVertexPosition( u, v + 1 ) * fHAVOK_SCALE;
-                const GLToy_Vector_3 xVertex3 = xEnvironment.GetFaceVertexPosition( u, v + 2 ) * fHAVOK_SCALE;
-
-                if( ( ( xVertex1 - xVertex2 ).MagnitudeSquared() < 0.0001f ) || ( ( xVertex2 - xVertex3 ).MagnitudeSquared() < 0.0001f ) || ( ( xVertex3 - xVertex1 ).MagnitudeSquared() < 0.0001f ) )
-                {
-                    continue;
-                }
-
-                xTriangleArray.pushBack(
-                    new hkpTriangleShape(
-                        hkVector4( xVertex1[ 0 ], xVertex1[ 1 ], xVertex1[ 2 ] ),
-                        hkVector4( xVertex2[ 0 ], xVertex2[ 1 ], xVertex2[ 2 ] ),
-                        hkVector4( xVertex3[ 0 ], xVertex3[ 1 ], xVertex3[ 2 ] ) ) );
-
-                static_cast< hkpTriangleShape* >( xTriangleArray.back() )->setWeldingType( hkpWeldingUtility::WELDING_TYPE_CLOCKWISE );
-            }
+            continue;
         }
+
+        hkArray< hkVector4 > xPlanes;
+        hkArray< hkVector4 > xVertices;
+        xPlanes.reserve( xBrush.m_xPlanes.GetCount() );
+        for( u_int v = 0; v < xBrush.m_xPlanes.GetCount(); ++v )
+        {
+            xPlanes.pushBack( hkVector4(
+                ( xBrush.m_xPlanes[ v ].GetNormal()[ 0 ] ),
+                ( xBrush.m_xPlanes[ v ].GetNormal()[ 1 ] ),
+                ( xBrush.m_xPlanes[ v ].GetNormal()[ 2 ] ),
+                ( xBrush.m_xPlanes[ v ].GetDistance() * fHAVOK_SCALE ) ) );
+        }
+
+        hkGeometryUtility::createVerticesFromPlaneEquations( xPlanes, xVertices );
+
+        hkStridedVertices xStridedVertices;
+        xStridedVertices.m_numVertices = xVertices.getSize();
+        xStridedVertices.m_striding = sizeof( hkVector4 );
+        xStridedVertices.m_vertices = &( xVertices[ 0 ]( 0 ) );
+
+        xShapeArray.pushBack( new hkpConvexVerticesShape( xStridedVertices, xPlanes ) );
     }
 
-    hkpListShape* pxTriangleList = new hkpListShape( &( xTriangleArray[ 0 ] ), xTriangleArray.getSize() );
+    //// create the triangles...
+    //u_int uTriangleCount = 0;
+    //for( u_int u = 0; u < xEnvironment.GetFaceCount(); ++u )
+    //{
+    //    uTriangleCount += xEnvironment.GetVertexCount( u ) - 2;
+    //}
+
+    //xShapeArray.reserve( uTriangleCount );
+
+    //for( u_int u = 0; u < xEnvironment.GetFaceCount(); ++u )
+    //{
+    //    if( xEnvironment.GetVertexCount( u ) > 2 )
+    //    {
+    //        for( u_int v = 0; v < xEnvironment.GetVertexCount( u ) - 2; ++v )
+    //        {
+    //            const GLToy_Vector_3 xVertex1 = xEnvironment.GetFaceVertexPosition( u, 0 ) * fHAVOK_SCALE;
+    //            const GLToy_Vector_3 xVertex2 = xEnvironment.GetFaceVertexPosition( u, v + 1 ) * fHAVOK_SCALE;
+    //            const GLToy_Vector_3 xVertex3 = xEnvironment.GetFaceVertexPosition( u, v + 2 ) * fHAVOK_SCALE;
+
+    //            if( ( ( xVertex1 - xVertex2 ).MagnitudeSquared() < 0.0001f ) || ( ( xVertex2 - xVertex3 ).MagnitudeSquared() < 0.0001f ) || ( ( xVertex3 - xVertex1 ).MagnitudeSquared() < 0.0001f ) )
+    //            {
+    //                continue;
+    //            }
+
+    //            xShapeArray.pushBack(
+    //                new hkpTriangleShape(
+    //                    hkVector4( xVertex1[ 0 ], xVertex1[ 1 ], xVertex1[ 2 ] ),
+    //                    hkVector4( xVertex2[ 0 ], xVertex2[ 1 ], xVertex2[ 2 ] ),
+    //                    hkVector4( xVertex3[ 0 ], xVertex3[ 1 ], xVertex3[ 2 ] ) ) );
+
+    //            static_cast< hkpTriangleShape* >( xShapeArray.back() )->setWeldingType( hkpWeldingUtility::WELDING_TYPE_CLOCKWISE );
+    //        }
+    //    }
+    //}
+
+    hkpListShape* pxShapeList = new hkpListShape( &( xShapeArray[ 0 ] ), xShapeArray.getSize() );
     // compile the mopp tree
     // TODO - maybe take this offline and load/store the data in .env files
     //        or maybe implement a hkBvTreeShape derived class for the BSP tree and avoid this altogether
@@ -461,8 +495,8 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsEnvironment( const GLTo
     xMoppCompilerInput.m_enablePrimitiveSplitting = true;
     xMoppCompilerInput.m_cachePrimitiveExtents = true;
 
-    hkpMoppCode* pxMoppCode = hkpMoppUtility::buildCode( pxTriangleList, xMoppCompilerInput );
-    hkpMoppBvTreeShape* pxTreeShape = new hkpMoppBvTreeShape( pxTriangleList, pxMoppCode );
+    hkpMoppCode* pxMoppCode = hkpMoppUtility::buildCode( pxShapeList, xMoppCompilerInput );
+    hkpMoppBvTreeShape* pxTreeShape = new hkpMoppBvTreeShape( pxShapeList, pxMoppCode );
     
     hkpRigidBodyCinfo xRigidBodyInfo;
 

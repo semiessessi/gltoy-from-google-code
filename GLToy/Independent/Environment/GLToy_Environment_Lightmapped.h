@@ -33,6 +33,34 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+class GLToy_Environment_LightmappedBrush
+{
+
+public:
+
+    GLToy_Environment_LightmappedBrush()
+    : m_xPlanes()
+    , m_uFlags( 0 )
+    {
+    }
+
+    bool IsCollidable() const { return m_bSolid || m_bPlayerClip || m_bAIClip; }
+
+    GLToy_Array< GLToy_Plane > m_xPlanes;
+
+    union
+    {
+        struct
+        {
+            u_int m_bSolid : 1;
+            u_int m_bPlayerClip : 1;
+            u_int m_bAIClip : 1;
+        };
+
+        u_int m_uFlags;
+    };
+};
+
 class GLToy_Environment_LightmappedFaceVertex
 {
 
@@ -184,6 +212,9 @@ public:
     : GLToy_Parent()
     , m_xVertices()
     , m_xFaces()
+    , m_xLeaves()
+    , m_xClusters()
+    , m_xBrushes()
     , m_xLightmapData()
     {
     }
@@ -205,8 +236,10 @@ public:
 
     virtual float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f ) const;
 
+    virtual const GLToy_Environment_LightmappedBrush& GetBrush( const u_int uBrush ) const { return m_xBrushes[ uBrush ]; }
     virtual u_int GetVertexIndex( const GLToy_Environment_LightmappedFaceVertex& xVertex );
     
+    virtual u_int GetBrushCount() const { return m_xBrushes.GetCount(); }
     virtual u_int GetFaceCount() const { return m_xFaces.GetCount(); }
     virtual u_int GetVertexCount( const u_int uFace ) const { return m_xFaces[ uFace ].m_xIndices.GetCount(); }
     virtual const GLToy_Vector_3& GetFaceVertexPosition( const u_int uFace, const u_int uVertex ) const;
@@ -219,6 +252,7 @@ protected:
     GLToy_Array< GLToy_Environment_LightmappedFace > m_xFaces;
     GLToy_Array< GLToy_EnvironmentLeaf_Lightmapped > m_xLeaves;
     GLToy_Array< GLToy_Environment_LightmappedCluster > m_xClusters;
+    GLToy_Array< GLToy_Environment_LightmappedBrush > m_xBrushes;
     GLToy_SerialisableArray< u_char > m_xLightmapData;
 
 };
