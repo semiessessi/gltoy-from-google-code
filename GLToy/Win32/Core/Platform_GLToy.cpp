@@ -99,13 +99,19 @@ LRESULT CALLBACK WndProc( HWND uWindowHandle, unsigned int uMessage,
 
         case WM_KEYDOWN:
         {
-            GLToy_Input_System::HandleKey( uWParam );
+            if( GLToy::HasFocus() )
+            {
+                GLToy_Input_System::HandleKey( uWParam );
+            }
             break;
         }
 
         case WM_CHAR:
         {
-            GLToy_Input_System::HandleCharacter( static_cast< wchar_t >( uWParam ) );
+            if( GLToy::HasFocus() )
+            {
+                GLToy_Input_System::HandleCharacter( static_cast< wchar_t >( uWParam ) );
+            }
             break;
         }
 
@@ -256,7 +262,7 @@ bool GLToy::Platform_LateInitialise()
     SetForegroundWindow( g_uWindowHandle );
     SetFocus( g_uWindowHandle );
 
-    s_bHasFocus = true;
+    s_bHasFocus = ( GetFocus() == g_uWindowHandle );
 
     return true;
 }
@@ -329,6 +335,10 @@ bool GLToy::Platform_MainLoop()
 
         TranslateMessage( &xMessage );
         DispatchMessage( &xMessage );
+
+        // sometimes this falls out of sync if relying on the messages
+        // I probably don't know enough of them or something...
+        s_bHasFocus = ( GetFocus() == g_uWindowHandle );
     }
 
     return true;
