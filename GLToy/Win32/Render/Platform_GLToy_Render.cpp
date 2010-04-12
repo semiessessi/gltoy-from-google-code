@@ -220,7 +220,7 @@ void Platform_GLToy_Render::SetPerspectiveProjectionMatrix( const float fFOV, co
 {
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
-    gluPerspective( fFOV, fAspectRatio, 0.01f, 10000.0f );
+    gluPerspective( fFOV, fAspectRatio, 0.01f, 1048576.0f );
 }
 
 void Platform_GLToy_Render::SetOrthogonalProjectionMatrix( const float fAspectRatio )

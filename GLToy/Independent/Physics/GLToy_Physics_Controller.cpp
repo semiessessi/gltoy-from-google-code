@@ -78,7 +78,7 @@ void GLToy_Physics_Controller::Create( const GLToy_Vector_3& xPosition )
 	// Define the shapes for the controller
 	hkVector4 xVertexA( 0.0f, 0.0f, 0.1f );
 	hkVector4 xVertexB( 0.0f, 0.0f, -0.1f );
-	m_pxStandShape = new hkpCapsuleShape( xVertexA, xVertexB, 1.15f );		
+	m_pxStandShape = new hkpCapsuleShape( xVertexA, xVertexB, 1.1f );		
 	xVertexA.setZero4();
 	m_pxCrouchShape = new hkpCapsuleShape( xVertexA, xVertexB, 0.85f );
 
@@ -92,7 +92,7 @@ void GLToy_Physics_Controller::Create( const GLToy_Vector_3& xPosition )
 	xCharacterRigidBodyCInfo.m_up.set( 0.0f, 1.0f, 0.0f );
 	xCharacterRigidBodyCInfo.m_position.set( xScaledPosition[ 0 ], xScaledPosition[ 1 ], xScaledPosition[ 2 ] );
     xCharacterRigidBodyCInfo.m_maxSlope = GLToy_Maths::Deg2Rad( 70.0f );
-    xCharacterRigidBodyCInfo.m_friction = 0.9f;
+    xCharacterRigidBodyCInfo.m_friction = 0.6f;
 	
 	m_pxHavokRigidBody = new hkpCharacterRigidBody( xCharacterRigidBodyCInfo );
 
