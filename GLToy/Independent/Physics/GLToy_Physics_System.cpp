@@ -452,6 +452,7 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsEnvironment( const GLTo
         xShapeArray.pushBack( new hkpConvexVerticesShape( xStridedVertices, xPlanes ) );
     }
 
+    // old render mesh code - might be useful as a fallback if it can be made stable...
     //// create the triangles...
     //u_int uTriangleCount = 0;
     //for( u_int u = 0; u < xEnvironment.GetFaceCount(); ++u )
