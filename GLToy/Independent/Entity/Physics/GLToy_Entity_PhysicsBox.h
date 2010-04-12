@@ -56,7 +56,7 @@ public:
 
 protected:
 
-    GLToy_Physics_Object* m_pxGLToyObject;
+    GLToy_Physics_Object* m_pxPhysicsObject;
 
 };
 

@@ -146,6 +146,8 @@ void GLToy_Environment_System::LoadEnvironmentFile( const GLToy_String& szName )
 
     ( *ppxEnvFile )->LoadEnvironment();
 
+    GLToy_Entity_System::DestroyEntities();
+
     if( bNative )
     {
         // try loading entities that match environment

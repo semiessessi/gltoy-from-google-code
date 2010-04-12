@@ -76,11 +76,11 @@ void GLToy_Physics_Controller::Create( const GLToy_Vector_3& xPosition )
     }
 
 	// Define the shapes for the controller
-	hkVector4 xVertexA( 0.0f, 0.0f, 0.4f );
-	hkVector4 xVertexB( 0.0f, 0.0f, -0.4f );
-	m_pxStandShape = new hkpCapsuleShape( xVertexA, xVertexB, 0.3f );		
+	hkVector4 xVertexA( 0.0f, 0.0f, 0.35f );
+	hkVector4 xVertexB( 0.0f, 0.0f, -0.35f );
+	m_pxStandShape = new hkpCapsuleShape( xVertexA, xVertexB, 0.15f );		
 	xVertexA.setZero4();
-	m_pxCrouchShape = new hkpCapsuleShape( xVertexA, xVertexB, 0.3f );
+	m_pxCrouchShape = new hkpCapsuleShape( xVertexA, xVertexB, 0.15f );
 
 
 	// Construct a character rigid body
@@ -302,24 +302,7 @@ void GLToy_Physics_Controller::Update( const float fTimestep )
 	//		input.m_surfaceInfo.m_supportedState = hkpSurfaceInfo::UNSUPPORTED;
 	//		input.m_surfaceInfo.m_surfaceNormal = ladderNorm;
 	//		input.m_surfaceInfo.m_surfaceVelocity = ladderVelocity;
-	//		
-	//		HK_SET_OBJECT_COLOR( (hkUlong) m_characterRigidBody->getRigidBody()->getCollidable(), hkColor::rgbFromChars( 255, 255, 0, 100 ) );
 	//	}
-	//	else
-	//	{
-	//		// Change character rigid body color according to its state
-	//		if( input.m_surfaceInfo.m_supportedState == hkpSurfaceInfo::SUPPORTED )
-	//		{
-	//			HK_SET_OBJECT_COLOR( (hkUlong) m_characterRigidBody->getRigidBody()->getCollidable(), hkColor::rgbFromChars( 0, 255, 0, 100 ) );
-	//		}
-	//		else
-	//		{
-	//			HK_SET_OBJECT_COLOR( (hkUlong) m_characterRigidBody->getRigidBody()->getCollidable(), hkColor::BLUE );
-	//		}
-
-	//	}
-	//	HK_TIMER_END();
-	//}
 
     m_pxHavokContext->update( xInput, xOutput );
 
@@ -336,7 +319,7 @@ void GLToy_Physics_Controller::LateUpdate()
 {
 
     // TODO - third person cam here
-    const GLToy_Vector_3 xCameraOffset = GLToy_Vector_3( 0.0f, 0.5f, 0.0f );
+    const GLToy_Vector_3 xCameraOffset = GLToy_Vector_3( 0.0f, 1.0f, 0.0f );
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
     hkpWorld* pxWorld = GLToy_Physics_System::GetHavokWorld();
@@ -349,7 +332,7 @@ void GLToy_Physics_Controller::LateUpdate()
     // TODO - when merged with GLToy get rid of this rubbish
     // also do something to allow for multiple controllers for
     // AI and perhaps even remote players...
-    if( GLToy_Camera::IsControllerCamEnabled() )
+    if( GLToy_Camera::IsControllerCamEnabled() && m_pxHavokRigidBody )
     {
         pxWorld->lockReadOnly();
         GLToy_Havok_MarkForRead();

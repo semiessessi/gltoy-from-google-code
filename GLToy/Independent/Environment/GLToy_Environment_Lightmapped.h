@@ -39,7 +39,7 @@ class GLToy_Environment_LightmappedFaceVertex
 public:
 
     GLToy_Environment_LightmappedFaceVertex()
-    : m_xVertex()
+    : m_xPosition()
     , m_xUV()
     , m_xLightmapUV()
     , m_xNormal()
@@ -48,7 +48,7 @@ public:
     }
 
     GLToy_Environment_LightmappedFaceVertex( const GLToy_Environment_LightmappedFaceVertex& xVertex )
-    : m_xVertex( xVertex.m_xVertex )
+    : m_xPosition( xVertex.m_xPosition )
     , m_xUV( xVertex.m_xUV )
     , m_xLightmapUV( xVertex.m_xLightmapUV )
     , m_xNormal( xVertex.m_xNormal )
@@ -58,7 +58,7 @@ public:
 
     GLToy_Environment_LightmappedFaceVertex& operator =( const GLToy_Environment_LightmappedFaceVertex& xVertex )
     {
-        m_xVertex = xVertex.m_xVertex;
+        m_xPosition = xVertex.m_xPosition;
         m_xUV = xVertex.m_xUV;
         m_xLightmapUV = xVertex.m_xLightmapUV;
         m_xNormal = xVertex.m_xNormal;
@@ -70,14 +70,14 @@ public:
     bool operator ==( const GLToy_Environment_LightmappedFaceVertex& xVertex ) const
     {
         return
-            ( m_xVertex == xVertex.m_xVertex )
+            ( m_xPosition == xVertex.m_xPosition )
             && ( m_xUV == xVertex.m_xUV )
             && ( m_xLightmapUV == xVertex.m_xLightmapUV )
             && ( m_xNormal == xVertex.m_xNormal )
             && ( m_xColour == xVertex.m_xColour );
     }
 
-    GLToy_Vector_3 m_xVertex;
+    GLToy_Vector_3 m_xPosition;
     GLToy_Vector_2 m_xUV;
     GLToy_Vector_2 m_xLightmapUV;
     GLToy_Vector_3 m_xNormal;
@@ -93,6 +93,7 @@ public:
     GLToy_Environment_LightmappedFace()
     : m_uTextureHash( uGLTOY_BAD_HASH )
     , m_xIndices()
+    , m_uFlags( 0 )
     {
     }
 
@@ -101,6 +102,16 @@ public:
     u_char m_aucLightmapStyles[ 8 ]; // inherited from quakes
     GLToy_Hash m_uTextureHash;
     GLToy_Array< u_int > m_xIndices;
+    
+    union
+    {
+        struct
+        {
+            u_int m_bVisible : 1;
+        };
+
+        u_int m_uFlags;
+    };
 
 };
 
@@ -195,12 +206,15 @@ public:
     virtual float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f ) const;
 
     virtual u_int GetVertexIndex( const GLToy_Environment_LightmappedFaceVertex& xVertex );
+    
+    virtual u_int GetFaceCount() const { return m_xFaces.GetCount(); }
+    virtual u_int GetVertexCount( const u_int uFace ) const { return m_xFaces[ uFace ].m_xIndices.GetCount(); }
+    virtual const GLToy_Vector_3& GetFaceVertexPosition( const u_int uFace, const u_int uVertex ) const;
 
     virtual bool ValidateBSPTree() const;
 
 protected:
 
-    // GLToy_SerialisableArray< GLToy_Vector_3 > m_xVertices;
     GLToy_Array< GLToy_Environment_LightmappedFaceVertex > m_xVertices;
     GLToy_Array< GLToy_Environment_LightmappedFace > m_xFaces;
     GLToy_Array< GLToy_EnvironmentLeaf_Lightmapped > m_xLeaves;

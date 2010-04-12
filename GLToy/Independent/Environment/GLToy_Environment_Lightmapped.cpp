@@ -58,6 +58,7 @@ void GLToy_Environment_Lightmapped::WriteToBitStream( GLToy_BitStream& xStream )
 void GLToy_Environment_Lightmapped::Initialise()
 {
     GLToy_Physics_System::Reset();
+    m_pxPhysicsObject = GLToy_Physics_System::CreatePhysicsEnvironment( GLToy_Hash_Constant( "Environment" ), *this );
 }
 
 void GLToy_Environment_Lightmapped::Shutdown()
@@ -107,6 +108,11 @@ void GLToy_Environment_Lightmapped::Render() const
             GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
             {
                 const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
+                
+                if( !xFace.m_bVisible )
+                {
+                    continue;
+                }
 
                 GLToy_Texture_System::BindTexture( xFace.m_uTextureHash );
 
@@ -119,7 +125,7 @@ void GLToy_Environment_Lightmapped::Render() const
                     const GLToy_Environment_LightmappedFaceVertex& xVertex = m_xVertices[ xIndexIterator.Current() ];
 
                     GLToy_Render::SubmitUV( xVertex.m_xUV * ( bQuadRes ? 4.0f : 1.0f ) );
-                    GLToy_Render::SubmitVertex( xVertex.m_xVertex );
+                    GLToy_Render::SubmitVertex( xVertex.m_xPosition );
                 }
 
                 GLToy_Render::EndSubmit();
@@ -165,6 +171,11 @@ void GLToy_Environment_Lightmapped::RenderLightmap() const
         {
             const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
 
+            if( !xFace.m_bVisible )
+            {
+                continue;
+            }
+
             const u_int uHashSource = 1337 * xIterator.Index() + 7;
             GLToy_Texture_System::BindTexture( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ) );
 
@@ -177,7 +188,7 @@ void GLToy_Environment_Lightmapped::RenderLightmap() const
                 const GLToy_Environment_LightmappedFaceVertex& xVertex = m_xVertices[ xIndexIterator.Current() ];
 
                 GLToy_Render::SubmitUV( xVertex.m_xLightmapUV );
-                GLToy_Render::SubmitVertex( xVertex.m_xVertex );
+                GLToy_Render::SubmitVertex( xVertex.m_xPosition );
             }
 
             GLToy_Render::EndSubmit();
@@ -213,6 +224,11 @@ u_int GLToy_Environment_Lightmapped::GetVertexIndex( const GLToy_Environment_Lig
     m_xVertices.Append( xVertex );
 
     return m_xVertices.GetCount() - 1;
+}
+
+const GLToy_Vector_3& GLToy_Environment_Lightmapped::GetFaceVertexPosition( const u_int uFace, const u_int uVertex ) const
+{
+    return m_xVertices[ m_xFaces[ uFace ].m_xIndices[ uVertex ] ].m_xPosition;
 }
 
 bool GLToy_Environment_Lightmapped::ValidateBSPTree() const
@@ -253,7 +269,7 @@ bool GLToy_Environment_Lightmapped::ValidateBSPTree() const
                     {
                         for( u_int v = 0; v < pxLeaf->GetFace( u ).GetVertexCount(); ++v )
                         {
-                            const GLToy_Vector_3& xTestPoint = pxLeaf->GetFaceVertex( u, v ).m_xVertex;
+                            const GLToy_Vector_3& xTestPoint = pxLeaf->GetFaceVertex( u, v ).m_xPosition;
                             const float fDistance = xPlane.SignedDistance( xTestPoint );
                             if( fDistance < 0.0f )
                             {
@@ -272,7 +288,7 @@ bool GLToy_Environment_Lightmapped::ValidateBSPTree() const
                     {
                         for( u_int v = 0; v < pxLeaf->GetFace( u ).GetVertexCount(); ++v )
                         {
-                            const GLToy_Vector_3& xTestPoint = pxLeaf->GetFaceVertex( u, v ).m_xVertex;
+                            const GLToy_Vector_3& xTestPoint = pxLeaf->GetFaceVertex( u, v ).m_xPosition;
                             const float fDistance = xPlane.SignedDistance( xTestPoint );
                             if( fDistance > 0.0f )
                             {
@@ -307,6 +323,11 @@ void GLToy_EnvironmentLeaf_Lightmapped::Render() const
 
         const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ xIterator.Current() ];
 
+        if( !xFace.m_bVisible )
+        {
+            continue;
+        }
+
         GLToy_Texture_System::BindTexture( xFace.m_uTextureHash );
 
         GLToy_Render::StartSubmittingPolygon();
@@ -318,7 +339,7 @@ void GLToy_EnvironmentLeaf_Lightmapped::Render() const
             const GLToy_Environment_LightmappedFaceVertex& xVertex = m_pxParent->m_xVertices[ xIndexIterator.Current() ];
 
             GLToy_Render::SubmitUV( xVertex.m_xUV * ( bQuadRes ? 4.0f : 1.0f ) );
-            GLToy_Render::SubmitVertex( xVertex.m_xVertex );
+            GLToy_Render::SubmitVertex( xVertex.m_xPosition );
         }
 
         GLToy_Render::EndSubmit();
@@ -336,6 +357,11 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderLightmap() const
     {
         const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ xIterator.Current() ];
 
+        if( !xFace.m_bVisible )
+        {
+            continue;
+        }
+
         const u_int uHashSource = 1337 * xIterator.Current() + 7;
         GLToy_Texture_System::BindTexture( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ) );
 
@@ -348,7 +374,7 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderLightmap() const
             const GLToy_Environment_LightmappedFaceVertex& xVertex = m_pxParent->m_xVertices[ xIndexIterator.Current() ];
 
             GLToy_Render::SubmitUV( xVertex.m_xLightmapUV );
-            GLToy_Render::SubmitVertex( xVertex.m_xVertex );
+            GLToy_Render::SubmitVertex( xVertex.m_xPosition );
         }
 
         GLToy_Render::EndSubmit();

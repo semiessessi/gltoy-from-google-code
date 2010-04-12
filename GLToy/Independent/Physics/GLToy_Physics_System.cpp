@@ -33,6 +33,7 @@
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <Core/GLToy_Timer.h>
 #include <Entity/GLToy_Entity_System.h>
+#include <Environment/GLToy_Environment_Lightmapped.h>
 #include <Maths/GLToy_Maths.h>
 #include <Maths/GLToy_Plane.h>
 #include <Maths/GLToy_Volume.h>
@@ -58,7 +59,11 @@
 
 // physics
 #include <Physics/Collide/Dispatch/hkpAgentRegisterUtil.h>
+#include <Physics/Collide/Shape/Compound/Collection/List/hkpListShape.h>
+#include <Physics/Collide/Shape/Compound/Tree/MOPP/hkpMoppBvTreeShape.h>
+#include <Physics/Collide/Shape/Compound/Tree/MOPP/hkpMoppUtility.h>
 #include <Physics/Collide/Shape/Convex/Box/hkpBoxShape.h>
+#include <Physics/Collide/Shape/Convex/Triangle/hkpTriangleShape.h>
 #include <Physics/Collide/Shape/HeightField/Plane/hkpPlaneShape.h>
 #include <Physics/Dynamics/hkpDynamics.h>
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
@@ -250,14 +255,15 @@ bool GLToy_Physics_System::Initialise()
     hkpWorldCinfo xHavokWorldInfo;
     xHavokWorldInfo.m_simulationType = hkpWorldCinfo::SIMULATION_TYPE_MULTITHREADED;
     xHavokWorldInfo.m_gravity.set( 0.0f, -9.8f, 0.0f );
-    xHavokWorldInfo.m_collisionTolerance = 0.01f;
-    xHavokWorldInfo.m_expectedMaxLinearVelocity = 10000.0f; // this seems to be the best magic number to prevent penetration.
-    xHavokWorldInfo.m_expectedMinPsiDeltaTime = fPHYSICS_STEP_TIME * 0.475f;
+    xHavokWorldInfo.m_collisionTolerance = 0.001f;
+    xHavokWorldInfo.m_expectedMaxLinearVelocity = 15000.0f; // this seems to be the best magic number to prevent penetration.
+    xHavokWorldInfo.m_expectedMinPsiDeltaTime = fPHYSICS_STEP_TIME * 0.495f;
     xHavokWorldInfo.setBroadPhaseWorldSize( 1500.0f );
     xHavokWorldInfo.setupSolverInfo( hkpWorldCinfo::SOLVER_TYPE_2ITERS_HARD );
     xHavokWorldInfo.m_solverMicrosteps = 2;
     xHavokWorldInfo.m_contactRestingVelocity = 0.1f;
     xHavokWorldInfo.m_contactPointGeneration = hkpWorldCinfo::CONTACT_POINT_ACCEPT_ALWAYS;
+    xHavokWorldInfo.m_broadPhaseBorderBehaviour = hkpWorldCinfo::BROADPHASE_BORDER_FIX_ENTITY;
     g_pxHavokWorld = new hkpWorld( xHavokWorldInfo );
 
     g_pxHavokWorld->lock();
@@ -284,6 +290,7 @@ void GLToy_Physics_System::Shutdown()
     
     // this is managed for us...
     //delete g_pxHavokWorld;
+    g_pxHavokWorld = NULL;
     
     delete g_pxJobQueue;
 
@@ -291,6 +298,7 @@ void GLToy_Physics_System::Shutdown()
     
     // this is managed for us...
     //delete g_pxThreadPool;
+    g_pxThreadPool = NULL;
 
     hkBaseSystem::quit();
     hkMemoryInitUtil::quit();
@@ -316,10 +324,11 @@ void GLToy_Physics_System::Update()
     // TODO - asynchronous updates and interpolation
     if( ls_fAccumulatedTimer > fPHYSICS_STEP_TIME )
     {
-        s_xDefaultController.Update( ls_fAccumulatedTimer );
 
         // this seems dumb, but it has higher quality
+        s_xDefaultController.Update( ls_fAccumulatedTimer * 0.5f );
         g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, ls_fAccumulatedTimer * 0.5f );
+        s_xDefaultController.Update( ls_fAccumulatedTimer * 0.5f );
         g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, ls_fAccumulatedTimer * 0.5f );
 
         s_xDefaultController.LateUpdate();
@@ -338,7 +347,7 @@ void GLToy_Physics_System::TestBox_Console()
 
     GLToy_Entity_PhysicsBox* pxBox = static_cast< GLToy_Entity_PhysicsBox* >( GLToy_Entity_System::CreateEntity( szEntityName.GetHash(), ENTITY_PHYSICSBOX ) );
 
-    pxBox->Spawn( GLToy_AABB( GLToy_Camera::GetPosition(), 5.0f, 5.0f, 5.0f ), GLToy_Camera::GetDirection() * 250.0f );
+    pxBox->Spawn( GLToy_AABB( GLToy_Camera::GetPosition(), 8.0f, 8.0f, 8.0f ) + GLToy_Camera::GetDirection() * 32.0f, GLToy_Camera::GetDirection() * 500.0f );
 }
 
 void GLToy_Physics_System::SetDefaultControllerActive( const bool bActive, const GLToy_Vector_3& xPosition )
@@ -358,11 +367,11 @@ void GLToy_Physics_System::SetDefaultControllerPosition( const GLToy_Vector_3& x
     s_xDefaultController.SetPosition( xVector );
 }
 
-GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane &xPlane )
+GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane& xPlane )
 {
 
-    GLToy_Physics_Object* pxGLToyObject = new GLToy_Physics_Object( uHash );
-    s_xPhysicsObjects.AddNode( pxGLToyObject, uHash );
+    GLToy_Physics_Object* pxPhysicsObject = new GLToy_Physics_Object( uHash );
+    s_xPhysicsObjects.AddNode( pxPhysicsObject, uHash );
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
@@ -395,14 +404,99 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsPlane( const GLToy_Hash
 
 #endif
 
-    return pxGLToyObject;
+    return pxPhysicsObject;
+}
+
+GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsEnvironment( const GLToy_Hash uHash, const GLToy_Environment_Lightmapped& xEnvironment )
+{
+
+    GLToy_Physics_Object* pxPhysicsObject = new GLToy_Physics_Object( uHash );
+    s_xPhysicsObjects.AddNode( pxPhysicsObject, uHash );
+
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+
+    u_int uTriangleCount = 0;
+    for( u_int u = 0; u < xEnvironment.GetFaceCount(); ++u )
+    {
+        uTriangleCount += xEnvironment.GetVertexCount( u ) - 2;
+    }
+
+    hkArray< hkpShape* > xTriangleArray;
+
+    xTriangleArray.reserve( uTriangleCount );
+
+    // create the triangles...
+    // TODO - use brushes instead if its a BSP file...
+    for( u_int u = 0; u < xEnvironment.GetFaceCount(); ++u )
+    {
+        if( xEnvironment.GetVertexCount( u ) > 2 )
+        {
+            for( u_int v = 0; v < xEnvironment.GetVertexCount( u ) - 2; ++v )
+            {
+                const GLToy_Vector_3 xVertex1 = xEnvironment.GetFaceVertexPosition( u, 0 ) * fHAVOK_SCALE;
+                const GLToy_Vector_3 xVertex2 = xEnvironment.GetFaceVertexPosition( u, v + 1 ) * fHAVOK_SCALE;
+                const GLToy_Vector_3 xVertex3 = xEnvironment.GetFaceVertexPosition( u, v + 2 ) * fHAVOK_SCALE;
+
+                if( ( ( xVertex1 - xVertex2 ).MagnitudeSquared() < 0.0001f ) || ( ( xVertex2 - xVertex3 ).MagnitudeSquared() < 0.0001f ) || ( ( xVertex3 - xVertex1 ).MagnitudeSquared() < 0.0001f ) )
+                {
+                    continue;
+                }
+
+                xTriangleArray.pushBack(
+                    new hkpTriangleShape(
+                        hkVector4( xVertex1[ 0 ], xVertex1[ 1 ], xVertex1[ 2 ] ),
+                        hkVector4( xVertex2[ 0 ], xVertex2[ 1 ], xVertex2[ 2 ] ),
+                        hkVector4( xVertex3[ 0 ], xVertex3[ 1 ], xVertex3[ 2 ] ) ) );
+
+                static_cast< hkpTriangleShape* >( xTriangleArray.back() )->setWeldingType( hkpWeldingUtility::WELDING_TYPE_CLOCKWISE );
+            }
+        }
+    }
+
+    hkpListShape* pxTriangleList = new hkpListShape( &( xTriangleArray[ 0 ] ), xTriangleArray.getSize() );
+    // compile the mopp tree
+    // TODO - maybe take this offline and load/store the data in .env files
+    //        or maybe implement a hkBvTreeShape derived class for the BSP tree and avoid this altogether
+    hkpMoppCompilerInput xMoppCompilerInput;
+    xMoppCompilerInput.m_enablePrimitiveSplitting = true;
+    xMoppCompilerInput.m_cachePrimitiveExtents = true;
+
+    hkpMoppCode* pxMoppCode = hkpMoppUtility::buildCode( pxTriangleList, xMoppCompilerInput );
+    hkpMoppBvTreeShape* pxTreeShape = new hkpMoppBvTreeShape( pxTriangleList, pxMoppCode );
+    
+    hkpRigidBodyCinfo xRigidBodyInfo;
+
+    xRigidBodyInfo.m_motionType = hkpMotion::MOTION_FIXED;
+    xRigidBodyInfo.m_shape = pxTreeShape;
+    xRigidBodyInfo.m_position = hkVector4( 0.0f, 0.0f, 0.0f, 0.0f );
+
+    hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
+
+    g_pxHavokWorld->lock();
+    GLToy_Havok_MarkForWrite();
+    g_pxHavokWorld->addEntity( pxRigidBody );
+    pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_FIXED );
+    GLToy_Havok_UnmarkForWrite();
+    g_pxHavokWorld->unlock();
+
+    pxRigidBody->removeReference();
+    pxTreeShape->removeReference();
+    pxMoppCode->removeReference();
+
+#else
+
+    GLToy_Assert( false, "Physics planes require GLTOY_USE_HAVOK_PHYSICS for now..." );
+
+#endif
+
+    return pxPhysicsObject;
 }
 
 GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_AABB &xAABB, const GLToy_Vector_3& xVelocity )
 {
 
-    GLToy_Physics_Object* pxGLToyObject = new GLToy_Physics_Object( uHash );
-    s_xPhysicsObjects.AddNode( pxGLToyObject, uHash );
+    GLToy_Physics_Object* pxPhysicsObject = new GLToy_Physics_Object( uHash );
+    s_xPhysicsObjects.AddNode( pxPhysicsObject, uHash );
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
@@ -431,7 +525,7 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsBox( const GLToy_Hash u
     GLToy_Havok_UnmarkForWrite();
     g_pxHavokWorld->unlock();
 
-    pxGLToyObject->SetHavokRigidBodyPointer( pxRigidBody );
+    pxPhysicsObject->SetHavokRigidBodyPointer( pxRigidBody );
 
     pxRigidBody->removeReference();
     pxBox->removeReference();
@@ -442,5 +536,5 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsBox( const GLToy_Hash u
 
 #endif
 
-    return pxGLToyObject;
+    return pxPhysicsObject;
 }

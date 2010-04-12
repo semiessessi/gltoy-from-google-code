@@ -226,14 +226,14 @@ GLToy_Vector_3 GLToy_Vector_3::operator *( const GLToy_Matrix_3& xMatrix ) const
 
 void GLToy_Vector_3::Normalise()
 {
-    // TODO - this is lazy shit
-    const float fFactor = 1.0f / ( *this * *this );
-    *this = *this * GLToy_Maths::Sqrt( fFactor );
+    const float fMagnitudeSquared = MagnitudeSquared();
+    GLToy_Assert( fMagnitudeSquared != 0.0f, "Trying to normalise a zero vector!" );
+    *this = *this * ( 1.0f / GLToy_Maths::Sqrt( fMagnitudeSquared ) );
 }
 
 float GLToy_Vector_3::Magnitude() const
 {
-    return GLToy_Maths::Sqrt( *this * *this );
+    return GLToy_Maths::Sqrt( MagnitudeSquared() );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

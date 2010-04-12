@@ -57,7 +57,8 @@ void GLToy_Environment_Plane::WriteToBitStream( GLToy_BitStream& xStream ) const
 void GLToy_Environment_Plane::Initialise()
 {
     GLToy_Texture_System::CreateTexture( m_uTextureHash );
-    m_pxPhysicsObject = GLToy_Physics_System::CreatePhysicsPlane( GLToy_Hash_Constant( "Plane" ), GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ) );
+    GLToy_Physics_System::Reset();
+    m_pxPhysicsObject = GLToy_Physics_System::CreatePhysicsPlane( GLToy_Hash_Constant( "Environment" ), GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ) );
 }
 
 void GLToy_Environment_Plane::Shutdown()

@@ -59,6 +59,8 @@ static const u_int uBSP38_LUMP_EDGEFACETABLE = 12;
 
 static const u_int uBSP38_TCSCALE = 256;
 
+static const u_int uBSP38_FACEFLAG_NODRAW = 0x80;
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -486,6 +488,8 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         xFace.m_aucLightmapStyles[ 6 ] = 0;
         xFace.m_aucLightmapStyles[ 7 ] = 0;
 
+        xFace.m_bVisible = ( xTexInfos[ xBSPFace.m_usTextureInfo ].m_uFlags & uBSP38_FACEFLAG_NODRAW ) == 0;
+
 		GLToy_Texture* pxTexture = GLToy_Texture_System::LookUpTextureNoExt( xTexInfos[ xBSPFace.m_usTextureInfo ].m_szTextureName );
 		xFace.m_uTextureHash = pxTexture ? pxTexture->GetHash() : uGLTOY_BAD_HASH;
 
@@ -504,13 +508,13 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         int iEdge = xFaceEdges[ uFaceEdge ];
         xFace.m_xIndices[ 0 ] = uCurrentVertex;
         
-        pxEnv->m_xVertices[ uCurrentVertex ].m_xVertex = xVertices[ ( iEdge < 0 ) ? xEdges[ -iEdge ].m_usVertex2 : xEdges[ iEdge ].m_usVertex1 ];
+        pxEnv->m_xVertices[ uCurrentVertex ].m_xPosition = xVertices[ ( iEdge < 0 ) ? xEdges[ -iEdge ].m_usVertex2 : xEdges[ iEdge ].m_usVertex1 ];
 
         // these need adjusting later...
         pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV =
             GLToy_Vector_2(
-                xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis * pxEnv->m_xVertices[ uCurrentVertex ].m_xVertex + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fUOffset,
-                xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis * pxEnv->m_xVertices[ uCurrentVertex ].m_xVertex + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fVOffset );
+                xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis * pxEnv->m_xVertices[ uCurrentVertex ].m_xPosition + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fUOffset,
+                xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis * pxEnv->m_xVertices[ uCurrentVertex ].m_xPosition + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fVOffset );
         
         pxEnv->m_xVertices[ uCurrentVertex ].m_xUV = 
             GLToy_Vector_2(
@@ -528,11 +532,11 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 
             GLToy_Environment_LightmappedFaceVertex& xVertex = pxEnv->m_xVertices[ uCurrentVertex ];
 
-            xVertex.m_xVertex = xVertices[ ( iEdge < 0 ) ? xEdges[ -iEdge ].m_usVertex1 : xEdges[ iEdge ].m_usVertex2 ];
+            xVertex.m_xPosition = xVertices[ ( iEdge < 0 ) ? xEdges[ -iEdge ].m_usVertex1 : xEdges[ iEdge ].m_usVertex2 ];
             xVertex.m_xLightmapUV =
                 GLToy_Vector_2(
-                    xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis * xVertex.m_xVertex + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fUOffset,
-                    xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis * xVertex.m_xVertex + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fVOffset );
+                    xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis * xVertex.m_xPosition + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fUOffset,
+                    xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis * xVertex.m_xPosition + xTexInfos[ xBSPFace.m_usTextureInfo ].m_fVOffset );
             
             xVertex.m_xUV = 
                 GLToy_Vector_2(
@@ -547,7 +551,7 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
     GLToy_Iterate( GLToy_Environment_LightmappedFaceVertex, xIterator, &( pxEnv->m_xVertices ) )
     {
         GLToy_Environment_LightmappedFaceVertex& xCurrent = xIterator.Current();
-        xCurrent.m_xVertex = GLToy_Vector_3( -( xCurrent.m_xVertex[ 1 ] ), xCurrent.m_xVertex[ 2 ], xCurrent.m_xVertex[ 0 ] );
+        xCurrent.m_xPosition = GLToy_Vector_3( -( xCurrent.m_xPosition[ 1 ] ), xCurrent.m_xPosition[ 2 ], xCurrent.m_xPosition[ 0 ] );
     }
 
     // create the lightmap textures

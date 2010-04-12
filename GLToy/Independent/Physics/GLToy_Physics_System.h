@@ -40,9 +40,9 @@
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-static const float fHAVOK_SCALE = 1.0f / 32.0f;
+static const float fHAVOK_SCALE = 1.0f / 48.0f;
 static const float fINVERSE_HAVOK_SCALE = 1.0f / fHAVOK_SCALE;
-static const float fPHYSICS_STEP_TIME = 1.0f / 42.0f;
+static const float fPHYSICS_STEP_TIME = 1.0f / 41.0f;
 
 #endif
 
@@ -51,6 +51,7 @@ static const float fPHYSICS_STEP_TIME = 1.0f / 42.0f;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_AABB;
+class GLToy_Environment_Lightmapped;
 template < class T > class GLToy_HashTree;
 class GLToy_OBB;
 class GLToy_Plane;
@@ -73,6 +74,8 @@ public:
 #endif
     {
     }
+
+    virtual ~GLToy_Physics_Object() { m_pxHavokRigidBody = NULL; }
 
     void SetPosition( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
     void SetVelocity( const GLToy_Vector_3& xVelocity );
@@ -117,6 +120,7 @@ public:
     static void SetDefaultControllerPosition( const GLToy_Vector_3& xVector );
 
     static GLToy_Physics_Object* CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane& xPlane );
+    static GLToy_Physics_Object* CreatePhysicsEnvironment( const GLToy_Hash uHash, const GLToy_Environment_Lightmapped& xEnvironment );
     static GLToy_Physics_Object* CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_AABB& xAABB, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
     static GLToy_Physics_Object* CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_OBB& xOBB, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
 

@@ -41,21 +41,21 @@
 
 GLToy_Entity_PhysicsBox::GLToy_Entity_PhysicsBox( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
-, m_pxGLToyObject( NULL )
+, m_pxPhysicsObject( NULL )
 {
 }
 
 void GLToy_Entity_PhysicsBox::Spawn( const GLToy_AABB& xBB, const GLToy_Vector_3& xVelocity )
 {
-    m_pxGLToyObject = GLToy_Physics_System::CreatePhysicsBox( GetHash(), xBB, xVelocity );
+    m_pxPhysicsObject = GLToy_Physics_System::CreatePhysicsBox( GetHash(), xBB, xVelocity );
 }
 
 void GLToy_Entity_PhysicsBox::Render() const
 {
-    if( m_pxGLToyObject )
+    if( m_pxPhysicsObject )
     {
         // get the obb and render it
-        const GLToy_OBB xOBB = m_pxGLToyObject->GetOBB();
+        const GLToy_OBB xOBB = m_pxPhysicsObject->GetOBB();
         const GLToy_Vector_3& xMax = xOBB.GetUnrotatedBB().GetMax();
         const GLToy_Vector_3& xMin = xOBB.GetUnrotatedBB().GetMin();
 
