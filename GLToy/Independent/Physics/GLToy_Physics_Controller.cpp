@@ -76,11 +76,11 @@ void GLToy_Physics_Controller::Create( const GLToy_Vector_3& xPosition )
     }
 
 	// Define the shapes for the controller
-	hkVector4 xVertexA( 0.0f, 0.0f, 0.35f );
-	hkVector4 xVertexB( 0.0f, 0.0f, -0.35f );
-	m_pxStandShape = new hkpCapsuleShape( xVertexA, xVertexB, 0.15f );		
+	hkVector4 xVertexA( 0.0f, 0.0f, 0.1f );
+	hkVector4 xVertexB( 0.0f, 0.0f, -0.1f );
+	m_pxStandShape = new hkpCapsuleShape( xVertexA, xVertexB, 1.15f );		
 	xVertexA.setZero4();
-	m_pxCrouchShape = new hkpCapsuleShape( xVertexA, xVertexB, 0.15f );
+	m_pxCrouchShape = new hkpCapsuleShape( xVertexA, xVertexB, 0.85f );
 
 
 	// Construct a character rigid body
@@ -92,7 +92,7 @@ void GLToy_Physics_Controller::Create( const GLToy_Vector_3& xPosition )
 	xCharacterRigidBodyCInfo.m_up.set( 0.0f, 1.0f, 0.0f );
 	xCharacterRigidBodyCInfo.m_position.set( xScaledPosition[ 0 ], xScaledPosition[ 1 ], xScaledPosition[ 2 ] );
     xCharacterRigidBodyCInfo.m_maxSlope = GLToy_Maths::Deg2Rad( 70.0f );
-    xCharacterRigidBodyCInfo.m_friction = 0.95f;
+    xCharacterRigidBodyCInfo.m_friction = 0.9f;
 	
 	m_pxHavokRigidBody = new hkpCharacterRigidBody( xCharacterRigidBodyCInfo );
 
@@ -191,6 +191,7 @@ void GLToy_Physics_Controller::Update( const float fTimestep )
     }
 
     const bool bJump = ( !m_bOldJump && GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetSpaceKey() ) );
+    const bool bCrouch = GLToy_Input_System::IsKeyDown( 'C' );
     m_bOldJump = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetSpaceKey() );
 
     pxWorld->lock();
@@ -304,6 +305,18 @@ void GLToy_Physics_Controller::Update( const float fTimestep )
 	//		input.m_surfaceInfo.m_surfaceVelocity = ladderVelocity;
 	//	}
 
+    const bool bIsCrouched = ( m_pxHavokRigidBody->getRigidBody()->getCollidable()->getShape() == m_pxCrouchShape );
+
+	if ( bIsCrouched && !bCrouch )
+	{
+		m_pxHavokRigidBody->getRigidBody()->setShape( m_pxStandShape );
+	}
+
+	if ( !bIsCrouched && bCrouch )
+	{
+		m_pxHavokRigidBody->getRigidBody()->setShape( m_pxCrouchShape );
+	}
+
     m_pxHavokContext->update( xInput, xOutput );
 
 	m_pxHavokRigidBody->setLinearVelocity( xOutput.m_velocity, fTimestep );
@@ -319,7 +332,8 @@ void GLToy_Physics_Controller::LateUpdate()
 {
 
     // TODO - third person cam here
-    const GLToy_Vector_3 xCameraOffset = GLToy_Vector_3( 0.0f, 1.0f, 0.0f );
+    const bool bCrouch = GLToy_Input_System::IsKeyDown( 'C' );
+    const GLToy_Vector_3 xCameraOffset = GLToy_Vector_3( 0.0f, bCrouch ? 0.4f : 0.8f, 0.0f );
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
     hkpWorld* pxWorld = GLToy_Physics_System::GetHavokWorld();

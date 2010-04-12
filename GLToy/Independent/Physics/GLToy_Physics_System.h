@@ -40,7 +40,7 @@
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-static const float fHAVOK_SCALE = 1.0f / 48.0f;
+static const float fHAVOK_SCALE = 1.0f / 32.0f;
 static const float fINVERSE_HAVOK_SCALE = 1.0f / fHAVOK_SCALE;
 static const float fPHYSICS_STEP_TIME = 1.0f / 41.0f;
 

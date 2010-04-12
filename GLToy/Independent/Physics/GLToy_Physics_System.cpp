@@ -258,7 +258,7 @@ bool GLToy_Physics_System::Initialise()
     xHavokWorldInfo.m_simulationType = hkpWorldCinfo::SIMULATION_TYPE_MULTITHREADED;
     xHavokWorldInfo.m_gravity.set( 0.0f, -9.8f, 0.0f );
     xHavokWorldInfo.m_collisionTolerance = 0.001f;
-    xHavokWorldInfo.m_expectedMaxLinearVelocity = 15000.0f; // this seems to be the best magic number to prevent penetration.
+    xHavokWorldInfo.m_expectedMaxLinearVelocity = 40000.0f; // this seems to be the best magic number to prevent penetration.
     xHavokWorldInfo.m_expectedMinPsiDeltaTime = fPHYSICS_STEP_TIME * 0.495f;
     xHavokWorldInfo.setBroadPhaseWorldSize( 1500.0f );
     xHavokWorldInfo.setupSolverInfo( hkpWorldCinfo::SOLVER_TYPE_2ITERS_HARD );
