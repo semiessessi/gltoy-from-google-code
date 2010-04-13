@@ -149,6 +149,8 @@ bool GLToy::Initialise()
     GLToy_InitialiserCall( GLToy_Entity_System );
     GLToy_InitialiserCall( GLToy_PFX_System );
 
+    GLToy::ChangeWindowIcon( "Icons/GLToy_24x24.png" ); // here so the project can override immediately if it wants to
+
     if( !Project_Initialise() )
     {
         return false;
@@ -257,5 +259,13 @@ u_int GLToy::GetWindowViewportHeight()
     return static_cast<u_int>( s_iHeight );
 }
 
+void GLToy::ChangeWindowTitle( const char* const szNewTitle )
+{
+    Platform_ChangeWindowTitle( szNewTitle );
+}
 
+void GLToy::ChangeWindowIcon( const char* const szTextureName )
+{
+    Platform_ChangeWindowIcon( szTextureName );
+}
 

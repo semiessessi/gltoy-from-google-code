@@ -89,7 +89,7 @@ static const GLToy_Hash uGLTOY_BAD_HASH = 0;
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_State;
+class GLToy_String;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -109,13 +109,14 @@ public:
     static u_int GetWindowViewportWidth();
     static u_int GetWindowViewportHeight();
 
-    static void ChangeState( GLToy_State* pxState );
-
     static void Quit() { s_bQuitFlag = true; }
 
     static void LoseFocus() { s_bHasFocus = false; }
     static void GiveFocus() { s_bHasFocus = true; }
     static bool HasFocus() { return s_bHasFocus; }
+
+    static void ChangeWindowTitle( const char* const szNewTitle );
+    static void ChangeWindowIcon( const char* const szTextureName );
 
 private:
 
@@ -138,7 +139,10 @@ private:
 
     static void Project_Update();
 
-    static void Platform_DebugOutput( const char* sString );
+    static void Platform_DebugOutput( const char* const szString );
+
+    static void Platform_ChangeWindowTitle( const char* const szNewTitle );
+    static void Platform_ChangeWindowIcon( const char* const szTextureName );
 
     static bool s_bFullscreen;
     static int s_iWidth;

@@ -55,6 +55,26 @@ struct GLToy_EditorMenu_TopLevelItem
     GLToy_EditorMenu_SecondLevelItem* m_pxSecondLevelItems;
 };
 
+GLToy_EditorMenu_SecondLevelItem g_axOptionItems[] =
+{
+    { GLToy_Hash_Constant( "Widgets/Base_Round_Grey" ), "Camera", NULL }
+};
+
+GLToy_EditorMenu_SecondLevelItem g_axEntityItems[] =
+{
+    { GLToy_Hash_Constant( "Widgets/Base_Round_Grey" ), "Model", NULL },
+    { GLToy_Hash_Constant( "Widgets/Base_Round_Grey" ), "Physics", NULL }
+};
+
+GLToy_EditorMenu_TopLevelItem g_axTopLevelItems[] =
+{
+    { GLToy_Hash_Constant( "Widgets/Base_Round_Grey" ), "Options", sizeof( g_axOptionItems ) / sizeof( GLToy_EditorMenu_SecondLevelItem ), g_axOptionItems },
+    { GLToy_Hash_Constant( "Widgets/Base_Round_Grey" ), "Entities", sizeof( g_axEntityItems ) / sizeof( GLToy_EditorMenu_SecondLevelItem ), g_axEntityItems }
+};
+
+GLToy_EditorMenu_TopLevelItem* g_pxCurrentTopItem = NULL;
+GLToy_EditorMenu_SecondLevelItem* g_pxCurrentSecondItem = NULL;
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +82,7 @@ struct GLToy_EditorMenu_TopLevelItem
 void GLToy_Widget_EditorMenu::Render2D() const
 {
     float fY = GetY();
-    for( u_int u = 0; u < 4; ++u )
+    for( u_int u = 0; u < sizeof( g_axTopLevelItems ) / sizeof( GLToy_EditorMenu_TopLevelItem ); ++u )
     {
 
     }
@@ -70,4 +90,8 @@ void GLToy_Widget_EditorMenu::Render2D() const
 
 void GLToy_Widget_EditorMenu::Update()
 {
+    for( u_int u = 0; u < sizeof( g_axTopLevelItems ) / sizeof( GLToy_EditorMenu_TopLevelItem ); ++u )
+    {
+
+    }
 }

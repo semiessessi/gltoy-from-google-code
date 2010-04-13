@@ -444,6 +444,13 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsEnvironment( const GLTo
 
         hkGeometryUtility::createVerticesFromPlaneEquations( xPlanes, xVertices );
 
+        if( xVertices.getSize() == 0 )
+        {
+            // sometimes there are useless brushes it seems
+            // I am probably doing something wrong...
+            continue;
+        }
+
         hkStridedVertices xStridedVertices;
         xStridedVertices.m_numVertices = xVertices.getSize();
         xStridedVertices.m_striding = sizeof( hkVector4 );

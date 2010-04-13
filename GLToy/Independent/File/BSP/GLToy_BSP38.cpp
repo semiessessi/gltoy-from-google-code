@@ -571,7 +571,7 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         pxEnv->m_xVertices[ uCurrentVertex ].m_xUV = 
             GLToy_Vector_2(
                 pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 0 ] / static_cast< float >( uTexWidth ),
-                pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 1 ] / static_cast< float >( uTexHeight ) );
+                -( pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 1 ] / static_cast< float >( uTexHeight ) ) );
         
         // work out the verts from the edges
         ++uCurrentVertex;
@@ -593,7 +593,7 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
             xVertex.m_xUV = 
                 GLToy_Vector_2(
                     pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 0 ] / static_cast< float >( uTexWidth ),
-                    pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 1 ] / static_cast< float >( uTexHeight ) );
+                    -( pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 1 ] / static_cast< float >( uTexHeight ) ) );
 
             ++uCurrentVertex;
         }
@@ -655,11 +655,11 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
                 GLToy_Environment_LightmappedFaceVertex& xVertex = pxEnv->m_xVertices[ xEnvFace.m_xIndices[ v ] ];
 
                 xVertex.m_xLightmapUV[ 0 ] -= GLToy_Maths::Floor( fUMin / 16.0f ) * 16.0f;
-                xVertex.m_xLightmapUV[ 0 ] += 8;
+                xVertex.m_xLightmapUV[ 0 ] += 8.0f;
                 xVertex.m_xLightmapUV[ 0 ] /= uWidth * 16.0f;
 
                 xVertex.m_xLightmapUV[ 1 ] -= GLToy_Maths::Floor( fVMin / 16.0f ) * 16.0f;
-                xVertex.m_xLightmapUV[ 1 ] += 8;
+                xVertex.m_xLightmapUV[ 1 ] += 8.0f;
                 xVertex.m_xLightmapUV[ 1 ] /= uHeight * 16.0f;
             }
         }

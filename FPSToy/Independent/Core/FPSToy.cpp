@@ -45,7 +45,8 @@ bool FPSToy::Initialise()
     GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Splash" ) );
     GLToy_State_System::SetNextState( GLToy_Hash_Constant( "Editor" ) );
 
-    GLToy_Camera::SetControllerCamEnabled();
+    GLToy::ChangeWindowTitle( "FPSToy" );
+    GLToy::ChangeWindowIcon( "Icons/FPSToy_24x24.png" );
 
     return true;
 }

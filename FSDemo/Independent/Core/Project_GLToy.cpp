@@ -32,6 +32,7 @@
 
 bool GLToy::Project_Initialise()
 {
+    GLToy::ChangeWindowTitle( "FSDemo" );
     return true;
 }
 

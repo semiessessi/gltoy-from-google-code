@@ -37,6 +37,8 @@ bool Editor::Initialise()
 {
     GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Splash" ) );
     GLToy_State_System::SetNextState( GLToy_Hash_Constant( "EditorFrontEnd" ) );
+
+    GLToy::ChangeWindowTitle( "Editor" );
     
     return true;
 }

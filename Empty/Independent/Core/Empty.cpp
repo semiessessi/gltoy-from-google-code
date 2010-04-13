@@ -32,6 +32,8 @@
 
 bool Empty::Initialise()
 {
+    GLToy::ChangeWindowTitle( "Empty GLToy Project" );
+
     return true;
 }
 

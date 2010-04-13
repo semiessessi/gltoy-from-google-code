@@ -28,12 +28,20 @@
 
 // GLToy
 #include <Input/GLToy_Input.h>
+#include <String/GLToy_String.h>
 
 // C++
 #include <stdio.h>
 
 // Win32
 #include <windows.h>
+#include <gdiplus.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// U S I N G   N A M E S P A C E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+using namespace Gdiplus; 
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -354,7 +362,31 @@ void GLToy::Platform_UpdateBuffers()
     SwapBuffers( g_uDeviceContext );
 }
 
-void GLToy::Platform_DebugOutput(const char* sString )
+void GLToy::Platform_DebugOutput( const char* const szString )
 {
-    OutputDebugString( sString );
+    OutputDebugString( szString );
+}
+
+void GLToy::Platform_ChangeWindowTitle( const char* const szNewTitle )
+{
+    SetWindowText( g_uWindowHandle, szNewTitle );
+}
+
+void GLToy::Platform_ChangeWindowIcon( const char* const szTextureName )
+{
+    const GLToy_String szPath = GLToy_String( "textures/" ) + szTextureName;
+
+    Bitmap* pxBitmap = new Bitmap( szPath.GetWideString() );
+
+    if( !pxBitmap )
+    {
+        GLToy_Assert( pxBitmap != NULL, "Failed to load image file \"%S\" with GDI+", szPath.GetWideString() );
+        return;
+    }
+
+    HICON uHIcon = 0;
+    pxBitmap->GetHICON( &uHIcon );
+    SetClassLong( g_uWindowHandle, GCL_HICON, reinterpret_cast< LONG >( uHIcon ) );
+
+    delete pxBitmap;
 }
