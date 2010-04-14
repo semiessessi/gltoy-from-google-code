@@ -55,6 +55,8 @@ public:
     static void Update();
     static void Render();
 
+    static void Render2D();
+
     static float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f );
 
     static void LoadEnvironmentFile( const GLToy_String& szName );
@@ -77,6 +79,7 @@ public:
     static bool IsRenderingLightmapOnly() { return s_bRenderLightmapOnly; }
 
     static bool IsBSPQuadRes() { return s_bBSPQuadRes; }
+    static bool IsDebugRender() { return s_bDebugRender; }
 
 private:
 
@@ -84,6 +87,7 @@ private:
     static bool s_bRenderLightmap;
     static bool s_bRenderLightmapOnly;
     static bool s_bBSPQuadRes;
+    static bool s_bDebugRender;
     static GLToy_Environment* s_pxCurrentEnvironment;
 
     static GLToy_HashTree< GLToy_EnvironmentFile* > s_xEnvironments;

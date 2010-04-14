@@ -61,6 +61,9 @@ static const u_int uBSP38_LUMP_BRUSHSIDES = 15;
 
 static const u_int uBSP38_TCSCALE = 256;
 
+static const u_int uBSP38_FACEFLAG_SKY = 0x4;
+static const u_int uBSP38_FACEFLAG_TRANS33 = 0x10;
+static const u_int uBSP38_FACEFLAG_TRANS66 = 0x20;
 static const u_int uBSP38_FACEFLAG_NODRAW = 0x80;
 
 static const u_int uBSP38_BRUSHFLAGS_SOLID = 0x1;
@@ -620,7 +623,11 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 
         // create the texture
         // TODO - this needs to be redone on reloads
-        if( ( xFaces[ u ].m_uLightmapOffset != 0xFFFFFFFF ) && ( xFaces[ u ].m_uLightmapOffset != 0 ) )
+        if( ( xFaces[ u ].m_uLightmapOffset != 0xFFFFFFFF )
+            && !( xTexInfos[ xFaces[ u ].m_usTextureInfo ].m_uFlags & uBSP38_FACEFLAG_SKY )
+            && !( xTexInfos[ xFaces[ u ].m_usTextureInfo ].m_uFlags & uBSP38_FACEFLAG_TRANS33 )
+            && !( xTexInfos[ xFaces[ u ].m_usTextureInfo ].m_uFlags & uBSP38_FACEFLAG_TRANS66 )
+            && !( xTexInfos[ xFaces[ u ].m_usTextureInfo ].m_uFlags & uBSP38_FACEFLAG_NODRAW ) )
         {
             // this tries to replicate what Quake 2 does to build the lightmaps and the lightmap UVs
             // but without sticking lightmaps together
@@ -644,10 +651,10 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 
             // sanity checks
             GLToy_Assert( xFaces[ u ].m_uLightmapOffset % 3 == 0, "Lightmap offset should really divide 3" );
-            // GLToy_Assert( ( uWidth < 17 ) && ( uHeight < 17 ), "Lightmap is too big: %dx%d", uWidth, uHeight );
-			GLToy_Assert( ( uWidth < 18 ) && ( uHeight < 18 ), "Lightmap is too big: %dx%d", uWidth, uHeight );
+            GLToy_Assert( ( uWidth < 18 ) && ( uHeight < 18 ), "Lightmap is too big: %dx%d", uWidth, uHeight );
 
-            GLToy_Texture_System::CreateTextureFromRGBData( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ), &( pxEnv->m_xLightmapData[ xFaces[ u ].m_uLightmapOffset ] ), uWidth, uHeight );
+            xEnvFace.m_uLightmapHash = _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 );
+            GLToy_Texture_System::CreateTextureFromRGBData( xEnvFace.m_uLightmapHash, &( pxEnv->m_xLightmapData[ xFaces[ u ].m_uLightmapOffset ] ), uWidth, uHeight );
 
             // fix up UVs
             for( u_int v = 0; v < xEnvFace.m_xIndices.GetCount(); ++v )
@@ -665,8 +672,7 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         }
         else
         {
-            u_int uData = 0xFFFFFFFF;
-            GLToy_Texture_System::CreateTextureFromRGBAData( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ), &uData, 1, 1 );
+            xEnvFace.m_uLightmapHash = GLToy_Hash_Constant( "White" );
         }
     }
 

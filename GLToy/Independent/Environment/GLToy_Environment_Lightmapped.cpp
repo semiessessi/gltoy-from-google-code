@@ -29,8 +29,10 @@
 #include <Environment/GLToy_Environment_Lightmapped.h>
 
 // GLToy
+#include <Core/Console/GLToy_Console.h>
 #include <Environment/GLToy_Environment_System.h>
 #include <Physics/GLToy_Physics_System.h>
+#include <Render/Font/GLToy_Font.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
@@ -66,8 +68,10 @@ void GLToy_Environment_Lightmapped::Shutdown()
     // clean up lightmap textures
     GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
     {
-        const u_int uHashSource = 1337 * xIterator.Index() + 7;
-        GLToy_Texture_System::DestroyTexture( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ) );
+        if( xIterator.Current().m_uLightmapHash != GLToy_Hash_Constant( "White" ) )
+        {
+            GLToy_Texture_System::DestroyTexture( xIterator.Current().m_uLightmapHash );
+        }
     }
 }
 
@@ -81,6 +85,12 @@ void GLToy_Environment_Lightmapped::Render() const
     GLToy_Render::EnableBackFaceCulling();
     GLToy_Render::SetCWFaceWinding();
     GLToy_Render::DisableBlending();
+
+    GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
+    {
+        const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
+        xFace.m_uRenderFlags = 0;
+    }
 
     if( GLToy_Environment_System::IsRenderingLightmapOnly() )
     {
@@ -109,10 +119,12 @@ void GLToy_Environment_Lightmapped::Render() const
             {
                 const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
                 
-                if( !xFace.m_bVisible )
+                if( !xFace.m_bVisible || xFace.m_bRendered )
                 {
                     continue;
                 }
+
+                xFace.m_bRendered = true;
 
                 GLToy_Texture_System::BindTexture( xFace.m_uTextureHash );
 
@@ -171,13 +183,14 @@ void GLToy_Environment_Lightmapped::RenderLightmap() const
         {
             const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
 
-            if( !xFace.m_bVisible )
+            if( !xFace.m_bVisible || xFace.m_bRenderedLightmap )
             {
                 continue;
             }
 
-            const u_int uHashSource = 1337 * xIterator.Index() + 7;
-            GLToy_Texture_System::BindTexture( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ) );
+            xFace.m_bRenderedLightmap = true;
+
+            GLToy_Texture_System::BindTexture( xFace.m_uLightmapHash );
 
             GLToy_Render::StartSubmittingPolygon();
 
@@ -198,6 +211,52 @@ void GLToy_Environment_Lightmapped::RenderLightmap() const
 
 void GLToy_Environment_Lightmapped::Update()
 {
+}
+
+void GLToy_Environment_Lightmapped::Render2D() const
+{
+    GLToy_Render::DisableDepthTesting();
+    GLToy_EnvironmentLeaf_Lightmapped* pxLeaf = static_cast< GLToy_EnvironmentLeaf_Lightmapped* >( GetLeafData( GLToy_Camera::GetPosition() ) );
+    if( !IsEmpty() && pxLeaf && pxLeaf->m_uCluster != 0xFFFF )
+    {
+        GLToy_ConstIterate( u_int, xPVSIterator, &( m_xClusters[ pxLeaf->m_uCluster ].m_xPVS ) )
+        {
+            GLToy_Assert( xPVSIterator.Current() < m_xClusters.GetCount(), "Cluster index is too large!" );
+            
+            GLToy_ConstIterate( u_int, xClusterIterator, &( m_xClusters[ xPVSIterator.Current() ].m_xIndices ) )
+            {
+                m_xLeaves[ xClusterIterator.Current() ].RenderDebugFaceInfo();
+            }
+        }
+    }
+    else
+    {
+        // fallback - render with no bsp tree or visibilty culling
+        GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
+        {
+            const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
+
+            if( !xFace.m_bVisible )
+            {
+                continue;
+            }
+
+            GLToy_Vector_3 xAverage = GLToy_Maths::ZeroVector3;
+            GLToy_ConstIterate( u_int, xIndexIterator, &( xFace.m_xIndices ) )
+            {
+                xAverage += m_xVertices[ xIndexIterator.Current() ].m_xPosition;
+            }
+            xAverage /= static_cast< float >( xFace.m_xIndices.GetCount() );
+
+            const GLToy_Vector_2 xPoint = GLToy_Camera::WorldSpaceToScreenSpace( xAverage );
+            if( GLToy_Camera::IsPointOnScreen( xPoint ) )
+            {
+                GLToy_String xFaceString;
+                xFaceString.SetToFormatString( "Face %d", xIterator.Index() );
+                GLToy_Console::GetFont()->RenderString( xFaceString, xPoint[ 0 ], xPoint[ 1 ] );
+            }
+        }
+    }
 }
 
 int GLToy_Environment_Lightmapped::GetType() const
@@ -323,10 +382,12 @@ void GLToy_EnvironmentLeaf_Lightmapped::Render() const
 
         const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ xIterator.Current() ];
 
-        if( !xFace.m_bVisible )
+        if( !xFace.m_bVisible || xFace.m_bRendered )
         {
             continue;
         }
+
+        xFace.m_bRendered = true;
 
         GLToy_Texture_System::BindTexture( xFace.m_uTextureHash );
 
@@ -357,13 +418,14 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderLightmap() const
     {
         const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ xIterator.Current() ];
 
-        if( !xFace.m_bVisible )
+        if( !xFace.m_bVisible || xFace.m_bRenderedLightmap )
         {
             continue;
         }
 
-        const u_int uHashSource = 1337 * xIterator.Current() + 7;
-        GLToy_Texture_System::BindTexture( _GLToy_GetHash( reinterpret_cast< const char* const >( &uHashSource ), 4 ) );
+        xFace.m_bRenderedLightmap = true;
+
+        GLToy_Texture_System::BindTexture( xFace.m_uLightmapHash );
 
         GLToy_Render::StartSubmittingPolygon();
 
@@ -378,6 +440,42 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderLightmap() const
         }
 
         GLToy_Render::EndSubmit();
+    }
+}
+
+void GLToy_EnvironmentLeaf_Lightmapped::RenderDebugFaceInfo() const
+{
+    if( !m_pxParent )
+    {
+        return;
+    }
+
+    GLToy_ConstIterate( u_int, xIterator, &m_xIndices )
+    {
+        const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ xIterator.Current() ];
+
+        if( !xFace.m_bVisible )
+        {
+            continue;
+        }
+
+        GLToy_Vector_3 xAverage = GLToy_Maths::ZeroVector3;
+        GLToy_ConstIterate( u_int, xIndexIterator, &( xFace.m_xIndices ) )
+        {
+            xAverage += m_pxParent->m_xVertices[ xIndexIterator.Current() ].m_xPosition;
+        }
+        xAverage /= static_cast< float >( xFace.m_xIndices.GetCount() );
+
+        const GLToy_Vector_2 xPoint = GLToy_Camera::WorldSpaceToScreenSpace( xAverage );
+        if( GLToy_Camera::IsPointOnScreen( xPoint ) )
+        {
+            GLToy_String xFaceString;
+            GLToy_String xClusterString;
+            xFaceString.SetToFormatString( "Face %d", xIterator.Index() );
+            xClusterString.SetToFormatString( "Cluster %d", this->m_uCluster );
+            GLToy_Console::GetFont()->RenderString( xFaceString, xPoint[ 0 ], xPoint[ 1 ] );
+            GLToy_Console::GetFont()->RenderString( xClusterString, xPoint[ 0 ], xPoint[ 1 ] + GLToy_Console::GetFont()->GetHeight() );
+        }
     }
 }
 

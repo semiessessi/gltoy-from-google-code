@@ -60,6 +60,9 @@ public:
     static bool IsFlyCamEnabled() { return s_bFlyCam; }
     static bool IsControllerCamEnabled() { return s_bControllerCam; }
 
+    static GLToy_Vector_2 WorldSpaceToScreenSpace( const GLToy_Vector_3& xWorldPosition );
+    static bool IsPointOnScreen( const GLToy_Vector_2& xPoint );
+
 private:
 
     static GLToy_Vector_3 s_xPosition;

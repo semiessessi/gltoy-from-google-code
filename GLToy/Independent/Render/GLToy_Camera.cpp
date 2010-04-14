@@ -188,3 +188,42 @@ void GLToy_Camera::SetFlyCamEnabled( const bool bEnabled )
         }
     }
 }
+
+GLToy_Vector_2 GLToy_Camera::WorldSpaceToScreenSpace( const GLToy_Vector_3& xWorldPosition )
+{
+    const GLToy_Vector_3 xTranslated = xWorldPosition  - GetPosition();
+    GLToy_Vector_3 xDirection = xTranslated * GetOrientation();
+    xDirection.Normalise();
+
+    GLToy_Plane xScreen = GLToy_Plane( GLToy_Vector_3( 0.0f, 0.0f, -1.0f ), 1.0f );
+
+    GLToy_Vector_3 xPosition;
+    float fParameter;
+    if( GLToy_Ray( GLToy_Maths::ZeroVector3, xDirection ).IntersectsWithPlane( xScreen, &fParameter, &xPosition ) )
+    {
+        if( fParameter < 0.0f )
+        {
+            return GLToy_Maths::LargeVector2;
+        }
+
+        return GLToy_Vector_2( xPosition[ 0 ], xPosition[ 1 ] );
+    }
+
+    // just in case we get a direction parallel to the plane...
+    return GLToy_Maths::LargeVector2;
+}
+
+bool GLToy_Camera::IsPointOnScreen( const GLToy_Vector_2& xPoint )
+{
+    if( ( xPoint[ 1 ] > 1.0f ) || ( xPoint[ 1 ] < -1.0f ) )
+    {
+        return false;
+    }
+
+    if( ( xPoint[ 0 ] > GLToy_Render::GetAspectRatio() ) || ( xPoint[ 0 ] < -GLToy_Render::GetAspectRatio() ) )
+    {
+        return false;
+    }
+
+    return true;
+}

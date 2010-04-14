@@ -62,6 +62,8 @@ public:
     static void Toggle();
 	static bool IsDown() { return s_bConsoleDown; }
 
+    static const GLToy_Font* GetFont() { return s_pxFont; }
+
     static void RegisterCommand( const GLToy_String& szName, void ( *pfnFunction )() );
     static void RegisterCommand( const GLToy_String& szName, void ( *pfnFunction )( const bool ) );
     static void RegisterCommand( const GLToy_String& szName, void ( *pfnFunction )( const u_int ) );

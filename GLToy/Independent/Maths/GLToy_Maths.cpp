@@ -37,6 +37,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 const float GLToy_Maths::LargeFloat = 1.0e+35f;
+const GLToy_Vector_2 GLToy_Maths::LargeVector2 = GLToy_Vector_2( 1.0e+35f, 1.0e+35f );
+const GLToy_Vector_3 GLToy_Maths::LargeVector3 = GLToy_Vector_3( 1.0e+35f, 1.0e+35f, 1.0e+35f );
 const float GLToy_Maths::Pi = 3.141592654f;
 const GLToy_Vector_2 GLToy_Maths::ZeroVector2 = GLToy_Vector_2();
 const GLToy_Vector_3 GLToy_Maths::ZeroVector3 = GLToy_Vector_3();

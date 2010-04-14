@@ -50,6 +50,7 @@ bool GLToy_Environment_System::s_bRender = true;
 bool GLToy_Environment_System::s_bRenderLightmap = true;
 bool GLToy_Environment_System::s_bRenderLightmapOnly = false;
 bool GLToy_Environment_System::s_bBSPQuadRes = false;
+bool GLToy_Environment_System::s_bDebugRender = false;
 
 GLToy_HashTree< GLToy_EnvironmentFile* > GLToy_Environment_System::s_xEnvironments;
 
@@ -62,6 +63,7 @@ bool GLToy_Environment_System::Initialise()
     s_pxCurrentEnvironment = NULL;
 
     GLToy_Console::RegisterVariable( "render.env", &s_bRender );
+    GLToy_Console::RegisterVariable( "render.env.debug", &s_bDebugRender );
     GLToy_Console::RegisterVariable( "render.lightmap", &s_bRenderLightmap );
     GLToy_Console::RegisterVariable( "render.lightmaponly", &s_bRenderLightmapOnly );
 
@@ -110,6 +112,14 @@ void GLToy_Environment_System::Render()
     if( s_pxCurrentEnvironment && s_bRender )
     {
         s_pxCurrentEnvironment->Render();
+    }
+}
+
+void GLToy_Environment_System::Render2D()
+{
+    if( s_pxCurrentEnvironment && s_bRender && s_bDebugRender )
+    {
+        s_pxCurrentEnvironment->Render2D();
     }
 }
 

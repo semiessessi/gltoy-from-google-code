@@ -43,6 +43,8 @@ class GLToy_Maths
 public:
     
     static const float LargeFloat;
+    static const GLToy_Vector_2 LargeVector2;
+    static const GLToy_Vector_3 LargeVector3;
     static const float Pi;
     static const GLToy_Vector_2 ZeroVector2;
     static const GLToy_Vector_3 ZeroVector3;

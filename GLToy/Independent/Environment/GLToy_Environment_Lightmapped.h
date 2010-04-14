@@ -122,6 +122,7 @@ public:
     : m_uTextureHash( uGLTOY_BAD_HASH )
     , m_xIndices()
     , m_uFlags( 0 )
+    , m_uRenderFlags( 0 )
     {
     }
 
@@ -129,16 +130,36 @@ public:
 
     u_char m_aucLightmapStyles[ 8 ]; // inherited from quakes
     GLToy_Hash m_uTextureHash;
+    GLToy_Hash m_uLightmapHash;
     GLToy_Array< u_int > m_xIndices;
     
     union
     {
+
         struct
         {
+
             u_int m_bVisible : 1;
+
         };
 
         u_int m_uFlags;
+
+    };
+
+    union
+    {
+
+        struct
+        {
+
+            mutable u_int m_bRendered : 1;
+            mutable u_int m_bRenderedLightmap : 1;
+
+        };
+
+        mutable u_int m_uRenderFlags;
+
     };
 
 };
@@ -183,6 +204,7 @@ public:
 
     virtual void Render() const;
     virtual void RenderLightmap() const;
+    virtual void RenderDebugFaceInfo() const;
 
     const GLToy_Array< u_int >& GetIndices() const;
     const u_int GetFaceCount() const { return m_xIndices.GetCount(); }
@@ -231,6 +253,8 @@ public:
     virtual void Render() const;
     virtual void RenderLightmap() const;
     virtual void Update();
+
+    virtual void Render2D() const;
 
     virtual int GetType() const;
 

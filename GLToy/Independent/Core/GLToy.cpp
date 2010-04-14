@@ -223,6 +223,8 @@ bool GLToy::MainLoop()
 
     GLToy_Render::BeginRender2D();
 
+    GLToy_Environment_System::Render2D();
+
     GLToy_State_System::Render2D();
     GLToy_UI_System::Render2D();
     GLToy_Render::Render2D();
