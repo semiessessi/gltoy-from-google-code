@@ -310,6 +310,42 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Weapon"
+				>
+				<File
+					RelativePath=".\Independent\Weapon\FPSToy_Weapon.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Weapon\FPSToy_Weapon_System.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Weapon\FPSToy_Weapon_System.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Damage"
+				>
+				<File
+					RelativePath=".\Independent\Damage\FPSToy_Damage_System.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Damage\FPSToy_Damage_System.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="AI"
+				>
+				<File
+					RelativePath=".\Independent\New Folder\FPSToy_AI.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

@@ -46,6 +46,19 @@ public:
 };
 
 template < class T >
+class GLToy_PointerUpdateFunctor
+: public GLToy_Functor< T >
+{
+
+public:
+
+    virtual void operator ()( T* const pxUpdateable )
+    {
+        ( *pxUpdateable )->Update();
+    }
+};
+
+template < class T >
 class GLToy_IndirectUpdateFunctor
 : public GLToy_ConstFunctor< T* >
 {

@@ -22,14 +22,9 @@
 #ifndef __GLTOY_PHYSICS_SYSTEM_
 #define __GLTOY_PHYSICS_SYSTEM_
 
-// TODO - there is absolutely no good reason to use a hash tree for physics objects
-// ( unless laziness counts as a good reason - which obviously it does )
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
-
-// so far this include is just needed for the default parameter GLToy_Maths::ZeroVector3
 
 // GLToy
 #include <Maths/GLToy_Maths.h>
@@ -54,52 +49,13 @@ class GLToy_AABB;
 class GLToy_Environment_Lightmapped;
 template < class T > class GLToy_HashTree;
 class GLToy_OBB;
-class GLToy_Plane;
-
 class GLToy_Physics_Controller;
+class GLToy_Physics_Object;
+class GLToy_Plane;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
-
-class GLToy_Physics_Object
-{
-
-public:
-
-    GLToy_Physics_Object( const GLToy_Hash uHash )
-    : m_uHash( uHash )
-#ifdef GLTOY_USE_HAVOK_PHYSICS
-    , m_pxHavokRigidBody( NULL )
-#endif
-    {
-    }
-
-    virtual ~GLToy_Physics_Object() { m_pxHavokRigidBody = NULL; }
-
-    void SetPosition( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
-    void SetVelocity( const GLToy_Vector_3& xVelocity );
-
-    GLToy_OBB GetOBB();
-
-#ifdef GLTOY_USE_HAVOK_PHYSICS
-
-    void SetHavokRigidBodyPointer( class hkpRigidBody* const pxRigidBody ) { m_pxHavokRigidBody = pxRigidBody; }
-    const hkpRigidBody* GetHavokRigidBodyPointer() const { return m_pxHavokRigidBody; }
-
-#endif
-
-protected:
-
-    GLToy_Hash m_uHash;
-
-#ifdef GLTOY_USE_HAVOK_PHYSICS
-    
-    class hkpRigidBody* m_pxHavokRigidBody;
-
-#endif
-
-};
 
 class GLToy_Physics_System
 {
@@ -119,10 +75,15 @@ public:
     static void SetDefaultControllerActive( const bool bActive, const GLToy_Vector_3& xPosition = GLToy_Maths::ZeroVector3 );
     static void SetDefaultControllerPosition( const GLToy_Vector_3& xVector );
 
+    static GLToy_Physics_Object* FindPhysicsObject( const GLToy_Hash uHash );
+
     static GLToy_Physics_Object* CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane& xPlane );
     static GLToy_Physics_Object* CreatePhysicsEnvironment( const GLToy_Hash uHash, const GLToy_Environment_Lightmapped& xEnvironment );
     static GLToy_Physics_Object* CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_AABB& xAABB, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
     static GLToy_Physics_Object* CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_OBB& xOBB, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
+    static GLToy_Physics_Object* CreatePhysicsParticle( const GLToy_Hash uHash, const float fSize = 32.0f, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
+
+    static void ResetCollisions();
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 

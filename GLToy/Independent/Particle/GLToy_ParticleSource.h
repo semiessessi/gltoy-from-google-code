@@ -31,7 +31,7 @@
 #include <Render/GLToy_Renderable.h>
 
 // GLToy
-#include <Core/Data Structures/GLToy_Array.h>
+#include <Core/Data Structures/GLToy_List.h>
 #include <Particle/GLToy_Particle.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,9 +78,7 @@ public:
 
     float m_fReleaseTimer;
 
-    // TODO - this would almost certainly be better as a linked list
-    // since we do insertion, removal and sequential access only
-    GLToy_IndirectArray< GLToy_Particle > m_xParticles;
+    GLToy_List< GLToy_Particle* > m_xParticles;
 
 };
 

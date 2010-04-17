@@ -29,7 +29,16 @@
 #include <Particle/GLToy_PFX_System.h>
 
 // GLToy
+#include <Core/GLToy_UpdateFunctor.h>
 #include <Particle/GLToy_ParticleSource.h>
+#include <Particle/GLToy_PFX.h>
+#include <Render/GLToy_RenderFunctor.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+GLToy_List< GLToy_PFX* > GLToy_PFX_System::s_xPFX;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -42,4 +51,20 @@ bool GLToy_PFX_System::Initialise()
 
 void GLToy_PFX_System::Shutdown()
 {
+    s_xPFX.DeleteAll();
+}
+
+void GLToy_PFX_System::Render()
+{
+    s_xPFX.Traverse( GLToy_PointerRenderFunctor< GLToy_PFX* >() );
+}
+
+void GLToy_PFX_System::Update()
+{
+    s_xPFX.Traverse( GLToy_PointerUpdateFunctor< GLToy_PFX* >() );
+}
+
+u_int GLToy_PFX_System::CreatePFX( const GLToy_Hash uHash )
+{
+    return uGLTOY_BAD_PFXID;
 }

@@ -30,11 +30,9 @@
 
 // GLToy
 #include <Input/GLToy_Input.h>
+#include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
-
-// GLToy
-#include <Physics/GLToy_Physics_System.h>
 
 // Havok
 #ifdef GLTOY_USE_HAVOK_PHYSICS

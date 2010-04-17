@@ -4,58 +4,49 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// This file is part of GLToy.
+// This file is part of FPSToy.
 //
-// GLToy is free software: you can redistribute it and/or modify it under the terms of the
+// FPSToy is free software: you can redistribute it and/or modify it under the terms of the
 // GNU Lesser General Public License as published by the Free Software Foundation, either
 // version 3 of the License, or (at your option) any later version.
 //
-// GLToy is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+// FPSToy is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
 // even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License along with GLToy.
+// You should have received a copy of the GNU Lesser General Public License along with FPSToy.
 // If not, see <http://www.gnu.org/licenses/>.
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_PFX_SYSTEM_H_
-#define __GLTOY_PFX_SYSTEM_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template< class T > class GLToy_List;
-class GLToy_PFX;
+#include <Core/FPSToy.h>
+
+// This file's header
+#include <Damage/FPSToy_Damage_System.h>
+
+// GLToy
+#include <Entity/GLToy_Entity.h>
+#include <Entity/GLToy_Entity_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C O N S T A N T S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-const u_int uGLTOY_BAD_PFXID = 0xFFFFFFFF;
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-class GLToy_PFX_System
+void FPSToy_Damage_System::ApplyDamage( const GLToy_Hash uEntityHash, const float fAmount, const FPSToy_DamageType* const pxDamageType )
 {
+    GLToy_Entity* pxEntity = GLToy_Entity_System::FindEntity( uEntityHash );
+    if( !pxEntity )
+    {
+        return;
+    }
 
-public:
-
-    static bool Initialise();
-    static void Shutdown();
-
-    static void Render();
-    static void Update();
-
-    static u_int CreatePFX( const GLToy_Hash uHash );
-
-private:
-
-    static GLToy_List< GLToy_PFX* > s_xPFX;
-
-};
-
-#endif
+    if( !pxDamageType )
+    {
+        pxEntity->Hurt( fAmount );
+        return;
+    }
+}

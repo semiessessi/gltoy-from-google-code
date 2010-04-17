@@ -33,6 +33,7 @@
 #include <Render/GLToy_Texture.h>
 
 // GLToy
+#include <Physics/GLToy_Physics_Object.h>
 #include <Physics/GLToy_Physics_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////

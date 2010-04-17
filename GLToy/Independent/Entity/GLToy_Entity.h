@@ -56,6 +56,7 @@ public:
 
     GLToy_Entity( const GLToy_Hash uHash, const u_int uType )
     : m_bActive( true )
+    , m_fHealth( GLToy_Maths::LargeFloat )
     , m_uType( uType )
     , m_uHash( uHash )
     {
@@ -76,6 +77,10 @@ public:
     virtual void Activate() { m_bActive = true; }
     virtual void Deactivate() { m_bActive = false; }
 
+    virtual void Hurt( const float fAmount ) { m_fHealth -= fAmount; }
+    virtual void Kill() { m_fHealth = 0.0f; }
+    GLToy_Inline bool IsDead() const { return m_fHealth == 0.0f; }
+
     virtual void RenderAABB() const {}
     virtual void RenderOBB() const {}
 
@@ -88,6 +93,7 @@ public:
 protected:
 
     bool m_bActive;
+    float m_fHealth;
     u_int m_uType;
     GLToy_Hash m_uHash;
 

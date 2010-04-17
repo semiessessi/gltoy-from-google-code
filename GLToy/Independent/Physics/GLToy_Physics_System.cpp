@@ -32,17 +32,16 @@
 #include <Core/Console/GLToy_Console.h>
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <Core/GLToy_Timer.h>
+#include <Entity/Physics/GLToy_Entity_PhysicsBox.h>
+#include <Entity/GLToy_EntityTypes.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment_Lightmapped.h>
 #include <Maths/GLToy_Maths.h>
 #include <Maths/GLToy_Plane.h>
 #include <Maths/GLToy_Volume.h>
-#include <Render/GLToy_Camera.h>
-
-// GLToy
-#include <Entity/GLToy_EntityTypes.h>
-#include <Entity/Physics/GLToy_Entity_PhysicsBox.h>
 #include <Physics/GLToy_Physics_Controller.h>
+#include <Physics/GLToy_Physics_Object.h>
+#include <Render/GLToy_Camera.h>
 
 // Havok
 #include <Physics/Platform_GLToy_Havok_Physics.h>
@@ -68,6 +67,8 @@
 #include <Physics/Collide/Shape/Convex/Triangle/hkpTriangleShape.h>
 #include <Physics/Collide/Shape/HeightField/Plane/hkpPlaneShape.h>
 #include <Physics/Dynamics/hkpDynamics.h>
+#include <Physics/Dynamics/Collide/ContactListener/hkpContactListener.h>
+#include <Physics/Dynamics/Entity/hkpEntityListener.h>
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
 #include <Physics/Dynamics/World/hkpWorld.h>
 #include <Physics/Utilities/Dynamics/Inertia/hkpInertiaTensorComputer.h>
@@ -166,69 +167,73 @@ hkpWorld* GLToy_Physics_System::GetHavokWorld()
 
 #endif
 
-void GLToy_Physics_Object::SetPosition( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity )
-{
-    SetVelocity( xVelocity );
-}
-
-void GLToy_Physics_Object::SetVelocity( const GLToy_Vector_3& xVelocity )
-{
-}
-
-GLToy_OBB GLToy_Physics_Object::GetOBB()
-{
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C L A S S E S
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-    if( !m_pxHavokRigidBody )
-    {
-        return GLToy_OBB();
-    }
+class GLToy_Havok_PhysicsCollisionListener
+: public hkpContactListener
+, public hkpEntityListener
+{
 
-    g_pxHavokWorld->lockReadOnly();
-    GLToy_Havok_MarkForRead();
-
-    const hkVector4& xPos = m_pxHavokRigidBody->getPosition();
-    const hkQuaternion& xQuat = m_pxHavokRigidBody->getRotation();
-    const hkTransform& xTransform = m_pxHavokRigidBody->getTransform();
-
-    const hkpCollidable* const pxCollidable = m_pxHavokRigidBody->getCollidable();
-    if( !pxCollidable )
-    {
-        // return a point at the position
-        return GLToy_OBB( GLToy_Vector_3( xPos( 0 ) * fINVERSE_HAVOK_SCALE, xPos( 1 ) * fINVERSE_HAVOK_SCALE, xPos( 2 ) * fINVERSE_HAVOK_SCALE ), GLToy_Maths::IdentityMatrix3, 0.0f, 0.0f, 0.0f );
-    }
-
-    const hkpShape* const pxShape = pxCollidable->getShape();
-
-    GLToy_Havok_UnmarkForRead();
-    g_pxHavokWorld->unlockReadOnly();
-
-    hkVector4 xHalfExtents;
-    if( pxShape->getType() == HK_SHAPE_BOX )
-    {
-        const hkpBoxShape* const pxBox = static_cast< const hkpBoxShape* const >( pxShape );
-        xHalfExtents = pxBox->getHalfExtents();
-    }
-    else
-    {
-        hkAabb xHKAABB;
-        pxShape->getAabb( xTransform, 0.01f, xHKAABB );
-        xHKAABB.getHalfExtents( xHalfExtents );
-    }
-
-    return GLToy_OBB(
-        GLToy_Vector_3( xPos( 0 ), xPos( 1 ), xPos( 2 ) ) * fINVERSE_HAVOK_SCALE,
-        GLToy_Quaternion( xQuat( 3 ), -xQuat( 0 ), -xQuat( 1 ), -xQuat( 2 ) ).GetOrientationMatrix(),
-        xHalfExtents( 0 ) * fINVERSE_HAVOK_SCALE, xHalfExtents( 1 ) * fINVERSE_HAVOK_SCALE, xHalfExtents( 2 ) * fINVERSE_HAVOK_SCALE );
-
-#else
+public:
     
-    return GLToy_OBB();
+    GLToy_Havok_PhysicsCollisionListener( hkpRigidBody* const pxHavokRigidBody )
+    : m_pxHavokRigidBody( pxHavokRigidBody )
+    {
+    }
+
+    virtual ~GLToy_Havok_PhysicsCollisionListener() {}
+    
+    virtual void contactPointCallback( const hkpContactPointEvent& xContactPointEvent )
+    {
+        if( !g_pxHavokWorld )
+        {
+            return;
+        }
+
+        g_pxHavokWorld->lockReadOnly();
+        GLToy_Havok_MarkForRead();
+        GLToy_Physics_Object* pxObject = GLToy_Physics_System::FindPhysicsObject( m_pxHavokRigidBody->getUserData() );
+        
+        if( pxObject )
+        {
+            pxObject->m_xCollisions.Append( GLToy_Physics_ObjectCollision() );
+            GLToy_Physics_ObjectCollision& xCollision = pxObject->m_xCollisions.End();
+
+            int iIndex = ( xContactPointEvent.getBody( 0 )->getUserData() == pxObject->m_uHash ) ? 1 : 0;
+            xCollision.m_uEntityHash = xContactPointEvent.getBody( iIndex )->getUserData();
+            xCollision.m_bHitEnvironment = xCollision.m_uEntityHash  == GLToy_Hash_Constant( "Environment" );
+            xCollision.m_bHitEntity = !xCollision.m_bHitEnvironment;
+        }
+
+        GLToy_Havok_UnmarkForRead();
+        g_pxHavokWorld->unlockReadOnly();
+    }
+
+	virtual void entityDeletedCallback( hkpEntity* pxHavokEntity )
+    {
+        delete this;
+    }
+
+	virtual void entityRemovedCallback( hkpEntity* pxHavokEntity )
+    {
+        //delete this;
+    }
+
+protected:
+
+    hkpRigidBody* m_pxHavokRigidBody;
+
+};
 
 #endif
 
-}
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F U N C T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 bool GLToy_Physics_System::Initialise()
 {
@@ -322,6 +327,8 @@ void GLToy_Physics_System::Update()
     static float ls_fAccumulatedTimer = 0.0f;
     ls_fAccumulatedTimer += GLToy_Timer::GetFrameTime();
 
+    ResetCollisions();
+
     // this sucks a bit but stops Havok from complaining too much about variable frame rate
     // TODO - asynchronous updates and interpolation
     if( ls_fAccumulatedTimer > fPHYSICS_STEP_TIME )
@@ -369,6 +376,13 @@ void GLToy_Physics_System::SetDefaultControllerPosition( const GLToy_Vector_3& x
     s_xDefaultController.SetPosition( xVector );
 }
 
+GLToy_Physics_Object* GLToy_Physics_System::FindPhysicsObject( const GLToy_Hash uHash )
+{
+    GLToy_Physics_Object** const ppxPhysicsObject = s_xPhysicsObjects.FindData( uHash );
+
+    return ppxPhysicsObject ? *ppxPhysicsObject : NULL;
+}
+
 GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane& xPlane )
 {
 
@@ -394,6 +408,8 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsPlane( const GLToy_Hash
     GLToy_Havok_MarkForWrite();
     g_pxHavokWorld->addEntity( pxRigidBody );
     pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_FIXED );
+    pxRigidBody->setUserData( uHash );
+    pxRigidBody->addContactListener( new GLToy_Havok_PhysicsCollisionListener( pxRigidBody ) );
     GLToy_Havok_UnmarkForWrite();
     g_pxHavokWorld->unlock();
 
@@ -425,7 +441,7 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsEnvironment( const GLTo
     for( u_int u = 0; u < xEnvironment.GetBrushCount(); ++u )
     {
         const GLToy_Environment_LightmappedBrush& xBrush = xEnvironment.GetBrush( u );
-        if( !xBrush.IsCollidable() )
+        if( !xBrush.IsPlayerCollidable() )
         {
             continue;
         }
@@ -518,6 +534,8 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsEnvironment( const GLTo
     GLToy_Havok_MarkForWrite();
     g_pxHavokWorld->addEntity( pxRigidBody );
     pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_FIXED );
+    pxRigidBody->setUserData( uHash );
+    pxRigidBody->addContactListener( new GLToy_Havok_PhysicsCollisionListener( pxRigidBody ) );
     GLToy_Havok_UnmarkForWrite();
     g_pxHavokWorld->unlock();
 
@@ -534,7 +552,7 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsEnvironment( const GLTo
     return pxPhysicsObject;
 }
 
-GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_AABB &xAABB, const GLToy_Vector_3& xVelocity )
+GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_AABB& xAABB, const GLToy_Vector_3& xVelocity )
 {
 
     GLToy_Physics_Object* pxPhysicsObject = new GLToy_Physics_Object( uHash );
@@ -564,6 +582,8 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsBox( const GLToy_Hash u
     g_pxHavokWorld->addEntity( pxRigidBody );
     pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_CRITICAL );
     pxRigidBody->setLinearVelocity( hkVector4( xVelocity[ 0 ] * fHAVOK_SCALE, xVelocity[ 1 ] * fHAVOK_SCALE, xVelocity[ 2 ] * fHAVOK_SCALE ) );
+    pxRigidBody->setUserData( uHash );
+    pxRigidBody->addContactListener( new GLToy_Havok_PhysicsCollisionListener( pxRigidBody ) );
     GLToy_Havok_UnmarkForWrite();
     g_pxHavokWorld->unlock();
 
@@ -579,4 +599,71 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsBox( const GLToy_Hash u
 #endif
 
     return pxPhysicsObject;
+}
+
+GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsParticle( const GLToy_Hash uHash, const float fSize, const GLToy_Vector_3& xVelocity )
+{
+
+//    GLToy_Physics_Object* pxPhysicsObject = new GLToy_Physics_Object( uHash );
+//    s_xPhysicsObjects.AddNode( pxPhysicsObject, uHash );
+//
+//#ifdef GLTOY_USE_HAVOK_PHYSICS
+//
+//    const GLToy_Vector_3 xExtents = xAABB.GetExtents() * fHAVOK_SCALE;
+//    hkVector4 xHKExtents = hkVector4( xExtents[ 0 ], xExtents[ 1 ], xExtents[ 2 ] );
+//    hkpBoxShape* pxBox = new hkpBoxShape( xHKExtents, 0 );
+//    
+//    hkpRigidBodyCinfo xRigidBodyInfo;
+//
+//    xRigidBodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
+//    xRigidBodyInfo.m_shape = pxBox;
+//    xRigidBodyInfo.m_position = hkVector4( xAABB.GetPosition()[ 0 ] * fHAVOK_SCALE , xAABB.GetPosition()[ 1 ] * fHAVOK_SCALE, xAABB.GetPosition()[ 2 ] * fHAVOK_SCALE );
+//
+//    xRigidBodyInfo.m_mass = 10.0f;
+//    hkpMassProperties xMassProperties;
+//    hkpInertiaTensorComputer::computeBoxVolumeMassProperties( xHKExtents, xRigidBodyInfo.m_mass, xMassProperties );
+//    xRigidBodyInfo.m_inertiaTensor = xMassProperties.m_inertiaTensor;
+//
+//    hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
+//
+//    g_pxHavokWorld->lock();
+//    GLToy_Havok_MarkForWrite();
+//    g_pxHavokWorld->addEntity( pxRigidBody );
+//    pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_CRITICAL );
+//    pxRigidBody->setLinearVelocity( hkVector4( xVelocity[ 0 ] * fHAVOK_SCALE, xVelocity[ 1 ] * fHAVOK_SCALE, xVelocity[ 2 ] * fHAVOK_SCALE ) );
+//    pxRigidBody->setUserData( uHash );
+//    GLToy_Havok_UnmarkForWrite();
+//    g_pxHavokWorld->unlock();
+//
+//    pxPhysicsObject->SetHavokRigidBodyPointer( pxRigidBody );
+//
+//    pxRigidBody->removeReference();
+//    pxBox->removeReference();
+//
+//#else
+//
+//    GLToy_Assert( false, "Physics boxes require GLTOY_USE_HAVOK_PHYSICS for now..." );
+//
+//#endif
+//
+//    return pxPhysicsObject;
+    return NULL;
+}
+
+void GLToy_Physics_System::ResetCollisions()
+{
+    class CollisionResetFunctor
+    : public GLToy_Functor< GLToy_Physics_Object* >
+    {
+
+    public:
+
+        virtual void operator ()( GLToy_Physics_Object** const ppxObject )
+        {
+            ( *ppxObject )->ResetCollisions();
+        }
+
+    };
+
+    s_xPhysicsObjects.Traverse( CollisionResetFunctor() );
 }

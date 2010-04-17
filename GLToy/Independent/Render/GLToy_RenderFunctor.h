@@ -98,6 +98,19 @@ public:
 };
 
 template < class T >
+class GLToy_PointerRenderFunctor
+: public GLToy_ConstFunctor< T >
+{
+
+public:
+
+    virtual void operator ()( const T* const pxRenderable )
+    {
+        ( *pxRenderable )->Render();
+    }
+};
+
+template < class T >
 class GLToy_IndirectRenderFunctor
 : public GLToy_ConstFunctor< T* >
 {

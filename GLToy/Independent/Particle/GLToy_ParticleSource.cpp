@@ -38,7 +38,7 @@
 
 void GLToy_ParticleSource::Render() const
 {
-    m_xParticles.Traverse( GLToy_RenderFunctor< GLToy_Particle >() );
+    m_xParticles.Traverse( GLToy_PointerRenderFunctor< GLToy_Particle* >() );
 }
 
 void GLToy_ParticleSource::Update()
@@ -59,7 +59,7 @@ void GLToy_ParticleSource::Update()
     // remove any particles we can
     for( u_int u = 0; u < m_xParticles.GetCount(); ++u )
     {
-        if( m_xParticles[ u ].IsDone() )
+        if( m_xParticles[ u ]->IsDone() )
         {
             m_xParticles.RemoveAt( u );
             --u;

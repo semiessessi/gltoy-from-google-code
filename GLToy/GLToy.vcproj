@@ -1095,6 +1095,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\Physics\GLToy_Physics_Object.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Physics\GLToy_Physics_Object.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Physics\GLToy_Physics_System.cpp"
 					>
 				</File>

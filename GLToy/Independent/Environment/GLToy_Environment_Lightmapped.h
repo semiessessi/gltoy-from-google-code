@@ -44,7 +44,7 @@ public:
     {
     }
 
-    bool IsCollidable() const { return m_bSolid || m_bPlayerClip || m_bAIClip; }
+    bool IsPlayerCollidable() const { return m_bSolid || m_bPlayerClip; }
 
     GLToy_Array< GLToy_Plane > m_xPlanes;
 

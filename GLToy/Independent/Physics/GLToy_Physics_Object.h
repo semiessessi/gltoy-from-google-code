@@ -19,48 +19,90 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_PFX_H_
-#define __GLTOY_PFX_H_
+#ifndef __GLTOY_PHYSICS_OBJECT_
+#define __GLTOY_PHYSICS_OBJECT_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Core/GLToy_Updateable.h>
-#include <Render/GLToy_Renderable.h>
-
 // GLToy
 #include <Core/Data Structures/GLToy_Array.h>
-#include <Core/Data Structures/GLToy_List.h>
-#include <Particle/GLToy_ParticleSource.h>
+#include <Maths/GLToy_Maths.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef GLToy_Array< GLToy_ParticleSourceProperties > GLToy_PFXProperties;
-
-class GLToy_PFX
-: public GLToy_Renderable
-, public GLToy_Updateable
+class GLToy_Physics_ObjectCollision
 {
 
 public:
 
-    GLToy_PFX( const GLToy_Hash uHash )
+    union
+    {
+        struct
+        {
+            u_int m_bHitEnvironment : 1;
+            u_int m_bHitEntity : 1;
+
+        };
+
+        u_int m_uFlags;
+    };
+
+    u_int m_uEntityHash;
+};
+
+class GLToy_Physics_Object
+{
+
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+
+    friend class GLToy_Havok_PhysicsCollisionListener;
+
+#endif
+
+public:
+
+    GLToy_Physics_Object( const GLToy_Hash uHash )
     : m_uHash( uHash )
-    , m_xSources()
+    , m_xCollisions()
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+    , m_pxHavokRigidBody( NULL )
+#endif
     {
     }
 
-    virtual void Render() const;
-    virtual void Update();
+    virtual ~GLToy_Physics_Object() { m_pxHavokRigidBody = NULL; }
+
+    void SetPosition( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
+    void SetVelocity( const GLToy_Vector_3& xVelocity );
+
+    void ResetCollisions() { m_xCollisions.Clear(); }
+
+    GLToy_OBB GetOBB();
+    GLToy_Inline GLToy_Hash GetHash() const { return m_uHash; }
+
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+
+    void SetHavokRigidBodyPointer( class hkpRigidBody* const pxRigidBody ) { m_pxHavokRigidBody = pxRigidBody; }
+    const hkpRigidBody* GetHavokRigidBodyPointer() const { return m_pxHavokRigidBody; }
+
+#endif
+
+protected:
 
     GLToy_Hash m_uHash;
+    GLToy_Array< GLToy_Physics_ObjectCollision > m_xCollisions;
 
-    GLToy_List< GLToy_ParticleSource* > m_xSources;
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+    
+    class hkpRigidBody* m_pxHavokRigidBody;
+
+#endif
 
 };
+
 
 #endif

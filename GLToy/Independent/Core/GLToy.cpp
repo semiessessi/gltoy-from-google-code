@@ -210,6 +210,8 @@ bool GLToy::MainLoop()
 
     GLToy_Environment_System::Update();
     GLToy_Entity_System::Update();
+    GLToy_PFX_System::Update();
+
     Project_Update();
 
     // Render functions
@@ -217,6 +219,7 @@ bool GLToy::MainLoop()
 
     GLToy_Environment_System::Render();
     GLToy_Entity_System::Render();
+    GLToy_PFX_System::Render();
 
     GLToy_State_System::Render();
     GLToy_Render::Render();
