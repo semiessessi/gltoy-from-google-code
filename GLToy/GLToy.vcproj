@@ -898,10 +898,6 @@
 					RelativePath=".\Independent\String\GLToy_String.h"
 					>
 				</File>
-				<File
-					RelativePath=".\Independent\String\GLToy_StringTools.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="Input"
