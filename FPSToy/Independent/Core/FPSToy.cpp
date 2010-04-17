@@ -34,12 +34,22 @@
 #include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Camera.h>
 
+// FPSToy
+#include <Damage/FPSToy_Damage_System.h>
+#include <Entity/FPSToy_EntityTypes.h>
+#include <Weapon/FPSToy_Weapon_System.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 bool FPSToy::Initialise()
 {
+    GLToy_InitialiserCall( FPSToy_Damage_System );
+    GLToy_InitialiserCall( FPSToy_Weapon_System );
+
+    GLToy_Entity_System::SetProjectEntityCreateCallback( FPSToy_CreateEntity );
+
     GLToy_Environment_System::CreateTestEnvironment();
 
     GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Splash" ) );
@@ -53,6 +63,8 @@ bool FPSToy::Initialise()
 
 void FPSToy::Shutdown()
 {
+    FPSToy_Damage_System::Shutdown();
+    FPSToy_Weapon_System::Shutdown();
 }
 
 void FPSToy::Update()

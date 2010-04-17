@@ -29,12 +29,31 @@
 #include <Damage/FPSToy_Damage_System.h>
 
 // GLToy
+#include <Core/Data Structures/GLToy_HashTree.h>
 #include <Entity/GLToy_Entity.h>
 #include <Entity/GLToy_Entity_System.h>
+
+// FPSToy
+#include <Damage/FPSToy_DamageType.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+GLToy_HashTree< FPSToy_DamageType* > FPSToy_Damage_System::s_xDamageTypes;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+bool FPSToy_Damage_System::Initialise()
+{
+    return true;
+}
+
+void FPSToy_Damage_System::Shutdown()
+{
+}
 
 void FPSToy_Damage_System::ApplyDamage( const GLToy_Hash uEntityHash, const float fAmount, const FPSToy_DamageType* const pxDamageType )
 {

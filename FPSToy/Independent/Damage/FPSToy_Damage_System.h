@@ -26,6 +26,8 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+template < class T > class GLToy_HashTree;
+
 class FPSToy_DamageType;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,7 +39,14 @@ class FPSToy_Damage_System
     
 public:
 
+    static bool Initialise();
+    static void Shutdown();
+
     static void ApplyDamage( const GLToy_Hash uEntityHash, const float fAmount, const FPSToy_DamageType* const pxDamageType = NULL );
+
+private:
+
+    static GLToy_HashTree< FPSToy_DamageType* > s_xDamageTypes;
 };
 
 #endif

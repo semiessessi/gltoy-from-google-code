@@ -19,34 +19,26 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __FPSTOY_WEAPON_SYSTEM_H_
-#define __FPSTOY_WEAPON_SYSTEM_H_
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-template < class T > class GLToy_HashTree;
-
-class FPSToy_Weapon;
-class FPSToy_WeaponType;
+#ifndef __FPSTOY_DAMAGETYPE_H_
+#define __FPSTOY_DAMAGETYPE_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class FPSToy_Weapon_System
+class FPSToy_DamageType
 {
-
+    
 public:
 
     static bool Initialise();
     static void Shutdown();
 
+    static void ApplyDamage( const GLToy_Hash uEntityHash, const float fAmount, const FPSToy_DamageType* const pxDamageType = NULL );
+
 private:
 
-    static GLToy_HashTree< FPSToy_WeaponType* > s_xWeaponTypes;
-
+    GLToy_HashTree< FPSToy_DamageType* > s_xDamageTypes;
 };
 
 #endif

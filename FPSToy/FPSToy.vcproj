@@ -337,15 +337,35 @@
 					RelativePath=".\Independent\Damage\FPSToy_Damage_System.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Independent\Damage\FPSToy_DamageType.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="AI"
 				>
 				<File
-					RelativePath=".\Independent\New Folder\FPSToy_AI.h"
+					RelativePath=".\Independent\AI\FPSToy_AI.h"
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Entity"
+				>
+				<File
+					RelativePath=".\Independent\Entity\FPSToy_EntityTypes.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Entity\FPSToy_EntityTypes.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Entity"
+			>
 		</Filter>
 	</Files>
 	<Globals>

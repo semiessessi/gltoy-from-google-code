@@ -19,34 +19,32 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __FPSTOY_WEAPON_SYSTEM_H_
-#define __FPSTOY_WEAPON_SYSTEM_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_HashTree;
+#include <Core/FPSToy.h>
 
-class FPSToy_Weapon;
-class FPSToy_WeaponType;
+// This file's header
+#include <Entity/FPSToy_EntityTypes.h>
+
+// GLToy
+#include <Entity/GLToy_Entity.h>
+
+// FPSToy
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class FPSToy_Weapon_System
+GLToy_Entity* FPSToy_CreateEntity( const GLToy_Hash uHash, const u_int uType )
 {
-
-public:
-
-    static bool Initialise();
-    static void Shutdown();
-
-private:
-
-    static GLToy_HashTree< FPSToy_WeaponType* > s_xWeaponTypes;
-
-};
-
-#endif
+    switch( uType )
+    {
+        default:
+        {
+            break;
+        }
+    }
+    return NULL;
+}
