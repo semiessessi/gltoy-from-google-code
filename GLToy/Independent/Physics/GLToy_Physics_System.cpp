@@ -204,7 +204,7 @@ public:
 
             int iIndex = ( xContactPointEvent.getBody( 0 )->getUserData() == pxObject->m_uHash ) ? 1 : 0;
             xCollision.m_uEntityHash = xContactPointEvent.getBody( iIndex )->getUserData();
-            xCollision.m_bHitEnvironment = xCollision.m_uEntityHash  == GLToy_Hash_Constant( "Environment" );
+            xCollision.m_bHitEnvironment = xCollision.m_uEntityHash == GLToy_Hash_Constant( "Environment" );
             xCollision.m_bHitEntity = !xCollision.m_bHitEnvironment;
         }
     }
