@@ -19,38 +19,22 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __FPSTOY_WEAPON_SYSTEM_H_
-#define __FPSTOY_WEAPON_SYSTEM_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_HashTree;
+#include <Core/FPSToy.h>
 
-class FPSToy_AmmoType;
-class FPSToy_Weapon;
-class FPSToy_WeaponType;
+// This file's header
+#include <Weapon/FPSToy_WeaponType_Melee.h>
+
+// GLToy
+#include <Maths/GLToy_Maths.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class FPSToy_Weapon_System
+void FPSToy_WeaponType_Melee::Fire( const GLToy_Hash uOwnerEntityHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection )
 {
-
-public:
-
-    static bool Initialise();
-    static void Shutdown();
-
-    static const FPSToy_WeaponType* FindWeaponType( const GLToy_Hash uHash );
-
-private:
-
-    static GLToy_HashTree< FPSToy_AmmoType* > s_xAmmoTypes;
-    static GLToy_HashTree< FPSToy_WeaponType* > s_xWeaponTypes;
-
-};
-
-#endif
+}

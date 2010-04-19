@@ -19,38 +19,44 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __FPSTOY_WEAPON_SYSTEM_H_
-#define __FPSTOY_WEAPON_SYSTEM_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_HashTree;
+#include <Core/FPSToy.h>
 
-class FPSToy_AmmoType;
-class FPSToy_Weapon;
-class FPSToy_WeaponType;
+// This file's header
+#include <Weapon/FPSToy_WeaponType_Projectile.h>
+
+// GLToy
+#include <Entity/GLToy_Entity_System.h>
+#include <Maths/GLToy_Maths.h>
+
+// FPSToy
+#include <Entity/FPSToy_EntityTypes.h>
+#include <Entity/Projectile/FPSToy_Entity_Projectile.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class FPSToy_Weapon_System
+void FPSToy_WeaponType_Projectile::Fire( const GLToy_Hash uOwnerEntityHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection )
 {
+    static u_int uCount = 0;
+    GLToy_String szEntityName;
+    szEntityName.SetToFormatString( "Projectile%d", uCount );
+    ++uCount;
+    
+    FPSToy_Entity_Projectile* const pxProjectile
+        = static_cast< FPSToy_Entity_Projectile* const >(
+            GLToy_Entity_System::CreateEntity( szEntityName.GetHash(), FPSTOY_ENTITY_PROJECTILE ) );
 
-public:
+    if( !pxProjectile )
+    {
+        return;
+    }
 
-    static bool Initialise();
-    static void Shutdown();
-
-    static const FPSToy_WeaponType* FindWeaponType( const GLToy_Hash uHash );
-
-private:
-
-    static GLToy_HashTree< FPSToy_AmmoType* > s_xAmmoTypes;
-    static GLToy_HashTree< FPSToy_WeaponType* > s_xWeaponTypes;
-
-};
-
-#endif
+    pxProjectile->SetOwner( uOwnerEntityHash );
+    pxProjectile->SetWeaponType( GetHash() );
+    pxProjectile->Spawn( xPosition, xDirection );
+}

@@ -19,38 +19,49 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __FPSTOY_WEAPON_SYSTEM_H_
-#define __FPSTOY_WEAPON_SYSTEM_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_HashTree;
+#include <Core/FPSToy.h>
 
-class FPSToy_AmmoType;
-class FPSToy_Weapon;
-class FPSToy_WeaponType;
+// This file's header
+#include <Entity/Actor/FPSToy_Entity_Actor.h>
+
+// GLToy
+#include <Physics/GLToy_Physics_Object.h>
+#include <Physics/GLToy_Physics_System.h>
+
+// FPSToy
+#include <AI/FPSToy_AI.h>
+#include <Weapon/FPSToy_Weapon_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class FPSToy_Weapon_System
+void FPSToy_Entity_Actor::Render() const
+{
+    if( !HasSpawned() )
+    {
+        GLToy_Parent::Render();
+        return;
+    }
+}
+
+void FPSToy_Entity_Actor::Update()
+{
+    if( !HasSpawned() || IsDead() )
+    {
+        return;
+    }
+
+    GLToy_Parent::Update();
+
+    // ...
+}
+
+void FPSToy_Entity_Actor::Spawn( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation )
 {
 
-public:
-
-    static bool Initialise();
-    static void Shutdown();
-
-    static const FPSToy_WeaponType* FindWeaponType( const GLToy_Hash uHash );
-
-private:
-
-    static GLToy_HashTree< FPSToy_AmmoType* > s_xAmmoTypes;
-    static GLToy_HashTree< FPSToy_WeaponType* > s_xWeaponTypes;
-
-};
-
-#endif
+}

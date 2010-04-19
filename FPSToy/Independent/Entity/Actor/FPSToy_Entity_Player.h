@@ -19,37 +19,53 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __FPSTOY_WEAPON_SYSTEM_H_
-#define __FPSTOY_WEAPON_SYSTEM_H_
+#ifndef __FPSTOY_ENTITY_PLAYER_H_
+#define __FPSTOY_ENTITY_PLAYER_H_
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// I N C L U D E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+// Parent
+#include <Entity/Actor/FPSToy_Entity_Actor.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_HashTree;
+class GLToy_Physics_Controller;
 
-class FPSToy_AmmoType;
-class FPSToy_Weapon;
-class FPSToy_WeaponType;
+class FPSToy_AI;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class FPSToy_Weapon_System
+class FPSToy_Entity_Player
+: public FPSToy_Entity_Actor
 {
+
+    typedef FPSToy_Entity_Actor GLToy_Parent;
 
 public:
 
-    static bool Initialise();
-    static void Shutdown();
+    FPSToy_Entity_Player( const GLToy_Hash uHash, const u_int uType )
+    : GLToy_Parent( uHash, uType )
+    {
+    }
 
-    static const FPSToy_WeaponType* FindWeaponType( const GLToy_Hash uHash );
+    virtual void Render() const {}
+    virtual void Update() {}
+    virtual void Spawn( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation );
 
-private:
+    virtual bool IsPlayer() { return true; }    
+    virtual bool HasSpawned() const { return m_pxPhysicsController != NULL; }
 
-    static GLToy_HashTree< FPSToy_AmmoType* > s_xAmmoTypes;
-    static GLToy_HashTree< FPSToy_WeaponType* > s_xWeaponTypes;
+
+protected:
+
+    GLToy_Physics_Controller* m_pxPhysicsController;
+    FPSToy_AI* m_pxAI;
 
 };
 

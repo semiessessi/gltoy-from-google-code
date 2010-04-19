@@ -65,6 +65,7 @@
 #include <Physics/Collide/Shape/Convex/Box/hkpBoxShape.h>
 #include <Physics/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesShape.h>
 #include <Physics/Collide/Shape/Convex/Triangle/hkpTriangleShape.h>
+#include <Physics/Collide/Shape/Convex/Sphere/hkpSphereShape.h>
 #include <Physics/Collide/Shape/HeightField/Plane/hkpPlaneShape.h>
 #include <Physics/Dynamics/hkpDynamics.h>
 #include <Physics/Dynamics/Collide/ContactListener/hkpContactListener.h>
@@ -194,8 +195,6 @@ public:
             return;
         }
 
-        g_pxHavokWorld->lockReadOnly();
-        GLToy_Havok_MarkForRead();
         GLToy_Physics_Object* pxObject = GLToy_Physics_System::FindPhysicsObject( m_pxHavokRigidBody->getUserData() );
         
         if( pxObject )
@@ -208,9 +207,6 @@ public:
             xCollision.m_bHitEnvironment = xCollision.m_uEntityHash  == GLToy_Hash_Constant( "Environment" );
             xCollision.m_bHitEntity = !xCollision.m_bHitEnvironment;
         }
-
-        GLToy_Havok_UnmarkForRead();
-        g_pxHavokWorld->unlockReadOnly();
     }
 
 	virtual void entityDeletedCallback( hkpEntity* pxHavokEntity )
@@ -601,52 +597,97 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsBox( const GLToy_Hash u
     return pxPhysicsObject;
 }
 
-GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsParticle( const GLToy_Hash uHash, const float fSize, const GLToy_Vector_3& xVelocity )
+GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsParticle( const GLToy_Hash uHash, const float fRadius, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity )
 {
 
-//    GLToy_Physics_Object* pxPhysicsObject = new GLToy_Physics_Object( uHash );
-//    s_xPhysicsObjects.AddNode( pxPhysicsObject, uHash );
-//
-//#ifdef GLTOY_USE_HAVOK_PHYSICS
-//
-//    const GLToy_Vector_3 xExtents = xAABB.GetExtents() * fHAVOK_SCALE;
-//    hkVector4 xHKExtents = hkVector4( xExtents[ 0 ], xExtents[ 1 ], xExtents[ 2 ] );
-//    hkpBoxShape* pxBox = new hkpBoxShape( xHKExtents, 0 );
-//    
-//    hkpRigidBodyCinfo xRigidBodyInfo;
-//
-//    xRigidBodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
-//    xRigidBodyInfo.m_shape = pxBox;
-//    xRigidBodyInfo.m_position = hkVector4( xAABB.GetPosition()[ 0 ] * fHAVOK_SCALE , xAABB.GetPosition()[ 1 ] * fHAVOK_SCALE, xAABB.GetPosition()[ 2 ] * fHAVOK_SCALE );
-//
-//    xRigidBodyInfo.m_mass = 10.0f;
-//    hkpMassProperties xMassProperties;
-//    hkpInertiaTensorComputer::computeBoxVolumeMassProperties( xHKExtents, xRigidBodyInfo.m_mass, xMassProperties );
-//    xRigidBodyInfo.m_inertiaTensor = xMassProperties.m_inertiaTensor;
-//
-//    hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
-//
-//    g_pxHavokWorld->lock();
-//    GLToy_Havok_MarkForWrite();
-//    g_pxHavokWorld->addEntity( pxRigidBody );
-//    pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_CRITICAL );
-//    pxRigidBody->setLinearVelocity( hkVector4( xVelocity[ 0 ] * fHAVOK_SCALE, xVelocity[ 1 ] * fHAVOK_SCALE, xVelocity[ 2 ] * fHAVOK_SCALE ) );
-//    pxRigidBody->setUserData( uHash );
-//    GLToy_Havok_UnmarkForWrite();
-//    g_pxHavokWorld->unlock();
-//
-//    pxPhysicsObject->SetHavokRigidBodyPointer( pxRigidBody );
-//
-//    pxRigidBody->removeReference();
-//    pxBox->removeReference();
-//
-//#else
-//
-//    GLToy_Assert( false, "Physics boxes require GLTOY_USE_HAVOK_PHYSICS for now..." );
-//
-//#endif
-//
-//    return pxPhysicsObject;
+    GLToy_Physics_Object* pxPhysicsObject = new GLToy_Physics_Object( uHash );
+    s_xPhysicsObjects.AddNode( pxPhysicsObject, uHash );
+
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+
+    hkpSphereShape* pxSphere = new hkpSphereShape( fRadius );
+    
+    hkpRigidBodyCinfo xRigidBodyInfo;
+
+    xRigidBodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
+    xRigidBodyInfo.m_shape = pxSphere;
+    xRigidBodyInfo.m_position = hkVector4( xPosition[ 0 ] * fHAVOK_SCALE , xPosition[ 1 ] * fHAVOK_SCALE, xPosition[ 2 ] * fHAVOK_SCALE );
+
+    xRigidBodyInfo.m_mass = 10.0f;
+    hkpMassProperties xMassProperties;
+    hkpInertiaTensorComputer::computeSphereVolumeMassProperties( fRadius, xRigidBodyInfo.m_mass, xMassProperties );
+    xRigidBodyInfo.m_inertiaTensor = xMassProperties.m_inertiaTensor;
+
+    hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
+
+    g_pxHavokWorld->lock();
+    GLToy_Havok_MarkForWrite();
+    g_pxHavokWorld->addEntity( pxRigidBody );
+    pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_DEBRIS );
+    pxRigidBody->setLinearVelocity( hkVector4( xVelocity[ 0 ] * fHAVOK_SCALE, xVelocity[ 1 ] * fHAVOK_SCALE, xVelocity[ 2 ] * fHAVOK_SCALE ) );
+    pxRigidBody->setUserData( uHash );
+    GLToy_Havok_UnmarkForWrite();
+    g_pxHavokWorld->unlock();
+
+    pxPhysicsObject->SetHavokRigidBodyPointer( pxRigidBody );
+
+    pxRigidBody->removeReference();
+    pxSphere->removeReference();
+
+#else
+
+    GLToy_Assert( false, "Physics particles require GLTOY_USE_HAVOK_PHYSICS for now..." );
+
+#endif
+
+    return pxPhysicsObject;
+    return NULL;
+}
+
+GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsProjectile( const GLToy_Hash uHash, const float fRadius, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity )
+{
+
+    GLToy_Physics_Object* pxPhysicsObject = new GLToy_Physics_Object( uHash );
+    s_xPhysicsObjects.AddNode( pxPhysicsObject, uHash );
+
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+
+    hkpSphereShape* pxSphere = new hkpSphereShape( fRadius );
+    
+    hkpRigidBodyCinfo xRigidBodyInfo;
+
+    xRigidBodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
+    xRigidBodyInfo.m_shape = pxSphere;
+    xRigidBodyInfo.m_position = hkVector4( xPosition[ 0 ] * fHAVOK_SCALE , xPosition[ 1 ] * fHAVOK_SCALE, xPosition[ 2 ] * fHAVOK_SCALE );
+
+    xRigidBodyInfo.m_mass = 10.0f;
+    hkpMassProperties xMassProperties;
+    hkpInertiaTensorComputer::computeSphereVolumeMassProperties( fRadius, xRigidBodyInfo.m_mass, xMassProperties );
+    xRigidBodyInfo.m_inertiaTensor = xMassProperties.m_inertiaTensor;
+
+    hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
+
+    g_pxHavokWorld->lock();
+    GLToy_Havok_MarkForWrite();
+    g_pxHavokWorld->addEntity( pxRigidBody );
+    pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_BULLET );
+    pxRigidBody->setLinearVelocity( hkVector4( xVelocity[ 0 ] * fHAVOK_SCALE, xVelocity[ 1 ] * fHAVOK_SCALE, xVelocity[ 2 ] * fHAVOK_SCALE ) );
+    pxRigidBody->setUserData( uHash );
+    GLToy_Havok_UnmarkForWrite();
+    g_pxHavokWorld->unlock();
+
+    pxPhysicsObject->SetHavokRigidBodyPointer( pxRigidBody );
+
+    pxRigidBody->removeReference();
+    pxSphere->removeReference();
+
+#else
+
+    GLToy_Assert( false, "Physics spheres require GLTOY_USE_HAVOK_PHYSICS for now..." );
+
+#endif
+
+    return pxPhysicsObject;
     return NULL;
 }
 

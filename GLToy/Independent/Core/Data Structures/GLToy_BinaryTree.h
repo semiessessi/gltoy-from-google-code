@@ -108,6 +108,23 @@ protected:
         return this;
     }
 
+    const GLToy_BinaryTreeNode* FindNode( const KeyType xKey ) const
+    {
+        if( xKey > m_xKey )
+        {
+            GLToy_Assert( m_pxHigher != this, "Get ready for a stack overflow, we have a loop in our tree!" );
+            return m_pxHigher ? m_pxHigher->FindNode( xKey ) : NULL;
+        }
+
+        if( xKey < m_xKey )
+        {
+            GLToy_Assert( m_pxLower != this, "Get ready for a stack overflow, we have a loop in our tree!" );
+            return m_pxLower ? m_pxLower->FindNode( xKey ) : NULL;
+        }
+
+        return this;
+    }
+
     virtual void Traverse( GLToy_Functor< DataType >& xFunctor )
     {
         if( m_pxLower )
@@ -185,6 +202,18 @@ public:
     }
 
     virtual DataType* FindData( const KeyType xKey )
+    {
+        if( !m_pxHead )
+        {
+            return NULL;
+        }
+
+        GLToy_BinaryTreeNode< DataType, KeyType >* pxNode = m_pxHead->FindNode( xKey );
+
+        return pxNode ? pxNode->GetDataPointer() : NULL;
+    }
+
+    virtual const DataType* FindData( const KeyType xKey ) const
     {
         if( !m_pxHead )
         {

@@ -103,6 +103,19 @@ public:
         return pcNewString;
     }
 
+    GLToy_Inline bool operator ==( const GLToy_String& xString ) const
+    {
+        GLToy_ConstIterate( wchar_t, xIterator, this )
+        {
+            if( xIterator.Current() != xString[ xIterator.Index() ] )
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     GLToy_Inline GLToy_String& operator =( const GLToy_String& xString )
     {
         GLToy_Parent::operator =( xString );
@@ -179,7 +192,7 @@ public:
         return uRet;
     }
 
-    GLToy_String RemoveFirstWord()
+    GLToy_Inline GLToy_String RemoveFirstWord()
     {
         GLToy_String xReturnValue;
         u_int u = 0;
@@ -208,7 +221,27 @@ public:
         return xReturnValue;
     }
 
-    GLToy_String RemoveFirstLine()
+    GLToy_Inline GLToy_String RemoveUpTo( const wchar_t wcChar )
+    {
+        GLToy_String xReturnValue;
+        u_int u = 0;
+        while( ( m_pxData[ u ] != wcChar ) && m_pxData[ u ] )
+        {
+            xReturnValue += m_pxData[ u ];
+            ++u;
+        }
+
+        RemoveAt( 0, u + 1 );
+
+        if( m_uCount == 0 )
+        {
+            Append( 0 );
+        }
+
+        return xReturnValue;
+    }
+
+    GLToy_Inline GLToy_String RemoveFirstLine()
     {
         GLToy_String xReturnValue;
         u_int u = 0;
@@ -230,6 +263,24 @@ public:
         if( m_uCount == 0 )
         {
             Append( 0 );
+        }
+
+        return xReturnValue;
+    }
+
+    GLToy_Array< GLToy_String > Split( const wchar_t wcSplitter )
+    {
+        GLToy_String szWorkingString( *this );
+        GLToy_Array< GLToy_String > xReturnValue;
+
+        while( szWorkingString.GetLength() > 0 )
+        {
+            xReturnValue.Append( szWorkingString.RemoveUpTo( wcSplitter ) );
+
+            if( szWorkingString[ 0 ] == wcSplitter ) // it could be NULL, or we might be buggy...
+            {
+                szWorkingString.RemoveAt( 0 );
+            }
         }
 
         return xReturnValue;

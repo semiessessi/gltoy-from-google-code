@@ -81,7 +81,8 @@ public:
     static GLToy_Physics_Object* CreatePhysicsEnvironment( const GLToy_Hash uHash, const GLToy_Environment_Lightmapped& xEnvironment );
     static GLToy_Physics_Object* CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_AABB& xAABB, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
     static GLToy_Physics_Object* CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_OBB& xOBB, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
-    static GLToy_Physics_Object* CreatePhysicsParticle( const GLToy_Hash uHash, const float fSize = 32.0f, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
+    static GLToy_Physics_Object* CreatePhysicsParticle( const GLToy_Hash uHash, const float fRadius = 32.0f, const GLToy_Vector_3& xPosition = GLToy_Maths::ZeroVector3, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
+    static GLToy_Physics_Object* CreatePhysicsProjectile( const GLToy_Hash uHash, const float fRadius = 32.0f, const GLToy_Vector_3& xPosition = GLToy_Maths::ZeroVector3, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
 
     static void ResetCollisions();
 

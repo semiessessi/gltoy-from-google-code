@@ -32,6 +32,7 @@
 #include <Entity/GLToy_Entity.h>
 
 // FPSToy
+#include <Entity/Projectile/FPSToy_Entity_Projectile.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -41,6 +42,8 @@ GLToy_Entity* FPSToy_CreateEntity( const GLToy_Hash uHash, const u_int uType )
 {
     switch( uType )
     {
+        case FPSTOY_ENTITY_PROJECTILE:      return new FPSToy_Entity_Projectile( uHash, uType );
+
         default:
         {
             break;

@@ -325,6 +325,30 @@
 					RelativePath=".\Independent\Weapon\FPSToy_Weapon_System.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Independent\Weapon\FPSToy_WeaponType_Melee.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Weapon\FPSToy_WeaponType_Melee.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Weapon\FPSToy_WeaponType_Projectile.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Weapon\FPSToy_WeaponType_Projectile.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Weapon\FPSToy_WeaponType_Trace.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Weapon\FPSToy_WeaponType_Trace.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Damage"
@@ -361,11 +385,35 @@
 					RelativePath=".\Independent\Entity\FPSToy_EntityTypes.h"
 					>
 				</File>
+				<Filter
+					Name="Projectile"
+					>
+					<File
+						RelativePath=".\Independent\Entity\Projectile\FPSToy_Entity_Projectile.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Entity\Projectile\FPSToy_Entity_Projectile.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Actor"
+					>
+					<File
+						RelativePath=".\Independent\Entity\Actor\FPSToy_Entity_Actor.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Entity\Actor\FPSToy_Entity_Actor.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Independent\Entity\Actor\FPSToy_Entity_Player.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="Entity"
-			>
 		</Filter>
 	</Files>
 	<Globals>

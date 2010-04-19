@@ -49,8 +49,8 @@ public:
     {
     }
 
-    const GLToy_Hash GetHash() const { return m_uHash; }
-    const GLToy_Hash GetDamageTypeHash() const { return m_uDamageTypeHash; }
+    GLToy_Inline const GLToy_Hash GetHash() const { return m_uHash; }
+    GLToy_Inline const GLToy_Hash GetDamageTypeHash() const { return m_uDamageTypeHash; }
 
 protected:
 
@@ -64,20 +64,23 @@ class FPSToy_WeaponType
 
 public:
 
-    FPSToy_WeaponType( const GLToy_Hash uHash, const GLToy_Hash uAmmoTypeHash )
+    FPSToy_WeaponType( const GLToy_Hash uHash, const GLToy_Hash uAmmoHash, const u_int uBurstCount = 1 )
     : m_uHash( uHash )
-    , m_uAmmoTypeHash( uAmmoTypeHash )
+    , m_uAmmoTypeHash( uGLTOY_BAD_HASH )
+    , m_uBurstCount( 1 )
     {
     }
 
     virtual void Fire( const GLToy_Hash uOwnerEntityHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection ) = 0;
-    const GLToy_Hash GetHash() const { return m_uHash; }
-    const GLToy_Hash GetAmmoTypeHash() const { return m_uAmmoTypeHash; }
+    GLToy_Inline const u_int GetBurstCount() const { return m_uBurstCount; }
+    GLToy_Inline const GLToy_Hash GetHash() const { return m_uHash; }
+    GLToy_Inline const GLToy_Hash GetAmmoTypeHash() const { return m_uAmmoTypeHash; }
 
 protected:
 
     GLToy_Hash m_uHash;
     GLToy_Hash m_uAmmoTypeHash;
+    u_int m_uBurstCount;
 
 };
 

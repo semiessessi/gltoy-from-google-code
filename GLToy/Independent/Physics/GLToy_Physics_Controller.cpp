@@ -231,6 +231,7 @@ void GLToy_Physics_Controller::Update( const float fTimestep )
 	//	}
 	//}
 
+    // TODO - the input code belongs in a player class or something
 	hkpCharacterInput xInput;
 	hkpCharacterOutput xOutput;
 
@@ -367,7 +368,7 @@ void GLToy_Physics_Controller::SetPosition( const GLToy_Vector_3& xPosition, con
 {
 
     Destroy();
-    Create();
+    Create( xPosition );
 
     SetVelocity( xVelocity );
 

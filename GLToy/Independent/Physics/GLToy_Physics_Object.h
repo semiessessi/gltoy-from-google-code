@@ -79,6 +79,7 @@ public:
     void SetPosition( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
     void SetVelocity( const GLToy_Vector_3& xVelocity );
 
+    const GLToy_Array< GLToy_Physics_ObjectCollision >& GetCollisions() const { return m_xCollisions; }
     void ResetCollisions() { m_xCollisions.Clear(); }
 
     GLToy_OBB GetOBB();
