@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\GLToy\Independent;..\GLToy\Win32;Independent\;Win32\"
+				AdditionalIncludeDirectories="..\GLToy\Independent;..\GLToy\Win32;Independent\;Win32\;..\Includes"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -115,7 +115,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\GLToy\Independent;..\GLToy\Win32;Independent\;Win32\"
+				AdditionalIncludeDirectories="..\GLToy\Independent;..\GLToy\Win32;Independent\;Win32\;..\Includes"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				ExceptionHandling="0"
 				RuntimeLibrary="0"

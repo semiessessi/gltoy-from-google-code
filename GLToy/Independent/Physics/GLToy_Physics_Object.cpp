@@ -35,6 +35,8 @@
 // Havok
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
+#undef const_cast
+
 // physics
 #include <Physics/Collide/Shape/Convex/Box/hkpBoxShape.h>
 #include <Physics/Dynamics/hkpDynamics.h>

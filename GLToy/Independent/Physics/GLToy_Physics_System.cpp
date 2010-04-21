@@ -47,6 +47,8 @@
 #include <Physics/Platform_GLToy_Havok_Physics.h>
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
+#undef const_cast
+
 // base
 #include <Common/Base/hkBase.h>
 #include <Common/Base/System/Error/hkDefaultError.h>

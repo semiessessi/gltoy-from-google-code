@@ -47,6 +47,10 @@
 #define NULL (0)
 #endif
 
+// prevent const_cast and dynamic cast
+#define const_cast CONST_CAST_IS_FORBIDDEN_if_you_really_must_then_undef_const_cast
+#define dynamic_cast DYNAMIC_CAST_IS_FORBIDDEN_dont_undef_dynamic_cast
+
 // is this a debug build?
 // also set all debug related defines here
 #ifdef _DEBUG
