@@ -112,3 +112,31 @@ GLToy_OBB GLToy_Physics_Object::GetOBB()
 #endif
 
 }
+
+GLToy_Vector_3 GLToy_Physics_Object::GetPosition() const
+{
+
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+
+    if( !m_pxHavokRigidBody )
+    {
+		return GLToy_Maths::ZeroVector3;
+    }
+
+    GLToy_Physics_System::GetHavokWorld()->lockReadOnly();
+    GLToy_Havok_MarkForRead();
+
+    const hkVector4 xPos = m_pxHavokRigidBody->getPosition();
+
+    GLToy_Havok_UnmarkForRead();
+    GLToy_Physics_System::GetHavokWorld()->unlockReadOnly();
+
+    return GLToy_Vector_3( xPos( 0 ), xPos( 1 ), xPos( 2 ) ) * fINVERSE_HAVOK_SCALE;
+
+#else
+    
+    return GLToy_Maths::ZeroVector3;
+
+#endif
+
+}

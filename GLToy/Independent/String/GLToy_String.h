@@ -299,6 +299,13 @@ public:
         return false;
     }
 
+	GLToy_Inline bool MeansFalse() const
+	{
+		return ( ( *this ) == "False" )
+			|| ( ( *this ) == "No" )
+			|| ( ( *this ) == "0" );
+	}
+
     // TODO - can't pass by reference due to va_args - I'm sure there is a portable way around it though
     void SetToFormatString( const GLToy_String szFormatString, ... );
     void SetToFormatString( const GLToy_String szFormatString, const va_list& xArgumentList );

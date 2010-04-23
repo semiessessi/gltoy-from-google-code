@@ -83,6 +83,7 @@ public:
     void ResetCollisions() { m_xCollisions.Clear(); }
 
     GLToy_OBB GetOBB();
+	GLToy_Vector_3 GetPosition() const;
     GLToy_Inline GLToy_Hash GetHash() const { return m_uHash; }
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS

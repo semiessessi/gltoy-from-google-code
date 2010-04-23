@@ -26,58 +26,51 @@
 #include <Core/FPSToy.h>
 
 // This file's header
-#include <Weapon/FPSToy_WeaponType_Projectile.h>
+#include <Core/FPSToy_Player.h>
 
 // GLToy
-#include <Entity/GLToy_Entity_System.h>
-#include <Maths/GLToy_Maths.h>
+#include <Core/GLToy_Hash.h>
+#include <Input/GLToy_Input.h>
+#include <Physics/GLToy_Physics_System.h>
+#include <Render/GLToy_Camera.h>
 
 // FPSToy
-#include <Entity/FPSToy_EntityTypes.h>
-#include <Entity/Projectile/FPSToy_Entity_Projectile.h>
+#include <Weapon/FPSToy_Weapon.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+FPSToy_WeaponInventory FPSToy_Player::s_xWeaponInventory( FPSToy_Player::GetHash() );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void FPSToy_WeaponType_Projectile::Fire( const GLToy_Hash uOwnerEntityHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection ) const
+void FPSToy_Player::Spawn( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation )
 {
-    static u_int uCount = 0;
-    GLToy_String szEntityName;
-    szEntityName.SetToFormatString( "Projectile%d", uCount );
-    ++uCount;
-    
-    FPSToy_Entity_Projectile* const pxProjectile
-        = static_cast< FPSToy_Entity_Projectile* const >(
-            GLToy_Entity_System::CreateEntity( szEntityName.GetHash(), FPSTOY_ENTITY_PROJECTILE ) );
+	s_xWeaponInventory.Reset();
+	// TODO: something better than a magic constant here
+	s_xWeaponInventory.AddWeapon( GLToy_Hash_Constant( "TestWeapon1" ) );
 
-    if( !pxProjectile )
-    {
-        return;
-    }
-
-    pxProjectile->SetOwner( uOwnerEntityHash );
-    pxProjectile->SetWeaponType( GetHash() );
-    pxProjectile->Spawn( xPosition, xDirection );
+	GLToy_Camera::SetPosition( xPosition );
+	GLToy_Camera::SetControllerCamEnabled( true );
 }
 
-void FPSToy_WeaponType_Projectile::SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue )
+void FPSToy_Player::Update()
 {
-    if( szKey == "MaintainSpeed" )
+    static bool s_bOldMouseDown = false;
+    const bool bMouseDown = GLToy_Input_System::IsMouseLeftButtonDown();
+    if( !s_bOldMouseDown && bMouseDown )
     {
-		m_bContactDetonation = !szValue.MeansFalse();
+		// TODO: something better than magic numbers here...
+		s_xWeaponInventory.FireCurrent( GLToy_Camera::GetPosition() + GLToy_Camera::GetDirection() * 32.0f, GLToy_Camera::GetDirection() );
+        //GLToy_Physics_System::TestBox_Console();
     }
-    else if( szKey == "ContactDetonation" )
-    {
-		m_bContactDetonation = !szValue.MeansFalse();
-    }
-    else if( szKey == "Radius" )
-    {
-        // TODO - need something to get floats from strings
-        SetRadius( static_cast< float >( szValue.ExtractUnsignedInt() ) );
-    }
-    else if( szKey == "Sprite" )
-    {
-        SetSpriteHash( szValue.GetHash() );
-    }
+    s_bOldMouseDown = bMouseDown;
+}
+
+GLToy_Hash FPSToy_Player::GetHash()
+{
+	return GLToy_Hash_Constant( "Player" );
 }

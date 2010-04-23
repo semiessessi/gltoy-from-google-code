@@ -29,6 +29,7 @@
 #include <Weapon/FPSToy_Weapon_System.h>
 
 // GLToy
+#include <Core/Data Structures/GLToy_Array.h>
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <File/GLToy_ANSITextFile.h>
 #include <File/GLToy_File_System.h>
@@ -46,6 +47,7 @@
 
 GLToy_HashTree< FPSToy_AmmoType* > FPSToy_Weapon_System::s_xAmmoTypes;
 GLToy_HashTree< FPSToy_WeaponType* > FPSToy_Weapon_System::s_xWeaponTypes;
+GLToy_HashTree< GLToy_Array< GLToy_Hash > > FPSToy_Weapon_System::s_xWeaponDefinitions;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -53,18 +55,66 @@ GLToy_HashTree< FPSToy_WeaponType* > FPSToy_Weapon_System::s_xWeaponTypes;
 
 bool FPSToy_Weapon_System::Initialise()
 {
+	if( !InitialiseAmmoTypes() )
+	{
+		return false;
+	}
+
+	if( !InitialiseWeaponTypes() )
+	{
+		return false;
+	}
+
+	if( !InitialiseWeaponDefinitions() )
+	{
+		return false;
+	}
+
+    return true;
+}
+
+void FPSToy_Weapon_System::Shutdown()
+{
     s_xAmmoTypes.DeleteAll();
     s_xWeaponTypes.DeleteAll();
+}
+
+const FPSToy_WeaponType* FPSToy_Weapon_System::FindWeaponType( const GLToy_Hash uHash )
+{
+    const FPSToy_WeaponType* const* const ppxWeaponType = s_xWeaponTypes.FindData( uHash );
+    return ppxWeaponType ? *ppxWeaponType : NULL;
+}
+
+FPSToy_Weapon FPSToy_Weapon_System::CreateWeapon( const GLToy_Hash uHash, const GLToy_Hash uOwnerHash )
+{
+	FPSToy_Weapon xReturnValue( uOwnerHash );
+
+	const GLToy_Array< GLToy_Hash >* pxDefinition = s_xWeaponDefinitions.FindData( uHash );
+
+	if( pxDefinition )
+	{
+		GLToy_ConstIterate( GLToy_Hash, xIterator, pxDefinition )
+		{
+			xReturnValue.AddMode( xIterator.Current() );
+		}
+	}
+
+	return xReturnValue;
+}
+
+bool FPSToy_Weapon_System::InitialiseAmmoTypes()
+{
+	s_xAmmoTypes.DeleteAll();
 
     GLToy_Array< GLToy_String > xAmmoPaths = GLToy_File_System::PathsFromFilter( "Weapons/Ammo/", "*.ammo" );
 
     GLToy_ConstIterate( GLToy_String, xIterator, &xAmmoPaths )
     {
-        GLToy_String xName = xIterator.Current();
-        xName.RemoveAt( 0, 13 ); // remove "Weapons/Ammo/"
-        xName.RemoveFromEnd( 5 ); // remove ".ammo"
+        GLToy_String szName = xIterator.Current();
+        szName.RemoveAt( 0, 13 ); // remove "Weapons/Ammo/"
+        szName.RemoveFromEnd( 5 ); // remove ".ammo"
 
-        GLToy_DebugOutput( "   - Found ammo type \"%S\".\r\n", xName.GetWideString() );
+        GLToy_DebugOutput( "   - Found ammo type \"%S\".\r\n", szName.GetWideString() );
         
         GLToy_ANSITextFile xFile( xIterator.Current() );
 
@@ -85,25 +135,76 @@ bool FPSToy_Weapon_System::Initialise()
                 //{
                 //}
             }
-            else
-            {
-                GLToy_DebugOutput_Release( "Warning: Ammo type file \"%S\" contains a line with no valuable information", xIterator.Current() );
-            }
         }
 
-        // s_xAmmoTypes.AddNode( new GLToy_AmmoType( xName.GetHash() ), xName.GetHash() );
+        // s_xAmmoTypes.AddNode( new GLToy_AmmoType( szName.GetHash() ), szName.GetHash() );
     }
 
-    // TODO: take the inside of the loop out into its own function for tidyness
+	return true;
+}
+
+bool FPSToy_Weapon_System::InitialiseWeaponDefinitions()
+{
+	s_xWeaponDefinitions.Clear();
+
+	GLToy_Array< GLToy_String > xWeaponDefinitionPaths = GLToy_File_System::PathsFromFilter( "Weapons/", "*.weapon" );
+
+    GLToy_ConstIterate( GLToy_String, xIterator, &xWeaponDefinitionPaths )
+    {
+        GLToy_String szName = xIterator.Current();
+        szName.RemoveAt( 0, 8 ); // remove "Weapons/"
+        szName.RemoveFromEnd( 7 ); // remove ".weapon"
+
+        GLToy_DebugOutput( "   - Found weapon definition \"%S\".\r\n", szName.GetWideString() );
+
+		GLToy_ANSITextFile xFile( xIterator.Current() );
+
+        GLToy_String xData = xFile.GetString();
+
+		s_xWeaponDefinitions.AddNode( GLToy_Array< GLToy_Hash >(), szName.GetHash() );
+
+		GLToy_Array< GLToy_Hash >* pxDefinition = s_xWeaponDefinitions.FindData( szName.GetHash() );
+		if( !pxDefinition )
+		{
+			GLToy_Assert( pxDefinition != NULL, "Somehow failed to find weapon definition immediately after creating it!" );
+			continue;
+		}
+
+        while( xData.GetLength() > 0 )
+        {
+            GLToy_String szValue = xData.RemoveFirstLine();
+            if( szValue.Contains( L'=' ) )
+            {
+                GLToy_String szKey = szValue.RemoveUpTo( L'=' );
+                if( szValue[ 0 ] == L'=' )
+                {
+                    szKey.RemoveAt( 0 );
+                }
+
+                if( szKey == "NewMode" )
+                {
+                    pxDefinition->Append( szValue.GetHash() );
+                }
+            }
+        }
+	}
+
+	return true;
+}
+
+bool FPSToy_Weapon_System::InitialiseWeaponTypes()
+{
+    s_xWeaponTypes.DeleteAll();
+
     GLToy_Array< GLToy_String > xWeaponTypePaths = GLToy_File_System::PathsFromFilter( "Weapons/Types/", "*.weapontype" );
 
     GLToy_ConstIterate( GLToy_String, xIterator, &xWeaponTypePaths )
     {
-        GLToy_String xName = xIterator.Current();
-        xName.RemoveAt( 0, 14 ); // remove "Weapons/Types/"
-        xName.RemoveFromEnd( 11 ); // remove ".weapontype"
+        GLToy_String szName = xIterator.Current();
+        szName.RemoveAt( 0, 14 ); // remove "Weapons/Types/"
+        szName.RemoveFromEnd( 11 ); // remove ".weapontype"
 
-        GLToy_DebugOutput( "   - Found weapon type \"%S\".\r\n", xName.GetWideString() );
+        GLToy_DebugOutput( "   - Found weapon type \"%S\".\r\n", szName.GetWideString() );
         
         GLToy_ANSITextFile xFile( xIterator.Current() );
 
@@ -148,18 +249,14 @@ bool FPSToy_Weapon_System::Initialise()
                     uBurstCount = szValue.ExtractUnsignedInt();
                 }
             }
-            else
-            {
-                GLToy_DebugOutput_Release( "Warning: Weapon type file \"%S\" contains a line with no valuable information", xIterator.Current().GetWideString() );
-            }
         }
 
         FPSToy_WeaponType* pxWeaponType = NULL;
         switch( uClass )
         {
-            case 0:     pxWeaponType = new FPSToy_WeaponType_Trace( xName.GetHash(), uAmmoHash, uBurstCount ); break;
-            case 1:     pxWeaponType = new FPSToy_WeaponType_Projectile( xName.GetHash(), uAmmoHash, uBurstCount ); break;
-            case 2:     pxWeaponType = new FPSToy_WeaponType_Melee( xName.GetHash(), uAmmoHash, uBurstCount ); break;
+            case 0:     pxWeaponType = new FPSToy_WeaponType_Trace( szName.GetHash(), uAmmoHash, uBurstCount ); break;
+            case 1:     pxWeaponType = new FPSToy_WeaponType_Projectile( szName.GetHash(), uAmmoHash, uBurstCount ); break;
+            case 2:     pxWeaponType = new FPSToy_WeaponType_Melee( szName.GetHash(), uAmmoHash, uBurstCount ); break;
         }
 
         if( !pxWeaponType )
@@ -181,32 +278,29 @@ bool FPSToy_Weapon_System::Initialise()
 
                 switch( uClass )
                 {
+					case 0:
+                    {
+                        static_cast< FPSToy_WeaponType_Trace* >( pxWeaponType )->SetKeyValuePair( szKey, szValue );
+                        break;
+                    }
+
                     case 1:
                     {
-                        FPSToy_WeaponType_Projectile* pxProjectileType = static_cast< FPSToy_WeaponType_Projectile* >( pxWeaponType );
-                        if( szKey == "MaintainSpeed" )
-                        {
-                        }
-                        else if( szKey == "ContactDetonation" )
-                        {
-                        }
-                        else if( szKey == "Radius" )
-                        {
-                            // TODO - need something to get floats from strings
-                            pxProjectileType->SetRadius( static_cast< float >( szValue.ExtractUnsignedInt() ) );
-                        }
-                        else if( szKey == "Sprite" )
-                        {
-                            pxProjectileType->SetSpriteHash( szValue.GetHash() );
-                        }
+                        static_cast< FPSToy_WeaponType_Projectile* >( pxWeaponType )->SetKeyValuePair( szKey, szValue );
+                        break;
+                    }
 
+					case 2:
+                    {
+                        static_cast< FPSToy_WeaponType_Melee* >( pxWeaponType )->SetKeyValuePair( szKey, szValue );
                         break;
                     }
                 }
             }
             else
             {
-                GLToy_DebugOutput_Release( "Warning: Weapon type file \"%S\" contains a line with no valuable information", xIterator.Current().GetWideString() );
+				// why not allow comments and whitespace?
+                // GLToy_DebugOutput_Release( "Warning: Weapon type file \"%S\" contains a line with no valuable information", xIterator.Current().GetWideString() );
             }
         }
 
@@ -216,21 +310,9 @@ bool FPSToy_Weapon_System::Initialise()
         }
         else
         {
-            GLToy_DebugOutput_Release( "  - Failed to create weapon type \"%S\".\r\n", xName.GetWideString() );
+            GLToy_DebugOutput_Release( "  - Failed to create weapon type \"%S\".\r\n", szName.GetWideString() );
         }
     }
 
-    return true;
-}
-
-void FPSToy_Weapon_System::Shutdown()
-{
-    s_xAmmoTypes.DeleteAll();
-    s_xWeaponTypes.DeleteAll();
-}
-
-const FPSToy_WeaponType* FPSToy_Weapon_System::FindWeaponType( const GLToy_Hash uHash )
-{
-    const FPSToy_WeaponType* const* const ppxWeaponType = s_xWeaponTypes.FindData( uHash );
-    return ppxWeaponType ? *ppxWeaponType : NULL;
+	return true;
 }

@@ -50,23 +50,18 @@ class FPSToy_Entity_Projectile
 
 public:
 
-    FPSToy_Entity_Projectile( const GLToy_Hash uHash, const u_int uType )
-    : GLToy_Parent( uHash, uType )
-    , m_uOwnerEntityHash( uGLTOY_BAD_HASH )
-    , m_uWeaponTypeHash( uGLTOY_BAD_HASH )
-    , m_pxPhysicsObject( NULL )
-    , m_pxSprite( NULL )
-    {
-    }
+    FPSToy_Entity_Projectile( const GLToy_Hash uHash, const u_int uType );
+	virtual ~FPSToy_Entity_Projectile();
 
     virtual void Render() const;
     virtual void Update();
 
-    virtual void Spawn( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity );
+    virtual void Spawn( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection );
     virtual void Detonate( const GLToy_Hash uVictimEntityHash = uGLTOY_BAD_HASH );
 
     GLToy_Inline void SetWeaponType( const GLToy_Hash uHash ) { m_uWeaponTypeHash = uHash; }
     GLToy_Inline void SetOwner( const GLToy_Hash uHash ) { m_uOwnerEntityHash = uHash; }
+	void SetSprite( const GLToy_Hash uHash );
 
     virtual const FPSToy_WeaponType_Projectile* GetWeaponType() const;
     

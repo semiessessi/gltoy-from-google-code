@@ -28,11 +28,13 @@
 
 // GLToy
 #include <Core/Data Structures/GLToy_Array.h>
+#include <Core/Data Structures/GLToy_HashTree.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+class GLToy_String;
 class GLToy_Vector_3;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,7 +73,9 @@ public:
     {
     }
 
-    virtual void Fire( const GLToy_Hash uOwnerEntityHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection ) = 0;
+    virtual void Fire( const GLToy_Hash uOwnerEntityHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection ) const = 0;
+	virtual void SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue ) = 0;
+
     GLToy_Inline const u_int GetBurstCount() const { return m_uBurstCount; }
     GLToy_Inline const GLToy_Hash GetHash() const { return m_uHash; }
     GLToy_Inline const GLToy_Hash GetAmmoTypeHash() const { return m_uAmmoTypeHash; }
@@ -89,7 +93,7 @@ class FPSToy_Weapon
 
 public:
 
-    FPSToy_Weapon(const GLToy_Hash uOwnerEntityHash = uGLTOY_BAD_HASH )
+    FPSToy_Weapon( const GLToy_Hash uOwnerEntityHash = uGLTOY_BAD_HASH )
     : m_uCurrentWeaponType( 0 )
     , m_uOwnerEntityHash( uOwnerEntityHash )
     , m_xWeaponTypes()
@@ -98,8 +102,13 @@ public:
 
     GLToy_Inline void Fire( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection )
     {
-        m_xWeaponTypes[ m_uCurrentWeaponType ]->Fire( m_uOwnerEntityHash, xPosition, xDirection );
+		if( m_xWeaponTypes.GetCount() > 0 )
+		{
+			m_xWeaponTypes[ m_uCurrentWeaponType ]->Fire( m_uOwnerEntityHash, xPosition, xDirection );
+		}
     }
+
+	void AddMode( const GLToy_Hash uWeaponType );
 
     GLToy_Inline void NextMode()
     {
@@ -121,7 +130,7 @@ protected:
     u_int m_uCurrentWeaponType;
     GLToy_Hash m_uOwnerEntityHash;
 
-    GLToy_Array < FPSToy_WeaponType* > m_xWeaponTypes;
+    GLToy_Array < const FPSToy_WeaponType* > m_xWeaponTypes;
 
 };
 
@@ -130,20 +139,23 @@ class FPSToy_WeaponInventory
 
 public:
 
-    FPSToy_WeaponInventory()
-    : m_uCurrentWeapon( 0 )
+    FPSToy_WeaponInventory( const GLToy_Hash uOwnerEntityHash = uGLTOY_BAD_HASH )
+	: m_uOwnerEntityHash( uOwnerEntityHash )
+    , m_uCurrentWeapon( 0 )
     , m_xWeapons()
+	, m_xAmmo()
     {
     }
 
-    void AddWeapon( const GLToy_Hash uWeaponTypeHash );
-    void AddAmmo( const GLToy_Hash uAmmoTypeHash );
+    bool AddWeapon( const GLToy_Hash uWeaponHash );
+    bool AddAmmo( const GLToy_Hash uAmmoTypeHash );
+
+	bool HasWeapons() const { return m_xWeapons.GetCount() > 0; }
 
     GLToy_Inline void FireCurrent( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection )
     {
-        if( m_xWeapons.GetCount() > 0 )
+        if( HasWeapons() )
         {
-            
            m_xWeapons[ m_uCurrentWeapon ].Fire( xPosition, xDirection );
         }
     }
@@ -158,10 +170,18 @@ public:
         m_uCurrentWeapon = ( m_uCurrentWeapon == 0 ) ? m_xWeapons.GetCount() - 1 : m_uCurrentWeapon - 1;
     }
 
+	GLToy_Inline void Reset()
+	{
+		m_xWeapons.Clear();
+		m_xAmmo.Clear();
+	}
+
 protected:
 
+	GLToy_Hash m_uOwnerEntityHash;
     u_int m_uCurrentWeapon;
     GLToy_Array< FPSToy_Weapon > m_xWeapons;
+	GLToy_HashTree< u_int > m_xAmmo;
 
 };
 

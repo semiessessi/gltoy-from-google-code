@@ -35,6 +35,10 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void FPSToy_WeaponType_Trace::Fire( const GLToy_Hash uOwnerEntityHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection )
+void FPSToy_WeaponType_Trace::Fire( const GLToy_Hash uOwnerEntityHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection ) const
+{
+}
+
+void FPSToy_WeaponType_Trace::SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue )
 {
 }

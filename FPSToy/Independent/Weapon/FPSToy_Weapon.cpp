@@ -19,55 +19,35 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __FPSTOY_ENTITY_ACTOR_H_
-#define __FPSTOY_ENTITY_ACTOR_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parent
-#include <Entity/Model/GLToy_Entity_ModelAnimated.h>
+#include <Core/FPSToy.h>
+
+// This file's header
+#include <Weapon/FPSToy_Weapon.h>
+
+// FPSToy
+#include <Weapon/FPSToy_Weapon_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Physics_Controller;
-
-class FPSToy_AI;
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-class FPSToy_Entity_Actor
-: public GLToy_Entity_ModelAnimated
+void FPSToy_Weapon::AddMode( const GLToy_Hash uWeaponType )
 {
+	const FPSToy_WeaponType* const pxType = FPSToy_Weapon_System::FindWeaponType( uWeaponType );
+	if( !pxType )
+	{
+		return;
+	}
 
-    typedef GLToy_Entity_ModelAnimated GLToy_Parent;
+	m_xWeaponTypes.Append( pxType );
+}
 
-public:
-
-    FPSToy_Entity_Actor( const GLToy_Hash uHash, const u_int uType )
-    : GLToy_Parent( uHash, uType )
-    , m_pxPhysicsController( NULL )
-    , m_pxAI( NULL )
-    {
-    }
-
-    virtual void Render() const;
-    virtual void Update();
-    virtual void Spawn( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation );
-
-    virtual bool HasSpawned() const { return m_pxPhysicsController != NULL; }
-
-
-protected:
-
-    GLToy_Physics_Controller* m_pxPhysicsController;
-    FPSToy_AI* m_pxAI;
-
-};
-
-#endif
+bool FPSToy_WeaponInventory::AddWeapon( const GLToy_Hash uWeaponHash )
+{
+	m_xWeapons.Append( FPSToy_Weapon_System::CreateWeapon( uWeaponHash, m_uOwnerEntityHash ) );
+	return false;
+}

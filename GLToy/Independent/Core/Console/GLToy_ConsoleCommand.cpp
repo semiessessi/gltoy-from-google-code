@@ -34,7 +34,7 @@
 
 bool GLToy_ConsoleCommand::BoolFromParameters( const GLToy_String& szParameterString )
 {
-    return ( szParameterString.GetLength() > 0 ) && ( szParameterString[ 0 ] != L'0' ) && !( szParameterString.BeginsWith( "false" ) );
+    return !szParameterString.MeansFalse();
 }
 
 void GLToy_ConsoleCommand_Bool::Execute( const GLToy_String& szParameterString )

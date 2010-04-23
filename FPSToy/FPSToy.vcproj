@@ -306,6 +306,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Independent\Core\FPSToy_Player.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Independent\Core\FPSToy_Player.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Independent\Core\Project_GLToy.cpp"
 					>
 				</File>
@@ -313,6 +321,10 @@
 			<Filter
 				Name="Weapon"
 				>
+				<File
+					RelativePath=".\Independent\Weapon\FPSToy_Weapon.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\Independent\Weapon\FPSToy_Weapon.h"
 					>
@@ -406,10 +418,6 @@
 					</File>
 					<File
 						RelativePath=".\Independent\Entity\Actor\FPSToy_Entity_Actor.h"
-						>
-					</File>
-					<File
-						RelativePath=".\Independent\Entity\Actor\FPSToy_Entity_Player.h"
 						>
 					</File>
 				</Filter>

@@ -30,11 +30,10 @@
 #include <Core/State/GLToy_State_System.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment_System.h>
-#include <Input/GLToy_Input.h>
-#include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Camera.h>
 
 // FPSToy
+#include <Core/FPSToy_Player.h>
 #include <Damage/FPSToy_Damage_System.h>
 #include <Entity/FPSToy_EntityTypes.h>
 #include <Weapon/FPSToy_Weapon_System.h>
@@ -58,6 +57,9 @@ bool FPSToy::Initialise()
     GLToy::ChangeWindowTitle( "FPSToy" );
     GLToy::ChangeWindowIcon( "Icons/FPSToy_24x24.png" );
 
+	// TODO - something better here
+	FPSToy_Player::Spawn( GLToy_Vector_3( 0.0f, 100.0f, 0.0f ), GLToy_Maths::IdentityMatrix3 );
+
     return true;
 }
 
@@ -69,15 +71,5 @@ void FPSToy::Shutdown()
 
 void FPSToy::Update()
 {
-    static bool s_bMouseDown = false;
-    static bool s_bOldMouseDown = false;
-
-    s_bMouseDown = GLToy_Input_System::IsMouseLeftButtonDown();
-
-    if( !s_bOldMouseDown && s_bMouseDown )
-    {
-        GLToy_Physics_System::TestBox_Console();
-    }
-
-    s_bOldMouseDown = s_bMouseDown;
+	FPSToy_Player::Update();
 }

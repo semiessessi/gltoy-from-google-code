@@ -26,6 +26,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+template < class T > class GLToy_Array;
 template < class T > class GLToy_HashTree;
 
 class FPSToy_AmmoType;
@@ -45,11 +46,17 @@ public:
     static void Shutdown();
 
     static const FPSToy_WeaponType* FindWeaponType( const GLToy_Hash uHash );
+	static FPSToy_Weapon CreateWeapon( const GLToy_Hash uHash, const GLToy_Hash uOwnerHash );
 
 private:
 
+	static bool InitialiseAmmoTypes();
+	static bool InitialiseWeaponTypes();
+	static bool InitialiseWeaponDefinitions();
+
     static GLToy_HashTree< FPSToy_AmmoType* > s_xAmmoTypes;
     static GLToy_HashTree< FPSToy_WeaponType* > s_xWeaponTypes;
+	static GLToy_HashTree< GLToy_Array< GLToy_Hash > > s_xWeaponDefinitions;
 
 };
 

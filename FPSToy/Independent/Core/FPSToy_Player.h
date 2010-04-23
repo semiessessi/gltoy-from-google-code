@@ -19,53 +19,36 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __FPSTOY_ENTITY_PLAYER_H_
-#define __FPSTOY_ENTITY_PLAYER_H_
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// I N C L U D E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-// Parent
-#include <Entity/Actor/FPSToy_Entity_Actor.h>
+#ifndef __FPSTOY_PLAYER_H_
+#define __FPSTOY_PLAYER_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Physics_Controller;
+class GLToy_Matrix_3;
+class GLToy_Vector_3;
 
-class FPSToy_AI;
+class FPSToy_WeaponInventory;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class FPSToy_Entity_Player
-: public FPSToy_Entity_Actor
+class FPSToy_Player
 {
-
-    typedef FPSToy_Entity_Actor GLToy_Parent;
 
 public:
 
-    FPSToy_Entity_Player( const GLToy_Hash uHash, const u_int uType )
-    : GLToy_Parent( uHash, uType )
-    {
-    }
+	static void Spawn( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation );
 
-    virtual void Render() const {}
-    virtual void Update() {}
-    virtual void Spawn( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation );
+	static void Update();
 
-    virtual bool IsPlayer() { return true; }    
-    virtual bool HasSpawned() const { return m_pxPhysicsController != NULL; }
+	static GLToy_Hash GetHash();
 
+private:
 
-protected:
-
-    GLToy_Physics_Controller* m_pxPhysicsController;
-    FPSToy_AI* m_pxAI;
+	static FPSToy_WeaponInventory s_xWeaponInventory;
 
 };
 

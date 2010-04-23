@@ -50,7 +50,8 @@ public:
     {
     }
 
-    virtual void Fire( const GLToy_Hash uOwnerEntityHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection );
+    virtual void Fire( const GLToy_Hash uOwnerEntityHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection ) const;
+	virtual void SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue );
 
     GLToy_Inline float GetRadius() const { return m_fRadius; }
     GLToy_Inline GLToy_Hash GetSpriteHash() const { return m_uSpriteHash; }
