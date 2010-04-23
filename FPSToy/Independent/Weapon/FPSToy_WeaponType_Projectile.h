@@ -43,21 +43,25 @@ public:
 
     FPSToy_WeaponType_Projectile( const GLToy_Hash uHash, const GLToy_Hash uAmmoHash, const u_int uBurstCount = 1 )
     : GLToy_Parent( uHash, uAmmoHash, uBurstCount )
-    , m_fInitialSpeed( 2000.0f )
+    , m_fInitialSpeed( 400.0f )
     , m_fRadius( 0.0f )
     , m_uSpriteHash( uGLTOY_BAD_HASH )
     , m_uFlags( 0 )
     {
+        m_bMaintainSpeed = true;
+        m_bContactDetonation = true;
     }
 
     virtual void Fire( const GLToy_Hash uOwnerEntityHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection ) const;
 	virtual void SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue );
 
+    GLToy_Inline float GetInitialSpeed() const { return m_fInitialSpeed; }
     GLToy_Inline float GetRadius() const { return m_fRadius; }
     GLToy_Inline GLToy_Hash GetSpriteHash() const { return m_uSpriteHash; }
     GLToy_Inline bool GetMaintainSpeed() const { return m_bMaintainSpeed; }
     GLToy_Inline bool GetContactDetonation() const { return m_bContactDetonation; }
 
+    GLToy_Inline void SetInitialSpeed( const float fSpeed ) { m_fInitialSpeed = fSpeed; }
     GLToy_Inline void SetRadius( const float fRadius ) { m_fRadius = fRadius; }
     GLToy_Inline void SetSpriteHash( const GLToy_Hash uHash ) { m_uSpriteHash = uHash; }
     GLToy_Inline void SetMaintainSpeed( const bool bMaintainSpeed ) { m_bMaintainSpeed = bMaintainSpeed; }

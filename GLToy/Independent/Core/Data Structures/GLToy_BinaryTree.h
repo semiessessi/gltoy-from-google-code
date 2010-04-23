@@ -91,6 +91,21 @@ protected:
         }
     }
 
+    GLToy_BinaryTreeNode* FindParentNode( const KeyType xKey )
+    {
+        if( xKey > m_xKey )
+        {
+            return ( m_pxHigher->GetKey() == xKey ) ? this : m_pxHigher->FindParentNode( xKey );
+        }
+
+        if( xKey < m_xKey )
+        {
+            return ( m_pxLower->GetKey() == xKey ) ? this : m_pxLower->FindParentNode( xKey );
+        }
+
+        return NULL;
+    }
+
     GLToy_BinaryTreeNode* FindNode( const KeyType xKey )
     {
         if( xKey > m_xKey )
@@ -139,6 +154,21 @@ protected:
         {
             GLToy_Assert( m_pxHigher != this, "Get ready for a stack overflow, we have a loop in our tree!" );
             m_pxHigher->Traverse( xFunctor );
+        }
+    }
+
+    virtual void TraverseNodes( GLToy_Functor< GLToy_BinaryTreeNode >& xFunctor )
+    {
+        if( m_pxLower )
+        {
+            xFunctor( m_pxLower );
+            m_pxLower->TraverseNodes( xFunctor );
+        }
+
+        if( m_pxHigher )
+        {
+            xFunctor( m_pxHigher );
+            m_pxHigher->TraverseNodes( xFunctor );
         }
     }
 
@@ -245,6 +275,68 @@ public:
     {
         delete m_pxHead;
         m_pxHead = NULL;
+    }
+
+    virtual void Remove( const KeyType xKey )
+    {
+        if( !m_pxHead )
+        {
+            return;
+        }
+
+        GLToy_BinaryTreeNode< DataType, KeyType >* pxNode = NULL;
+        GLToy_BinaryTreeNode< DataType, KeyType >* pxParent = m_pxHead->FindParentNode( xKey );
+
+        if( xKey == m_pxHead->GetKey() )
+        {
+            pxNode = m_pxHead;
+        }
+        else if( pxParent && pxParent->m_pxLower && ( pxParent->m_pxLower->GetKey() == xKey ) )
+        {
+            pxNode = pxParent->m_pxLower;
+            pxParent->m_pxLower = NULL;
+        }
+        else if( pxParent && pxParent->m_pxHigher && ( pxParent->m_pxHigher->GetKey() == xKey ) )
+        {
+            pxNode = pxParent->m_pxHigher;
+            pxParent->m_pxHigher = NULL;
+        }
+
+        if( !pxNode )
+        {
+            return;
+        }
+
+        class AddFunctor
+        : public GLToy_Functor< GLToy_BinaryTreeNode< DataType, KeyType > >
+        {
+
+        public:
+
+            AddFunctor( GLToy_BinaryTree* pxThis )
+            : m_pxThis( pxThis )
+            {
+            }
+
+            virtual void operator()( GLToy_BinaryTreeNode< DataType, KeyType >* const pxNode )
+            {
+                m_pxThis->AddNode( pxNode->GetData(), pxNode->GetKey() );
+            }
+
+        private:
+
+            GLToy_BinaryTree* m_pxThis;
+
+        };
+
+        if( pxNode == m_pxHead )
+        {
+            m_pxHead = NULL;
+        }
+        
+        pxNode->TraverseNodes( AddFunctor( this ) );
+
+        delete pxNode;
     }
 
 protected:

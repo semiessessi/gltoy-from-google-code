@@ -85,6 +85,19 @@ void GLToy_Entity_System::Shutdown()
 void GLToy_Entity_System::Update()
 {
     s_xEntities.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Entity >() );
+
+    // destroy entities as required
+    // TODO - I'm sure this can be optimised...
+    for( u_int u = 0; u < s_xEntities.GetCount(); ++u )
+    {
+        GLToy_Entity* const pxEntity = s_xEntities[ u ];
+        if( pxEntity->IsFlaggedForDestruction() )
+        {
+            s_xEntities.Remove( pxEntity->GetHash() );
+            delete pxEntity;
+            u = 0;
+        }
+    }
 }
 
 void GLToy_Entity_System::Render()
@@ -127,6 +140,20 @@ void GLToy_Entity_System::Traverse( GLToy_ConstFunctor< GLToy_Entity* >& xFuncto
 }
 
 // CreateEntity is at the bottom of the file...
+
+void GLToy_Entity_System::DestroyEntity( const GLToy_Hash uHash )
+{
+    GLToy_Entity* pxEntity = FindEntity( uHash );
+    if( !pxEntity )
+    {
+        return;
+    }
+
+    pxEntity->Destroy();
+
+    //s_xEntities.Remove( uHash );
+    //delete pxEntity;
+}
 
 void GLToy_Entity_System::DestroyEntities()
 {

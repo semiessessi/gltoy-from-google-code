@@ -56,12 +56,14 @@ public:
     virtual void Render() const;
     virtual void Update();
 
+    virtual void Destroy();
+
     virtual void Spawn( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection );
     virtual void Detonate( const GLToy_Hash uVictimEntityHash = uGLTOY_BAD_HASH );
 
     GLToy_Inline void SetWeaponType( const GLToy_Hash uHash ) { m_uWeaponTypeHash = uHash; }
     GLToy_Inline void SetOwner( const GLToy_Hash uHash ) { m_uOwnerEntityHash = uHash; }
-	void SetSprite( const GLToy_Hash uHash );
+	void SetSprite( const GLToy_Hash uHash, const float fRadius );
 
     virtual const FPSToy_WeaponType_Projectile* GetWeaponType() const;
     

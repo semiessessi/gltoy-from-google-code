@@ -607,7 +607,7 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsParticle( const GLToy_H
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-    hkpSphereShape* pxSphere = new hkpSphereShape( fRadius );
+    hkpSphereShape* pxSphere = new hkpSphereShape( fRadius * fHAVOK_SCALE );
     
     hkpRigidBodyCinfo xRigidBodyInfo;
 
@@ -617,7 +617,7 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsParticle( const GLToy_H
 
     xRigidBodyInfo.m_mass = 10.0f;
     hkpMassProperties xMassProperties;
-    hkpInertiaTensorComputer::computeSphereVolumeMassProperties( fRadius, xRigidBodyInfo.m_mass, xMassProperties );
+    hkpInertiaTensorComputer::computeSphereVolumeMassProperties( fRadius * fHAVOK_SCALE, xRigidBodyInfo.m_mass, xMassProperties );
     xRigidBodyInfo.m_inertiaTensor = xMassProperties.m_inertiaTensor;
 
     hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
@@ -646,7 +646,7 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsParticle( const GLToy_H
     return NULL;
 }
 
-GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsProjectile( const GLToy_Hash uHash, const float fRadius, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity )
+GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsSphere( const GLToy_Hash uHash, const float fRadius, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity )
 {
 
     GLToy_Physics_Object* pxPhysicsObject = new GLToy_Physics_Object( uHash );
@@ -654,7 +654,7 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsProjectile( const GLToy
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-    hkpSphereShape* pxSphere = new hkpSphereShape( fRadius );
+    hkpSphereShape* pxSphere = new hkpSphereShape( fRadius * fHAVOK_SCALE );
     
     hkpRigidBodyCinfo xRigidBodyInfo;
 
@@ -664,7 +664,7 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsProjectile( const GLToy
 
     xRigidBodyInfo.m_mass = 10.0f;
     hkpMassProperties xMassProperties;
-    hkpInertiaTensorComputer::computeSphereVolumeMassProperties( fRadius, xRigidBodyInfo.m_mass, xMassProperties );
+    hkpInertiaTensorComputer::computeSphereVolumeMassProperties( fRadius * fHAVOK_SCALE, xRigidBodyInfo.m_mass, xMassProperties );
     xRigidBodyInfo.m_inertiaTensor = xMassProperties.m_inertiaTensor;
 
     hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
@@ -672,9 +672,10 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsProjectile( const GLToy
     g_pxHavokWorld->lock();
     GLToy_Havok_MarkForWrite();
     g_pxHavokWorld->addEntity( pxRigidBody );
-    pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_BULLET );
+    pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_CRITICAL );
     pxRigidBody->setLinearVelocity( hkVector4( xVelocity[ 0 ] * fHAVOK_SCALE, xVelocity[ 1 ] * fHAVOK_SCALE, xVelocity[ 2 ] * fHAVOK_SCALE ) );
     pxRigidBody->setUserData( uHash );
+    pxRigidBody->addContactListener( new GLToy_Havok_PhysicsCollisionListener( pxRigidBody ) );
     GLToy_Havok_UnmarkForWrite();
     g_pxHavokWorld->unlock();
 
@@ -691,6 +692,20 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsProjectile( const GLToy
 
     return pxPhysicsObject;
     return NULL;
+}
+
+void GLToy_Physics_System::DestroyPhysicsObject( const GLToy_Hash uHash )
+{
+    GLToy_Physics_Object* pxObject = FindPhysicsObject( uHash );
+    if( !pxObject )
+    {
+        return;
+    }
+
+    pxObject->Destroy();
+
+    s_xPhysicsObjects.Remove( uHash );
+    delete pxObject;
 }
 
 void GLToy_Physics_System::ResetCollisions()

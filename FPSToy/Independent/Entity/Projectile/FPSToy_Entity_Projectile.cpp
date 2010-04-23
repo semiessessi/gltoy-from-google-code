@@ -29,6 +29,7 @@
 #include <Entity/Projectile/FPSToy_Entity_Projectile.h>
 
 // GLToy
+#include <Entity/GLToy_Entity_System.h>
 #include <Physics/GLToy_Physics_Object.h>
 #include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Sprite.h>
@@ -112,6 +113,17 @@ void FPSToy_Entity_Projectile::Update()
     }
 }
 
+void FPSToy_Entity_Projectile::Destroy()
+{
+    GLToy_Parent::Destroy();
+
+    if( m_pxPhysicsObject )
+    {
+        GLToy_Physics_System::DestroyPhysicsObject( m_pxPhysicsObject->GetHash() );
+        m_pxPhysicsObject = NULL;
+    }
+}
+
 void FPSToy_Entity_Projectile::Spawn( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection )
 {
     const FPSToy_WeaponType_Projectile* const pxProjectileType = GetWeaponType();
@@ -124,15 +136,15 @@ void FPSToy_Entity_Projectile::Spawn( const GLToy_Vector_3& xPosition, const GLT
 
 	GLToy_Vector_3 xVelocity = xDirection;
 	xVelocity.Normalise();
-	xVelocity *= 800.0f; // TODO - something better here
-    m_pxPhysicsObject = GLToy_Physics_System::CreatePhysicsProjectile( GetHash(), pxProjectileType->GetRadius(), xPosition, xVelocity );
-	SetSprite( pxProjectileType->GetSpriteHash() );
+	xVelocity *= pxProjectileType->GetInitialSpeed(); // TODO - something better here
+    m_pxPhysicsObject = GLToy_Physics_System::CreatePhysicsSphere( GetHash(), pxProjectileType->GetRadius(), xPosition, xVelocity );
+	SetSprite( pxProjectileType->GetSpriteHash(), pxProjectileType->GetRadius() );
 }
 
 void FPSToy_Entity_Projectile::Detonate( const GLToy_Hash uVictimEntityHash )
 {
     // TODO - apply damage and forces etc...
-    // Destroy();
+    GLToy_Entity_System::DestroyEntity( GetHash() );
 }
 
 const FPSToy_WeaponType_Projectile* FPSToy_Entity_Projectile::GetWeaponType() const
@@ -140,7 +152,7 @@ const FPSToy_WeaponType_Projectile* FPSToy_Entity_Projectile::GetWeaponType() co
     return static_cast< const FPSToy_WeaponType_Projectile* >( FPSToy_Weapon_System::FindWeaponType( m_uWeaponTypeHash ) );
 }
 
-void FPSToy_Entity_Projectile::SetSprite( const GLToy_Hash uHash )
+void FPSToy_Entity_Projectile::SetSprite( const GLToy_Hash uHash, const float fRadius )
 {
 	delete m_pxSprite;
 	m_pxSprite = 0;
@@ -151,4 +163,5 @@ void FPSToy_Entity_Projectile::SetSprite( const GLToy_Hash uHash )
 
 	m_pxSprite = new GLToy_Sprite();
 	m_pxSprite->SetTexture( uHash );
+    m_pxSprite->SetSize( fRadius );
 }

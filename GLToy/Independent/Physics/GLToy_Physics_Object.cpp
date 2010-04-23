@@ -140,3 +140,26 @@ GLToy_Vector_3 GLToy_Physics_Object::GetPosition() const
 #endif
 
 }
+
+void GLToy_Physics_Object::Destroy()
+{
+
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+
+    if( !m_pxHavokRigidBody )
+    {
+		return;
+    }
+
+    GLToy_Physics_System::GetHavokWorld()->lockAll();
+    GLToy_Havok_MarkForWrite();
+
+    GLToy_Physics_System::GetHavokWorld()->removeEntity( m_pxHavokRigidBody );
+    m_pxHavokRigidBody = NULL;
+
+    GLToy_Havok_UnmarkForWrite();
+    GLToy_Physics_System::GetHavokWorld()->unlockAll();
+
+#endif
+
+}

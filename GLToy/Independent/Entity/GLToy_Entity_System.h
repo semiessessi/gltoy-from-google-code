@@ -63,6 +63,7 @@ public:
     static void Traverse( GLToy_ConstFunctor< GLToy_Entity* >& xFunctor );
 
     static GLToy_Entity* CreateEntity( const GLToy_Hash uHash, const u_int uType );
+    static void DestroyEntity( const GLToy_Hash uHash );
     static void DestroyEntities();
 
     static void LoadEntityFile( const GLToy_String& szName );
