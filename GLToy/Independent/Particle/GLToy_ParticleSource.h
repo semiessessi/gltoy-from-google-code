@@ -50,8 +50,7 @@ struct GLToy_ParticleSourceProperties
 
     GLToy_Vector_3 m_xPosition;
     float m_fReleaseRate;
-    
-    GLToy_ParticleProperties m_xParticleProperties;
+    GLToy_Hash m_uParticleHash;
 
 };
 
@@ -63,7 +62,7 @@ class GLToy_ParticleSource
 public:
 
     GLToy_ParticleSource( const GLToy_ParticleSourceProperties& xProperties )
-    : m_xParticleProperties( xProperties.m_xParticleProperties )
+    : m_xParticleProperties()
     , m_fReleaseRate( 1.0f )
     , m_fReleaseTimer( 0.0f )
     , m_xParticles()

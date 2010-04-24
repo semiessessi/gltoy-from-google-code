@@ -26,8 +26,12 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+template< class T > class GLToy_HashTree;
 template< class T > class GLToy_List;
 class GLToy_PFX;
+class GLToy_PFXProperties;
+struct GLToy_ParticleProperties;
+struct GLToy_ParticleSourceProperties;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
@@ -54,7 +58,14 @@ public:
 
 private:
 
+    static bool InitialisePFXProperties();
+    static bool InitialiseSourceProperties();
+    static bool InitialiseParticleProperties();
+
     static GLToy_List< GLToy_PFX* > s_xPFX;
+    static GLToy_HashTree< GLToy_PFXProperties > s_xPFXProperties;
+    static GLToy_HashTree< GLToy_ParticleSourceProperties > s_xSourceProperties;
+    static GLToy_HashTree< GLToy_ParticleProperties > s_xParticleProperties;
 
 };
 

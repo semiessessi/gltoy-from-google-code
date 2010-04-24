@@ -39,7 +39,10 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef GLToy_Array< GLToy_ParticleSourceProperties > GLToy_PFXProperties;
+class GLToy_PFXProperties
+: public GLToy_Array< GLToy_Hash >
+{
+};
 
 class GLToy_PFX
 : public GLToy_Renderable

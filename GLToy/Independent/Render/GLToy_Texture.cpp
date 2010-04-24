@@ -135,7 +135,8 @@ bool GLToy_Texture_System::Initialise()
         GLToy_String szName = xIterator.Current();
         szName.RemoveAt( 0, 9 ); // remove "textures/"
         
-        GLToy_DebugOutput( "   - Found texture \"%S\".\r\n", szName.GetWideString() );
+        // this got annoying...
+        // GLToy_DebugOutput( "   - Found texture \"%S\".\r\n", szName.GetWideString() );
 
         s_xTextures.AddNode( GLToy_Texture( szName ), szName.GetHash() );
     }

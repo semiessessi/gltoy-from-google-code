@@ -65,7 +65,6 @@ void FPSToy_Player::Update()
     {
 		// TODO: something better than magic numbers here...
 		s_xWeaponInventory.FireCurrent( GLToy_Camera::GetPosition() + GLToy_Camera::GetDirection() * 64.0f, GLToy_Camera::GetDirection() );
-        //GLToy_Physics_System::TestBox_Console();
     }
     s_bOldMouseDown = bMouseDown;
 }
