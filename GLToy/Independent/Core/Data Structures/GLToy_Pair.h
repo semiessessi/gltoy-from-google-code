@@ -19,40 +19,36 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-// I N C L U D E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-#include <Core/GLToy.h>
-
-// This file's header
-#include <String/GLToy_String.h>
-
-// C/C++
-#include <stdio.h>
+#ifndef __GLTOY_PAIR_H_
+#define __GLTOY_PAIR_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_String::SetToFormatString( const GLToy_String szFormatString, ... )
+template < class T, class U = T >
+class GLToy_Pair
 {
-    va_list xArgumentList;
 
-    va_start( xArgumentList, szFormatString );
+public:
 
-    int iLength = _vscwprintf( szFormatString.GetWideString(), xArgumentList ) + 1;
-    Resize( static_cast< u_int >( iLength ) );
+    GLToy_Pair( const T& xFirst = T(), const U& xSecond = U() )
+    : m_xFirst( xFirst )
+    , m_xSecond( xSecond )
+    {
+    }
 
-    vswprintf( GetWideString(), iLength, szFormatString.GetWideString(), xArgumentList );
+    T& First() { return m_xFirst; }
+    const T& First() const { return m_xFirst; }
 
-    va_end( xArgumentList );
-}
+    U& Second() { return m_xSecond; }
+    const U& Second() const { return m_xSecond; }
 
-void GLToy_String::SetToFormatString( const GLToy_String& szFormatString, const va_list& xArgumentList )
-{
-    int iLength = _vscwprintf( szFormatString.GetWideString(), xArgumentList ) + 1;
-    Resize( static_cast< u_int >( iLength ) );
+protected:
 
-    vswprintf( GetWideString(), iLength, szFormatString.GetWideString(), xArgumentList );
-}
+    T m_xFirst;
+    U m_xSecond;
+
+};
+
+#endif

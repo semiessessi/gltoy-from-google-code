@@ -77,6 +77,7 @@ bool _GLToy_Assert( const bool& bCondition, const char* szFileName, const int& u
         sprintf( szAssertMessage, "Assertion failed in %s: %s", szAssertTitle, szAssertMessageBuffer );
 
         GLToy_DebugOutput_Release( szAssertMessage );
+        GLToy_DebugOutput_Release( "\r\n" );
 
         // output to UI and offer the user a choice to break or not
         return Platform_GLToy_Assert( szAssertTitle, szAssertMessage );

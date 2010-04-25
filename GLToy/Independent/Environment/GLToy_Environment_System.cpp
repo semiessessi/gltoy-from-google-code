@@ -154,10 +154,11 @@ void GLToy_Environment_System::LoadEnvironmentFile( const GLToy_String& szName )
         bNative = false;
     }
 
-    ( *ppxEnvFile )->LoadEnvironment();
-
     GLToy_Entity_System::DestroyEntities();
 
+    ( *ppxEnvFile )->LoadEnvironment();
+
+    // don't do this for .bsp or we stomp the entities in them
     if( bNative )
     {
         // try loading entities that match environment

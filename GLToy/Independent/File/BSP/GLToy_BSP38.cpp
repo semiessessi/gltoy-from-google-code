@@ -36,6 +36,8 @@
 #include <File/GLToy_EnvironmentFile.h>
 
 // GLToy
+#include <Core/Data Structures/GLToy_Pair.h>
+#include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment.h>
 #include <Environment/GLToy_Environment_Lightmapped.h>
 #include <Environment/GLToy_Environment_System.h>
@@ -45,6 +47,7 @@
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+static const u_int uBSP38_LUMP_ENTITIES = 0;
 static const u_int uBSP38_LUMP_PLANES = 1;
 static const u_int uBSP38_LUMP_VERTICES = 2;
 static const u_int uBSP38_LUMP_VIS = 3;
@@ -766,6 +769,61 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         pxEnv->m_xBrushes[ u ].m_bSolid = ( xBrushes[ u ].m_uFlags & uBSP38_BRUSHFLAGS_SOLID ) != 0;
         pxEnv->m_xBrushes[ u ].m_bPlayerClip = ( xBrushes[ u ].m_uFlags & uBSP38_BRUSHFLAGS_PLAYERCLIP ) != 0;
         pxEnv->m_xBrushes[ u ].m_bAIClip = ( xBrushes[ u ].m_uFlags & uBSP38_BRUSHFLAGS_AICLIP ) != 0;
+    }
+
+    // entities...
+    char* pcBuffer = new char[ xLumps.m_axLumps[ uBSP38_LUMP_ENTITIES ].m_uSize + 1 ];
+    xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_ENTITIES ].m_uOffset );
+    xStream.ByteAlignedWrite( pcBuffer, xLumps.m_axLumps[ uBSP38_LUMP_ENTITIES ].m_uSize );
+    pcBuffer[ xLumps.m_axLumps[ uBSP38_LUMP_ENTITIES ].m_uSize ] = 0;
+    GLToy_String szEntityData = pcBuffer;
+    delete[] pcBuffer;
+    
+    // first split the data up per entity
+    GLToy_Array< GLToy_String > xEntityStrings = szEntityData.Split( L'}' );
+    GLToy_Iterate( GLToy_String, xIterator, &xEntityStrings )
+    {
+        xIterator.Current().TrimLeadingWhiteSpace();
+        xIterator.Current().RemoveAt( 0 );
+    }
+
+    // then for each value the entities have
+    GLToy_Array< GLToy_Array< GLToy_String > > xEntityValues;
+    xEntityValues.Resize( xEntityStrings.GetCount() );
+    GLToy_ConstIterate( GLToy_String, xIterator, &xEntityStrings )
+    {
+        xEntityValues[ xIterator.Index() ] = xIterator.Current().Split( '"' );
+    }
+
+    GLToy_Array< GLToy_Array< GLToy_Pair< GLToy_String > > > xKeyValuePairs;
+    xKeyValuePairs.Resize( xEntityStrings.GetCount() );
+    GLToy_ConstIterate( GLToy_Array< GLToy_String >, xIterator, &xEntityValues )
+    {
+        bool bFirst = true;
+        GLToy_ConstIterate( GLToy_String, xStringIterator, &( xIterator.Current() ) )
+        {
+            if( !( xStringIterator.Current().IsWhiteSpace() || xStringIterator.Current().IsEmpty() ) )
+            {
+                if( bFirst )
+                {
+                    xKeyValuePairs[ xIterator.Index() ].Append( GLToy_Pair< GLToy_String >( xStringIterator.Current() ) );
+                }
+                else
+                {
+                    xKeyValuePairs[ xIterator.Index() ].End().Second() = xStringIterator.Current();
+                }
+
+                bFirst = !bFirst;
+            }
+        }
+
+        GLToy_Assert( bFirst, "The number of keys and values is not the same for entity %d!", xIterator.Index() )
+    }
+
+    // finally, create the entities
+    GLToy_ConstIterate( GLToy_Array< GLToy_Pair< GLToy_String > >, xIterator, &xKeyValuePairs )
+    {
+        GLToy_Entity_System::CreateEntity( xIterator.Current() );
     }
 
     GLToy_DebugOutput_Release( "Loaded BSP v38 (Quake 2/Kingpin) environment file \"%S\" successfully", m_szFilename.GetWideString() );

@@ -119,14 +119,20 @@ public:
     
     virtual void RemoveAt( const int iIndex, const u_int uAmount = 1 )
     {
-        m_uCount -= uAmount;
+        u_int uActualAmount = uAmount;
+        if( uAmount > m_uCount )
+        {
+            uActualAmount = m_uCount;
+        }
+
+        m_uCount -= uActualAmount;
         for( u_int i = iIndex; i < m_uCount; ++i )
         {
-            m_pxData[ i ] = m_pxData[ i + uAmount ];
+            m_pxData[ i ] = m_pxData[ i + uActualAmount ];
         }
 
         // be careful to destroy the now unused entries
-        for( u_int u = m_uCount; u < m_uCount + uAmount; ++u )
+        for( u_int u = m_uCount; u < m_uCount + uActualAmount; ++u )
         {
             m_pxData[ u ].~T();
         }
@@ -134,10 +140,16 @@ public:
     
     virtual void RemoveFromEnd( const u_int uAmount = 1 )
     {
-        m_uCount -= uAmount;
+        u_int uActualAmount = uAmount;
+        if( uAmount > m_uCount )
+        {
+            uActualAmount = m_uCount;
+        }
+
+        m_uCount -= uActualAmount;
 
         // be careful to destroy the now unused entries
-        for( u_int u = m_uCount; u < m_uCount + uAmount; ++u )
+        for( u_int u = m_uCount; u < m_uCount + uActualAmount; ++u )
         {
             m_pxData[ u ].~T();
         }

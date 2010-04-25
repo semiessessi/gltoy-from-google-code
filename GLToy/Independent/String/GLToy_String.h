@@ -223,6 +223,11 @@ public:
 
     GLToy_Inline GLToy_String RemoveUpTo( const wchar_t wcChar )
     {
+        if( IsEmpty() )
+        {
+            return "";
+        }
+
         GLToy_String xReturnValue;
         u_int u = 0;
         while( ( m_pxData[ u ] != wcChar ) && m_pxData[ u ] )
@@ -268,12 +273,18 @@ public:
         return xReturnValue;
     }
 
-    GLToy_Array< GLToy_String > Split( const wchar_t wcSplitter )
+    GLToy_Array< GLToy_String > Split( const wchar_t wcSplitter ) const
     {
-        GLToy_String szWorkingString( *this );
         GLToy_Array< GLToy_String > xReturnValue;
 
-        while( szWorkingString.GetLength() > 0 )
+        if( IsEmpty() )
+        {
+            return xReturnValue;
+        }
+
+        GLToy_String szWorkingString( *this );
+
+        while( !szWorkingString.IsEmpty() )
         {
             xReturnValue.Append( szWorkingString.RemoveUpTo( wcSplitter ) );
 
@@ -281,6 +292,12 @@ public:
             {
                 szWorkingString.RemoveAt( 0 );
             }
+        }
+
+        // remove crap from end if there is any...
+        while( ( xReturnValue.GetCount() > 0 ) && xReturnValue.End().IsEmpty() )
+        {
+            xReturnValue.RemoveFromEnd();
         }
 
         return xReturnValue;
@@ -306,9 +323,47 @@ public:
 			|| ( ( *this ) == "0" );
 	}
 
+    GLToy_Inline bool IsEmpty() const
+    {
+        return GetCount() < 2;
+    }
+
+    GLToy_Inline bool IsWhiteSpace() const
+    {
+        for( u_int u = 0; u < GetLength(); ++u )
+        {
+            if( !IsWhiteSpace( m_pxData[ u ] ) )
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    GLToy_Inline void TrimLeadingWhiteSpace()
+    {
+        while( IsWhiteSpace( m_pxData[ 0 ] ) )
+        {
+            RemoveAt( 0 );
+        }
+    }
+
+    GLToy_Inline void RemoveWhiteSpace()
+    {
+        for( u_int u = 0; u < GetLength(); ++u )
+        {
+            if( IsWhiteSpace( m_pxData[ u ] ) )
+            {
+                RemoveAt( u );
+                --u;
+            }
+        }
+    }
+
     // TODO - can't pass by reference due to va_args - I'm sure there is a portable way around it though
     void SetToFormatString( const GLToy_String szFormatString, ... );
-    void SetToFormatString( const GLToy_String szFormatString, const va_list& xArgumentList );
+    void SetToFormatString( const GLToy_String& szFormatString, const va_list& xArgumentList );
 
 protected:
 
@@ -336,6 +391,25 @@ protected:
             case L'7':
             case L'8':
             case L'9':
+            {
+                return true;
+            }
+        }
+    }
+
+    GLToy_Inline bool IsWhiteSpace( const wchar_t wcChar ) const
+    {
+        switch( wcChar )
+        {
+            default:
+            {
+                return false;
+            }
+
+            case L' ':
+            case L'\r':
+            case L'\n':
+            case L'\t':
             {
                 return true;
             }

@@ -430,6 +430,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Independent\Core\Data Structures\GLToy_Pair.h"
+						>
+					</File>
+					<File
 						RelativePath=".\Independent\Core\Data Structures\GLToy_Stack.h"
 						>
 					</File>

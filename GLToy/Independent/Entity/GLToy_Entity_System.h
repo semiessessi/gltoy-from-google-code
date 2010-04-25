@@ -27,6 +27,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // GLToy
+#include <Core/Data Structures/GLToy_Pair.h>
 #include <Core/GLToy_Hash.h>
 #include <Entity/GLToy_EntityTypes.h>
 #include <String/GLToy_String.h>
@@ -63,6 +64,7 @@ public:
     static void Traverse( GLToy_ConstFunctor< GLToy_Entity* >& xFunctor );
 
     static GLToy_Entity* CreateEntity( const GLToy_Hash uHash, const u_int uType );
+    static GLToy_Entity* CreateEntity( const GLToy_Array< GLToy_Pair< GLToy_String > >& xKeyValuePairs );
     static void DestroyEntity( const GLToy_Hash uHash );
     static void DestroyEntities();
 

@@ -281,3 +281,38 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Hash uHash, const u
 
     return pxNewEntity;
 }
+
+GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Array< GLToy_Pair< GLToy_String > >& xKeyValuePairs )
+{
+    if( xKeyValuePairs.GetCount() == 0 )
+    {
+        return NULL;
+    }
+
+    // build a hash tree for convenient lookups
+    GLToy_HashTree< GLToy_String > xValueTree;
+    GLToy_ConstIterate( GLToy_Pair< GLToy_String >, xIterator, &xKeyValuePairs )
+    {
+        xValueTree.AddNode( xIterator.Current().Second(), xIterator.Current().First().GetHash() );
+    }
+
+    // find the entity class
+    const GLToy_String* pszClass = xValueTree.FindData( GLToy_Hash_Constant( "classname" ) );
+
+    if( !pszClass )
+    {
+        GLToy_DebugOutput_Release( "Warning: Entity has no classification!\r\n" );
+        return NULL;
+    }
+
+    if( *pszClass == "worldspawn" )
+    {
+        // .. do nothing for now, maybe extract the environment name and gravity somehow?
+    }
+    else
+    {
+        GLToy_DebugOutput_Release( "Warning: GLToy does not support \"%S\" entities from BSP files\r\n", pszClass->GetWideString() );
+    }
+
+    return NULL;
+}
