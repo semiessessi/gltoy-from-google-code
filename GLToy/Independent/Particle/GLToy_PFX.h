@@ -60,6 +60,12 @@ public:
     virtual void Render() const;
     virtual void Update();
 
+    virtual void AddSource( GLToy_ParticleSource* const pxSource ) { m_xSources.Append( pxSource ); }
+
+    GLToy_Inline GLToy_Hash GetHash() const { return m_uHash; }
+
+protected:
+
     GLToy_Hash m_uHash;
 
     GLToy_List< GLToy_ParticleSource* > m_xSources;

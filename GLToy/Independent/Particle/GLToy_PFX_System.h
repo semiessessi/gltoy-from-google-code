@@ -27,17 +27,11 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template< class T > class GLToy_HashTree;
-template< class T > class GLToy_List;
+class GLToy_Particle;
 class GLToy_PFX;
 class GLToy_PFXProperties;
 struct GLToy_ParticleProperties;
 struct GLToy_ParticleSourceProperties;
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// C O N S T A N T S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-const u_int uGLTOY_BAD_PFXID = 0xFFFFFFFF;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -54,7 +48,9 @@ public:
     static void Render();
     static void Update();
 
-    static u_int CreatePFX( const GLToy_Hash uHash );
+    static GLToy_PFX* CreatePFX( const GLToy_Hash uHash );
+    static GLToy_Particle* CreateParticle( const GLToy_Hash uHash );
+    static void DestroyPFX( const GLToy_Hash uPFXHash );
 
 private:
 
@@ -62,7 +58,7 @@ private:
     static bool InitialiseSourceProperties();
     static bool InitialiseParticleProperties();
 
-    static GLToy_List< GLToy_PFX* > s_xPFX;
+    static GLToy_HashTree< GLToy_PFX* > s_xPFX;
     static GLToy_HashTree< GLToy_PFXProperties > s_xPFXProperties;
     static GLToy_HashTree< GLToy_ParticleSourceProperties > s_xSourceProperties;
     static GLToy_HashTree< GLToy_ParticleProperties > s_xParticleProperties;

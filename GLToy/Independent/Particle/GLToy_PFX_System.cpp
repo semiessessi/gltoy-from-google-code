@@ -43,7 +43,7 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_List< GLToy_PFX* > GLToy_PFX_System::s_xPFX;
+GLToy_HashTree< GLToy_PFX* > GLToy_PFX_System::s_xPFX;
 GLToy_HashTree< GLToy_PFXProperties > GLToy_PFX_System::s_xPFXProperties;
 GLToy_HashTree< GLToy_ParticleSourceProperties > GLToy_PFX_System::s_xSourceProperties;
 GLToy_HashTree< GLToy_ParticleProperties > GLToy_PFX_System::s_xParticleProperties;
@@ -88,9 +88,56 @@ void GLToy_PFX_System::Update()
     s_xPFX.Traverse( GLToy_PointerUpdateFunctor< GLToy_PFX* >() );
 }
 
-u_int GLToy_PFX_System::CreatePFX( const GLToy_Hash uHash )
+GLToy_PFX* GLToy_PFX_System::CreatePFX( const GLToy_Hash uHash )
 {
-    return uGLTOY_BAD_PFXID;
+    const GLToy_PFXProperties* const pxProperties = s_xPFXProperties.FindData( uHash );
+    if( !pxProperties )
+    {
+        return NULL;
+    }
+
+    static u_int uCount = 0;
+    ++uCount;
+    GLToy_String szName;
+    szName.SetToFormatString( "PFX%d", uCount );
+
+    GLToy_PFX* const pxPFX = new GLToy_PFX( szName.GetHash() );
+
+    // create sources
+    GLToy_ConstIterate( GLToy_Hash, xIterator, pxProperties )
+    {
+        const GLToy_ParticleSourceProperties* const pxSourceProperties = s_xSourceProperties.FindData( xIterator.Current() );
+        if( pxSourceProperties )
+        {
+            GLToy_ParticleSource* const pxSource = new GLToy_ParticleSource( *pxSourceProperties );
+            pxPFX->AddSource( pxSource );
+        }
+    }
+
+    s_xPFX.AddNode( pxPFX, pxPFX->GetHash() );
+
+    return pxPFX;
+}
+
+GLToy_Particle* GLToy_PFX_System::CreateParticle( const GLToy_Hash uHash )
+{
+    const GLToy_ParticleProperties* const pxProperties = s_xParticleProperties.FindData( uHash );
+    if( !pxProperties )
+    {
+        return NULL;
+    }
+
+    return new GLToy_Particle( *pxProperties );
+}
+
+void GLToy_PFX_System::DestroyPFX( const GLToy_Hash uPFXHash )
+{
+    GLToy_PFX** ppxPFX = s_xPFX.FindData( uPFXHash );
+    if( ppxPFX )
+    {
+        s_xPFX.Remove( uPFXHash );
+        delete *ppxPFX;
+    }
 }
 
 bool GLToy_PFX_System::InitialisePFXProperties()
@@ -215,10 +262,15 @@ bool GLToy_PFX_System::InitialiseParticleProperties()
                     szKey.RemoveAt( 0 );
                 }
 
-                //if( szKey == "NewSource" )
-                //{
-                //    xParticleProperties.Append( szValue.GetHash() );
-                //}
+                if( szKey == "Texture" )
+                {
+                    xParticleProperties.m_uTextureHash = szValue.GetHash();
+                }
+                else if( szKey == "Lifetime" )
+                {
+                    // TODO - float
+                    xParticleProperties.m_fLifetime = static_cast< float >( szValue.ExtractUnsignedInt() );
+                }
             }
         }
 

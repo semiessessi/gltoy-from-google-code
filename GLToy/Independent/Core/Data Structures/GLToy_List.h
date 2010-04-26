@@ -261,9 +261,29 @@ public:
             return;
         }
 
-        GLToy_ListNode< T >* pxNode = &GetNode( uIndex );
-        GetNode( uIndex - 1 ).m_pxTail = pxNode->m_pxTail;
-        delete pxNode;
+        if( uIndex == 0 )
+        {
+            GLToy_ListNode< T >* pxNode = m_xData.m_pxTail;
+            if( !pxNode )
+            {
+                m_bEmpty = true;
+            }
+            else
+            {
+                m_xData = *pxNode;
+                delete pxNode;
+            }
+
+            return;
+        }
+
+        GLToy_ListNode< T >* pxParentNode = &GetNode( uIndex - 1 );
+        GLToy_ListNode< T >* pxNode = pxParentNode->m_pxTail;
+        if( pxNode )
+        {
+            pxParentNode->m_pxTail = pxNode->m_pxTail;
+            delete pxNode;
+        }
     }
 
     void DeleteAll()
