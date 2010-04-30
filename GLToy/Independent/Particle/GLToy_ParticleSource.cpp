@@ -82,13 +82,13 @@ void GLToy_ParticleSource::Update()
     if( IsEmitting() )
     {
         // release a particle if we can
-        m_fReleaseTimer += GLToy_Timer::GetFrameTime();
+        m_fReleaseTimer += fFrameTime;
         if( ( m_fReleaseTimer > m_fReleaseRate ) && ( m_xParticles.GetCount() < uMAX_PARTICLES_PER_SOURCE ) )
         {
             const u_int uCount = static_cast< u_int >( GLToy_Maths::Floor( m_fReleaseTimer / m_fReleaseRate ) );
             for( u_int u = 0; u < uCount; ++u )
             {
-			    m_xParticles.Append( new GLToy_Particle( m_xParticleProperties, m_pxParent->GetPosition() ) );
+			    m_xParticles.Append( new GLToy_Particle( m_xParticleProperties, m_pxParent->GetPosition() + m_xParticleProperties.m_xVelocity * m_fReleaseRate * static_cast< float >( u ) ) );
             }
 
             m_fReleaseTimer -= static_cast< float >( uCount ) * m_fReleaseRate;

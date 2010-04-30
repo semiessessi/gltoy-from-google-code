@@ -57,4 +57,6 @@ void GLToy_Particle::Update()
     const float fFrameTime = GLToy_Timer::GetFrameTime();
     m_fLifetime -= fFrameTime;
     SetPosition( GetPosition() + m_xVelocity * fFrameTime );
+    SetSize( m_fGrowthRate * fFrameTime + GetSize() );
+    SetAlphaMultiplier( GLToy_Maths::Min( 1.0f, ( m_fLifetime - m_fFadeTime ) / m_fFadeTime ) );
 }

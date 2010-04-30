@@ -1,3 +1,5 @@
 Texture=Sprites/PFX/Smoke1.png
 Size=16
 Lifetime=3
+GrowthRate=32
+FadeTime=1

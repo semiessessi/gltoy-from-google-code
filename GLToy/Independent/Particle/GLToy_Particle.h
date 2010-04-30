@@ -45,6 +45,8 @@ struct GLToy_ParticleProperties
     , m_xVelocity( GLToy_Vector_3( 0.0f, 32.0f, 0.0f ) )
     , m_fSize( 4.0f )
     , m_fLifetime( 3.0f )
+    , m_fGrowthRate( 0.0f )
+    , m_fFadeTime( 0.5f )
     , m_uTextureHash( uGLTOY_BAD_HASH )
     {
     }
@@ -53,6 +55,8 @@ struct GLToy_ParticleProperties
     GLToy_Vector_3 m_xVelocity;
     float m_fSize;
     float m_fLifetime;
+    float m_fGrowthRate;
+    float m_fFadeTime;
     GLToy_Hash m_uTextureHash;
 
 };
@@ -70,6 +74,8 @@ public:
     : GLToy_Parent()
     , m_xVelocity( xProperties.m_xVelocity )
     , m_fLifetime( xProperties.m_fLifetime )
+    , m_fGrowthRate( xProperties.m_fGrowthRate )
+    , m_fFadeTime( xProperties.m_fFadeTime )
     {
         SetPosition( xPosition + xProperties.m_xPosition );
         SetSize( xProperties.m_fSize );
@@ -88,6 +94,8 @@ public:
 
     GLToy_Vector_3 m_xVelocity;
     float m_fLifetime;
+    float m_fGrowthRate;
+    float m_fFadeTime;
 
 };
 

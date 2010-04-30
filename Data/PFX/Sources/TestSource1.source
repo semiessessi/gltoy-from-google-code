@@ -1,2 +1,3 @@
 Particle=TestParticle
-ReleaseRate=3
+ReleaseRate=4
+Lifetime=2

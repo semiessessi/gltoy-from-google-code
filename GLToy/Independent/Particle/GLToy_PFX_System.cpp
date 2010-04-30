@@ -298,6 +298,16 @@ bool GLToy_PFX_System::InitialiseParticleProperties()
                     // TODO - float
                     xParticleProperties.m_fLifetime = static_cast< float >( szValue.ExtractUnsignedInt() );
                 }
+                else if( szKey == "GrowthRate" )
+                {
+                    // TODO - float
+                    xParticleProperties.m_fGrowthRate = static_cast< float >( szValue.ExtractUnsignedInt() );
+                }
+                else if( szKey == "FadeTime" )
+                {
+                    // TODO - float
+                    xParticleProperties.m_fFadeTime = static_cast< float >( szValue.ExtractUnsignedInt() );
+                }
             }
         }
 

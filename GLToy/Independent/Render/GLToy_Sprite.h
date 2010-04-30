@@ -64,6 +64,7 @@ public:
     , m_fSize( 1.0f )
     , m_ucBlendFunc( 0 )
     , m_uTextureHash( uGLTOY_BAD_HASH )
+    , m_fMultiplier( 1.0f )
     {
     }
 
@@ -84,13 +85,16 @@ public:
     void SetBlendFunction( const u_char ucBlendFunc ) { m_ucBlendFunc = ucBlendFunc; }
     void SetTexture( const GLToy_Hash uHash );
     void SetTexture( const GLToy_String& szName );
+    
+    void SetAlphaMultiplier( const float fMultiplier ) { m_fMultiplier = fMultiplier; }
 
 protected:
 
     GLToy_Vector_3  m_xPosition;
     float m_fSize;
     u_char m_ucBlendFunc;
-    u_int  m_uTextureHash;
+    u_int m_uTextureHash;
+    float m_fMultiplier;
 
 };
 
