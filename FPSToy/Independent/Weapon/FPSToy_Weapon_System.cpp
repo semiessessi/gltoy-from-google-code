@@ -89,7 +89,7 @@ FPSToy_Weapon FPSToy_Weapon_System::CreateWeapon( const GLToy_Hash uHash, const 
 {
 	FPSToy_Weapon xReturnValue( uOwnerHash );
 
-	const GLToy_Array< GLToy_Hash >* pxDefinition = s_xWeaponDefinitions.FindData( uHash );
+	const GLToy_Array< GLToy_Hash >* const pxDefinition = s_xWeaponDefinitions.FindData( uHash );
 
 	if( pxDefinition )
 	{
@@ -163,7 +163,7 @@ bool FPSToy_Weapon_System::InitialiseWeaponDefinitions()
 
 		s_xWeaponDefinitions.AddNode( GLToy_Array< GLToy_Hash >(), szName.GetHash() );
 
-		GLToy_Array< GLToy_Hash >* pxDefinition = s_xWeaponDefinitions.FindData( szName.GetHash() );
+		GLToy_Array< GLToy_Hash >* const pxDefinition = s_xWeaponDefinitions.FindData( szName.GetHash() );
 		if( !pxDefinition )
 		{
 			GLToy_Assert( pxDefinition != NULL, "Somehow failed to find weapon definition immediately after creating it!" );
