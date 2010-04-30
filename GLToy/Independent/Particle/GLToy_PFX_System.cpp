@@ -33,7 +33,6 @@
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <File/GLToy_ANSITextFile.h>
 #include <File/GLToy_File_System.h>
-#include <Particle/GLToy_Particle.h>
 #include <Particle/GLToy_ParticleSource.h>
 #include <Particle/GLToy_PFX.h>
 #include <Render/GLToy_RenderFunctor.h>
@@ -88,7 +87,7 @@ void GLToy_PFX_System::Update()
     s_xPFX.Traverse( GLToy_PointerUpdateFunctor< GLToy_PFX* >() );
 }
 
-GLToy_PFX* GLToy_PFX_System::CreatePFX( const GLToy_Hash uHash )
+GLToy_PFX* GLToy_PFX_System::CreatePFX( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition )
 {
     const GLToy_PFXProperties* const pxProperties = s_xPFXProperties.FindData( uHash );
     if( !pxProperties )
@@ -101,7 +100,7 @@ GLToy_PFX* GLToy_PFX_System::CreatePFX( const GLToy_Hash uHash )
     GLToy_String szName;
     szName.SetToFormatString( "PFX%d", uCount );
 
-    GLToy_PFX* const pxPFX = new GLToy_PFX( szName.GetHash() );
+    GLToy_PFX* const pxPFX = new GLToy_PFX( szName.GetHash(), xPosition );
 
     // create sources
     GLToy_ConstIterate( GLToy_Hash, xIterator, pxProperties )
@@ -109,7 +108,7 @@ GLToy_PFX* GLToy_PFX_System::CreatePFX( const GLToy_Hash uHash )
         const GLToy_ParticleSourceProperties* const pxSourceProperties = s_xSourceProperties.FindData( xIterator.Current() );
         if( pxSourceProperties )
         {
-            GLToy_ParticleSource* const pxSource = new GLToy_ParticleSource( *pxSourceProperties );
+            GLToy_ParticleSource* const pxSource = new GLToy_ParticleSource( *pxSourceProperties, pxPFX );
             pxPFX->AddSource( pxSource );
         }
     }
@@ -117,17 +116,6 @@ GLToy_PFX* GLToy_PFX_System::CreatePFX( const GLToy_Hash uHash )
     s_xPFX.AddNode( pxPFX, pxPFX->GetHash() );
 
     return pxPFX;
-}
-
-GLToy_Particle* GLToy_PFX_System::CreateParticle( const GLToy_Hash uHash )
-{
-    const GLToy_ParticleProperties* const pxProperties = s_xParticleProperties.FindData( uHash );
-    if( !pxProperties )
-    {
-        return NULL;
-    }
-
-    return new GLToy_Particle( *pxProperties );
 }
 
 void GLToy_PFX_System::DestroyPFX( const GLToy_Hash uPFXHash )
@@ -138,6 +126,11 @@ void GLToy_PFX_System::DestroyPFX( const GLToy_Hash uPFXHash )
         s_xPFX.Remove( uPFXHash );
         delete *ppxPFX;
     }
+}
+
+const GLToy_ParticleProperties* GLToy_PFX_System::GetParticleProperties( const GLToy_Hash uHash )
+{
+	return s_xParticleProperties.FindData( uHash );
 }
 
 bool GLToy_PFX_System::InitialisePFXProperties()

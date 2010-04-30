@@ -46,6 +46,7 @@ public:
     , m_fInitialSpeed( 400.0f )
     , m_fRadius( 0.0f )
     , m_uSpriteHash( uGLTOY_BAD_HASH )
+	, m_uDetonationPFXHash( uGLTOY_BAD_HASH )
     , m_uFlags( 0 )
     {
         m_bMaintainSpeed = true;
@@ -58,12 +59,14 @@ public:
     GLToy_Inline float GetInitialSpeed() const { return m_fInitialSpeed; }
     GLToy_Inline float GetRadius() const { return m_fRadius; }
     GLToy_Inline GLToy_Hash GetSpriteHash() const { return m_uSpriteHash; }
+	GLToy_Inline GLToy_Hash GetDetonationPFX() const { return m_uDetonationPFXHash; }
     GLToy_Inline bool GetMaintainSpeed() const { return m_bMaintainSpeed; }
     GLToy_Inline bool GetContactDetonation() const { return m_bContactDetonation; }
 
     GLToy_Inline void SetInitialSpeed( const float fSpeed ) { m_fInitialSpeed = fSpeed; }
     GLToy_Inline void SetRadius( const float fRadius ) { m_fRadius = fRadius; }
     GLToy_Inline void SetSpriteHash( const GLToy_Hash uHash ) { m_uSpriteHash = uHash; }
+	GLToy_Inline void SetDetonationPFX( const GLToy_Hash uHash ) { m_uDetonationPFXHash = uHash; }
     GLToy_Inline void SetMaintainSpeed( const bool bMaintainSpeed ) { m_bMaintainSpeed = bMaintainSpeed; }
     GLToy_Inline void SetContactDetonation( const bool bContactDetonation ) { m_bContactDetonation = bContactDetonation; }
 
@@ -72,6 +75,7 @@ protected:
     float m_fInitialSpeed;
     float m_fRadius;
     GLToy_Hash m_uSpriteHash;
+	GLToy_Hash m_uDetonationPFXHash;
     
     union
     {

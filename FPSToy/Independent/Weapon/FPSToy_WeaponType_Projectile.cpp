@@ -80,4 +80,8 @@ void FPSToy_WeaponType_Projectile::SetKeyValuePair( const GLToy_String& szKey, c
     {
         SetSpriteHash( szValue.GetHash() );
     }
+	else if( szKey == "DetonationPFX" )
+	{
+		SetDetonationPFX( szValue.GetHash() );
+	}
 }

@@ -30,11 +30,29 @@
 
 // GLToy
 #include <Core/GLToy_Timer.h>
+#include <Core/GLToy_UpdateFunctor.h>
+#include <Maths/GLToy_Maths.h>
+#include <Particle/GLToy_PFX.h>
+#include <Particle/GLToy_PFX_System.h>
 #include <Render/GLToy_RenderFunctor.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+GLToy_ParticleSource::GLToy_ParticleSource( const GLToy_ParticleSourceProperties& xProperties, const GLToy_PFX* const pxParent )
+: m_xParticleProperties()
+, m_fReleaseRate( 1.0f / xProperties.m_fReleaseRate )
+, m_fReleaseTimer( 0.0f )
+, m_xParticles()
+, m_pxParent( pxParent )
+{
+	const GLToy_ParticleProperties* const pxParticleProperties = GLToy_PFX_System::GetParticleProperties( xProperties.m_uParticleHash );
+	if( pxParticleProperties )
+	{
+		m_xParticleProperties = *pxParticleProperties;
+	}
+}
 
 void GLToy_ParticleSource::Render() const
 {
@@ -43,6 +61,15 @@ void GLToy_ParticleSource::Render() const
 
 void GLToy_ParticleSource::Update()
 {
+	GLToy_Assert( m_pxParent != NULL, "Particle source without parent!" );
+
+#ifdef GLTOY_DEBUG
+	if( !m_pxParent )
+	{
+		return;
+	}
+#endif
+
     // release a particle if we can
     m_fReleaseTimer += GLToy_Timer::GetFrameTime();
     if( ( m_fReleaseTimer > m_fReleaseRate ) && ( m_xParticles.GetCount() < uMAX_PARTICLES_PER_SOURCE ) )
@@ -50,11 +77,14 @@ void GLToy_ParticleSource::Update()
         const u_int uCount = static_cast< u_int >( GLToy_Maths::Floor( m_fReleaseTimer / m_fReleaseRate ) );
         for( u_int u = 0; u < uCount; ++u )
         {
-            m_xParticles.Append( new GLToy_Particle( m_xParticleProperties ) );
+			m_xParticles.Append( new GLToy_Particle( m_xParticleProperties, m_pxParent->GetPosition() ) );
         }
 
         m_fReleaseTimer -= static_cast< float >( uCount ) * m_fReleaseRate;
     }
+
+	// update particles
+	m_xParticles.Traverse( GLToy_PointerUpdateFunctor< GLToy_Particle* >() );
 
     // remove any particles we can
     for( u_int u = 0; u < m_xParticles.GetCount(); ++u )

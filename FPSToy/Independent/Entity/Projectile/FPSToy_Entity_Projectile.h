@@ -69,6 +69,8 @@ public:
     
     virtual bool HasSpawned() const { return m_pxPhysicsObject != NULL; }
 
+	virtual const GLToy_Vector_3& GetPosition() const;
+
 
 protected:
 
@@ -76,6 +78,7 @@ protected:
     GLToy_Hash m_uWeaponTypeHash;
     GLToy_Physics_Object* m_pxPhysicsObject;
     GLToy_Sprite* m_pxSprite;
+	mutable GLToy_Vector_3 m_xPosition; // TODO - get rid of this
 
 };
 

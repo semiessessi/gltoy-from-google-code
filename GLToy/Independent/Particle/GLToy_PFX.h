@@ -33,6 +33,7 @@
 // GLToy
 #include <Core/Data Structures/GLToy_Array.h>
 #include <Core/Data Structures/GLToy_List.h>
+#include <Maths/GLToy_Maths.h>
 #include <Particle/GLToy_ParticleSource.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,8 +52,9 @@ class GLToy_PFX
 
 public:
 
-    GLToy_PFX( const GLToy_Hash uHash )
+    GLToy_PFX( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition )
     : m_uHash( uHash )
+	, m_xPosition( xPosition )
     , m_xSources()
     {
     }
@@ -63,10 +65,12 @@ public:
     virtual void AddSource( GLToy_ParticleSource* const pxSource ) { m_xSources.Append( pxSource ); }
 
     GLToy_Inline GLToy_Hash GetHash() const { return m_uHash; }
+	GLToy_Inline const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
 
 protected:
 
     GLToy_Hash m_uHash;
+	GLToy_Vector_3 m_xPosition;
 
     GLToy_List< GLToy_ParticleSource* > m_xSources;
 

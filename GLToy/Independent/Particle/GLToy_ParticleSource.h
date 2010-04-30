@@ -35,6 +35,12 @@
 #include <Particle/GLToy_Particle.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// F O R W A R D   D E C L A R A T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+class GLToy_PFX;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -61,23 +67,21 @@ class GLToy_ParticleSource
 
 public:
 
-    GLToy_ParticleSource( const GLToy_ParticleSourceProperties& xProperties )
-    : m_xParticleProperties()
-    , m_fReleaseRate( 1.0f )
-    , m_fReleaseTimer( 0.0f )
-    , m_xParticles()
-    {
-    }
+    GLToy_ParticleSource( const GLToy_ParticleSourceProperties& xProperties, const GLToy_PFX* const pxParent = NULL );
 
     virtual void Render() const;
     virtual void Update();
 
+	// TODO : getters and setters, or okay to leave public for now?
+	// maybe protected with friends specified?
+
     GLToy_ParticleProperties m_xParticleProperties;
     float m_fReleaseRate;
-
     float m_fReleaseTimer;
 
     GLToy_List< GLToy_Particle* > m_xParticles;
+
+	const GLToy_PFX* m_pxParent;
 
 };
 

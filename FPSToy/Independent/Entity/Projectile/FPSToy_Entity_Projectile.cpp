@@ -30,6 +30,7 @@
 
 // GLToy
 #include <Entity/GLToy_Entity_System.h>
+#include <Particle/GLToy_PFX_System.h>
 #include <Physics/GLToy_Physics_Object.h>
 #include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Sprite.h>
@@ -44,6 +45,7 @@
 
 FPSToy_Entity_Projectile::FPSToy_Entity_Projectile( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
+, m_xPosition( GLToy_Maths::ZeroVector3 )
 , m_uOwnerEntityHash( uGLTOY_BAD_HASH )
 , m_uWeaponTypeHash( uGLTOY_BAD_HASH )
 , m_pxPhysicsObject( NULL )
@@ -54,6 +56,11 @@ FPSToy_Entity_Projectile::FPSToy_Entity_Projectile( const GLToy_Hash uHash, cons
 FPSToy_Entity_Projectile::~FPSToy_Entity_Projectile()
 {
 	delete m_pxSprite;
+}
+
+const GLToy_Vector_3& FPSToy_Entity_Projectile::GetPosition() const
+{
+	return m_xPosition = m_pxPhysicsObject->GetPosition();
 }
 
 void FPSToy_Entity_Projectile::Render() const
@@ -143,7 +150,17 @@ void FPSToy_Entity_Projectile::Spawn( const GLToy_Vector_3& xPosition, const GLT
 
 void FPSToy_Entity_Projectile::Detonate( const GLToy_Hash uVictimEntityHash )
 {
+	const FPSToy_WeaponType_Projectile* const pxProjectileType = GetWeaponType();
+
+    if( !pxProjectileType )
+    {
+        GLToy_Assert( pxProjectileType != NULL, "Unable to detonate projectile - can not find weapon type 0x%X", m_uWeaponTypeHash );
+        return;
+    }
     // TODO - apply damage and forces etc...
+
+	GLToy_PFX_System::CreatePFX( pxProjectileType->GetDetonationPFX(), GetPosition() );
+
     GLToy_Entity_System::DestroyEntity( GetHash() );
 }
 

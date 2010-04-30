@@ -27,11 +27,11 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template< class T > class GLToy_HashTree;
-class GLToy_Particle;
 class GLToy_PFX;
 class GLToy_PFXProperties;
 struct GLToy_ParticleProperties;
 struct GLToy_ParticleSourceProperties;
+class GLToy_Vector_3;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -48,9 +48,9 @@ public:
     static void Render();
     static void Update();
 
-    static GLToy_PFX* CreatePFX( const GLToy_Hash uHash );
-    static GLToy_Particle* CreateParticle( const GLToy_Hash uHash );
+    static GLToy_PFX* CreatePFX( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition );
     static void DestroyPFX( const GLToy_Hash uPFXHash );
+	static const GLToy_ParticleProperties* GetParticleProperties( const GLToy_Hash uHash );
 
 private:
 

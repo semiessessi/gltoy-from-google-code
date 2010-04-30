@@ -30,6 +30,9 @@
 #include <Core/GLToy_Updateable.h>
 #include <Render/GLToy_Sprite.h>
 
+// GLToy
+#include <Maths/GLToy_Maths.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,9 +41,9 @@ struct GLToy_ParticleProperties
 {
 
     GLToy_ParticleProperties()
-    : m_xPosition()
-    , m_xVelocity()
-    , m_fSize( 1.0f )
+	: m_xPosition( GLToy_Maths::ZeroVector3 )
+    , m_xVelocity( GLToy_Vector_3( 0.0f, 32.0f, 0.0f ) )
+    , m_fSize( 4.0f )
     , m_fLifetime( 3.0f )
     , m_uTextureHash( uGLTOY_BAD_HASH )
     {
@@ -63,12 +66,12 @@ class GLToy_Particle
 
 public:
 
-    GLToy_Particle( const GLToy_ParticleProperties& xProperties )
+    GLToy_Particle( const GLToy_ParticleProperties& xProperties, const GLToy_Vector_3& xPosition )
     : GLToy_Parent()
     , m_xVelocity( xProperties.m_xVelocity )
     , m_fLifetime( xProperties.m_fLifetime )
     {
-        SetPosition( xProperties.m_xPosition );
+        SetPosition( xPosition + xProperties.m_xPosition );
         SetSize( xProperties.m_fSize );
         SetTexture( xProperties.m_uTextureHash );
     }
@@ -80,8 +83,9 @@ public:
 
     virtual bool IsDone() const { return m_fLifetime <= 0.0f; }
 
-    // TODO - really this belongs to a future physics system
-    // the particle class should probably derive from a non-interacting physics object
+	// TODO : getters and setters, or okay to leave public for now?
+	// maybe protected with friends specified?
+
     GLToy_Vector_3 m_xVelocity;
     float m_fLifetime;
 
