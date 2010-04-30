@@ -35,6 +35,15 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+float GLToy_String::ExtractFloat( const u_int uPosition  ) const
+{
+    float fRet = 0.0f;
+
+    swscanf( &( GetWideString()[ uPosition ] ), L"%f", &fRet );
+
+    return fRet;
+}
+
 void GLToy_String::SetToFormatString( const GLToy_String szFormatString, ... )
 {
     va_list xArgumentList;

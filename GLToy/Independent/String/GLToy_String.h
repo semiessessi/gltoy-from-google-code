@@ -192,6 +192,8 @@ public:
         return uRet;
     }
 
+    float ExtractFloat( const u_int uPosition = 0 ) const;
+
     GLToy_Inline GLToy_String RemoveFirstWord()
     {
         GLToy_String xReturnValue;

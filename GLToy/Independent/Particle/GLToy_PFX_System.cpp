@@ -188,8 +188,7 @@ bool GLToy_PFX_System::InitialisePFXProperties()
                 }
                 else if( szKey == "Lifetime" )
                 {
-                    // TODO - float
-                    xPFXProperties.m_fLifetime = static_cast< float >( szValue.ExtractUnsignedInt() );
+                    xPFXProperties.m_fLifetime = szValue.ExtractFloat();
                 }
             }
         }
@@ -232,17 +231,14 @@ bool GLToy_PFX_System::InitialiseSourceProperties()
 
                 if( szKey == "ReleaseRate" )
                 {
-                    // TODO - float
-                    xSourceProperties.m_fReleaseRate = static_cast< float >( szValue.ExtractUnsignedInt() );
+                    xSourceProperties.m_fReleaseRate = szValue.ExtractFloat();
                 }
                 else if( szKey == "Lifetime" )
                 {
-                    // TODO - float
-                    xSourceProperties.m_fLifetime = static_cast< float >( szValue.ExtractUnsignedInt() );
+                    xSourceProperties.m_fLifetime = szValue.ExtractFloat();
                 }
                 else if( szKey == "Particle" )
                 {
-                    // TODO - float
                     xSourceProperties.m_uParticleHash = szValue.GetHash();
                 }
             }
@@ -290,23 +286,19 @@ bool GLToy_PFX_System::InitialiseParticleProperties()
                 }
                 else if( szKey == "Size" )
                 {
-                    // TODO - float
-                    xParticleProperties.m_fSize = static_cast< float >( szValue.ExtractUnsignedInt() );
+                    xParticleProperties.m_fSize = szValue.ExtractFloat();
                 }
                 else if( szKey == "Lifetime" )
                 {
-                    // TODO - float
-                    xParticleProperties.m_fLifetime = static_cast< float >( szValue.ExtractUnsignedInt() );
+                    xParticleProperties.m_fLifetime = szValue.ExtractFloat();
                 }
                 else if( szKey == "GrowthRate" )
                 {
-                    // TODO - float
-                    xParticleProperties.m_fGrowthRate = static_cast< float >( szValue.ExtractUnsignedInt() );
+                    xParticleProperties.m_fGrowthRate = szValue.ExtractFloat();
                 }
                 else if( szKey == "FadeTime" )
                 {
-                    // TODO - float
-                    xParticleProperties.m_fFadeTime = static_cast< float >( szValue.ExtractUnsignedInt() );
+                    xParticleProperties.m_fFadeTime = szValue.ExtractFloat();
                 }
             }
         }
