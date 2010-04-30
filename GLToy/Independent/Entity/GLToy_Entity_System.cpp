@@ -284,7 +284,7 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Hash uHash, const u
 
 GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Array< GLToy_Pair< GLToy_String > >& xKeyValuePairs )
 {
-    if( xKeyValuePairs.GetCount() == 0 )
+    if( xKeyValuePairs.IsEmpty() )
     {
         return NULL;
     }

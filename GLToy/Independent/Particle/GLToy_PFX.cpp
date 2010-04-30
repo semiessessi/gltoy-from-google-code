@@ -29,12 +29,18 @@
 #include <Particle/GLToy_PFX.h>
 
 // GLToy
+#include <Core/GLToy_Timer.h>
 #include <Core/GLToy_UpdateFunctor.h>
 #include <Render/GLToy_RenderFunctor.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+bool GLToy_PFX::IsDone() const
+{
+    return !IsEmitting() && m_xSources.IsEmpty();
+}
 
 void GLToy_PFX::Render() const
 {
@@ -44,4 +50,17 @@ void GLToy_PFX::Render() const
 void GLToy_PFX::Update()
 {
     m_xSources.Traverse( GLToy_PointerUpdateFunctor< GLToy_ParticleSource* >() );
+
+    const float fFrameTime = GLToy_Timer::GetFrameTime();
+    m_fLifetime -= fFrameTime;
+
+    // remove any sources we can
+    for( u_int u = 0; u < m_xSources.GetCount(); ++u )
+    {
+        if( m_xSources[ u ]->IsDone() )
+        {
+            m_xSources.RemoveAt( u );
+            --u;
+        }
+    }
 }

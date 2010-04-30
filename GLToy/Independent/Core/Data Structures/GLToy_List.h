@@ -162,7 +162,7 @@ protected:
         delete m_pxTail;
         m_pxTail = 0;
         
-        if( pxDataStructure->GetCount() == 0 )
+        if( pxDataStructure->IsEmpty() )
         {
             return;
         }
@@ -342,7 +342,7 @@ protected:
 
     virtual void CopyFrom( const GLToy_DataStructure< T >* const pxDataStructure )
     {
-        m_bEmpty = pxDataStructure->GetCount() == 0;
+        m_bEmpty = pxDataStructure->IsEmpty();
         if( m_bEmpty )
         {
             m_xData = GLToy_ListNode< T >();

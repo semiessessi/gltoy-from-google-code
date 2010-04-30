@@ -290,7 +290,7 @@ void GLToy_Model_MD2::Render() const
     GLToy_Render::SetCWFaceWinding();
 
     // fall back on triangles if we have no GL commands
-    if( m_xGLCommands.GetCount() == 0 )
+    if( m_xGLCommands.IsEmpty() )
     {
         GLToy_Render::StartSubmittingTriangles();
 
@@ -449,7 +449,7 @@ void GLToy_MD2_AnimationStack::Update()
 
 void GLToy_MD2_AnimationStack::Evaluate( GLToy_Model* const pxModel ) const
 {
-    if( GetCount() == 0 )
+    if( IsEmpty() )
     {
         return;
     }

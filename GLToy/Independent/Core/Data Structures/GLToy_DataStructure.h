@@ -53,6 +53,8 @@ public:
     virtual void Traverse( GLToy_Functor< T >& xFunctor ) = 0;
     virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const = 0;
 
+    bool IsEmpty() const { return GetCount() == 0; }
+
 protected:
 
     virtual void CopyFrom( const GLToy_DataStructure< T >* const pxDataStructure ) = 0;

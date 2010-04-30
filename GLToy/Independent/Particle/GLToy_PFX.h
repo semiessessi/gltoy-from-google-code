@@ -43,6 +43,16 @@
 class GLToy_PFXProperties
 : public GLToy_Array< GLToy_Hash >
 {
+
+public:
+
+    GLToy_PFXProperties()
+    : m_fLifetime( 3.0f )
+    {
+    }
+
+    float m_fLifetime;
+
 };
 
 class GLToy_PFX
@@ -52,10 +62,11 @@ class GLToy_PFX
 
 public:
 
-    GLToy_PFX( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition )
+    GLToy_PFX( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const float fLifetime )
     : m_uHash( uHash )
 	, m_xPosition( xPosition )
     , m_xSources()
+    , m_fLifetime( fLifetime )
     {
     }
 
@@ -67,10 +78,17 @@ public:
     GLToy_Inline GLToy_Hash GetHash() const { return m_uHash; }
 	GLToy_Inline const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
 
+    GLToy_Inline float GetLifetime() const { return m_fLifetime; }
+    GLToy_Inline void SetLifetime( const float fLifetime ) { m_fLifetime = fLifetime; }
+
+    GLToy_Inline bool IsEmitting() const { return m_fLifetime > 0.0f; }
+    bool IsDone() const;
+
 protected:
 
     GLToy_Hash m_uHash;
 	GLToy_Vector_3 m_xPosition;
+    float m_fLifetime;
 
     GLToy_List< GLToy_ParticleSource* > m_xSources;
 

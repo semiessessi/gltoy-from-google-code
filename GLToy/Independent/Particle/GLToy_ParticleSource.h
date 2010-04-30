@@ -54,8 +54,17 @@ static const u_int uMAX_PARTICLES_PER_SOURCE = 64;
 struct GLToy_ParticleSourceProperties
 {
 
+    GLToy_ParticleSourceProperties()
+	: m_xPosition( GLToy_Maths::ZeroVector3 )
+    , m_fReleaseRate( 2.0f )
+    , m_fLifetime( 3.0f )
+    , m_uParticleHash( uGLTOY_BAD_HASH )
+    {
+    }
+
     GLToy_Vector_3 m_xPosition;
     float m_fReleaseRate;
+    float m_fLifetime;
     GLToy_Hash m_uParticleHash;
 
 };
@@ -72,12 +81,16 @@ public:
     virtual void Render() const;
     virtual void Update();
 
+    GLToy_Inline bool IsEmitting() const { return m_fLifetime > 0.0f; }
+    bool IsDone() const;
+
 	// TODO : getters and setters, or okay to leave public for now?
 	// maybe protected with friends specified?
 
     GLToy_ParticleProperties m_xParticleProperties;
     float m_fReleaseRate;
     float m_fReleaseTimer;
+    float m_fLifetime;
 
     GLToy_List< GLToy_Particle* > m_xParticles;
 

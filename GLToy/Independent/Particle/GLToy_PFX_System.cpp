@@ -75,6 +75,8 @@ void GLToy_PFX_System::Shutdown()
 {
     s_xPFX.DeleteAll();
     s_xPFXProperties.Clear();
+    s_xSourceProperties.Clear();
+    s_xParticleProperties.Clear();
 }
 
 void GLToy_PFX_System::Render()
@@ -85,10 +87,27 @@ void GLToy_PFX_System::Render()
 void GLToy_PFX_System::Update()
 {
     s_xPFX.Traverse( GLToy_PointerUpdateFunctor< GLToy_PFX* >() );
+
+    // remove PFX as soon as we can
+    for( u_int u = 0; u < s_xPFX.GetCount(); ++u )
+    {
+        if( s_xPFX[ u ]->IsDone() )
+        {
+            GLToy_PFX* const pxPFX = s_xPFX[ u ];
+            s_xPFX.Remove( pxPFX->GetHash() );
+            delete pxPFX;
+            u = 0;
+        }
+    }
 }
 
 GLToy_PFX* GLToy_PFX_System::CreatePFX( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition )
 {
+    if( uHash == uGLTOY_BAD_HASH )
+    {
+        return NULL;
+    }
+
     const GLToy_PFXProperties* const pxProperties = s_xPFXProperties.FindData( uHash );
     if( !pxProperties )
     {
@@ -100,7 +119,7 @@ GLToy_PFX* GLToy_PFX_System::CreatePFX( const GLToy_Hash uHash, const GLToy_Vect
     GLToy_String szName;
     szName.SetToFormatString( "PFX%d", uCount );
 
-    GLToy_PFX* const pxPFX = new GLToy_PFX( szName.GetHash(), xPosition );
+    GLToy_PFX* const pxPFX = new GLToy_PFX( szName.GetHash(), xPosition, pxProperties->m_fLifetime );
 
     // create sources
     GLToy_ConstIterate( GLToy_Hash, xIterator, pxProperties )
@@ -167,6 +186,11 @@ bool GLToy_PFX_System::InitialisePFXProperties()
                 {
                     xPFXProperties.Append( szValue.GetHash() );
                 }
+                else if( szKey == "Lifetime" )
+                {
+                    // TODO - float
+                    xPFXProperties.m_fLifetime = static_cast< float >( szValue.ExtractUnsignedInt() );
+                }
             }
         }
 
@@ -210,6 +234,11 @@ bool GLToy_PFX_System::InitialiseSourceProperties()
                 {
                     // TODO - float
                     xSourceProperties.m_fReleaseRate = static_cast< float >( szValue.ExtractUnsignedInt() );
+                }
+                else if( szKey == "Lifetime" )
+                {
+                    // TODO - float
+                    xSourceProperties.m_fLifetime = static_cast< float >( szValue.ExtractUnsignedInt() );
                 }
                 else if( szKey == "Particle" )
                 {
@@ -258,6 +287,11 @@ bool GLToy_PFX_System::InitialiseParticleProperties()
                 if( szKey == "Texture" )
                 {
                     xParticleProperties.m_uTextureHash = szValue.GetHash();
+                }
+                else if( szKey == "Size" )
+                {
+                    // TODO - float
+                    xParticleProperties.m_fSize = static_cast< float >( szValue.ExtractUnsignedInt() );
                 }
                 else if( szKey == "Lifetime" )
                 {

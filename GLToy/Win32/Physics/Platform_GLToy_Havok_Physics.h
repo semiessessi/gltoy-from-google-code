@@ -28,9 +28,9 @@
 // M A C R O S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 #define HK_DEBUG
-#endif
+//#endif
 
 #undef const_cast
 
@@ -45,6 +45,10 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 // L I B R A R I E S
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+// TODO - work out a way to do this properly so the release libraries are used...
+
+#ifdef _DEBUG
 
 #pragma comment( lib, "hkbase" )
 #pragma comment( lib, "hkserialize" )
@@ -64,6 +68,29 @@
 #pragma comment( lib, "hkaanimation" )
 #pragma comment( lib, "hkainternal" )
 #pragma comment( lib, "hkaragdoll" )
+
+#else
+
+#pragma comment( lib, "hkbase" )
+#pragma comment( lib, "hkserialize" )
+#pragma comment( lib, "hkcompat" )
+#pragma comment( lib, "hkscenedata" )
+#pragma comment( lib, "hkinternal" )
+#pragma comment( lib, "hkgeometryutilities" )
+#pragma comment( lib, "hkvisualize" )
+
+#pragma comment( lib, "hkpconstraintsolver" )
+#pragma comment( lib, "hkpcollide" )
+#pragma comment( lib, "hkpdynamics" )
+#pragma comment( lib, "hkpinternal" )
+#pragma comment( lib, "hkputilities" )
+#pragma comment( lib, "hkpvehicle" )
+
+#pragma comment( lib, "hkaanimation" )
+#pragma comment( lib, "hkainternal" )
+#pragma comment( lib, "hkaragdoll" )
+
+#endif
 
 #endif
 
