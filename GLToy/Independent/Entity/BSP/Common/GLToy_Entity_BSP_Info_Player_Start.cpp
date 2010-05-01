@@ -30,6 +30,7 @@
 
 // GLToy
 #include <Entity/GLToy_Entity_System.h>
+#include <Render/GLToy_Camera.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -46,6 +47,10 @@ void GLToy_Entity_BSP_Info_Player_Start::SetKeyValuePair( const GLToy_String& sz
             return;
         }
 
-        SetPosition( GLToy_Vector_3( xComponents[ 0 ].ExtractFloat(), xComponents[ 1 ].ExtractFloat(), xComponents[ 2 ].ExtractFloat() ) );
+        // convert from BSP basis and offset
+        // TODO: something better
+        SetPosition( GLToy_Vector_3( -( xComponents[ 1 ].ExtractFloat() ), xComponents[ 2 ].ExtractFloat(), xComponents[ 0 ].ExtractFloat() ) + GLToy_Vector_3( 0.0f, 48.0f, 0.0f ) );
+        GLToy_Camera::SetPosition( GetPosition() );
+        GLToy_Camera::SetControllerCamEnabled( true );
     }
 }
