@@ -19,41 +19,26 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_ENTITY_BSP_TARGET_CHANGELEVEL_H_
-#define __GLTOY_ENTITY_BSP_TARGET_CHANGELEVEL_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Entity/GLToy_Entity.h>
+#include <Core/GLToy.h>
+
+// This file's header
+#include <Entity/BSP/Quake 2/GLToy_Entity_BSP_Target_ChangeLevel.h>
+
+// GLToy
+#include <Entity/GLToy_Entity_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Entity_BSP_Target_ChangeLevel
-: public GLToy_Entity_Oriented_AABB
+void GLToy_Entity_BSP_Target_ChangeLevel::Trigger( const GLToy_Hash uTriggerHash )
 {
+}
 
-    typedef GLToy_Entity_Oriented_AABB GLToy_Parent;
-
-public:
-
-    GLToy_Entity_BSP_Target_ChangeLevel( const GLToy_Hash uHash, const u_int uType )
-    : GLToy_Parent( uHash, uType )
-    , m_uNextLevel( uGLTOY_BAD_HASH )
-    {
-    }
-
-    virtual void Trigger( const GLToy_Hash uTriggerHash );
-
-    virtual void SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue );
-
-protected:
-
-    GLToy_Hash m_uNextLevel;
-};
-
-#endif
+void GLToy_Entity_BSP_Target_ChangeLevel::SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue )
+{
+}

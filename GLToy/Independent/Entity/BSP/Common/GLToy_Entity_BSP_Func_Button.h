@@ -43,8 +43,17 @@ public:
 
     GLToy_Entity_BSP_Func_Button( const GLToy_Hash uHash, const u_int uType )
     : GLToy_Parent( uHash, uType )
+    , m_uTarget( uGLTOY_BAD_HASH )
     {
     }
+
+    virtual void Trigger( const GLToy_Hash uTriggerHash );
+
+    virtual void SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue );
+
+protected:
+
+    GLToy_Hash m_uTarget;
 };
 
 #endif

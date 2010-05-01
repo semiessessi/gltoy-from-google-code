@@ -989,6 +989,10 @@
 						Name="Common"
 						>
 						<File
+							RelativePath=".\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Func_Button.cpp"
+							>
+						</File>
+						<File
 							RelativePath=".\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Func_Button.h"
 							>
 						</File>
@@ -1008,6 +1012,10 @@
 					<Filter
 						Name="Quake 2"
 						>
+						<File
+							RelativePath=".\Independent\Entity\BSP\Quake 2\GLToy_Entity_BSP_Target_ChangeLevel.cpp"
+							>
+						</File>
 						<File
 							RelativePath=".\Independent\Entity\BSP\Quake 2\GLToy_Entity_BSP_Target_ChangeLevel.h"
 							>
