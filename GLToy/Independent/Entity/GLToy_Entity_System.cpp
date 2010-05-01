@@ -306,6 +306,10 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Array< GLToy_Pair< 
         return NULL;
     }
 
+    static u_int uKeyValueEntityCount = 0;
+    GLToy_String szNewEntityName = GLToy_String( "Entity" ) + uKeyValueEntityCount;
+    ++uKeyValueEntityCount;
+
     // build a hash tree for convenient lookups
     GLToy_HashTree< GLToy_String > xValueTree;
     GLToy_ConstIterate( GLToy_Pair< GLToy_String >, xIterator, &xKeyValuePairs )
@@ -315,6 +319,13 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Array< GLToy_Pair< 
 
     // find the entity class
     const GLToy_String* pszClass = xValueTree.FindData( GLToy_Hash_Constant( "classname" ) );
+
+    // .. and "targetname" if it has one
+    const GLToy_String* pszTargetName = xValueTree.FindData( GLToy_Hash_Constant( "targetname" ) );
+    if( pszTargetName )
+    {
+        szNewEntityName = *pszTargetName;
+    }
 
     if( !pszClass )
     {
@@ -336,10 +347,6 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Array< GLToy_Pair< 
             return NULL;
         }
     }
-
-    static u_int uKeyValueEntityCount = 0;
-    const GLToy_String szNewEntityName = GLToy_String( "Entity" ) + uKeyValueEntityCount;
-    ++uKeyValueEntityCount;
 
     GLToy_Entity* pxNewEntity = CreateEntity( szNewEntityName.GetHash(), uType );
 

@@ -19,46 +19,47 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_ENTITY_BSP_INFO_TRIGGER_COUNTER_H_
-#define __GLTOY_ENTITY_BSP_INFO_TRIGGER_COUNTER_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Entity/GLToy_Entity.h>
+#include <Core/GLToy.h>
+
+// This file's header
+#include <Entity/BSP/Common/GLToy_Entity_BSP_Trigger_Counter.h>
+
+// GLToy
+#include <Entity/GLToy_Entity_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Entity_BSP_Trigger_Counter
-: public GLToy_Entity_Oriented_AABB
+void GLToy_Entity_BSP_Trigger_Counter::Trigger( const GLToy_Hash uTriggerHash )
 {
-
-    typedef GLToy_Entity_Oriented_AABB GLToy_Parent;
-
-public:
-
-    GLToy_Entity_BSP_Trigger_Counter( const GLToy_Hash uHash, const u_int uType )
-    : GLToy_Parent( uHash, uType )
-    , m_uCount( 0 )
-    , m_uLimit( 1 )
-    , m_uTarget( uGLTOY_BAD_HASH )
+    ++m_uCount;
+    if( m_uCount > m_uLimit )
     {
+        GLToy_Entity* pxEntity = GLToy_Entity_System::FindEntity( m_uTarget );
+        if( pxEntity )
+        {
+            pxEntity->Trigger( uTriggerHash );
+        }
+        else
+        {
+            GLToy_Assert( pxEntity != NULL, "Entity 0x%X tried triggering non-existant entity 0x%X", GetHash(), m_uTarget );
+        }
     }
+}
 
-    virtual void Trigger( const GLToy_Hash uTriggerHash );
-
-    virtual void SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue );
-
-protected:
-
-    u_int m_uCount;
-    u_int m_uLimit;
-    GLToy_Hash m_uTarget;
-
-};
-
-#endif
+void GLToy_Entity_BSP_Trigger_Counter::SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue )
+{
+    if( szKey == "target" )
+    {
+        m_uTarget = szValue.GetHash();
+    }
+    else if( szKey == "count" )
+    {
+        m_uLimit = szValue.ExtractUnsignedInt();
+    }
+}
