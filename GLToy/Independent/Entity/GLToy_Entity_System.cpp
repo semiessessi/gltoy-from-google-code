@@ -33,6 +33,10 @@
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <Core/GLToy_UpdateFunctor.h>
 #include <Entity/GLToy_Entity.h>
+#include <Entity/BSP/Common/GLToy_Entity_BSP_Func_Button.h>
+#include <Entity/BSP/Common/GLToy_Entity_BSP_Info_Player_Start.h>
+#include <Entity/BSP/Common/GLToy_Entity_BSP_Trigger_Counter.h>
+#include <Entity/BSP/Quake 2/GLToy_Entity_BSP_Target_ChangeLevel.h>
 #include <Entity/Model/GLToy_Entity_ModelStatic.h>
 #include <Entity/Model/GLToy_Entity_ModelAnimated.h>
 #include <Entity/Physics/GLToy_Entity_PhysicsBox.h>
@@ -151,6 +155,7 @@ void GLToy_Entity_System::DestroyEntity( const GLToy_Hash uHash )
 
     pxEntity->Destroy();
 
+    // do this later so as to not ruin the tree...
     //s_xEntities.Remove( uHash );
     //delete pxEntity;
 }
@@ -172,8 +177,7 @@ void GLToy_Entity_System::SaveEntityFile( const GLToy_String& szName )
 
 void GLToy_Entity_System::SpawnModel( const GLToy_String& szName, const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation )
 {
-    GLToy_String szEntityName;
-    szEntityName.SetToFormatString( "Entity%d", s_xEntities.GetCount() );
+    const GLToy_String szEntityName = GLToy_String( "Entity" ) + s_xEntities.GetCount();
 
     GLToy_Entity_ModelStatic* pxModelEntity = static_cast< GLToy_Entity_ModelStatic* >( CreateEntity( szEntityName.GetHash(), ENTITY_MODELSTATIC ) );
 
@@ -236,7 +240,13 @@ GLToy_EntityType GLToy_EntityTypeFromString( const GLToy_String& szString )
     TESTFORTYPE( "animated model", ENTITY_MODELANIMATED );
     TESTFORTYPE( "sprite", ENTITY_SPRITE );
 
-    GLToy_Assert( false, "Unrecognised entity type: %S. Maybe you forgot to add it to GLToy_EntityTypeFromString?", szString.GetWideString() );
+    TESTFORTYPE( "func_button", ENTITY_BSP_FUNC_BUTTON );
+    TESTFORTYPE( "info_player_start", ENTITY_BSP_INFO_PLAYER_START );
+    TESTFORTYPE( "trigger_counter", ENTITY_BSP_TRIGGER_COUNTER );
+
+    TESTFORTYPE( "target_changelevel", ENTITY_QUAKE2_TARGET_CHANGELEVEL );
+
+    // GLToy_Assert( false, "Unrecognised entity type: %S. Maybe you forgot to add it to GLToy_EntityTypeFromString?", szString.GetWideString() );
     return ENTITY_NULL;
 }
 
@@ -257,14 +267,21 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Hash uHash, const u
     {
         switch( uType )
         {
-            case ENTITY_NULL:               pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_Null( uHash, uType ) ); break;
+            case ENTITY_NULL:                       pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_Null( uHash, uType ) ); break;
 
-            case ENTITY_MODELSTATIC:        pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_ModelStatic( uHash, uType ) ); break;
-            case ENTITY_MODELANIMATED:      pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_ModelAnimated( uHash, uType ) ); break;
+            case ENTITY_MODELSTATIC:                pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_ModelStatic( uHash, uType ) ); break;
+            case ENTITY_MODELANIMATED:              pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_ModelAnimated( uHash, uType ) ); break;
 
-            case ENTITY_SPRITE:             pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_Sprite( uHash, uType ) ); break;
+            case ENTITY_SPRITE:                     pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_Sprite( uHash, uType ) ); break;
 
-            case ENTITY_PHYSICSBOX:         pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_PhysicsBox( uHash, uType ) ); break;
+            case ENTITY_PHYSICSBOX:                 pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_PhysicsBox( uHash, uType ) ); break;
+
+
+            case ENTITY_BSP_FUNC_BUTTON:            pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_BSP_Func_Button( uHash, uType ) ); break;
+            case ENTITY_BSP_INFO_PLAYER_START:      pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_BSP_Info_Player_Start( uHash, uType ) ); break;
+            case ENTITY_BSP_TRIGGER_COUNTER:        pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_BSP_Trigger_Counter( uHash, uType ) ); break;
+
+            case ENTITY_QUAKE2_TARGET_CHANGELEVEL:  pxNewEntity = static_cast< GLToy_Entity* >( new GLToy_Entity_BSP_Target_ChangeLevel( uHash, uType ) ); break;
 
             default:
             {
@@ -305,14 +322,34 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Array< GLToy_Pair< 
         return NULL;
     }
 
+    u_int uType = ENTITY_NULL;
     if( *pszClass == "worldspawn" )
     {
-        // .. do nothing for now, maybe extract the environment name and gravity somehow?
+        // ... do nothing for now, maybe extract the environment name and gravity somehow?
     }
     else
     {
-        GLToy_DebugOutput_Release( "Warning: GLToy does not support \"%S\" entities from BSP files\r\n", pszClass->GetWideString() );
+        uType = GLToy_EntityTypeFromString( *pszClass );
+        if( uType == ENTITY_NULL )
+        {
+            GLToy_DebugOutput_Release( "Warning: GLToy does not support \"%S\" entities from BSP files\r\n", pszClass->GetWideString() );
+            return NULL;
+        }
     }
 
-    return NULL;
+    static u_int uKeyValueEntityCount = 0;
+    const GLToy_String szNewEntityName = GLToy_String( "Entity" ) + uKeyValueEntityCount;
+    ++uKeyValueEntityCount;
+
+    GLToy_Entity* pxNewEntity = CreateEntity( szNewEntityName.GetHash(), uType );
+
+    if( pxNewEntity )
+    {
+        GLToy_ConstIterate( GLToy_Pair< GLToy_String >, xIterator, &xKeyValuePairs )
+        {
+            pxNewEntity->SetKeyValuePair( xIterator.Current().First(), xIterator.Current().Second() );
+        }
+    }
+
+    return pxNewEntity;
 }

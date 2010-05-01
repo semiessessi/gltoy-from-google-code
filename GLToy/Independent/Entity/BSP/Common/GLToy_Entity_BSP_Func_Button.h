@@ -19,41 +19,32 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_ENTITYTYPES_H_
-#define __GLTOY_ENTITYTYPES_H_
+#ifndef __GLTOY_ENTITY_BSP_FUNC_BUTTON_H_
+#define __GLTOY_ENTITY_BSP_FUNC_BUTTON_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_String;
+// Parents
+#include <Entity/GLToy_Entity.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// TODO: change GLToy_EntityType to use u_short for storage
-// in hindsight 255 entity types is too little if I want to support all the BSPs
-enum GLToy_EntityType
+class GLToy_Entity_BSP_Func_Button
+: public GLToy_Entity_Oriented_AABB
 {
-    ENTITY_NULL,
-    
-    ENTITY_MODELSTATIC,
-    ENTITY_MODELANIMATED,
-    
-    ENTITY_SPRITE,
 
-    ENTITY_PHYSICSBOX,
+    typedef GLToy_Entity_Oriented_AABB GLToy_Parent;
 
-    ENTITY_BSP_FUNC_BUTTON,
-    ENTITY_BSP_INFO_PLAYER_START,
-    ENTITY_BSP_TRIGGER_COUNTER,
+public:
 
-    ENTITY_QUAKE2_TARGET_CHANGELEVEL,
-
-    NUM_ENTITY_TYPES
+    GLToy_Entity_BSP_Func_Button( const GLToy_Hash uHash, const u_int uType )
+    : GLToy_Parent( uHash, uType )
+    {
+    }
 };
-
-GLToy_EntityType GLToy_EntityTypeFromString( const GLToy_String& szString );
 
 #endif

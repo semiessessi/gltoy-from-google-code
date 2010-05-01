@@ -982,6 +982,34 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="BSP"
+					>
+					<Filter
+						Name="Common"
+						>
+						<File
+							RelativePath=".\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Func_Button.h"
+							>
+						</File>
+						<File
+							RelativePath=".\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Info_Player_Start.h"
+							>
+						</File>
+						<File
+							RelativePath=".\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Trigger_Counter.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Quake 2"
+						>
+						<File
+							RelativePath=".\Independent\Entity\BSP\Quake 2\GLToy_Entity_BSP_Target_ChangeLevel.h"
+							>
+						</File>
+					</Filter>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Particle"

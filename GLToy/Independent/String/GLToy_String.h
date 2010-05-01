@@ -129,6 +129,27 @@ public:
         return xReturnValue;
     }
 
+    GLToy_Inline GLToy_String operator +( const u_int uValue ) const
+    {
+        GLToy_String xReturnValue;
+        xReturnValue.SetToFormatString( "%S%d", GetWideString(), uValue );
+        return xReturnValue;
+    }
+
+    GLToy_Inline GLToy_String operator +( const int iValue ) const
+    {
+        GLToy_String xReturnValue;
+        xReturnValue.SetToFormatString( "%S%d", GetWideString(), iValue );
+        return xReturnValue;
+    }
+
+    GLToy_Inline GLToy_String operator +( const float fValue ) const
+    {
+        GLToy_String xReturnValue;
+        xReturnValue.SetToFormatString( "%S%f", GetWideString(), fValue );
+        return xReturnValue;
+    }
+
     GLToy_Inline GLToy_String& operator +=( const GLToy_String& xString )
     {
         RemoveNull();

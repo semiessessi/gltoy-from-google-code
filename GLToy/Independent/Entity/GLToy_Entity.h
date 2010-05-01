@@ -72,6 +72,8 @@ public:
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
+    virtual void SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue ) {}
+
     // own virtuals
     virtual void Trigger( const GLToy_Hash uTriggerHash ) { GLToy_Assert( false, "Entity 0x%X is trying to trigger a non-triggerable entity 0x%X", uTriggerHash, m_uHash ); }
 
