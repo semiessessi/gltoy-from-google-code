@@ -50,7 +50,18 @@ void GLToy_Entity_BSP_Func_Button::Trigger( const GLToy_Hash uTriggerHash )
 
 void GLToy_Entity_BSP_Func_Button::SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue )
 {
-    if( szKey == "target" )
+    if( szKey == "origin" )
+    {
+        GLToy_Array< GLToy_String > xComponents = szValue.Split( ' ' );
+        if( xComponents.GetCount() < 3 )
+        {
+            // TODO - error feedback
+            return;
+        }
+
+        SetPosition( GLToy_Vector_3( xComponents[ 0 ].ExtractFloat(), xComponents[ 1 ].ExtractFloat(), xComponents[ 2 ].ExtractFloat() ) );
+    }
+    else if( szKey == "target" )
     {
         m_uTarget = szValue.GetHash();
     }

@@ -19,35 +19,33 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_ENTITY_BSP_INFO_PLAYER_START_H_
-#define __GLTOY_ENTITY_BSP_INFO_PLAYER_START_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Entity/GLToy_Entity.h>
+#include <Core/GLToy.h>
+
+// This file's header
+#include <Entity/BSP/Common/GLToy_Entity_BSP_Info_Player_Start.h>
+
+// GLToy
+#include <Entity/GLToy_Entity_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Entity_BSP_Info_Player_Start
-: public GLToy_Entity_Oriented_AABB
+void GLToy_Entity_BSP_Info_Player_Start::SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue )
 {
-
-    typedef GLToy_Entity_Oriented_AABB GLToy_Parent;
-
-public:
-
-    GLToy_Entity_BSP_Info_Player_Start( const GLToy_Hash uHash, const u_int uType )
-    : GLToy_Parent( uHash, uType )
+    if( szKey == "origin" )
     {
+        GLToy_Array< GLToy_String > xComponents = szValue.Split( ' ' );
+        if( xComponents.GetCount() < 3 )
+        {
+            // TODO - error feedback
+            return;
+        }
+
+        SetPosition( GLToy_Vector_3( xComponents[ 0 ].ExtractFloat(), xComponents[ 1 ].ExtractFloat(), xComponents[ 2 ].ExtractFloat() ) );
     }
-
-    virtual void SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue );
-
-};
-
-#endif
+}

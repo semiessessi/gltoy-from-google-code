@@ -997,6 +997,10 @@
 							>
 						</File>
 						<File
+							RelativePath=".\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Info_Player_Start.cpp"
+							>
+						</File>
+						<File
 							RelativePath=".\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Info_Player_Start.h"
 							>
 						</File>
