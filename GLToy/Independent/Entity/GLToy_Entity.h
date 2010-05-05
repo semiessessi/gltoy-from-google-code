@@ -80,7 +80,7 @@ public:
     virtual void Activate() { m_bActive = true; }
     virtual void Deactivate() { m_bActive = false; }
 
-    virtual void Hurt( const float fAmount ) { m_fHealth -= fAmount; }
+    virtual void Hurt( const GLToy_Hash uTriggerHash, const float fAmount ) { m_fHealth -= fAmount; }
     virtual void Kill() { m_fHealth = 0.0f; }
     GLToy_Inline bool IsDead() const { return m_fHealth == 0.0f; }
     virtual void Destroy() { m_bFlaggedForDestruction = true; }
@@ -91,6 +91,9 @@ public:
     // accessors
     GLToy_Inline GLToy_Hash GetHash() const { return m_uHash; }
     GLToy_Inline u_int GetType() const { return m_uType; }
+    GLToy_Inline float GetHealth() const { return m_fHealth; }
+
+    GLToy_Inline void SetHealth( const float fValue ) { m_fHealth = fValue; }
 
     GLToy_Inline bool IsActive() const { return m_bActive; }
     GLToy_Inline bool IsFlaggedForDestruction() const { return m_bFlaggedForDestruction; }

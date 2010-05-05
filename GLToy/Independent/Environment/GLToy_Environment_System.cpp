@@ -38,6 +38,7 @@
 #include <File/GLToy_EnvironmentFile.h>
 #include <File/GLToy_File_System.h>
 #include <Maths/GLToy_Maths.h>
+#include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Texture.h>
 #include <UI/GLToy_UI_System.h>
 
@@ -155,6 +156,7 @@ void GLToy_Environment_System::LoadEnvironmentFile( const GLToy_String& szName )
     }
 
     GLToy_Entity_System::DestroyEntities();
+    GLToy_Physics_System::Reset();
 
     ( *ppxEnvFile )->LoadEnvironment();
 

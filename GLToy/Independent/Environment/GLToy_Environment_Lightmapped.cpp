@@ -59,7 +59,6 @@ void GLToy_Environment_Lightmapped::WriteToBitStream( GLToy_BitStream& xStream )
 
 void GLToy_Environment_Lightmapped::Initialise()
 {
-    GLToy_Physics_System::Reset();
     m_pxPhysicsObject = GLToy_Physics_System::CreatePhysicsEnvironment( GLToy_Hash_Constant( "Environment" ), *this );
 }
 

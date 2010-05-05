@@ -48,6 +48,16 @@ void GLToy_Entity_BSP_Func_Button::Trigger( const GLToy_Hash uTriggerHash )
     }
 }
 
+void GLToy_Entity_BSP_Func_Button::Hurt( const GLToy_Hash uTriggerHash, const float fAmount )
+{
+    GLToy_Parent::Hurt( uTriggerHash, fAmount );
+
+    if( IsDead() )
+    {
+        Trigger( uTriggerHash );
+    }
+}
+
 void GLToy_Entity_BSP_Func_Button::SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue )
 {
     if( szKey == "origin" )
@@ -64,5 +74,17 @@ void GLToy_Entity_BSP_Func_Button::SetKeyValuePair( const GLToy_String& szKey, c
     else if( szKey == "target" )
     {
         m_uTarget = szValue.GetHash();
+    }
+    else if( szKey == "health" )
+    {
+        SetHealth( szValue.ExtractFloat() );
+    }
+    else if( szKey == "angle" )
+    {
+        // m_fAngle = szValue.ExtractFloat();
+    }
+    else if( szKey == "wait" )
+    {
+        // m_fWait = szValue.ExtractFloat();
     }
 }

@@ -42,7 +42,7 @@ public:
     static bool Initialise();
     static void Shutdown();
 
-    static void ApplyDamage( const GLToy_Hash uEntityHash, const float fAmount, const FPSToy_DamageType* const pxDamageType = NULL );
+    static void ApplyDamage( const GLToy_Hash uTriggerHash, const GLToy_Hash uEntityHash, const float fAmount, const FPSToy_DamageType* const pxDamageType = NULL );
 
 private:
 

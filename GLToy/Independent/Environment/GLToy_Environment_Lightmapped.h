@@ -44,7 +44,9 @@ public:
     {
     }
 
-    bool IsPlayerCollidable() const { return m_bSolid || m_bPlayerClip; }
+    bool IsCollidable() const { return m_bSolid && !m_bEntityBrush; }
+    bool IsAICollidable() const { return IsCollidable() || m_bAIClip; }
+    bool IsPlayerCollidable() const { return IsCollidable() || m_bPlayerClip; }
 
     GLToy_Array< GLToy_Plane > m_xPlanes;
 
@@ -55,6 +57,7 @@ public:
             u_int m_bSolid : 1;
             u_int m_bPlayerClip : 1;
             u_int m_bAIClip : 1;
+            u_int m_bEntityBrush : 1;
         };
 
         u_int m_uFlags;

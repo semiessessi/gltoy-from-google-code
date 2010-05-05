@@ -36,6 +36,7 @@
 #include <Render/GLToy_Sprite.h>
 
 // FPSToy
+#include <Damage/FPSToy_Damage_System.h>
 #include <Weapon/FPSToy_WeaponType_Projectile.h>
 #include <Weapon/FPSToy_Weapon_System.h>
 
@@ -160,6 +161,8 @@ void FPSToy_Entity_Projectile::Detonate( const GLToy_Hash uVictimEntityHash )
     // TODO - apply damage and forces etc...
 
 	GLToy_PFX_System::CreatePFX( pxProjectileType->GetDetonationPFX(), GetPosition() );
+
+    FPSToy_Damage_System::ApplyDamage( m_uOwnerEntityHash, uVictimEntityHash, 20.0f );
 
     GLToy_Entity_System::DestroyEntity( GetHash() );
 }

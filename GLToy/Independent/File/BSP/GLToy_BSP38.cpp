@@ -57,8 +57,10 @@ static const u_int uBSP38_LUMP_FACES = 6;
 static const u_int uBSP38_LUMP_LIGHTMAPS = 7;
 static const u_int uBSP38_LUMP_LEAVES = 8;
 static const u_int uBSP38_LUMP_LEAFFACETABLE = 9;
+static const u_int uBSP38_LUMP_LEAFBRUSHTABLE = 10;
 static const u_int uBSP38_LUMP_EDGES = 11;
 static const u_int uBSP38_LUMP_EDGEFACETABLE = 12;
+static const u_int uBSP38_LUMP_MODELS = 13;
 static const u_int uBSP38_LUMP_BRUSHES = 14;
 static const u_int uBSP38_LUMP_BRUSHSIDES = 15;
 
@@ -166,7 +168,7 @@ public:
         xStream >> m_uType;
 
         // this flips the normals to GLToy orientation
-        // also id BSP files use the backwards convention for the plane distance and have opposite handedness
+        // also id BSP files use the reverse convention for the plane distance and have opposite handedness
         m_xPlane = GLToy_Plane( GLToy_Vector_3( -( xNormal[ 1 ] ), xNormal[ 2 ], xNormal[ 0 ] ), -fDistance );
     }
     
@@ -345,6 +347,41 @@ public:
 
 };
 
+class GLToy_BSP38_Model
+: public GLToy_Serialisable
+{
+
+public:
+
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
+    {
+        xStream >> m_xMins;
+        xStream >> m_xMaxs;
+        xStream >> m_xOrigin;
+        xStream >> m_iHead;
+        xStream >> m_uFirstFace;
+        xStream >> m_uNumFaces;
+    }
+
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
+    {
+        xStream << m_xMins;
+        xStream << m_xMaxs;
+        xStream << m_xOrigin;
+        xStream << m_iHead;
+        xStream << m_uFirstFace;
+        xStream << m_uNumFaces;
+    }
+
+    GLToy_Vector_3 m_xMins;
+    GLToy_Vector_3 m_xMaxs;
+    GLToy_Vector_3 m_xOrigin;
+    int m_iHead;
+	u_int m_uFirstFace;
+	u_int m_uNumFaces;
+
+};
+
 class GLToy_BSP38_Brush
 : public GLToy_Serialisable
 {
@@ -427,6 +464,15 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
     for( u_int u = 0; u < xBrushSides.GetCount(); ++u )
     {
         xStream >> xBrushSides[ u ];
+    }
+
+    // model lump
+    GLToy_Array< GLToy_BSP38_Model > xModels;
+    xModels.Resize( xLumps.m_axLumps[ uBSP38_LUMP_MODELS ].m_uSize / 48 );
+    xStream.SetReadByte( xLumps.m_axLumps[ uBSP38_LUMP_MODELS ].m_uOffset );
+    for( u_int u = 0; u < xModels.GetCount(); ++u )
+    {
+        xStream >> xModels[ u ];
     }
 
     // vis lump

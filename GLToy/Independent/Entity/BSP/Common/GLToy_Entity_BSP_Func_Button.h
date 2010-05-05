@@ -48,6 +48,8 @@ public:
     }
 
     virtual void Trigger( const GLToy_Hash uTriggerHash );
+    
+    virtual void Hurt( const GLToy_Hash uTriggerHash, const float fAmount );
 
     virtual void SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue );
 

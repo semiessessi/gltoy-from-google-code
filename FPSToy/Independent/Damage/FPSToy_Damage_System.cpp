@@ -55,7 +55,7 @@ void FPSToy_Damage_System::Shutdown()
 {
 }
 
-void FPSToy_Damage_System::ApplyDamage( const GLToy_Hash uEntityHash, const float fAmount, const FPSToy_DamageType* const pxDamageType )
+void FPSToy_Damage_System::ApplyDamage( const GLToy_Hash uTriggerHash, const GLToy_Hash uEntityHash, const float fAmount, const FPSToy_DamageType* const pxDamageType )
 {
     GLToy_Entity* pxEntity = GLToy_Entity_System::FindEntity( uEntityHash );
     if( !pxEntity )
@@ -65,7 +65,7 @@ void FPSToy_Damage_System::ApplyDamage( const GLToy_Hash uEntityHash, const floa
 
     if( !pxDamageType )
     {
-        pxEntity->Hurt( fAmount );
+        pxEntity->Hurt( uTriggerHash, fAmount );
         return;
     }
 }
