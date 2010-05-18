@@ -41,7 +41,7 @@ struct GLToy_ParticleProperties
 {
 
     GLToy_ParticleProperties()
-	: m_xPosition( GLToy_Maths::ZeroVector3 )
+    : m_xPosition( GLToy_Maths::ZeroVector3 )
     , m_xVelocity( GLToy_Vector_3( 0.0f, 32.0f, 0.0f ) )
     , m_fSize( 4.0f )
     , m_fLifetime( 3.0f )
@@ -89,8 +89,8 @@ public:
 
     virtual bool IsDone() const { return m_fLifetime <= 0.0f; }
 
-	// TODO : getters and setters, or okay to leave public for now?
-	// maybe protected with friends specified?
+    // TODO : getters and setters, or okay to leave public for now?
+    // maybe protected with friends specified?
 
     GLToy_Vector_3 m_xVelocity;
     float m_fLifetime;

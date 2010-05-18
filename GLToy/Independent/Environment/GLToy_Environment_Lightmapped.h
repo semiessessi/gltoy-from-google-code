@@ -247,7 +247,7 @@ public:
     virtual ~GLToy_Environment_Lightmapped() {}
 
     // TODO
-	virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
     virtual void Initialise();

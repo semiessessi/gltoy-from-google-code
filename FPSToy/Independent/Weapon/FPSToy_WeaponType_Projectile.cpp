@@ -65,11 +65,11 @@ void FPSToy_WeaponType_Projectile::SetKeyValuePair( const GLToy_String& szKey, c
 {
     if( szKey == "MaintainSpeed" )
     {
-		m_bContactDetonation = !szValue.MeansFalse();
+        m_bContactDetonation = !szValue.MeansFalse();
     }
     else if( szKey == "ContactDetonation" )
     {
-		m_bContactDetonation = !szValue.MeansFalse();
+        m_bContactDetonation = !szValue.MeansFalse();
     }
     else if( szKey == "Radius" )
     {
@@ -80,8 +80,8 @@ void FPSToy_WeaponType_Projectile::SetKeyValuePair( const GLToy_String& szKey, c
     {
         SetSpriteHash( szValue.GetHash() );
     }
-	else if( szKey == "DetonationPFX" )
-	{
-		SetDetonationPFX( szValue.GetHash() );
-	}
+    else if( szKey == "DetonationPFX" )
+    {
+        SetDetonationPFX( szValue.GetHash() );
+    }
 }

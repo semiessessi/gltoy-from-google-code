@@ -122,73 +122,73 @@ public:
     
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
     {
-	    xStream >> m_usPlane;
-	    xStream >> m_cSide;
-	    xStream >> m_uIsNode;
-	    xStream >> m_iFirstEdge;
-	    xStream >> m_sEdgeCount;
-	    xStream >> m_sTextureInfo;
-	    xStream >> m_sDisplacementInfo;
-	    xStream >> m_sSurfaceFogVolumeID;
-	    xStream >> m_aucLightmapStyles[ 0 ];
+        xStream >> m_usPlane;
+        xStream >> m_cSide;
+        xStream >> m_uIsNode;
+        xStream >> m_iFirstEdge;
+        xStream >> m_sEdgeCount;
+        xStream >> m_sTextureInfo;
+        xStream >> m_sDisplacementInfo;
+        xStream >> m_sSurfaceFogVolumeID;
+        xStream >> m_aucLightmapStyles[ 0 ];
         xStream >> m_aucLightmapStyles[ 1 ];
         xStream >> m_aucLightmapStyles[ 2 ];
         xStream >> m_aucLightmapStyles[ 3 ];
-	    xStream >> m_iLightmapOffset;
-	    xStream >> m_fArea;
-	    xStream >> m_iLightmapTextureMins[ 0 ];
+        xStream >> m_iLightmapOffset;
+        xStream >> m_fArea;
+        xStream >> m_iLightmapTextureMins[ 0 ];
         xStream >> m_iLightmapTextureMins[ 1 ];
-	    xStream >> m_iLightmapTextureSize[ 0 ];
+        xStream >> m_iLightmapTextureSize[ 0 ];
         xStream >> m_iLightmapTextureSize[ 1 ];
-	    xStream >> m_iOriginalFaceID;
-	    xStream >> m_usPrimitiveCount;
-	    xStream >> m_usFirstPrimitiveID;
-	    xStream >> m_uSmoothingGroups;
+        xStream >> m_iOriginalFaceID;
+        xStream >> m_usPrimitiveCount;
+        xStream >> m_usFirstPrimitiveID;
+        xStream >> m_uSmoothingGroups;
     }
 
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
     {
-	    xStream << m_usPlane;
-	    xStream << m_cSide;
-	    xStream << m_uIsNode;
-	    xStream << m_iFirstEdge;
-	    xStream << m_sEdgeCount;
-	    xStream << m_sTextureInfo;
-	    xStream << m_sDisplacementInfo;
-	    xStream << m_sSurfaceFogVolumeID;
-	    xStream << m_aucLightmapStyles[ 0 ];
+        xStream << m_usPlane;
+        xStream << m_cSide;
+        xStream << m_uIsNode;
+        xStream << m_iFirstEdge;
+        xStream << m_sEdgeCount;
+        xStream << m_sTextureInfo;
+        xStream << m_sDisplacementInfo;
+        xStream << m_sSurfaceFogVolumeID;
+        xStream << m_aucLightmapStyles[ 0 ];
         xStream << m_aucLightmapStyles[ 1 ];
         xStream << m_aucLightmapStyles[ 2 ];
         xStream << m_aucLightmapStyles[ 3 ];
-	    xStream << m_iLightmapOffset;
-	    xStream << m_fArea;
-	    xStream << m_iLightmapTextureMins[ 0 ];
+        xStream << m_iLightmapOffset;
+        xStream << m_fArea;
+        xStream << m_iLightmapTextureMins[ 0 ];
         xStream << m_iLightmapTextureMins[ 1 ];
-	    xStream << m_iLightmapTextureSize[ 0 ];
+        xStream << m_iLightmapTextureSize[ 0 ];
         xStream << m_iLightmapTextureSize[ 1 ];
-	    xStream << m_iOriginalFaceID;
-	    xStream << m_usPrimitiveCount;
-	    xStream << m_usFirstPrimitiveID;
-	    xStream << m_uSmoothingGroups;
+        xStream << m_iOriginalFaceID;
+        xStream << m_usPrimitiveCount;
+        xStream << m_usFirstPrimitiveID;
+        xStream << m_uSmoothingGroups;
     }
 
-	u_short	m_usPlane;
-	char m_cSide;
-	u_char m_uIsNode;
-	int m_iFirstEdge;
-	short m_sEdgeCount;
-	short m_sTextureInfo;
-	short m_sDisplacementInfo;
-	short m_sSurfaceFogVolumeID;
-	u_char m_aucLightmapStyles[ 4 ];
-	int m_iLightmapOffset;
-	float m_fArea;
-	int m_iLightmapTextureMins[ 2 ];
-	int m_iLightmapTextureSize[ 2 ];
-	int m_iOriginalFaceID;
-	u_short m_usPrimitiveCount;
-	u_short m_usFirstPrimitiveID;
-	u_int m_uSmoothingGroups;
+    u_short    m_usPlane;
+    char m_cSide;
+    u_char m_uIsNode;
+    int m_iFirstEdge;
+    short m_sEdgeCount;
+    short m_sTextureInfo;
+    short m_sDisplacementInfo;
+    short m_sSurfaceFogVolumeID;
+    u_char m_aucLightmapStyles[ 4 ];
+    int m_iLightmapOffset;
+    float m_fArea;
+    int m_iLightmapTextureMins[ 2 ];
+    int m_iLightmapTextureSize[ 2 ];
+    int m_iOriginalFaceID;
+    u_short m_usPrimitiveCount;
+    u_short m_usFirstPrimitiveID;
+    u_int m_uSmoothingGroups;
 
 };
 

@@ -80,7 +80,7 @@ void GLToy_UI_DefaultModalCallback( void* const pData )
 bool GLToy_UI_System::Initialise()
 {
     GLToy_Texture_System::CreateTexture( "Widgets/Pointer.png" );
-	return true;
+    return true;
 }
 
 void GLToy_UI_System::Shutdown()
@@ -90,7 +90,7 @@ void GLToy_UI_System::Shutdown()
 
 void GLToy_UI_System::Render2D()
 {
-	s_xWidgets.Traverse( GLToy_IndirectRender2DFunctor< GLToy_Widget >() );    
+    s_xWidgets.Traverse( GLToy_IndirectRender2DFunctor< GLToy_Widget >() );    
     s_xDialogs.Traverse( GLToy_IndirectRender2DFunctor< GLToy_Dialog >() );
 
     if( s_pxCurrentModalDialog )
@@ -111,11 +111,11 @@ void GLToy_UI_System::Render2D()
         GLToy_Texture_System::BindTexture( "Widgets/Pointer.png" );
 
         GLToy_Render::StartSubmittingQuads();
-		
-		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+        
+        GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
         GLToy_Render::SubmitTexturedQuad2D(
-			s_xMousePosition[ 0 ], s_xMousePosition[ 1 ] - fUI_MOUSE_WIDTH,
-			s_xMousePosition[ 0 ] + fUI_MOUSE_WIDTH, s_xMousePosition[ 1 ] );
+            s_xMousePosition[ 0 ], s_xMousePosition[ 1 ] - fUI_MOUSE_WIDTH,
+            s_xMousePosition[ 0 ] + fUI_MOUSE_WIDTH, s_xMousePosition[ 1 ] );
 
         GLToy_Render::EndSubmit();
     }
@@ -126,9 +126,9 @@ void GLToy_UI_System::Render2D()
 void GLToy_UI_System::Update()
 {
     s_xMousePosition[ 0 ] =
-		GLToy_Maths::Clamp( s_xMousePosition[ 0 ] + GLToy_Input_System::GetMouseDeltaX() * fUI_MOUSE_SCALE, GLToy_Render::GetMinX(), GLToy_Render::GetMaxX() );
+        GLToy_Maths::Clamp( s_xMousePosition[ 0 ] + GLToy_Input_System::GetMouseDeltaX() * fUI_MOUSE_SCALE, GLToy_Render::GetMinX(), GLToy_Render::GetMaxX() );
     s_xMousePosition[ 1 ] =
-		GLToy_Maths::Clamp( s_xMousePosition[ 1 ] - GLToy_Input_System::GetMouseDeltaY() * fUI_MOUSE_SCALE, -1.0f, 1.0f );
+        GLToy_Maths::Clamp( s_xMousePosition[ 1 ] - GLToy_Input_System::GetMouseDeltaY() * fUI_MOUSE_SCALE, -1.0f, 1.0f );
 
     if( s_pxCurrentModalDialog )
     {
@@ -137,7 +137,7 @@ void GLToy_UI_System::Update()
     else
     {
         s_xDialogs.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Dialog >() );
-	    s_xWidgets.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Widget >() );
+        s_xWidgets.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Widget >() );
     }
 }
 
@@ -148,37 +148,37 @@ void GLToy_UI_System::ClearWidgets()
 
 GLToy_Widget_Label* GLToy_UI_System::CreateLabel( const GLToy_String& szLabel, const float fX, const float fY )
 {
-	GLToy_Widget_Label* pxLabel =
-		static_cast< GLToy_Widget_Label* >(
-			CreateWidget( WIDGET_LABEL, fX, fY ) );
+    GLToy_Widget_Label* pxLabel =
+        static_cast< GLToy_Widget_Label* >(
+            CreateWidget( WIDGET_LABEL, fX, fY ) );
 
-	pxLabel->SetString( szLabel );
+    pxLabel->SetString( szLabel );
 
-	return pxLabel;
+    return pxLabel;
 }
 
 GLToy_Widget_ImageButton* GLToy_UI_System::CreateImageButton(
-	const GLToy_String& szTexture,
-	const GLToy_String& szLabel,
-	void ( * const pfnCallback )( void* const pData ),
-	const float fX, const float fY,
-	const float fWidth, const float fHeight )
+    const GLToy_String& szTexture,
+    const GLToy_String& szLabel,
+    void ( * const pfnCallback )( void* const pData ),
+    const float fX, const float fY,
+    const float fWidth, const float fHeight )
 {
-	GLToy_Widget_ImageButton* pxImageButton =
-		static_cast< GLToy_Widget_ImageButton* >(
-			CreateWidget( WIDGET_IMAGEBUTTON, fX, fY, fWidth, fHeight ) );
+    GLToy_Widget_ImageButton* pxImageButton =
+        static_cast< GLToy_Widget_ImageButton* >(
+            CreateWidget( WIDGET_IMAGEBUTTON, fX, fY, fWidth, fHeight ) );
 
-	pxImageButton->SetTexture( szTexture.GetHash() );
-	pxImageButton->SetLabelString( szLabel );
-	pxImageButton->SetCallback( pfnCallback );
+    pxImageButton->SetTexture( szTexture.GetHash() );
+    pxImageButton->SetLabelString( szLabel );
+    pxImageButton->SetCallback( pfnCallback );
 
-	return pxImageButton;
+    return pxImageButton;
 }
 
 GLToy_Dialog* GLToy_UI_System::CreateDialog(
     const GLToy_DialogStyle ucStyle,
-	const float fX, const float fY,
-	const float fWidth, const float fHeight )
+    const float fX, const float fY,
+    const float fWidth, const float fHeight )
 {
     if( ucStyle & DIALOG_STYLE_MODAL )
     {
@@ -228,19 +228,19 @@ void GLToy_UI_System::ShowQuitDialog()
 
 GLToy_Widget* GLToy_UI_System::CreateWidget(
     const GLToy_WidgetType eType,
-	const float fX, const float fY,
-	const float fWidth, const float fHeight )
+    const float fX, const float fY,
+    const float fWidth, const float fHeight )
 {
-	GLToy_Widget* pxWidget = NULL;
+    GLToy_Widget* pxWidget = NULL;
 
-	switch( eType )
-	{
-		case WIDGET_NULL:
-		{
-			GLToy_Assert( false, "Creating a null widget, are you sure this is correct?" );
-			pxWidget = new GLToy_Widget( eType, fX, fY, fWidth, fHeight );
+    switch( eType )
+    {
+        case WIDGET_NULL:
+        {
+            GLToy_Assert( false, "Creating a null widget, are you sure this is correct?" );
+            pxWidget = new GLToy_Widget( eType, fX, fY, fWidth, fHeight );
             break;
-		}
+        }
 
         case WIDGET_LABEL:
         {
@@ -248,13 +248,13 @@ GLToy_Widget* GLToy_UI_System::CreateWidget(
             break;
         }
 
-		case WIDGET_IMAGE:
+        case WIDGET_IMAGE:
         {
             pxWidget = new GLToy_Widget_Image( eType, fX, fY, fWidth, fHeight );
             break;
         }
 
-		case WIDGET_IMAGEBUTTON:
+        case WIDGET_IMAGEBUTTON:
         {
             pxWidget = new GLToy_Widget_ImageButton( eType, fX, fY, fWidth, fHeight );
             break;
@@ -267,18 +267,18 @@ GLToy_Widget* GLToy_UI_System::CreateWidget(
         }
         
         default:
-		{
-			GLToy_Assert( false, "Unable to create unrecognised widget type: %d", eType );
-			break;
-		}
-	}
+        {
+            GLToy_Assert( false, "Unable to create unrecognised widget type: %d", eType );
+            break;
+        }
+    }
 
     if( pxWidget )
     {
         s_xWidgets.Append( pxWidget );
     }
 
-	return pxWidget;
+    return pxWidget;
 }
 
 void GLToy_UI_System::DestroyCurrentModalDialog()
@@ -301,5 +301,5 @@ void GLToy_UI_System::ShowPointer( const bool bShow )
 
 float GLToy_UI_System::GetPulse()
 {
-	return 0.92f + 0.08f * GLToy_Maths::Cos( 7.5f * GLToy_Timer::GetTime() );
+    return 0.92f + 0.08f * GLToy_Maths::Cos( 7.5f * GLToy_Timer::GetTime() );
 }

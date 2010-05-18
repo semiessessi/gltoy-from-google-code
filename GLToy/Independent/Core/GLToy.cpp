@@ -126,7 +126,7 @@ bool GLToy::Initialise()
 
     GLToy_InitialiserCall( GLToy_Render );
     GLToy_InitialiserCall( GLToy_Console );
-	GLToy_InitialiserCall( GLToy_UI_System );
+    GLToy_InitialiserCall( GLToy_UI_System );
     GLToy_InitialiserCall( GLToy_State_System );
     GLToy_InitialiserCall( GLToy_Physics_System );
 
@@ -180,7 +180,7 @@ void GLToy::Shutdown()
 
     GLToy_Physics_System::Shutdown();
     GLToy_State_System::Shutdown();
-	GLToy_UI_System::Shutdown();
+    GLToy_UI_System::Shutdown();
     GLToy_Console::Shutdown();
     GLToy_Render::Shutdown();
 
@@ -200,11 +200,11 @@ bool GLToy::MainLoop()
 
     // Update functions
     GLToy_Timer::Update();
-	GLToy_Input_System::Update();
+    GLToy_Input_System::Update();
     GLToy_State_System::Update();
 
-	GLToy_Console::Update();
-	GLToy_UI_System::Update();
+    GLToy_Console::Update();
+    GLToy_UI_System::Update();
     GLToy_Physics_System::Update(); // this comes before camera to avoid a frame of lag on user controlled physics objects
     GLToy_Camera::Update();
 
@@ -273,4 +273,3 @@ void GLToy::ChangeWindowIcon( const char* const szTextureName )
 {
     Platform_ChangeWindowIcon( szTextureName );
 }
-

@@ -67,11 +67,11 @@ void GLToy_EntityFile::LoadEntities() const
     GLToy_BitStream xStream;
     ReadToBitStream( xStream );
 
-	if( xStream.GetBitsWritten() == 0 )
-	{
-		GLToy_Assert( xStream.GetBitsWritten() != 0, "No data in entity file \"%S\"! Aborting load.", GetFilename().GetWideString() );
-		return;
-	}
+    if( xStream.GetBitsWritten() == 0 )
+    {
+        GLToy_Assert( xStream.GetBitsWritten() != 0, "No data in entity file \"%S\"! Aborting load.", GetFilename().GetWideString() );
+        return;
+    }
 
     u_int uHeader;
     xStream >> uHeader;

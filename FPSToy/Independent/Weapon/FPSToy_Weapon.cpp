@@ -37,17 +37,17 @@
 
 void FPSToy_Weapon::AddMode( const GLToy_Hash uWeaponType )
 {
-	const FPSToy_WeaponType* const pxType = FPSToy_Weapon_System::FindWeaponType( uWeaponType );
-	if( !pxType )
-	{
-		return;
-	}
+    const FPSToy_WeaponType* const pxType = FPSToy_Weapon_System::FindWeaponType( uWeaponType );
+    if( !pxType )
+    {
+        return;
+    }
 
-	m_xWeaponTypes.Append( pxType );
+    m_xWeaponTypes.Append( pxType );
 }
 
 bool FPSToy_WeaponInventory::AddWeapon( const GLToy_Hash uWeaponHash )
 {
-	m_xWeapons.Append( FPSToy_Weapon_System::CreateWeapon( uWeaponHash, m_uOwnerEntityHash ) );
-	return false;
+    m_xWeapons.Append( FPSToy_Weapon_System::CreateWeapon( uWeaponHash, m_uOwnerEntityHash ) );
+    return false;
 }

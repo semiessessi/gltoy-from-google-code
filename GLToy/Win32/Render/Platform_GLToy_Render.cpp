@@ -100,30 +100,30 @@ bool Platform_GLToy_Render::Initialise()
     glClearStencil( 0 );
 
     // get version
-	GLToy_String szVersionString = reinterpret_cast< const char* >( glGetString( GL_VERSION ) );
+    GLToy_String szVersionString = reinterpret_cast< const char* >( glGetString( GL_VERSION ) );
     if( szVersionString.GetLength() == 0 )
     {
         return false;
     }
 
-	s_uVersion = 0;
+    s_uVersion = 0;
 
-	// make the string into a nice number to compare stuff
+    // make the string into a nice number to compare stuff
     const u_int uVersionStringLength = szVersionString.GetLength();
-	if( uVersionStringLength > 2 )
-	{
+    if( uVersionStringLength > 2 )
+    {
         const char cMajor = static_cast< char > ( szVersionString[ 0 ] );
         const char cMinor = static_cast< char > ( szVersionString[ 2 ] );
         const char cRevision = ( uVersionStringLength > 4 ) ? static_cast< char > ( szVersionString[ 4 ] ) : '0';
-		
+        
         s_uVersion =    static_cast< u_int >( cMajor - '0' ) * 100
                         + static_cast< u_int >( cMinor - '0' ) * 10
                         + static_cast< u_int >( cRevision - '0' );
-	}
+    }
     else
     {
         return false;
-	}
+    }
 
     GLToy_DebugOutput( "\r\n  OpenGL %d.%d is available\r\n", s_uVersion / 100, s_uVersion % 100 );
 

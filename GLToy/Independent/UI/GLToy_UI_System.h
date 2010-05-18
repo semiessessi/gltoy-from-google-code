@@ -57,8 +57,8 @@ public:
     static bool Initialise();
     static void Shutdown();
 
-	static void Render2D();
-	static void Update();
+    static void Render2D();
+    static void Update();
 
     static void ClearWidgets();
 
@@ -68,19 +68,19 @@ public:
     static GLToy_Widget_Label* CreateLabel( const GLToy_String& szLabel, const float fX, const float fY );
     static GLToy_Widget_Image* CreateImage( const GLToy_String& szTexture, const float fX, const float fY, const float fWidth, const float fHeight );
     static GLToy_Widget_ImageButton* CreateImageButton(
-		const GLToy_String& szTexture,
-		const GLToy_String& szLabel,
-		void ( * const pfnCallback )( void* const pData ),
-		const float fX, const float fY,
-		const float fWidth, const float fHeight );
+        const GLToy_String& szTexture,
+        const GLToy_String& szLabel,
+        void ( * const pfnCallback )( void* const pData ),
+        const float fX, const float fY,
+        const float fWidth, const float fHeight );
 
     static GLToy_Dialog* CreateDialog( const GLToy_DialogStyle ucStyle, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f );
     static void DestroyCurrentModalDialog();
     static void ShowErrorDialog( const GLToy_String& szError, ... );
     static void ShowQuitDialog();
 
-	static const GLToy_Vector_2& GetMousePosition() { return s_xMousePosition; }
-	static float GetPulse();
+    static const GLToy_Vector_2& GetMousePosition() { return s_xMousePosition; }
+    static float GetPulse();
 
 private:
 
@@ -90,8 +90,8 @@ private:
     static GLToy_Vector_2 s_xMousePosition;
 
     static GLToy_Dialog* s_pxCurrentModalDialog;
-	static GLToy_Array< GLToy_Dialog* > s_xDialogs;
-	static GLToy_Array< GLToy_Widget* > s_xWidgets;
+    static GLToy_Array< GLToy_Dialog* > s_xDialogs;
+    static GLToy_Array< GLToy_Widget* > s_xWidgets;
 
 };
 

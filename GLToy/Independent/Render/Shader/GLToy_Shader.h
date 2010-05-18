@@ -46,7 +46,7 @@ public:
 
     void Bind() const;
 
-	void SetUniform( const GLToy_String& szName, const int iValue );
+    void SetUniform( const GLToy_String& szName, const int iValue );
 
 protected:
 

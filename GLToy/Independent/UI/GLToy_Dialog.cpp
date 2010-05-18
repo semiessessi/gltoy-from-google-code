@@ -214,4 +214,4 @@ void GLToy_Dialog::SizeToText( const GLToy_String& szString )
     const float fWidth = pxFont->GetWidth() * static_cast< float >( szString.GetLength() ) + 2.0f * fDIALOG_TEXT_OFFSET;
     const float fHeight = pxFont->GetHeight() + 2.0f * fDIALOG_TEXT_OFFSET;
     SetSize( fWidth, fHeight );
-} 
+}

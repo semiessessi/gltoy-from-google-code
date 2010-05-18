@@ -51,19 +51,19 @@ public:
     GLToy_Widget()
     : m_xPosition()
     , m_xSize()
-	, m_eType( WIDGET_NULL )
+    , m_eType( WIDGET_NULL )
     , m_pxParent( NULL )
     {
 
     }
 
-	GLToy_Widget(
+    GLToy_Widget(
         const GLToy_WidgetType eType,
         const float fX = 0.0f, const float fY = 0.0f,
         const float fWidth = 0.1f, const float fHeight = 0.1f )
     : m_xPosition( fX, fY )
     , m_xSize( fWidth, fHeight )
-	, m_eType( eType )
+    , m_eType( eType )
     , m_pxParent( NULL )
     {
     }
@@ -72,26 +72,26 @@ public:
     GLToy_Widget( const GLToy_Widget& xWidget )
     : m_xPosition()
     , m_xSize()
-	, m_eType( WIDGET_NULL )
+    , m_eType( WIDGET_NULL )
     , m_pxParent( NULL )
     {
     }
 
     virtual ~GLToy_Widget() {}
 
-	// widgets only need the 2d render function...
-	// if they go on 3d stuff it should be by rendering to a texture
-	virtual void Render() const {}
-	
-	virtual void Update() {}
+    // widgets only need the 2d render function...
+    // if they go on 3d stuff it should be by rendering to a texture
+    virtual void Render() const {}
+    
+    virtual void Update() {}
 
-	virtual void Execute() {}
+    virtual void Execute() {}
 
-	GLToy_Inline float GetX() const { return m_xPosition[ 0 ]; }
-	GLToy_Inline float GetY() const { return m_xPosition[ 1 ]; }
+    GLToy_Inline float GetX() const { return m_xPosition[ 0 ]; }
+    GLToy_Inline float GetY() const { return m_xPosition[ 1 ]; }
     GLToy_Inline const GLToy_Vector_2& GetPosition() const { return m_xPosition; }
-	GLToy_Inline float GetWidth() const { return m_xSize[ 0 ]; }
-	GLToy_Inline float GetHeight() const { return m_xSize[ 1 ]; }
+    GLToy_Inline float GetWidth() const { return m_xSize[ 0 ]; }
+    GLToy_Inline float GetHeight() const { return m_xSize[ 1 ]; }
     GLToy_Inline const GLToy_Vector_2& GetSize() const { return m_xSize; }
 
     GLToy_Inline GLToy_WidgetType GetType() const { return m_eType; }
@@ -109,7 +109,7 @@ protected:
 
     GLToy_Vector_2 m_xPosition;
     GLToy_Vector_2 m_xSize;
-	GLToy_WidgetType m_eType;
+    GLToy_WidgetType m_eType;
 
     const GLToy_Dialog* m_pxParent;
 

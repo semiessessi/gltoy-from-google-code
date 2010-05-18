@@ -149,12 +149,12 @@ void GLToy_PFX_System::DestroyPFX( const GLToy_Hash uPFXHash )
 
 const GLToy_ParticleProperties* GLToy_PFX_System::GetParticleProperties( const GLToy_Hash uHash )
 {
-	return s_xParticleProperties.FindData( uHash );
+    return s_xParticleProperties.FindData( uHash );
 }
 
 bool GLToy_PFX_System::InitialisePFXProperties()
 {
-	s_xPFXProperties.Clear();
+    s_xPFXProperties.Clear();
 
     GLToy_Array< GLToy_String > xPFXPaths = GLToy_File_System::PathsFromFilter( "PFX/", "*.pfx" );
 
@@ -196,12 +196,12 @@ bool GLToy_PFX_System::InitialisePFXProperties()
         s_xPFXProperties.AddNode( xPFXProperties, szName.GetHash() );
     }
 
-	return true;
+    return true;
 }
 
 bool GLToy_PFX_System::InitialiseSourceProperties()
 {
-	s_xSourceProperties.Clear();
+    s_xSourceProperties.Clear();
 
     GLToy_Array< GLToy_String > xSourcePaths = GLToy_File_System::PathsFromFilter( "PFX/Sources/", "*.source" );
 
@@ -252,7 +252,7 @@ bool GLToy_PFX_System::InitialiseSourceProperties()
 
 bool GLToy_PFX_System::InitialiseParticleProperties()
 {
-	s_xParticleProperties.Clear();
+    s_xParticleProperties.Clear();
 
     GLToy_Array< GLToy_String > xParticlePaths = GLToy_File_System::PathsFromFilter( "PFX/Particles/", "*.particle" );
 

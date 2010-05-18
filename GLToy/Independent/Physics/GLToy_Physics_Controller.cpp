@@ -75,30 +75,30 @@ void GLToy_Physics_Controller::Create( const GLToy_Vector_3& xPosition )
         return;
     }
 
-	// Define the shapes for the controller
-	hkVector4 xVertexA( 0.0f, 0.0f, 0.1f );
-	hkVector4 xVertexB( 0.0f, 0.0f, -0.1f );
-	m_pxStandShape = new hkpCapsuleShape( xVertexA, xVertexB, 1.1f );		
-	xVertexA.setZero4();
-	m_pxCrouchShape = new hkpCapsuleShape( xVertexA, xVertexB, 0.85f );
+    // Define the shapes for the controller
+    hkVector4 xVertexA( 0.0f, 0.0f, 0.1f );
+    hkVector4 xVertexB( 0.0f, 0.0f, -0.1f );
+    m_pxStandShape = new hkpCapsuleShape( xVertexA, xVertexB, 1.1f );        
+    xVertexA.setZero4();
+    m_pxCrouchShape = new hkpCapsuleShape( xVertexA, xVertexB, 0.85f );
 
 
-	// Construct a character rigid body
-	hkpCharacterRigidBodyCinfo xCharacterRigidBodyCInfo;
-	xCharacterRigidBodyCInfo.m_mass = 100.0f;
-	xCharacterRigidBodyCInfo.m_shape = m_pxStandShape;
+    // Construct a character rigid body
+    hkpCharacterRigidBodyCinfo xCharacterRigidBodyCInfo;
+    xCharacterRigidBodyCInfo.m_mass = 100.0f;
+    xCharacterRigidBodyCInfo.m_shape = m_pxStandShape;
 
-	xCharacterRigidBodyCInfo.m_maxForce = 1000.0f;
-	xCharacterRigidBodyCInfo.m_up.set( 0.0f, 1.0f, 0.0f );
-	xCharacterRigidBodyCInfo.m_position.set( xScaledPosition[ 0 ], xScaledPosition[ 1 ], xScaledPosition[ 2 ] );
+    xCharacterRigidBodyCInfo.m_maxForce = 1000.0f;
+    xCharacterRigidBodyCInfo.m_up.set( 0.0f, 1.0f, 0.0f );
+    xCharacterRigidBodyCInfo.m_position.set( xScaledPosition[ 0 ], xScaledPosition[ 1 ], xScaledPosition[ 2 ] );
     xCharacterRigidBodyCInfo.m_maxSlope = GLToy_Maths::Deg2Rad( 70.0f );
     xCharacterRigidBodyCInfo.m_friction = 0.6f;
-	
-	m_pxHavokRigidBody = new hkpCharacterRigidBody( xCharacterRigidBodyCInfo );
+    
+    m_pxHavokRigidBody = new hkpCharacterRigidBody( xCharacterRigidBodyCInfo );
 
-	hkpCharacterRigidBodyListener* pxListener = new hkpCharacterRigidBodyListener();
-	m_pxHavokRigidBody->setListener( pxListener );
-	pxListener->removeReference();
+    hkpCharacterRigidBodyListener* pxListener = new hkpCharacterRigidBodyListener();
+    m_pxHavokRigidBody->setListener( pxListener );
+    pxListener->removeReference();
 
     pxWorld->lock();
     GLToy_Havok_MarkForWrite();
@@ -106,31 +106,31 @@ void GLToy_Physics_Controller::Create( const GLToy_Vector_3& xPosition )
     pxWorld->addEntity( m_pxHavokRigidBody->getRigidBody() );
 
     hkpCharacterState* pxState;
-	hkpCharacterStateManager* pxManager = new hkpCharacterStateManager();
+    hkpCharacterStateManager* pxManager = new hkpCharacterStateManager();
 
-	pxState = new hkpCharacterStateOnGround();
-	pxManager->registerState( pxState, HK_CHARACTER_ON_GROUND );
-	pxState->removeReference();
+    pxState = new hkpCharacterStateOnGround();
+    pxManager->registerState( pxState, HK_CHARACTER_ON_GROUND );
+    pxState->removeReference();
 
-	pxState = new hkpCharacterStateInAir();
-	pxManager->registerState( pxState, HK_CHARACTER_IN_AIR );
-	pxState->removeReference();
+    pxState = new hkpCharacterStateInAir();
+    pxManager->registerState( pxState, HK_CHARACTER_IN_AIR );
+    pxState->removeReference();
 
-	pxState = new hkpCharacterStateJumping();
-	pxManager->registerState( pxState, HK_CHARACTER_JUMPING );
-	pxState->removeReference();
+    pxState = new hkpCharacterStateJumping();
+    pxManager->registerState( pxState, HK_CHARACTER_JUMPING );
+    pxState->removeReference();
 
-	pxState = new hkpCharacterStateClimbing();
-	pxManager->registerState( pxState, HK_CHARACTER_CLIMBING );
-	pxState->removeReference();
+    pxState = new hkpCharacterStateClimbing();
+    pxManager->registerState( pxState, HK_CHARACTER_CLIMBING );
+    pxState->removeReference();
 
-	m_pxHavokContext = new hkpCharacterContext( pxManager, HK_CHARACTER_ON_GROUND );
-	pxManager->removeReference();
+    m_pxHavokContext = new hkpCharacterContext( pxManager, HK_CHARACTER_ON_GROUND );
+    pxManager->removeReference();
 
-	m_pxHavokContext->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
+    m_pxHavokContext->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
 
-	//m_xPreviousGroundInfo = new hkpSurfaceInfo();
-	//m_uFramesInAir = 0;
+    //m_xPreviousGroundInfo = new hkpSurfaceInfo();
+    //m_uFramesInAir = 0;
 
     GLToy_Havok_UnmarkForWrite();
     pxWorld->unlock();
@@ -162,10 +162,10 @@ void GLToy_Physics_Controller::Destroy()
     }
 
     m_pxHavokRigidBody->removeReference();
-	m_pxStandShape->removeReference();
-	m_pxCrouchShape->removeReference();
+    m_pxStandShape->removeReference();
+    m_pxCrouchShape->removeReference();
 
-	delete m_pxHavokContext;
+    delete m_pxHavokContext;
 
     m_pxHavokRigidBody = NULL;
 
@@ -198,44 +198,44 @@ void GLToy_Physics_Controller::Update( const float fTimestep )
     GLToy_Havok_MarkForWrite();
 
     // TODO - implement something similar to this
-	////
-	//// Detect ladder
-	////
-	//hkBool atLadder = false;
-	//// Initialize these so gcc doesn't complain
-	//hkVector4 ladderNorm; ladderNorm.setZero4();
-	//hkVector4 ladderVelocity; ladderVelocity.setZero4();
+    ////
+    //// Detect ladder
+    ////
+    //hkBool atLadder = false;
+    //// Initialize these so gcc doesn't complain
+    //hkVector4 ladderNorm; ladderNorm.setZero4();
+    //hkVector4 ladderVelocity; ladderVelocity.setZero4();
 
-	//// Process all collisions points to see if there is a collision at a ladder. This could be done in a callback, however
-	//// it is done this way here to ensure compatibility with SPU simulation.
-	//hkpLinkedCollidable* coll = m_characterRigidBody->getRigidBody()->getLinkedCollidable();
-	//hkArray<struct hkpLinkedCollidable::CollisionEntry> collisionEntriesTmp;
-	//coll->getCollisionEntriesSorted(collisionEntriesTmp);
-	//const hkArray<struct hkpLinkedCollidable::CollisionEntry>& collisionEntries = collisionEntriesTmp;
+    //// Process all collisions points to see if there is a collision at a ladder. This could be done in a callback, however
+    //// it is done this way here to ensure compatibility with SPU simulation.
+    //hkpLinkedCollidable* coll = m_characterRigidBody->getRigidBody()->getLinkedCollidable();
+    //hkArray<struct hkpLinkedCollidable::CollisionEntry> collisionEntriesTmp;
+    //coll->getCollisionEntriesSorted(collisionEntriesTmp);
+    //const hkArray<struct hkpLinkedCollidable::CollisionEntry>& collisionEntries = collisionEntriesTmp;
 
-	//for ( int i = 0; i < collisionEntries.getSize(); ++i )
-	//{
-	//	hkpRigidBody* rb = hkpGetRigidBody( collisionEntries[i].m_partner );
-	//	if ( rb != HK_NULL && rb->hasProperty(HK_OBJECT_IS_LADDER) ) 
-	//	{
-	//		if ( collisionEntries[i].m_agentEntry->m_contactMgr->m_type == hkpContactMgr::TYPE_SIMPLE_CONSTRAINT_CONTACT_MGR )
-	//		{
-	//			hkpSimpleConstraintContactMgr* mgr = (hkpSimpleConstraintContactMgr*)(collisionEntries[i].m_agentEntry->m_contactMgr);
-	//			if (mgr->m_contactConstraintData.getNumContactPoints() > 0)
-	//			{
-	//				atLadder = true;
-	//				hkContactPoint* contactPoints = mgr->m_contactConstraintData.m_atom->getContactPoints();
-	//				ladderNorm = contactPoints[0].getNormal();
-	//				rb->getPointVelocity( contactPoints[0].getPosition(), ladderVelocity );
-	//				break;
-	//			}
-	//		}
-	//	}
-	//}
+    //for ( int i = 0; i < collisionEntries.getSize(); ++i )
+    //{
+    //    hkpRigidBody* rb = hkpGetRigidBody( collisionEntries[i].m_partner );
+    //    if ( rb != HK_NULL && rb->hasProperty(HK_OBJECT_IS_LADDER) ) 
+    //    {
+    //        if ( collisionEntries[i].m_agentEntry->m_contactMgr->m_type == hkpContactMgr::TYPE_SIMPLE_CONSTRAINT_CONTACT_MGR )
+    //        {
+    //            hkpSimpleConstraintContactMgr* mgr = (hkpSimpleConstraintContactMgr*)(collisionEntries[i].m_agentEntry->m_contactMgr);
+    //            if (mgr->m_contactConstraintData.getNumContactPoints() > 0)
+    //            {
+    //                atLadder = true;
+    //                hkContactPoint* contactPoints = mgr->m_contactConstraintData.m_atom->getContactPoints();
+    //                ladderNorm = contactPoints[0].getNormal();
+    //                rb->getPointVelocity( contactPoints[0].getPosition(), ladderVelocity );
+    //                break;
+    //            }
+    //        }
+    //    }
+    //}
 
     // TODO - the input code belongs in a player class or something
-	hkpCharacterInput xInput;
-	hkpCharacterOutput xOutput;
+    hkpCharacterInput xInput;
+    hkpCharacterOutput xOutput;
 
     float fDX = 0.0f;
     float fDZ = 0.0f;
@@ -262,65 +262,65 @@ void GLToy_Physics_Controller::Update( const float fTimestep )
         fDX += 0.5f;
     }
 
-	xInput.m_inputLR = fDX;
-	xInput.m_inputUD = fDZ;
+    xInput.m_inputLR = fDX;
+    xInput.m_inputUD = fDZ;
 
     xInput.m_wantJump = bJump;
-	xInput.m_atLadder = false;
+    xInput.m_atLadder = false;
 
-	xInput.m_up.set( 0.0f, 1.0f, 0.0f );
+    xInput.m_up.set( 0.0f, 1.0f, 0.0f );
     xInput.m_forward.set( GLToy_Camera::GetDirection()[ 0 ], 0.0f, GLToy_Camera::GetDirection()[ 2 ] );
     xInput.m_forward.normalize3();
 
-	hkStepInfo xStepInfo;
-	xStepInfo.m_deltaTime = fTimestep;
-	xStepInfo.m_invDeltaTime = 1.0f / fTimestep;
-	xInput.m_stepInfo = xStepInfo;
+    hkStepInfo xStepInfo;
+    xStepInfo.m_deltaTime = fTimestep;
+    xStepInfo.m_invDeltaTime = 1.0f / fTimestep;
+    xInput.m_stepInfo = xStepInfo;
 
-	xInput.m_characterGravity.set( 0, -16.0f, 0.0f );
-	xInput.m_velocity = m_pxHavokRigidBody->getRigidBody()->getLinearVelocity();
-	xInput.m_position = m_pxHavokRigidBody->getRigidBody()->getPosition();
+    xInput.m_characterGravity.set( 0, -16.0f, 0.0f );
+    xInput.m_velocity = m_pxHavokRigidBody->getRigidBody()->getLinearVelocity();
+    xInput.m_position = m_pxHavokRigidBody->getRigidBody()->getPosition();
 
-	m_pxHavokRigidBody->checkSupport( xStepInfo, xInput.m_surfaceInfo );
+    m_pxHavokRigidBody->checkSupport( xStepInfo, xInput.m_surfaceInfo );
 
     // TODO - implement something similar to this
-	//	// Only climb the ladder when the character is either unsupported or wants to go up.
-	//	if ( atLadder && ( ( input.m_inputUD < 0 ) || ( input.m_surfaceInfo.m_supportedState != hkpSurfaceInfo::SUPPORTED ) ) )
-	//	{
-	//		hkVector4 right, ladderUp;
-	//		right.setCross( UP, ladderNorm );
-	//		ladderUp.setCross( ladderNorm, right );
-	//		// Calculate the up vector for the ladder
-	//		if (ladderUp.lengthSquared3() > HK_REAL_EPSILON)
-	//		{
-	//			ladderUp.normalize3();
-	//		}
+    //    // Only climb the ladder when the character is either unsupported or wants to go up.
+    //    if ( atLadder && ( ( input.m_inputUD < 0 ) || ( input.m_surfaceInfo.m_supportedState != hkpSurfaceInfo::SUPPORTED ) ) )
+    //    {
+    //        hkVector4 right, ladderUp;
+    //        right.setCross( UP, ladderNorm );
+    //        ladderUp.setCross( ladderNorm, right );
+    //        // Calculate the up vector for the ladder
+    //        if (ladderUp.lengthSquared3() > HK_REAL_EPSILON)
+    //        {
+    //            ladderUp.normalize3();
+    //        }
 
-	//		// Reorient the forward vector so it points up along the ladder
-	//		input.m_forward.addMul4( -ladderNorm.dot3(input.m_forward), ladderNorm);
-	//		input.m_forward.add4( ladderUp );
-	//		input.m_forward.normalize3();
+    //        // Reorient the forward vector so it points up along the ladder
+    //        input.m_forward.addMul4( -ladderNorm.dot3(input.m_forward), ladderNorm);
+    //        input.m_forward.add4( ladderUp );
+    //        input.m_forward.normalize3();
 
-	//		input.m_surfaceInfo.m_supportedState = hkpSurfaceInfo::UNSUPPORTED;
-	//		input.m_surfaceInfo.m_surfaceNormal = ladderNorm;
-	//		input.m_surfaceInfo.m_surfaceVelocity = ladderVelocity;
-	//	}
+    //        input.m_surfaceInfo.m_supportedState = hkpSurfaceInfo::UNSUPPORTED;
+    //        input.m_surfaceInfo.m_surfaceNormal = ladderNorm;
+    //        input.m_surfaceInfo.m_surfaceVelocity = ladderVelocity;
+    //    }
 
     const bool bIsCrouched = ( m_pxHavokRigidBody->getRigidBody()->getCollidable()->getShape() == m_pxCrouchShape );
 
-	if ( bIsCrouched && !bCrouch )
-	{
-		m_pxHavokRigidBody->getRigidBody()->setShape( m_pxStandShape );
-	}
+    if ( bIsCrouched && !bCrouch )
+    {
+        m_pxHavokRigidBody->getRigidBody()->setShape( m_pxStandShape );
+    }
 
-	if ( !bIsCrouched && bCrouch )
-	{
-		m_pxHavokRigidBody->getRigidBody()->setShape( m_pxCrouchShape );
-	}
+    if ( !bIsCrouched && bCrouch )
+    {
+        m_pxHavokRigidBody->getRigidBody()->setShape( m_pxCrouchShape );
+    }
 
     m_pxHavokContext->update( xInput, xOutput );
 
-	m_pxHavokRigidBody->setLinearVelocity( xOutput.m_velocity, fTimestep );
+    m_pxHavokRigidBody->setLinearVelocity( xOutput.m_velocity, fTimestep );
 
     GLToy_Havok_UnmarkForWrite();
     pxWorld->unlock();

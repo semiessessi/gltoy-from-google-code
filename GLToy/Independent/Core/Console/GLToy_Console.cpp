@@ -111,10 +111,10 @@ void GLToy_Console::Print( const GLToy_String& szLine )
     GLToy_String szCopy = szLine;
     while( szCopy.GetLength() > 0 )
     {
-		if( s_xLog.GetCount() > uGLTOY_CONSOLE_MAX_LOG_LINES )
-		{
-			s_xLog.RemoveAt( s_xLog.GetCount() - uGLTOY_CONSOLE_MAX_LOG_LINES );
-		}
+        if( s_xLog.GetCount() > uGLTOY_CONSOLE_MAX_LOG_LINES )
+        {
+            s_xLog.RemoveAt( s_xLog.GetCount() - uGLTOY_CONSOLE_MAX_LOG_LINES );
+        }
 
         s_xLog.Append( szCopy.RemoveFirstLine() );
     }
@@ -129,12 +129,12 @@ void GLToy_Console::ExecuteLine( const GLToy_String& szLine, const bool bStoreIn
     if( pxCommand )
     {
         pxCommand->Execute( szParameters );
-		Print( GLToy_String( "> " ) + szLine );
+        Print( GLToy_String( "> " ) + szLine );
     }
-	else
-	{
-		Print( GLToy_String( "Unrecognised command \"" ) + szCommand + "\"" );
-	}
+    else
+    {
+        Print( GLToy_String( "Unrecognised command \"" ) + szCommand + "\"" );
+    }
 
     if( bStoreInHistory )
     {

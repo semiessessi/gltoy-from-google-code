@@ -78,16 +78,16 @@ public:
     {
     }
 
-	void DestroyList()
-	{
-		if( !m_pxTail )
-		{
-			return;
-		}
+    void DestroyList()
+    {
+        if( !m_pxTail )
+        {
+            return;
+        }
 
-		m_pxTail->DestroyList();
-		delete m_pxTail;
-	}
+        m_pxTail->DestroyList();
+        delete m_pxTail;
+    }
 
     virtual T& operator []( const int iIndex )
     {
@@ -213,7 +213,7 @@ public:
 
     virtual ~GLToy_List()
     {
-		m_xData.DestroyList();
+        m_xData.DestroyList();
     }
 
     virtual T& operator []( const int iIndex )
@@ -261,15 +261,15 @@ public:
 
     void Append( const T& xData )
     {
-		if( m_bEmpty )
-		{
-			m_xData[ 0 ] = xData;
-		}
-		else
-		{
-			m_xData.Append( xData );
-		}
-		m_bEmpty = false;
+        if( m_bEmpty )
+        {
+            m_xData[ 0 ] = xData;
+        }
+        else
+        {
+            m_xData.Append( xData );
+        }
+        m_bEmpty = false;
     }
 
     void RemoveAt( const u_int uIndex )

@@ -90,7 +90,7 @@ protected:
         else if( ( uKey == GLToy_Input_System::GetExecuteKey() )
             || ( uKey == GLToy_Input_System::GetReturnKey() ) )
         {
-			GLToy_Environment_System::LoadEnvironmentFile(
+            GLToy_Environment_System::LoadEnvironmentFile(
                 xEnvTree[ g_uCurrentEnvironment ]->GetName() );
 
             GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Editor" ) );
@@ -110,25 +110,25 @@ GLToy_EditorFrontEnd_KeyInputHandler g_xInputHandler;
 
 void GLToy_State_EditorFrontEnd_NewEnvironmentCallback( void* const pData )
 {
-	GLToy_Environment_System::CreateTestEnvironment();
+    GLToy_Environment_System::CreateTestEnvironment();
     GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Editor" ) );
 }
 
 void GLToy_State_EditorFrontEnd_LoadEnvironmentCallback( void* const pData )
 {
-	GLToy_HashTree< GLToy_EnvironmentFile* >& xEnvTree =
+    GLToy_HashTree< GLToy_EnvironmentFile* >& xEnvTree =
         GLToy_Environment_System::GetEnvironmentFileTree();
 
-	GLToy_Environment_System::LoadEnvironmentFile(
-		xEnvTree[ g_uCurrentEnvironment ]->GetName() );
+    GLToy_Environment_System::LoadEnvironmentFile(
+        xEnvTree[ g_uCurrentEnvironment ]->GetName() );
 
-	GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Editor" ) );
+    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Editor" ) );
 }
 
 void GLToy_State_EditorFrontEnd_QuitCallback( void* const pData )
 {
     GLToy_UI_System::ShowQuitDialog();
-	//GLToy::Quit();
+    //GLToy::Quit();
 }
 
 void GLToy_State_EditorFrontEnd::Initialise()
@@ -154,27 +154,27 @@ void GLToy_State_EditorFrontEnd::Initialise()
     GLToy_UI_System::ShowPointer( true );
 
     const float fBaseX = GLToy_Render::GetMinX() + 0.05f;
-	GLToy_UI_System::CreateLabel( "GLToy Editor", fBaseX, 0.85f );
-	
-	GLToy_UI_System::CreateImageButton(
-		"Widgets/File.png", "New environment",
-		GLToy_State_EditorFrontEnd_NewEnvironmentCallback,
-		fBaseX, 0.45f, 0.2f, 0.2f );
+    GLToy_UI_System::CreateLabel( "GLToy Editor", fBaseX, 0.85f );
+    
+    GLToy_UI_System::CreateImageButton(
+        "Widgets/File.png", "New environment",
+        GLToy_State_EditorFrontEnd_NewEnvironmentCallback,
+        fBaseX, 0.45f, 0.2f, 0.2f );
 
-	GLToy_UI_System::CreateImageButton(
-		"Widgets/Folder.png", "Load environment",
-		GLToy_State_EditorFrontEnd_LoadEnvironmentCallback,
-		fBaseX, 0.15f, 0.2f, 0.2f );
-	
-	GLToy_UI_System::CreateImageButton(
-		"Widgets/Shutdown.png", "Quit",
-		GLToy_State_EditorFrontEnd_QuitCallback,
-		fBaseX, -0.85f, 0.2f, 0.2f );
+    GLToy_UI_System::CreateImageButton(
+        "Widgets/Folder.png", "Load environment",
+        GLToy_State_EditorFrontEnd_LoadEnvironmentCallback,
+        fBaseX, 0.15f, 0.2f, 0.2f );
+    
+    GLToy_UI_System::CreateImageButton(
+        "Widgets/Shutdown.png", "Quit",
+        GLToy_State_EditorFrontEnd_QuitCallback,
+        fBaseX, -0.85f, 0.2f, 0.2f );
 }
 
 void GLToy_State_EditorFrontEnd::Shutdown()
 {
-	GLToy_UI_System::ClearWidgets();
+    GLToy_UI_System::ClearWidgets();
 
     GLToy_Input_System::SetKeyInputHandler( NULL );
 }

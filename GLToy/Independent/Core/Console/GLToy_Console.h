@@ -52,7 +52,7 @@ public:
     static bool Initialise();
     static void Shutdown();
 
-	static void Render2D();
+    static void Render2D();
 
     static void Update();
 
@@ -60,7 +60,7 @@ public:
     static void Print( const GLToy_String& szLine );
     static void ExecuteLine( const GLToy_String& szLine, const bool bStoreInHistory = true );
     static void Toggle();
-	static bool IsDown() { return s_bConsoleDown; }
+    static bool IsDown() { return s_bConsoleDown; }
 
     static const GLToy_Font* GetFont() { return s_pxFont; }
 

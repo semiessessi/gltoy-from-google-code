@@ -51,7 +51,7 @@ class FPSToy_Entity_Projectile
 public:
 
     FPSToy_Entity_Projectile( const GLToy_Hash uHash, const u_int uType );
-	virtual ~FPSToy_Entity_Projectile();
+    virtual ~FPSToy_Entity_Projectile();
 
     virtual void Render() const;
     virtual void Update();
@@ -63,13 +63,13 @@ public:
 
     GLToy_Inline void SetWeaponType( const GLToy_Hash uHash ) { m_uWeaponTypeHash = uHash; }
     GLToy_Inline void SetOwner( const GLToy_Hash uHash ) { m_uOwnerEntityHash = uHash; }
-	void SetSprite( const GLToy_Hash uHash, const float fRadius );
+    void SetSprite( const GLToy_Hash uHash, const float fRadius );
 
     virtual const FPSToy_WeaponType_Projectile* GetWeaponType() const;
     
     virtual bool HasSpawned() const { return m_pxPhysicsObject != NULL; }
 
-	virtual const GLToy_Vector_3& GetPosition() const;
+    virtual const GLToy_Vector_3& GetPosition() const;
 
 
 protected:
@@ -78,7 +78,7 @@ protected:
     GLToy_Hash m_uWeaponTypeHash;
     GLToy_Physics_Object* m_pxPhysicsObject;
     GLToy_Sprite* m_pxSprite;
-	mutable GLToy_Vector_3 m_xPosition; // TODO - get rid of this
+    mutable GLToy_Vector_3 m_xPosition; // TODO - get rid of this
 
 };
 

@@ -74,7 +74,7 @@ void GLToy_Texture::Platform_LoadFromFile()
     m_uWidth = pxBitmap->GetWidth();
     m_uHeight = pxBitmap->GetHeight();
 
-	// TODO - check width + height and load a "unloadable texture" texture for this one if they are zero
+    // TODO - check width + height and load a "unloadable texture" texture for this one if they are zero
 
     Resize( m_uWidth * m_uHeight );
 

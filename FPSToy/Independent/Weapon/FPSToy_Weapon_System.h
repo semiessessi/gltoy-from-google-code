@@ -46,17 +46,17 @@ public:
     static void Shutdown();
 
     static const FPSToy_WeaponType* FindWeaponType( const GLToy_Hash uHash );
-	static FPSToy_Weapon CreateWeapon( const GLToy_Hash uHash, const GLToy_Hash uOwnerHash );
+    static FPSToy_Weapon CreateWeapon( const GLToy_Hash uHash, const GLToy_Hash uOwnerHash );
 
 private:
 
-	static bool InitialiseAmmoTypes();
-	static bool InitialiseWeaponTypes();
-	static bool InitialiseWeaponDefinitions();
+    static bool InitialiseAmmoTypes();
+    static bool InitialiseWeaponTypes();
+    static bool InitialiseWeaponDefinitions();
 
     static GLToy_HashTree< FPSToy_AmmoType* > s_xAmmoTypes;
     static GLToy_HashTree< FPSToy_WeaponType* > s_xWeaponTypes;
-	static GLToy_HashTree< GLToy_Array< GLToy_Hash > > s_xWeaponDefinitions;
+    static GLToy_HashTree< GLToy_Array< GLToy_Hash > > s_xWeaponDefinitions;
 
 };
 

@@ -74,7 +74,7 @@ public:
     }
 
     virtual void Fire( const GLToy_Hash uOwnerEntityHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection ) const = 0;
-	virtual void SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue ) = 0;
+    virtual void SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue ) = 0;
 
     GLToy_Inline const u_int GetBurstCount() const { return m_uBurstCount; }
     GLToy_Inline const GLToy_Hash GetHash() const { return m_uHash; }
@@ -102,13 +102,13 @@ public:
 
     GLToy_Inline void Fire( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection )
     {
-		if( m_xWeaponTypes.GetCount() > 0 )
-		{
-			m_xWeaponTypes[ m_uCurrentWeaponType ]->Fire( m_uOwnerEntityHash, xPosition, xDirection );
-		}
+        if( m_xWeaponTypes.GetCount() > 0 )
+        {
+            m_xWeaponTypes[ m_uCurrentWeaponType ]->Fire( m_uOwnerEntityHash, xPosition, xDirection );
+        }
     }
 
-	void AddMode( const GLToy_Hash uWeaponType );
+    void AddMode( const GLToy_Hash uWeaponType );
 
     GLToy_Inline void NextMode()
     {
@@ -140,17 +140,17 @@ class FPSToy_WeaponInventory
 public:
 
     FPSToy_WeaponInventory( const GLToy_Hash uOwnerEntityHash = uGLTOY_BAD_HASH )
-	: m_uOwnerEntityHash( uOwnerEntityHash )
+    : m_uOwnerEntityHash( uOwnerEntityHash )
     , m_uCurrentWeapon( 0 )
     , m_xWeapons()
-	, m_xAmmo()
+    , m_xAmmo()
     {
     }
 
     bool AddWeapon( const GLToy_Hash uWeaponHash );
     bool AddAmmo( const GLToy_Hash uAmmoTypeHash );
 
-	bool HasWeapons() const { return m_xWeapons.GetCount() > 0; }
+    bool HasWeapons() const { return m_xWeapons.GetCount() > 0; }
 
     GLToy_Inline void FireCurrent( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection )
     {
@@ -170,18 +170,18 @@ public:
         m_uCurrentWeapon = ( m_uCurrentWeapon == 0 ) ? m_xWeapons.GetCount() - 1 : m_uCurrentWeapon - 1;
     }
 
-	GLToy_Inline void Reset()
-	{
-		m_xWeapons.Clear();
-		m_xAmmo.Clear();
-	}
+    GLToy_Inline void Reset()
+    {
+        m_xWeapons.Clear();
+        m_xAmmo.Clear();
+    }
 
 protected:
 
-	GLToy_Hash m_uOwnerEntityHash;
+    GLToy_Hash m_uOwnerEntityHash;
     u_int m_uCurrentWeapon;
     GLToy_Array< FPSToy_Weapon > m_xWeapons;
-	GLToy_HashTree< u_int > m_xAmmo;
+    GLToy_HashTree< u_int > m_xAmmo;
 
 };
 

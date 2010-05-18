@@ -28,12 +28,12 @@
 
 enum GLToy_WidgetType
 {
-	WIDGET_NULL = 0,
+    WIDGET_NULL = 0,
 
     // "normal" widgets
     WIDGET_IMAGE,
     WIDGET_IMAGEBUTTON,
-	WIDGET_LABEL,
+    WIDGET_LABEL,
 
     // add new widgets here unless they are especially strange...
 

@@ -47,4 +47,3 @@ enum FPSToy_EntityType
 class GLToy_Entity* FPSToy_CreateEntity( const GLToy_Hash uHash, const u_int uType );
 
 #endif
-

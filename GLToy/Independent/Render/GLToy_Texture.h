@@ -58,7 +58,7 @@ public:
     u_int GetHeight() const { return m_uHeight; }
     u_int GetWidth() const { return m_uWidth; }
 
-	GLToy_Inline GLToy_Hash GetHash() const { return m_szName.GetHash(); }
+    GLToy_Inline GLToy_Hash GetHash() const { return m_szName.GetHash(); }
 
     GLToy_Inline u_int GetPixel( const u_int uX, const u_int uY ) const
     {
@@ -122,7 +122,7 @@ public:
 
     static GLToy_Texture* FindTexture( const GLToy_Hash uHash );
     static GLToy_Texture* LookUpTexture( const GLToy_String& szName );
-	static GLToy_Texture* LookUpTextureNoExt( const GLToy_String& szName );
+    static GLToy_Texture* LookUpTextureNoExt( const GLToy_String& szName );
     static void CreateTexture( const GLToy_Hash uHash );
     static void CreateTexture( const GLToy_String& szName );
     static void DestroyTexture( const GLToy_Hash uHash );

@@ -40,15 +40,15 @@ class FPSToy_Player
 
 public:
 
-	static void Spawn( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation );
+    static void Spawn( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation );
 
-	static void Update();
+    static void Update();
 
-	static GLToy_Hash GetHash();
+    static GLToy_Hash GetHash();
 
 private:
 
-	static FPSToy_WeaponInventory s_xWeaponInventory;
+    static FPSToy_WeaponInventory s_xWeaponInventory;
 
 };
 

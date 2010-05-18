@@ -64,7 +64,7 @@ public:
 
     GLToy_PFX( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const float fLifetime )
     : m_uHash( uHash )
-	, m_xPosition( xPosition )
+    , m_xPosition( xPosition )
     , m_xSources()
     , m_fLifetime( fLifetime )
     {
@@ -76,7 +76,7 @@ public:
     virtual void AddSource( GLToy_ParticleSource* const pxSource ) { m_xSources.Append( pxSource ); }
 
     GLToy_Inline GLToy_Hash GetHash() const { return m_uHash; }
-	GLToy_Inline const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
+    GLToy_Inline const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
 
     GLToy_Inline float GetLifetime() const { return m_fLifetime; }
     GLToy_Inline void SetLifetime( const float fLifetime ) { m_fLifetime = fLifetime; }
@@ -87,7 +87,7 @@ public:
 protected:
 
     GLToy_Hash m_uHash;
-	GLToy_Vector_3 m_xPosition;
+    GLToy_Vector_3 m_xPosition;
     float m_fLifetime;
 
     GLToy_List< GLToy_ParticleSource* > m_xSources;

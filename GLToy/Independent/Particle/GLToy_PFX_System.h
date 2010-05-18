@@ -50,7 +50,7 @@ public:
 
     static GLToy_PFX* CreatePFX( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition );
     static void DestroyPFX( const GLToy_Hash uPFXHash );
-	static const GLToy_ParticleProperties* GetParticleProperties( const GLToy_Hash uHash );
+    static const GLToy_ParticleProperties* GetParticleProperties( const GLToy_Hash uHash );
 
 private:
 

@@ -60,40 +60,40 @@ void GLToy_Widget_ImageButton::Render2D() const
     }
 
     pxFont->RenderString( GetLabelString(), GetX() + GetWidth() + 0.05f, GetY() + 0.5f * ( GetHeight() - pxFont->GetHeight() ),
-		m_bHighlightFlag
-		? GLToy_Vector_4( 0.4f * GLToy_UI_System::GetPulse(), 0.9f  * GLToy_UI_System::GetPulse(), 0.4f * GLToy_UI_System::GetPulse(), 1.0f )
+        m_bHighlightFlag
+        ? GLToy_Vector_4( 0.4f * GLToy_UI_System::GetPulse(), 0.9f  * GLToy_UI_System::GetPulse(), 0.4f * GLToy_UI_System::GetPulse(), 1.0f )
             : GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
 }
 
 void GLToy_Widget_ImageButton::Update()
 {
     const GLToy_Vector_2 xOffset = GetParent() ? GetParent()->GetPosition() : GLToy_Maths::ZeroVector2;
-	const GLToy_Vector_2 xMousePosition = GLToy_UI_System::GetMousePosition() - xOffset;
-	if( ( xMousePosition[ 0 ] > GetX() )
-		&& ( xMousePosition[ 1 ] > GetY() )
-		&& ( xMousePosition[ 0 ] < ( GetX() + GetWidth() ) )
-		&& ( xMousePosition[ 1 ] < ( GetY() + GetHeight() ) ) )
-	{
-		// we are under the pointer
-		m_bHighlightFlag = true;
-		if( GLToy_Input_System::IsMouseLeftButtonDown() )
-		{
-			// we are held down
-			m_bClickFlag = true;
-		}
-		else
-		{
-			if( m_bClickFlag && m_pfnCallback )
-			{
-				m_pfnCallback( 0 );
-			}
+    const GLToy_Vector_2 xMousePosition = GLToy_UI_System::GetMousePosition() - xOffset;
+    if( ( xMousePosition[ 0 ] > GetX() )
+        && ( xMousePosition[ 1 ] > GetY() )
+        && ( xMousePosition[ 0 ] < ( GetX() + GetWidth() ) )
+        && ( xMousePosition[ 1 ] < ( GetY() + GetHeight() ) ) )
+    {
+        // we are under the pointer
+        m_bHighlightFlag = true;
+        if( GLToy_Input_System::IsMouseLeftButtonDown() )
+        {
+            // we are held down
+            m_bClickFlag = true;
+        }
+        else
+        {
+            if( m_bClickFlag && m_pfnCallback )
+            {
+                m_pfnCallback( 0 );
+            }
 
-			m_bClickFlag = false;
-		}
-	}
-	else
-	{
-		m_bHighlightFlag = false;
-		m_bClickFlag = false;
-	}
+            m_bClickFlag = false;
+        }
+    }
+    else
+    {
+        m_bHighlightFlag = false;
+        m_bClickFlag = false;
+    }
 }

@@ -131,12 +131,12 @@ void GLToy_Render::Render2D()
         UseProgram( 0 );
         // draw fps counter, we should have the console's font by now
         GLToy_Font* pxFont = GLToy_Font_System::FindFont( GLToy_Hash_Constant( "console" ) );
-		if( pxFont )
-		{
-			GLToy_String szFPSString;
-			szFPSString.SetToFormatString( "%.2f fps", GLToy_Maths::Max( GLToy_Timer::GetSmoothedFrameRate(), 0.01f ) );
-			pxFont->RenderString( szFPSString, GLToy_Render::GetMaxX() - szFPSString.GetLength() * pxFont->GetWidth(), 1.0f - pxFont->GetHeight() );
-		}
+        if( pxFont )
+        {
+            GLToy_String szFPSString;
+            szFPSString.SetToFormatString( "%.2f fps", GLToy_Maths::Max( GLToy_Timer::GetSmoothedFrameRate(), 0.01f ) );
+            pxFont->RenderString( szFPSString, GLToy_Render::GetMaxX() - szFPSString.GetLength() * pxFont->GetWidth(), 1.0f - pxFont->GetHeight() );
+        }
     }
 }
 

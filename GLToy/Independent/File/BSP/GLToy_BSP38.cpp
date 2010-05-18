@@ -377,8 +377,8 @@ public:
     GLToy_Vector_3 m_xMaxs;
     GLToy_Vector_3 m_xOrigin;
     int m_iHead;
-	u_int m_uFirstFace;
-	u_int m_uNumFaces;
+    u_int m_uFirstFace;
+    u_int m_uNumFaces;
 
 };
 
@@ -391,9 +391,9 @@ public:
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_uFirstSide; xStream >> m_uNumSides; xStream >> m_uFlags; }
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_uFirstSide; xStream << m_uNumSides; xStream << m_uFlags; }
 
-	u_int m_uFirstSide;
-	u_int m_uNumSides;
-	u_int m_uFlags;
+    u_int m_uFirstSide;
+    u_int m_uNumSides;
+    u_int m_uFlags;
 
 };
 
@@ -406,7 +406,7 @@ public:
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_usPlane; xStream >> m_sTexInfo; }
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_usPlane; xStream << m_sTexInfo; }
 
-	u_short m_usPlane;
+    u_short m_usPlane;
     short m_sTexInfo;
 
 };
@@ -594,8 +594,8 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 
         xFace.m_bVisible = ( xTexInfos[ xBSPFace.m_usTextureInfo ].m_uFlags & uBSP38_FACEFLAG_NODRAW ) == 0;
 
-		GLToy_Texture* pxTexture = GLToy_Texture_System::LookUpTextureNoExt( xTexInfos[ xBSPFace.m_usTextureInfo ].m_szTextureName );
-		xFace.m_uTextureHash = pxTexture ? pxTexture->GetHash() : uGLTOY_BAD_HASH;
+        GLToy_Texture* pxTexture = GLToy_Texture_System::LookUpTextureNoExt( xTexInfos[ xBSPFace.m_usTextureInfo ].m_szTextureName );
+        xFace.m_uTextureHash = pxTexture ? pxTexture->GetHash() : uGLTOY_BAD_HASH;
 
         if( pxTexture )
         {

@@ -339,12 +339,12 @@ public:
         return false;
     }
 
-	GLToy_Inline bool MeansFalse() const
-	{
-		return ( ( *this ) == "False" )
-			|| ( ( *this ) == "No" )
-			|| ( ( *this ) == "0" );
-	}
+    GLToy_Inline bool MeansFalse() const
+    {
+        return ( ( *this ) == "False" )
+            || ( ( *this ) == "No" )
+            || ( ( *this ) == "0" );
+    }
 
     GLToy_Inline bool IsEmpty() const
     {

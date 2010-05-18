@@ -57,8 +57,8 @@ bool FPSToy::Initialise()
     GLToy::ChangeWindowTitle( "FPSToy" );
     GLToy::ChangeWindowIcon( "Icons/FPSToy_24x24.png" );
 
-	// TODO - something better here
-	FPSToy_Player::Spawn( GLToy_Vector_3( 0.0f, 100.0f, 0.0f ), GLToy_Maths::IdentityMatrix3 );
+    // TODO - something better here
+    FPSToy_Player::Spawn( GLToy_Vector_3( 0.0f, 100.0f, 0.0f ), GLToy_Maths::IdentityMatrix3 );
 
     return true;
 }
@@ -71,5 +71,5 @@ void FPSToy::Shutdown()
 
 void FPSToy::Update()
 {
-	FPSToy_Player::Update();
+    FPSToy_Player::Update();
 }

@@ -211,12 +211,12 @@ public:
         }
     }
 
-	virtual void entityDeletedCallback( hkpEntity* pxHavokEntity )
+    virtual void entityDeletedCallback( hkpEntity* pxHavokEntity )
     {
         delete this;
     }
 
-	virtual void entityRemovedCallback( hkpEntity* pxHavokEntity )
+    virtual void entityRemovedCallback( hkpEntity* pxHavokEntity )
     {
         //delete this;
     }

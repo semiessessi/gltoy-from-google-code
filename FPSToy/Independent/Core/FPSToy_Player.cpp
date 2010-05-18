@@ -49,12 +49,12 @@ FPSToy_WeaponInventory FPSToy_Player::s_xWeaponInventory( FPSToy_Player::GetHash
 
 void FPSToy_Player::Spawn( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation )
 {
-	s_xWeaponInventory.Reset();
-	// TODO: something better than a magic constant here
-	s_xWeaponInventory.AddWeapon( GLToy_Hash_Constant( "TestWeapon1" ) );
+    s_xWeaponInventory.Reset();
+    // TODO: something better than a magic constant here
+    s_xWeaponInventory.AddWeapon( GLToy_Hash_Constant( "TestWeapon1" ) );
 
-	GLToy_Camera::SetPosition( xPosition );
-	GLToy_Camera::SetControllerCamEnabled( true );
+    GLToy_Camera::SetPosition( xPosition );
+    GLToy_Camera::SetControllerCamEnabled( true );
 }
 
 void FPSToy_Player::Update()
@@ -63,13 +63,13 @@ void FPSToy_Player::Update()
     const bool bMouseDown = GLToy_Input_System::IsMouseLeftButtonDown();
     if( !s_bOldMouseDown && bMouseDown )
     {
-		// TODO: something better than magic numbers here...
-		s_xWeaponInventory.FireCurrent( GLToy_Camera::GetPosition() + GLToy_Camera::GetDirection() * 64.0f, GLToy_Camera::GetDirection() );
+        // TODO: something better than magic numbers here...
+        s_xWeaponInventory.FireCurrent( GLToy_Camera::GetPosition() + GLToy_Camera::GetDirection() * 64.0f, GLToy_Camera::GetDirection() );
     }
     s_bOldMouseDown = bMouseDown;
 }
 
 GLToy_Hash FPSToy_Player::GetHash()
 {
-	return GLToy_Hash_Constant( "Player" );
+    return GLToy_Hash_Constant( "Player" );
 }

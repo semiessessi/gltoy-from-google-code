@@ -80,13 +80,13 @@ void GLToy_Environment_Plane::Render() const
         GLToy_Texture_System::BindWhite();
     }
 
-	GLToy_ShaderProgram* pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Raytrace_Plane" ) );
-	
-	if( pxShader )
-	{
-		pxShader->Bind();
-		pxShader->SetUniform( "xTexture", 0 );
-	}
+    GLToy_ShaderProgram* pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Raytrace_Plane" ) );
+    
+    if( pxShader )
+    {
+        pxShader->Bind();
+        pxShader->SetUniform( "xTexture", 0 );
+    }
 
     const float fAspectRatio = static_cast< float >( GLToy::GetWindowViewportWidth() ) / static_cast< float >( GLToy::GetWindowViewportHeight() );
 
@@ -108,7 +108,7 @@ void GLToy_Environment_Plane::Render() const
 
     GLToy_Render::EndSubmit();
 
-	GLToy_Render::UseProgram( 0 );
+    GLToy_Render::UseProgram( 0 );
 }
 
 void GLToy_Environment_Plane::Update()

@@ -54,23 +54,23 @@ class GLToy_Dialog
 
 public:
 
-	GLToy_Dialog(
+    GLToy_Dialog(
         const GLToy_DialogStyle ucStyle = DIALOG_STYLE_DEFAULT,
         const float fX = 0.0f, const float fY = 0.0f,
         const float fWidth = 0.1f, const float fHeight = 0.1f );
 
-	virtual ~GLToy_Dialog();
+    virtual ~GLToy_Dialog();
 
     // we should never want to render these in 3D...
     virtual void Render() const {}
-	virtual void Render2D() const;
-	virtual void Update();
+    virtual void Render2D() const;
+    virtual void Update();
 
-	GLToy_Inline float GetX() const { return m_xPosition[ 0 ]; }
-	GLToy_Inline float GetY() const { return m_xPosition[ 1 ]; }
+    GLToy_Inline float GetX() const { return m_xPosition[ 0 ]; }
+    GLToy_Inline float GetY() const { return m_xPosition[ 1 ]; }
     GLToy_Inline const GLToy_Vector_2& GetPosition() const { return m_xPosition; }
-	GLToy_Inline float GetWidth() const { return m_xSize[ 0 ]; }
-	GLToy_Inline float GetHeight() const { return m_xSize[ 1 ]; }
+    GLToy_Inline float GetWidth() const { return m_xSize[ 0 ]; }
+    GLToy_Inline float GetHeight() const { return m_xSize[ 1 ]; }
     GLToy_Inline const GLToy_Vector_2& GetSize() const { return m_xSize; }
 
     GLToy_Inline GLToy_DialogStyle GetStyle() const { return m_ucStyle; }
@@ -95,11 +95,11 @@ public:
 
 protected:
 
-	GLToy_DialogStyle m_ucStyle;
+    GLToy_DialogStyle m_ucStyle;
     GLToy_Vector_2 m_xPosition;
     GLToy_Vector_2 m_xSize;
 
-	GLToy_Array< GLToy_Widget* > m_xWidgets;
+    GLToy_Array< GLToy_Widget* > m_xWidgets;
 
     bool m_bDelete;
 

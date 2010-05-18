@@ -281,7 +281,7 @@ GLToy_AnimationStack* GLToy_Model_MD2::CreateAnimationStack() const
 
 void GLToy_Model_MD2::Render() const
 {
-	if( m_pxTexture )
+    if( m_pxTexture )
     {
         m_pxTexture->Bind();
     }

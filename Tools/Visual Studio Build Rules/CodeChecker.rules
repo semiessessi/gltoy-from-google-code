@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VisualStudioToolFile
+	Name="CodeChecker"
+	Version="8.00"
+	>
+	<Rules>
+		<CustomBuildRule
+			Name="CodeChecker"
+			DisplayName="CodeChecker"
+			CommandLine="ruby ..\Tools\CodeChecker\GLToy_CodeChecker.rb [inputs]"
+			Outputs="$(InputFileName)"
+			FileExtensions="*.cpp;*.h;*.rb"
+			ExecutionDescription="Checking code..."
+			SupportsFileBatching="true"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+	</Rules>
+</VisualStudioToolFile>

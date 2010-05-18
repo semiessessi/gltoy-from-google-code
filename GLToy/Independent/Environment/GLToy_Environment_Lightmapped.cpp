@@ -494,4 +494,3 @@ const GLToy_Environment_LightmappedFaceVertex& GLToy_EnvironmentLeaf_Lightmapped
 
     return m_pxParent->m_xVertices[ xFace.m_xIndices[ uVertex ] ];
 }
-

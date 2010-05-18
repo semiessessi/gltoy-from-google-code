@@ -55,20 +55,20 @@ GLToy_HashTree< GLToy_Array< GLToy_Hash > > FPSToy_Weapon_System::s_xWeaponDefin
 
 bool FPSToy_Weapon_System::Initialise()
 {
-	if( !InitialiseAmmoTypes() )
-	{
-		return false;
-	}
+    if( !InitialiseAmmoTypes() )
+    {
+        return false;
+    }
 
-	if( !InitialiseWeaponTypes() )
-	{
-		return false;
-	}
+    if( !InitialiseWeaponTypes() )
+    {
+        return false;
+    }
 
-	if( !InitialiseWeaponDefinitions() )
-	{
-		return false;
-	}
+    if( !InitialiseWeaponDefinitions() )
+    {
+        return false;
+    }
 
     return true;
 }
@@ -87,24 +87,24 @@ const FPSToy_WeaponType* FPSToy_Weapon_System::FindWeaponType( const GLToy_Hash 
 
 FPSToy_Weapon FPSToy_Weapon_System::CreateWeapon( const GLToy_Hash uHash, const GLToy_Hash uOwnerHash )
 {
-	FPSToy_Weapon xReturnValue( uOwnerHash );
+    FPSToy_Weapon xReturnValue( uOwnerHash );
 
-	const GLToy_Array< GLToy_Hash >* const pxDefinition = s_xWeaponDefinitions.FindData( uHash );
+    const GLToy_Array< GLToy_Hash >* const pxDefinition = s_xWeaponDefinitions.FindData( uHash );
 
-	if( pxDefinition )
-	{
-		GLToy_ConstIterate( GLToy_Hash, xIterator, pxDefinition )
-		{
-			xReturnValue.AddMode( xIterator.Current() );
-		}
-	}
+    if( pxDefinition )
+    {
+        GLToy_ConstIterate( GLToy_Hash, xIterator, pxDefinition )
+        {
+            xReturnValue.AddMode( xIterator.Current() );
+        }
+    }
 
-	return xReturnValue;
+    return xReturnValue;
 }
 
 bool FPSToy_Weapon_System::InitialiseAmmoTypes()
 {
-	s_xAmmoTypes.DeleteAll();
+    s_xAmmoTypes.DeleteAll();
 
     GLToy_Array< GLToy_String > xAmmoPaths = GLToy_File_System::PathsFromFilter( "Weapons/Ammo/", "*.ammo" );
 
@@ -140,14 +140,14 @@ bool FPSToy_Weapon_System::InitialiseAmmoTypes()
         // s_xAmmoTypes.AddNode( new GLToy_AmmoType( szName.GetHash() ), szName.GetHash() );
     }
 
-	return true;
+    return true;
 }
 
 bool FPSToy_Weapon_System::InitialiseWeaponDefinitions()
 {
-	s_xWeaponDefinitions.Clear();
+    s_xWeaponDefinitions.Clear();
 
-	GLToy_Array< GLToy_String > xWeaponDefinitionPaths = GLToy_File_System::PathsFromFilter( "Weapons/", "*.weapon" );
+    GLToy_Array< GLToy_String > xWeaponDefinitionPaths = GLToy_File_System::PathsFromFilter( "Weapons/", "*.weapon" );
 
     GLToy_ConstIterate( GLToy_String, xIterator, &xWeaponDefinitionPaths )
     {
@@ -157,18 +157,18 @@ bool FPSToy_Weapon_System::InitialiseWeaponDefinitions()
 
         GLToy_DebugOutput( "   - Found weapon definition \"%S\".\r\n", szName.GetWideString() );
 
-		GLToy_ANSITextFile xFile( xIterator.Current() );
+        GLToy_ANSITextFile xFile( xIterator.Current() );
 
         GLToy_String xData = xFile.GetString();
 
-		s_xWeaponDefinitions.AddNode( GLToy_Array< GLToy_Hash >(), szName.GetHash() );
+        s_xWeaponDefinitions.AddNode( GLToy_Array< GLToy_Hash >(), szName.GetHash() );
 
-		GLToy_Array< GLToy_Hash >* const pxDefinition = s_xWeaponDefinitions.FindData( szName.GetHash() );
-		if( !pxDefinition )
-		{
-			GLToy_Assert( pxDefinition != NULL, "Somehow failed to find weapon definition immediately after creating it!" );
-			continue;
-		}
+        GLToy_Array< GLToy_Hash >* const pxDefinition = s_xWeaponDefinitions.FindData( szName.GetHash() );
+        if( !pxDefinition )
+        {
+            GLToy_Assert( pxDefinition != NULL, "Somehow failed to find weapon definition immediately after creating it!" );
+            continue;
+        }
 
         while( xData.GetLength() > 0 )
         {
@@ -187,9 +187,9 @@ bool FPSToy_Weapon_System::InitialiseWeaponDefinitions()
                 }
             }
         }
-	}
+    }
 
-	return true;
+    return true;
 }
 
 bool FPSToy_Weapon_System::InitialiseWeaponTypes()
@@ -278,7 +278,7 @@ bool FPSToy_Weapon_System::InitialiseWeaponTypes()
 
                 switch( uClass )
                 {
-					case 0:
+                    case 0:
                     {
                         static_cast< FPSToy_WeaponType_Trace* >( pxWeaponType )->SetKeyValuePair( szKey, szValue );
                         break;
@@ -290,7 +290,7 @@ bool FPSToy_Weapon_System::InitialiseWeaponTypes()
                         break;
                     }
 
-					case 2:
+                    case 2:
                     {
                         static_cast< FPSToy_WeaponType_Melee* >( pxWeaponType )->SetKeyValuePair( szKey, szValue );
                         break;
@@ -299,7 +299,7 @@ bool FPSToy_Weapon_System::InitialiseWeaponTypes()
             }
             else
             {
-				// why not allow comments and whitespace?
+                // why not allow comments and whitespace?
                 // GLToy_DebugOutput_Release( "Warning: Weapon type file \"%S\" contains a line with no valuable information", xIterator.Current().GetWideString() );
             }
         }
@@ -314,5 +314,5 @@ bool FPSToy_Weapon_System::InitialiseWeaponTypes()
         }
     }
 
-	return true;
+    return true;
 }

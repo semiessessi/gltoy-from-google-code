@@ -48,11 +48,11 @@ GLToy_ParticleSource::GLToy_ParticleSource( const GLToy_ParticleSourceProperties
 , m_xParticles()
 , m_pxParent( pxParent )
 {
-	const GLToy_ParticleProperties* const pxParticleProperties = GLToy_PFX_System::GetParticleProperties( xProperties.m_uParticleHash );
-	if( pxParticleProperties )
-	{
-		m_xParticleProperties = *pxParticleProperties;
-	}
+    const GLToy_ParticleProperties* const pxParticleProperties = GLToy_PFX_System::GetParticleProperties( xProperties.m_uParticleHash );
+    if( pxParticleProperties )
+    {
+        m_xParticleProperties = *pxParticleProperties;
+    }
 }
 
 bool GLToy_ParticleSource::IsDone() const
@@ -67,13 +67,13 @@ void GLToy_ParticleSource::Render() const
 
 void GLToy_ParticleSource::Update()
 {
-	GLToy_Assert( m_pxParent != NULL, "Particle source without parent!" );
+    GLToy_Assert( m_pxParent != NULL, "Particle source without parent!" );
 
 #ifdef GLTOY_DEBUG
-	if( !m_pxParent )
-	{
-		return;
-	}
+    if( !m_pxParent )
+    {
+        return;
+    }
 #endif
 
     const float fFrameTime = GLToy_Timer::GetFrameTime();
@@ -88,15 +88,15 @@ void GLToy_ParticleSource::Update()
             const u_int uCount = static_cast< u_int >( GLToy_Maths::Floor( m_fReleaseTimer / m_fReleaseRate ) );
             for( u_int u = 0; u < uCount; ++u )
             {
-			    m_xParticles.Append( new GLToy_Particle( m_xParticleProperties, m_pxParent->GetPosition() + m_xParticleProperties.m_xVelocity * m_fReleaseRate * static_cast< float >( u ) ) );
+                m_xParticles.Append( new GLToy_Particle( m_xParticleProperties, m_pxParent->GetPosition() + m_xParticleProperties.m_xVelocity * m_fReleaseRate * static_cast< float >( u ) ) );
             }
 
             m_fReleaseTimer -= static_cast< float >( uCount ) * m_fReleaseRate;
         }
     }
 
-	// update particles
-	m_xParticles.Traverse( GLToy_PointerUpdateFunctor< GLToy_Particle* >() );
+    // update particles
+    m_xParticles.Traverse( GLToy_PointerUpdateFunctor< GLToy_Particle* >() );
 
     // remove any particles we can
     for( u_int u = 0; u < m_xParticles.GetCount(); ++u )

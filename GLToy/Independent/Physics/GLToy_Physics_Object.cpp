@@ -120,7 +120,7 @@ GLToy_Vector_3 GLToy_Physics_Object::GetPosition() const
 
     if( !m_pxHavokRigidBody )
     {
-		return GLToy_Maths::ZeroVector3;
+        return GLToy_Maths::ZeroVector3;
     }
 
     GLToy_Physics_System::GetHavokWorld()->lockReadOnly();
@@ -148,7 +148,7 @@ void GLToy_Physics_Object::Destroy()
 
     if( !m_pxHavokRigidBody )
     {
-		return;
+        return;
     }
 
     GLToy_Physics_System::GetHavokWorld()->lockAll();

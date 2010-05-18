@@ -43,54 +43,54 @@ GLToy_Array< GLToy_String > GLToy_File_System::Platform_PathsFromFilter( const G
     char* szSearchString = ( GLToy_String( "./" ) + szBasePath + szFilter ).CreateANSIString();
     char* szRecurseString = ( GLToy_String( "./" ) + szBasePath + "*" ).CreateANSIString();
 
-	_finddata_t xFindData;
-	intptr_t xFilePtr;
+    _finddata_t xFindData;
+    intptr_t xFilePtr;
 
     if( bRecursive )
     {
         xFilePtr = _findfirst( szRecurseString, &xFindData );
 
-	    if( xFilePtr != -1L )
-	    {
-	        do
-	        {
-		        if( xFindData.name[ 0 ] == '.' )
-		        {
-			        // we always get back "." and ".."
-			        continue;
-		        }
+        if( xFilePtr != -1L )
+        {
+            do
+            {
+                if( xFindData.name[ 0 ] == '.' )
+                {
+                    // we always get back "." and ".."
+                    continue;
+                }
 
-		        if( xFindData.attrib & _A_SUBDIR )
-		        {
-			        GLToy_String szSubPath = szBasePath;
+                if( xFindData.attrib & _A_SUBDIR )
+                {
+                    GLToy_String szSubPath = szBasePath;
                     szSubPath += xFindData.name;
                     szSubPath += "/";
 
                     xPaths.Append( Platform_PathsFromFilter( szSubPath, szFilter, true ) );
-		        }
-	        }
-	        while ( _findnext( xFilePtr, &xFindData ) == 0 );
+                }
+            }
+            while ( _findnext( xFilePtr, &xFindData ) == 0 );
         }
     }
 
-	xFilePtr = _findfirst( szSearchString, &xFindData );
+    xFilePtr = _findfirst( szSearchString, &xFindData );
 
-	if( xFilePtr != -1L )
-	{
-	    do
-	    {
-		    if( xFindData.name[ 0 ] == '.' )
-		    {
-			    // we always get back "." and ".."
-			    continue;
-		    }
+    if( xFilePtr != -1L )
+    {
+        do
+        {
+            if( xFindData.name[ 0 ] == '.' )
+            {
+                // we always get back "." and ".."
+                continue;
+            }
 
-		    if( !( xFindData.attrib & _A_SUBDIR ) )
-		    {
-			    xPaths.Append( szBasePath + xFindData.name );
-		    }
-	    }
-	    while ( _findnext( xFilePtr, &xFindData ) == 0 );
+            if( !( xFindData.attrib & _A_SUBDIR ) )
+            {
+                xPaths.Append( szBasePath + xFindData.name );
+            }
+        }
+        while ( _findnext( xFilePtr, &xFindData ) == 0 );
     }
 
     delete[] szSearchString;

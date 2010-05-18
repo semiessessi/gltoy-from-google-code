@@ -56,12 +56,12 @@ FPSToy_Entity_Projectile::FPSToy_Entity_Projectile( const GLToy_Hash uHash, cons
 
 FPSToy_Entity_Projectile::~FPSToy_Entity_Projectile()
 {
-	delete m_pxSprite;
+    delete m_pxSprite;
 }
 
 const GLToy_Vector_3& FPSToy_Entity_Projectile::GetPosition() const
 {
-	return m_xPosition = m_pxPhysicsObject->GetPosition();
+    return m_xPosition = m_pxPhysicsObject->GetPosition();
 }
 
 void FPSToy_Entity_Projectile::Render() const
@@ -89,10 +89,10 @@ void FPSToy_Entity_Projectile::Update()
         return;
     }
 
-	if( m_pxSprite )
-	{
-		m_pxSprite->SetPosition( m_pxPhysicsObject->GetPosition() );
-	}
+    if( m_pxSprite )
+    {
+        m_pxSprite->SetPosition( m_pxPhysicsObject->GetPosition() );
+    }
 
     const FPSToy_WeaponType_Projectile* const pxProjectileType = GetWeaponType();
 
@@ -103,18 +103,18 @@ void FPSToy_Entity_Projectile::Update()
 
     GLToy_ConstIterate( GLToy_Physics_ObjectCollision, xIterator, &( m_pxPhysicsObject->GetCollisions() ) )
     {
-		const GLToy_Physics_ObjectCollision& xCollision = xIterator.Current();
+        const GLToy_Physics_ObjectCollision& xCollision = xIterator.Current();
         if( pxProjectileType->GetContactDetonation() )
         {
             // detonate
-			if( xCollision.m_bHitEnvironment )
-			{
-				Detonate();
-			}
-			else if( xCollision.m_bHitEntity )
-			{
-				Detonate( xCollision.m_uEntityHash );
-			}
+            if( xCollision.m_bHitEnvironment )
+            {
+                Detonate();
+            }
+            else if( xCollision.m_bHitEntity )
+            {
+                Detonate( xCollision.m_uEntityHash );
+            }
 
             break;
         }
@@ -142,16 +142,16 @@ void FPSToy_Entity_Projectile::Spawn( const GLToy_Vector_3& xPosition, const GLT
         return;
     }
 
-	GLToy_Vector_3 xVelocity = xDirection;
-	xVelocity.Normalise();
-	xVelocity *= pxProjectileType->GetInitialSpeed(); // TODO - something better here
+    GLToy_Vector_3 xVelocity = xDirection;
+    xVelocity.Normalise();
+    xVelocity *= pxProjectileType->GetInitialSpeed(); // TODO - something better here
     m_pxPhysicsObject = GLToy_Physics_System::CreatePhysicsSphere( GetHash(), pxProjectileType->GetRadius(), xPosition, xVelocity );
-	SetSprite( pxProjectileType->GetSpriteHash(), pxProjectileType->GetRadius() );
+    SetSprite( pxProjectileType->GetSpriteHash(), pxProjectileType->GetRadius() );
 }
 
 void FPSToy_Entity_Projectile::Detonate( const GLToy_Hash uVictimEntityHash )
 {
-	const FPSToy_WeaponType_Projectile* const pxProjectileType = GetWeaponType();
+    const FPSToy_WeaponType_Projectile* const pxProjectileType = GetWeaponType();
 
     if( !pxProjectileType )
     {
@@ -160,7 +160,7 @@ void FPSToy_Entity_Projectile::Detonate( const GLToy_Hash uVictimEntityHash )
     }
     // TODO - apply damage and forces etc...
 
-	GLToy_PFX_System::CreatePFX( pxProjectileType->GetDetonationPFX(), GetPosition() );
+    GLToy_PFX_System::CreatePFX( pxProjectileType->GetDetonationPFX(), GetPosition() );
 
     FPSToy_Damage_System::ApplyDamage( m_uOwnerEntityHash, uVictimEntityHash, 20.0f );
 
@@ -174,14 +174,14 @@ const FPSToy_WeaponType_Projectile* FPSToy_Entity_Projectile::GetWeaponType() co
 
 void FPSToy_Entity_Projectile::SetSprite( const GLToy_Hash uHash, const float fRadius )
 {
-	delete m_pxSprite;
-	m_pxSprite = 0;
-	if( uHash == uGLTOY_BAD_HASH )
-	{
-		return;
-	}
+    delete m_pxSprite;
+    m_pxSprite = 0;
+    if( uHash == uGLTOY_BAD_HASH )
+    {
+        return;
+    }
 
-	m_pxSprite = new GLToy_Sprite();
-	m_pxSprite->SetTexture( uHash );
+    m_pxSprite = new GLToy_Sprite();
+    m_pxSprite->SetTexture( uHash );
     m_pxSprite->SetSize( fRadius );
 }
