@@ -65,6 +65,7 @@ public:
     , m_ucBlendFunc( 0 )
     , m_uTextureHash( uGLTOY_BAD_HASH )
     , m_fMultiplier( 1.0f )
+    , m_fAngle( 0.0f )
     {
     }
 
@@ -76,10 +77,13 @@ public:
     virtual void Render() const;
     virtual void RenderTransparent() const;
 
+    void Rotate( const float fAngle ) { m_fAngle += fAngle; }
+
     const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
     float GetSize() const { return m_fSize; }
     u_char GetBlendFunction() const { return m_ucBlendFunc; }
     
+    void SetAngle( const float fAngle ) { m_fAngle = fAngle; }
     void SetPosition( const GLToy_Vector_3& xPosition ) { m_xPosition = xPosition; }
     void SetSize( const float fSize ) { m_fSize = fSize; }
     void SetBlendFunction( const u_char ucBlendFunc ) { m_ucBlendFunc = ucBlendFunc; }
@@ -95,6 +99,7 @@ protected:
     u_char m_ucBlendFunc;
     u_int m_uTextureHash;
     float m_fMultiplier;
+    float m_fAngle;
 
 };
 

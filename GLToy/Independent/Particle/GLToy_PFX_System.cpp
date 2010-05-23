@@ -300,6 +300,14 @@ bool GLToy_PFX_System::InitialiseParticleProperties()
                 {
                     xParticleProperties.m_fFadeTime = szValue.ExtractFloat();
                 }
+                else if( szKey == "RotationRate" )
+                {
+                    xParticleProperties.m_fRotationRate = szValue.ExtractFloat();
+                }
+                else if( szKey == "RandomAngle" )
+                {
+                    xParticleProperties.m_bRandomAngle = !szValue.MeansFalse();
+                }
             }
         }
 

@@ -84,8 +84,14 @@ void GLToy_Sprite::RenderTransparent() const
 
     GLToy_Texture_System::BindTexture( m_uTextureHash );
 
-    const GLToy_Vector_3 xUp = GLToy_Camera::GetUp();
-    const GLToy_Vector_3 xRight = GLToy_Camera::GetRight();
+    // rotate xUp and xRight around the camera direction to allow for rotating sprites
+
+    // TODO: my AVS artist instincts tell me to cache the trig calls for the rotations into some array
+    // because we can't see the difference between 512 distinct rotations and floating point precision
+    // and trig calls are expensive compared to memory lookup - here we are repeating a load of them :/
+
+    const GLToy_Vector_3 xUp = GLToy_Maths::Rotate_AxisAngle( GLToy_Camera::GetUp(), GLToy_Camera::GetDirection(), m_fAngle );
+    const GLToy_Vector_3 xRight = GLToy_Maths::Rotate_AxisAngle( GLToy_Camera::GetRight(), GLToy_Camera::GetDirection(), m_fAngle );
 
     GLToy_Render::StartSubmittingQuads();
 

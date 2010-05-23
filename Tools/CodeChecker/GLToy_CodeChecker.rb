@@ -41,8 +41,11 @@ end
 
 puts "Warning: Replaced #{ uTabCount } tabs with spaces" if ( uTabCount > 0 )
 puts "Warning: Removed trailing whitespace from #{ uTrailCount } files" if ( uTrailCount > 0 )
-puts "Successfully cleaned whitespace from #{ uExistCount } files"
-puts "Unable to open #{ uTotalCount - uExistCount } files"
+puts "Successfully cleaned whitespace from #{ uExistCount } files" if( uExistCount > 0 )
+puts "Error: Unable to open #{ uTotalCount - uExistCount } files" if ( uTotalCount != uExistCount )
+
+# need to implement something like in jEngine's scripts
+# iterating over everything not in a string or comment
 
 # puts "Tidying brackets..."
 # ARGV.each do | szPath |
@@ -68,3 +71,6 @@ puts "Unable to open #{ uTotalCount - uExistCount } files"
         # puts "Error: Unable to open file #{ szPath }"
     # end
 # end
+
+# check for copyright/license comments and seperator comments
+# puts "Verifying layout..."

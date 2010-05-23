@@ -47,6 +47,8 @@ struct GLToy_ParticleProperties
     , m_fLifetime( 3.0f )
     , m_fGrowthRate( 0.0f )
     , m_fFadeTime( 0.5f )
+    , m_fRotationRate( 0.0f )
+    , m_bRandomAngle( false )
     , m_uTextureHash( uGLTOY_BAD_HASH )
     {
     }
@@ -57,6 +59,8 @@ struct GLToy_ParticleProperties
     float m_fLifetime;
     float m_fGrowthRate;
     float m_fFadeTime;
+    float m_fRotationRate;
+    bool m_bRandomAngle;
     GLToy_Hash m_uTextureHash;
 
 };
@@ -76,10 +80,15 @@ public:
     , m_fLifetime( xProperties.m_fLifetime )
     , m_fGrowthRate( xProperties.m_fGrowthRate )
     , m_fFadeTime( xProperties.m_fFadeTime )
+    , m_fRotationRate( xProperties.m_fRotationRate )
     {
         SetPosition( xPosition + xProperties.m_xPosition );
         SetSize( xProperties.m_fSize );
         SetTexture( xProperties.m_uTextureHash );
+        if( xProperties.m_bRandomAngle )
+        {
+            SetAngle( GLToy_Maths::Random( 0.0f, 2.0f * GLToy_Maths::Pi ) );
+        }
     }
 
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
@@ -96,6 +105,7 @@ public:
     float m_fLifetime;
     float m_fGrowthRate;
     float m_fFadeTime;
+    float m_fRotationRate;
 
 };
 

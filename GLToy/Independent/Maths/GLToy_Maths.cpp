@@ -29,6 +29,9 @@
 #include <Maths/GLToy_Maths.h>
 #include <Maths/Platform_GLToy_Maths.h>
 
+// GLToy
+#include <Core/GLToy_Timer.h>
+
 // C++ headers (!)
 #include <math.h>
 
@@ -94,6 +97,34 @@ float GLToy_Maths::Sqrt( const float fValue )
     return Platform_GLToy_Maths::Sqrt( fValue );
 }
 
+GLToy_Vector_3 GLToy_Maths::Rotate_AxisAngle( const GLToy_Vector_3& xVector, const GLToy_Vector_3& xAxis, const float fAngle )
+{
+    if( fAngle == 0.0f )
+    {
+        return xVector;
+    }
+
+    // TODO: this can be optimised a load...
+    const float fXSquared = xAxis[ 0 ] * xAxis[ 0 ];
+    const float fYSquared = xAxis[ 1 ] * xAxis[ 1 ];
+    const float fZSquared = xAxis[ 2 ] * xAxis[ 2 ];
+    const float fXY = xAxis[ 0 ] * xAxis[ 1 ];
+    const float fYZ = xAxis[ 1 ] * xAxis[ 2 ];
+    const float fZX = xAxis[ 2 ] * xAxis[ 0 ];
+    const float fC = Cos( fAngle );
+    const float fS = Sin( fAngle );
+
+    return xVector * GLToy_Matrix_3( 
+
+            fXSquared + ( 1.0f - fXSquared ) * fC,     fXY * ( 1.0f - fC ) - xAxis[ 2 ] * fS,       fZX * ( 1.0f - fC ) + xAxis[ 1 ] * fS,
+
+            fXY * ( 1.0f - fC ) + xAxis[ 2 ] * fS,     fYSquared + ( 1.0f - fYSquared ) * fC,       fYZ * ( 1.0f - fC ) - xAxis[ 0 ] * fS,
+
+            fZX * ( 1.0f - fC ) - xAxis[ 1 ] * fS,     fYZ * ( 1.0f - fC ) + xAxis[ 0 ] * fS,       fZSquared + ( 1.0f - fZSquared ) * fC
+
+        );
+}
+
 float GLToy_Maths::Ceiling( const float fValue )
 {
     return ceil( fValue );
@@ -107,6 +138,15 @@ float GLToy_Maths::Floor( const float fValue )
 float GLToy_Maths::Round( const float fValue )
 {
     return Floor( fValue + 0.5f );
+}
+
+float GLToy_Maths::Random( const float fLower, const float fHigher )
+{
+    static u_int uWorkingValue = 0xA183E191;
+
+    uWorkingValue += 37 * *reinterpret_cast< const u_int* >( &GLToy_Timer::GetTime() );
+
+    return ( static_cast< float >( uWorkingValue ) / 4294967295.0f ) * ( fHigher - fLower ) + fLower;
 }
 
 float GLToy_Maths::Deg2Rad( const float fValue )

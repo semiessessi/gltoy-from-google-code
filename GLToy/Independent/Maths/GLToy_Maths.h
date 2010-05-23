@@ -61,6 +61,8 @@ public:
     static float Floor( const float fValue );
     static float Round( const float fValue );
 
+    static float Random( const float fLower = 0.0f, const float fHigher = 1.0f );
+
     static float Deg2Rad( const float fDegrees );
     static float Rad2Deg( const float fDegrees );
 
@@ -79,6 +81,8 @@ public:
     static float Cos( const float fValue );
 
     static float Sqrt( const float fValue );
+
+    static GLToy_Vector_3 Rotate_AxisAngle( const GLToy_Vector_3& xVector, const GLToy_Vector_3& xAxis, const float fAngle );
 
 private:
     

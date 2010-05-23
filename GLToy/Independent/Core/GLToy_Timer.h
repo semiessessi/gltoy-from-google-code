@@ -37,7 +37,7 @@ public:
 
     static void Update();
 
-    GLToy_Inline static float GetTime() { return s_fTimer; }
+    GLToy_Inline static const float& GetTime() { return s_fTimer; }
     GLToy_Inline static float GetFrameTime() { return s_fFrameTime; }
     GLToy_Inline static float GetFrameRate() { return 1 / s_fFrameTime; }
     GLToy_Inline static float GetSmoothedFrameRate() { return s_fSmoothedFrameRate; }
