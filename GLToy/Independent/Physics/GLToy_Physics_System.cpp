@@ -327,20 +327,15 @@ void GLToy_Physics_System::Update()
 
     ResetCollisions();
 
-    // this sucks a bit but stops Havok from complaining too much about variable frame rate
-    // TODO - asynchronous updates and interpolation
-    if( ls_fAccumulatedTimer > fPHYSICS_STEP_TIME )
+    // this seems dumb, but it has higher quality and is stupidly fast anyway...
+    while( ls_fAccumulatedTimer > fPHYSICS_STEP_TIME )
     {
-
-        // this seems dumb, but it has higher quality
         s_xDefaultController.Update( ls_fAccumulatedTimer * 0.5f );
-        g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, ls_fAccumulatedTimer * 0.5f );
-        s_xDefaultController.Update( ls_fAccumulatedTimer * 0.5f );
-        g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, ls_fAccumulatedTimer * 0.5f );
+        g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, fPHYSICS_STEP_TIME );
 
         s_xDefaultController.LateUpdate();
 
-        ls_fAccumulatedTimer = 0.0f;
+        ls_fAccumulatedTimer -= fPHYSICS_STEP_TIME;
     }
 
 #endif
