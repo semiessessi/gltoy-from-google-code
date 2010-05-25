@@ -330,9 +330,8 @@ void GLToy_Physics_System::Update()
     // this seems dumb, but it has higher quality and is stupidly fast anyway...
     while( ls_fAccumulatedTimer > fPHYSICS_STEP_TIME )
     {
-        s_xDefaultController.Update( ls_fAccumulatedTimer * 0.5f );
+        s_xDefaultController.Update( fPHYSICS_STEP_TIME );
         g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, fPHYSICS_STEP_TIME );
-
         s_xDefaultController.LateUpdate();
 
         ls_fAccumulatedTimer -= fPHYSICS_STEP_TIME;
