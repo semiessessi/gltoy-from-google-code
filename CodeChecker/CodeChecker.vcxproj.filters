@@ -1,0 +1,1004 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{67af0214-88bc-4a17-8842-ad244953a6be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Independent">
+      <UniqueIdentifier>{52a1a4eb-d0ba-497c-bbde-ac716266e388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Independent\Render">
+      <UniqueIdentifier>{0c961fe9-8b22-4db8-a02b-9dc9059c3578}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Independent\Core">
+      <UniqueIdentifier>{1e128296-39c2-491e-9b46-a1b28b9605dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Win32">
+      <UniqueIdentifier>{608428cc-cd24-4066-9fc1-9e8e86a3a9aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Win32\Core">
+      <UniqueIdentifier>{ddc82c65-bb0e-4947-a306-ed23577ecdd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FPSToy">
+      <UniqueIdentifier>{bd7c6948-0fa2-49ee-9f42-6343b49775ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FPSToy\Independent">
+      <UniqueIdentifier>{5dd0a053-c082-41e7-8f5c-88c1cfa14475}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FPSToy\Independent\Render">
+      <UniqueIdentifier>{cc2778ec-8fc1-4c5d-8c37-387ae99ac630}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FPSToy\Independent\Core">
+      <UniqueIdentifier>{05a0a016-374b-4ddf-bbfb-6db58fdbfb9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FPSToy\Independent\Weapon">
+      <UniqueIdentifier>{c4ef6d86-f9e1-4de2-9673-83bb1e09acf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FPSToy\Independent\Damage">
+      <UniqueIdentifier>{d40d508c-6eeb-431a-8623-5a56cc258b7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FPSToy\Independent\AI">
+      <UniqueIdentifier>{46101f98-29c6-4c1f-9930-f076ca40f9e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FPSToy\Independent\Entity">
+      <UniqueIdentifier>{37c415d1-bacb-4731-b91c-d554a84d09eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FPSToy\Independent\Entity\Projectile">
+      <UniqueIdentifier>{858af6ba-8095-4daa-b504-0c50673c0f38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FPSToy\Independent\Entity\Actor">
+      <UniqueIdentifier>{a3d3025a-eee5-49ae-bacf-1d5c0a3597be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FPSToy\Win32">
+      <UniqueIdentifier>{f02374f5-f9ba-4b07-9e3b-3fe070158f1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FPSToy\Win32\Core">
+      <UniqueIdentifier>{3bb36e0d-2b90-48e7-aa37-3272af03e513}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSDemo">
+      <UniqueIdentifier>{83dfbda8-e43a-44cb-a970-69b0346fa71c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSDemo\Independent">
+      <UniqueIdentifier>{05855075-ced5-4fe0-859b-61c0d19fcdb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSDemo\Independent\Render">
+      <UniqueIdentifier>{706b37fb-cdfc-44cc-b892-354cd7b8bc4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSDemo\Independent\Core">
+      <UniqueIdentifier>{08f97320-9bff-460e-848c-07e0eb3947a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSDemo\Independent\FridgeScript">
+      <UniqueIdentifier>{87ad2a18-03fa-4128-aa1e-712bf83c307a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSDemo\Win32">
+      <UniqueIdentifier>{e520ef50-c6e4-4842-9581-c5bcd92d7ce6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSDemo\Win32\Core">
+      <UniqueIdentifier>{84e099d5-5d4e-402c-b9ad-25827f56bc1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSDemo\Win32\FridgeScript">
+      <UniqueIdentifier>{9aebd39c-a845-4851-9af4-1de96d5ef3db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy">
+      <UniqueIdentifier>{da6af516-7ef3-49f6-9cf2-190c68c791bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent">
+      <UniqueIdentifier>{23dd4a0c-086d-427e-bb04-8facca31081b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Core">
+      <UniqueIdentifier>{b82f174d-c27e-4bf4-ac87-930f4cfff6bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Core\Data Structures">
+      <UniqueIdentifier>{4bf432b6-f597-4965-a2f7-a8d1344eed64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Core\Console">
+      <UniqueIdentifier>{fff39cd3-d87a-415a-b9b0-4961b2b09479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Core\State">
+      <UniqueIdentifier>{f1ac1bb3-2f2e-46bc-8706-6c6b1afd1ba4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Render">
+      <UniqueIdentifier>{a4f37693-f248-44b8-809c-5b8db6d42f6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Render\Font">
+      <UniqueIdentifier>{7cd8b59b-9bea-4993-b058-a58587a973a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Render\Shader">
+      <UniqueIdentifier>{91869205-7e03-4acb-9f7d-6cdf2657425b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Render\TGA">
+      <UniqueIdentifier>{6c36d70b-68ce-4773-976f-4dea81c92751}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Maths">
+      <UniqueIdentifier>{5a949159-8357-48d2-ac14-f9fde89ca3ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Model">
+      <UniqueIdentifier>{cf43be73-3f96-4997-bc40-52a58779010f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\File">
+      <UniqueIdentifier>{7868fbf7-b4b5-42f4-aa7a-22577c1bc220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\File\BSP">
+      <UniqueIdentifier>{043a7ec5-ebdb-4e36-aa73-f0da367de20f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\FridgeScript">
+      <UniqueIdentifier>{d5dee44c-c7af-4867-8ed9-8d4a2037354f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Compression">
+      <UniqueIdentifier>{5945ceba-fa1f-4f4f-acc9-52270d34f01d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Environment">
+      <UniqueIdentifier>{ebb6ec31-7e34-48d4-aac1-9cae2de93b21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\String">
+      <UniqueIdentifier>{6f06ed4e-2065-496e-8e62-ce44b1f624e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Input">
+      <UniqueIdentifier>{2d278d32-6232-4b1a-8697-4ecc1b4f913d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Entity">
+      <UniqueIdentifier>{809100cf-3c7e-40c2-b32c-4c542fc869c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Entity\Model">
+      <UniqueIdentifier>{dc9d9602-a9a8-435c-b007-4a3640084a06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Entity\Sprite">
+      <UniqueIdentifier>{47c9beef-a45f-40da-8395-79e2ce60fe2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Entity\Physics">
+      <UniqueIdentifier>{c92b26c2-060f-49e2-8c9d-9f77b260f2a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Entity\BSP">
+      <UniqueIdentifier>{e3901cde-0b7f-40b9-820c-1f97b5c8cd47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Entity\BSP\Common">
+      <UniqueIdentifier>{da94ef92-cdd2-4ad6-84b0-fa3a8cd5cef7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Entity\BSP\Quake 2">
+      <UniqueIdentifier>{4e046845-96c9-42da-ae85-ce8c90b3e5e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Particle">
+      <UniqueIdentifier>{6bde40f0-f2c1-42cb-aa16-35f06665349b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\UI">
+      <UniqueIdentifier>{3cc736ec-abc9-4f83-83e9-d5deffdc3921}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Independent\Physics">
+      <UniqueIdentifier>{5ac26db9-d2e2-4f2e-a036-f9271341b201}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Win32">
+      <UniqueIdentifier>{3870964e-d038-4581-bc89-05a706387b40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Win32\Core">
+      <UniqueIdentifier>{dfa1027d-5105-47c9-88c2-9d3c9f1479ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Win32\Render">
+      <UniqueIdentifier>{858a5146-13da-41cf-accf-2085ad6ddf99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Win32\Maths">
+      <UniqueIdentifier>{d529c1e2-e21b-41cb-a47e-a68329a8dc4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Win32\FridgeScript">
+      <UniqueIdentifier>{afa1a8b9-301f-4b2d-8c65-1cf5975d4348}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Win32\File">
+      <UniqueIdentifier>{6f40a495-6ec3-40ae-9908-9565acc7ea30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Win32\Input">
+      <UniqueIdentifier>{c8d41dd4-9872-4c57-a1ad-e8137e8fba46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLToy\Win32\Physics">
+      <UniqueIdentifier>{91801b77-cf6c-4ebe-bba8-559bd28770d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestCube">
+      <UniqueIdentifier>{1f448f8a-5681-4099-9b88-ed24c1ccc6cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestCube\Independent">
+      <UniqueIdentifier>{dd2a8d67-1ffd-4a4b-ac14-e1ccacce07ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestCube\Independent\Render">
+      <UniqueIdentifier>{5cd7d027-16ae-42b2-9cc6-c4c0f3fa3c6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestCube\Independent\Core">
+      <UniqueIdentifier>{d0463e1d-0636-42a5-8900-3e58f02d8deb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestCube\Win32">
+      <UniqueIdentifier>{2ba007bd-16d3-4fd9-aedd-440c7062f410}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestCube\Win32\Core">
+      <UniqueIdentifier>{70a09230-7cf9-4e9e-9b35-77506154b9f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Empty">
+      <UniqueIdentifier>{d8e343ac-2664-4f60-986e-a9090bd8e4a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Empty\Independent">
+      <UniqueIdentifier>{2bcd87c3-aa8e-46bd-83cd-0d89454d2f1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Empty\Independent\Render">
+      <UniqueIdentifier>{8d6df4d3-20ac-444c-a9a0-aa3b2fdbcfc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Empty\Independent\Core">
+      <UniqueIdentifier>{d99a0dce-1164-4b3e-9424-ec7d51d70674}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Empty\Win32">
+      <UniqueIdentifier>{74c01e86-486b-4d7b-a02a-69b48aed4f5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Empty\Win32\Core">
+      <UniqueIdentifier>{c6391f50-b931-453f-8eae-6808e6d5468c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeChecker Include="..\Editor\Independent\Render\Editor_Render.cpp">
+      <Filter>Editor\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Editor\Independent\Render\Editor_Render.h">
+      <Filter>Editor\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Editor\Independent\Render\Project_GLToy_Render.cpp">
+      <Filter>Editor\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Editor\Independent\Core\Editor.cpp">
+      <Filter>Editor\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Editor\Independent\Core\Editor.h">
+      <Filter>Editor\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Editor\Independent\Core\Project_GLToy.cpp">
+      <Filter>Editor\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Editor\Win32\Core\Platform_Editor.cpp">
+      <Filter>Editor\Win32\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Editor\Win32\Core\Platform_Editor.h">
+      <Filter>Editor\Win32\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Render\FPSToy_Render.cpp">
+      <Filter>FPSToy\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Render\FPSToy_Render.h">
+      <Filter>FPSToy\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Render\Project_GLToy_Render.cpp">
+      <Filter>FPSToy\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Core\FPSToy.cpp">
+      <Filter>FPSToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Core\FPSToy.h">
+      <Filter>FPSToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Core\FPSToy_Player.cpp">
+      <Filter>FPSToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Core\FPSToy_Player.h">
+      <Filter>FPSToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Core\Project_GLToy.cpp">
+      <Filter>FPSToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_Weapon.cpp">
+      <Filter>FPSToy\Independent\Weapon</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_Weapon.h">
+      <Filter>FPSToy\Independent\Weapon</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_Weapon_System.cpp">
+      <Filter>FPSToy\Independent\Weapon</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_Weapon_System.h">
+      <Filter>FPSToy\Independent\Weapon</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_WeaponType_Melee.cpp">
+      <Filter>FPSToy\Independent\Weapon</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_WeaponType_Melee.h">
+      <Filter>FPSToy\Independent\Weapon</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_WeaponType_Projectile.cpp">
+      <Filter>FPSToy\Independent\Weapon</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_WeaponType_Projectile.h">
+      <Filter>FPSToy\Independent\Weapon</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_WeaponType_Trace.cpp">
+      <Filter>FPSToy\Independent\Weapon</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_WeaponType_Trace.h">
+      <Filter>FPSToy\Independent\Weapon</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Damage\FPSToy_Damage_System.cpp">
+      <Filter>FPSToy\Independent\Damage</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Damage\FPSToy_Damage_System.h">
+      <Filter>FPSToy\Independent\Damage</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Damage\FPSToy_DamageType.h">
+      <Filter>FPSToy\Independent\Damage</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\AI\FPSToy_AI.h">
+      <Filter>FPSToy\Independent\AI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Entity\FPSToy_EntityTypes.cpp">
+      <Filter>FPSToy\Independent\Entity</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Entity\FPSToy_EntityTypes.h">
+      <Filter>FPSToy\Independent\Entity</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Entity\Projectile\FPSToy_Entity_Projectile.cpp">
+      <Filter>FPSToy\Independent\Entity\Projectile</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Entity\Projectile\FPSToy_Entity_Projectile.h">
+      <Filter>FPSToy\Independent\Entity\Projectile</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Entity\Actor\FPSToy_Entity_Actor.cpp">
+      <Filter>FPSToy\Independent\Entity\Actor</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Independent\Entity\Actor\FPSToy_Entity_Actor.h">
+      <Filter>FPSToy\Independent\Entity\Actor</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Win32\Core\Platform_FPSToy.cpp">
+      <Filter>FPSToy\Win32\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FPSToy\Win32\Core\Platform_FPSToy.h">
+      <Filter>FPSToy\Win32\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FSDemo\Independent\Render\FSDemo_Render.cpp">
+      <Filter>FSDemo\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FSDemo\Independent\Render\FSDemo_Render.h">
+      <Filter>FSDemo\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FSDemo\Independent\Render\Project_GLToy_Render.cpp">
+      <Filter>FSDemo\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FSDemo\Independent\Core\FSDemo.h">
+      <Filter>FSDemo\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FSDemo\Independent\Core\Project_GLToy.cpp">
+      <Filter>FSDemo\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FSDemo\Independent\FridgeScript\FSDemo_FridgeScript.cpp">
+      <Filter>FSDemo\Independent\FridgeScript</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FSDemo\Independent\FridgeScript\FSDemo_FridgeScript.h">
+      <Filter>FSDemo\Independent\FridgeScript</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FSDemo\Win32\Core\Platform_FSDemo.cpp">
+      <Filter>FSDemo\Win32\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FSDemo\Win32\Core\Platform_FSDemo.h">
+      <Filter>FSDemo\Win32\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\FSDemo\Win32\FridgeScript\Platform_FSDemo_FridgeScript.h">
+      <Filter>FSDemo\Win32\FridgeScript</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy.cpp">
+      <Filter>GLToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy.h">
+      <Filter>GLToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Assert.cpp">
+      <Filter>GLToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Assert.h">
+      <Filter>GLToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Bounded.h">
+      <Filter>GLToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Config.h">
+      <Filter>GLToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Functor.h">
+      <Filter>GLToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Hash.h">
+      <Filter>GLToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Serialisable.h">
+      <Filter>GLToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Timer.cpp">
+      <Filter>GLToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Timer.h">
+      <Filter>GLToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Updateable.h">
+      <Filter>GLToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_UpdateFunctor.h">
+      <Filter>GLToy\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_Array.h">
+      <Filter>GLToy\Independent\Core\Data Structures</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_BinaryTree.h">
+      <Filter>GLToy\Independent\Core\Data Structures</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_BitStream.cpp">
+      <Filter>GLToy\Independent\Core\Data Structures</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_BitStream.h">
+      <Filter>GLToy\Independent\Core\Data Structures</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_BSPTree.h">
+      <Filter>GLToy\Independent\Core\Data Structures</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_DataStructure.h">
+      <Filter>GLToy\Independent\Core\Data Structures</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_FlatDataStructure.h">
+      <Filter>GLToy\Independent\Core\Data Structures</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_HashTree.h">
+      <Filter>GLToy\Independent\Core\Data Structures</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_List.h">
+      <Filter>GLToy\Independent\Core\Data Structures</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_Pair.h">
+      <Filter>GLToy\Independent\Core\Data Structures</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_Stack.h">
+      <Filter>GLToy\Independent\Core\Data Structures</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_Tree.h">
+      <Filter>GLToy\Independent\Core\Data Structures</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Console\GLToy_Console.cpp">
+      <Filter>GLToy\Independent\Core\Console</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Console\GLToy_Console.h">
+      <Filter>GLToy\Independent\Core\Console</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Console\GLToy_ConsoleCommand.cpp">
+      <Filter>GLToy\Independent\Core\Console</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Console\GLToy_ConsoleCommand.h">
+      <Filter>GLToy\Independent\Core\Console</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Console\GLToy_ConsoleVariable.cpp">
+      <Filter>GLToy\Independent\Core\Console</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\Console\GLToy_ConsoleVariable.h">
+      <Filter>GLToy\Independent\Core\Console</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State.h">
+      <Filter>GLToy\Independent\Core\State</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_Editor.cpp">
+      <Filter>GLToy\Independent\Core\State</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_Editor.h">
+      <Filter>GLToy\Independent\Core\State</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_EditorFrontEnd.cpp">
+      <Filter>GLToy\Independent\Core\State</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_EditorFrontEnd.h">
+      <Filter>GLToy\Independent\Core\State</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_Splash.cpp">
+      <Filter>GLToy\Independent\Core\State</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_Splash.h">
+      <Filter>GLToy\Independent\Core\State</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_System.cpp">
+      <Filter>GLToy\Independent\Core\State</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_System.h">
+      <Filter>GLToy\Independent\Core\State</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Camera.cpp">
+      <Filter>GLToy\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Camera.h">
+      <Filter>GLToy\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Render.cpp">
+      <Filter>GLToy\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Render.h">
+      <Filter>GLToy\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Renderable.h">
+      <Filter>GLToy\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_RenderFunctor.h">
+      <Filter>GLToy\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Sprite.cpp">
+      <Filter>GLToy\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Sprite.h">
+      <Filter>GLToy\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Texture.cpp">
+      <Filter>GLToy\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Texture.h">
+      <Filter>GLToy\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\Font\GLToy_Font.cpp">
+      <Filter>GLToy\Independent\Render\Font</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\Font\GLToy_Font.h">
+      <Filter>GLToy\Independent\Render\Font</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\Font\GLToy_Font_Bitmap.cpp">
+      <Filter>GLToy\Independent\Render\Font</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\Font\GLToy_Font_Bitmap.h">
+      <Filter>GLToy\Independent\Render\Font</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\Shader\GLToy_Shader.cpp">
+      <Filter>GLToy\Independent\Render\Shader</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\Shader\GLToy_Shader.h">
+      <Filter>GLToy\Independent\Render\Shader</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\Shader\GLToy_Shader_System.cpp">
+      <Filter>GLToy\Independent\Render\Shader</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\Shader\GLToy_Shader_System.h">
+      <Filter>GLToy\Independent\Render\Shader</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Render\TGA\GLToy_TGA.cpp">
+      <Filter>GLToy\Independent\Render\TGA</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Frustum.h">
+      <Filter>GLToy\Independent\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Maths.cpp">
+      <Filter>GLToy\Independent\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Maths.h">
+      <Filter>GLToy\Independent\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Matrix.cpp">
+      <Filter>GLToy\Independent\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Matrix.h">
+      <Filter>GLToy\Independent\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Plane.cpp">
+      <Filter>GLToy\Independent\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Plane.h">
+      <Filter>GLToy\Independent\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Quaternion.cpp">
+      <Filter>GLToy\Independent\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Quaternion.h">
+      <Filter>GLToy\Independent\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Ray.cpp">
+      <Filter>GLToy\Independent\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Ray.h">
+      <Filter>GLToy\Independent\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Vector.cpp">
+      <Filter>GLToy\Independent\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Vector.h">
+      <Filter>GLToy\Independent\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Volume.cpp">
+      <Filter>GLToy\Independent\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Volume.h">
+      <Filter>GLToy\Independent\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model.cpp">
+      <Filter>GLToy\Independent\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model.h">
+      <Filter>GLToy\Independent\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_3DS.cpp">
+      <Filter>GLToy\Independent\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_3DS.h">
+      <Filter>GLToy\Independent\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_Coloured.cpp">
+      <Filter>GLToy\Independent\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_Coloured.h">
+      <Filter>GLToy\Independent\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_MD2.cpp">
+      <Filter>GLToy\Independent\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_MD2.h">
+      <Filter>GLToy\Independent\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_Placeholder.cpp">
+      <Filter>GLToy\Independent\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_Placeholder.h">
+      <Filter>GLToy\Independent\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_System.cpp">
+      <Filter>GLToy\Independent\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_System.h">
+      <Filter>GLToy\Independent\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_3DSFile.cpp">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_3DSFile.h">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_ANSITextFile.cpp">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_ANSITextFile.h">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_EntityFile.cpp">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_EntityFile.h">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_EnvironmentFile.cpp">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_EnvironmentFile.h">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_File.cpp">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_File.h">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_File_System.cpp">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_File_System.h">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_LWOFile.cpp">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_LWOFile.h">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_MD2File.cpp">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_MD2File.h">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_ModelFile.h">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_OBJFile.cpp">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_OBJFile.h">
+      <Filter>GLToy\Independent\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\BSP\GLToy_BSP29.cpp">
+      <Filter>GLToy\Independent\File\BSP</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\BSP\GLToy_BSP30.cpp">
+      <Filter>GLToy\Independent\File\BSP</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\BSP\GLToy_BSP38.cpp">
+      <Filter>GLToy\Independent\File\BSP</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\BSP\GLToy_BSP46.cpp">
+      <Filter>GLToy\Independent\File\BSP</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\BSP\GLToy_VBSP19.cpp">
+      <Filter>GLToy\Independent\File\BSP</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\BSP\GLToy_VBSP20.cpp">
+      <Filter>GLToy\Independent\File\BSP</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\File\BSP\GLToy_VBSP21.cpp">
+      <Filter>GLToy\Independent\File\BSP</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\FridgeScript\GLToy_FridgeScript.cpp">
+      <Filter>GLToy\Independent\FridgeScript</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\FridgeScript\GLToy_FridgeScript.h">
+      <Filter>GLToy\Independent\FridgeScript</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Compression\GLToy_Compression.cpp">
+      <Filter>GLToy\Independent\Compression</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Compression\GLToy_Compression.h">
+      <Filter>GLToy\Independent\Compression</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment.cpp">
+      <Filter>GLToy\Independent\Environment</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment.h">
+      <Filter>GLToy\Independent\Environment</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment_Lightmapped.cpp">
+      <Filter>GLToy\Independent\Environment</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment_Lightmapped.h">
+      <Filter>GLToy\Independent\Environment</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment_Plane.cpp">
+      <Filter>GLToy\Independent\Environment</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment_Plane.h">
+      <Filter>GLToy\Independent\Environment</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment_System.cpp">
+      <Filter>GLToy\Independent\Environment</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment_System.h">
+      <Filter>GLToy\Independent\Environment</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\String\GLToy_String.cpp">
+      <Filter>GLToy\Independent\String</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\String\GLToy_String.h">
+      <Filter>GLToy\Independent\String</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Input\GLToy_Input.cpp">
+      <Filter>GLToy\Independent\Input</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Input\GLToy_Input.h">
+      <Filter>GLToy\Independent\Input</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\GLToy_Entity.cpp">
+      <Filter>GLToy\Independent\Entity</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\GLToy_Entity.h">
+      <Filter>GLToy\Independent\Entity</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\GLToy_Entity_System.cpp">
+      <Filter>GLToy\Independent\Entity</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\GLToy_Entity_System.h">
+      <Filter>GLToy\Independent\Entity</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\GLToy_EntityTypes.h">
+      <Filter>GLToy\Independent\Entity</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\Model\GLToy_Entity_ModelAnimated.cpp">
+      <Filter>GLToy\Independent\Entity\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\Model\GLToy_Entity_ModelAnimated.h">
+      <Filter>GLToy\Independent\Entity\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\Model\GLToy_Entity_ModelStatic.cpp">
+      <Filter>GLToy\Independent\Entity\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\Model\GLToy_Entity_ModelStatic.h">
+      <Filter>GLToy\Independent\Entity\Model</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\Sprite\GLToy_Entity_Sprite.cpp">
+      <Filter>GLToy\Independent\Entity\Sprite</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\Sprite\GLToy_Entity_Sprite.h">
+      <Filter>GLToy\Independent\Entity\Sprite</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\Physics\GLToy_Entity_PhysicsBox.cpp">
+      <Filter>GLToy\Independent\Entity\Physics</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\Physics\GLToy_Entity_PhysicsBox.h">
+      <Filter>GLToy\Independent\Entity\Physics</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Func_Button.cpp">
+      <Filter>GLToy\Independent\Entity\BSP\Common</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Func_Button.h">
+      <Filter>GLToy\Independent\Entity\BSP\Common</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Info_Player_Start.cpp">
+      <Filter>GLToy\Independent\Entity\BSP\Common</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Info_Player_Start.h">
+      <Filter>GLToy\Independent\Entity\BSP\Common</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Trigger_Counter.cpp">
+      <Filter>GLToy\Independent\Entity\BSP\Common</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Trigger_Counter.h">
+      <Filter>GLToy\Independent\Entity\BSP\Common</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Quake 2\GLToy_Entity_BSP_Target_ChangeLevel.cpp">
+      <Filter>GLToy\Independent\Entity\BSP\Quake 2</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Quake 2\GLToy_Entity_BSP_Target_ChangeLevel.h">
+      <Filter>GLToy\Independent\Entity\BSP\Quake 2</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_Particle.cpp">
+      <Filter>GLToy\Independent\Particle</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_Particle.h">
+      <Filter>GLToy\Independent\Particle</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_ParticleSource.cpp">
+      <Filter>GLToy\Independent\Particle</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_ParticleSource.h">
+      <Filter>GLToy\Independent\Particle</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_PFX.cpp">
+      <Filter>GLToy\Independent\Particle</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_PFX.h">
+      <Filter>GLToy\Independent\Particle</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_PFX_System.cpp">
+      <Filter>GLToy\Independent\Particle</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_PFX_System.h">
+      <Filter>GLToy\Independent\Particle</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Dialog.cpp">
+      <Filter>GLToy\Independent\UI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Dialog.h">
+      <Filter>GLToy\Independent\UI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_DialogStyles.h">
+      <Filter>GLToy\Independent\UI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_UI_System.cpp">
+      <Filter>GLToy\Independent\UI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_UI_System.h">
+      <Filter>GLToy\Independent\UI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget.h">
+      <Filter>GLToy\Independent\UI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_EditorMenu.cpp">
+      <Filter>GLToy\Independent\UI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_EditorMenu.h">
+      <Filter>GLToy\Independent\UI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_Image.cpp">
+      <Filter>GLToy\Independent\UI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_Image.h">
+      <Filter>GLToy\Independent\UI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_ImageButton.cpp">
+      <Filter>GLToy\Independent\UI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_ImageButton.h">
+      <Filter>GLToy\Independent\UI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_Label.cpp">
+      <Filter>GLToy\Independent\UI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_Label.h">
+      <Filter>GLToy\Independent\UI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_WidgetTypes.h">
+      <Filter>GLToy\Independent\UI</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Physics\GLToy_Physics_Controller.cpp">
+      <Filter>GLToy\Independent\Physics</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Physics\GLToy_Physics_Controller.h">
+      <Filter>GLToy\Independent\Physics</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Physics\GLToy_Physics_Object.cpp">
+      <Filter>GLToy\Independent\Physics</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Physics\GLToy_Physics_Object.h">
+      <Filter>GLToy\Independent\Physics</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Physics\GLToy_Physics_System.cpp">
+      <Filter>GLToy\Independent\Physics</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Independent\Physics\GLToy_Physics_System.h">
+      <Filter>GLToy\Independent\Physics</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\Core\Platform_GLToy.cpp">
+      <Filter>GLToy\Win32\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\Core\Platform_GLToy.h">
+      <Filter>GLToy\Win32\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\Core\Platform_GLToy_Assert.cpp">
+      <Filter>GLToy\Win32\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\Core\Platform_GLToy_Timer.cpp">
+      <Filter>GLToy\Win32\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\Core\Platform_GLToy_Timer.h">
+      <Filter>GLToy\Win32\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\Render\Platform_GLToy_Render.cpp">
+      <Filter>GLToy\Win32\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\Render\Platform_GLToy_Render.h">
+      <Filter>GLToy\Win32\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\Render\Platform_GLToy_Texture.cpp">
+      <Filter>GLToy\Win32\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\Maths\Platform_GLToy_Maths.cpp">
+      <Filter>GLToy\Win32\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\Maths\Platform_GLToy_Maths.h">
+      <Filter>GLToy\Win32\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\Maths\Platform_GLToy_Vector.cpp">
+      <Filter>GLToy\Win32\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\Maths\Platform_GLToy_Vector.h">
+      <Filter>GLToy\Win32\Maths</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\FridgeScript\Platform_GLToy_FridgeScript.h">
+      <Filter>GLToy\Win32\FridgeScript</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\File\Platform_GLToy_File_System.cpp">
+      <Filter>GLToy\Win32\File</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\Input\Platform_GLToy_Input.cpp">
+      <Filter>GLToy\Win32\Input</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\GLToy\Win32\Physics\Platform_GLToy_Havok_Physics.h">
+      <Filter>GLToy\Win32\Physics</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\TestCube\Independent\Render\Project_GLToy_Render.cpp">
+      <Filter>TestCube\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\TestCube\Independent\Render\TestCube_Render.cpp">
+      <Filter>TestCube\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\TestCube\Independent\Render\TestCube_Render.h">
+      <Filter>TestCube\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\TestCube\Independent\Core\Project_GLToy.cpp">
+      <Filter>TestCube\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\TestCube\Independent\Core\TestCube.h">
+      <Filter>TestCube\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\TestCube\Win32\Core\Platform_TestCube.cpp">
+      <Filter>TestCube\Win32\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\TestCube\Win32\Core\Platform_TestCube.h">
+      <Filter>TestCube\Win32\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Empty\Independent\Render\Empty_Render.cpp">
+      <Filter>Empty\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Empty\Independent\Render\Empty_Render.h">
+      <Filter>Empty\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Empty\Independent\Render\Project_GLToy_Render.cpp">
+      <Filter>Empty\Independent\Render</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Empty\Independent\Core\Empty.cpp">
+      <Filter>Empty\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Empty\Independent\Core\Empty.h">
+      <Filter>Empty\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Empty\Independent\Core\Project_GLToy.cpp">
+      <Filter>Empty\Independent\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Empty\Win32\Core\Platform_Empty.cpp">
+      <Filter>Empty\Win32\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Empty\Win32\Core\Platform_Empty.h">
+      <Filter>Empty\Win32\Core</Filter>
+    </CodeChecker>
+    <CodeChecker Include="..\Tools\CodeChecker\GLToy_CodeChecker.rb" />
+  </ItemGroup>
+</Project>

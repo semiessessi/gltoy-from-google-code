@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Win32">
+      <UniqueIdentifier>{44c57801-b26a-4d80-93e3-76c95c425ae5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Core">
+      <UniqueIdentifier>{fd9ab433-b279-4b6d-b0db-5d60e90acc35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent">
+      <UniqueIdentifier>{a96b8d04-960c-4ebb-8e6d-d8a5fb6d0204}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Render">
+      <UniqueIdentifier>{5d4e9077-f120-44f7-9a34-8584373cfa01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Core">
+      <UniqueIdentifier>{c0c0444d-2b0b-4bd1-8cca-b8f4093da6e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Weapon">
+      <UniqueIdentifier>{6a540d8e-9902-4534-8b5c-34a9b4e8c75e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Damage">
+      <UniqueIdentifier>{0e0ddec6-4c02-4c46-86f3-f248d3357518}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\AI">
+      <UniqueIdentifier>{fc080ff0-8f80-4aac-886c-8144fe4e1e9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity">
+      <UniqueIdentifier>{33664241-3be2-4068-857d-8a7c035da3a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity\Projectile">
+      <UniqueIdentifier>{8db0b90f-d2dd-419a-b5f2-d5dfe2bbf057}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity\Actor">
+      <UniqueIdentifier>{a11a8aba-082c-4a80-a2fc-da73dde75298}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Win32\Core\Platform_FPSToy.cpp">
+      <Filter>Win32\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\FPSToy_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Project_GLToy_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\FPSToy.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\FPSToy_Player.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\Project_GLToy.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Weapon\FPSToy_Weapon.cpp">
+      <Filter>Independent\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Weapon\FPSToy_Weapon_System.cpp">
+      <Filter>Independent\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Weapon\FPSToy_WeaponType_Melee.cpp">
+      <Filter>Independent\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Weapon\FPSToy_WeaponType_Projectile.cpp">
+      <Filter>Independent\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Weapon\FPSToy_WeaponType_Trace.cpp">
+      <Filter>Independent\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Damage\FPSToy_Damage_System.cpp">
+      <Filter>Independent\Damage</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\FPSToy_EntityTypes.cpp">
+      <Filter>Independent\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\Projectile\FPSToy_Entity_Projectile.cpp">
+      <Filter>Independent\Entity\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\Actor\FPSToy_Entity_Actor.cpp">
+      <Filter>Independent\Entity\Actor</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Win32\Core\Platform_FPSToy.h">
+      <Filter>Win32\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\FPSToy_Render.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\FPSToy.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\FPSToy_Player.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Weapon\FPSToy_Weapon.h">
+      <Filter>Independent\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Weapon\FPSToy_Weapon_System.h">
+      <Filter>Independent\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Weapon\FPSToy_WeaponType_Melee.h">
+      <Filter>Independent\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Weapon\FPSToy_WeaponType_Projectile.h">
+      <Filter>Independent\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Weapon\FPSToy_WeaponType_Trace.h">
+      <Filter>Independent\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Damage\FPSToy_Damage_System.h">
+      <Filter>Independent\Damage</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Damage\FPSToy_DamageType.h">
+      <Filter>Independent\Damage</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\AI\FPSToy_AI.h">
+      <Filter>Independent\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\FPSToy_EntityTypes.h">
+      <Filter>Independent\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Projectile\FPSToy_Entity_Projectile.h">
+      <Filter>Independent\Entity\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Actor\FPSToy_Entity_Actor.h">
+      <Filter>Independent\Entity\Actor</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

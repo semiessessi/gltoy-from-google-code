@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <PropertyPageSchema
+      Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+    <AvailableItemName
+      Include="CodeChecker">
+      <Targets>_CodeChecker</Targets>
+    </AvailableItemName>
+  </ItemGroup>
+  <UsingTask
+    TaskName="CodeChecker"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <Target
+    Name="_CodeChecker"
+    BeforeTargets="$(CodeCheckerBeforeTargets)"
+    AfterTargets="$(CodeCheckerAfterTargets)"
+    Condition="'@(CodeChecker)' != ''"
+    DependsOnTargets="$(CodeCheckerDependsOn);ComputeCodeCheckerOutput"
+    Outputs="@(CodeChecker-&gt;'%(Outputs)')"
+    Inputs="@(CodeChecker);%(CodeChecker.AdditionalDependencies);$(MSBuildProjectFile)">
+    <ItemGroup
+      Condition="'@(SelectedFiles)' != ''">
+      <CodeChecker
+        Remove="@(CodeChecker)"
+        Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <ItemGroup>
+      <CodeChecker_tlog
+        Include="%(CodeChecker.Outputs)"
+        Condition="'%(CodeChecker.Outputs)' != '' and '%(CodeChecker.ExcludedFromBuild)' != 'true'">
+        <Source>@(CodeChecker, '|')</Source>
+      </CodeChecker_tlog>
+    </ItemGroup>
+    <Message
+      Importance="High"
+      Text="%(CodeChecker.ExecutionDescription)" />
+    <WriteLinesToFile
+      Condition="'@(CodeChecker_tlog)' != '' and '%(CodeChecker_tlog.ExcludedFromBuild)' != 'true'"
+      File="$(IntDir)$(ProjectName).write.1.tlog"
+      Lines="^%(CodeChecker_tlog.Source);@(CodeChecker_tlog-&gt;'%(Fullpath)')" />
+    <CodeChecker
+      Condition="'@(CodeChecker)' != '' and '%(CodeChecker.ExcludedFromBuild)' != 'true'"
+      CommandLineTemplate="%(CodeChecker.CommandLineTemplate)"
+      AdditionalOptions="%(CodeChecker.AdditionalOptions)"
+      Inputs="@(CodeChecker)" />
+  </Target>
+  <PropertyGroup>
+    <ComputeLinkInputsTargets>
+            $(ComputeLinkInputsTargets);
+            ComputeCodeCheckerOutput;
+          </ComputeLinkInputsTargets>
+    <ComputeLibInputsTargets>
+            $(ComputeLibInputsTargets);
+            ComputeCodeCheckerOutput;
+          </ComputeLibInputsTargets>
+  </PropertyGroup>
+  <Target
+    Name="ComputeCodeCheckerOutput"
+    Condition="'@(CodeChecker)' != ''">
+    <ItemGroup>
+      <CodeCheckerDirsToMake
+        Condition="'@(CodeChecker)' != '' and '%(CodeChecker.ExcludedFromBuild)' != 'true'"
+        Include="%(CodeChecker.Outputs)" />
+      <Link
+        Include="%(CodeCheckerDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <Lib
+        Include="%(CodeCheckerDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <ImpLib
+        Include="%(CodeCheckerDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+    </ItemGroup>
+    <MakeDir
+      Directories="@(CodeCheckerDirsToMake-&gt;'%(RootDir)%(Directory)')" />
+  </Target>
+</Project>

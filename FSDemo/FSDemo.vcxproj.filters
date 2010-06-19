@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Win32">
+      <UniqueIdentifier>{86a5c026-d1f4-4611-96bf-4ca2a2fe5b73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Core">
+      <UniqueIdentifier>{b7ef63d3-a7b5-4a39-ba59-406fc61c5647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\FridgeScript">
+      <UniqueIdentifier>{ec4c05c0-b89a-42d1-8a39-f2bfa866d9c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent">
+      <UniqueIdentifier>{5abf68ae-5292-4616-8146-7d137f3a7c2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Render">
+      <UniqueIdentifier>{c4a69195-9424-4666-838b-33778d9596bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Core">
+      <UniqueIdentifier>{42a8e32e-9d20-4a91-a6e5-48e0d2c90eb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\FridgeScript">
+      <UniqueIdentifier>{50532fff-a8b1-43b0-839d-62523a4fd733}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script">
+      <UniqueIdentifier>{968e14b8-56aa-42cf-b7f8-bafcfa02bf5e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Win32\Core\Platform_FSDemo.cpp">
+      <Filter>Win32\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\FSDemo_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Project_GLToy_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\Project_GLToy.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\FridgeScript\FSDemo_FridgeScript.cpp">
+      <Filter>Independent\FridgeScript</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Win32\Core\Platform_FSDemo.h">
+      <Filter>Win32\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\FridgeScript\Platform_FSDemo_FridgeScript.h">
+      <Filter>Win32\FridgeScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\FSDemo_Render.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\FSDemo.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\FridgeScript\FSDemo_FridgeScript.h">
+      <Filter>Independent\FridgeScript</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="script.fs">
+      <Filter>Script</Filter>
+    </None>
+  </ItemGroup>
+</Project>

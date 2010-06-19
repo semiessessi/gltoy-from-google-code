@@ -1,35 +1,19 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C++ Express 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLToy", "GLToy\GLToy.vcproj", "{D102268C-2C78-4954-99A9-433EF8F9182F}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLToy", "GLToy\GLToy.vcxproj", "{D102268C-2C78-4954-99A9-433EF8F9182F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestCube", "TestCube\TestCube.vcproj", "{874C417E-0551-4F04-BAF7-451989BA5FB5}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D102268C-2C78-4954-99A9-433EF8F9182F} = {D102268C-2C78-4954-99A9-433EF8F9182F}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestCube", "TestCube\TestCube.vcxproj", "{874C417E-0551-4F04-BAF7-451989BA5FB5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Empty", "Empty\Empty.vcproj", "{451F6CAD-AF6B-479E-9321-C4DAE0F40260}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D102268C-2C78-4954-99A9-433EF8F9182F} = {D102268C-2C78-4954-99A9-433EF8F9182F}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Empty", "Empty\Empty.vcxproj", "{451F6CAD-AF6B-479E-9321-C4DAE0F40260}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FSDemo", "FSDemo\FSDemo.vcproj", "{94DDE1E4-B409-4221-81E4-22D6E63646CC}"
-	ProjectSection(ProjectDependencies) = postProject
-		{1C0FDC04-2614-43C7-8A7B-F45A5E88E5B1} = {1C0FDC04-2614-43C7-8A7B-F45A5E88E5B1}
-		{D102268C-2C78-4954-99A9-433EF8F9182F} = {D102268C-2C78-4954-99A9-433EF8F9182F}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FSDemo", "FSDemo\FSDemo.vcxproj", "{94DDE1E4-B409-4221-81E4-22D6E63646CC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\Editor.vcproj", "{2CEB9D8E-2BFF-442D-B29C-0D8DB36D958A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D102268C-2C78-4954-99A9-433EF8F9182F} = {D102268C-2C78-4954-99A9-433EF8F9182F}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\Editor.vcxproj", "{2CEB9D8E-2BFF-442D-B29C-0D8DB36D958A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FPSToy", "FPSToy\FPSToy.vcproj", "{A75E7C31-BA9E-4903-A1F2-062A75317612}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D102268C-2C78-4954-99A9-433EF8F9182F} = {D102268C-2C78-4954-99A9-433EF8F9182F}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FPSToy", "FPSToy\FPSToy.vcxproj", "{A75E7C31-BA9E-4903-A1F2-062A75317612}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CodeChecker", "CodeChecker\CodeChecker.vcproj", "{1C0FDC04-2614-43C7-8A7B-F45A5E88E5B1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CodeChecker", "CodeChecker\CodeChecker.vcxproj", "{1C0FDC04-2614-43C7-8A7B-F45A5E88E5B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

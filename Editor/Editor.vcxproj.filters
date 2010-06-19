@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Win32">
+      <UniqueIdentifier>{83a02d75-3a53-4624-8426-e72256ed1ce8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Core">
+      <UniqueIdentifier>{aea7eb26-717b-4942-8b94-a56f83cdbfd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent">
+      <UniqueIdentifier>{8bcd32c3-5f16-45ef-bba9-1a0d7c6d93e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Render">
+      <UniqueIdentifier>{f6acb7d8-3572-4ee0-b9c5-b5848127a373}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Core">
+      <UniqueIdentifier>{4c36ddf4-67b0-4052-b631-87ca59b3ce6f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Win32\Core\Platform_Editor.cpp">
+      <Filter>Win32\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Editor_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Project_GLToy_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\Editor.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\Project_GLToy.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Win32\Core\Platform_Editor.h">
+      <Filter>Win32\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\Editor_Render.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Editor.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

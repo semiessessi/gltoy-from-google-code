@@ -1,0 +1,699 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Win32">
+      <UniqueIdentifier>{9ca79b41-e36e-423c-a242-21a394163691}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Core">
+      <UniqueIdentifier>{d8f3c9e9-55ea-4c78-b2da-1e2c21afb45a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Render">
+      <UniqueIdentifier>{b4b174f2-92ca-4a43-a4f2-4cd855a33fa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Maths">
+      <UniqueIdentifier>{329e1bb3-cc72-4c07-b2c4-e668bfe9bdaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\FridgeScript">
+      <UniqueIdentifier>{9d202ce7-df8a-4782-8a31-b69b065d8f08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\File">
+      <UniqueIdentifier>{6cdc326b-3b4c-44f7-9db5-c9524e69272e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Input">
+      <UniqueIdentifier>{7421070f-f1ef-417a-bfbe-c2df9f6f9ec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Physics">
+      <UniqueIdentifier>{312a90bc-6af5-4a39-a402-de6a3d85b10e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent">
+      <UniqueIdentifier>{e088677c-803c-4fa2-860b-ed8aaf7a26ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Core">
+      <UniqueIdentifier>{c93d3788-b7f5-49eb-98b8-630c8d624b4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Core\Data Structures">
+      <UniqueIdentifier>{534508c0-50ae-4c5a-993f-19685c8bc326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Core\Console">
+      <UniqueIdentifier>{dc3ecacd-e2c4-4721-8027-97fff3cb4f55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Core\State">
+      <UniqueIdentifier>{c9664bb3-277e-4cbe-8e97-960d13ce1017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Render">
+      <UniqueIdentifier>{d9c125ca-8edc-4ea4-8cb9-c89c18a5e49b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Render\Font">
+      <UniqueIdentifier>{9e47c0f6-8781-4e6e-963c-82d4a67423c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Render\Shader">
+      <UniqueIdentifier>{d3a7c2fe-5184-493c-bb0d-f8f2ca5723ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Render\TGA">
+      <UniqueIdentifier>{0f4d22e3-8345-4a48-b21b-514a833d1e13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Maths">
+      <UniqueIdentifier>{ef2c54b0-25d0-4726-8d26-e42627cbe4c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Model">
+      <UniqueIdentifier>{26e3b95a-b95a-47fe-b700-29bf43e1e71e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\File">
+      <UniqueIdentifier>{5efc7b7b-64da-491b-9f92-402b70c35e8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\File\BSP">
+      <UniqueIdentifier>{ac62e72c-d3b0-4397-b2ef-60a937585aad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\FridgeScript">
+      <UniqueIdentifier>{af427c70-97ff-4113-8fa5-335d1c14daa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Compression">
+      <UniqueIdentifier>{801c7ddd-ecd9-468e-b2b0-9da947250c46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Environment">
+      <UniqueIdentifier>{8414d0b1-adb3-4e18-95d0-7bc6fccfa9ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\String">
+      <UniqueIdentifier>{d27d34f7-b28f-4a67-84f6-bb38aee59dfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Input">
+      <UniqueIdentifier>{cd7a017f-b798-4e58-971d-1e4d7fab35d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity">
+      <UniqueIdentifier>{74404101-41b0-4b30-845c-6d25ce7c89fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity\Model">
+      <UniqueIdentifier>{f3f59ba7-e119-41a4-ad27-d9f87f86cb6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity\Sprite">
+      <UniqueIdentifier>{05377250-126a-49b6-b262-02dd2f6c575c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity\Physics">
+      <UniqueIdentifier>{e36eb4ba-8feb-4e82-b64a-07be117fb590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity\BSP">
+      <UniqueIdentifier>{24421102-5c0b-40a0-84d3-28e7d1d9382b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity\BSP\Common">
+      <UniqueIdentifier>{6256f2d8-823f-41f8-9a2d-869e31ba3326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity\BSP\Quake 2">
+      <UniqueIdentifier>{8d9663ab-2766-4d30-a345-131b1e0802a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Particle">
+      <UniqueIdentifier>{b79ac119-a36d-4189-b448-256af31898aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\UI">
+      <UniqueIdentifier>{ab0ff1e5-e94c-48d3-87f2-a52998e67208}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Physics">
+      <UniqueIdentifier>{e0570b97-fd25-4b22-a86d-93eb85b887f6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Win32\Core\Platform_GLToy.cpp">
+      <Filter>Win32\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Core\Platform_GLToy_Assert.cpp">
+      <Filter>Win32\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Core\Platform_GLToy_Timer.cpp">
+      <Filter>Win32\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Render\Platform_GLToy_Render.cpp">
+      <Filter>Win32\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Render\Platform_GLToy_Texture.cpp">
+      <Filter>Win32\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Maths\Platform_GLToy_Maths.cpp">
+      <Filter>Win32\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Maths\Platform_GLToy_Vector.cpp">
+      <Filter>Win32\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\File\Platform_GLToy_File_System.cpp">
+      <Filter>Win32\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Input\Platform_GLToy_Input.cpp">
+      <Filter>Win32\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\GLToy.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\GLToy_Assert.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\GLToy_Timer.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\Data Structures\GLToy_BitStream.cpp">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\Console\GLToy_Console.cpp">
+      <Filter>Independent\Core\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\Console\GLToy_ConsoleCommand.cpp">
+      <Filter>Independent\Core\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\Console\GLToy_ConsoleVariable.cpp">
+      <Filter>Independent\Core\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\State\GLToy_State_Editor.cpp">
+      <Filter>Independent\Core\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\State\GLToy_State_EditorFrontEnd.cpp">
+      <Filter>Independent\Core\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\State\GLToy_State_Splash.cpp">
+      <Filter>Independent\Core\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\State\GLToy_State_System.cpp">
+      <Filter>Independent\Core\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\GLToy_Camera.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\GLToy_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\GLToy_Sprite.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\GLToy_Texture.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Font\GLToy_Font.cpp">
+      <Filter>Independent\Render\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Font\GLToy_Font_Bitmap.cpp">
+      <Filter>Independent\Render\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Shader\GLToy_Shader.cpp">
+      <Filter>Independent\Render\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Shader\GLToy_Shader_System.cpp">
+      <Filter>Independent\Render\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\TGA\GLToy_TGA.cpp">
+      <Filter>Independent\Render\TGA</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Maths\GLToy_Maths.cpp">
+      <Filter>Independent\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Maths\GLToy_Matrix.cpp">
+      <Filter>Independent\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Maths\GLToy_Plane.cpp">
+      <Filter>Independent\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Maths\GLToy_Quaternion.cpp">
+      <Filter>Independent\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Maths\GLToy_Ray.cpp">
+      <Filter>Independent\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Maths\GLToy_Vector.cpp">
+      <Filter>Independent\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Maths\GLToy_Volume.cpp">
+      <Filter>Independent\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Model\GLToy_Model.cpp">
+      <Filter>Independent\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Model\GLToy_Model_3DS.cpp">
+      <Filter>Independent\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Model\GLToy_Model_Coloured.cpp">
+      <Filter>Independent\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Model\GLToy_Model_MD2.cpp">
+      <Filter>Independent\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Model\GLToy_Model_Placeholder.cpp">
+      <Filter>Independent\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Model\GLToy_Model_System.cpp">
+      <Filter>Independent\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\GLToy_3DSFile.cpp">
+      <Filter>Independent\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\GLToy_ANSITextFile.cpp">
+      <Filter>Independent\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\GLToy_EntityFile.cpp">
+      <Filter>Independent\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\GLToy_EnvironmentFile.cpp">
+      <Filter>Independent\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\GLToy_File.cpp">
+      <Filter>Independent\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\GLToy_File_System.cpp">
+      <Filter>Independent\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\GLToy_LWOFile.cpp">
+      <Filter>Independent\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\GLToy_MD2File.cpp">
+      <Filter>Independent\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\GLToy_OBJFile.cpp">
+      <Filter>Independent\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\BSP\GLToy_BSP29.cpp">
+      <Filter>Independent\File\BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\BSP\GLToy_BSP30.cpp">
+      <Filter>Independent\File\BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\BSP\GLToy_BSP38.cpp">
+      <Filter>Independent\File\BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\BSP\GLToy_BSP46.cpp">
+      <Filter>Independent\File\BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\BSP\GLToy_VBSP19.cpp">
+      <Filter>Independent\File\BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\BSP\GLToy_VBSP20.cpp">
+      <Filter>Independent\File\BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\BSP\GLToy_VBSP21.cpp">
+      <Filter>Independent\File\BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\FridgeScript\GLToy_FridgeScript.cpp">
+      <Filter>Independent\FridgeScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Compression\GLToy_Compression.cpp">
+      <Filter>Independent\Compression</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Environment\GLToy_Environment.cpp">
+      <Filter>Independent\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Environment\GLToy_Environment_Lightmapped.cpp">
+      <Filter>Independent\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Environment\GLToy_Environment_Plane.cpp">
+      <Filter>Independent\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Environment\GLToy_Environment_System.cpp">
+      <Filter>Independent\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\String\GLToy_String.cpp">
+      <Filter>Independent\String</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Input\GLToy_Input.cpp">
+      <Filter>Independent\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\GLToy_Entity.cpp">
+      <Filter>Independent\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\GLToy_Entity_System.cpp">
+      <Filter>Independent\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\Model\GLToy_Entity_ModelAnimated.cpp">
+      <Filter>Independent\Entity\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\Model\GLToy_Entity_ModelStatic.cpp">
+      <Filter>Independent\Entity\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\Sprite\GLToy_Entity_Sprite.cpp">
+      <Filter>Independent\Entity\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\Physics\GLToy_Entity_PhysicsBox.cpp">
+      <Filter>Independent\Entity\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\BSP\Common\GLToy_Entity_BSP_Func_Button.cpp">
+      <Filter>Independent\Entity\BSP\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\BSP\Common\GLToy_Entity_BSP_Info_Player_Start.cpp">
+      <Filter>Independent\Entity\BSP\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\BSP\Common\GLToy_Entity_BSP_Trigger_Counter.cpp">
+      <Filter>Independent\Entity\BSP\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\BSP\Quake 2\GLToy_Entity_BSP_Target_ChangeLevel.cpp">
+      <Filter>Independent\Entity\BSP\Quake 2</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Particle\GLToy_Particle.cpp">
+      <Filter>Independent\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Particle\GLToy_ParticleSource.cpp">
+      <Filter>Independent\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Particle\GLToy_PFX.cpp">
+      <Filter>Independent\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Particle\GLToy_PFX_System.cpp">
+      <Filter>Independent\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\UI\GLToy_Dialog.cpp">
+      <Filter>Independent\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\UI\GLToy_UI_System.cpp">
+      <Filter>Independent\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\UI\GLToy_Widget_EditorMenu.cpp">
+      <Filter>Independent\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\UI\GLToy_Widget_Image.cpp">
+      <Filter>Independent\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\UI\GLToy_Widget_ImageButton.cpp">
+      <Filter>Independent\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\UI\GLToy_Widget_Label.cpp">
+      <Filter>Independent\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Physics\GLToy_Physics_Controller.cpp">
+      <Filter>Independent\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Physics\GLToy_Physics_Object.cpp">
+      <Filter>Independent\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Physics\GLToy_Physics_System.cpp">
+      <Filter>Independent\Physics</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Win32\Core\Platform_GLToy.h">
+      <Filter>Win32\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Core\Platform_GLToy_Timer.h">
+      <Filter>Win32\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Render\Platform_GLToy_Render.h">
+      <Filter>Win32\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Maths\Platform_GLToy_Maths.h">
+      <Filter>Win32\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Maths\Platform_GLToy_Vector.h">
+      <Filter>Win32\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\FridgeScript\Platform_GLToy_FridgeScript.h">
+      <Filter>Win32\FridgeScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Physics\Platform_GLToy_Havok_Physics.h">
+      <Filter>Win32\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_Assert.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_Bounded.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_Config.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_Functor.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_Hash.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_Serialisable.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_Timer.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_Updateable.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_UpdateFunctor.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_Array.h">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_BinaryTree.h">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_BitStream.h">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_BSPTree.h">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_DataStructure.h">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_FlatDataStructure.h">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_HashTree.h">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_List.h">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_Pair.h">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_Stack.h">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_Tree.h">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Console\GLToy_Console.h">
+      <Filter>Independent\Core\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Console\GLToy_ConsoleCommand.h">
+      <Filter>Independent\Core\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Console\GLToy_ConsoleVariable.h">
+      <Filter>Independent\Core\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\State\GLToy_State.h">
+      <Filter>Independent\Core\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\State\GLToy_State_Editor.h">
+      <Filter>Independent\Core\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\State\GLToy_State_EditorFrontEnd.h">
+      <Filter>Independent\Core\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\State\GLToy_State_Splash.h">
+      <Filter>Independent\Core\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\State\GLToy_State_System.h">
+      <Filter>Independent\Core\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\GLToy_Camera.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\GLToy_Render.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\GLToy_Renderable.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\GLToy_RenderFunctor.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\GLToy_Sprite.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\GLToy_Texture.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\Font\GLToy_Font.h">
+      <Filter>Independent\Render\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\Font\GLToy_Font_Bitmap.h">
+      <Filter>Independent\Render\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\Shader\GLToy_Shader.h">
+      <Filter>Independent\Render\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\Shader\GLToy_Shader_System.h">
+      <Filter>Independent\Render\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Maths\GLToy_Frustum.h">
+      <Filter>Independent\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Maths\GLToy_Maths.h">
+      <Filter>Independent\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Maths\GLToy_Matrix.h">
+      <Filter>Independent\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Maths\GLToy_Plane.h">
+      <Filter>Independent\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Maths\GLToy_Quaternion.h">
+      <Filter>Independent\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Maths\GLToy_Ray.h">
+      <Filter>Independent\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Maths\GLToy_Vector.h">
+      <Filter>Independent\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Maths\GLToy_Volume.h">
+      <Filter>Independent\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Model\GLToy_Model.h">
+      <Filter>Independent\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Model\GLToy_Model_3DS.h">
+      <Filter>Independent\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Model\GLToy_Model_Coloured.h">
+      <Filter>Independent\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Model\GLToy_Model_MD2.h">
+      <Filter>Independent\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Model\GLToy_Model_Placeholder.h">
+      <Filter>Independent\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Model\GLToy_Model_System.h">
+      <Filter>Independent\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\GLToy_3DSFile.h">
+      <Filter>Independent\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\GLToy_ANSITextFile.h">
+      <Filter>Independent\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\GLToy_EntityFile.h">
+      <Filter>Independent\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\GLToy_EnvironmentFile.h">
+      <Filter>Independent\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\GLToy_File.h">
+      <Filter>Independent\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\GLToy_File_System.h">
+      <Filter>Independent\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\GLToy_LWOFile.h">
+      <Filter>Independent\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\GLToy_MD2File.h">
+      <Filter>Independent\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\GLToy_ModelFile.h">
+      <Filter>Independent\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\GLToy_OBJFile.h">
+      <Filter>Independent\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\FridgeScript\GLToy_FridgeScript.h">
+      <Filter>Independent\FridgeScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Compression\GLToy_Compression.h">
+      <Filter>Independent\Compression</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Environment\GLToy_Environment.h">
+      <Filter>Independent\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Environment\GLToy_Environment_Lightmapped.h">
+      <Filter>Independent\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Environment\GLToy_Environment_Plane.h">
+      <Filter>Independent\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Environment\GLToy_Environment_System.h">
+      <Filter>Independent\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\String\GLToy_String.h">
+      <Filter>Independent\String</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Input\GLToy_Input.h">
+      <Filter>Independent\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\GLToy_Entity.h">
+      <Filter>Independent\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\GLToy_Entity_System.h">
+      <Filter>Independent\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\GLToy_EntityTypes.h">
+      <Filter>Independent\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Model\GLToy_Entity_ModelAnimated.h">
+      <Filter>Independent\Entity\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Model\GLToy_Entity_ModelStatic.h">
+      <Filter>Independent\Entity\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Sprite\GLToy_Entity_Sprite.h">
+      <Filter>Independent\Entity\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Physics\GLToy_Entity_PhysicsBox.h">
+      <Filter>Independent\Entity\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\BSP\Common\GLToy_Entity_BSP_Func_Button.h">
+      <Filter>Independent\Entity\BSP\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\BSP\Common\GLToy_Entity_BSP_Info_Player_Start.h">
+      <Filter>Independent\Entity\BSP\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\BSP\Common\GLToy_Entity_BSP_Trigger_Counter.h">
+      <Filter>Independent\Entity\BSP\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\BSP\Quake 2\GLToy_Entity_BSP_Target_ChangeLevel.h">
+      <Filter>Independent\Entity\BSP\Quake 2</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Particle\GLToy_Particle.h">
+      <Filter>Independent\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Particle\GLToy_ParticleSource.h">
+      <Filter>Independent\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Particle\GLToy_PFX.h">
+      <Filter>Independent\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Particle\GLToy_PFX_System.h">
+      <Filter>Independent\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\UI\GLToy_Dialog.h">
+      <Filter>Independent\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\UI\GLToy_DialogStyles.h">
+      <Filter>Independent\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\UI\GLToy_UI_System.h">
+      <Filter>Independent\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\UI\GLToy_Widget.h">
+      <Filter>Independent\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\UI\GLToy_Widget_EditorMenu.h">
+      <Filter>Independent\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\UI\GLToy_Widget_Image.h">
+      <Filter>Independent\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\UI\GLToy_Widget_ImageButton.h">
+      <Filter>Independent\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\UI\GLToy_Widget_Label.h">
+      <Filter>Independent\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\UI\GLToy_WidgetTypes.h">
+      <Filter>Independent\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Physics\GLToy_Physics_Controller.h">
+      <Filter>Independent\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Physics\GLToy_Physics_Object.h">
+      <Filter>Independent\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Physics\GLToy_Physics_System.h">
+      <Filter>Independent\Physics</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

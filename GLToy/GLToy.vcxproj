@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Final|Win32">
+      <Configuration>Final</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D102268C-2C78-4954-99A9-433EF8F9182F}</ProjectGuid>
+    <RootNamespace>GLToy</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Final|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Final|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Final|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Final|Win32'">$(Configuration)\</IntDir>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Havok\Source;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Havok\Lib\win32_net_9-0\debug_multithreaded;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Final|Win32'">..\..\Havok\Lib\win32_net_9-0\debug_multithreaded;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\Havok\Lib\win32_net_9-0\debug_multithreaded;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Final|Win32'">..\..\Havok\Source;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\Havok\Source;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>Independent\;Win32\;..\Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>false</ExceptionHandling>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <AdditionalIncludeDirectories>Independent\;Win32\;..\Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>false</ExceptionHandling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Final|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <AdditionalIncludeDirectories>Independent\;Win32\;..\Includes\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_FINAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>false</ExceptionHandling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Win32\Core\Platform_GLToy.cpp" />
+    <ClCompile Include="Win32\Core\Platform_GLToy_Assert.cpp" />
+    <ClCompile Include="Win32\Core\Platform_GLToy_Timer.cpp" />
+    <ClCompile Include="Win32\Render\Platform_GLToy_Render.cpp" />
+    <ClCompile Include="Win32\Render\Platform_GLToy_Texture.cpp" />
+    <ClCompile Include="Win32\Maths\Platform_GLToy_Maths.cpp" />
+    <ClCompile Include="Win32\Maths\Platform_GLToy_Vector.cpp" />
+    <ClCompile Include="Win32\File\Platform_GLToy_File_System.cpp" />
+    <ClCompile Include="Win32\Input\Platform_GLToy_Input.cpp" />
+    <ClCompile Include="Independent\Core\GLToy.cpp" />
+    <ClCompile Include="Independent\Core\GLToy_Assert.cpp" />
+    <ClCompile Include="Independent\Core\GLToy_Timer.cpp" />
+    <ClCompile Include="Independent\Core\Data Structures\GLToy_BitStream.cpp" />
+    <ClCompile Include="Independent\Core\Console\GLToy_Console.cpp" />
+    <ClCompile Include="Independent\Core\Console\GLToy_ConsoleCommand.cpp" />
+    <ClCompile Include="Independent\Core\Console\GLToy_ConsoleVariable.cpp" />
+    <ClCompile Include="Independent\Core\State\GLToy_State_Editor.cpp" />
+    <ClCompile Include="Independent\Core\State\GLToy_State_EditorFrontEnd.cpp" />
+    <ClCompile Include="Independent\Core\State\GLToy_State_Splash.cpp" />
+    <ClCompile Include="Independent\Core\State\GLToy_State_System.cpp" />
+    <ClCompile Include="Independent\Render\GLToy_Camera.cpp" />
+    <ClCompile Include="Independent\Render\GLToy_Render.cpp" />
+    <ClCompile Include="Independent\Render\GLToy_Sprite.cpp" />
+    <ClCompile Include="Independent\Render\GLToy_Texture.cpp" />
+    <ClCompile Include="Independent\Render\Font\GLToy_Font.cpp" />
+    <ClCompile Include="Independent\Render\Font\GLToy_Font_Bitmap.cpp" />
+    <ClCompile Include="Independent\Render\Shader\GLToy_Shader.cpp" />
+    <ClCompile Include="Independent\Render\Shader\GLToy_Shader_System.cpp" />
+    <ClCompile Include="Independent\Render\TGA\GLToy_TGA.cpp" />
+    <ClCompile Include="Independent\Maths\GLToy_Maths.cpp" />
+    <ClCompile Include="Independent\Maths\GLToy_Matrix.cpp" />
+    <ClCompile Include="Independent\Maths\GLToy_Plane.cpp" />
+    <ClCompile Include="Independent\Maths\GLToy_Quaternion.cpp" />
+    <ClCompile Include="Independent\Maths\GLToy_Ray.cpp" />
+    <ClCompile Include="Independent\Maths\GLToy_Vector.cpp" />
+    <ClCompile Include="Independent\Maths\GLToy_Volume.cpp" />
+    <ClCompile Include="Independent\Model\GLToy_Model.cpp" />
+    <ClCompile Include="Independent\Model\GLToy_Model_3DS.cpp" />
+    <ClCompile Include="Independent\Model\GLToy_Model_Coloured.cpp" />
+    <ClCompile Include="Independent\Model\GLToy_Model_MD2.cpp" />
+    <ClCompile Include="Independent\Model\GLToy_Model_Placeholder.cpp" />
+    <ClCompile Include="Independent\Model\GLToy_Model_System.cpp" />
+    <ClCompile Include="Independent\File\GLToy_3DSFile.cpp" />
+    <ClCompile Include="Independent\File\GLToy_ANSITextFile.cpp" />
+    <ClCompile Include="Independent\File\GLToy_EntityFile.cpp" />
+    <ClCompile Include="Independent\File\GLToy_EnvironmentFile.cpp" />
+    <ClCompile Include="Independent\File\GLToy_File.cpp" />
+    <ClCompile Include="Independent\File\GLToy_File_System.cpp" />
+    <ClCompile Include="Independent\File\GLToy_LWOFile.cpp" />
+    <ClCompile Include="Independent\File\GLToy_MD2File.cpp" />
+    <ClCompile Include="Independent\File\GLToy_OBJFile.cpp" />
+    <ClCompile Include="Independent\File\BSP\GLToy_BSP29.cpp" />
+    <ClCompile Include="Independent\File\BSP\GLToy_BSP30.cpp" />
+    <ClCompile Include="Independent\File\BSP\GLToy_BSP38.cpp" />
+    <ClCompile Include="Independent\File\BSP\GLToy_BSP46.cpp" />
+    <ClCompile Include="Independent\File\BSP\GLToy_VBSP19.cpp" />
+    <ClCompile Include="Independent\File\BSP\GLToy_VBSP20.cpp" />
+    <ClCompile Include="Independent\File\BSP\GLToy_VBSP21.cpp" />
+    <ClCompile Include="Independent\FridgeScript\GLToy_FridgeScript.cpp" />
+    <ClCompile Include="Independent\Compression\GLToy_Compression.cpp" />
+    <ClCompile Include="Independent\Environment\GLToy_Environment.cpp" />
+    <ClCompile Include="Independent\Environment\GLToy_Environment_Lightmapped.cpp" />
+    <ClCompile Include="Independent\Environment\GLToy_Environment_Plane.cpp" />
+    <ClCompile Include="Independent\Environment\GLToy_Environment_System.cpp" />
+    <ClCompile Include="Independent\String\GLToy_String.cpp" />
+    <ClCompile Include="Independent\Input\GLToy_Input.cpp" />
+    <ClCompile Include="Independent\Entity\GLToy_Entity.cpp" />
+    <ClCompile Include="Independent\Entity\GLToy_Entity_System.cpp" />
+    <ClCompile Include="Independent\Entity\Model\GLToy_Entity_ModelAnimated.cpp" />
+    <ClCompile Include="Independent\Entity\Model\GLToy_Entity_ModelStatic.cpp" />
+    <ClCompile Include="Independent\Entity\Sprite\GLToy_Entity_Sprite.cpp" />
+    <ClCompile Include="Independent\Entity\Physics\GLToy_Entity_PhysicsBox.cpp" />
+    <ClCompile Include="Independent\Entity\BSP\Common\GLToy_Entity_BSP_Func_Button.cpp" />
+    <ClCompile Include="Independent\Entity\BSP\Common\GLToy_Entity_BSP_Info_Player_Start.cpp" />
+    <ClCompile Include="Independent\Entity\BSP\Common\GLToy_Entity_BSP_Trigger_Counter.cpp" />
+    <ClCompile Include="Independent\Entity\BSP\Quake 2\GLToy_Entity_BSP_Target_ChangeLevel.cpp" />
+    <ClCompile Include="Independent\Particle\GLToy_Particle.cpp" />
+    <ClCompile Include="Independent\Particle\GLToy_ParticleSource.cpp" />
+    <ClCompile Include="Independent\Particle\GLToy_PFX.cpp" />
+    <ClCompile Include="Independent\Particle\GLToy_PFX_System.cpp" />
+    <ClCompile Include="Independent\UI\GLToy_Dialog.cpp" />
+    <ClCompile Include="Independent\UI\GLToy_UI_System.cpp" />
+    <ClCompile Include="Independent\UI\GLToy_Widget_EditorMenu.cpp" />
+    <ClCompile Include="Independent\UI\GLToy_Widget_Image.cpp" />
+    <ClCompile Include="Independent\UI\GLToy_Widget_ImageButton.cpp" />
+    <ClCompile Include="Independent\UI\GLToy_Widget_Label.cpp" />
+    <ClCompile Include="Independent\Physics\GLToy_Physics_Controller.cpp" />
+    <ClCompile Include="Independent\Physics\GLToy_Physics_Object.cpp" />
+    <ClCompile Include="Independent\Physics\GLToy_Physics_System.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Win32\Core\Platform_GLToy.h" />
+    <ClInclude Include="Win32\Core\Platform_GLToy_Timer.h" />
+    <ClInclude Include="Win32\Render\Platform_GLToy_Render.h" />
+    <ClInclude Include="Win32\Maths\Platform_GLToy_Maths.h" />
+    <ClInclude Include="Win32\Maths\Platform_GLToy_Vector.h" />
+    <ClInclude Include="Win32\FridgeScript\Platform_GLToy_FridgeScript.h" />
+    <ClInclude Include="Win32\Physics\Platform_GLToy_Havok_Physics.h" />
+    <ClInclude Include="Independent\Core\GLToy.h" />
+    <ClInclude Include="Independent\Core\GLToy_Assert.h" />
+    <ClInclude Include="Independent\Core\GLToy_Bounded.h" />
+    <ClInclude Include="Independent\Core\GLToy_Config.h" />
+    <ClInclude Include="Independent\Core\GLToy_Functor.h" />
+    <ClInclude Include="Independent\Core\GLToy_Hash.h" />
+    <ClInclude Include="Independent\Core\GLToy_Serialisable.h" />
+    <ClInclude Include="Independent\Core\GLToy_Timer.h" />
+    <ClInclude Include="Independent\Core\GLToy_Updateable.h" />
+    <ClInclude Include="Independent\Core\GLToy_UpdateFunctor.h" />
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_Array.h" />
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_BinaryTree.h" />
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_BitStream.h" />
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_BSPTree.h" />
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_DataStructure.h" />
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_FlatDataStructure.h" />
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_HashTree.h" />
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_List.h" />
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_Pair.h" />
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_Stack.h" />
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_Tree.h" />
+    <ClInclude Include="Independent\Core\Console\GLToy_Console.h" />
+    <ClInclude Include="Independent\Core\Console\GLToy_ConsoleCommand.h" />
+    <ClInclude Include="Independent\Core\Console\GLToy_ConsoleVariable.h" />
+    <ClInclude Include="Independent\Core\State\GLToy_State.h" />
+    <ClInclude Include="Independent\Core\State\GLToy_State_Editor.h" />
+    <ClInclude Include="Independent\Core\State\GLToy_State_EditorFrontEnd.h" />
+    <ClInclude Include="Independent\Core\State\GLToy_State_Splash.h" />
+    <ClInclude Include="Independent\Core\State\GLToy_State_System.h" />
+    <ClInclude Include="Independent\Render\GLToy_Camera.h" />
+    <ClInclude Include="Independent\Render\GLToy_Render.h" />
+    <ClInclude Include="Independent\Render\GLToy_Renderable.h" />
+    <ClInclude Include="Independent\Render\GLToy_RenderFunctor.h" />
+    <ClInclude Include="Independent\Render\GLToy_Sprite.h" />
+    <ClInclude Include="Independent\Render\GLToy_Texture.h" />
+    <ClInclude Include="Independent\Render\Font\GLToy_Font.h" />
+    <ClInclude Include="Independent\Render\Font\GLToy_Font_Bitmap.h" />
+    <ClInclude Include="Independent\Render\Shader\GLToy_Shader.h" />
+    <ClInclude Include="Independent\Render\Shader\GLToy_Shader_System.h" />
+    <ClInclude Include="Independent\Maths\GLToy_Frustum.h" />
+    <ClInclude Include="Independent\Maths\GLToy_Maths.h" />
+    <ClInclude Include="Independent\Maths\GLToy_Matrix.h" />
+    <ClInclude Include="Independent\Maths\GLToy_Plane.h" />
+    <ClInclude Include="Independent\Maths\GLToy_Quaternion.h" />
+    <ClInclude Include="Independent\Maths\GLToy_Ray.h" />
+    <ClInclude Include="Independent\Maths\GLToy_Vector.h" />
+    <ClInclude Include="Independent\Maths\GLToy_Volume.h" />
+    <ClInclude Include="Independent\Model\GLToy_Model.h" />
+    <ClInclude Include="Independent\Model\GLToy_Model_3DS.h" />
+    <ClInclude Include="Independent\Model\GLToy_Model_Coloured.h" />
+    <ClInclude Include="Independent\Model\GLToy_Model_MD2.h" />
+    <ClInclude Include="Independent\Model\GLToy_Model_Placeholder.h" />
+    <ClInclude Include="Independent\Model\GLToy_Model_System.h" />
+    <ClInclude Include="Independent\File\GLToy_3DSFile.h" />
+    <ClInclude Include="Independent\File\GLToy_ANSITextFile.h" />
+    <ClInclude Include="Independent\File\GLToy_EntityFile.h" />
+    <ClInclude Include="Independent\File\GLToy_EnvironmentFile.h" />
+    <ClInclude Include="Independent\File\GLToy_File.h" />
+    <ClInclude Include="Independent\File\GLToy_File_System.h" />
+    <ClInclude Include="Independent\File\GLToy_LWOFile.h" />
+    <ClInclude Include="Independent\File\GLToy_MD2File.h" />
+    <ClInclude Include="Independent\File\GLToy_ModelFile.h" />
+    <ClInclude Include="Independent\File\GLToy_OBJFile.h" />
+    <ClInclude Include="Independent\FridgeScript\GLToy_FridgeScript.h" />
+    <ClInclude Include="Independent\Compression\GLToy_Compression.h" />
+    <ClInclude Include="Independent\Environment\GLToy_Environment.h" />
+    <ClInclude Include="Independent\Environment\GLToy_Environment_Lightmapped.h" />
+    <ClInclude Include="Independent\Environment\GLToy_Environment_Plane.h" />
+    <ClInclude Include="Independent\Environment\GLToy_Environment_System.h" />
+    <ClInclude Include="Independent\String\GLToy_String.h" />
+    <ClInclude Include="Independent\Input\GLToy_Input.h" />
+    <ClInclude Include="Independent\Entity\GLToy_Entity.h" />
+    <ClInclude Include="Independent\Entity\GLToy_Entity_System.h" />
+    <ClInclude Include="Independent\Entity\GLToy_EntityTypes.h" />
+    <ClInclude Include="Independent\Entity\Model\GLToy_Entity_ModelAnimated.h" />
+    <ClInclude Include="Independent\Entity\Model\GLToy_Entity_ModelStatic.h" />
+    <ClInclude Include="Independent\Entity\Sprite\GLToy_Entity_Sprite.h" />
+    <ClInclude Include="Independent\Entity\Physics\GLToy_Entity_PhysicsBox.h" />
+    <ClInclude Include="Independent\Entity\BSP\Common\GLToy_Entity_BSP_Func_Button.h" />
+    <ClInclude Include="Independent\Entity\BSP\Common\GLToy_Entity_BSP_Info_Player_Start.h" />
+    <ClInclude Include="Independent\Entity\BSP\Common\GLToy_Entity_BSP_Trigger_Counter.h" />
+    <ClInclude Include="Independent\Entity\BSP\Quake 2\GLToy_Entity_BSP_Target_ChangeLevel.h" />
+    <ClInclude Include="Independent\Particle\GLToy_Particle.h" />
+    <ClInclude Include="Independent\Particle\GLToy_ParticleSource.h" />
+    <ClInclude Include="Independent\Particle\GLToy_PFX.h" />
+    <ClInclude Include="Independent\Particle\GLToy_PFX_System.h" />
+    <ClInclude Include="Independent\UI\GLToy_Dialog.h" />
+    <ClInclude Include="Independent\UI\GLToy_DialogStyles.h" />
+    <ClInclude Include="Independent\UI\GLToy_UI_System.h" />
+    <ClInclude Include="Independent\UI\GLToy_Widget.h" />
+    <ClInclude Include="Independent\UI\GLToy_Widget_EditorMenu.h" />
+    <ClInclude Include="Independent\UI\GLToy_Widget_Image.h" />
+    <ClInclude Include="Independent\UI\GLToy_Widget_ImageButton.h" />
+    <ClInclude Include="Independent\UI\GLToy_Widget_Label.h" />
+    <ClInclude Include="Independent\UI\GLToy_WidgetTypes.h" />
+    <ClInclude Include="Independent\Physics\GLToy_Physics_Controller.h" />
+    <ClInclude Include="Independent\Physics\GLToy_Physics_Object.h" />
+    <ClInclude Include="Independent\Physics\GLToy_Physics_System.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

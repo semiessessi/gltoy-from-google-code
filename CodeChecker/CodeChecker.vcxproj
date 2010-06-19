@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1C0FDC04-2614-43C7-8A7B-F45A5E88E5B1}</ProjectGuid>
+    <RootNamespace>CodeChecker</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\Tools\Visual Studio Build Rules\CodeChecker.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <PreBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</PreBuildEventUseInBuild>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <PreBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</PreBuildEventUseInBuild>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CodeChecker Include="..\Editor\Independent\Render\Editor_Render.cpp" />
+    <CodeChecker Include="..\Editor\Independent\Render\Editor_Render.h" />
+    <CodeChecker Include="..\Editor\Independent\Render\Project_GLToy_Render.cpp" />
+    <CodeChecker Include="..\Editor\Independent\Core\Editor.cpp" />
+    <CodeChecker Include="..\Editor\Independent\Core\Editor.h" />
+    <CodeChecker Include="..\Editor\Independent\Core\Project_GLToy.cpp" />
+    <CodeChecker Include="..\Editor\Win32\Core\Platform_Editor.cpp" />
+    <CodeChecker Include="..\Editor\Win32\Core\Platform_Editor.h" />
+    <CodeChecker Include="..\FPSToy\Independent\Render\FPSToy_Render.cpp" />
+    <CodeChecker Include="..\FPSToy\Independent\Render\FPSToy_Render.h" />
+    <CodeChecker Include="..\FPSToy\Independent\Render\Project_GLToy_Render.cpp" />
+    <CodeChecker Include="..\FPSToy\Independent\Core\FPSToy.cpp" />
+    <CodeChecker Include="..\FPSToy\Independent\Core\FPSToy.h" />
+    <CodeChecker Include="..\FPSToy\Independent\Core\FPSToy_Player.cpp" />
+    <CodeChecker Include="..\FPSToy\Independent\Core\FPSToy_Player.h" />
+    <CodeChecker Include="..\FPSToy\Independent\Core\Project_GLToy.cpp" />
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_Weapon.cpp" />
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_Weapon.h" />
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_Weapon_System.cpp" />
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_Weapon_System.h" />
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_WeaponType_Melee.cpp" />
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_WeaponType_Melee.h" />
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_WeaponType_Projectile.cpp" />
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_WeaponType_Projectile.h" />
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_WeaponType_Trace.cpp" />
+    <CodeChecker Include="..\FPSToy\Independent\Weapon\FPSToy_WeaponType_Trace.h" />
+    <CodeChecker Include="..\FPSToy\Independent\Damage\FPSToy_Damage_System.cpp" />
+    <CodeChecker Include="..\FPSToy\Independent\Damage\FPSToy_Damage_System.h" />
+    <CodeChecker Include="..\FPSToy\Independent\Damage\FPSToy_DamageType.h" />
+    <CodeChecker Include="..\FPSToy\Independent\AI\FPSToy_AI.h" />
+    <CodeChecker Include="..\FPSToy\Independent\Entity\FPSToy_EntityTypes.cpp" />
+    <CodeChecker Include="..\FPSToy\Independent\Entity\FPSToy_EntityTypes.h" />
+    <CodeChecker Include="..\FPSToy\Independent\Entity\Projectile\FPSToy_Entity_Projectile.cpp" />
+    <CodeChecker Include="..\FPSToy\Independent\Entity\Projectile\FPSToy_Entity_Projectile.h" />
+    <CodeChecker Include="..\FPSToy\Independent\Entity\Actor\FPSToy_Entity_Actor.cpp" />
+    <CodeChecker Include="..\FPSToy\Independent\Entity\Actor\FPSToy_Entity_Actor.h" />
+    <CodeChecker Include="..\FPSToy\Win32\Core\Platform_FPSToy.cpp" />
+    <CodeChecker Include="..\FPSToy\Win32\Core\Platform_FPSToy.h" />
+    <CodeChecker Include="..\FSDemo\Independent\Render\FSDemo_Render.cpp" />
+    <CodeChecker Include="..\FSDemo\Independent\Render\FSDemo_Render.h" />
+    <CodeChecker Include="..\FSDemo\Independent\Render\Project_GLToy_Render.cpp" />
+    <CodeChecker Include="..\FSDemo\Independent\Core\FSDemo.h" />
+    <CodeChecker Include="..\FSDemo\Independent\Core\Project_GLToy.cpp" />
+    <CodeChecker Include="..\FSDemo\Independent\FridgeScript\FSDemo_FridgeScript.cpp" />
+    <CodeChecker Include="..\FSDemo\Independent\FridgeScript\FSDemo_FridgeScript.h" />
+    <CodeChecker Include="..\FSDemo\Win32\Core\Platform_FSDemo.cpp" />
+    <CodeChecker Include="..\FSDemo\Win32\Core\Platform_FSDemo.h" />
+    <CodeChecker Include="..\FSDemo\Win32\FridgeScript\Platform_FSDemo_FridgeScript.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Assert.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Assert.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Bounded.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Config.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Functor.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Hash.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Serialisable.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Timer.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Timer.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_Updateable.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\GLToy_UpdateFunctor.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_Array.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_BinaryTree.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_BitStream.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_BitStream.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_BSPTree.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_DataStructure.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_FlatDataStructure.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_HashTree.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_List.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_Pair.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_Stack.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Data Structures\GLToy_Tree.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Console\GLToy_Console.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Console\GLToy_Console.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Console\GLToy_ConsoleCommand.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Console\GLToy_ConsoleCommand.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Console\GLToy_ConsoleVariable.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Core\Console\GLToy_ConsoleVariable.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_Editor.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_Editor.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_EditorFrontEnd.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_EditorFrontEnd.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_Splash.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_Splash.h" />
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_System.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Core\State\GLToy_State_System.h" />
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Camera.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Camera.h" />
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Render.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Render.h" />
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Renderable.h" />
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_RenderFunctor.h" />
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Sprite.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Sprite.h" />
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Texture.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Render\GLToy_Texture.h" />
+    <CodeChecker Include="..\GLToy\Independent\Render\Font\GLToy_Font.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Render\Font\GLToy_Font.h" />
+    <CodeChecker Include="..\GLToy\Independent\Render\Font\GLToy_Font_Bitmap.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Render\Font\GLToy_Font_Bitmap.h" />
+    <CodeChecker Include="..\GLToy\Independent\Render\Shader\GLToy_Shader.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Render\Shader\GLToy_Shader.h" />
+    <CodeChecker Include="..\GLToy\Independent\Render\Shader\GLToy_Shader_System.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Render\Shader\GLToy_Shader_System.h" />
+    <CodeChecker Include="..\GLToy\Independent\Render\TGA\GLToy_TGA.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Frustum.h" />
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Maths.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Maths.h" />
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Matrix.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Matrix.h" />
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Plane.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Plane.h" />
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Quaternion.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Quaternion.h" />
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Ray.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Ray.h" />
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Vector.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Vector.h" />
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Volume.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Maths\GLToy_Volume.h" />
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model.h" />
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_3DS.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_3DS.h" />
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_Coloured.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_Coloured.h" />
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_MD2.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_MD2.h" />
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_Placeholder.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_Placeholder.h" />
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_System.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Model\GLToy_Model_System.h" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_3DSFile.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_3DSFile.h" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_ANSITextFile.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_ANSITextFile.h" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_EntityFile.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_EntityFile.h" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_EnvironmentFile.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_EnvironmentFile.h" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_File.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_File.h" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_File_System.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_File_System.h" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_LWOFile.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_LWOFile.h" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_MD2File.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_MD2File.h" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_ModelFile.h" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_OBJFile.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\File\GLToy_OBJFile.h" />
+    <CodeChecker Include="..\GLToy\Independent\File\BSP\GLToy_BSP29.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\File\BSP\GLToy_BSP30.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\File\BSP\GLToy_BSP38.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\File\BSP\GLToy_BSP46.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\File\BSP\GLToy_VBSP19.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\File\BSP\GLToy_VBSP20.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\File\BSP\GLToy_VBSP21.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\FridgeScript\GLToy_FridgeScript.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\FridgeScript\GLToy_FridgeScript.h" />
+    <CodeChecker Include="..\GLToy\Independent\Compression\GLToy_Compression.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Compression\GLToy_Compression.h" />
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment.h" />
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment_Lightmapped.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment_Lightmapped.h" />
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment_Plane.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment_Plane.h" />
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment_System.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Environment\GLToy_Environment_System.h" />
+    <CodeChecker Include="..\GLToy\Independent\String\GLToy_String.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\String\GLToy_String.h" />
+    <CodeChecker Include="..\GLToy\Independent\Input\GLToy_Input.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Input\GLToy_Input.h" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\GLToy_Entity.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\GLToy_Entity.h" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\GLToy_Entity_System.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\GLToy_Entity_System.h" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\GLToy_EntityTypes.h" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\Model\GLToy_Entity_ModelAnimated.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\Model\GLToy_Entity_ModelAnimated.h" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\Model\GLToy_Entity_ModelStatic.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\Model\GLToy_Entity_ModelStatic.h" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\Sprite\GLToy_Entity_Sprite.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\Sprite\GLToy_Entity_Sprite.h" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\Physics\GLToy_Entity_PhysicsBox.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\Physics\GLToy_Entity_PhysicsBox.h" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Func_Button.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Func_Button.h" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Info_Player_Start.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Info_Player_Start.h" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Trigger_Counter.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Common\GLToy_Entity_BSP_Trigger_Counter.h" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Quake 2\GLToy_Entity_BSP_Target_ChangeLevel.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Entity\BSP\Quake 2\GLToy_Entity_BSP_Target_ChangeLevel.h" />
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_Particle.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_Particle.h" />
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_ParticleSource.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_ParticleSource.h" />
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_PFX.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_PFX.h" />
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_PFX_System.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Particle\GLToy_PFX_System.h" />
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Dialog.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Dialog.h" />
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_DialogStyles.h" />
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_UI_System.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_UI_System.h" />
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget.h" />
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_EditorMenu.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_EditorMenu.h" />
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_Image.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_Image.h" />
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_ImageButton.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_ImageButton.h" />
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_Label.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_Widget_Label.h" />
+    <CodeChecker Include="..\GLToy\Independent\UI\GLToy_WidgetTypes.h" />
+    <CodeChecker Include="..\GLToy\Independent\Physics\GLToy_Physics_Controller.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Physics\GLToy_Physics_Controller.h" />
+    <CodeChecker Include="..\GLToy\Independent\Physics\GLToy_Physics_Object.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Physics\GLToy_Physics_Object.h" />
+    <CodeChecker Include="..\GLToy\Independent\Physics\GLToy_Physics_System.cpp" />
+    <CodeChecker Include="..\GLToy\Independent\Physics\GLToy_Physics_System.h" />
+    <CodeChecker Include="..\GLToy\Win32\Core\Platform_GLToy.cpp" />
+    <CodeChecker Include="..\GLToy\Win32\Core\Platform_GLToy.h" />
+    <CodeChecker Include="..\GLToy\Win32\Core\Platform_GLToy_Assert.cpp" />
+    <CodeChecker Include="..\GLToy\Win32\Core\Platform_GLToy_Timer.cpp" />
+    <CodeChecker Include="..\GLToy\Win32\Core\Platform_GLToy_Timer.h" />
+    <CodeChecker Include="..\GLToy\Win32\Render\Platform_GLToy_Render.cpp" />
+    <CodeChecker Include="..\GLToy\Win32\Render\Platform_GLToy_Render.h" />
+    <CodeChecker Include="..\GLToy\Win32\Render\Platform_GLToy_Texture.cpp" />
+    <CodeChecker Include="..\GLToy\Win32\Maths\Platform_GLToy_Maths.cpp" />
+    <CodeChecker Include="..\GLToy\Win32\Maths\Platform_GLToy_Maths.h" />
+    <CodeChecker Include="..\GLToy\Win32\Maths\Platform_GLToy_Vector.cpp" />
+    <CodeChecker Include="..\GLToy\Win32\Maths\Platform_GLToy_Vector.h" />
+    <CodeChecker Include="..\GLToy\Win32\FridgeScript\Platform_GLToy_FridgeScript.h" />
+    <CodeChecker Include="..\GLToy\Win32\File\Platform_GLToy_File_System.cpp" />
+    <CodeChecker Include="..\GLToy\Win32\Input\Platform_GLToy_Input.cpp" />
+    <CodeChecker Include="..\GLToy\Win32\Physics\Platform_GLToy_Havok_Physics.h" />
+    <CodeChecker Include="..\TestCube\Independent\Render\Project_GLToy_Render.cpp" />
+    <CodeChecker Include="..\TestCube\Independent\Render\TestCube_Render.cpp" />
+    <CodeChecker Include="..\TestCube\Independent\Render\TestCube_Render.h" />
+    <CodeChecker Include="..\TestCube\Independent\Core\Project_GLToy.cpp" />
+    <CodeChecker Include="..\TestCube\Independent\Core\TestCube.h" />
+    <CodeChecker Include="..\TestCube\Win32\Core\Platform_TestCube.cpp" />
+    <CodeChecker Include="..\TestCube\Win32\Core\Platform_TestCube.h" />
+    <CodeChecker Include="..\Empty\Independent\Render\Empty_Render.cpp" />
+    <CodeChecker Include="..\Empty\Independent\Render\Empty_Render.h" />
+    <CodeChecker Include="..\Empty\Independent\Render\Project_GLToy_Render.cpp" />
+    <CodeChecker Include="..\Empty\Independent\Core\Empty.cpp" />
+    <CodeChecker Include="..\Empty\Independent\Core\Empty.h" />
+    <CodeChecker Include="..\Empty\Independent\Core\Project_GLToy.cpp" />
+    <CodeChecker Include="..\Empty\Win32\Core\Platform_Empty.cpp" />
+    <CodeChecker Include="..\Empty\Win32\Core\Platform_Empty.h" />
+    <CodeChecker Include="..\Tools\CodeChecker\GLToy_CodeChecker.rb">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CodeChecker>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\Tools\Visual Studio Build Rules\CodeChecker.targets" />
+  </ImportGroup>
+</Project>

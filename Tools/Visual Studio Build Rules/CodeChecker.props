@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup
+    Condition="'$(CodeCheckerBeforeTargets)' == '' and '$(CodeCheckerAfterTargets)' == '' and '$(ConfigurationType)' != 'Makefile'">
+    <CodeCheckerBeforeTargets>Midl</CodeCheckerBeforeTargets>
+    <CodeCheckerAfterTargets>CustomBuild</CodeCheckerAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <CodeCheckerDependsOn
+      Condition="'$(ConfigurationType)' != 'Makefile'">_SelectedFiles;$(CodeCheckerDependsOn)</CodeCheckerDependsOn>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <CodeChecker>
+      <CommandLineTemplate>ruby ..\Tools\CodeChecker\GLToy_CodeChecker.rb [inputs]</CommandLineTemplate>
+      <Outputs>%(Filename)%(Extension)</Outputs>
+      <ExecutionDescription>Checking code...</ExecutionDescription>
+    </CodeChecker>
+  </ItemDefinitionGroup>
+</Project>
