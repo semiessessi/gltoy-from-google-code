@@ -35,7 +35,7 @@ uExistCount = 0
 uTotalCount = 0
 ARGV.each do | szPath |
     uTotalCount += 1
-    if ( File::exists?( szPath ) )
+    if File::exists? szPath
         uExistCount += 1
         
         puts "#{szPath}..."
@@ -44,7 +44,7 @@ ARGV.each do | szPath |
         szOutput = ""
         until xCurrentFile.eof
             cChar = xCurrentFile.getc
-            if( cChar == "\t" )
+            if cChar == "\t" 
                 uTabCount += 1
                 szOutput += "    "
             else

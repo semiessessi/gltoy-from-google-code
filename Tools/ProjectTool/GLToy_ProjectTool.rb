@@ -138,50 +138,65 @@ end
 puts "Project type : #{ bGLToyProject ? "GLToy" : "Independent" }#{ bDataStructures ? " with data structures" : "" }"
 
 if bGLToyProject
-# copy Empty into the directory
+
+    # copy Empty into the directory
     if not File.directory? "Empty"
         puts "Fatal error: To create a GLToy project you must run the script from the root directory of the GLToy source"
         Process.exit
     end
     
-    puts "Copying \"Empty\"..."
+    puts "Copying from \"Empty\"..."
     FileUtils.copy_entry( "Empty", szOutPath )
     
     puts "Removing source control and intermediary build files..."
     
     Dir.glob( "#{ szOutPath }/**/.svn" ) do | szFile |
         if File.directory? szFile
-            puts "Removing directory \"#{ szFile }\"..."
+            puts "  Removing \"#{ szFile }\"..."
             FileUtils.remove_dir( szFile, true )
         end
     end
 
     Dir.glob( "#{ szOutPath }/**/cvs" ) do | szFile |
         if File.directory? szFile
-            puts "Removing directory \"#{ szFile }\"..."
+            puts "  Removing \"#{ szFile }\"..."
+            FileUtils.remove_dir( szFile, true )
+        end
+    end
+    
+    Dir.glob( "#{ szOutPath }/**/.cvs" ) do | szFile |
+        if File.directory? szFile
+            puts "  Removing \"#{ szFile }\"..."
+            FileUtils.remove_dir( szFile, true )
+        end
+    end
+    
+    Dir.glob( "#{ szOutPath }/**/.p4" ) do | szFile |
+        if File.directory? szFile
+            puts "  Removing \"#{ szFile }\"..."
             FileUtils.remove_dir( szFile, true )
         end
     end
     
     if File.directory? "#{ szOutPath }/Debug"
-        puts "Removing directory \"#{ szOutPath }/Debug\"..."
+        puts "  Removing \"#{ szOutPath }/Debug\"..."
         FileUtils.remove_dir( "#{ szOutPath }/Debug", true );
     end
     
     if File.directory? "#{ szOutPath }/Release"
-        puts "Removing directory \"#{ szOutPath }/Release\"..."
+        puts "  Removing \"#{ szOutPath }/Release\"..."
         FileUtils.remove_dir( "#{ szOutPath }/Release", true );
     end
     
     if File.directory? "#{ szOutPath }/Final"
-        puts "Removing directory \"#{ szOutPath }/Final\"..."
+        puts "  Removing \"#{ szOutPath }/Final\"..."
         FileUtils.remove_dir( "#{ szOutPath }/Final", true );
     end
     
     puts "Renaming files and contents..."
     
     Dir.glob( "#{ szOutPath }/**/*Empty*" ) do | szFile |
-        puts "#{ szFile }..."
+        puts "  #{ szFile }..."
         
         xCurrentFile = File.open( szFile, "r" )
         szOutput = xCurrentFile.read
@@ -198,7 +213,7 @@ if bGLToyProject
     end
     
     Dir.glob( "#{ szOutPath }/**/*GLToy*" ) do | szFile |
-        puts "#{ szFile }..."
+        puts "  #{ szFile }..."
         
         xCurrentFile = File.open( szFile, "r" )
         szOutput = xCurrentFile.read
@@ -213,4 +228,112 @@ if bGLToyProject
     end
     
 else
+
+    puts "Creating directory structure..."
+    
+    Dir.mkdir "#{ szOutPath }/Independent"
+    puts( "  Created #{ szOutPath }/Independent" ) if File.directory? "#{ szOutPath }/Independent"
+    Dir.mkdir "#{ szOutPath }/Independent/Core"
+    puts( "  Created #{ szOutPath }/Independent/Core" ) if File.directory? "#{ szOutPath }/Independent/Core"
+    Dir.mkdir "#{ szOutPath }/Win32"
+    puts( "  Created #{ szOutPath }/Win32" ) if File.directory? "#{ szOutPath }/Win32"
+    Dir.mkdir "#{ szOutPath }/Win32/Core"
+    puts( "  Created #{ szOutPath }/Win32/Core" ) if File.directory? "#{ szOutPath }/Win32/Core"
+    
+    puts "Creating code files..."
+    
+    szCurrentFile = "#{ szOutPath }/Win32/Core/Platform_#{ szProjectName }.h"
+    xCurrentFile = File.open( szCurrentFile, "w" )
+    xCurrentFile.write(
+"#ifndef __PLATFORM_#{ szProjectName.upcase }_H_
+#define __PLATFORM_#{ szProjectName.upcase }_H_
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// L I B R A R I E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// M A C R O S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#define #{ szProjectName.upcase }_PLATFORM_WIN32
+
+#define #{ szProjectName }_API __stdcall
+#define #{ szProjectName }_Export __declspec( dllexport )
+#define #{ szProjectName }_Import __declspec( dllimport )
+#define #{ szProjectName }_Inline __forceinline
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F U N C T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#endif
+" )
+    xCurrentFile.close
+    puts "  #{ szCurrentFile }"
+    
+    szCurrentFile = "#{ szOutPath }/Independent/Core/#{ szProjectName }.h"
+    xCurrentFile = File.open( szCurrentFile, "w" )
+    xCurrentFile.write(
+"#ifndef __#{ szProjectName.upcase }_H_
+#define __#{ szProjectName.upcase }_H_
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// I N C L U D E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#include <Core/Platform_#{ szProjectName }.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// P R A G M A S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma warning( disable : 4250 ) // inheritance by dominance - which I think is pretty desirable behaviour...
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// M A C R O S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifndef NULL
+#define NULL (0)
+#endif
+
+// prevent const_cast and dynamic cast
+// TODO: work out a better way, this fails spectacularly with VC 2010 which feels compelled to #include <exception> somewhere
+// presumably for the standard library bits that I use, despite the fact that exceptions are disabled
+//#define const_cast CONST_CAST_IS_FORBIDDEN_if_you_really_must_then_undef_const_cast
+//#define dynamic_cast DYNAMIC_CAST_IS_FORBIDDEN_dont_undef_dynamic_cast
+
+// is this a debug build?
+// also set all debug related defines here
+#ifdef _DEBUG
+    #define #{ szProjectName.upcase }_DEBUG
+    #define #{ szProjectName }_IsDebugBuild() ( true )
+    #define #{ szProjectName }_DebugVar static
+#else
+    #define #{ szProjectName.upcase }_RELEASE
+    #define #{ szProjectName }_IsDebugBuild() ( false )
+    #define #{ szProjectName }_DebugVar static const
+#endif
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// T Y P E D E F S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+typedef unsigned char u_char;
+typedef unsigned short u_short;
+typedef unsigned int u_int;
+
+typedef unsigned int #{ szProjectName }_Hash;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C O N S T A N T S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+static const #{ szProjectName }_Hash u#{ szProjectName.upcase }_BAD_HASH = 0;
+
+#endif
+" )
+    xCurrentFile.close    
+    puts "  #{ szCurrentFile }"
 end
