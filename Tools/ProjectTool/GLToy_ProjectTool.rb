@@ -32,6 +32,7 @@ puts "GLToy Project Tool"
 bCreateDirectory = false
 bDataStructures = false
 bGLToyProject = false
+bReplace = false
 szOutPath = ""
 szProjectName = "Project"
 
@@ -76,6 +77,8 @@ ARGV.each do | szArgument |
                 puts "   n:[name]         Specifies the name for the output project"
                 puts "   name[name]       If left unspecified, the project will be called \"Project\""
                 puts ""
+                puts "   r                Clean the target directory, i.e. replace its contents"
+                puts "   replace"
                 
             when /"create-dir"|c/
                 bCreateDirectory = true
@@ -94,9 +97,15 @@ ARGV.each do | szArgument |
                 szProjectName = String.new( szSwitch )
                 szProjectName.slice!( 0..1 )
             
+            when /"replace"|r/
+                bReplace = true
+            
         end
     end
 end
+
+puts "Generating files in #{ szOutPath } for project \"#{ szProjectName }\"..."
+puts ""
 
 # make sure our directory is set up
 
@@ -110,8 +119,22 @@ if not File.directory? szOutPath
     Process.exit
 end
 
+if bReplace
+    puts "Cleaning target directory..."
+    Dir.glob( "#{ szOutPath }/**/*" ) do | szFile |
+        if not File.directory? szFile
+            File.delete szFile
+        end
+    end
+    
+    Dir.glob( "#{ szOutPath }/**/*" ) do | szFile |
+        if File.directory? szFile
+            FileUtils.remove_dir( szFile, true )
+        end
+    end
+end
+
 # do the work
-puts "Generating files in #{ szOutPath } for #{ szProjectName }"
 puts "Project type : #{ bGLToyProject ? "GLToy" : "Independent" }#{ bDataStructures ? " with data structures" : "" }"
 
 if bGLToyProject
@@ -158,7 +181,35 @@ if bGLToyProject
     puts "Renaming files and contents..."
     
     Dir.glob( "#{ szOutPath }/**/*Empty*" ) do | szFile |
-        puts szFile
+        puts "#{ szFile }..."
+        
+        xCurrentFile = File.open( szFile, "r" )
+        szOutput = xCurrentFile.read
+        xCurrentFile.close
+        
+        szOutput.gsub! "Empty", szProjectName
+        szOutput.gsub! "EMPTY", szProjectName.upcase()
+        
+        xCurrentFile = File.open( szFile, "w" )
+        xCurrentFile.write( szOutput )
+        xCurrentFile.close
+        
+        FileUtils.move szFile, szFile.gsub( "Empty", szProjectName )
+    end
+    
+    Dir.glob( "#{ szOutPath }/**/*GLToy*" ) do | szFile |
+        puts "#{ szFile }..."
+        
+        xCurrentFile = File.open( szFile, "r" )
+        szOutput = xCurrentFile.read
+        xCurrentFile.close
+        
+        szOutput.gsub! "Empty", szProjectName
+        szOutput.gsub! "EMPTY", szProjectName.upcase()
+        
+        xCurrentFile = File.open( szFile, "w" )
+        xCurrentFile.write( szOutput )
+        xCurrentFile.close
     end
     
 else
