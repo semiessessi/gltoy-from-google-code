@@ -203,13 +203,14 @@ public:
         }
 
         GLToy_Physics_Object* pxObject = GLToy_Physics_System::FindPhysicsObject( m_pxHavokRigidBody->getUserData() );
-        
-        if( pxObject )
+        hkpRigidBody* const pxRigidBody = xContactPointEvent.getBody( 0 );
+		GLToy_Assert( pxRigidBody != NULL, "A Havok has provided bad data into GLToy_Havok_PhysicsCollisionListener::contactPointCallback" );
+        if( pxObject && pxRigidBody )
         {
             pxObject->m_xCollisions.Append( GLToy_Physics_ObjectCollision() );
             GLToy_Physics_ObjectCollision& xCollision = pxObject->m_xCollisions.End();
 
-            int iIndex = ( xContactPointEvent.getBody( 0 )->getUserData() == pxObject->m_uHash ) ? 1 : 0;
+            int iIndex = ( pxRigidBody->getUserData() == pxObject->m_uHash ) ? 1 : 0;
             xCollision.m_uEntityHash = xContactPointEvent.getBody( iIndex )->getUserData();
             xCollision.m_bHitEnvironment = xCollision.m_uEntityHash == GLToy_Hash_Constant( "Environment" );
             xCollision.m_bHitEntity = !xCollision.m_bHitEnvironment;

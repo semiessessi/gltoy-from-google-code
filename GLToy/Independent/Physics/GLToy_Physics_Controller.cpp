@@ -279,8 +279,13 @@ void GLToy_Physics_Controller::Update( const float fTimestep )
     xInput.m_stepInfo = xStepInfo;
 
     xInput.m_characterGravity.set( 0, -16.0f, 0.0f );
-    xInput.m_velocity = m_pxHavokRigidBody->getRigidBody()->getLinearVelocity();
-    xInput.m_position = m_pxHavokRigidBody->getRigidBody()->getPosition();
+	
+	hkpRigidBody* const pxRigidBody = m_pxHavokRigidBody->getRigidBody();
+	
+	GLToy_Assert( pxRigidBody != NULL, "A character's Havok rigid body pointer has been nulled. Get ready for a crash!" );
+	
+	xInput.m_velocity = pxRigidBody->getLinearVelocity();
+	xInput.m_position = pxRigidBody->getPosition();
 
     m_pxHavokRigidBody->checkSupport( xStepInfo, xInput.m_surfaceInfo );
 
@@ -307,16 +312,20 @@ void GLToy_Physics_Controller::Update( const float fTimestep )
     //        input.m_surfaceInfo.m_surfaceVelocity = ladderVelocity;
     //    }
 
-    const bool bIsCrouched = ( m_pxHavokRigidBody->getRigidBody()->getCollidable()->getShape() == m_pxCrouchShape );
+	const hkpCollidable* const pxCollidable = pxRigidBody->getCollidable();
+
+	GLToy_Assert( pxRigidBody != NULL, "A character's Havok collidable pointer has been nulled. We are going to assume they aren't crouching." );
+
+    const bool bIsCrouched = pxCollidable ? ( pxRigidBody->getCollidable()->getShape() == m_pxCrouchShape ) : false;
 
     if ( bIsCrouched && !bCrouch )
     {
-        m_pxHavokRigidBody->getRigidBody()->setShape( m_pxStandShape );
+        pxRigidBody->setShape( m_pxStandShape );
     }
 
     if ( !bIsCrouched && bCrouch )
     {
-        m_pxHavokRigidBody->getRigidBody()->setShape( m_pxCrouchShape );
+        pxRigidBody->setShape( m_pxCrouchShape );
     }
 
     m_pxHavokContext->update( xInput, xOutput );
