@@ -357,6 +357,7 @@ void GLToy_Physics_Controller::LateUpdate()
     // TODO - when merged with GLToy get rid of this rubbish
     // also do something to allow for multiple controllers for
     // AI and perhaps even remote players...
+	// ... er I should have done this by now, but I guess I am just too lazy :I
     if( GLToy_Camera::IsControllerCamEnabled() && m_pxHavokRigidBody )
     {
         pxWorld->lockReadOnly();
