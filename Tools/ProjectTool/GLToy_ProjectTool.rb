@@ -401,6 +401,298 @@ void #{ szProjectName }::DebugOutput( const char* szFormatString, ... )
 " )
     xCurrentFile.close
     puts "  #{ szCurrentFile }"
+	
+	puts "Creating project files..."
+    
+    szCurrentFile = "#{ szOutPath }/#{ szProjectName }.vcxproj"
+    xCurrentFile = File.open( szCurrentFile, "w" )
+    xCurrentFile.write(
+"<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<Project DefaultTargets=\"Build\" ToolsVersion=\"4.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">
+  <ItemGroup Label=\"ProjectConfigurations\">
+    <ProjectConfiguration Include=\"Debug|Win32\">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include=\"Release|Win32\">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include=\"Independent\\Compression\\#{ szProjectName }_Compression.h\" />
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_Array.h\" />
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_BinaryTree.h\" />
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_BitStream.h\" />
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_BSPTree.h\" />
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_DataStructure.h\" />
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_FlatDataStructure.h\" />
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_HashTree.h\" />
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_List.h\" />
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_Pair.h\" />
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_Stack.h\" />
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_Tree.h\" />
+    <ClInclude Include=\"Independent\\Core\\#{ szProjectName }.h\" />
+    <ClInclude Include=\"Independent\\Core\\#{ szProjectName }_Functor.h\" />
+    <ClInclude Include=\"Independent\\Core\\#{ szProjectName }_Serialisable.h\" />
+    <ClInclude Include=\"Independent\\Core\\#{ szProjectName }_Timer.h\" />
+    <ClInclude Include=\"Independent\\Maths\\#{ szProjectName }_Maths.h\" />
+    <ClInclude Include=\"Independent\\Maths\\#{ szProjectName }_Matrix.h\" />
+    <ClInclude Include=\"Independent\\Maths\\#{ szProjectName }_Plane.h\" />
+    <ClInclude Include=\"Independent\\Maths\\#{ szProjectName }_Quaternion.h\" />
+    <ClInclude Include=\"Independent\\Maths\\#{ szProjectName }_Vector.h\" />
+    <ClInclude Include=\"Win32\\Core\\Platform_#{ szProjectName }.h\" />
+    <ClInclude Include=\"Win32\\Maths\\Platform_#{ szProjectName }_Maths.h\" />
+    <ClInclude Include=\"Win32\\Maths\\Platform_#{ szProjectName }_Vector.h\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include=\"Independent\\Compression\\#{ szProjectName }_Compression.cpp\" />
+    <ClCompile Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_BitStream.cpp\" />
+    <ClCompile Include=\"Independent\\Core\\#{ szProjectName }.cpp\" />
+    <ClCompile Include=\"Independent\\Maths\\#{ szProjectName }_Maths.cpp\" />
+    <ClCompile Include=\"Independent\\Maths\\#{ szProjectName }_Matrix.cpp\" />
+    <ClCompile Include=\"Independent\\Maths\\#{ szProjectName }_Plane.cpp\" />
+    <ClCompile Include=\"Independent\\Maths\\#{ szProjectName }_Quaternion.cpp\" />
+    <ClCompile Include=\"Independent\\Maths\\#{ szProjectName }_Vector.cpp\" />
+    <ClCompile Include=\"Win32\\Maths\\Platform_#{ szProjectName }_Maths.cpp\" />
+    <ClCompile Include=\"Win32\\Maths\\Platform_#{ szProjectName }_Vector.cpp\" />
+  </ItemGroup>
+  <PropertyGroup Label=\"Globals\">
+    <ProjectGuid>{2688314A-C516-445E-8471-156DD9450762}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>#{ szProjectName }</RootNamespace>
+  </PropertyGroup>
+  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.Default.props\" />
+  <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='Debug|Win32'\" Label=\"Configuration\">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='Release|Win32'\" Label=\"Configuration\">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.props\" />
+  <ImportGroup Label=\"ExtensionSettings\">
+  </ImportGroup>
+  <ImportGroup Label=\"PropertySheets\" Condition=\"'$(Configuration)|$(Platform)'=='Debug|Win32'\">
+    <Import Project=\"$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props\" Condition=\"exists('$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props')\" Label=\"LocalAppDataPlatform\" />
+  </ImportGroup>
+  <ImportGroup Label=\"PropertySheets\" Condition=\"'$(Configuration)|$(Platform)'=='Release|Win32'\">
+    <Import Project=\"$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props\" Condition=\"exists('$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props')\" Label=\"LocalAppDataPlatform\" />
+  </ImportGroup>
+  <PropertyGroup Label=\"UserMacros\" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition=\"'$(Configuration)|$(Platform)'=='Debug|Win32'\">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./Independent/;./Win32/</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition=\"'$(Configuration)|$(Platform)'=='Release|Win32'\">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./Independent/;./Win32/</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.targets\" />
+  <ImportGroup Label=\"ExtensionTargets\">
+  </ImportGroup>
+</Project>
+" )
+    xCurrentFile.close
+    puts "  #{ szCurrentFile }"
+	
+    szCurrentFile = "#{ szOutPath }/#{ szProjectName }.vcxproj.filters"
+    xCurrentFile = File.open( szCurrentFile, "w" )
+	xCurrentFile.write(
+"<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<Project ToolsVersion=\"4.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">
+  <ItemGroup>
+    <Filter Include=\"Win32\">
+      <UniqueIdentifier>{49e9dedd-150d-4b03-b6cd-004bd6a4bfa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include=\"Win32\\Core\">
+      <UniqueIdentifier>{b7a0d07c-fa7c-4bc2-b217-7455681c786f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include=\"Independent\">
+      <UniqueIdentifier>{b03bf959-6011-4a87-88e1-397dc1e642b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include=\"Independent\\Core\">
+      <UniqueIdentifier>{d01b899b-db70-4837-8bc0-eeeba9fee9db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include=\"Independent\\Core\\Data Structures\">
+      <UniqueIdentifier>{bcba01d9-7fa1-43a1-aac0-a92f0da5cdd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include=\"Independent\\Maths\">
+      <UniqueIdentifier>{b3a3e99f-1baa-4f6b-a72e-66febbd5536a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include=\"Win32\\Maths\">
+      <UniqueIdentifier>{50353087-1b0e-4f1f-8fee-5e05b6bff54f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include=\"Independent\\Compression\">
+      <UniqueIdentifier>{4dd84edb-2f21-4688-8176-9b76b99f97a9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include=\"Win32\\Core\\Platform_#{ szProjectName }.h\">
+      <Filter>Win32\\Core</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Core\\#{ szProjectName }.h\">
+      <Filter>Independent\\Core</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_Tree.h\">
+      <Filter>Independent\\Core\\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_Array.h\">
+      <Filter>Independent\\Core\\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_BinaryTree.h\">
+      <Filter>Independent\\Core\\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_BitStream.h\">
+      <Filter>Independent\\Core\\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_BSPTree.h\">
+      <Filter>Independent\\Core\\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_DataStructure.h\">
+      <Filter>Independent\\Core\\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_FlatDataStructure.h\">
+      <Filter>Independent\\Core\\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_HashTree.h\">
+      <Filter>Independent\\Core\\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_List.h\">
+      <Filter>Independent\\Core\\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_Pair.h\">
+      <Filter>Independent\\Core\\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_Stack.h\">
+      <Filter>Independent\\Core\\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Maths\\#{ szProjectName }_Vector.h\">
+      <Filter>Independent\\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Win32\\Maths\\Platform_#{ szProjectName }_Maths.h\">
+      <Filter>Win32\\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Win32\\Maths\\Platform_#{ szProjectName }_Vector.h\">
+      <Filter>Win32\\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Maths\\#{ szProjectName }_Maths.h\">
+      <Filter>Independent\\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Core\\#{ szProjectName }_Timer.h\">
+      <Filter>Independent\\Core</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Core\\#{ szProjectName }_Functor.h\">
+      <Filter>Independent\\Core</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Core\\#{ szProjectName }_Serialisable.h\">
+      <Filter>Independent\\Core</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Maths\\#{ szProjectName }_Matrix.h\">
+      <Filter>Independent\\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Maths\\#{ szProjectName }_Plane.h\">
+      <Filter>Independent\\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Maths\\#{ szProjectName }_Quaternion.h\">
+      <Filter>Independent\\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include=\"Independent\\Compression\\#{ szProjectName }_Compression.h\">
+      <Filter>Independent\\Compression</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include=\"Independent\\Core\\Data Structures\\#{ szProjectName }_BitStream.cpp\">
+      <Filter>Independent\\Core\\Data Structures</Filter>
+    </ClCompile>
+    <ClCompile Include=\"Independent\\Maths\\#{ szProjectName }_Vector.cpp\">
+      <Filter>Independent\\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include=\"Win32\\Maths\\Platform_#{ szProjectName }_Vector.cpp\">
+      <Filter>Win32\\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include=\"Win32\\Maths\\Platform_#{ szProjectName }_Maths.cpp\">
+      <Filter>Win32\\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include=\"Independent\\Maths\\#{ szProjectName }_Maths.cpp\">
+      <Filter>Independent\\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include=\"Independent\\Core\\#{ szProjectName }.cpp\">
+      <Filter>Independent\\Core</Filter>
+    </ClCompile>
+    <ClCompile Include=\"Independent\\Maths\\#{ szProjectName }_Matrix.cpp\">
+      <Filter>Independent\\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include=\"Independent\\Maths\\#{ szProjectName }_Plane.cpp\">
+      <Filter>Independent\\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include=\"Independent\\Maths\\#{ szProjectName }_Quaternion.cpp\">
+      <Filter>Independent\\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include=\"Independent\\Compression\\#{ szProjectName }_Compression.cpp\">
+      <Filter>Independent\\Compression</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
+" )
+    xCurrentFile.close
+    puts "  #{ szCurrentFile }"
+	
+    szCurrentFile = "#{ szProjectName }.sln"
+    xCurrentFile = File.open( szCurrentFile, "w" )
+	xCurrentFile.write(	
+"Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project(\"{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}\") = \"#{ szProjectName }\", \"#{ szProjectName }\\#{ szProjectName }.vcxproj\", \"{2688314A-C516-445E-8471-156DD9450762}\"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2688314A-C516-445E-8471-156DD9450762}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2688314A-C516-445E-8471-156DD9450762}.Debug|Win32.Build.0 = Debug|Win32
+		{2688314A-C516-445E-8471-156DD9450762}.Release|Win32.ActiveCfg = Release|Win32
+		{2688314A-C516-445E-8471-156DD9450762}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
+" )
+    xCurrentFile.close
+    puts "  #{ szCurrentFile }"
+	
 end
 
 if bDataStructures
@@ -470,7 +762,7 @@ if bDataStructures
         
         szOutput.gsub! "GLToy", szProjectName
         szOutput.gsub! "GLTOY", szProjectName.upcase()
-		szOutput.gsub! "\#include \<Maths/NNLib_Ray\.h\>\n", ""
+		szOutput.gsub! "\#include \<Maths/#{ szProjectName }_Ray\.h\>\n", ""
         
         xCurrentFile = File.open( szFile, "w" )
         xCurrentFile.write( szOutput )
