@@ -263,9 +263,10 @@ else
 #define #{ szProjectName.upcase }_PLATFORM_WIN32
 
 #define #{ szProjectName }_API __stdcall
-#define #{ szProjectName }_Export __declspec( dllexport )
-#define #{ szProjectName }_Import __declspec( dllimport )
 #define #{ szProjectName }_Inline __forceinline
+
+#define #{ szProjectName }_Import( xReturnType, xName, xParameterList ) extern \"C\" xReturnType __declspec( dllimport ) __stdcall xName xParameterList
+#define #{ szProjectName }_Export( xReturnType, xName, xParameterList ) extern \"C\" xReturnType __declspec( dllexport ) __stdcall xName xParameterList
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -281,6 +282,12 @@ else
     xCurrentFile.write(
 "#ifndef __#{ szProjectName.upcase }_H_
 #define __#{ szProjectName.upcase }_H_
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// M A C R O S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#define _CRT_SECURE_NO_WARNINGS
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
