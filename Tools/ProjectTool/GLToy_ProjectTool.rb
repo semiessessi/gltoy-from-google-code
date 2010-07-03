@@ -68,7 +68,7 @@ ARGV.each do | szArgument |
                 puts "   c                Creates the target directory if it doesn't exist"
                 puts "   create-dir"
                 puts ""
-                puts "   d                Creates a fork of the GLToy data structures with the project"
+                puts "   d                Creates data structures and maths functionality"
                 puts "   data-structures"
                 puts ""
                 puts "   g                Specifies that the files are for GLToy project"
@@ -144,6 +144,8 @@ if bGLToyProject
         puts "Fatal error: To create a GLToy project you must run the script from the root directory of the GLToy source"
         Process.exit
     end
+	
+	puts "Creating GLToy project..."
     
     puts "Copying from \"Empty\"..."
     FileUtils.copy_entry( "Empty", szOutPath )
@@ -196,7 +198,7 @@ if bGLToyProject
     puts "Renaming files and contents..."
     
     Dir.glob( "#{ szOutPath }/**/*Empty*" ) do | szFile |
-        puts "  #{ szFile }..."
+        puts "  #{ szFile.gsub( "Empty", szProjectName ) }..."
         
         xCurrentFile = File.open( szFile, "r" )
         szOutput = xCurrentFile.read
@@ -228,6 +230,8 @@ if bGLToyProject
     end
     
 else
+
+	puts "Creating C++ project..."
 
     puts "Creating directory structure..."
     
@@ -295,7 +299,7 @@ else
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef NULL
-#define NULL (0)
+#define NULL ( 0 )
 #endif
 
 // prevent const_cast and dynamic cast
@@ -310,11 +314,16 @@ else
     #define #{ szProjectName.upcase }_DEBUG
     #define #{ szProjectName }_IsDebugBuild() ( true )
     #define #{ szProjectName }_DebugVar static
+	#define #{ szProjectName }_DebugOutput( format, ... ) #{ szProjectName }::DebugOutput( format, __VA_ARGS__ )
 #else
     #define #{ szProjectName.upcase }_RELEASE
     #define #{ szProjectName }_IsDebugBuild() ( false )
     #define #{ szProjectName }_DebugVar static const
+	#define #{ szProjectName }_DebugOutput( format, ... )
 #endif
+
+// TODO: Asserts in project tool
+#define #{ szProjectName }_Assert( ... )
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // T Y P E D E F S
@@ -331,9 +340,142 @@ typedef unsigned int #{ szProjectName }_Hash;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static const #{ szProjectName }_Hash u#{ szProjectName.upcase }_BAD_HASH = 0;
+static const u_int uDEBUGOUTPUT_MAX_LENGTH = 512;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C L A S S E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+class #{ szProjectName }
+{
+
+public:
+
+	static void DebugOutput( const char* szFormatString, ... );
+	
+};
 
 #endif
 " )
-    xCurrentFile.close    
+    xCurrentFile.close
     puts "  #{ szCurrentFile }"
+    
+    szCurrentFile = "#{ szOutPath }/Independent/Core/#{ szProjectName }.cpp"
+    xCurrentFile = File.open( szCurrentFile, "w" )
+    xCurrentFile.write(
+"/////////////////////////////////////////////////////////////////////////////////////////////
+// I N C L U D E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#include <Core/#{ szProjectName }.h>
+
+// C/C++ headers
+#include <stdarg.h>
+#include <stdio.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+static char szDebugMessageBuffer[ uDEBUGOUTPUT_MAX_LENGTH ];
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F U N C T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+void #{ szProjectName }::DebugOutput( const char* szFormatString, ... )
+{
+    va_list xArgumentList;
+
+    va_start( xArgumentList, szFormatString );
+    int iMessageLength = _vscprintf( szFormatString, xArgumentList ) + 1;
+
+    vsprintf( szDebugMessageBuffer, /* iMessageLength, */ szFormatString, xArgumentList );
+
+    // we no longer need xArgumentList
+    va_end( xArgumentList );
+
+	// TODO in GLToy_ProjectTool...
+    //Platform_DebugOutput( szDebugMessageBuffer );
+}
+" )
+    xCurrentFile.close
+    puts "  #{ szCurrentFile }"
+end
+
+if bDataStructures
+	puts "Creating data structures..."    
+    
+	Dir.mkdir "#{ szOutPath }/Independent/Core/Data Structures"
+	Dir.mkdir "#{ szOutPath }/Independent/Maths"
+	Dir.mkdir "#{ szOutPath }/Win32/Maths"
+	
+	puts "Copying from \"GLToy\"..."
+	FileUtils.copy_entry( "GLToy/Independent/Compression", "#{ szOutPath }/Independent/Compression" ) 
+	FileUtils.copy_entry( "GLToy/Independent/Core/Data Structures", "#{ szOutPath }/Independent/Core/Data Structures" ) 
+	FileUtils.copy_entry( "GLToy/Win32/Maths", "#{ szOutPath }/Win32/Maths" )
+	
+	puts "Removing source control files..."
+    
+    Dir.glob( "#{ szOutPath }/**/.svn" ) do | szFile |
+        if File.directory? szFile
+            puts "  Removing \"#{ szFile }\"..."
+            FileUtils.remove_dir( szFile, true )
+        end
+    end
+
+    Dir.glob( "#{ szOutPath }/**/cvs" ) do | szFile |
+        if File.directory? szFile
+            puts "  Removing \"#{ szFile }\"..."
+            FileUtils.remove_dir( szFile, true )
+        end
+    end
+    
+    Dir.glob( "#{ szOutPath }/**/.cvs" ) do | szFile |
+        if File.directory? szFile
+            puts "  Removing \"#{ szFile }\"..."
+            FileUtils.remove_dir( szFile, true )
+        end
+    end
+    
+    Dir.glob( "#{ szOutPath }/**/.p4" ) do | szFile |
+        if File.directory? szFile
+            puts "  Removing \"#{ szFile }\"..."
+            FileUtils.remove_dir( szFile, true )
+        end
+    end
+	
+	FileUtils.cp "GLToy/Independent/Core/GLToy_Functor.h", "#{ szOutPath }/Independent/Core/"
+	FileUtils.cp "GLToy/Independent/Core/GLToy_Serialisable.h", "#{ szOutPath }/Independent/Core/"
+	FileUtils.cp "GLToy/Independent/Core/GLToy_Timer.h", "#{ szOutPath }/Independent/Core/"
+	FileUtils.cp "GLToy/Independent/Maths/GLToy_Maths.h", "#{ szOutPath }/Independent/Maths/"
+	FileUtils.cp "GLToy/Independent/Maths/GLToy_Maths.cpp", "#{ szOutPath }/Independent/Maths/"
+	FileUtils.cp "GLToy/Independent/Maths/GLToy_Vector.h", "#{ szOutPath }/Independent/Maths/"
+	FileUtils.cp "GLToy/Independent/Maths/GLToy_Vector.cpp", "#{ szOutPath }/Independent/Maths/"
+	FileUtils.cp "GLToy/Independent/Maths/GLToy_Plane.h", "#{ szOutPath }/Independent/Maths/"
+	FileUtils.cp "GLToy/Independent/Maths/GLToy_Plane.cpp", "#{ szOutPath }/Independent/Maths/"
+	FileUtils.cp "GLToy/Independent/Maths/GLToy_Quaternion.h", "#{ szOutPath }/Independent/Maths/"
+	FileUtils.cp "GLToy/Independent/Maths/GLToy_Quaternion.cpp", "#{ szOutPath }/Independent/Maths/"
+	FileUtils.cp "GLToy/Independent/Maths/GLToy_Matrix.h", "#{ szOutPath }/Independent/Maths/"
+	FileUtils.cp "GLToy/Independent/Maths/GLToy_Matrix.cpp", "#{ szOutPath }/Independent/Maths/"
+	
+	puts "Renaming files and contents..."
+    
+    Dir.glob( "#{ szOutPath }/**/*GLToy*" ) do | szFile |
+        puts "  #{ szFile.gsub( "GLToy", szProjectName ) }..."
+        
+        xCurrentFile = File.open( szFile, "r" )
+        szOutput = xCurrentFile.read
+        xCurrentFile.close
+        
+        szOutput.gsub! "GLToy", szProjectName
+        szOutput.gsub! "GLTOY", szProjectName.upcase()
+		szOutput.gsub! "\#include \<Maths/NNLib_Ray\.h\>\n", ""
+        
+        xCurrentFile = File.open( szFile, "w" )
+        xCurrentFile.write( szOutput )
+        xCurrentFile.close
+        
+        FileUtils.move szFile, szFile.gsub( "GLToy", szProjectName )
+    end
 end
