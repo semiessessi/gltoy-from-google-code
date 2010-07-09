@@ -228,7 +228,19 @@ if bGLToyProject
         xCurrentFile.write( szOutput )
         xCurrentFile.close
     end
+	
+	puts "Creating solution file..."
+	szFile = "#{ szProjectName }.sln"
+	xCurrentFile = File.open( "Empty.sln", "r" )
+    szOutput = xCurrentFile.read
+    xCurrentFile.close
+	
+	szOutput.gsub! "Empty\\", "#{ szOutPath }\\"
+	szOutput.gsub! "Empty", "#{ szProjectName }"
     
+	xCurrentFile = File.open( szFile, "w" )
+    xCurrentFile.write( szOutput )
+    xCurrentFile.close
 else
 
 	puts "Creating C++ project..."
@@ -778,3 +790,5 @@ if bDataStructures
         FileUtils.move szFile, szFile.gsub( "GLToy", szProjectName )
     end
 end
+
+puts "Done!"
