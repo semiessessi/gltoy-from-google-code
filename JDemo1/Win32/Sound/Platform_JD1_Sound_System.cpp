@@ -34,6 +34,7 @@
 
 // OpenAL
 #include <al.h>
+#include <al/alut.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -41,8 +42,8 @@
 
 union JD1_Sound_HandleUnion
 {
-    ALuint u;
     GLToy_Handle i;
+    ALuint u;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,11 +52,13 @@ union JD1_Sound_HandleUnion
 
 bool Platform_JD1_Sound_System::Initialise()
 {
-	return true;
+	alutInit( NULL, NULL );
+    return alGetError() == AL_NO_ERROR;
 }
 
 void Platform_JD1_Sound_System::Shutdown()
 {
+    alutExit();
 }
 
 void Platform_JD1_Sound_System::Update()
@@ -112,4 +115,33 @@ void Platform_JD1_Sound_System::DestroySourceHandle( const GLToy_Handle iHandle 
     }
 
     alDeleteSources( 1, reinterpret_cast< const ALuint* >( &iHandle ) );
+}
+
+void Platform_JD1_Sound_System::TestSound( const GLToy_Handle iHandle )
+{
+    if( !GLToy_IsValidHandle( iHandle ) )
+    {
+        GLToy_Assert( GLToy_IsValidHandle( iHandle ), "Bad handle!" );
+        return;
+    }
+
+    JD1_Sound_HandleUnion xBufferHandle = { iHandle };
+    JD1_Sound_HandleUnion xSourceHandle = { CreateSourceHandle() };
+
+    alSourcef( xSourceHandle.u, AL_PITCH, 1.0f );
+    alSourcef( xSourceHandle.u, AL_GAIN, 1.0f );
+    alSourcefv( xSourceHandle.u, AL_POSITION, GLToy_Maths::ZeroVector3.GetFloatPointer() );
+    alSourcefv( xSourceHandle.u, AL_VELOCITY, GLToy_Maths::ZeroVector3.GetFloatPointer() );
+    alSourcei( xSourceHandle.u, AL_BUFFER, xBufferHandle.u );
+    alSourcei( xSourceHandle.u, AL_LOOPING, AL_FALSE );
+
+    GLToy_Assert( alGetError() == AL_NO_ERROR, "Unexpected OpenAL error!" );
+
+    alSourcePlay( xSourceHandle.u );
+
+    ALint eState;
+    alGetSourcei( xSourceHandle.u, AL_SOURCE_STATE, &eState );
+
+    GLToy_Assert( eState == AL_PLAYING, "Source failed to play!" );
+    
 }

@@ -31,6 +31,7 @@
 #include <Sound/Platform_JD1_Sound_System.h>
 
 // GLToy
+#include <Core/Console/GLToy_Console.h>
 #include <Core/Data Structures/GLToy_Array.h>
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <File/GLToy_File_System.h>
@@ -54,6 +55,8 @@ GLToy_Array< JD1_Sound_Source* > JD1_Sound_System::s_xSources;
 
 bool JD1_Sound_System::Initialise()
 {
+    GLToy_Console::RegisterCommand( "test.sound", TestSound_Console );
+
 	s_xSounds.Clear(); // really? GLToy_Model_System etc. do this as well
 	s_xSources.Clear();
 
@@ -129,4 +132,16 @@ void JD1_Sound_System::DestroySoundHandle( const GLToy_Handle iHandle )
 void JD1_Sound_System::DestroySourceHandle( const GLToy_Handle iHandle )
 {
     Platform_JD1_Sound_System::DestroySourceHandle( iHandle );
+}
+
+void JD1_Sound_System::TestSound_Console( const GLToy_String& szName )
+{
+    const JD1_Sound* const pxSound = LoadSound( szName.GetHash() );
+
+    if( !pxSound )
+    {
+        return;
+    }
+
+    Platform_JD1_Sound_System::TestSound( pxSound->GetHandle() );
 }

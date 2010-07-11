@@ -78,7 +78,7 @@
 
 #define GLToy_InitialiserCall( system ) GLToy_DebugOutput( "\r\n  " #system "\r\n" ); if( !system::Initialise() ) { return false; }
 
-#define GLToy_IsValidHandle( handle ) ( ( handle ) < 0 )
+#define GLToy_IsValidHandle( handle ) ( ( handle ) > 0 )
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // T Y P E D E F S

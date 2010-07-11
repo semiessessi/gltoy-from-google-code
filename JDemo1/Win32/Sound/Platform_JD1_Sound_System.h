@@ -54,6 +54,8 @@ public:
     static void DestroySoundHandle( const GLToy_Handle iHandle );
     static void DestroySourceHandle( const GLToy_Handle iHandle );
 
+    static void TestSound( const GLToy_Handle iHandle );
+
 protected:
 
 };

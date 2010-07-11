@@ -73,7 +73,9 @@ public:
 
 	static void Stop( const GLToy_Handle iHandle, const JD1_Sound_Transition eTransitionType = JD1_SOUND_CUT );
 
-protected:
+private:
+
+    static void TestSound_Console( const GLToy_String& szName );
 
     static GLToy_Handle CreateSoundHandle();
     static GLToy_Handle CreateSourceHandle();
