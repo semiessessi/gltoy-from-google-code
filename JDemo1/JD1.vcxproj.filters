@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Win32">
+      <UniqueIdentifier>{7d003825-1543-49ff-998c-a618455210d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Core">
+      <UniqueIdentifier>{ec07c50f-eb05-41ae-952e-0daf175fc9f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent">
+      <UniqueIdentifier>{e9e5cbcf-5fbd-4e22-81f5-635ce6ac2cbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Render">
+      <UniqueIdentifier>{d7444fd6-6393-42bf-9080-a13abe46c8e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Core">
+      <UniqueIdentifier>{b39ff5a7-c4e3-4deb-9017-d2aa938118bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Demo">
+      <UniqueIdentifier>{9fd4d354-920b-4fbc-b76f-bf0e6a515b44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Sound">
+      <UniqueIdentifier>{8da73d21-08a4-4df6-8f68-5b244ad4023b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Sound">
+      <UniqueIdentifier>{8e7963c8-eb6b-4fea-8b7f-838f785391f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\File">
+      <UniqueIdentifier>{08e22cb4-6193-44e4-b7ca-0b5fef8ae606}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\File">
+      <UniqueIdentifier>{a4013387-3f25-485e-8368-565d796d39dc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Win32\Core\Platform_JD1.cpp">
+      <Filter>Win32\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\JD1_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Project_GLToy_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\JD1.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\Project_GLToy.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Sound\Platform_JD1_Sound_System.cpp">
+      <Filter>Win32\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Sound\JD1_Sound_System.cpp">
+      <Filter>Independent\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Demo\JD1_Demo_System.cpp">
+      <Filter>Independent\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\JD1_WaveFile.cpp">
+      <Filter>Independent\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\File\Platform_JD1_WaveFile.cpp">
+      <Filter>Win32\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Sound\JD1_Sound.cpp">
+      <Filter>Independent\Sound</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Win32\Core\Platform_JD1.h">
+      <Filter>Win32\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\JD1_Render.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\JD1.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Sound\Platform_JD1_Sound_System.h">
+      <Filter>Win32\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Sound\JD1_Sound_System.h">
+      <Filter>Independent\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Demo\JD1_Demo_System.h">
+      <Filter>Independent\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\JD1_SoundFile.h">
+      <Filter>Independent\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Sound\JD1_Sound.h">
+      <Filter>Independent\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\JD1_WaveFile.h">
+      <Filter>Independent\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Sound\JD1_Sound_Source.h">
+      <Filter>Independent\Sound</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
