@@ -78,6 +78,8 @@
 
 #define GLToy_InitialiserCall( system ) GLToy_DebugOutput( "\r\n  " #system "\r\n" ); if( !system::Initialise() ) { return false; }
 
+#define GLToy_IsValidHandle( handle ) ( ( handle ) < 0 )
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // T Y P E D E F S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,6 +88,7 @@ typedef unsigned char u_char;
 typedef unsigned short u_short;
 typedef unsigned int u_int;
 
+typedef int GLToy_Handle;
 typedef unsigned int GLToy_Hash;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +97,7 @@ typedef unsigned int GLToy_Hash;
 
 static const u_int uDEBUGOUTPUT_MAX_LENGTH = 512;
 
+static const GLToy_Handle uGLTOY_INVALID_HANDLE = -1;
 static const GLToy_Hash uGLTOY_BAD_HASH = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
