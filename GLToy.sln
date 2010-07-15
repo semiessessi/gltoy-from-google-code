@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FPSToy", "FPSToy\FPSToy.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CodeChecker", "CodeChecker\CodeChecker.vcxproj", "{1C0FDC04-2614-43C7-8A7B-F45A5E88E5B1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JD1", "JDemo1\JD1.vcxproj", "{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -61,6 +63,12 @@ Global
 		{1C0FDC04-2614-43C7-8A7B-F45A5E88E5B1}.Final|Win32.Build.0 = Release|Win32
 		{1C0FDC04-2614-43C7-8A7B-F45A5E88E5B1}.Release|Win32.ActiveCfg = Release|Win32
 		{1C0FDC04-2614-43C7-8A7B-F45A5E88E5B1}.Release|Win32.Build.0 = Release|Win32
+		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Debug|Win32.Build.0 = Debug|Win32
+		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Final|Win32.ActiveCfg = Release|Win32
+		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Final|Win32.Build.0 = Release|Win32
+		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Release|Win32.ActiveCfg = Release|Win32
+		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
