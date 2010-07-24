@@ -135,6 +135,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Independent\Render\GLToy_Raytrace_Fullscreen.cpp" />
     <ClCompile Include="Win32\Core\Platform_GLToy.cpp" />
     <ClCompile Include="Win32\Core\Platform_GLToy_Assert.cpp" />
     <ClCompile Include="Win32\Core\Platform_GLToy_Timer.cpp" />
@@ -226,6 +227,7 @@
     <ClCompile Include="Independent\Physics\GLToy_Physics_System.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Independent\Render\GLToy_Raytrace_Fullscreen.h" />
     <ClInclude Include="Win32\Core\Platform_GLToy.h" />
     <ClInclude Include="Win32\Core\Platform_GLToy_Timer.h" />
     <ClInclude Include="Win32\Render\Platform_GLToy_Render.h" />

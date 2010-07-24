@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2009, 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,36 +24,31 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __JD1_DEMOSCENE_TEST_H_
+#define __JD1_DEMOSCENE_TEST_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
-
-// This file's header
-#include <Maths/GLToy_Quaternion.h>
-
-// GLToy
-#include <Maths/GLToy_Maths.h>
+// Parents
+#include <Demo/JD1_DemoScene.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Matrix_3 GLToy_Quaternion::GetOrientationMatrix()
+class JD1_DemoScene_Test
+: public JD1_DemoScene
 {
-    const float& w = m_fComponents[ 0 ];
-    const float& x = m_fComponents[ 1 ];
-    const float& y = m_fComponents[ 2 ];
-    const float& z = m_fComponents[ 3 ];
 
-    GLToy_Matrix_3 xReturnValue(
+public:
 
-        w*w + x*x - y*y - z*z,      2*x*y - 2*z*w,              2*x*z + 2*w*y,
-        2*x*y + 2*w*z,              w*w - x*x + y*y - z*z,      2*y*z - 2*w*x,
-        2*x*z - 2*w*y,              2*y*z + 2*w*x,              w*w - x*x - y*y + z*z
+    virtual void Render() const;
+    virtual void Update();
 
-        );
+protected:
 
-    return xReturnValue;
-}
+};
+
+#endif

@@ -66,6 +66,9 @@
     <ClCompile Include="Independent\Sound\JD1_Sound.cpp">
       <Filter>Independent\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_Test.cpp">
+      <Filter>Independent\Demo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_JD1.h">
@@ -99,6 +102,9 @@
       <Filter>Independent\Sound</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Demo\JD1_DemoScene.h">
+      <Filter>Independent\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_Test.h">
       <Filter>Independent\Demo</Filter>
     </ClInclude>
   </ItemGroup>

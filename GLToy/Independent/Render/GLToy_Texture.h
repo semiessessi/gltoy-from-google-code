@@ -132,11 +132,11 @@ public:
     static void CreateTexture( const GLToy_String& szName );
     static void DestroyTexture( const GLToy_Hash uHash );
     static void DestroyTexture( const GLToy_String& szName );
-    static void BindTexture( const GLToy_Hash uHash );
-    static void BindTexture( const GLToy_String& szName );
+    static void BindTexture( const GLToy_Hash uHash, const u_int uTextureUnit = 0 );
+    static void BindTexture( const GLToy_String& szName, const u_int uTextureUnit = 0 );
     static void Reset();
 
-    static void BindWhite();
+    static void BindWhite( const u_int uTextureUnit = 0 );
 
     // TODO - find a better solution for lightmaps = creating from the hash directly leaves the name blank, which might be flakey
     static void CreateTextureFromRGBAData( const GLToy_Hash uHash, u_int* const puData, const u_int uWidth, const u_int uHeight );

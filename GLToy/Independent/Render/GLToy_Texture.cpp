@@ -24,6 +24,10 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+// I N C L U D E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 #include <Core/GLToy.h>
 
 // This file's header
@@ -255,12 +259,12 @@ void GLToy_Texture_System::DestroyTexture( const GLToy_Hash uHash )
     }
 }
 
-void GLToy_Texture_System::BindTexture( const GLToy_String& szName )
+void GLToy_Texture_System::BindTexture( const GLToy_String& szName, const u_int uTextureUnit )
 {
     BindTexture( szName.GetHash() );
 }
 
-void GLToy_Texture_System::BindTexture( const GLToy_Hash uHash )
+void GLToy_Texture_System::BindTexture( const GLToy_Hash uHash, const u_int uTextureUnit )
 {
     GLToy_Texture* pxTexture = FindTexture( uHash );
     if( pxTexture )
@@ -270,7 +274,7 @@ void GLToy_Texture_System::BindTexture( const GLToy_Hash uHash )
             pxTexture->Create();
         }
 
-        pxTexture->Bind();
+        pxTexture->Bind( uTextureUnit );
     }
     else
     {
@@ -282,7 +286,7 @@ void GLToy_Texture_System::BindTexture( const GLToy_Hash uHash )
                 pxTexture->Create();
             }
 
-            pxTexture->Bind();
+            pxTexture->Bind( uTextureUnit );
         }
     }
 }
@@ -296,11 +300,11 @@ void GLToy_Texture_System::Reset()
     }
 }
 
-void GLToy_Texture_System::BindWhite()
+void GLToy_Texture_System::BindWhite( const u_int uTextureUnit )
 {
     if( s_pxWhiteTexture )
     {
-        s_pxWhiteTexture->Bind();
+        s_pxWhiteTexture->Bind( uTextureUnit );
     }
 }
 

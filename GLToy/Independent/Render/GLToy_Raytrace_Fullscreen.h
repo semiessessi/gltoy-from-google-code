@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2009, 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,36 +24,43 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __GLTOY_RAYTRACE_FULLSCREEN_H_
+#define __GLTOY_RAYTRACE_FULLSCREEN_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
-
-// This file's header
-#include <Maths/GLToy_Quaternion.h>
+// Parent
+#include <Render/GLToy_Renderable.h>
 
 // GLToy
-#include <Maths/GLToy_Maths.h>
+#include <Core/Data Structures/GLToy_Pair.h>
+#include <String/GLToy_String.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Matrix_3 GLToy_Quaternion::GetOrientationMatrix()
+class GLToy_Raytrace_Fullscreen
+: public GLToy_Renderable
 {
-    const float& w = m_fComponents[ 0 ];
-    const float& x = m_fComponents[ 1 ];
-    const float& y = m_fComponents[ 2 ];
-    const float& z = m_fComponents[ 3 ];
 
-    GLToy_Matrix_3 xReturnValue(
+public:
 
-        w*w + x*x - y*y - z*z,      2*x*y - 2*z*w,              2*x*z + 2*w*y,
-        2*x*y + 2*w*z,              w*w - x*x + y*y - z*z,      2*y*z - 2*w*x,
-        2*x*z - 2*w*y,              2*y*z + 2*w*x,              w*w - x*x - y*y + z*z
+    GLToy_Raytrace_Fullscreen( const GLToy_Hash uShaderHash );
 
-        );
+    virtual ~GLToy_Raytrace_Fullscreen() {}
 
-    return xReturnValue;
-}
+    virtual void Render() const;
+
+    void BindTexture( const GLToy_String& szUniformName, const GLToy_Hash uTextureHash, const u_int uTextureUnit = 0 );
+
+private:
+
+    GLToy_Hash m_uShader;
+    GLToy_Pair< GLToy_Hash, GLToy_String > m_axTextures[ 8 ];
+
+};
+
+#endif

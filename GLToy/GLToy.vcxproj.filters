@@ -378,6 +378,9 @@
     <ClCompile Include="Independent\Physics\GLToy_Physics_System.cpp">
       <Filter>Independent\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Render\GLToy_Raytrace_Fullscreen.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
@@ -694,6 +697,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Physics\GLToy_Physics_System.h">
       <Filter>Independent\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\GLToy_Raytrace_Fullscreen.h">
+      <Filter>Independent\Render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
