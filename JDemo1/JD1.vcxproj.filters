@@ -98,5 +98,8 @@
     <ClInclude Include="Independent\Sound\JD1_Sound_Source.h">
       <Filter>Independent\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\Demo\JD1_DemoScene.h">
+      <Filter>Independent\Demo</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -108,6 +108,7 @@
     <ClCompile Include="Win32\Sound\Platform_JD1_Sound_System.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Independent\Demo\JD1_DemoScene.h" />
     <ClInclude Include="Independent\Demo\JD1_Demo_System.h" />
     <ClInclude Include="Independent\File\JD1_SoundFile.h" />
     <ClInclude Include="Independent\File\JD1_WaveFile.h" />

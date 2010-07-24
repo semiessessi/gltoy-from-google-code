@@ -321,6 +321,23 @@ public:
         }
     }
 
+    T& Head()
+    {
+        return m_xData[ 0 ];
+    }
+
+    GLToy_List Tail()
+    {
+        GLToy_List xTail;
+        xTail.RemoveAt( 0 );
+        return xTail;
+    }
+
+    void RemoveHead()
+    {
+        RemoveAt( 0 );
+    }
+
 protected:
 
     virtual GLToy_ListNode< T >& GetNode( const u_int uIndex )

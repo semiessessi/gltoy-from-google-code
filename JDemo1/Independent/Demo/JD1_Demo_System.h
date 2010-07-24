@@ -28,11 +28,50 @@
 #define __JD1_DEMO_SYSTEM_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// F O R W A R D   D E C L A R A T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+template < class T > class GLToy_List;
+class JD1_DemoScene;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+enum JD1_Demo_Transition
+{
+	JD1_DEMO_CUT
+};
+
 class JD1_Demo_System
 {
+
+public:
+
+    static bool Initialise();
+	static void Shutdown();
+
+    static void Render();
+	static void Update();
+
+    static float GetDemoTimer() { return s_fTimer; }
+    static void Queue( JD1_DemoScene* const pxScene, const float fRunTime = -1.0f, const JD1_Demo_Transition eTransition = JD1_DEMO_CUT, const float fTransitionTime = 0.0f );
+
+private:
+
+    struct JD1_DemoQueueItem
+    {
+
+        JD1_DemoScene* m_pxScene;
+        float m_fRunTime;
+        JD1_Demo_Transition m_eTransition;
+        float m_fTransitionTime;
+
+    };
+
+    static float s_fTimer;
+    static GLToy_List< JD1_DemoQueueItem > s_xQueue;
+
 };
 
 #endif

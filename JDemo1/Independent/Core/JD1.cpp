@@ -28,6 +28,7 @@
 #include <Core/JD1.h>
 
 // JD1
+#include <Demo/JD1_Demo_System.h>
 #include <Sound/JD1_Sound_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,16 +40,19 @@ bool JD1::Initialise()
     GLToy::ChangeWindowTitle( "JDemo 1" );
 
 	GLToy_InitialiserCall( JD1_Sound_System );
+    GLToy_InitialiserCall( JD1_Demo_System );
 
     return true;
 }
 
 void JD1::Shutdown()
 {
-	JD1_Sound_System::Shutdown();
+	JD1_Demo_System::Shutdown();
+    JD1_Sound_System::Shutdown();
 }
 
 void JD1::Update()
 {
+    JD1_Demo_System::Update();
 	JD1_Sound_System::Update();
 }
