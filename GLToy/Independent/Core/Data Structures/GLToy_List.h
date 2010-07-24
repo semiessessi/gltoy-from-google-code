@@ -309,7 +309,7 @@ public:
         }
     }
 
-    void DeleteAll()
+    void Clear()
     {
         GLToy_ListNode< T >* pxNode = m_xData.m_pxTail;
         const u_int uCount = m_bEmpty ? 0 : m_xData.GetCount();

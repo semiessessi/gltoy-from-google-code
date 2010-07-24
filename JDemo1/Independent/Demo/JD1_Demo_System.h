@@ -71,6 +71,7 @@ private:
 
     static float s_fTimer;
     static GLToy_List< JD1_DemoQueueItem > s_xQueue;
+    static GLToy_List< JD1_DemoQueueItem > s_xDeleteList;
 
 };
 

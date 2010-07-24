@@ -46,6 +46,7 @@
 
 float JD1_Demo_System::s_fTimer = 0.0f;
 GLToy_List< JD1_Demo_System::JD1_DemoQueueItem > JD1_Demo_System::s_xQueue;
+GLToy_List< JD1_Demo_System::JD1_DemoQueueItem > JD1_Demo_System::s_xDeleteList;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -53,7 +54,8 @@ GLToy_List< JD1_Demo_System::JD1_DemoQueueItem > JD1_Demo_System::s_xQueue;
 
 bool JD1_Demo_System::Initialise()
 {
-    s_xQueue.DeleteAll();
+    s_xQueue.Clear();
+    s_xDeleteList.Clear();
     s_fTimer = 0.0f;
 
     return true;
@@ -61,7 +63,18 @@ bool JD1_Demo_System::Initialise()
 
 void JD1_Demo_System::Shutdown()
 {
-    s_xQueue.DeleteAll();
+    GLToy_Iterate( JD1_DemoQueueItem, xIterator, &s_xQueue )
+    {
+        delete xIterator.Current().m_pxScene;
+    }
+
+    GLToy_Iterate( JD1_DemoQueueItem, xIterator, &s_xDeleteList )
+    {
+        delete xIterator.Current().m_pxScene;
+    }
+
+    s_xQueue.Clear();
+    s_xDeleteList.Clear();
 }
 
 void JD1_Demo_System::Render()
@@ -74,7 +87,8 @@ void JD1_Demo_System::Render()
     JD1_DemoQueueItem& xQueueItem = s_xQueue.Head();
 
     const float fTimeToTransition = xQueueItem.m_fRunTime - xQueueItem.m_fTransitionTime;
-    if( ( s_fTimer > fTimeToTransition )
+    if( ( xQueueItem.m_fRunTime > 0.0f )
+        && ( s_fTimer > fTimeToTransition )
         && ( xQueueItem.m_eTransition != JD1_DEMO_CUT )
         && ( s_xQueue.GetCount() > 1 ) )
     {
@@ -97,7 +111,8 @@ void JD1_Demo_System::Update()
 
     JD1_DemoQueueItem& xQueueItem = s_xQueue.Head();
 
-    if( s_fTimer > xQueueItem.m_fRunTime )
+    if( ( xQueueItem.m_fRunTime > 0.0f )
+        && ( s_fTimer > xQueueItem.m_fRunTime ) )
     {
         if( xQueueItem.m_pxScene )
         {
@@ -106,7 +121,9 @@ void JD1_Demo_System::Update()
 
         s_fTimer = 0.0f;
 
+        s_xDeleteList.Append( xQueueItem );
         s_xQueue.RemoveHead();
+
         if( s_xQueue.IsEmpty() )
         {
             return;
@@ -132,6 +149,8 @@ void JD1_Demo_System::Queue(
     const JD1_Demo_Transition eTransition,
     const float fTransitionTime )
 {
+    GLToy_Assert( pxScene != NULL, "Null pointer to scene passed in to JD1_Demo_System::Queue!" );
+
     JD1_DemoQueueItem xItem =
     {
         pxScene,
@@ -141,4 +160,6 @@ void JD1_Demo_System::Queue(
     };
 
     s_xQueue.Append( xItem );
+
+    pxScene->Initialise();
 }

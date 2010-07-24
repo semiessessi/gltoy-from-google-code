@@ -53,8 +53,8 @@ public:
 
 	virtual ~JD1_DemoScene() {}
 
-	virtual void Start();
-	virtual void Stop();
+    virtual void Start() {}
+    virtual void Stop() {}
 
 protected:
 

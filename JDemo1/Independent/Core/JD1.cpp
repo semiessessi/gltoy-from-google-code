@@ -33,6 +33,7 @@
 
 // JD1
 #include <Demo/JD1_Demo_System.h>
+#include <Demo/JD1_DemoScene_Test.h>
 #include <Sound/JD1_Sound_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,6 +46,8 @@ bool JD1::Initialise()
 
 	GLToy_InitialiserCall( JD1_Sound_System );
     GLToy_InitialiserCall( JD1_Demo_System );
+
+    JD1_Demo_System::Queue( new JD1_DemoScene_Test() );
 
     return true;
 }

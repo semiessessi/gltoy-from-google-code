@@ -33,12 +33,29 @@
 // This file's headers
 #include <Demo/JD1_DemoScene_Test.h>
 
+// GLToy
+#include <Render/GLToy_Raytrace_Fullscreen.h>
+#include <Render/GLToy_Texture.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+void JD1_DemoScene_Test::Initialise()
+{
+    GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid1.png" ) );
+}
+
+void JD1_DemoScene_Test::Shutdown()
+{
+}
+
 void JD1_DemoScene_Test::Render() const
 {
+    GLToy_Raytrace_Fullscreen xRaytrace( GLToy_Hash_Constant( "JD1_Raytrace_Tunnel" ) );
+
+    xRaytrace.BindTexture( "xTexture", GLToy_Hash_Constant( "generic/grid1.png" ) );
+    xRaytrace.Render();
 }
 
 void JD1_DemoScene_Test::Update()

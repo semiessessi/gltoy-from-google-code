@@ -44,6 +44,9 @@ class JD1_DemoScene_Test
 
 public:
 
+    virtual void Initialise();
+    virtual void Shutdown();
+
     virtual void Render() const;
     virtual void Update();
 
