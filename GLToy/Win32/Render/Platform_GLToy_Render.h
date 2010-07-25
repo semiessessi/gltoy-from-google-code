@@ -58,6 +58,8 @@ public:
     static void BeginRender();
     static void EndRender();
 
+    static void SetVsyncEnabled( const bool bEnabled );
+
     // shader functions
     static bool IsShader( const u_int uID );
     static u_int CreateFragmentShader();
@@ -154,6 +156,9 @@ private:
 
     static u_int s_uVersion;
 
+    // wgl functions
+    static void ( __stdcall* s_pfnSwapInterval )( u_int );
+    // shader functions
     static u_int ( __stdcall* s_pfnIsShader )( u_int );
     static u_int ( __stdcall* s_pfnCreateShader )( u_int );
     static u_int ( __stdcall* s_pfnCreateProgram )();

@@ -114,7 +114,10 @@ bool GLToy::Resize( const int& iWidth, const int& iHeight )
 
 void GLToy::UpdateBuffers()
 {
-    Platform_UpdateBuffers();
+    if( GLToy_Render::IsVSyncEnabled() )
+    {
+        Platform_UpdateBuffers();
+    }
 }
 
 bool GLToy::Initialise()

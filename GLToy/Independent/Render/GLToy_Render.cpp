@@ -54,6 +54,7 @@
 float GLToy_Render::s_fFOV = 90.0f;
 float GLToy_Render::s_fAspectRatio = 1.0f;
 bool GLToy_Render::s_bDrawFPS = GLToy_IsDebugBuild();
+bool GLToy_Render::s_bVsync = true;
 GLToy_BinaryTree< const GLToy_Renderable*, float > GLToy_Render::s_xTransparents;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,6 +79,9 @@ bool GLToy_Render::Initialise()
     }
 
     GLToy_Console::RegisterVariable( "showfps", &s_bDrawFPS );
+    GLToy_Console::RegisterCommand( "vsync", SetVsyncEnabled );
+
+    SetVsyncEnabled( s_bVsync );
 
     return true;
 }
@@ -424,6 +428,14 @@ void GLToy_Render::SetCCWFaceWinding()
 void GLToy_Render::SetCWFaceWinding()
 {
     Platform_GLToy_Render::SetCWFaceWinding();
+}
+
+void GLToy_Render::SetVsyncEnabled( const bool bEnabled )
+{
+    s_bVsync = bEnabled;
+    // pretend this is a console variable
+    GLToy_Console::Print( GLToy_String( "vsync is set to " ) + ( bEnabled ? "true" : "false" ) );
+    Platform_GLToy_Render::SetVsyncEnabled( bEnabled );
 }
 
 bool GLToy_Render::IsShader( const u_int uID )

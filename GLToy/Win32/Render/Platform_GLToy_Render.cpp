@@ -58,6 +58,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 u_int Platform_GLToy_Render::s_uVersion = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnSwapInterval )( u_int ) = 0;
 u_int ( __stdcall* Platform_GLToy_Render::s_pfnIsShader )( u_int ) = 0;
 u_int ( __stdcall* Platform_GLToy_Render::s_pfnCreateShader )( u_int ) = 0;
 u_int ( __stdcall* Platform_GLToy_Render::s_pfnCreateProgram )() = 0;
@@ -138,6 +139,7 @@ bool Platform_GLToy_Render::Initialise()
     }
 
     // fill extensions - they should be set to null if unsupported...
+    s_pfnSwapInterval       = reinterpret_cast< void ( __stdcall* )( u_int ) >(                            wglGetProcAddress( "wglSwapIntervalEXT" ) );
     s_pfnIsShader           = reinterpret_cast< u_int ( __stdcall* )( u_int ) >(                            wglGetProcAddress( "glIsShader" ) );
     s_pfnCreateShader       = reinterpret_cast< u_int ( __stdcall* )( u_int ) >(                            wglGetProcAddress( "glCreateShader" ) );
     s_pfnCreateProgram      = reinterpret_cast< u_int ( __stdcall* )() >(                                   wglGetProcAddress( "glCreateProgram" ) );
@@ -437,11 +439,20 @@ void Platform_GLToy_Render::SetCWFaceWinding()
     glFrontFace( GL_CW );
 }
 
+void Platform_GLToy_Render::SetVsyncEnabled( const bool bEnabled )
+{
+    if( s_pfnSwapInterval )
+    {
+        s_pfnSwapInterval( bEnabled ? 1 : 0 );
+    }
+
+    glDrawBuffer( bEnabled ? GL_BACK : GL_FRONT );
+}
+
 bool Platform_GLToy_Render::IsShader( const u_int uID )
 {
     return s_pfnIsShader( uID ) == GL_TRUE;
 }
-
 
 u_int Platform_GLToy_Render::CreateFragmentShader()
 {

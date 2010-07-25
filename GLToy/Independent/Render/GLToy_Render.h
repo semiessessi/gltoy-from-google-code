@@ -147,6 +147,9 @@ public:
     static void SetCCWFaceWinding();
     static void SetCWFaceWinding();
 
+    static void SetVsyncEnabled( const bool bEnabled );
+    static bool IsVSyncEnabled() { return s_bVsync; }
+
     // shader functions
     static bool IsShader( const u_int uID );
     static u_int CreateFragmentShader();
@@ -199,6 +202,7 @@ private:
     static float s_fFOV;
     static float s_fAspectRatio;
     static bool s_bDrawFPS;
+    static bool s_bVsync;
 
     static GLToy_BinaryTree< const GLToy_Renderable*, float > s_xTransparents;
 
