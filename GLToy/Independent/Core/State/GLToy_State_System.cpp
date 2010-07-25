@@ -39,6 +39,7 @@
 #include <Core/State/GLToy_State.h>
 #include <Core/State/GLToy_State_Editor.h>
 #include <Core/State/GLToy_State_EditorFrontEnd.h>
+#include <Core/State/GLToy_State_FixedCamera.h>
 #include <Core/State/GLToy_State_Splash.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,6 +60,7 @@ bool GLToy_State_System::Initialise()
 
     RegisterState( new GLToy_State_EditorFrontEnd(), GLToy_Hash_Constant( "EditorFrontEnd" ) );
     RegisterState( new GLToy_State_Editor(), GLToy_Hash_Constant( "Editor" ) );
+    RegisterState( new GLToy_State_FixedCamera(), GLToy_Hash_Constant( "FixedCamera" ) );
     RegisterState( new GLToy_State_Splash(), GLToy_Hash_Constant( "Splash" ) );
 
     GLToy_Console::RegisterCommand( "changestate", ChangeState_Console );

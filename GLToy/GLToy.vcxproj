@@ -135,6 +135,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Independent\Core\State\GLToy_State_FixedCamera.cpp" />
     <ClCompile Include="Independent\Render\GLToy_Raytrace_Fullscreen.cpp" />
     <ClCompile Include="Win32\Core\Platform_GLToy.cpp" />
     <ClCompile Include="Win32\Core\Platform_GLToy_Assert.cpp" />
@@ -227,6 +228,7 @@
     <ClCompile Include="Independent\Physics\GLToy_Physics_System.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Independent\Core\State\GLToy_State_FixedCamera.h" />
     <ClInclude Include="Independent\Render\GLToy_Raytrace_Fullscreen.h" />
     <ClInclude Include="Win32\Core\Platform_GLToy.h" />
     <ClInclude Include="Win32\Core\Platform_GLToy_Timer.h" />

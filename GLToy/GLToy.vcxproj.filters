@@ -381,6 +381,9 @@
     <ClCompile Include="Independent\Render\GLToy_Raytrace_Fullscreen.cpp">
       <Filter>Independent\Render</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Core\State\GLToy_State_FixedCamera.cpp">
+      <Filter>Independent\Core\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
@@ -700,6 +703,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Render\GLToy_Raytrace_Fullscreen.h">
       <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\State\GLToy_State_FixedCamera.h">
+      <Filter>Independent\Core\State</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

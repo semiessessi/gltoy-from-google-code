@@ -28,45 +28,26 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <Core/GLToy.h>
+
 // This file's header
-#include <Core/JD1.h>
+#include <Core/State/GLToy_State_FixedCamera.h>
 
 // GLToy
-#include <Core/State/GLToy_State_System.h>
-
-// JD1
-#include <Demo/JD1_Demo_System.h>
-#include <Demo/JD1_DemoScene_Test.h>
-#include <Demo/JD1_DemoScene_Tunnel.h>
-#include <Sound/JD1_Sound_System.h>
+#include <Environment/GLToy_Environment_System.h>
+#include <Entity/GLToy_Entity_System.h>
+#include <Render/GLToy_Camera.h>
+#include <UI/GLToy_UI_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool JD1::Initialise()
+void GLToy_State_FixedCamera::Initialise()
 {
-    GLToy::ChangeWindowTitle( "JDemo 1" );
+    GLToy_UI_System::ShowPointer( false );
+    GLToy_Camera::SetLocked( true );
 
-	GLToy_InitialiserCall( JD1_Sound_System );
-    GLToy_InitialiserCall( JD1_Demo_System );
-
-    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "FixedCamera" ) );
-
-    JD1_Demo_System::Queue( new JD1_DemoScene_Test(), 5.0f );
-    JD1_Demo_System::Queue( new JD1_DemoScene_Tunnel(), -1.0f );
-
-    return true;
-}
-
-void JD1::Shutdown()
-{
-	JD1_Demo_System::Shutdown();
-    JD1_Sound_System::Shutdown();
-}
-
-void JD1::Update()
-{
-    JD1_Demo_System::Update();
-	JD1_Sound_System::Update();
+    GLToy_Entity_System::SetRender( false );
+    GLToy_Environment_System::SetRender( false );
 }

@@ -24,49 +24,32 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __GLTOY_STATE_FIXEDCAMERA_H_
+#define __GLTOY_STATE_FIXEDCAMERA_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// This file's header
-#include <Core/JD1.h>
-
 // GLToy
-#include <Core/State/GLToy_State_System.h>
-
-// JD1
-#include <Demo/JD1_Demo_System.h>
-#include <Demo/JD1_DemoScene_Test.h>
-#include <Demo/JD1_DemoScene_Tunnel.h>
-#include <Sound/JD1_Sound_System.h>
+#include <Core/State/GLToy_State.h>
+#include <String/GLToy_String.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool JD1::Initialise()
+class GLToy_State_FixedCamera
+: public GLToy_State
 {
-    GLToy::ChangeWindowTitle( "JDemo 1" );
 
-	GLToy_InitialiserCall( JD1_Sound_System );
-    GLToy_InitialiserCall( JD1_Demo_System );
+public:
 
-    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "FixedCamera" ) );
+    virtual const GLToy_String& GetName() const { static GLToy_String ls_szName = "FixedCamera"; return ls_szName; }
 
-    JD1_Demo_System::Queue( new JD1_DemoScene_Test(), 5.0f );
-    JD1_Demo_System::Queue( new JD1_DemoScene_Tunnel(), -1.0f );
+    virtual void Initialise();
 
-    return true;
-}
+    virtual bool IsDone() const { return false; }
+};
 
-void JD1::Shutdown()
-{
-	JD1_Demo_System::Shutdown();
-    JD1_Sound_System::Shutdown();
-}
-
-void JD1::Update()
-{
-    JD1_Demo_System::Update();
-	JD1_Sound_System::Update();
-}
+#endif

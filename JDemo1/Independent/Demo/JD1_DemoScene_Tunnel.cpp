@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2009, 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -28,45 +28,36 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// This file's header
 #include <Core/JD1.h>
 
-// GLToy
-#include <Core/State/GLToy_State_System.h>
-
-// JD1
-#include <Demo/JD1_Demo_System.h>
-#include <Demo/JD1_DemoScene_Test.h>
+// This file's headers
 #include <Demo/JD1_DemoScene_Tunnel.h>
-#include <Sound/JD1_Sound_System.h>
+
+// GLToy
+#include <Render/GLToy_Raytrace_Fullscreen.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool JD1::Initialise()
+void JD1_DemoScene_Tunnel::Initialise()
 {
-    GLToy::ChangeWindowTitle( "JDemo 1" );
-
-	GLToy_InitialiserCall( JD1_Sound_System );
-    GLToy_InitialiserCall( JD1_Demo_System );
-
-    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "FixedCamera" ) );
-
-    JD1_Demo_System::Queue( new JD1_DemoScene_Test(), 5.0f );
-    JD1_Demo_System::Queue( new JD1_DemoScene_Tunnel(), -1.0f );
-
-    return true;
+    GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid1.png" ) );
 }
 
-void JD1::Shutdown()
+void JD1_DemoScene_Tunnel::Shutdown()
 {
-	JD1_Demo_System::Shutdown();
-    JD1_Sound_System::Shutdown();
 }
 
-void JD1::Update()
+void JD1_DemoScene_Tunnel::Render() const
 {
-    JD1_Demo_System::Update();
-	JD1_Sound_System::Update();
+    GLToy_Raytrace_Fullscreen xRaytrace( GLToy_Hash_Constant( "JD1_Raytrace_Tunnel" ) );
+
+    xRaytrace.BindTexture( "xTexture", GLToy_Hash_Constant( "generic/grid1.png" ) );
+    xRaytrace.Render();
+}
+
+void JD1_DemoScene_Tunnel::Update()
+{
 }

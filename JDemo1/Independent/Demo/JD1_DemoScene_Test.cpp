@@ -43,7 +43,7 @@
 
 void JD1_DemoScene_Test::Initialise()
 {
-    GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid1.png" ) );
+    GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid2.png" ) );
 }
 
 void JD1_DemoScene_Test::Shutdown()
@@ -52,9 +52,9 @@ void JD1_DemoScene_Test::Shutdown()
 
 void JD1_DemoScene_Test::Render() const
 {
-    GLToy_Raytrace_Fullscreen xRaytrace( GLToy_Hash_Constant( "JD1_Raytrace_Tunnel" ) );
+    GLToy_Raytrace_Fullscreen xRaytrace( GLToy_Hash_Constant( "Raytrace_Plane" ) );
 
-    xRaytrace.BindTexture( "xTexture", GLToy_Hash_Constant( "generic/grid1.png" ) );
+    xRaytrace.BindTexture( "xTexture", GLToy_Hash_Constant( "generic/grid2.png" ) );
     xRaytrace.Render();
 }
 

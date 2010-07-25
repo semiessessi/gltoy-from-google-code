@@ -96,6 +96,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Independent\Demo\JD1_DemoScene_Test.cpp" />
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_Tunnel.cpp" />
     <ClCompile Include="Independent\Demo\JD1_Demo_System.cpp" />
     <ClCompile Include="Independent\File\JD1_WaveFile.cpp" />
     <ClCompile Include="Independent\Sound\JD1_Sound.cpp" />
@@ -111,6 +112,7 @@
   <ItemGroup>
     <ClInclude Include="Independent\Demo\JD1_DemoScene.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_Test.h" />
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_Tunnel.h" />
     <ClInclude Include="Independent\Demo\JD1_Demo_System.h" />
     <ClInclude Include="Independent\File\JD1_SoundFile.h" />
     <ClInclude Include="Independent\File\JD1_WaveFile.h" />
