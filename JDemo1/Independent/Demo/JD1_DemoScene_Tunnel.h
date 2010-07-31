@@ -41,6 +41,7 @@
 class JD1_DemoScene_Tunnel
 : public JD1_DemoScene
 {
+    typedef JD1_DemoScene GLToy_Parent;
 
 public:
 

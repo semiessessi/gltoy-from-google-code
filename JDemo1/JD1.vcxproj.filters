@@ -72,6 +72,9 @@
     <ClCompile Include="Independent\Demo\JD1_DemoScene_Tunnel.cpp">
       <Filter>Independent\Demo</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Demo\JD1_DemoScene.cpp">
+      <Filter>Independent\Demo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_JD1.h">

@@ -53,8 +53,10 @@ public:
 
 	virtual ~JD1_DemoScene() {}
 
-    virtual void Start() {}
+    virtual void Start() { m_fTimer = 0.0f; }
     virtual void Stop() {}
+
+    virtual void Update();
 
 protected:
 

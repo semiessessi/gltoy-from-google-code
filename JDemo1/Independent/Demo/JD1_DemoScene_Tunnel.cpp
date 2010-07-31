@@ -34,6 +34,7 @@
 #include <Demo/JD1_DemoScene_Tunnel.h>
 
 // GLToy
+#include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Raytrace_Fullscreen.h>
 #include <Render/GLToy_Texture.h>
 
@@ -43,7 +44,7 @@
 
 void JD1_DemoScene_Tunnel::Initialise()
 {
-    GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid1.png" ) );
+    GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid2.png" ) );
 }
 
 void JD1_DemoScene_Tunnel::Shutdown()
@@ -54,10 +55,16 @@ void JD1_DemoScene_Tunnel::Render() const
 {
     GLToy_Raytrace_Fullscreen xRaytrace( GLToy_Hash_Constant( "JD1_Raytrace_Tunnel" ) );
 
-    xRaytrace.BindTexture( "xTexture", GLToy_Hash_Constant( "generic/grid1.png" ) );
+    xRaytrace.BindTexture( "xTexture", GLToy_Hash_Constant( "generic/grid2.png" ) );
     xRaytrace.Render();
 }
 
 void JD1_DemoScene_Tunnel::Update()
 {
+    GLToy_Parent::Update();
+
+    GLToy_Camera::SetPosition( GLToy_Vector_3(
+        32.0f * GLToy_Maths::Cos( m_fTimer * 0.5f ), 
+        32.0f * GLToy_Maths::Sin( m_fTimer * 0.5f ),
+        m_fTimer * 100.0f ) );
 }
