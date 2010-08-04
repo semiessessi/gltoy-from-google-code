@@ -85,7 +85,7 @@ public:
         // increment m_uCount then make sure memory is allocated before setting the new entry
         ++m_uCount;
         CheckAlloc( m_uCount );
-        new ( &( m_pxData[ m_uCount - 1 ] ) ) T( xValue );
+        new ( &( GLToy_Parent::m_pxData[ m_uCount - 1 ] ) ) T( xValue );
     }
     
     virtual void Append( const GLToy_Array& xValues )
@@ -99,7 +99,7 @@ public:
 
         for( u_int i = 0; i < xValues.m_uCount; ++i )
         {
-            new ( &( m_pxData[ uOldCount + i ] ) ) T( xValues.m_pxData[ i ] );
+            new ( &( GLToy_Parent::m_pxData[ uOldCount + i ] ) ) T( xValues.GLToy_Parent::m_pxData[ i ] );
         }
     }
     
@@ -110,16 +110,16 @@ public:
         CheckAlloc( m_uCount );
 
         // make sure to construct the new entry
-        new ( &( m_pxData[ m_uCount - 1 ] ) ) T( m_pxData[ m_uCount - 2 ] );
+        new ( &( GLToy_Parent::m_pxData[ m_uCount - 1 ] ) ) T( GLToy_Parent::m_pxData[ m_uCount - 2 ] );
 
         // move the existing xValues along to make room
         for( int i = m_uCount - 2; i > iIndex; --i )
         {
-            m_pxData[ i ] = m_pxData[ i - 1 ];
+            GLToy_Parent::m_pxData[ i ] = GLToy_Parent::m_pxData[ i - 1 ];
         }
 
         // set the new value
-        m_pxData[ iIndex ] = xValue;
+        GLToy_Parent::m_pxData[ iIndex ] = xValue;
     }
     
     virtual void RemoveAt( const int iIndex, const u_int uAmount = 1 )
@@ -133,13 +133,13 @@ public:
         m_uCount -= uActualAmount;
         for( u_int i = iIndex; i < m_uCount; ++i )
         {
-            m_pxData[ i ] = m_pxData[ i + uActualAmount ];
+            GLToy_Parent::m_pxData[ i ] = GLToy_Parent::m_pxData[ i + uActualAmount ];
         }
 
         // be careful to destroy the now unused entries
         for( u_int u = m_uCount; u < m_uCount + uActualAmount; ++u )
         {
-            m_pxData[ u ].~T();
+            GLToy_Parent::m_pxData[ u ].~T();
         }
     }
     
@@ -156,7 +156,7 @@ public:
         // be careful to destroy the now unused entries
         for( u_int u = m_uCount; u < m_uCount + uActualAmount; ++u )
         {
-            m_pxData[ u ].~T();
+            GLToy_Parent::m_pxData[ u ].~T();
         }
     }
 
@@ -166,7 +166,7 @@ public:
         {
             for( u_int u = uCount; u < m_uCount; ++u )
             {
-                m_pxData[ u ].~T();
+                GLToy_Parent::m_pxData[ u ].~T();
             }
         }
         else
@@ -174,7 +174,7 @@ public:
             CheckAlloc( uCount );
             for( u_int u = m_uCount; u < uCount; ++u )
             {
-                new ( &( m_pxData[ u ] ) ) T;
+                new ( &( GLToy_Parent::m_pxData[ u ] ) ) T;
             }
         }
 
@@ -193,12 +193,12 @@ public:
     
     T& Start()
     {
-        return m_pxData[ 0 ];
+        return GLToy_Parent::m_pxData[ 0 ];
     }
     
     T& End()
     {
-        return m_pxData[ m_uCount - 1 ];
+        return GLToy_Parent::m_pxData[ m_uCount - 1 ];
     }
     
     void Clear()
@@ -206,7 +206,7 @@ public:
         // be careful to destroy the now unused entries
         for( u_int u = 0; u < m_uCount; ++u )
         {
-            m_pxData[ u ].~T();
+            GLToy_Parent::m_pxData[ u ].~T();
         }
 
         m_uCount = 0;
@@ -454,17 +454,17 @@ public:
     {
     }
     
-    GLToy_SerialisableArray( const GLToy_Array& xArray )
+    GLToy_SerialisableArray( const GLToy_Array< T >& xArray )
     : GLToy_Parent( xArray )
     {
         CopyFrom( &xArray );
-        m_uCount = xArray.m_uCount;
+        GLToy_Parent::m_uCount = xArray.m_uCount;
     }
     
     GLToy_SerialisableArray& operator =( const GLToy_DataStructure< T >& xDataStructure )
     {
         CopyFrom( &xDataStructure );
-        m_uCount = xDataStructure.GetCount();
+        GLToy_Parent::m_uCount = xDataStructure.GetCount();
 
         return *this;
     }
@@ -509,6 +509,8 @@ class GLToy_SerialisableIndirectArray
 , public GLToy_Serialisable
 {
 
+    typedef GLToy_IndirectArray< T > GLToy_Parent;
+
 public:
     
     template < class Derived >
@@ -546,7 +548,7 @@ public:
     {
         xStream << GetCount();
 
-        GLToy_ConstIterate( T*, xIterator, &m_xArray )
+        GLToy_ConstIterate( T*, xIterator, &GLToy_Parent::m_xArray )
         {
             xStream << xIterator.Current();
         }

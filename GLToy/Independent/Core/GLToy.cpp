@@ -37,7 +37,9 @@
 #include <Core/GLToy_Timer.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment_System.h>
+#ifdef GLTOY_USE_FRIDGESCRIPT
 #include <FridgeScript/GLToy_FridgeScript.h>
+#endif
 #include <Input/GLToy_Input.h>
 #include <Maths/GLToy_Maths.h>
 #include <Model/GLToy_Model_System.h>
@@ -251,7 +253,7 @@ void GLToy::DebugOutput( const char* szFormatString, ... )
     va_list xArgumentList;
 
     va_start( xArgumentList, szFormatString );
-    int iMessageLength = _vscprintf( szFormatString, xArgumentList ) + 1;
+    //int iMessageLength = _vscprintf( szFormatString, xArgumentList ) + 1;
 
     vsprintf( szDebugMessageBuffer, /* iMessageLength, */ szFormatString, xArgumentList );
 

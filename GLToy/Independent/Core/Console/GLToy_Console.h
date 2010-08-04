@@ -38,6 +38,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+class GLToy_Console_KeyInputHandler;
 class GLToy_ConsoleCommand;
 template < class T > class GLToy_HashTree;
 class GLToy_Font;

@@ -32,8 +32,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // these should always come first
-#include <Core/GLToy_Config.h>
 #include <Core/Platform_GLToy.h>
+#include <Core/GLToy_Config.h>
 
 // core
 #include <Core/GLToy_Assert.h>
