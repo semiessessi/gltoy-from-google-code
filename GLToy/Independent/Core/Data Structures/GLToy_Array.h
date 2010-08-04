@@ -548,7 +548,7 @@ public:
     {
         xStream << GetCount();
 
-        GLToy_ConstIterate( T*, xIterator, &GLToy_Parent::m_xArray )
+        GLToy_ConstIterate( T*, xIterator, &(GLToy_Parent::m_xArray) )
         {
             xStream << xIterator.Current();
         }

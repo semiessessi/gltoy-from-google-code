@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -64,7 +64,7 @@ void JD1_DemoScene_Tunnel::Update()
     GLToy_Parent::Update();
 
     GLToy_Camera::SetPosition( GLToy_Vector_3(
-        32.0f * GLToy_Maths::Cos( m_fTimer * 0.5f ), 
-        32.0f * GLToy_Maths::Sin( m_fTimer * 0.5f ),
-        m_fTimer * 100.0f ) );
+        40.0f * GLToy_Maths::Cos( m_fTimer * 0.5f ), 
+        40.0f * GLToy_Maths::Sin( m_fTimer * 0.5f ),
+        m_fTimer * 150.0f ) );
 }
