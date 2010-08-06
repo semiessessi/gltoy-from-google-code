@@ -53,7 +53,6 @@ ARGV.each do | szArgument |
     if bSwitch
         case szSwitch
             when /"help"|h|\?/
-                puts "GLToy Project Tool"
                 puts ""
                 puts "Creates files based on GLToy"
                 puts ""
