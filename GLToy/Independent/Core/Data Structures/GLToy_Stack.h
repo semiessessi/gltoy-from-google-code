@@ -70,20 +70,20 @@ public:
         
         CheckAlloc( m_iStackPointer + 1 );
         
-        new ( &( m_pxData[ m_iStackPointer ] ) ) T( xValue );
+        new ( &( GLToy_Parent::m_pxData[ m_iStackPointer ] ) ) T( xValue );
 
-        return m_pxData[ m_iStackPointer ];
+        return GLToy_Parent::m_pxData[ m_iStackPointer ];
     }
 
     T& Peek()
     {
-        return m_pxData[ m_iStackPointer ];
+        return GLToy_Parent::m_pxData[ m_iStackPointer ];
     }
     
     T Pop()
     {
-        T xReturnValue = m_pxData[ m_iStackPointer ];
-        m_pxData[ m_iStackPointer ].~T();
+        T xReturnValue = GLToy_Parent::m_pxData[ m_iStackPointer ];
+        GLToy_Parent::m_pxData[ m_iStackPointer ].~T();
         return xReturnValue;
     }
     
@@ -94,7 +94,7 @@ public:
         // be careful to destroy the now unused entries
         for( int i = 0; i <= m_iStackPointer; ++i )
         {
-            m_pxData[ i ].~T();
+            GLToy_Parent::m_pxData[ i ].~T();
         }
     }
     

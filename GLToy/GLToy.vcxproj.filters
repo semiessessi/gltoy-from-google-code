@@ -109,6 +109,12 @@
     <Filter Include="Independent\Physics">
       <UniqueIdentifier>{e0570b97-fd25-4b22-a86d-93eb85b887f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Linux">
+      <UniqueIdentifier>{7f6a3c82-674d-438f-a0ac-418b911ec94e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Linux\Core">
+      <UniqueIdentifier>{08fa3d95-abf7-4503-bd7e-385484334283}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_GLToy.cpp">
@@ -383,6 +389,9 @@
     </ClCompile>
     <ClCompile Include="Independent\Core\State\GLToy_State_FixedCamera.cpp">
       <Filter>Independent\Core\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Linux\Core\Platform_GLToy.cpp">
+      <Filter>Linux\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -706,6 +715,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Core\State\GLToy_State_FixedCamera.h">
       <Filter>Independent\Core\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Linux\Core\Platform_GLToy.h">
+      <Filter>Linux\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

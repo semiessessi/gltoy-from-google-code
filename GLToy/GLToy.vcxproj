@@ -137,6 +137,11 @@
   <ItemGroup>
     <ClCompile Include="Independent\Core\State\GLToy_State_FixedCamera.cpp" />
     <ClCompile Include="Independent\Render\GLToy_Raytrace_Fullscreen.cpp" />
+    <ClCompile Include="Linux\Core\Platform_GLToy.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Win32\Core\Platform_GLToy.cpp" />
     <ClCompile Include="Win32\Core\Platform_GLToy_Assert.cpp" />
     <ClCompile Include="Win32\Core\Platform_GLToy_Timer.cpp" />
@@ -230,6 +235,11 @@
   <ItemGroup>
     <ClInclude Include="Independent\Core\State\GLToy_State_FixedCamera.h" />
     <ClInclude Include="Independent\Render\GLToy_Raytrace_Fullscreen.h" />
+    <ClInclude Include="Linux\Core\Platform_GLToy.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Win32\Core\Platform_GLToy.h" />
     <ClInclude Include="Win32\Core\Platform_GLToy_Timer.h" />
     <ClInclude Include="Win32\Render\Platform_GLToy_Render.h" />

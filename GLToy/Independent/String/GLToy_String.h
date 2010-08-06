@@ -175,7 +175,7 @@ public:
     {
         for( u_int u = 0; u < xString.GetLength(); ++u )
         {
-            if( xString[ u ] != m_pxData[ u ] )
+            if( xString[ u ] != GLToy_Parent::m_pxData[ u ] )
             {
                 return false;
             }
@@ -189,7 +189,7 @@ public:
         const u_int uOffset = GetLength() - xString.GetLength();
         for( u_int u = 0; u < xString.GetLength(); ++u )
         {
-            if( xString[ u ] != m_pxData[ u + uOffset ] )
+            if( xString[ u ] != GLToy_Parent::m_pxData[ u + uOffset ] )
             {
                 return false;
             }
@@ -208,10 +208,10 @@ public:
     {
         u_int uRet = 0;
         u_int u = 0;
-        while( IsDigit( m_pxData[ uPosition + u ] ) )
+        while( IsDigit( GLToy_Parent::m_pxData[ uPosition + u ] ) )
         {
             uRet *= 10;
-            uRet += ( m_pxData[ uPosition + u ] - L'0' );
+            uRet += ( GLToy_Parent::m_pxData[ uPosition + u ] - L'0' );
             ++u;
         }
 
@@ -224,17 +224,17 @@ public:
     {
         GLToy_String xReturnValue;
         u_int u = 0;
-        while( ( m_pxData[ u ] != L' ' )
-            && ( m_pxData[ u ] != L'\n' )
-            && ( m_pxData[ u ] != L'\r' )
-            && ( m_pxData[ u ] != L'\t' )
-            && m_pxData[ u ] )
+        while( ( GLToy_Parent::m_pxData[ u ] != L' ' )
+            && ( GLToy_Parent::m_pxData[ u ] != L'\n' )
+            && ( GLToy_Parent::m_pxData[ u ] != L'\r' )
+            && ( GLToy_Parent::m_pxData[ u ] != L'\t' )
+            && GLToy_Parent::m_pxData[ u ] )
         {
-            xReturnValue += m_pxData[ u ];
+            xReturnValue += GLToy_Parent::m_pxData[ u ];
             ++u;
         }
 
-        if( m_pxData[ u ] == '\r' && m_pxData[ u + 1 ] == '\n' )
+        if( GLToy_Parent::m_pxData[ u ] == '\r' && GLToy_Parent::m_pxData[ u + 1 ] == '\n' )
         {
             ++u;
         }
@@ -258,9 +258,9 @@ public:
 
         GLToy_String xReturnValue;
         u_int u = 0;
-        while( ( m_pxData[ u ] != wcChar ) && m_pxData[ u ] )
+        while( ( GLToy_Parent::m_pxData[ u ] != wcChar ) && GLToy_Parent::m_pxData[ u ] )
         {
-            xReturnValue += m_pxData[ u ];
+            xReturnValue += GLToy_Parent::m_pxData[ u ];
             ++u;
         }
 
@@ -278,15 +278,15 @@ public:
     {
         GLToy_String xReturnValue;
         u_int u = 0;
-        while( ( m_pxData[ u ] != L'\n' )
-            && ( m_pxData[ u ] != L'\r' )
-            && m_pxData[ u ] )
+        while( ( GLToy_Parent::m_pxData[ u ] != L'\n' )
+            && ( GLToy_Parent::m_pxData[ u ] != L'\r' )
+            && GLToy_Parent::m_pxData[ u ] )
         {
-            xReturnValue += m_pxData[ u ];
+            xReturnValue += GLToy_Parent::m_pxData[ u ];
             ++u;
         }
 
-        if( m_pxData[ u ] == '\r' && m_pxData[ u + 1 ] == '\n' )
+        if( GLToy_Parent::m_pxData[ u ] == '\r' && GLToy_Parent::m_pxData[ u + 1 ] == '\n' )
         {
             ++u;
         }
@@ -360,7 +360,7 @@ public:
     {
         for( u_int u = 0; u < GetLength(); ++u )
         {
-            if( !IsWhiteSpace( m_pxData[ u ] ) )
+            if( !IsWhiteSpace( GLToy_Parent::m_pxData[ u ] ) )
             {
                 return false;
             }
@@ -371,7 +371,7 @@ public:
 
     GLToy_Inline void TrimLeadingWhiteSpace()
     {
-        while( IsWhiteSpace( m_pxData[ 0 ] ) )
+        while( IsWhiteSpace( GLToy_Parent::m_pxData[ 0 ] ) )
         {
             RemoveAt( 0 );
         }
@@ -381,7 +381,7 @@ public:
     {
         for( u_int u = 0; u < GetLength(); ++u )
         {
-            if( IsWhiteSpace( m_pxData[ u ] ) )
+            if( IsWhiteSpace( GLToy_Parent::m_pxData[ u ] ) )
             {
                 RemoveAt( u );
                 --u;
