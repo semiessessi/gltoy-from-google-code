@@ -119,7 +119,8 @@ void GLToy_EntityFile::Save( const GLToy_String& szFilename )
 
     xStream << GLToy_HeaderBytes( "ENTS" );
 
-    GLToy_Entity_System::Traverse( GLToy_EntitySaveFunctor( xStream ) );
+    GLToy_EntitySaveFunctor xFunctor( xStream );
+    GLToy_Entity_System::Traverse(  xFunctor );
 
     GLToy_EntityFile( szFilename ).WriteFromBitStream( xStream );
 

@@ -69,7 +69,7 @@ protected:
 template< class T >
 class GLToy_Iterator
 {
-
+	    
 public:
 
     GLToy_Iterator( GLToy_DataStructure< T >* const pxDataStructure )
@@ -88,6 +88,10 @@ protected:
 
     GLToy_DataStructure< T >* m_pxDataStructure;
     int m_iIndex;
+
+private:
+
+    GLToy_Iterator( const GLToy_Iterator& ) {}
 
 };
 
@@ -113,6 +117,10 @@ protected:
 
     const GLToy_DataStructure< T >* m_pxDataStructure;
     int m_iIndex;
+
+private:
+
+    GLToy_ConstIterator( const GLToy_ConstIterator& ) {}
 
 };
 

@@ -725,7 +725,7 @@ void GLToy_Physics_System::ResetCollisions()
             ( *ppxObject )->ResetCollisions();
         }
 
-    };
+    } xFunctor;
 
-    s_xPhysicsObjects.Traverse( CollisionResetFunctor() );
+    s_xPhysicsObjects.Traverse( xFunctor );
 }

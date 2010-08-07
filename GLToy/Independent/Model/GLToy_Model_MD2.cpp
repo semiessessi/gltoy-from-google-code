@@ -449,7 +449,8 @@ void GLToy_MD2_AnimationStack::Update()
         }
     }
 
-    Traverse( GLToy_UpdateFunctor< GLToy_MD2_AnimationState >() );
+    GLToy_UpdateFunctor< GLToy_MD2_AnimationState > xFunctor;
+    Traverse(  xFunctor );
 }
 
 void GLToy_MD2_AnimationStack::Evaluate( GLToy_Model* const pxModel ) const

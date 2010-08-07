@@ -169,7 +169,8 @@ void GLToy_Texture_System::Shutdown()
         }
     };
 
-    s_xTextures.Traverse( GLToy_TextureShutdownFunctor() );
+    GLToy_TextureShutdownFunctor xFunctor;
+    s_xTextures.Traverse( xFunctor  );
 
     s_xTextures.Clear();
 

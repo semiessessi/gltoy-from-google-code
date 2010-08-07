@@ -45,6 +45,15 @@ template < class T >
 class GLToy_HashTree
 : public GLToy_BinaryTree< T, GLToy_Hash >
 {
+
+    typedef GLToy_BinaryTree< T, GLToy_Hash > GLToy_Parent;
+
+public:
+
+    GLToy_HashTree()
+    : GLToy_Parent()
+    {
+    }
 };
 
 #endif

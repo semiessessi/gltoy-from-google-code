@@ -34,7 +34,10 @@
 #include <String/GLToy_String.h>
 
 // C/C++
+#include <stdarg.h>
 #include <stdio.h>
+#include <string.h>
+#include <wchar.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S

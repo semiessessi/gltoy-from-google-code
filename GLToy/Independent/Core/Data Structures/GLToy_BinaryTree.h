@@ -211,11 +211,14 @@ template < class DataType, class KeyType >
 class GLToy_BinaryTree
 : public GLToy_Tree< DataType >
 {
-
+	
+    typedef GLToy_Tree< DataType > GLToy_Parent;
+	
 public:
 
     GLToy_BinaryTree()
-    : m_pxHead( NULL )
+    : GLToy_Parent()
+    , m_pxHead( NULL )
     {
     }
 
@@ -316,10 +319,13 @@ public:
         : public GLToy_Functor< GLToy_BinaryTreeNode< DataType, KeyType > >
         {
 
+            typedef GLToy_Functor< GLToy_BinaryTreeNode< DataType, KeyType > > GLToy_Parent;
+
         public:
 
             AddFunctor( GLToy_BinaryTree* pxThis )
-            : m_pxThis( pxThis )
+            : GLToy_Parent()
+            , m_pxThis( pxThis )
             {
             }
 
@@ -339,7 +345,8 @@ public:
             m_pxHead = NULL;
         }
         
-        pxNode->TraverseNodes( AddFunctor( this ) );
+	AddFunctor xAddFunctor( this );
+        pxNode->TraverseNodes( xAddFunctor );
 
         delete pxNode;
     }

@@ -332,6 +332,9 @@ protected:
         }
     }
 
+// TODO: it would be nice to protect this...
+public:
+
     GLToy_Array< T* > m_xArray;
 };
 
@@ -512,7 +515,13 @@ class GLToy_SerialisableIndirectArray
     typedef GLToy_IndirectArray< T > GLToy_Parent;
 
 public:
-    
+
+    GLToy_SerialisableIndirectArray()
+    : GLToy_Parent()
+    , GLToy_Serialisable()
+    {
+    }
+
     template < class Derived >
     void ReadFromDerivedBitStream( const GLToy_BitStream& xStream )
     {
@@ -548,7 +557,7 @@ public:
     {
         xStream << GetCount();
 
-        GLToy_ConstIterate( T*, xIterator, &(GLToy_Parent::m_xArray) )
+        GLToy_ConstIterate( T*, xIterator, &( GLToy_Parent::m_xArray ) )
         {
             xStream << xIterator.Current();
         }

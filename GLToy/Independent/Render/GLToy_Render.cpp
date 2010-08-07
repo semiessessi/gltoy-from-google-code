@@ -125,7 +125,8 @@ void GLToy_Render::Render()
     DisableDepthWrites();
 
     // the magic of binary trees draws everything depth sorted
-    s_xTransparents.Traverse( GLToy_IndirectRenderTransparentFunctor< const GLToy_Renderable >() );
+    GLToy_IndirectRenderTransparentFunctor< const GLToy_Renderable > xFunctor;
+    s_xTransparents.Traverse( xFunctor );
 
     // clean up for next frame
     s_xTransparents.Clear();

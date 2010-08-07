@@ -30,7 +30,7 @@ puts "GLToy Project Modify"
 bSync = false
 bLibrary = true
 szProject = "GLToy"
-szCPP = "g++ -fpermissive -w -I./Independent -I./Linux -c"
+szCPP = "g++ -traditional -felide-constructors -fenum-int-equiv -fnonnull-objects -fpermissive -O -w -I./Independent -I./Linux"
 
 ARGV.each do | szArgument |
     
@@ -81,7 +81,9 @@ if not File.directory? szProject
 end
 
 if not bLibrary
-	szCPP = "g++ -fpermissive -w -I./Independent -I./Linux -o #{ szProject }" 
+	szCPP = szCPP + " -o #{ szProject }" 
+else
+	szCPP = szCPP + " -c" 
 end
 
 if bSync

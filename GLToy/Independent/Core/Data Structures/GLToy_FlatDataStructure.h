@@ -55,9 +55,12 @@ class GLToy_FlatDataStructure
 : public GLToy_DataStructure< T >
 {
 
+    typedef GLToy_DataStructure< T > GLToy_Parent;
+
 public:
 
-    GLToy_FlatDataStructure() : GLToy_DataStructure< T >()
+    GLToy_FlatDataStructure()
+    : GLToy_Parent()
     {
         // set up initial memory usage
         m_uSize = uGLTOY_FLATDATASTRUCTURE_START_ALLOC;

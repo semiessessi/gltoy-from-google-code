@@ -93,7 +93,8 @@ void GLToy_Entity_System::Shutdown()
 
 void GLToy_Entity_System::Update()
 {
-    s_xEntities.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Entity >() );
+    GLToy_IndirectUpdateFunctor< GLToy_Entity > xFunctor;
+    s_xEntities.Traverse( xFunctor );
 
     // destroy entities as required
     // TODO - I'm sure this can be optimised...
@@ -113,17 +114,20 @@ void GLToy_Entity_System::Render()
 {
     if( s_bRender )
     {
-        s_xEntities.Traverse( GLToy_IndirectRenderFunctor< GLToy_Entity >() );
+        GLToy_IndirectRenderFunctor< GLToy_Entity > xFunctor;
+        s_xEntities.Traverse( xFunctor  );
     }
 
     if( s_bRenderAABBs )
     {
-        s_xEntities.Traverse( GLToy_IndirectRenderAABBFunctor< GLToy_Entity >() );
+        GLToy_IndirectRenderAABBFunctor< GLToy_Entity > xFunctor;
+        s_xEntities.Traverse( xFunctor );
     }
 
     if( s_bRenderOBBs )
     {
-        s_xEntities.Traverse( GLToy_IndirectRenderOBBFunctor< GLToy_Entity >() );
+        GLToy_IndirectRenderOBBFunctor< GLToy_Entity > xFunctor;
+        s_xEntities.Traverse( xFunctor );
     }
 }
 

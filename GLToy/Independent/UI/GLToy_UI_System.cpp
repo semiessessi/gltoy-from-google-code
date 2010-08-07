@@ -95,8 +95,10 @@ void GLToy_UI_System::Shutdown()
 
 void GLToy_UI_System::Render2D()
 {
-    s_xWidgets.Traverse( GLToy_IndirectRender2DFunctor< GLToy_Widget >() );    
-    s_xDialogs.Traverse( GLToy_IndirectRender2DFunctor< GLToy_Dialog >() );
+    GLToy_IndirectRender2DFunctor< GLToy_Widget > xWidgetFunctor;
+    GLToy_IndirectRender2DFunctor< GLToy_Dialog > xDialogFunctor;
+    s_xWidgets.Traverse( xWidgetFunctor );    
+    s_xDialogs.Traverse( xDialogFunctor );
 
     if( s_pxCurrentModalDialog )
     {
@@ -141,8 +143,10 @@ void GLToy_UI_System::Update()
     }
     else
     {
-        s_xDialogs.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Dialog >() );
-        s_xWidgets.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Widget >() );
+        GLToy_IndirectUpdateFunctor< GLToy_Widget > xWidgetFunctor;
+        GLToy_IndirectUpdateFunctor< GLToy_Dialog > xDialogFunctor;
+        s_xDialogs.Traverse( xDialogFunctor );
+        s_xWidgets.Traverse( xWidgetFunctor );
     }
 }
 

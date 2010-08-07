@@ -49,12 +49,14 @@ bool GLToy_PFX::IsDone() const
 
 void GLToy_PFX::Render() const
 {
-    m_xSources.Traverse( GLToy_PointerRenderFunctor< GLToy_ParticleSource* >() );
+    GLToy_PointerRenderFunctor< GLToy_ParticleSource* > xFunctor;
+    m_xSources.Traverse( xFunctor );
 }
 
 void GLToy_PFX::Update()
 {
-    m_xSources.Traverse( GLToy_PointerUpdateFunctor< GLToy_ParticleSource* >() );
+    GLToy_PointerUpdateFunctor< GLToy_ParticleSource* > xFunctor;
+    m_xSources.Traverse( xFunctor );
 
     const float fFrameTime = GLToy_Timer::GetFrameTime();
     m_fLifetime -= fFrameTime;

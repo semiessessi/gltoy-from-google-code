@@ -143,6 +143,11 @@ class GLToy_Tree
 
 public:
 
+    GLToy_Tree()
+    : GLToy_Parent()
+    {
+    }
+
     virtual T& operator []( const int iIndex )
     {
         GLToy_TreeIndexFunctor< T > xFunctor( iIndex );

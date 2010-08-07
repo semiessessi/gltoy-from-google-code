@@ -105,7 +105,8 @@ void GLToy_Dialog::Render2D() const
     GLToy_Render::PushViewMatrix();
     GLToy_Render::Translate( GLToy_Vector_3( GetX(), GetY(), fWidgetZ ) );
 
-    m_xWidgets.Traverse( GLToy_IndirectRender2DFunctor< GLToy_Widget >() );
+    GLToy_IndirectRender2DFunctor< GLToy_Widget > xFunctor;
+    m_xWidgets.Traverse( xFunctor );
 
     GLToy_Render::PopViewMatrix();
 }
@@ -118,7 +119,8 @@ void GLToy_Dialog::Update()
         SetPosition( -GetWidth() * 0.5f, -GetHeight() * 0.5f );
     }
 
-    m_xWidgets.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Widget >() );
+    GLToy_IndirectUpdateFunctor< GLToy_Widget > xFunctor;
+    m_xWidgets.Traverse( xFunctor );
 
     if( m_bDelete )
     {

@@ -44,10 +44,15 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// NOTE: We can not support wchar_t* path names because Linux forbids them
+
 GLToy_File::GLToy_File( const GLToy_String& szFilename )
 : m_szFilename( szFilename )
 {
-    FILE* pxFile = _wfopen( m_szFilename.GetWideString(), L"rb" );
+    char* szPath = m_szFilename.CreateANSIString();
+    FILE* pxFile = fopen( szPath, "rb" );
+    delete[] szPath;
+
     m_uSize = 0;
     if( pxFile )
     {
@@ -61,7 +66,9 @@ void GLToy_File::GetAllData( void* const pPointer ) const
 {
     char* const pData = static_cast< char* const >( pPointer );
 
-    FILE* pxFile = _wfopen( m_szFilename.GetWideString(), L"rb" );
+    char* szPath = m_szFilename.CreateANSIString();
+    FILE* pxFile = fopen( szPath, "rb" );
+    delete[] szPath;
 
     if( !pxFile )
     {
@@ -82,7 +89,9 @@ void GLToy_File::ReadToBitStream( GLToy_BitStream &xStream ) const
 
 void GLToy_File::WriteFromBitStream( const GLToy_BitStream &xStream )
 {
-    FILE* pxFile = _wfopen( m_szFilename.GetWideString(), L"wb" );
+    char* szPath = m_szFilename.CreateANSIString();
+    FILE* pxFile = fopen( szPath, "wb" );
+    delete[] szPath;
 
     if( !pxFile )
     {

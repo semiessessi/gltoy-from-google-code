@@ -86,12 +86,14 @@ void GLToy_PFX_System::Shutdown()
 
 void GLToy_PFX_System::Render()
 {
-    s_xPFX.Traverse( GLToy_PointerRenderFunctor< GLToy_PFX* >() );
+    GLToy_PointerRenderFunctor< GLToy_PFX* > xFunctor;
+    s_xPFX.Traverse( xFunctor );
 }
 
 void GLToy_PFX_System::Update()
 {
-    s_xPFX.Traverse( GLToy_PointerUpdateFunctor< GLToy_PFX* >() );
+    GLToy_PointerUpdateFunctor< GLToy_PFX* > xFunctor;
+    s_xPFX.Traverse( xFunctor );
 
     // remove PFX as soon as we can
     for( u_int u = 0; u < s_xPFX.GetCount(); ++u )
