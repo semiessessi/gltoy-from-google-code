@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2009, 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,79 +24,58 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __PLATFORM_GLTOY_HAVOK_PHYSICS_H_
-#define __PLATFORM_GLTOY_HAVOK_PHYSICS_H_
-
-#ifdef GLTOY_USE_HAVOK_PHYSICS
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// M A C R O S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-//#ifdef _DEBUG
-#define HK_DEBUG
-//#endif
-
-#undef const_cast
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Common/Base/KeyCode.h>
-#define HK_CLASSES_FILE <Common/Serialize/Classlist/hkKeyCodeClasses.h>
-#include <Common/Serialize/Util/hkBuiltinTypeRegistry.cxx>
+#include <Core/GLToy.h>
+
+// This file's headers
+#include <Maths/GLToy_Vector.h>
+#include <Maths/Platform_GLToy_Vector.h>
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// L I B R A R I E S
+// D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// TODO - work out a way to do this properly so the release libraries are used...
+GLToy_Vector_3 ( *Platform_GLToy_Vector::pfnAdd )( const GLToy_Vector_3&, const GLToy_Vector_3& )
+    = Platform_GLToy_Vector::Add_Default;
+GLToy_Vector_3 ( *Platform_GLToy_Vector::pfnSub )( const GLToy_Vector_3&, const GLToy_Vector_3& )
+    = Platform_GLToy_Vector::Sub_Default;
+GLToy_Vector_3 ( *Platform_GLToy_Vector::pfnMul )( const float, const GLToy_Vector_3& )
+    = Platform_GLToy_Vector::Mul_Default;
 
-#ifdef _DEBUG
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F U N C T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
 
-#pragma comment( lib, "hkbase" )
-#pragma comment( lib, "hkserialize" )
-#pragma comment( lib, "hkcompat" )
-#pragma comment( lib, "hkscenedata" )
-#pragma comment( lib, "hkinternal" )
-#pragma comment( lib, "hkgeometryutilities" )
-#pragma comment( lib, "hkvisualize" )
+GLToy_Vector_3 Platform_GLToy_Vector::Add_Default(const GLToy_Vector_3& xVector1, const GLToy_Vector_3& xVector2)
+{
+    return GLToy_Vector_3( xVector1[0] + xVector2[0], xVector1[1] + xVector2[1], xVector1[2] + xVector2[2] );
+}
 
-#pragma comment( lib, "hkpconstraintsolver" )
-#pragma comment( lib, "hkpcollide" )
-#pragma comment( lib, "hkpdynamics" )
-#pragma comment( lib, "hkpinternal" )
-#pragma comment( lib, "hkputilities" )
-#pragma comment( lib, "hkpvehicle" )
+GLToy_Vector_3 Platform_GLToy_Vector::Sub_Default(const GLToy_Vector_3& xVector1, const GLToy_Vector_3& xVector2)
+{
+    return GLToy_Vector_3( xVector1[0] - xVector2[0], xVector1[1] - xVector2[1], xVector1[2] - xVector2[2] );
+}
 
-#pragma comment( lib, "hkaanimation" )
-#pragma comment( lib, "hkainternal" )
-#pragma comment( lib, "hkaragdoll" )
+GLToy_Vector_3 Platform_GLToy_Vector::Mul_Default( const float fFloat, const GLToy_Vector_3& xVector )
+{
+    return GLToy_Vector_3( fFloat * xVector[0], fFloat * xVector[1], fFloat * xVector[2] );
+}
 
-#else
+GLToy_Vector_3 Platform_GLToy_Vector::Add(const GLToy_Vector_3& xVector1, const GLToy_Vector_3& xVector2)
+{
+    return pfnAdd( xVector1, xVector2 );
+}
 
-#pragma comment( lib, "hkbase" )
-#pragma comment( lib, "hkserialize" )
-#pragma comment( lib, "hkcompat" )
-#pragma comment( lib, "hkscenedata" )
-#pragma comment( lib, "hkinternal" )
-#pragma comment( lib, "hkgeometryutilities" )
-#pragma comment( lib, "hkvisualize" )
+GLToy_Vector_3 Platform_GLToy_Vector::Sub(const GLToy_Vector_3& xVector1, const GLToy_Vector_3& xVector2)
+{
+    return pfnSub( xVector1, xVector2 );
+}
 
-#pragma comment( lib, "hkpconstraintsolver" )
-#pragma comment( lib, "hkpcollide" )
-#pragma comment( lib, "hkpdynamics" )
-#pragma comment( lib, "hkpinternal" )
-#pragma comment( lib, "hkputilities" )
-#pragma comment( lib, "hkpvehicle" )
-
-#pragma comment( lib, "hkaanimation" )
-#pragma comment( lib, "hkainternal" )
-#pragma comment( lib, "hkaragdoll" )
-
-#endif
-
-#endif
-
-#endif
+GLToy_Vector_3 Platform_GLToy_Vector::Mul(const float fFloat, const GLToy_Vector_3& xVector)
+{
+    return pfnMul( fFloat, xVector );
+}

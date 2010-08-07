@@ -33,13 +33,9 @@
 // This file's header
 #include <Render/GLToy_Texture.h>
 
-// Win32
-#include <windows.h>
-#include <gdiplus.h>
-
 // GL
-#include <gl/gl.h>
-#include <gl/glu.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // M A C R O S
@@ -49,24 +45,6 @@
 #define GL_CLAMP_TO_EDGE ( 0x812F )
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// L I B R A R I E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-#pragma comment( lib, "gdiplus" )
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// U S I N G   N A M E S P A C E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-using namespace Gdiplus; 
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// D A T A
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-ULONG_PTR g_xGDIToken = NULL;
-
-/////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -74,16 +52,17 @@ void GLToy_Texture::Platform_LoadFromFile()
 {
     const GLToy_String szPath = GLToy_String( "textures/" ) + m_szName;
 
-    Bitmap* pxBitmap = new Bitmap( szPath.GetWideString() );
+    // TODO: Load file
+    //Bitmap* pxBitmap = new Bitmap( szPath.GetWideString() );
 
-    if( !pxBitmap )
-    {
-        GLToy_Assert( pxBitmap != NULL, "Failed to load image file \"%S\" with GDI+", szPath.GetWideString() );
-        return;
-    }
+    //if( !pxBitmap )
+    //{
+    //    GLToy_Assert( pxBitmap != NULL, "Failed to load image file \"%S\" with GDI+", szPath.GetWideString() );
+    //    return;
+    //}
 
-    m_uWidth = pxBitmap->GetWidth();
-    m_uHeight = pxBitmap->GetHeight();
+    //m_uWidth = pxBitmap->GetWidth();
+    //m_uHeight = pxBitmap->GetHeight();
 
     // TODO - check width + height and load a "unloadable texture" texture for this one if they are zero
 
@@ -91,17 +70,17 @@ void GLToy_Texture::Platform_LoadFromFile()
 
     GLToy_Iterate( u_int, xIterator, this )
     {
-        Color xColour;
-        pxBitmap->GetPixel( xIterator.Index() % m_uWidth, xIterator.Index() / m_uWidth, &xColour );
-        const u_int uBGRA = xColour.GetValue();
-        const u_int uRGBA = ( uBGRA & 0xFF000000 )
-            | ( ( uBGRA & 0xFF0000 ) >> 16 )
-            | ( uBGRA & 0xFF00 )
-            | ( ( uBGRA & 0xFF ) << 16 );   // AARRGGBB -> AABBGGRR
-        xIterator.Current() = uRGBA;
+        // Color xColour;
+        // pxBitmap->GetPixel( xIterator.Index() % m_uWidth, xIterator.Index() / m_uWidth, &xColour );
+        //const u_int uBGRA = xColour.GetValue();
+        //const u_int uRGBA = ( uBGRA & 0xFF000000 )
+        //    | ( ( uBGRA & 0xFF0000 ) >> 16 )
+        //    | ( uBGRA & 0xFF00 )
+        //    | ( ( uBGRA & 0xFF ) << 16 );   // AARRGGBB -> AABBGGRR
+        //xIterator.Current() = uRGBA;
     }
 
-    delete pxBitmap;
+    //delete pxBitmap;
 }
 
 void GLToy_Texture::Platform_Create()
@@ -135,10 +114,6 @@ void GLToy_Texture::Platform_Bind( const u_int uTextureUnit ) const
 
 bool GLToy_Texture_System::Platform_Initialise()
 {
-    GdiplusStartupInput xInput;
-    GdiplusStartup( &g_xGDIToken, &xInput, NULL );
-    CoInitialize( NULL );
-
     glEnable( GL_TEXTURE_2D );
     
     return true;
@@ -147,7 +122,4 @@ bool GLToy_Texture_System::Platform_Initialise()
 void GLToy_Texture_System::Platform_Shutdown()
 {
     glDisable( GL_TEXTURE_2D );
-
-    CoUninitialize();
-    GdiplusShutdown( g_xGDIToken );
 }
