@@ -34,7 +34,7 @@
 #include <Environment/GLToy_Environment.h>
 
 // GLToy
-#include <Core/Data Structures/GLToy_Bitstream.h>
+#include <Core/Data Structures/GLToy_BitStream.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_RenderFunctor.h>
 

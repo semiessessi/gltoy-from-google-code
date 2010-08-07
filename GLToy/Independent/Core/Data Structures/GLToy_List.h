@@ -51,7 +51,7 @@ template< class T >
 class GLToy_ListNode
 : public GLToy_DataStructure< T >
 {
-    friend GLToy_List< T >;
+    friend class GLToy_List< T >;
 
     typedef GLToy_DataStructure< T > GLToy_Parent;
 

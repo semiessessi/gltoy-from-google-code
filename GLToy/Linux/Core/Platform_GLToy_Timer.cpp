@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -30,18 +30,22 @@
 
 #include <Core/GLToy.h>
 
-// This file's header
-#include <Core/GLToy_Assert.h>
+// This file's headers
+#include <Core/Platform_GLToy_Timer.h>
 
-// Win32
-#include <windows.h>
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// I M P L E M E N T A T I O N
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Platform_GLToy_Assert( const char* szTitle, const char* szMessage )
+
+bool Platform_GLToy_Timer::Initialise()
 {
-    MessageBoxA( 0, szMessage, szTitle, MB_OK | MB_ICONEXCLAMATION );
-    return MessageBoxA( 0, "Break?", szTitle, MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 ) == IDYES;
+    return true;
+}
+
+float Platform_GLToy_Timer::GetTimeSinceLastGet()
+{
+    return 0.0f;
 }

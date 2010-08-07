@@ -115,6 +115,24 @@
     <Filter Include="Linux\Core">
       <UniqueIdentifier>{08fa3d95-abf7-4503-bd7e-385484334283}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Linux\File">
+      <UniqueIdentifier>{010ad578-c055-4129-8e55-5284f3416855}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Linux\FridgeScript">
+      <UniqueIdentifier>{c831f41f-e617-4bcc-8cfa-49f55549d799}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Linux\Input">
+      <UniqueIdentifier>{a2e2e8f8-add3-41d0-8b39-8cf14426dec8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Linux\Maths">
+      <UniqueIdentifier>{40ea399a-c561-4d1c-8b58-ec1b67ebb656}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Linux\Physics">
+      <UniqueIdentifier>{a78a7e10-5158-464e-a2ea-3f7bc113cff8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Linux\Render">
+      <UniqueIdentifier>{df8beafe-801d-4ec0-a733-b19e3ed91a17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_GLToy.cpp">
@@ -391,6 +409,30 @@
       <Filter>Independent\Core\State</Filter>
     </ClCompile>
     <ClCompile Include="Linux\Core\Platform_GLToy.cpp">
+      <Filter>Linux\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Linux\File\Platform_GLToy_File_System.cpp">
+      <Filter>Linux\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Linux\Input\Platform_GLToy_Input.cpp">
+      <Filter>Linux\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Linux\Maths\Platform_GLToy_Maths.cpp">
+      <Filter>Linux\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Linux\Maths\Platform_GLToy_Vector.cpp">
+      <Filter>Linux\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Linux\Render\Platform_GLToy_Texture.cpp">
+      <Filter>Linux\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Linux\Render\Platform_GLToy_Render.cpp">
+      <Filter>Linux\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Linux\Core\Platform_GLToy_Assert.cpp">
+      <Filter>Linux\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Linux\Core\Platform_GLToy_Timer.cpp">
       <Filter>Linux\Core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -717,6 +759,24 @@
       <Filter>Independent\Core\State</Filter>
     </ClInclude>
     <ClInclude Include="Linux\Core\Platform_GLToy.h">
+      <Filter>Linux\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Linux\FridgeScript\Platform_GLToy_FridgeScript.h">
+      <Filter>Linux\FridgeScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Linux\Maths\Platform_GLToy_Vector.h">
+      <Filter>Linux\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Linux\Maths\Platform_GLToy_Maths.h">
+      <Filter>Linux\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Linux\Render\Platform_GLToy_Render.h">
+      <Filter>Linux\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Linux\Physics\Platform_GLToy_Havok_Physics.h">
+      <Filter>Linux\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Linux\Core\Platform_GLToy_Timer.h">
       <Filter>Linux\Core</Filter>
     </ClInclude>
   </ItemGroup>

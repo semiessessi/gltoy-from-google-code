@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -31,17 +31,17 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <Core/GLToy_Assert.h>
-
-// Win32
-#include <windows.h>
+#include <File/GLToy_File_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// I M P L E M E N T A T I O N
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Platform_GLToy_Assert( const char* szTitle, const char* szMessage )
+GLToy_Array< GLToy_String > GLToy_File_System::Platform_PathsFromFilter( const GLToy_String& szBasePath, const GLToy_String& szFilter, const bool bRecursive )
 {
-    MessageBoxA( 0, szMessage, szTitle, MB_OK | MB_ICONEXCLAMATION );
-    return MessageBoxA( 0, "Break?", szTitle, MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 ) == IDYES;
+    GLToy_Array< GLToy_String > xPaths;
+
+    // TODO: implement for Linux
+
+    return xPaths;
 }

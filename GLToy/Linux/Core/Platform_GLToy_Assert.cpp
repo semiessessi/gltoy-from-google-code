@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -33,8 +33,8 @@
 // This file's header
 #include <Core/GLToy_Assert.h>
 
-// Win32
-#include <windows.h>
+// C/C++
+#include <stdio.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I M P L E M E N T A T I O N
@@ -42,6 +42,6 @@
 
 bool Platform_GLToy_Assert( const char* szTitle, const char* szMessage )
 {
-    MessageBoxA( 0, szMessage, szTitle, MB_OK | MB_ICONEXCLAMATION );
-    return MessageBoxA( 0, "Break?", szTitle, MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 ) == IDYES;
+    printf( szMessage );
+    return false;
 }
