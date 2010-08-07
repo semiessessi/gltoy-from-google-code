@@ -29,73 +29,7 @@
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-// M A C R O S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-//#ifdef _DEBUG
-#define HK_DEBUG
-//#endif
-
-#undef const_cast
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// I N C L U D E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-#include <Common/Base/KeyCode.h>
-#define HK_CLASSES_FILE <Common/Serialize/Classlist/hkKeyCodeClasses.h>
-#include <Common/Serialize/Util/hkBuiltinTypeRegistry.cxx>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// L I B R A R I E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-// TODO - work out a way to do this properly so the release libraries are used...
-
-#ifdef _DEBUG
-
-#pragma comment( lib, "hkbase" )
-#pragma comment( lib, "hkserialize" )
-#pragma comment( lib, "hkcompat" )
-#pragma comment( lib, "hkscenedata" )
-#pragma comment( lib, "hkinternal" )
-#pragma comment( lib, "hkgeometryutilities" )
-#pragma comment( lib, "hkvisualize" )
-
-#pragma comment( lib, "hkpconstraintsolver" )
-#pragma comment( lib, "hkpcollide" )
-#pragma comment( lib, "hkpdynamics" )
-#pragma comment( lib, "hkpinternal" )
-#pragma comment( lib, "hkputilities" )
-#pragma comment( lib, "hkpvehicle" )
-
-#pragma comment( lib, "hkaanimation" )
-#pragma comment( lib, "hkainternal" )
-#pragma comment( lib, "hkaragdoll" )
-
-#else
-
-#pragma comment( lib, "hkbase" )
-#pragma comment( lib, "hkserialize" )
-#pragma comment( lib, "hkcompat" )
-#pragma comment( lib, "hkscenedata" )
-#pragma comment( lib, "hkinternal" )
-#pragma comment( lib, "hkgeometryutilities" )
-#pragma comment( lib, "hkvisualize" )
-
-#pragma comment( lib, "hkpconstraintsolver" )
-#pragma comment( lib, "hkpcollide" )
-#pragma comment( lib, "hkpdynamics" )
-#pragma comment( lib, "hkpinternal" )
-#pragma comment( lib, "hkputilities" )
-#pragma comment( lib, "hkpvehicle" )
-
-#pragma comment( lib, "hkaanimation" )
-#pragma comment( lib, "hkainternal" )
-#pragma comment( lib, "hkaragdoll" )
-
-#endif
+// TODO: Linux implementation
 
 #endif
 

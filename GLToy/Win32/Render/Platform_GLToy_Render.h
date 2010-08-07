@@ -35,13 +35,6 @@
 #include <Render/GLToy_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// L I B R A R I E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-#pragma comment( lib, "opengl32" )
-#pragma comment( lib, "glu32" )
-
-/////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -157,41 +150,41 @@ private:
     static u_int s_uVersion;
 
     // wgl functions
-    static void ( __stdcall* s_pfnSwapInterval )( u_int );
+    static void ( * s_pfnSwapInterval )( u_int );
     // shader functions
-    static u_int ( __stdcall* s_pfnIsShader )( u_int );
-    static u_int ( __stdcall* s_pfnCreateShader )( u_int );
-    static u_int ( __stdcall* s_pfnCreateProgram )();
-    static void ( __stdcall* s_pfnDeleteShader )( u_int );
-    static void ( __stdcall* s_pfnDeleteProgram )( u_int );
-    static void ( __stdcall* s_pfnValidateProgram )( u_int );
-    static void ( __stdcall* s_pfnCompileShader )( u_int );
-    static void ( __stdcall* s_pfnLinkProgram )( u_int );
-    static void ( __stdcall* s_pfnUseProgram )( u_int );
-    static void ( __stdcall* s_pfnAttachShader )( u_int, u_int );
-    static void ( __stdcall* s_pfnDetachShader )( u_int, u_int );
-    static void ( __stdcall* s_pfnShaderSource )( u_int, int, char**, const int* );
-    static void ( __stdcall* s_pfnGetProgramInfoLog )( u_int, int, int*, char* );
-    static void ( __stdcall* s_pfnGetShaderInfoLog )( u_int, int, int*, char* );
-    static u_int ( __stdcall* s_pfnGetUniformID )( u_int, const char* );
-    static u_int ( __stdcall* s_pfnGetAttributeID )( u_int, const char* );
-    static void ( __stdcall* s_pfnBindAttributeID )( u_int, u_int, const char* );
-    static void ( __stdcall* s_pfnSetUniform1i )( u_int uUniformID, int iValue );
-    static void ( __stdcall* s_pfnSetUniform2i )( u_int uUniformID, int iValue1, int iValue2 );
-    static void ( __stdcall* s_pfnSetUniform3i )( u_int uUniformID, int iValue1, int iValue2, int iValue3 );
-    static void ( __stdcall* s_pfnSetUniform4i )( u_int uUniformID, int iValue1, int iValue2, int iValue3, int iValue4 );
-    static void ( __stdcall* s_pfnSetUniform1f )( u_int uUniformID, float fValue );
-    static void ( __stdcall* s_pfnSetUniform2f )( u_int uUniformID, float fValue1, float fValue2 );
-    static void ( __stdcall* s_pfnSetUniform3f )( u_int uUniformID, float fValue1, float fValue2, float fValue3 );
-    static void ( __stdcall* s_pfnSetUniform4f )( u_int uUniformID, float fValue1, float fValue2, float fValue3, float fValue4 );
-    static void ( __stdcall* s_pfnSetAttribute1i )( u_int uAttributeID, int iValue );
-    static void ( __stdcall* s_pfnSetAttribute2i )( u_int uAttributeID, int iValue1, int iValue2 );
-    static void ( __stdcall* s_pfnSetAttribute3i )( u_int uAttributeID, int iValue1, int iValue2, int iValue3 );
-    static void ( __stdcall* s_pfnSetAttribute4i )( u_int uAttributeID, int iValue1, int iValue2, int iValue3, int iValue4 );
-    static void ( __stdcall* s_pfnSetAttribute1f )( u_int uAttributeID, float fValue );
-    static void ( __stdcall* s_pfnSetAttribute2f )( u_int uAttributeID, float fValue1, float fValue2 );
-    static void ( __stdcall* s_pfnSetAttribute3f )( u_int uAttributeID, float fValue1, float fValue2, float fValue3 );
-    static void ( __stdcall* s_pfnSetAttribute4f )( u_int uAttributeID, float fValue1, float fValue2, float fValue3, float fValue4 );
+    static u_int ( * s_pfnIsShader )( u_int );
+    static u_int ( * s_pfnCreateShader )( u_int );
+    static u_int ( * s_pfnCreateProgram )();
+    static void ( * s_pfnDeleteShader )( u_int );
+    static void ( * s_pfnDeleteProgram )( u_int );
+    static void ( * s_pfnValidateProgram )( u_int );
+    static void ( * s_pfnCompileShader )( u_int );
+    static void ( * s_pfnLinkProgram )( u_int );
+    static void ( * s_pfnUseProgram )( u_int );
+    static void ( * s_pfnAttachShader )( u_int, u_int );
+    static void ( * s_pfnDetachShader )( u_int, u_int );
+    static void ( * s_pfnShaderSource )( u_int, int, char**, const int* );
+    static void ( * s_pfnGetProgramInfoLog )( u_int, int, int*, char* );
+    static void ( * s_pfnGetShaderInfoLog )( u_int, int, int*, char* );
+    static u_int ( * s_pfnGetUniformID )( u_int, const char* );
+    static u_int ( * s_pfnGetAttributeID )( u_int, const char* );
+    static void ( * s_pfnBindAttributeID )( u_int, u_int, const char* );
+    static void ( * s_pfnSetUniform1i )( u_int uUniformID, int iValue );
+    static void ( * s_pfnSetUniform2i )( u_int uUniformID, int iValue1, int iValue2 );
+    static void ( * s_pfnSetUniform3i )( u_int uUniformID, int iValue1, int iValue2, int iValue3 );
+    static void ( * s_pfnSetUniform4i )( u_int uUniformID, int iValue1, int iValue2, int iValue3, int iValue4 );
+    static void ( * s_pfnSetUniform1f )( u_int uUniformID, float fValue );
+    static void ( * s_pfnSetUniform2f )( u_int uUniformID, float fValue1, float fValue2 );
+    static void ( * s_pfnSetUniform3f )( u_int uUniformID, float fValue1, float fValue2, float fValue3 );
+    static void ( * s_pfnSetUniform4f )( u_int uUniformID, float fValue1, float fValue2, float fValue3, float fValue4 );
+    static void ( * s_pfnSetAttribute1i )( u_int uAttributeID, int iValue );
+    static void ( * s_pfnSetAttribute2i )( u_int uAttributeID, int iValue1, int iValue2 );
+    static void ( * s_pfnSetAttribute3i )( u_int uAttributeID, int iValue1, int iValue2, int iValue3 );
+    static void ( * s_pfnSetAttribute4i )( u_int uAttributeID, int iValue1, int iValue2, int iValue3, int iValue4 );
+    static void ( * s_pfnSetAttribute1f )( u_int uAttributeID, float fValue );
+    static void ( * s_pfnSetAttribute2f )( u_int uAttributeID, float fValue1, float fValue2 );
+    static void ( * s_pfnSetAttribute3f )( u_int uAttributeID, float fValue1, float fValue2, float fValue3 );
+    static void ( * s_pfnSetAttribute4f )( u_int uAttributeID, float fValue1, float fValue2, float fValue3, float fValue4 );
 };
 
 #endif

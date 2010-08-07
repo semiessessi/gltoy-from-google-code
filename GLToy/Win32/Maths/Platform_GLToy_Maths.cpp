@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -54,15 +54,15 @@ bool Platform_GLToy_Maths::Initialise()
 {
     GLToy_DebugOutput( "\r\nPlatform_GLToy_Maths::Initialise() - Initialising CPU\r\n" );
 
-    __asm
-    {
-        mov eax, 1
-        cpuid
-        mov s_xCPUFeatures.m_uEax, eax
-        mov s_xCPUFeatures.m_uEbx, ebx
-        mov s_xCPUFeatures.m_uEcx, ecx
-        mov s_xCPUFeatures.m_uEdx, edx
-    }
+	// __asm__
+    // (
+    //     "movl $1, %eax\n\t"
+    //     "cpuid\n\t"
+    //     "movl %eax, s_xCPUFeatures.m_uEax\n\t"
+    //     "movl %ebx, s_xCPUFeatures.m_uEbx\n\t"
+    //     "movl %ecx, s_xCPUFeatures.m_uEcx\n\t"
+    //     "movl %edx, s_xCPUFeatures.m_uEdx\n\t"
+    // );
 
     GLToy_DebugOutput( "Family: %X, Model: %X, Stepping: %X\r\n",
         s_xCPUFeatures.m_uFamilyID, s_xCPUFeatures.m_uModelID, s_xCPUFeatures.m_uSteppingId );
@@ -86,16 +86,16 @@ void Platform_GLToy_Maths::Update()
 {
     // TODO - intrinsics or something
     unsigned short usCW;
-    __asm fstcw [ usCW ];
+    // __asm__( "fstcw [ usCW ]" );
     usCW &= ~0x300; // clear bits 8 and 9 - force low precision
-    __asm fldcw [ usCW ];
+    // __asm__( "fldcw [ usCW ]" );
 }
 
 float Platform_GLToy_Maths::Sqrt( const float fValue )
 {
-    __asm
-    {
-        fld [ fValue ]
-        fsqrt
-    }
+    // __asm__
+    // (
+    //     "fld [ fValue ]\n\t"
+    //     "fsqrt\n\t"
+    // );
 }
