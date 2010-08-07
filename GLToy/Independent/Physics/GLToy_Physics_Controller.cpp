@@ -69,9 +69,9 @@ void GLToy_Physics_Controller::Create( const GLToy_Vector_3& xPosition )
 
     m_bActive = true;
 
-    const GLToy_Vector_3 xScaledPosition = xPosition * fHAVOK_SCALE;
-
 #ifdef GLTOY_USE_HAVOK_PHYSICS
+    
+    const GLToy_Vector_3 xScaledPosition = xPosition * fHAVOK_SCALE;
 
     hkpWorld* pxWorld = GLToy_Physics_System::GetHavokWorld();
 
