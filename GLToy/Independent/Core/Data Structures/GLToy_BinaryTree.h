@@ -214,6 +214,8 @@ class GLToy_BinaryTree
 	
     typedef GLToy_Tree< DataType > GLToy_Parent;
 	
+    typedef GLToy_Tree< DataType > GLToy_Parent;
+
 public:
 
     GLToy_BinaryTree()
@@ -345,7 +347,8 @@ public:
             m_pxHead = NULL;
         }
         
-	AddFunctor xAddFunctor( this );
+
+	    AddFunctor xAddFunctor( this );
         pxNode->TraverseNodes( xAddFunctor );
 
         delete pxNode;
