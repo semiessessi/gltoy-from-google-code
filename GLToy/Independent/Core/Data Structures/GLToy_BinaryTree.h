@@ -48,7 +48,7 @@ template < class DataType, class KeyType >
 class GLToy_BinaryTreeNode
 {
 
-    friend GLToy_BinaryTree< DataType, KeyType >;
+    friend class GLToy_BinaryTree< DataType, KeyType >;
 
 public:
 

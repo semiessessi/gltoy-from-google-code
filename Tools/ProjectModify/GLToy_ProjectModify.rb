@@ -28,7 +28,7 @@ puts "GLToy Project Modify"
 
 # interpret switches
 bSync = false
-bLibrary = false
+bLibrary = true
 szProject = "GLToy"
 szCPP = "g++ -fpermissive -w -I./Independent -I./Linux -c"
 
@@ -59,13 +59,13 @@ ARGV.each do | szArgument |
                 puts "   ?                Displays this message"
                 puts "   h"
                 puts "   help"
-                puts "   l                Produce a static library"
-                puts "   library"
+                puts "   e                The project should produce an executable with GLToy"
+                puts "   executable"
                 puts "   s                Update build scripts from the VS project"
                 puts "   sync"
 
-			when /"library"|l/
-                bLibrary = true
+			when /"executable"|e/
+                bLibrary = false
 
             when /"sync"|s/
                 bSync = true
@@ -78,6 +78,10 @@ if not File.directory? szProject
     puts "Fatal error: Project path \"#{ szProject }\" does not exist"
     puts "Make sure Project Modify is run from the GLToy root directory"
     Process.exit
+end
+
+if not bLibrary
+	szCPP = "g++ -fpermissive -w -I./Independent -I./Linux -o #{ szProject }" 
 end
 
 if bSync
@@ -128,6 +132,8 @@ all:
 			axFiles.push( aszMatch.first )
 		end
 	end
+
+	szOutput += " &> make.output"
 
 	if bLibrary 
 		szOutput += "\n\tar rc #{ szProject }.a"

@@ -64,7 +64,7 @@
     #define GLTOY_DEBUG
     #define GLToy_IsDebugBuild() ( true )
     #define GLToy_DebugVar static
-    #define GLToy_DebugOutput( format, ... ) GLToy::DebugOutput( format, __VA_ARGS__ )
+    #define GLToy_DebugOutput GLToy::DebugOutput
 #else
     #define GLTOY_RELEASE
     #define GLToy_IsDebugBuild() ( false )
@@ -72,7 +72,7 @@
     #define GLToy_DebugOutput( format, ... ) ;
 #endif
 
-#define GLToy_DebugOutput_Release( format, ... ) GLToy::DebugOutput( format, __VA_ARGS__ )
+#define GLToy_DebugOutput_Release GLToy::DebugOutput
 
 #define GLToy_HeaderBytes( string ) ( ( string[ 3 ] << 24 ) | ( string[ 2 ] << 16 ) | ( string[ 1 ] << 8 ) | string[ 0 ] )
 

@@ -43,6 +43,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template < class T > class GLToy_BSPTree;
+class GLToy_EnvironmentFile;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -51,7 +52,7 @@ template < class T > class GLToy_BSPTree;
 template < class T >
 class GLToy_BSPNode
 {
-    friend GLToy_BSPTree< T >;
+    friend class GLToy_BSPTree< T >;
     friend class GLToy_EnvironmentFile;
 
 public:

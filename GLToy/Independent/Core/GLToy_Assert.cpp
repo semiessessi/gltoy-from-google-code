@@ -54,20 +54,27 @@ static char szAssertMessage[ uASSERT_MAX_MESSAGE_LENGTH ];
 bool _GLToy_Assert( const bool& bCondition, const char* szFileName, const int& uLineNumber, const char* szFormatString, ... )
 {
     if( !bCondition )
-    {       
-        int iTitleLength = _scprintf( "Assertion failed in file \"%S\" line %d", szFileName, uLineNumber ) + 1;
+    {
+#ifdef GLTOY_PLATFORM_WIN32
+        const int iTitleLength = _scprintf( "Assertion failed in file \"%S\" line %d", szFileName, uLineNumber ) + 1;
+#endif
         
         va_list xArgumentList;
 
         va_start( xArgumentList, szFormatString );
-        int iMessageLength = _vscprintf( szFormatString, xArgumentList ) + 1;
+
+#ifdef GLTOY_PLATFORM_WIN32
+        const int iMessageLength = _vscprintf( szFormatString, xArgumentList ) + 1;
+#endif
 
         // clean up xArgument list so that other variable parameter functions can work
         va_end( xArgumentList );
 
+#ifdef GLTOY_PLATFORM_WIN32
         // recursion why not
         GLToy_Assert( iTitleLength < uASSERT_MAX_TITLE_LENGTH, "Assert dialog title char* is too long, increase uASSERT_MAX_TITLE_LENGTH in \"Core\\Assert.h\", the current value is %d but this call requested %d.", uASSERT_MAX_TITLE_LENGTH, iTitleLength );
         GLToy_Assert( iMessageLength < uASSERT_MAX_MESSAGE_LENGTH, "Assert message char* too long, increase uASSERT_MAX_MESSAGE_LENGTH in \"Core\\Assert.h\", the current value is %d but this call requested %d.", uASSERT_MAX_MESSAGE_LENGTH, iMessageLength );
+#endif
 
         sprintf( szAssertTitle, /* iTitleLength, */ "\"%s\": line %d", szFileName, uLineNumber );
         
@@ -81,8 +88,8 @@ bool _GLToy_Assert( const bool& bCondition, const char* szFileName, const int& u
 
         sprintf( szAssertMessage, "Assertion failed in %s: %s", szAssertTitle, szAssertMessageBuffer );
 
-        GLToy_DebugOutput_Release( szAssertMessage );
-        GLToy_DebugOutput_Release( "\r\n" );
+        GLToy::DebugOutput( szAssertMessage );
+        GLToy::DebugOutput( "\r\n" );
 
         // output to UI and offer the user a choice to break or not
         return Platform_GLToy_Assert( szAssertTitle, szAssertMessage );

@@ -32,13 +32,14 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_BitStream;
+class GLToy_Matrix_3;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Vector_2
-// : public GLToy_Serialisable - don't do this, its nicer if we can map this to float[ 3 ], which we can't if it needs a virtual function table pointer
+// : public GLToy_Serialisable - don't do this, its nicer if we can map this to float[ 2 ], which we can't if it needs a virtual function table pointer
 {
 
 public:
@@ -138,7 +139,7 @@ private:
 };
 
 class GLToy_Vector_4
-// : public GLToy_Serialisable - don't do this, its nicer if we can map this to float[ 3 ], which we can't if it needs a virtual function table pointer
+// : public GLToy_Serialisable - don't do this, its nicer if we can map this to float[ 4 ], which we can't if it needs a virtual function table pointer
 {
 
 public:
