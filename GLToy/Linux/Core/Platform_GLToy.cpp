@@ -49,9 +49,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
-
-static const unsigned int uGLTOY_MAX_VSCWPRINTF		= 4096;
-
 static Display* g_xDisplay;
 static XVisualInfo* g_xVisualInfo;
 static Colormap g_xColormap;
@@ -60,6 +57,11 @@ static GLXContext g_xRenderContext;
 static XWindowAttributes g_xWindowAttributes;
 static XEvent g_xEvent;
 
+// note, these are minimum values
+static const unsigned int uGLTOY_COMPONENT_DEPTH    = 4;
+static const unsigned int uGLTOY_Z_DEPTH            = 16;
+static const unsigned int uGLTOY_STENCIL_DEPTH    	= 4;
+static const unsigned int uGLTOY_MAX_VSCWPRINTF		= 4096;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -92,9 +94,12 @@ bool GLToy::Platform_EarlyInitialise()
 	const int aiAttributes[] =
 	{
 		GLX_RGBA,
-		GLX_DEPTH_SIZE,
-		24,
 		GLX_DOUBLEBUFFER,
+		GLX_RED_SIZE, uGLTOY_COMPONENT_DEPTH,
+	    GLX_GREEN_SIZE, uGLTOY_COMPONENT_DEPTH,
+    	GLX_BLUE_SIZE, uGLTOY_COMPONENT_DEPTH,
+		GLX_DEPTH_SIZE, uGLTOY_Z_DEPTH,
+		GLX_STENCIL_SIZE, uGLTOY_STENCIL_DEPTH,
 		None
 	};
 
@@ -137,6 +142,8 @@ bool GLToy::Platform_EarlyInitialise()
 
 	g_xRenderContext = glXCreateContext( g_xDisplay, g_xVisualInfo, NULL, GL_TRUE );
  	glXMakeCurrent( g_xDisplay, g_xWindow, g_xRenderContext );
+
+	XFree( g_xVisualInfo );
 
     return true;
 }

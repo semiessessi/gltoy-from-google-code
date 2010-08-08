@@ -449,52 +449,90 @@ void Platform_GLToy_Render::SetVsyncEnabled( const bool bEnabled )
 
 bool Platform_GLToy_Render::IsShader( const u_int uID )
 {
-    return s_pfnIsShader( uID ) == GL_TRUE;
+	if( s_pfnIsShader )
+	{
+	    return s_pfnIsShader( uID ) == GL_TRUE;
+	}
+	
+	return false;
 }
 
 u_int Platform_GLToy_Render::CreateFragmentShader()
 {
-    return s_pfnCreateShader( GL_FRAGMENT_SHADER );
+	if( s_pfnCreateShader )
+	{
+    	return s_pfnCreateShader( GL_FRAGMENT_SHADER );
+	}
+	
+	return 0;
 }
 
 u_int Platform_GLToy_Render::CreateVertexShader()
 {
-    return s_pfnCreateShader( GL_VERTEX_SHADER );
+	if( s_pfnCreateShader )
+	{
+	    return s_pfnCreateShader( GL_VERTEX_SHADER );
+	}
+	
+	return 0;
 }
 
 u_int Platform_GLToy_Render::CreateProgram()
 {
-    return s_pfnCreateProgram();
+    if( s_pfnCreateProgram )
+	{
+		return s_pfnCreateProgram();
+	}
+	
+	return 0;
 }
 
 void Platform_GLToy_Render::DeleteShader( u_int uShaderID )
 {
-    s_pfnDeleteShader( uShaderID );
+    if( s_pfnDeleteShader )
+	{
+		s_pfnDeleteShader( uShaderID );
+	}
 }
 
 void Platform_GLToy_Render::DeleteProgram( u_int uProgramID )
 {
-    s_pfnDeleteProgram( uProgramID );
+    if( s_pfnDeleteProgram )
+	{
+		s_pfnDeleteProgram( uProgramID );
+	}
 }
 
 void Platform_GLToy_Render::ValidateProgram( u_int uProgramID )
 {
-    s_pfnValidateProgram( uProgramID );
+    if( s_pfnValidateProgram )
+	{
+	    s_pfnValidateProgram( uProgramID );
+	}
 }
 
 void Platform_GLToy_Render::CompileShader( u_int uShaderID )
 {
-    s_pfnCompileShader( uShaderID );
+    if( s_pfnCompileShader )
+	{
+	    s_pfnCompileShader( uShaderID );
+	}
 }
 
 void Platform_GLToy_Render::LinkProgram( u_int uProgramID )
 {
-    s_pfnLinkProgram( uProgramID );
+    if( s_pfnLinkProgram )
+	{
+	    s_pfnLinkProgram( uProgramID );
+	}
 }
 
 void Platform_GLToy_Render::UseProgram( u_int uProgramID )
 {
-    s_pfnUseProgram( uProgramID );
+    if( s_pfnUseProgram )
+	{
+	    s_pfnUseProgram( uProgramID );
+	}
 }
 
 void Platform_GLToy_Render::AttachShader( u_int uProgramID, u_int uShaderID )
