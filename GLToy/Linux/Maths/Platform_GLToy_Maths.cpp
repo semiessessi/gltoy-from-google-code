@@ -34,6 +34,7 @@
 #include <Maths/Platform_GLToy_Maths.h>
 
 // C/C++ headers
+#include <math.h>
 #include <stdio.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,6 +97,7 @@ void Platform_GLToy_Maths::Update()
 
 float Platform_GLToy_Maths::Sqrt( const float fValue )
 {
+	return sqrtf( fValue );
     // __asm__
     // (
     //     "fld [ fValue ]\n\t"

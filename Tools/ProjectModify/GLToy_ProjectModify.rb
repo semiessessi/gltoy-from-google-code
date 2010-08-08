@@ -96,7 +96,7 @@ else
 end
 
 if not bLibrary
-	szCPP = szCPP + " -I../GLToy/Independent -I../GLToy/Linux -o #{ szProject }"
+	szCPP = szCPP + " -I../GLToy/Independent -I../GLToy/Linux -o ../Data/#{ szProject }"
 else
 	szCPP = szCPP + " -c" 
 end
@@ -160,7 +160,7 @@ all:
 			szOutput += " \"" + szCPPFile + "\""
 		end
 	else
-		szOutput += " -lX11 -lGL -lGLU -L../GLToy -lGLToy"
+		szOutput += " -lX11 -lGL -lGLU -lm -lrt -L../GLToy -lGLToy"
 	end
 
 	szOutput += "\n"

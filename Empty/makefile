@@ -25,4 +25,4 @@
 #############################################################################################
 
 all:
-	g++ -traditional -felide-constructors -fenum-int-equiv -fnonnull-objects -fpermissive -I./Independent -I./Linux -g -D_DEBUG -w -I../GLToy/Independent -I../GLToy/Linux -o Empty "Linux/Core/Platform_Empty.cpp" "Independent/Render/Empty_Render.cpp" "Independent/Render/Project_GLToy_Render.cpp" "Independent/Core/Empty.cpp" "Independent/Core/Project_GLToy.cpp" &> make.output -lX11 -lGL -lGLU -L../GLToy -lGLToy
+	g++ -traditional -felide-constructors -fenum-int-equiv -fnonnull-objects -fpermissive -I./Independent -I./Linux -g -D_DEBUG -w -I../GLToy/Independent -I../GLToy/Linux -o ../Data/Empty "Linux/Core/Platform_Empty.cpp" "Independent/Render/Empty_Render.cpp" "Independent/Render/Project_GLToy_Render.cpp" "Independent/Core/Empty.cpp" "Independent/Core/Project_GLToy.cpp" &> make.output -lX11 -lGL -lGLU -lm -lrt -L../GLToy -lGLToy

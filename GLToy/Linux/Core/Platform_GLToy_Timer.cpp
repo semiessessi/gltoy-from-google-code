@@ -33,7 +33,15 @@
 // This file's headers
 #include <Core/Platform_GLToy_Timer.h>
 
+// C/C++
+#include <time.h>
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+//static timespec g_xFrequency;
+static timespec g_xLastTime;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -42,10 +50,20 @@
 
 bool Platform_GLToy_Timer::Initialise()
 {
+	//clock_getres( CLOCK_PROCESS_CPUTIME_ID, &g_xFrequency );
+	clock_gettime( CLOCK_PROCESS_CPUTIME_ID, &g_xLastTime );
     return true;
 }
 
 float Platform_GLToy_Timer::GetTimeSinceLastGet()
 {
-    return 0.0f;
+	timespec xNewTime;
+	clock_gettime( CLOCK_PROCESS_CPUTIME_ID, &xNewTime );
+
+	const double dSeconds = static_cast< double >( xNewTime.tv_sec - g_xLastTime.tv_sec );
+	const double dNanoSeconds = static_cast< double >( xNewTime.tv_nsec - g_xLastTime.tv_nsec ) * 0.0000000001f;
+
+	g_xLastTime = xNewTime;
+
+    return static_cast< float >( dSeconds + dNanoSeconds );
 }

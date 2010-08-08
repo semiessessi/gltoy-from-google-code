@@ -31,6 +31,9 @@
 // This file's header
 #include <Core/GLToy.h>
 
+// GLToy
+#include <Input/GLToy_Input.h>
+
 // C++
 #include <stdarg.h>
 #include <stdio.h>
@@ -117,7 +120,13 @@ bool GLToy::Platform_EarlyInitialise()
 
 	XSetWindowAttributes xSWAttributes;
 	xSWAttributes.colormap = g_xColormap;
-	xSWAttributes.event_mask = ExposureMask;
+	xSWAttributes.event_mask =
+		ExposureMask
+		| KeyPressMask
+		| ButtonPressMask
+		| EnterWindowMask
+		| LeaveWindowMask
+		| StructureNotifyMask;
 
 	g_xWindow = XCreateWindow(
 		g_xDisplay,
@@ -163,9 +172,63 @@ void GLToy::Platform_Shutdown()
 
 bool GLToy::Platform_MainLoop()
 {
-	// XNextEvent( g_xDisplay, &g_xEvent );
+	while( XPending( g_xDisplay ) > 0 )
+	{
+		XNextEvent( g_xDisplay, &g_xEvent );
+		switch( g_xEvent.type )
+		{
+			case DestroyNotify:
+			{
+				if( g_xEvent.xdestroywindow.window == g_xWindow )
+				{
+					return false;
+				}
+				break;
+			}
 
-    return true;
+			case EnterNotify:
+			{
+				if( g_xEvent.xfocus.window == g_xWindow )
+				{
+					GLToy::GiveFocus();
+				}
+				break;
+			}
+
+			case LeaveNotify:
+			{
+				if( g_xEvent.xfocus.window == g_xWindow )
+				{
+					GLToy::LoseFocus();
+				}
+				break;
+			}
+
+			case KeyPress:
+			{
+				if( GLToy::HasFocus() )
+		        {
+		            GLToy_Input_System::HandleKey( g_xEvent.xkey.keycode );
+		        }
+				break;
+			}
+
+			case Expose:
+			{
+				// update for render...
+    			XGetWindowAttributes( g_xDisplay, g_xWindow, &g_xWindowAttributes );
+				break;
+			}
+
+			default:
+			{
+				GLToy_DebugOutput( false, "Unhandled X11 Event, type = %X", g_xEvent.type );
+				break;
+			}
+		}
+	}
+
+	return true;
 }
 
 bool GLToy::Platform_Resize( const int& iWidth, const int& iHeight )
