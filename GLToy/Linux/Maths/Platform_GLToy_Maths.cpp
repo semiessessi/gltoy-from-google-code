@@ -64,6 +64,9 @@ bool Platform_GLToy_Maths::Initialise()
     //     "movl %edx, s_xCPUFeatures.m_uEdx\n\t"
     // );
 
+	// TODO: ... for now assume we have FPU under Linux
+	s_xCPUFeatures.m_bFPU = true;
+
     GLToy_DebugOutput( "Family: %X, Model: %X, Stepping: %X\r\n",
         s_xCPUFeatures.m_uFamilyID, s_xCPUFeatures.m_uModelID, s_xCPUFeatures.m_uSteppingId );
     GLToy_DebugOutput( "Extended Family: %X, Extended Model: %X\r\n",
@@ -79,7 +82,7 @@ bool Platform_GLToy_Maths::Initialise()
     GLToy_DebugOutput( "  SSE4.2: %s\r\n", s_xCPUFeatures.m_bSSE42 ? "Yes" : "No" );
 
     // demand that we at least have an FPU
-    return s_xCPUFeatures.m_bFPU;
+	return s_xCPUFeatures.m_bFPU;
 }
 
 void Platform_GLToy_Maths::Update()

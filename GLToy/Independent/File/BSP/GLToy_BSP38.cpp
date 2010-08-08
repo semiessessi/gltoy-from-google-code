@@ -868,7 +868,7 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
             }
         }
 
-        GLToy_Assert( bFirst, "The number of keys and values is not the same for entity %d!", xIterator.Index() )
+        GLToy_Assert( bFirst, "The number of keys and values is not the same for entity %d!", xIterator.Index() );
     }
 
     // finally, create the entities

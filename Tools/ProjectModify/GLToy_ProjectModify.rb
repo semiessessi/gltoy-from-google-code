@@ -26,11 +26,14 @@
 
 puts "GLToy Project Modify"
 
+# TODO: some kind of Debug/Release/Final builds
+
 # interpret switches
 bSync = false
 bLibrary = true
+bDebug = false
 szProject = "GLToy"
-szCPP = "g++ -traditional -felide-constructors -fenum-int-equiv -fnonnull-objects -fpermissive -O -w -I./Independent -I./Linux"
+szCPP = "g++ -traditional -felide-constructors -fenum-int-equiv -fnonnull-objects -fpermissive -I./Independent -I./Linux"
 
 ARGV.each do | szArgument |
     
@@ -57,12 +60,17 @@ ARGV.each do | szArgument |
                 puts " project: the project to modify, defaults to \"GLToy\""
                 puts " switches: any of /, - or -- followed by:"
                 puts "   ?                Displays this message"
+				puts "   d				  Makefile produces Debug build"
+				puts "   debug"
                 puts "   h"
                 puts "   help"
                 puts "   e                The project should produce an executable with GLToy"
                 puts "   executable"
                 puts "   s                Update build scripts from the VS project"
                 puts "   sync"
+			
+			when /"debug"|d/
+                bDebug = true
 
 			when /"executable"|e/
                 bLibrary = false
@@ -78,6 +86,13 @@ if not File.directory? szProject
     puts "Fatal error: Project path \"#{ szProject }\" does not exist"
     puts "Make sure Project Modify is run from the GLToy root directory"
     Process.exit
+end
+
+if bDebug
+	puts "Applying Debug settings..."
+	szCPP += " -g -D_DEBUG -w"
+else
+	szCPP += " -O3"
 end
 
 if not bLibrary

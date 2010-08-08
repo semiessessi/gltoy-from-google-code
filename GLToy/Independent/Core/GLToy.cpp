@@ -72,7 +72,10 @@ static char szDebugMessageBuffer[ uDEBUGOUTPUT_MAX_LENGTH ];
 
 int GLToy::EntryPoint()
 {
-    Initialise();
+    if( !Initialise() )
+	{
+		return 0;
+	}
 
     GLToy_Console::RegisterCommand( "quit", Quit );
 

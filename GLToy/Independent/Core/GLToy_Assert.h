@@ -32,9 +32,23 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
-    #define GLToy_Assert( condition, message, ... ) if( _GLToy_Assert( condition, __FILE__, __LINE__, message, __VA_ARGS__ ) ) { __asm int 3 } // TODO - make this platform code
+
+	// TODO - make this platform code
+
+	#ifdef GLTOY_PLATFORM_WIN32
+
+		#define GLToy_Assert( condition, message, ... ) if( _GLToy_Assert( condition, __FILE__, __LINE__, message, __VA_ARGS__ ) ) { __asm int 3 }
+
+	#else
+
+		#define GLToy_Assert( condition, message, args... ) _GLToy_Assert( condition, __FILE__, __LINE__, message, ## args )
+
+	#endif
+
 #else
-    #define GLToy_Assert( condition, ... )
+
+    #define GLToy_Assert( condition, ... ) ;
+
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////////

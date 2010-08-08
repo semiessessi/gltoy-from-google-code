@@ -36,14 +36,30 @@
 #include <stdio.h>
 #include <wchar.h>
 
+// X11
+#include<X11/X.h>
+#include<X11/Xlib.h>
+
+// OpenGL
+#include<GL/gl.h>
+#include<GL/glx.h>
+#include<GL/glu.h>
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const unsigned int uGLTOY_COLOUR_DEPTH       = 32;
-static const unsigned int uGLTOY_Z_DEPTH            = 24;
-static const unsigned int uGLTOY_STENCIL_DEPTH      = 8;
 static const unsigned int uGLTOY_MAX_VSCWPRINTF		= 4096;
+
+static Display* g_xDisplay;
+static XVisualInfo* g_xVisualInfo;
+static Colormap g_xColormap;
+static Window g_xWindow;
+static GLXContext g_xRenderContext;
+static XWindowAttributes g_xWindowAttributes;
+static XEvent g_xEvent;
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -55,7 +71,7 @@ int _vscwprintf( const wchar_t* szFormat, va_list xArguments )
 	return vswprintf( szBuffer, uGLTOY_MAX_VSCWPRINTF, szFormat, xArguments );
 }
 
-int _vscwprintf( const char* szFormat, va_list xArguments )
+int _vscprintf( const char* szFormat, va_list xArguments )
 {
 	static char szBuffer[ uGLTOY_MAX_VSCWPRINTF ];
 	return vsnprintf( szBuffer, uGLTOY_MAX_VSCWPRINTF, szFormat, xArguments );
@@ -63,6 +79,65 @@ int _vscwprintf( const char* szFormat, va_list xArguments )
 
 bool GLToy::Platform_EarlyInitialise()
 {
+	g_xDisplay = XOpenDisplay( NULL );
+ 
+	if( !g_xDisplay )
+	{
+		GLToy_Assert( g_xDisplay != NULL, "XOpenDisplay failed" );
+		return false;
+	}
+
+	Window xRootWindow = DefaultRootWindow( g_xDisplay );
+
+	const int aiAttributes[] =
+	{
+		GLX_RGBA,
+		GLX_DEPTH_SIZE,
+		24,
+		GLX_DOUBLEBUFFER,
+		None
+	};
+
+	g_xVisualInfo = glXChooseVisual( g_xDisplay, 0, aiAttributes );
+
+	if( !g_xVisualInfo )
+	{
+		GLToy_Assert( g_xVisualInfo != NULL, "glXChooseVisual failed" );
+		return false;
+	}
+
+	GLToy_DebugOutput( "Visual %p selected", g_xVisualInfo->visualid );
+
+	g_xColormap = XCreateColormap( g_xDisplay, xRootWindow, g_xVisualInfo->visual, AllocNone );
+
+	XSetWindowAttributes xSWAttributes;
+	xSWAttributes.colormap = g_xColormap;
+	xSWAttributes.event_mask = ExposureMask;
+
+	g_xWindow = XCreateWindow(
+		g_xDisplay,
+		xRootWindow,
+		0, 0,
+		600, 600,
+		0,
+		g_xVisualInfo->depth,
+		InputOutput,
+		g_xVisualInfo->visual,
+		CWColormap | CWEventMask,
+		&xSWAttributes );
+
+	if( !g_xWindow )
+	{
+		GLToy_Assert( g_xWindow != NULL, "XCreateWindow failed" );
+		return false;
+	}
+
+	XMapWindow( g_xDisplay, g_xWindow );
+	XStoreName( g_xDisplay, g_xWindow, "GLToy" );
+
+	g_xRenderContext = glXCreateContext( g_xDisplay, g_xVisualInfo, NULL, GL_TRUE );
+ 	glXMakeCurrent( g_xDisplay, g_xWindow, g_xRenderContext );
+
     return true;
 }
 
@@ -73,11 +148,17 @@ bool GLToy::Platform_LateInitialise()
 
 void GLToy::Platform_Shutdown()
 {
+	glXMakeCurrent( g_xDisplay, None, NULL );
+	glXDestroyContext( g_xDisplay, g_xRenderContext );
+	XDestroyWindow( g_xDisplay, g_xWindow );
+	XCloseDisplay( g_xDisplay );
 }
 
 bool GLToy::Platform_MainLoop()
 {
-    return false;
+	// XNextEvent( g_xDisplay, &g_xEvent );
+
+    return true;
 }
 
 bool GLToy::Platform_Resize( const int& iWidth, const int& iHeight )
@@ -87,6 +168,7 @@ bool GLToy::Platform_Resize( const int& iWidth, const int& iHeight )
 
 void GLToy::Platform_UpdateBuffers()
 {
+	glXSwapBuffers( g_xDisplay, g_xWindow );
 }
 
 void GLToy::Platform_DebugOutput( const char* const szString )
@@ -96,6 +178,7 @@ void GLToy::Platform_DebugOutput( const char* const szString )
 
 void GLToy::Platform_ChangeWindowTitle( const char* const szNewTitle )
 {
+	XStoreName( g_xDisplay, g_xWindow, szNewTitle );
 }
 
 void GLToy::Platform_ChangeWindowIcon( const char* const szTextureName )
