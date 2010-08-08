@@ -72,10 +72,12 @@ bool GLToy::Platform_LateInitialise()
 }
 
 void GLToy::Platform_Shutdown()
-{}
+{
+}
 
 bool GLToy::Platform_MainLoop()
-{    return true;
+{
+    return false;
 }
 
 bool GLToy::Platform_Resize( const int& iWidth, const int& iHeight )
