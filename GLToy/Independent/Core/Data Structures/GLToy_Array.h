@@ -233,7 +233,14 @@ class GLToy_IndirectArray
 : public GLToy_DataStructure< T >
 {
 
+	typedef GLToy_DataStructure< T > GLToy_Parent;
+
 public:
+
+	GLToy_IndirectArray()
+	: GLToy_Parent()
+	{
+	}
 
     virtual u_int GetCount() const { return m_xArray.GetCount(); }
     virtual u_int GetMemoryUsage() const { return m_xArray.GetMemoryUsage(); }
@@ -557,7 +564,7 @@ public:
     {
         xStream << GetCount();
 
-        GLToy_ConstIterate( T*, xIterator, &( GLToy_Parent::m_xArray ) )
+        GLToy_ConstIterate( T, xIterator, this )
         {
             xStream << xIterator.Current();
         }

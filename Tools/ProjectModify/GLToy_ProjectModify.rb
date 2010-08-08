@@ -141,6 +141,7 @@ all:
 		szOutput += "\n\tar rc #{ szProject }.a"
 		axFiles.each do | szCPPFile |
 			szCPPFile.sub!( /\.cpp/, ".o" )
+			szCPPFile.sub!( /.*\//, "" )
 			szOutput += " \"" + szCPPFile + "\""
 		end
 	end

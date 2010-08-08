@@ -63,9 +63,7 @@ bool _GLToy_Assert( const bool& bCondition, const char* szFileName, const int& u
 
         va_start( xArgumentList, szFormatString );
 
-#ifdef GLTOY_PLATFORM_WIN32
         const int iMessageLength = _vscprintf( szFormatString, xArgumentList ) + 1;
-#endif
 
         // clean up xArgument list so that other variable parameter functions can work
         va_end( xArgumentList );
@@ -73,8 +71,8 @@ bool _GLToy_Assert( const bool& bCondition, const char* szFileName, const int& u
 #ifdef GLTOY_PLATFORM_WIN32
         // recursion why not
         GLToy_Assert( iTitleLength < uASSERT_MAX_TITLE_LENGTH, "Assert dialog title char* is too long, increase uASSERT_MAX_TITLE_LENGTH in \"Core\\Assert.h\", the current value is %d but this call requested %d.", uASSERT_MAX_TITLE_LENGTH, iTitleLength );
-        GLToy_Assert( iMessageLength < uASSERT_MAX_MESSAGE_LENGTH, "Assert message char* too long, increase uASSERT_MAX_MESSAGE_LENGTH in \"Core\\Assert.h\", the current value is %d but this call requested %d.", uASSERT_MAX_MESSAGE_LENGTH, iMessageLength );
 #endif
+        GLToy_Assert( iMessageLength < uASSERT_MAX_MESSAGE_LENGTH, "Assert message char* too long, increase uASSERT_MAX_MESSAGE_LENGTH in \"Core\\Assert.h\", the current value is %d but this call requested %d.", uASSERT_MAX_MESSAGE_LENGTH, iMessageLength );
 
         sprintf( szAssertTitle, /* iTitleLength, */ "\"%s\": line %d", szFileName, uLineNumber );
         

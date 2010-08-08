@@ -32,9 +32,9 @@
 #include <Core/GLToy.h>
 
 // C++
+#include <stdarg.h>
 #include <stdio.h>
-
-// ???
+#include <wchar.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -43,10 +43,23 @@
 static const unsigned int uGLTOY_COLOUR_DEPTH       = 32;
 static const unsigned int uGLTOY_Z_DEPTH            = 24;
 static const unsigned int uGLTOY_STENCIL_DEPTH      = 8;
+static const unsigned int uGLTOY_MAX_VSCWPRINTF		= 4096;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+int _vscwprintf( const wchar_t* szFormat, va_list xArguments )
+{
+	static wchar_t szBuffer[ uGLTOY_MAX_VSCWPRINTF ];
+	return vswprintf( szBuffer, uGLTOY_MAX_VSCWPRINTF, szFormat, xArguments );
+}
+
+int _vscwprintf( const char* szFormat, va_list xArguments )
+{
+	static char szBuffer[ uGLTOY_MAX_VSCWPRINTF ];
+	return vsnprintf( szBuffer, uGLTOY_MAX_VSCWPRINTF, szFormat, xArguments );
+}
 
 bool GLToy::Platform_EarlyInitialise()
 {
