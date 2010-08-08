@@ -112,10 +112,6 @@
     <None Include="script.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CodeChecker\CodeChecker.vcxproj">
-      <Project>{1c0fdc04-2614-43c7-8a7b-f45a5e88e5b1}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="..\GLToy\GLToy.vcxproj">
       <Project>{d102268c-2c78-4954-99a9-433ef8f9182f}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

@@ -16,6 +16,12 @@
     <Filter Include="Independent\Core">
       <UniqueIdentifier>{b39ff5a7-c4e3-4deb-9017-d2aa938118bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Linux">
+      <UniqueIdentifier>{dd43e2b0-827d-4d8b-8630-38e247e6b5ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Linux\Core">
+      <UniqueIdentifier>{64029202-2c16-4f22-a44a-b8f57c2154c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_Empty.cpp">
@@ -33,6 +39,9 @@
     <ClCompile Include="Independent\Core\Project_GLToy.cpp">
       <Filter>Independent\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Linux\Core\Platform_Empty.cpp">
+      <Filter>Linux\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_Empty.h">
@@ -43,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Core\Empty.h">
       <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Linux\Core\Platform_Empty.h">
+      <Filter>Linux\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
