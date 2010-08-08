@@ -81,7 +81,7 @@ if not File.directory? szProject
 end
 
 if not bLibrary
-	szCPP = szCPP + " -o #{ szProject }" 
+	szCPP = szCPP + " -I../GLToy/Independent -I../GLToy/Linux -o #{ szProject }"
 else
 	szCPP = szCPP + " -c" 
 end
@@ -138,12 +138,14 @@ all:
 	szOutput += " &> make.output"
 
 	if bLibrary 
-		szOutput += "\n\tar rc #{ szProject }.a"
+		szOutput += "\n\tar rcs lib#{ szProject }.a"
 		axFiles.each do | szCPPFile |
 			szCPPFile.sub!( /\.cpp/, ".o" )
 			szCPPFile.sub!( /.*\//, "" )
 			szOutput += " \"" + szCPPFile + "\""
 		end
+	else
+		szOutput += " -lX11 -lGL -lGLU -L../GLToy -lGLToy"
 	end
 
 	szOutput += "\n"
