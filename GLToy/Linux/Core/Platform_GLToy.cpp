@@ -114,7 +114,7 @@ bool GLToy::Platform_EarlyInitialise()
 		return false;
 	}
 
-	GLToy_DebugOutput( "Visual %p selected", g_xVisualInfo->visualid );
+	GLToy_DebugOutput( "  Visual %p selected", g_xVisualInfo->visualid );
 
 	g_xColormap = XCreateColormap( g_xDisplay, xRootWindow, g_xVisualInfo->visual, AllocNone );
 

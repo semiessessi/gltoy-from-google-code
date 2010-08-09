@@ -68,8 +68,8 @@ bool GLToy_Shader_System::Initialise()
 
         GLToy_String szShaderData = xShaderFile.GetString();
 
-        const GLToy_String szFSPath = GLToy_String( "shaders/" ) + szShaderData.RemoveFirstLine() + ".fs";
-        const GLToy_String szVSPath = GLToy_String( "shaders/" ) + szShaderData.RemoveFirstLine() + ".vs";
+        const GLToy_String szFSPath = GLToy_String( "Shaders/" ) + szShaderData.RemoveFirstLine() + ".fs";
+        const GLToy_String szVSPath = GLToy_String( "Shaders/" ) + szShaderData.RemoveFirstLine() + ".vs";
 
         GLToy_ANSITextFile xFSFile = GLToy_ANSITextFile( szFSPath );
         GLToy_ANSITextFile xVSFile = GLToy_ANSITextFile( szVSPath );

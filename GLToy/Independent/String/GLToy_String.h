@@ -121,6 +121,19 @@ public:
         return true;
     }
 
+    GLToy_Inline bool operator !=( const GLToy_String& xString ) const
+    {
+        GLToy_ConstIterate( wchar_t, xIterator, this )
+        {
+            if( xIterator.Current() != xString[ xIterator.Index() ] )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     GLToy_Inline GLToy_String& operator =( const GLToy_String& xString )
     {
         GLToy_Parent::operator =( xString );
