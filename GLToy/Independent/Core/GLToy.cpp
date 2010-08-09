@@ -251,6 +251,13 @@ bool GLToy::MainLoop()
     return true;
 }
 
+void GLToy::DebugOutput( const GLToy_String& szString )
+{
+    const char* const szANSI = szString.CreateANSIString();
+    DebugOutput( szANSI );
+    delete[] szANSI;
+}
+
 void GLToy::DebugOutput( const char* szFormatString, ... )
 {
     va_list xArgumentList;

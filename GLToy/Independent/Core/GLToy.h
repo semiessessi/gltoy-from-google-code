@@ -119,6 +119,7 @@ public:
     static bool Resize( const int& iWidth, const int& iHeight );
     static void UpdateBuffers();
 
+    static void DebugOutput( const GLToy_String& szString );
     static void DebugOutput( const char* szFormatString, ... );
 
     static u_int GetWindowViewportWidth();
