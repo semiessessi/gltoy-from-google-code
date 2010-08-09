@@ -100,12 +100,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Linux\Core\Platform_TestCube.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Win32\Core\Platform_TestCube.cpp" />
     <ClCompile Include="Independent\Render\Project_GLToy_Render.cpp" />
     <ClCompile Include="Independent\Render\TestCube_Render.cpp" />
     <ClCompile Include="Independent\Core\Project_GLToy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Linux\Core\Platform_TestCube.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Win32\Core\Platform_TestCube.h" />
     <ClInclude Include="Independent\Render\TestCube_Render.h" />
     <ClInclude Include="Independent\Core\TestCube.h" />
