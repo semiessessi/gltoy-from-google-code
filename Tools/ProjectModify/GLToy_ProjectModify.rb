@@ -142,7 +142,7 @@ all:
 	# find files in the .vcxproj file
 	axFiles = Array.new
 	szData.scan( /ClCompile Include=\"([^\"]+)/ ) do | aszMatch |
-		if /Independent/.match( aszMatch.first ) or /Linux/.match( aszMatch.first )
+		if /Independent/.match( aszMatch.first ) or /Linux/.match( aszMatch.first ) or /\.\.\\stb_image/.match( aszMatch.first )
 			aszMatch.first.gsub!( /\\/, "\/" )
 			puts "  Adding file #{ aszMatch.first }..."
 			szOutput += " \"" + aszMatch.first + "\""
@@ -156,6 +156,7 @@ all:
 		szOutput += "\n\tar rcs lib#{ szProject }.a"
 		axFiles.each do | szCPPFile |
 			szCPPFile.sub!( /\.cpp/, ".o" )
+			szCPPFile.sub!( /\.c/, ".o" )
 			szCPPFile.sub!( /.*\//, "" )
 			szOutput += " \"" + szCPPFile + "\""
 		end

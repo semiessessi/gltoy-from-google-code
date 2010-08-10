@@ -54,7 +54,7 @@
 
 void GLToy_Texture::Platform_LoadFromFile()
 {
-    const GLToy_String szPath = GLToy_String( "textures/" ) + m_szName;
+    const GLToy_String szPath = GLToy_String( "Textures/" ) + m_szName;
 
     // TODO - check width + height and load a "unloadable texture" texture for this one if they are zero
 	char* szANSIPath = szPath.CreateANSIString();
