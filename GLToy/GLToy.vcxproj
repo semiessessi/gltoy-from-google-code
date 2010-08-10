@@ -135,6 +135,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\stb_image\stb_image.c" />
     <ClCompile Include="Independent\Core\State\GLToy_State_FixedCamera.cpp" />
     <ClCompile Include="Independent\Render\GLToy_Raytrace_Fullscreen.cpp" />
     <ClCompile Include="Linux\Core\Platform_GLToy.cpp">
@@ -273,6 +274,7 @@
     <ClCompile Include="Independent\Physics\GLToy_Physics_System.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\stb_image\stb_image.h" />
     <ClInclude Include="Independent\Core\State\GLToy_State_FixedCamera.h" />
     <ClInclude Include="Independent\Render\GLToy_Raytrace_Fullscreen.h" />
     <ClInclude Include="Linux\Core\Platform_GLToy.h">

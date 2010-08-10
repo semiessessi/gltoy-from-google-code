@@ -133,6 +133,12 @@
     <Filter Include="Linux\Render">
       <UniqueIdentifier>{df8beafe-801d-4ec0-a733-b19e3ed91a17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{f2f48853-68d6-435f-9e47-ef40c93144ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\stb_image">
+      <UniqueIdentifier>{79e80a29-a240-481f-b831-da6809720c49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_GLToy.cpp">
@@ -434,6 +440,9 @@
     </ClCompile>
     <ClCompile Include="Linux\Core\Platform_GLToy_Timer.cpp">
       <Filter>Linux\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\stb_image\stb_image.c">
+      <Filter>External\stb_image</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -778,6 +787,9 @@
     </ClInclude>
     <ClInclude Include="Linux\Core\Platform_GLToy_Timer.h">
       <Filter>Linux\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\stb_image\stb_image.h">
+      <Filter>External\stb_image</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

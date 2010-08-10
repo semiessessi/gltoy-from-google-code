@@ -41,6 +41,10 @@
 #include <gl/gl.h>
 #include <gl/glu.h>
 
+// TODO: it would be nice to work out a "not shit" way to include this
+// stb_image
+#include "../../../stb_image/stb_image.h"
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // M A C R O S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,6 +56,8 @@
 // L I B R A R I E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// TODO: GDI plus is still used for setting the window icon - it should probably be moved to
+// Platform_GLToy.cpp for the sake of encapsulation though...
 #pragma comment( lib, "gdiplus" )
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,38 +76,32 @@ ULONG_PTR g_xGDIToken = NULL;
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// TODO: This is actually platform independent for the most part
+// (see Linux/Render/Platform_GLToy_Texture.cpp)
+
 void GLToy_Texture::Platform_LoadFromFile()
 {
     const GLToy_String szPath = GLToy_String( "textures/" ) + m_szName;
 
-    Bitmap* pxBitmap = new Bitmap( szPath.GetWideString() );
-
-    if( !pxBitmap )
-    {
-        GLToy_Assert( pxBitmap != NULL, "Failed to load image file \"%S\" with GDI+", szPath.GetWideString() );
-        return;
-    }
-
-    m_uWidth = pxBitmap->GetWidth();
-    m_uHeight = pxBitmap->GetHeight();
-
     // TODO - check width + height and load a "unloadable texture" texture for this one if they are zero
+	char* szANSIPath = szPath.CreateANSIString();
+	int iComponents;
 
-    Resize( m_uWidth * m_uHeight );
+	u_char* pucData = stbi_load(
+		szPath.CreateANSIString(),
+		reinterpret_cast< int* >( &m_uWidth ),
+		reinterpret_cast< int* >( &m_uHeight ),
+		&iComponents,
+		STBI_rgb_alpha );
 
-    GLToy_Iterate( u_int, xIterator, this )
-    {
-        Color xColour;
-        pxBitmap->GetPixel( xIterator.Index() % m_uWidth, xIterator.Index() / m_uWidth, &xColour );
-        const u_int uBGRA = xColour.GetValue();
-        const u_int uRGBA = ( uBGRA & 0xFF000000 )
-            | ( ( uBGRA & 0xFF0000 ) >> 16 )
-            | ( uBGRA & 0xFF00 )
-            | ( ( uBGRA & 0xFF ) << 16 );   // AARRGGBB -> AABBGGRR
-        xIterator.Current() = uRGBA;
-    }
+	delete[] szANSIPath;
 
-    delete pxBitmap;
+	// specifiying STBI_rgb_alpha should force output to always be RGBA
+	Resize( m_uWidth * m_uHeight );
+	GLToy_PointerArray< u_int > xData( reinterpret_cast< u_int* >( pucData ), m_uWidth * m_uHeight );
+	CopyFrom( &xData );
+
+	stbi_image_free( pucData );
 }
 
 void GLToy_Texture::Platform_Create()
