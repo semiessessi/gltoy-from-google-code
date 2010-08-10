@@ -263,9 +263,16 @@ void GLToy::DebugOutput( const char* szFormatString, ... )
     va_list xArgumentList;
 
     va_start( xArgumentList, szFormatString );
-    //int iMessageLength = _vscprintf( szFormatString, xArgumentList ) + 1;
+    int iMessageLength = _vscprintf( szFormatString, xArgumentList ) + 1;
 
-    vsprintf( szDebugMessageBuffer, /* iMessageLength, */ szFormatString, xArgumentList );
+	if( iMessageLength >= uDEBUGOUTPUT_MAX_LENGTH )
+	{
+		iMessageLength = uDEBUGOUTPUT_MAX_LENGTH - 1;
+		// TODO: this might get annoying, particularly with messages from shader compilers or Havok, which are often huge
+		// GLToy_Assert( iMessageLength < uDEBUGOUTPUT_MAX_LENGTH, "Debug ouput message too long (%d chars)! Truncating...", iMessageLength );
+	}
+
+    vsnprintf( szDebugMessageBuffer, iMessageLength, szFormatString, xArgumentList );
 
     // we no longer need xArgumentList
     va_end( xArgumentList );
