@@ -25,4 +25,4 @@
 #############################################################################################
 
 all:
-	g++ -traditional -felide-constructors -fenum-int-equiv -fnonnull-objects -fpermissive -I./Independent -I./Linux -g -D_DEBUG -w -I../GLToy/Independent -I../GLToy/Linux -o ../Data/TestCube "Linux/Core/Platform_TestCube.cpp" "Independent/Render/Project_GLToy_Render.cpp" "Independent/Render/TestCube_Render.cpp" "Independent/Core/Project_GLToy.cpp" &> make.output -lX11 -lGL -lGLU -lm -lrt -L../GLToy -lGLToy
+	g++ -traditional -felide-constructors -fenum-int-equiv -fnonnull-objects -fpermissive -I./Independent -I./X11 -g -D_DEBUG -w -I../GLToy/Independent -I../GLToy/X11 -o ../Data/TestCube "X11/Core/Platform_TestCube.cpp" "Independent/Render/Project_GLToy_Render.cpp" "Independent/Render/TestCube_Render.cpp" "Independent/Core/Project_GLToy.cpp" &> make.output -lX11 -lGL -lGLU -lm -lrt -L../GLToy -lGLToy

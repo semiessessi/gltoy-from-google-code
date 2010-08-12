@@ -129,6 +129,8 @@ bool GLToy::Initialise()
 {
     GLToy_DebugOutput( "\r\nGLToy::Initialise() - Initialising systems:\r\n" );
 
+	GLToy::GiveFocus();
+
     GLToy_InitialiserCall( GLToy_Maths );
     GLToy_InitialiserCall( GLToy_Input_System );
 

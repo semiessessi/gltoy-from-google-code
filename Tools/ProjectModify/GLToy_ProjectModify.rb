@@ -33,7 +33,7 @@ bSync = false
 bLibrary = true
 bDebug = false
 szProject = "GLToy"
-szCPP = "g++ -traditional -felide-constructors -fenum-int-equiv -fnonnull-objects -fpermissive -I./Independent -I./Linux"
+szCPP = "g++ -traditional -felide-constructors -fenum-int-equiv -fnonnull-objects -fpermissive -I./Independent -I./X11"
 
 ARGV.each do | szArgument |
     
@@ -96,7 +96,7 @@ else
 end
 
 if not bLibrary
-	szCPP = szCPP + " -I../GLToy/Independent -I../GLToy/Linux -o ../Data/#{ szProject }"
+	szCPP = szCPP + " -I../GLToy/Independent -I../GLToy/X11 -o ../Data/#{ szProject }"
 else
 	szCPP = szCPP + " -c" 
 end
@@ -142,7 +142,7 @@ all:
 	# find files in the .vcxproj file
 	axFiles = Array.new
 	szData.scan( /ClCompile Include=\"([^\"]+)/ ) do | aszMatch |
-		if /Independent/.match( aszMatch.first ) or /Linux/.match( aszMatch.first ) or /\.\.\\stb_image/.match( aszMatch.first )
+		if /Independent/.match( aszMatch.first ) or /X11/.match( aszMatch.first ) or /\.\.\\stb_image/.match( aszMatch.first )
 			aszMatch.first.gsub!( /\\/, "\/" )
 			puts "  Adding file #{ aszMatch.first }..."
 			szOutput += " \"" + aszMatch.first + "\""

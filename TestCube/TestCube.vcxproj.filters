@@ -16,10 +16,10 @@
     <Filter Include="Independent\Core">
       <UniqueIdentifier>{97f47abd-9691-4e4c-bb2d-7e633e8b7184}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Linux">
+    <Filter Include="X11">
       <UniqueIdentifier>{c20b91f9-eda2-485c-96a3-e7c39191cd0a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Linux\Core">
+    <Filter Include="X11\Core">
       <UniqueIdentifier>{d40f7ab4-b375-4c7d-b8fd-d6461f50c374}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -36,8 +36,8 @@
     <ClCompile Include="Independent\Core\Project_GLToy.cpp">
       <Filter>Independent\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Linux\Core\Platform_TestCube.cpp">
-      <Filter>Linux\Core</Filter>
+    <ClCompile Include="X11\Core\Platform_TestCube.cpp">
+      <Filter>X11\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -50,8 +50,8 @@
     <ClInclude Include="Independent\Core\TestCube.h">
       <Filter>Independent\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Linux\Core\Platform_TestCube.h">
-      <Filter>Linux\Core</Filter>
+    <ClInclude Include="X11\Core\Platform_TestCube.h">
+      <Filter>X11\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

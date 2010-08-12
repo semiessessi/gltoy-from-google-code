@@ -109,28 +109,28 @@
     <Filter Include="Independent\Physics">
       <UniqueIdentifier>{e0570b97-fd25-4b22-a86d-93eb85b887f6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Linux">
+    <Filter Include="X11">
       <UniqueIdentifier>{7f6a3c82-674d-438f-a0ac-418b911ec94e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Linux\Core">
+    <Filter Include="X11\Core">
       <UniqueIdentifier>{08fa3d95-abf7-4503-bd7e-385484334283}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Linux\File">
+    <Filter Include="X11\File">
       <UniqueIdentifier>{010ad578-c055-4129-8e55-5284f3416855}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Linux\FridgeScript">
+    <Filter Include="X11\FridgeScript">
       <UniqueIdentifier>{c831f41f-e617-4bcc-8cfa-49f55549d799}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Linux\Input">
+    <Filter Include="X11\Input">
       <UniqueIdentifier>{a2e2e8f8-add3-41d0-8b39-8cf14426dec8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Linux\Maths">
+    <Filter Include="X11\Maths">
       <UniqueIdentifier>{40ea399a-c561-4d1c-8b58-ec1b67ebb656}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Linux\Physics">
+    <Filter Include="X11\Physics">
       <UniqueIdentifier>{a78a7e10-5158-464e-a2ea-3f7bc113cff8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Linux\Render">
+    <Filter Include="X11\Render">
       <UniqueIdentifier>{df8beafe-801d-4ec0-a733-b19e3ed91a17}</UniqueIdentifier>
     </Filter>
     <Filter Include="External">
@@ -414,32 +414,32 @@
     <ClCompile Include="Independent\Core\State\GLToy_State_FixedCamera.cpp">
       <Filter>Independent\Core\State</Filter>
     </ClCompile>
-    <ClCompile Include="Linux\Core\Platform_GLToy.cpp">
-      <Filter>Linux\Core</Filter>
+    <ClCompile Include="X11\Core\Platform_GLToy.cpp">
+      <Filter>X11\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Linux\File\Platform_GLToy_File_System.cpp">
-      <Filter>Linux\File</Filter>
+    <ClCompile Include="X11\File\Platform_GLToy_File_System.cpp">
+      <Filter>X11\File</Filter>
     </ClCompile>
-    <ClCompile Include="Linux\Input\Platform_GLToy_Input.cpp">
-      <Filter>Linux\Input</Filter>
+    <ClCompile Include="X11\Input\Platform_GLToy_Input.cpp">
+      <Filter>X11\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Linux\Maths\Platform_GLToy_Maths.cpp">
-      <Filter>Linux\Maths</Filter>
+    <ClCompile Include="X11\Maths\Platform_GLToy_Maths.cpp">
+      <Filter>X11\Maths</Filter>
     </ClCompile>
-    <ClCompile Include="Linux\Maths\Platform_GLToy_Vector.cpp">
-      <Filter>Linux\Maths</Filter>
+    <ClCompile Include="X11\Maths\Platform_GLToy_Vector.cpp">
+      <Filter>X11\Maths</Filter>
     </ClCompile>
-    <ClCompile Include="Linux\Render\Platform_GLToy_Texture.cpp">
-      <Filter>Linux\Render</Filter>
+    <ClCompile Include="X11\Render\Platform_GLToy_Texture.cpp">
+      <Filter>X11\Render</Filter>
     </ClCompile>
-    <ClCompile Include="Linux\Render\Platform_GLToy_Render.cpp">
-      <Filter>Linux\Render</Filter>
+    <ClCompile Include="X11\Render\Platform_GLToy_Render.cpp">
+      <Filter>X11\Render</Filter>
     </ClCompile>
-    <ClCompile Include="Linux\Core\Platform_GLToy_Assert.cpp">
-      <Filter>Linux\Core</Filter>
+    <ClCompile Include="X11\Core\Platform_GLToy_Assert.cpp">
+      <Filter>X11\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Linux\Core\Platform_GLToy_Timer.cpp">
-      <Filter>Linux\Core</Filter>
+    <ClCompile Include="X11\Core\Platform_GLToy_Timer.cpp">
+      <Filter>X11\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\stb_image\stb_image.c">
       <Filter>External\stb_image</Filter>
@@ -767,26 +767,26 @@
     <ClInclude Include="Independent\Core\State\GLToy_State_FixedCamera.h">
       <Filter>Independent\Core\State</Filter>
     </ClInclude>
-    <ClInclude Include="Linux\Core\Platform_GLToy.h">
-      <Filter>Linux\Core</Filter>
+    <ClInclude Include="X11\Core\Platform_GLToy.h">
+      <Filter>X11\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Linux\FridgeScript\Platform_GLToy_FridgeScript.h">
-      <Filter>Linux\FridgeScript</Filter>
+    <ClInclude Include="X11\FridgeScript\Platform_GLToy_FridgeScript.h">
+      <Filter>X11\FridgeScript</Filter>
     </ClInclude>
-    <ClInclude Include="Linux\Maths\Platform_GLToy_Vector.h">
-      <Filter>Linux\Maths</Filter>
+    <ClInclude Include="X11\Maths\Platform_GLToy_Vector.h">
+      <Filter>X11\Maths</Filter>
     </ClInclude>
-    <ClInclude Include="Linux\Maths\Platform_GLToy_Maths.h">
-      <Filter>Linux\Maths</Filter>
+    <ClInclude Include="X11\Maths\Platform_GLToy_Maths.h">
+      <Filter>X11\Maths</Filter>
     </ClInclude>
-    <ClInclude Include="Linux\Render\Platform_GLToy_Render.h">
-      <Filter>Linux\Render</Filter>
+    <ClInclude Include="X11\Render\Platform_GLToy_Render.h">
+      <Filter>X11\Render</Filter>
     </ClInclude>
-    <ClInclude Include="Linux\Physics\Platform_GLToy_Havok_Physics.h">
-      <Filter>Linux\Physics</Filter>
+    <ClInclude Include="X11\Physics\Platform_GLToy_Havok_Physics.h">
+      <Filter>X11\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Linux\Core\Platform_GLToy_Timer.h">
-      <Filter>Linux\Core</Filter>
+    <ClInclude Include="X11\Core\Platform_GLToy_Timer.h">
+      <Filter>X11\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\stb_image\stb_image.h">
       <Filter>External\stb_image</Filter>

@@ -52,6 +52,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
+
 static Display* g_xDisplay;
 static XVisualInfo* g_xVisualInfo;
 static Colormap g_xColormap;
@@ -124,8 +125,6 @@ bool GLToy::Platform_EarlyInitialise()
 		ExposureMask
 		| KeyPressMask
 		| ButtonPressMask
-		| EnterWindowMask
-		| LeaveWindowMask
 		| StructureNotifyMask;
 
 	g_xWindow = XCreateWindow(
@@ -172,6 +171,19 @@ void GLToy::Platform_Shutdown()
 
 bool GLToy::Platform_MainLoop()
 {
+	Window xWindow;
+	int iState;
+	XGetInputFocus( g_xDisplay, &xWindow, &iState );
+
+	if( xWindow == g_xWindow )
+	{
+		GLToy::GiveFocus();
+	}
+	else
+	{
+		GLToy::LoseFocus();
+	}
+
 	while( XPending( g_xDisplay ) > 0 )
 	{
 		XNextEvent( g_xDisplay, &g_xEvent );
@@ -182,24 +194,6 @@ bool GLToy::Platform_MainLoop()
 				if( g_xEvent.xdestroywindow.window == g_xWindow )
 				{
 					return false;
-				}
-				break;
-			}
-
-			case EnterNotify:
-			{
-				if( g_xEvent.xfocus.window == g_xWindow )
-				{
-					GLToy::GiveFocus();
-				}
-				break;
-			}
-
-			case LeaveNotify:
-			{
-				if( g_xEvent.xfocus.window == g_xWindow )
-				{
-					GLToy::LoseFocus();
 				}
 				break;
 			}
@@ -222,7 +216,7 @@ bool GLToy::Platform_MainLoop()
 
 			default:
 			{
-				GLToy_DebugOutput( false, "Unhandled X11 Event, type = %X", g_xEvent.type );
+				GLToy_DebugOutput( "Unhandled X11 Event, type = %X\r\n", g_xEvent.type );
 				break;
 			}
 		}
