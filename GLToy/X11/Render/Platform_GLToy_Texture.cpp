@@ -117,3 +117,10 @@ void GLToy_Texture_System::Platform_Shutdown()
 {
     glDisable( GL_TEXTURE_2D );
 }
+
+void GLToy_Texture_System::Platform_SaveTextureTGA( const GLToy_String& szName, const u_int* const puData, const u_int uWidth, const u_int uHeight )
+{
+    char* szFilename = ( szName.EndsWith( ".tga" ) ? szName : ( szName + ".tga" ) ).CreateANSIString();
+    stbi_write_tga( szFilename, uWidth, uHeight, STBI_rgb_alpha, puData );
+    delete[] szFilename;
+}

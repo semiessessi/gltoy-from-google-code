@@ -444,6 +444,9 @@
     <ClCompile Include="..\stb_image\stb_image.c">
       <Filter>External\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Maths\GLToy_Noise.cpp">
+      <Filter>Independent\Maths</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
@@ -790,6 +793,9 @@
     </ClInclude>
     <ClInclude Include="..\stb_image\stb_image.h">
       <Filter>External\stb_image</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Maths\GLToy_Noise.h">
+      <Filter>Independent\Maths</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

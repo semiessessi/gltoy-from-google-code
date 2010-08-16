@@ -24,48 +24,31 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-// I N C L U D E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-#include <Core/JD1.h>
-
-// This file's headers
-#include <Demo/JD1_DemoScene_Tunnel.h>
-
-// GLToy
-#include <Maths/GLToy_Noise.h>
-#include <Render/GLToy_Camera.h>
-#include <Render/GLToy_Raytrace_Fullscreen.h>
-#include <Render/GLToy_Texture.h>
+#ifndef __GLTOY_NOISE_H_
+#define __GLTOY_NOISE_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void JD1_DemoScene_Tunnel::Initialise()
+class GLToy_Noise
 {
-    GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid2.png" ) );
-}
 
-void JD1_DemoScene_Tunnel::Shutdown()
-{
-}
+public:
 
-void JD1_DemoScene_Tunnel::Render() const
-{
-    GLToy_Raytrace_Fullscreen xRaytrace( GLToy_Hash_Constant( "JD1_Raytrace_Tunnel" ) );
+    static float Linear1D( const float fX, const float fFrequency = 1.0f, const float fScale = 1.0f );
+    static float Cosine1D( const float fX, const float fFrequency = 1.0f, const float fScale = 1.0f );
+    //static float Fractal1D( const float fX, const float fFrequency = 1.0f, const float fScale = 1.0f, const float fFactor = 0.5f, const u_int uDepth = 4 );
 
-    xRaytrace.BindTexture( "xTexture", GLToy_Hash_Constant( "generic/grid2.png" ) );
-    xRaytrace.Render();
-}
+    static float Linear2D( const float fX, const float fY, const float fFrequency = 1.0f, const float fScale = 1.0f );
+    static float Cosine2D( const float fX, const float fY, const float fFrequency = 1.0f, const float fScale = 1.0f );
+    static float Fractal2D( const float fX, const float fY, const float fFrequency = 1.0f, const float fScale = 1.0f, const float fFactor = 0.5f, const u_int uDepth = 4 );
 
-void JD1_DemoScene_Tunnel::Update()
-{
-    GLToy_Parent::Update();
+private:
 
-    GLToy_Camera::SetPosition( GLToy_Vector_3(
-        GLToy_Noise::Cosine1D( m_fTimer, 0.3f, 40.0f ), 
-        0.0f,
-        m_fTimer * 150.0f ) );
-}
+    static float PRNG( const u_int uSeed );
+    static float PRNG( const u_int uSeed1, const u_int uSeed2 );
+
+};
+
+#endif

@@ -77,7 +77,7 @@ ULONG_PTR g_xGDIToken = NULL;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // TODO: This is actually platform independent for the most part
-// (see Linux/Render/Platform_GLToy_Texture.cpp)
+// (see X11/Render/Platform_GLToy_Texture.cpp)
 
 void GLToy_Texture::Platform_LoadFromFile()
 {
@@ -150,4 +150,18 @@ void GLToy_Texture_System::Platform_Shutdown()
 
     CoUninitialize();
     GdiplusShutdown( g_xGDIToken );
+}
+
+void GLToy_Texture_System::Platform_SaveTextureBMP( const GLToy_String& szName, u_int* const puData, const u_int uWidth, const u_int uHeight )
+{
+    char* szFilename = ( szName.EndsWith( ".bmp" ) ? szName : ( szName + ".bmp" ) ).CreateANSIString();
+    stbi_write_bmp( szFilename, uWidth, uHeight, STBI_rgb_alpha, reinterpret_cast< void* >( puData ) );
+    delete[] szFilename;
+}
+
+void GLToy_Texture_System::Platform_SaveTextureTGA( const GLToy_String& szName, u_int* const puData, const u_int uWidth, const u_int uHeight )
+{
+    char* szFilename = ( szName.EndsWith( ".tga" ) ? szName : ( szName + ".tga" ) ).CreateANSIString();
+    stbi_write_tga( szFilename, uWidth, uHeight, STBI_rgb_alpha, reinterpret_cast< void* >( puData ) );
+    delete[] szFilename;
 }

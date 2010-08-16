@@ -142,10 +142,16 @@ public:
     static void CreateTextureFromRGBAData( const GLToy_Hash uHash, u_int* const puData, const u_int uWidth, const u_int uHeight );
     static void CreateTextureFromRGBData( const GLToy_Hash uHash, u_char* const pucData, const u_int uWidth, const u_int uHeight );
 
+    static void SaveTextureBMP( const GLToy_String& szName, u_int* const puData, const u_int uWidth, const u_int uHeight ) { Platform_SaveTextureBMP( szName, puData, uWidth, uHeight ); }
+    static void SaveTextureTGA( const GLToy_String& szName, u_int* const puData, const u_int uWidth, const u_int uHeight ) { Platform_SaveTextureTGA( szName, puData, uWidth, uHeight ); }
+
 private:
 
     static bool Platform_Initialise();
     static void Platform_Shutdown();
+
+    static void Platform_SaveTextureBMP( const GLToy_String& szName, u_int* const puData, const u_int uWidth, const u_int uHeight );
+    static void Platform_SaveTextureTGA( const GLToy_String& szName, u_int* const puData, const u_int uWidth, const u_int uHeight );
 
     static GLToy_HashTree< GLToy_Texture > s_xTextures;
 

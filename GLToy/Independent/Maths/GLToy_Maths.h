@@ -71,15 +71,16 @@ public:
     static float Deg2Rad( const float fDegrees );
     static float Rad2Deg( const float fDegrees );
 
-    static float Clamp( const float fValue, const float fMin, const float fMax ) { return Min( fMax, Max( fValue, fMin ) ); }
-    static float Max( const float fValue1, const float fValue2 ) { return ( fValue1 > fValue2 ) ? fValue1 : fValue2; }
-    static float Min( const float fValue1, const float fValue2 ) { return ( fValue1 < fValue2 ) ? fValue1 : fValue2; }
-    static int Max( const int iValue1, const int iValue2 ) { return ( iValue1 > iValue2 ) ? iValue1 : iValue2; }
-    static int Min( const int iValue1, const int iValue2 ) { return ( iValue1 < iValue2 ) ? iValue1 : iValue2; }
+    static GLToy_Inline float Clamp( const float fValue, const float fMin, const float fMax ) { return Min( fMax, Max( fValue, fMin ) ); }
+    static GLToy_Inline float Max( const float fValue1, const float fValue2 ) { return ( fValue1 > fValue2 ) ? fValue1 : fValue2; }
+    static GLToy_Inline float Min( const float fValue1, const float fValue2 ) { return ( fValue1 < fValue2 ) ? fValue1 : fValue2; }
+    static GLToy_Inline int Max( const int iValue1, const int iValue2 ) { return ( iValue1 > iValue2 ) ? iValue1 : iValue2; }
+    static GLToy_Inline int Min( const int iValue1, const int iValue2 ) { return ( iValue1 < iValue2 ) ? iValue1 : iValue2; }
 
-    static float Lerp( const float fValue1, const float fValue2, const float fAmount ) { return fValue1 + ( fValue2 - fValue1 ) * fAmount; }
+    static GLToy_Inline float Lerp( const float fValue1, const float fValue2, const float fAmount ) { return fValue1 + ( fValue2 - fValue1 ) * fAmount; }
+    static GLToy_Inline float CosineInterpolate( const float fValue1, const float fValue2, const float fAmount ) { return fValue1 + ( fValue2 - fValue1 ) * 0.5f * ( 1.0f - Cos( Pi * fAmount ) ); }
     //static GLToy_Vector_2 Lerp( const GLToy_Vector_2& xValue1, const GLToy_Vector_2& xValue2, float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
-    static GLToy_Vector_3 Lerp( const GLToy_Vector_3& xValue1, const GLToy_Vector_3& xValue2, const float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
+    static GLToy_Inline GLToy_Vector_3 Lerp( const GLToy_Vector_3& xValue1, const GLToy_Vector_3& xValue2, const float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
     //static GLToy_Vector_4 Lerp( const GLToy_Vector_4& xValue1, const GLToy_Vector_4& xValue2, float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
 
     static float Sin( const float fValue );
