@@ -345,6 +345,11 @@ void Platform_GLToy_Render::SubmitVertex( const float fX, const float fY, const 
     glVertex3f( fX, fY, fZ );
 }
 
+void Platform_GLToy_Render::SubmitVertex( const GLToy_Vector_2& xVertex )
+{
+    glVertex2fv( xVertex.GetFloatPointer() );
+}
+
 void Platform_GLToy_Render::SubmitVertex( const GLToy_Vector_3& xVertex )
 {
     glVertex3fv( xVertex.GetFloatPointer() );

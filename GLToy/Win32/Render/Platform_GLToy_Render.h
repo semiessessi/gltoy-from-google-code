@@ -147,7 +147,8 @@ private:
     static void SetCWFaceWinding();
 
     static void SubmitVertex( const float fX, const float fY, const float fZ );
-    static void SubmitVertex( const GLToy_Vector_3& xVertex );
+    static void SubmitVertex( const GLToy_Vector_2& xVertex );
+	static void SubmitVertex( const GLToy_Vector_3& xVertex );
     static void SubmitNormal( const GLToy_Vector_3& xNormal );
     static void SubmitColour( const GLToy_Vector_3& xColour );
     static void SubmitColour( const GLToy_Vector_4& xColour );

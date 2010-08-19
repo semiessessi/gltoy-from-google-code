@@ -336,6 +336,11 @@ void GLToy_Render::EndSubmit()
     Platform_GLToy_Render::EndSubmit();
 }
 
+void GLToy_Render::SubmitVertex( const GLToy_Vector_2& xVertex )
+{
+    Platform_GLToy_Render::SubmitVertex( xVertex );
+}
+
 void GLToy_Render::SubmitVertex( const GLToy_Vector_3& xVertex )
 {
     Platform_GLToy_Render::SubmitVertex( xVertex );
