@@ -31,6 +31,9 @@
     <Filter Include="Win32\File">
       <UniqueIdentifier>{a4013387-3f25-485e-8368-565d796d39dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Render\SuperScope">
+      <UniqueIdentifier>{09906367-8f0c-41fb-acfa-f74e41c6cefc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_JD1.cpp">
@@ -75,8 +78,8 @@
     <ClCompile Include="Independent\Demo\JD1_DemoScene.cpp">
       <Filter>Independent\Demo</Filter>
     </ClCompile>
-    <ClCompile Include="Independent\Render\JD1_SuperScope.cpp">
-      <Filter>Independent\Render</Filter>
+    <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope.cpp">
+      <Filter>Independent\Render\SuperScope</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,8 +122,8 @@
     <ClInclude Include="Independent\Demo\JD1_DemoScene_Tunnel.h">
       <Filter>Independent\Demo</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Render\JD1_SuperScope.h">
-      <Filter>Independent\Render</Filter>
+    <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope.h">
+      <Filter>Independent\Render\SuperScope</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -146,7 +146,7 @@
     <ClCompile Include="Independent\Demo\JD1_DemoScene_Tunnel.cpp" />
     <ClCompile Include="Independent\Demo\JD1_Demo_System.cpp" />
     <ClCompile Include="Independent\File\JD1_WaveFile.cpp" />
-    <ClCompile Include="Independent\Render\JD1_SuperScope.cpp" />
+    <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope.cpp" />
     <ClCompile Include="Independent\Sound\JD1_Sound.cpp" />
     <ClCompile Include="Independent\Sound\JD1_Sound_System.cpp" />
     <ClCompile Include="Win32\Core\Platform_JD1.cpp" />
@@ -164,7 +164,7 @@
     <ClInclude Include="Independent\Demo\JD1_Demo_System.h" />
     <ClInclude Include="Independent\File\JD1_SoundFile.h" />
     <ClInclude Include="Independent\File\JD1_WaveFile.h" />
-    <ClInclude Include="Independent\Render\JD1_SuperScope.h" />
+    <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope.h" />
     <ClInclude Include="Independent\Sound\JD1_Sound.h" />
     <ClInclude Include="Independent\Sound\JD1_Sound_Source.h" />
     <ClInclude Include="Independent\Sound\JD1_Sound_System.h" />
