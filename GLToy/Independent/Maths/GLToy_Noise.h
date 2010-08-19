@@ -42,7 +42,7 @@ public:
 
     static float Linear2D( const float fX, const float fY, const float fFrequency = 1.0f, const float fScale = 1.0f );
     static float Cosine2D( const float fX, const float fY, const float fFrequency = 1.0f, const float fScale = 1.0f );
-    static float Fractal2D( const float fX, const float fY, const float fFrequency = 1.0f, const float fScale = 1.0f, const float fFactor = 0.5f, const u_int uDepth = 4 );
+    static float Fractal2D( const float fX, const float fY, const float fFrequency = 1.0f, const float fScale = 1.0f, const float fFactor = 0.5f, const u_int uDepth = 6 );
 
 private:
 

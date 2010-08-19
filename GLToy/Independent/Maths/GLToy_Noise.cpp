@@ -101,14 +101,11 @@ float GLToy_Noise::Fractal2D( const float fX, const float fY, const float fFrequ
     {
         fValue += fFractalScale * ( fValue + Cosine2D( fU, fV, fFractalFrequency, fScale ) );
 
-        fU += ( u & 1 ) ? 30.0f : -25.0f;
-        fV += ( u & 1 ) ? -30.0f : 25.0f;
-
         fFractalFrequency *= fFrequencyChange;
         fFractalScale *= 0.5f;
     }
 
-    return fValue;
+    return GLToy_Maths::Clamp( fValue, -fScale, fScale );
 }
 
 float GLToy_Noise::PRNG( const u_int uSeed )
