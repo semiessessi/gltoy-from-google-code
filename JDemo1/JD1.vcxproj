@@ -148,6 +148,7 @@
     <ClCompile Include="Independent\File\JD1_WaveFile.cpp" />
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope.cpp" />
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Dragon.cpp" />
+    <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Morph.cpp" />
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Test.cpp" />
     <ClCompile Include="Independent\Sound\JD1_Sound.cpp" />
     <ClCompile Include="Independent\Sound\JD1_Sound_System.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Independent\File\JD1_WaveFile.h" />
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope.h" />
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Dragon.h" />
+    <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Morph.h" />
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Test.h" />
     <ClInclude Include="Independent\Render\Texer\JD1_Texer.h" />
     <ClInclude Include="Independent\Sound\JD1_Sound.h" />

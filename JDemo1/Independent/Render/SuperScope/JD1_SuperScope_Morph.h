@@ -24,52 +24,32 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_DEMOSCENE_AVS_TEST_H_
-#define __JD1_DEMOSCENE_AVS_TEST_H_
+#ifndef __JD1_SUPERSCOPE_MORPH_H_
+#define __JD1_SUPERSCOPE_MORPH_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Demo/JD1_DemoScene_AVS.h>
-
-// JD1
-#include <Render/SuperScope/JD1_SuperScope_Morph.h>
+// Parent
+#include <Render/SuperScope/JD1_SuperScope.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class JD1_DemoScene_AVS_Test
-: public JD1_DemoScene_AVS
+class JD1_SuperScope_Morph
+: public JD1_SuperScope
 {
-    
-    typedef JD1_DemoScene_AVS GLToy_Parent;
 
 public:
 
-    JD1_DemoScene_AVS_Test()
-    : GLToy_Parent()
-    , m_xSSC()
-    {
-    }
+    virtual ~JD1_SuperScope_Morph() {}
 
-    virtual ~JD1_DemoScene_AVS_Test()
-    {
-    }
-
-    virtual void Initialise()
-    {
-        AppendComponent( static_cast< GLToy_Renderable* >( &m_xSSC ), static_cast< GLToy_Updateable* >( &m_xSSC ) );
-
-        GLToy_Parent::Initialise();
-    }
-
-protected:
-
-    JD1_SuperScope_Morph m_xSSC;
-
+    virtual void Initialise();
+    virtual void PerFrame();
+    virtual void OnBeat();
+    virtual void PerPoint( const float i, const float v, float& x, float& y, float& red, float& green, float& blue, bool& skip, float& linesize ) const;
 };
 
 #endif

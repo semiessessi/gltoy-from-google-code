@@ -90,6 +90,9 @@
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Dragon.cpp">
       <Filter>Independent\Render\SuperScope</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Morph.cpp">
+      <Filter>Independent\Render\SuperScope</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_JD1.h">
@@ -147,6 +150,9 @@
       <Filter>Independent\Demo</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Dragon.h">
+      <Filter>Independent\Render\SuperScope</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Morph.h">
       <Filter>Independent\Render\SuperScope</Filter>
     </ClInclude>
   </ItemGroup>

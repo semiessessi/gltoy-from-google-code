@@ -86,6 +86,7 @@ public:
     static float Sin( const float fValue );
     static float Cos( const float fValue );
 
+    static float Abs( const float fValue );
     static float Sqrt( const float fValue );
     static float Pow( const float fValue, const float fPower );
 

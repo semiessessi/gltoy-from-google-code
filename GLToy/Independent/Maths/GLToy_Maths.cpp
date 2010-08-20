@@ -97,6 +97,11 @@ float GLToy_Maths::Cos( const float fValue )
     return cos( fValue );
 }
 
+float GLToy_Maths::Abs( const float fValue )
+{
+    return abs( fValue );
+}
+
 float GLToy_Maths::Sqrt( const float fValue )
 {
     return Platform_GLToy_Maths::Sqrt( fValue );
