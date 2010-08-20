@@ -218,7 +218,10 @@ public:
 
     virtual ~GLToy_List()
     {
-        m_xData.DestroyList();
+        if( !m_bEmpty )
+        {
+            m_xData.DestroyList();
+        }
     }
 
     virtual T& operator []( const int iIndex )
@@ -319,6 +322,8 @@ public:
             pxNode = pxDelete->m_pxTail;
             delete pxDelete;
         }
+
+        m_bEmpty = true;
     }
 
     T& Head()
