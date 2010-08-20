@@ -47,6 +47,7 @@ public:
     virtual ~JD1_SuperScope_Test() {}
 
     virtual void PerFrame() {}
+    virtual void OnBeat() {}
     virtual void PerPoint( const float i, const float v, float& x, float& y, float& red, float& green, float& blue, bool& skip, float& linesize ) const;
 };
 

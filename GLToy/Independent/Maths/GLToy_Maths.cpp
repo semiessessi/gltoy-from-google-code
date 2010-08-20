@@ -102,6 +102,11 @@ float GLToy_Maths::Sqrt( const float fValue )
     return Platform_GLToy_Maths::Sqrt( fValue );
 }
 
+float GLToy_Maths::Pow( const float fValue, const float fPower )
+{
+    return powf( fValue, fPower );
+}
+
 GLToy_Vector_3 GLToy_Maths::Rotate_AxisAngle( const GLToy_Vector_3& xVector, const GLToy_Vector_3& xAxis, const float fAngle )
 {
     if( fAngle == 0.0f )

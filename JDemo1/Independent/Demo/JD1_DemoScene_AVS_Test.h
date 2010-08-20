@@ -34,11 +34,8 @@
 // Parents
 #include <Demo/JD1_DemoScene_AVS.h>
 
-// GLToy
-#include <Core/Data Structures/GLToy_Array.h>
-
 // JD1
-#include <Render/SuperScope/JD1_SuperScope_Test.h>
+#include <Render/SuperScope/JD1_SuperScope_Dragon.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -71,7 +68,7 @@ public:
 
 protected:
 
-    JD1_SuperScope_Test m_xSSC;
+    JD1_SuperScope_Dragon m_xSSC;
 
 };
 

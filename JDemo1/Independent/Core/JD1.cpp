@@ -54,9 +54,9 @@ bool JD1::Initialise()
 
     GLToy_State_System::ChangeState( GLToy_Hash_Constant( "FixedCamera" ) );
 
-    JD1_Demo_System::Queue( new JD1_DemoScene_Test(), 2.0f );
-    JD1_Demo_System::Queue( new JD1_DemoScene_AVS_Test(), 5.0f );
-    JD1_Demo_System::Queue( new JD1_DemoScene_Tunnel(), -1.0f );
+    //JD1_Demo_System::Queue( new JD1_DemoScene_Test(), 2.0f );
+    JD1_Demo_System::Queue( new JD1_DemoScene_AVS_Test(), -1.0f );
+    //JD1_Demo_System::Queue( new JD1_DemoScene_Tunnel(), -1.0f );
 
     return true;
 }

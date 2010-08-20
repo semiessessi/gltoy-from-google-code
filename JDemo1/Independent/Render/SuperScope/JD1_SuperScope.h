@@ -44,6 +44,10 @@
 
 #define gettime( fLastTime ) ( GLToy_Timer::GetTime() - fLastTime )
 #define invsqrt( f ) ( 1 / GLToy_Maths::Sqrt( f ) )
+#define above( a, b ) ( a > b )
+#define below( a, b ) ( a < b )
+#define equal( a, b ) ( a == b )
+#define rand( f ) ( static_cast< int >( GLToy_Maths::Random() * static_cast< float >( f ) ) )
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -64,6 +68,7 @@ public:
 	virtual ~JD1_SuperScope() {}
 
 	virtual void PerFrame() = 0;
+    virtual void OnBeat() = 0;
 
 	// I've diverged from the coding standards here to make it easier to port things in from AVS
 	virtual void PerPoint( const float i, const float v, float& x, float& y, float& red, float& green, float& blue, bool& skip, float& linesize ) const = 0;
@@ -71,7 +76,7 @@ public:
     virtual void Initialise() {}
 	virtual void Shutdown() {}
 	virtual void Render() const;
-    virtual void Update() { PerFrame(); }
+    virtual void Update();
 
 protected:
 
@@ -80,6 +85,19 @@ protected:
 		u_int m_uPointCount;
 		u_int n;
 	};
+
+    union
+    {
+        float m_fHeight;
+        float h;
+    };
+
+    union
+    {
+        float m_fWidth;
+        float w;
+    };
+
 };
 
 #endif

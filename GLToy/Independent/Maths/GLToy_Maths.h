@@ -87,6 +87,7 @@ public:
     static float Cos( const float fValue );
 
     static float Sqrt( const float fValue );
+    static float Pow( const float fValue, const float fPower );
 
     static GLToy_Vector_3 Rotate_AxisAngle( const GLToy_Vector_3& xVector, const GLToy_Vector_3& xAxis, const float fAngle );
 

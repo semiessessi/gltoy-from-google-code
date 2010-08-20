@@ -24,77 +24,32 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __JD1_SUPERSCOPE_DRAGON_H_
+#define __JD1_SUPERSCOPE_DRAGON_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/JD1.h>
-
-// This file's header
+// Parent
 #include <Render/SuperScope/JD1_SuperScope.h>
 
-// GLToy
-#include <Core/GLToy_Timer.h>
-#include <Maths/GLToy_Maths.h>
-#include <Maths/GLToy_Noise.h>
-#include <Render/GLToy_Render.h>
-#include <Render/GLToy_Texture.h>
-
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void JD1_SuperScope::Render() const
+class JD1_SuperScope_Dragon
+: public JD1_SuperScope
 {
-	GLToy_Vector_2 xCurrentPoint;
-	GLToy_Vector_3 xCurrentColour = GLToy_Vector_3( 1.0f, 1.0f, 1.0f );
-	float fParameter;
-	float fFakeOsc;
-	float fSize;
-	bool bSkip = false;
 
-    GLToy_Render::SetOrthogonalProjectionMatrix();
-    GLToy_Render::PushViewMatrix();
-    GLToy_Render::SetIdentityViewMatrix();
+public:
 
-    GLToy_Texture_System::BindWhite();
+    virtual ~JD1_SuperScope_Dragon() {}
 
-	GLToy_Render::StartSubmittingLineStrip();
-	
-	for( u_int u = 0; u < m_uPointCount; ++u )
-	{
-		fParameter = static_cast< float >( u ) / static_cast< float >( m_uPointCount - 1 );
-		fFakeOsc = GLToy_Noise::Fractal2D( fParameter * 20.0f + 5.0f * GLToy_Timer::GetTime(), 0.0f, 30.0f );
+    virtual void Initialise();
+    virtual void PerFrame();
+    virtual void OnBeat();
+    virtual void PerPoint( const float i, const float v, float& x, float& y, float& red, float& green, float& blue, bool& skip, float& linesize ) const;
+};
 
-		PerPoint( fParameter, fFakeOsc, xCurrentPoint[ 0 ], xCurrentPoint[ 1 ], xCurrentColour[ 0 ], xCurrentColour[ 1 ], xCurrentColour[ 2 ], bSkip, fSize );
-
-		if( !bSkip )
-		{
-            xCurrentPoint[ 1 ] = -xCurrentPoint[ 1 ];
-			GLToy_Render::SubmitColour( xCurrentColour );
-			GLToy_Render::SubmitVertex( xCurrentPoint );
-		}
-	}
-
-	GLToy_Render::EndSubmit();
-
-    GLToy_Render::SetPerspectiveProjectionMatrix();
-    GLToy_Render::PopViewMatrix();
-}
-
-void JD1_SuperScope::Update()
-{
-    PerFrame();
-
-    static float fTimer = 0.0f;
-    fTimer += GLToy_Timer::GetFrameTime();
-
-    if( fTimer > 0.5f )
-    {
-        OnBeat();
-        fTimer = 0.0f;
-    }
-
-    m_fWidth = GLToy::GetWindowViewportWidth();
-    m_fHeight = GLToy::GetWindowViewportHeight();
-}
+#endif
