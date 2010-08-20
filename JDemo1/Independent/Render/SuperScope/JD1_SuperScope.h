@@ -32,8 +32,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // Parents
-#include <Core/Data Structures/GLToy_Array.h>
-#include <Core/GLToy_Bounded.h>
 #include <Core/GLToy_Updateable.h>
 #include <Render/GLToy_Renderable.h>
 
@@ -45,7 +43,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 #define gettime( fLastTime ) ( GLToy_Timer::GetTime() - fLastTime )
-// how embarassing that /my/ game engine doesn't have a fast invsqrt!
 #define invsqrt( f ) ( 1 / GLToy_Maths::Sqrt( f ) )
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,6 +51,7 @@
 
 class JD1_SuperScope
 : public GLToy_Renderable
+, public GLToy_Updateable
 {
 
 public:
@@ -68,10 +66,12 @@ public:
 	virtual void PerFrame() = 0;
 
 	// I've diverged from the coding standards here to make it easier to port things in from AVS
-	virtual void PerPoint( const float i, const float v, float& x, float& y, float& red, float& green, float& blue, bool& skip, float& linesize ) = 0;
+	virtual void PerPoint( const float i, const float v, float& x, float& y, float& red, float& green, float& blue, bool& skip, float& linesize ) const = 0;
 
+    virtual void Initialise() {}
 	virtual void Shutdown() {}
-	virtual void Render();
+	virtual void Render() const;
+    virtual void Update() { PerFrame(); }
 
 protected:
 

@@ -31,28 +31,33 @@
 #include <Core/JD1.h>
 
 // This file's header
-#include <Render/JD1_SuperScope.h>
+#include <Render/SuperScope/JD1_SuperScope.h>
 
 // GLToy
 #include <Core/GLToy_Timer.h>
 #include <Maths/GLToy_Maths.h>
 #include <Maths/GLToy_Noise.h>
 #include <Render/GLToy_Render.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void JD1_SuperScope::Render()
+void JD1_SuperScope::Render() const
 {
-	PerFrame();
-
 	GLToy_Vector_2 xCurrentPoint;
 	GLToy_Vector_3 xCurrentColour;
 	float fParameter;
 	float fFakeOsc;
 	float fSize;
 	bool bSkip = false;
+
+    GLToy_Render::SetOrthogonalProjectionMatrix();
+    GLToy_Render::PushViewMatrix();
+    GLToy_Render::SetIdentityViewMatrix();
+
+    GLToy_Texture_System::BindWhite();
 
 	GLToy_Render::StartSubmittingLineStrip();
 	
@@ -71,4 +76,7 @@ void JD1_SuperScope::Render()
 	}
 
 	GLToy_Render::EndSubmit();
+
+    GLToy_Render::SetPerspectiveProjectionMatrix();
+    GLToy_Render::PopViewMatrix();
 }

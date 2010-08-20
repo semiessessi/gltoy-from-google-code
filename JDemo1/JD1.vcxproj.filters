@@ -34,6 +34,9 @@
     <Filter Include="Independent\Render\SuperScope">
       <UniqueIdentifier>{09906367-8f0c-41fb-acfa-f74e41c6cefc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Render\Texer">
+      <UniqueIdentifier>{00dbfb8d-0e3d-45c1-92a0-0444f7fccfa4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_JD1.cpp">
@@ -81,6 +84,9 @@
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope.cpp">
       <Filter>Independent\Render\SuperScope</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Test.cpp">
+      <Filter>Independent\Render\SuperScope</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_JD1.h">
@@ -124,6 +130,18 @@
     </ClInclude>
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope.h">
       <Filter>Independent\Render\SuperScope</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\Texer\JD1_Texer.h">
+      <Filter>Independent\Render\Texer</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Test.h">
+      <Filter>Independent\Render\SuperScope</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_AVS.h">
+      <Filter>Independent\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_AVS_Test.h">
+      <Filter>Independent\Demo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

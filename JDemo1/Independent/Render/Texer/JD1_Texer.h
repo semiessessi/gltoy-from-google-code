@@ -24,51 +24,43 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __JD1_TEXER_H_
+#define __JD1_TEXER_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// This file's header
-#include <Core/JD1.h>
-
-// GLToy
-#include <Core/State/GLToy_State_System.h>
-
-// JD1
-#include <Demo/JD1_Demo_System.h>
-#include <Demo/JD1_DemoScene_AVS_Test.h>
-#include <Demo/JD1_DemoScene_Test.h>
-#include <Demo/JD1_DemoScene_Tunnel.h>
-#include <Sound/JD1_Sound_System.h>
+// Parent
+#include <Render/SuperScope/JD1_SuperScope.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool JD1::Initialise()
+class JD1_Texer
+: public JD1_SuperScope
 {
-    GLToy::ChangeWindowTitle( "JDemo 1" );
 
-	GLToy_InitialiserCall( JD1_Sound_System );
-    GLToy_InitialiserCall( JD1_Demo_System );
+    typedef JD1_SuperScope GLToy_Parent;
 
-    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "FixedCamera" ) );
+public:
 
-    JD1_Demo_System::Queue( new JD1_DemoScene_Test(), 2.0f );
-    JD1_Demo_System::Queue( new JD1_DemoScene_AVS_Test(), 5.0f );
-    JD1_Demo_System::Queue( new JD1_DemoScene_Tunnel(), -1.0f );
+    JD1_Texer( const GLToy_Hash uTexture )
+    : GLToy_Parent()
+    , m_uTexture( uTexture )
+    {
+    }
 
-    return true;
-}
+    // I've diverged from the coding standards here to make it easier to port things in from AVS
+	virtual void PerPoint( const float i, const float v, float& x, float& y, float& red, float& green, float& blue, bool& skip, float& sizex, float& sizey ) = 0;
 
-void JD1::Shutdown()
-{
-	JD1_Demo_System::Shutdown();
-    JD1_Sound_System::Shutdown();
-}
+    virtual void Render() const;
 
-void JD1::Update()
-{
-    JD1_Demo_System::Update();
-	JD1_Sound_System::Update();
-}
+protected:
+
+    GLToy_Hash m_uTexture;
+
+};
+
+#endif

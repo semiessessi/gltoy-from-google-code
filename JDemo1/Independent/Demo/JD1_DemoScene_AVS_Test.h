@@ -24,51 +24,55 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __JD1_DEMOSCENE_AVS_TEST_H_
+#define __JD1_DEMOSCENE_AVS_TEST_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// This file's header
-#include <Core/JD1.h>
+// Parents
+#include <Demo/JD1_DemoScene_AVS.h>
 
 // GLToy
-#include <Core/State/GLToy_State_System.h>
+#include <Core/Data Structures/GLToy_Array.h>
 
 // JD1
-#include <Demo/JD1_Demo_System.h>
-#include <Demo/JD1_DemoScene_AVS_Test.h>
-#include <Demo/JD1_DemoScene_Test.h>
-#include <Demo/JD1_DemoScene_Tunnel.h>
-#include <Sound/JD1_Sound_System.h>
+#include <Render/SuperScope/JD1_SuperScope_Test.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool JD1::Initialise()
+class JD1_DemoScene_AVS_Test
+: public JD1_DemoScene_AVS
 {
-    GLToy::ChangeWindowTitle( "JDemo 1" );
+    
+    typedef JD1_DemoScene_AVS GLToy_Parent;
 
-	GLToy_InitialiserCall( JD1_Sound_System );
-    GLToy_InitialiserCall( JD1_Demo_System );
+public:
 
-    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "FixedCamera" ) );
+    JD1_DemoScene_AVS_Test()
+    : GLToy_Parent()
+    , m_xSSC()
+    {
+    }
 
-    JD1_Demo_System::Queue( new JD1_DemoScene_Test(), 2.0f );
-    JD1_Demo_System::Queue( new JD1_DemoScene_AVS_Test(), 5.0f );
-    JD1_Demo_System::Queue( new JD1_DemoScene_Tunnel(), -1.0f );
+    virtual ~JD1_DemoScene_AVS_Test()
+    {
+    }
 
-    return true;
-}
+    virtual void Initialise()
+    {
+        AppendComponent( static_cast< GLToy_Renderable* >( &m_xSSC ), static_cast< GLToy_Updateable* >( &m_xSSC ) );
 
-void JD1::Shutdown()
-{
-	JD1_Demo_System::Shutdown();
-    JD1_Sound_System::Shutdown();
-}
+        GLToy_Parent::Initialise();
+    }
 
-void JD1::Update()
-{
-    JD1_Demo_System::Update();
-	JD1_Sound_System::Update();
-}
+protected:
+
+    JD1_SuperScope_Test m_xSSC;
+
+};
+
+#endif

@@ -24,51 +24,83 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __JD1_DEMOSCENE_AVS_H_
+#define __JD1_DEMOSCENE_AVS_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// This file's header
-#include <Core/JD1.h>
+// Parents
+#include <Demo/JD1_DemoScene.h>
 
 // GLToy
-#include <Core/State/GLToy_State_System.h>
-
-// JD1
-#include <Demo/JD1_Demo_System.h>
-#include <Demo/JD1_DemoScene_AVS_Test.h>
-#include <Demo/JD1_DemoScene_Test.h>
-#include <Demo/JD1_DemoScene_Tunnel.h>
-#include <Sound/JD1_Sound_System.h>
+#include <Core/Data Structures/GLToy_Array.h>
+#include <Core/Data Structures/GLToy_Pair.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool JD1::Initialise()
+typedef GLToy_Pair< GLToy_Renderable*, GLToy_Updateable* > JD1_AVS_Component;
+
+class JD1_DemoScene_AVS
+: public JD1_DemoScene
 {
-    GLToy::ChangeWindowTitle( "JDemo 1" );
+    
+    typedef JD1_DemoScene GLToy_Parent;
 
-	GLToy_InitialiserCall( JD1_Sound_System );
-    GLToy_InitialiserCall( JD1_Demo_System );
+public:
 
-    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "FixedCamera" ) );
+    virtual ~JD1_DemoScene_AVS()
+    {
+    }
 
-    JD1_Demo_System::Queue( new JD1_DemoScene_Test(), 2.0f );
-    JD1_Demo_System::Queue( new JD1_DemoScene_AVS_Test(), 5.0f );
-    JD1_Demo_System::Queue( new JD1_DemoScene_Tunnel(), -1.0f );
+    GLToy_Inline void AppendComponent( GLToy_Renderable* const pxRenderable, GLToy_Updateable* const pxUpdateable )
+    {
+        m_xComponents.Append( JD1_AVS_Component( pxRenderable, pxUpdateable ) );
+    }
 
-    return true;
-}
+    virtual void Initialise()
+    {
+        GLToy_Iterate( JD1_AVS_Component, xIterator, &m_xComponents )
+        {
+            GLToy_Renderable* const pxRenderable = xIterator.Current().First();
+            pxRenderable->Initialise();
+        }
+    }
 
-void JD1::Shutdown()
-{
-	JD1_Demo_System::Shutdown();
-    JD1_Sound_System::Shutdown();
-}
+    virtual void Shutdown()
+    {
+        GLToy_Iterate( JD1_AVS_Component, xIterator, &m_xComponents )
+        {
+            GLToy_Renderable* const pxRenderable = xIterator.Current().First();
+            pxRenderable->Shutdown();
+        }
+    }
 
-void JD1::Update()
-{
-    JD1_Demo_System::Update();
-	JD1_Sound_System::Update();
-}
+    virtual void Render() const
+    {
+        GLToy_ConstIterate( JD1_AVS_Component, xIterator, &m_xComponents )
+        {
+            const GLToy_Renderable* const pxRenderable = xIterator.Current().First();
+            pxRenderable->Render();
+        }
+    }
+
+    virtual void Update()
+    {
+        GLToy_Iterate( JD1_AVS_Component, xIterator, &m_xComponents )
+        {
+            GLToy_Updateable* const pxUpdateable = xIterator.Current().Second();
+            pxUpdateable->Update();
+        }
+    }
+
+protected:
+
+    GLToy_Array< JD1_AVS_Component > m_xComponents;
+
+};
+
+#endif
