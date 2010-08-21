@@ -66,8 +66,10 @@ void GLToy_Input_System::Platform_Update()
 
 bool GLToy_Input_System::Platform_IsKeyDown( const u_int uKey )
 {
-    // TODO: Key state detection for Linux
-    return false;
+	// TODO: fix
+	char acState[ 32 ];	XQueryKeymap( g_pxDisplay, acState );
+
+    return acState[ uKey >> 3 ] & ( 1 << ( uKey & 0x7 ) );
 }
 
 bool GLToy_Input_System::Platform_IsMouseLeftButtonDown()

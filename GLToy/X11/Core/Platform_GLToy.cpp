@@ -39,21 +39,16 @@
 #include <stdio.h>
 #include <wchar.h>
 
-// X11
-#include<X11/X.h>
-#include<X11/Xlib.h>
-
 // OpenGL
 #include<GL/gl.h>
 #include<GL/glx.h>
 #include<GL/glu.h>
 
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static Display* g_xDisplay;
+Display* g_pxDisplay;
 static XVisualInfo* g_xVisualInfo;
 static Colormap g_xColormap;
 static Window g_xWindow;
@@ -85,15 +80,15 @@ int _vscprintf( const char* szFormat, va_list xArguments )
 
 bool GLToy::Platform_EarlyInitialise()
 {
-	g_xDisplay = XOpenDisplay( NULL );
+	g_pxDisplay = XOpenDisplay( NULL );
  
-	if( !g_xDisplay )
+	if( !g_pxDisplay )
 	{
-		GLToy_Assert( g_xDisplay != NULL, "XOpenDisplay failed" );
+		GLToy_Assert( g_pxDisplay != NULL, "XOpenDisplay failed" );
 		return false;
 	}
 
-	Window xRootWindow = DefaultRootWindow( g_xDisplay );
+	Window xRootWindow = DefaultRootWindow( g_pxDisplay );
 
 	const int aiAttributes[] =
 	{
@@ -107,7 +102,7 @@ bool GLToy::Platform_EarlyInitialise()
 		None
 	};
 
-	g_xVisualInfo = glXChooseVisual( g_xDisplay, 0, aiAttributes );
+	g_xVisualInfo = glXChooseVisual( g_pxDisplay, 0, aiAttributes );
 
 	if( !g_xVisualInfo )
 	{
@@ -117,7 +112,7 @@ bool GLToy::Platform_EarlyInitialise()
 
 	GLToy_DebugOutput( "  Visual %p selected", g_xVisualInfo->visualid );
 
-	g_xColormap = XCreateColormap( g_xDisplay, xRootWindow, g_xVisualInfo->visual, AllocNone );
+	g_xColormap = XCreateColormap( g_pxDisplay, xRootWindow, g_xVisualInfo->visual, AllocNone );
 
 	XSetWindowAttributes xSWAttributes;
 	xSWAttributes.colormap = g_xColormap;
@@ -132,7 +127,7 @@ bool GLToy::Platform_EarlyInitialise()
 		| StructureNotifyMask;
 
 	g_xWindow = XCreateWindow(
-		g_xDisplay,
+		g_pxDisplay,
 		xRootWindow,
 		0, 0,
 		s_iWidth, s_iHeight,
@@ -149,11 +144,11 @@ bool GLToy::Platform_EarlyInitialise()
 		return false;
 	}
 
-	XMapWindow( g_xDisplay, g_xWindow );
-	XStoreName( g_xDisplay, g_xWindow, "GLToy" );
+	XMapWindow( g_pxDisplay, g_xWindow );
+	XStoreName( g_pxDisplay, g_xWindow, "GLToy" );
 
-	g_xRenderContext = glXCreateContext( g_xDisplay, g_xVisualInfo, NULL, GL_TRUE );
- 	glXMakeCurrent( g_xDisplay, g_xWindow, g_xRenderContext );
+	g_xRenderContext = glXCreateContext( g_pxDisplay, g_xVisualInfo, NULL, GL_TRUE );
+ 	glXMakeCurrent( g_pxDisplay, g_xWindow, g_xRenderContext );
 
 	XFree( g_xVisualInfo );
 
@@ -167,32 +162,32 @@ bool GLToy::Platform_LateInitialise()
 
 void GLToy::Platform_Shutdown()
 {
-	glXMakeCurrent( g_xDisplay, None, NULL );
-	glXDestroyContext( g_xDisplay, g_xRenderContext );
-	XDestroyWindow( g_xDisplay, g_xWindow );
-	XCloseDisplay( g_xDisplay );
+	glXMakeCurrent( g_pxDisplay, None, NULL );
+	glXDestroyContext( g_pxDisplay, g_xRenderContext );
+	XDestroyWindow( g_pxDisplay, g_xWindow );
+	XCloseDisplay( g_pxDisplay );
 }
 
 bool GLToy::Platform_MainLoop()
 {
 	Window xWindow;
 	int iState;
-	XGetInputFocus( g_xDisplay, &xWindow, &iState );
+	XGetInputFocus( g_pxDisplay, &xWindow, &iState );
 
 	if( xWindow == g_xWindow )
 	{
 		GLToy::GiveFocus();
-		XGrabKeyboard( g_xDisplay, xWindow, true, GrabModeAsync, GrabModeAsync, CurrentTime );
+		XGrabKeyboard( g_pxDisplay, xWindow, true, GrabModeAsync, GrabModeAsync, CurrentTime );
 	}
 	else
 	{
 		GLToy::LoseFocus();
-		XUngrabKeyboard( g_xDisplay, CurrentTime );
+		XUngrabKeyboard( g_pxDisplay, CurrentTime );
 	}
 
-	while( XPending( g_xDisplay ) > 0 )
+	while( XPending( g_pxDisplay ) > 0 )
 	{
-		XNextEvent( g_xDisplay, &g_xEvent );
+		XNextEvent( g_pxDisplay, &g_xEvent );
 		switch( g_xEvent.type )
 		{
 			case ConfigureNotify:
@@ -242,7 +237,7 @@ bool GLToy::Platform_MainLoop()
 			case Expose:
 			{
 				// update for render...
-    			XGetWindowAttributes( g_xDisplay, g_xWindow, &g_xWindowAttributes );
+    			XGetWindowAttributes( g_pxDisplay, g_xWindow, &g_xWindowAttributes );
 				break;
 			}
 
@@ -264,7 +259,7 @@ bool GLToy::Platform_Resize( const int& iWidth, const int& iHeight )
 
 void GLToy::Platform_UpdateBuffers()
 {
-	glXSwapBuffers( g_xDisplay, g_xWindow );
+	glXSwapBuffers( g_pxDisplay, g_xWindow );
 }
 
 void GLToy::Platform_DebugOutput( const char* const szString )
@@ -274,7 +269,7 @@ void GLToy::Platform_DebugOutput( const char* const szString )
 
 void GLToy::Platform_ChangeWindowTitle( const char* const szNewTitle )
 {
-	XStoreName( g_xDisplay, g_xWindow, szNewTitle );
+	XStoreName( g_pxDisplay, g_xWindow, szNewTitle );
 }
 
 void GLToy::Platform_ChangeWindowIcon( const char* const szTextureName )
