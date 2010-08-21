@@ -37,6 +37,9 @@
     <Filter Include="Independent\Render\Texer">
       <UniqueIdentifier>{00dbfb8d-0e3d-45c1-92a0-0444f7fccfa4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Render\Trans">
+      <UniqueIdentifier>{f621f016-3a76-4f25-a299-3b43210a7f4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_JD1.cpp">
@@ -92,6 +95,15 @@
     </ClCompile>
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Morph.cpp">
       <Filter>Independent\Render\SuperScope</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Texer\JD1_Texer.cpp">
+      <Filter>Independent\Render\Texer</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_AVS.cpp">
+      <Filter>Independent\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Texer\JD1_Texer_SimpleComplexity.cpp">
+      <Filter>Independent\Render\Texer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +166,12 @@
     </ClInclude>
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Morph.h">
       <Filter>Independent\Render\SuperScope</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\Trans\JD1_Trans.h">
+      <Filter>Independent\Render\Trans</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\Texer\JD1_Texer_SimpleComplexity.h">
+      <Filter>Independent\Render\Texer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

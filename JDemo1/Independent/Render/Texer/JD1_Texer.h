@@ -34,6 +34,10 @@
 // Parent
 #include <Render/SuperScope/JD1_SuperScope.h>
 
+// GLToy
+#include <Core/Data Structures/GLToy_Array.h>
+#include <Render/GLToy_Sprite.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,17 +53,20 @@ public:
     JD1_Texer( const GLToy_Hash uTexture )
     : GLToy_Parent()
     , m_uTexture( uTexture )
+    , m_xSprites()
     {
     }
 
     // I've diverged from the coding standards here to make it easier to port things in from AVS
-	virtual void PerPoint( const float i, const float v, float& x, float& y, float& red, float& green, float& blue, bool& skip, float& sizex, float& sizey ) = 0;
+	virtual void PerPoint( const float i, const float v, float& x, float& y, float& z, float& red, float& green, float& blue, bool& skip, float& sizex, float& sizey ) const = 0;
 
     virtual void Render() const;
+    virtual void Update();
 
 protected:
 
     GLToy_Hash m_uTexture;
+    GLToy_Array< GLToy_Sprite* > m_xSprites;
 
 };
 

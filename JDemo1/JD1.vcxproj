@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Independent\Demo\JD1_DemoScene.cpp" />
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_AVS.cpp" />
     <ClCompile Include="Independent\Demo\JD1_DemoScene_Test.cpp" />
     <ClCompile Include="Independent\Demo\JD1_DemoScene_Tunnel.cpp" />
     <ClCompile Include="Independent\Demo\JD1_Demo_System.cpp" />
@@ -150,6 +151,8 @@
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Dragon.cpp" />
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Morph.cpp" />
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Test.cpp" />
+    <ClCompile Include="Independent\Render\Texer\JD1_Texer.cpp" />
+    <ClCompile Include="Independent\Render\Texer\JD1_Texer_SimpleComplexity.cpp" />
     <ClCompile Include="Independent\Sound\JD1_Sound.cpp" />
     <ClCompile Include="Independent\Sound\JD1_Sound_System.cpp" />
     <ClCompile Include="Win32\Core\Platform_JD1.cpp" />
@@ -174,6 +177,8 @@
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Morph.h" />
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Test.h" />
     <ClInclude Include="Independent\Render\Texer\JD1_Texer.h" />
+    <ClInclude Include="Independent\Render\Texer\JD1_Texer_SimpleComplexity.h" />
+    <ClInclude Include="Independent\Render\Trans\JD1_Trans.h" />
     <ClInclude Include="Independent\Sound\JD1_Sound.h" />
     <ClInclude Include="Independent\Sound\JD1_Sound_Source.h" />
     <ClInclude Include="Independent\Sound\JD1_Sound_System.h" />

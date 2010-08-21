@@ -34,8 +34,13 @@
 // Parents
 #include <Demo/JD1_DemoScene_AVS.h>
 
+// GLToy
+#include <Render/GLToy_Camera.h>
+
 // JD1
+#include <Render/SuperScope/JD1_SuperScope_Dragon.h>
 #include <Render/SuperScope/JD1_SuperScope_Morph.h>
+#include <Render/Texer/JD1_Texer_SimpleComplexity.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -51,7 +56,7 @@ public:
 
     JD1_DemoScene_AVS_Test()
     : GLToy_Parent()
-    , m_xSSC()
+    , m_xTest()
     {
     }
 
@@ -61,14 +66,14 @@ public:
 
     virtual void Initialise()
     {
-        AppendComponent( static_cast< GLToy_Renderable* >( &m_xSSC ), static_cast< GLToy_Updateable* >( &m_xSSC ) );
+        AppendComponent( static_cast< GLToy_Renderable* >( &m_xTest ), static_cast< GLToy_Updateable* >( &m_xTest ) );
 
         GLToy_Parent::Initialise();
     }
 
 protected:
 
-    JD1_SuperScope_Morph m_xSSC;
+    JD1_Texer_SimpleComplexity m_xTest;
 
 };
 

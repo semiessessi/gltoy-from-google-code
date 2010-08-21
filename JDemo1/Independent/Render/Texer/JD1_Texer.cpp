@@ -24,52 +24,62 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_DEMOSCENE_AVS_H_
-#define __JD1_DEMOSCENE_AVS_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Demo/JD1_DemoScene.h>
+#include <Core/JD1.h>
+
+// This file's header
+#include <Render/Texer/JD1_Texer.h>
 
 // GLToy
-#include <Core/Data Structures/GLToy_Array.h>
-#include <Core/Data Structures/GLToy_Pair.h>
+#include <Core/GLToy_Timer.h>
+#include <Maths/GLToy_Maths.h>
+#include <Maths/GLToy_Noise.h>
+#include <Render/GLToy_Render.h>
+#include <Render/GLToy_RenderFunctor.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef GLToy_Pair< GLToy_Renderable*, GLToy_Updateable* > JD1_AVS_Component;
-
-class JD1_DemoScene_AVS
-: public JD1_DemoScene
+void JD1_Texer::Render() const
 {
-    
-    typedef JD1_DemoScene GLToy_Parent;
+    GLToy_PointerRenderFunctor< GLToy_Sprite* > xFunctor;
+    m_xSprites.Traverse( xFunctor );
+}
 
-public:
+void JD1_Texer::Update()
+{
+    GLToy_Parent::Update();
 
-    virtual ~JD1_DemoScene_AVS()
+    for( u_int u = m_xSprites.GetCount(); u < m_uPointCount; ++u )
     {
+        m_xSprites.Append( new GLToy_Sprite() );
+        m_xSprites[ u ]->SetTexture( m_uTexture );
     }
 
-    GLToy_Inline void AppendComponent( GLToy_Renderable* const pxRenderable, GLToy_Updateable* const pxUpdateable )
-    {
-        m_xComponents.Append( JD1_AVS_Component( pxRenderable, pxUpdateable ) );
-    }
+    GLToy_Vector_3 xCurrentPoint;
+	GLToy_Vector_3 xCurrentColour = GLToy_Vector_3( 1.0f, 1.0f, 1.0f );
+	float fParameter;
+	float fFakeOsc;
+	float fSizeX;
+    float fSizeY;
+	bool bSkip = false;
 
-    virtual void Initialise();
-    virtual void Shutdown();
-    virtual void Render() const;
-    virtual void Update();
+    for( u_int u = 0; u < m_uPointCount; ++u )
+	{
+		fParameter = static_cast< float >( u ) / static_cast< float >( m_uPointCount - 1 );
+		fFakeOsc = GLToy_Noise::Fractal2D( fParameter * 20.0f + 5.0f * GLToy_Timer::GetTime(), 0.0f, 30.0f );
 
-protected:
+		PerPoint( fParameter, fFakeOsc, xCurrentPoint[ 0 ], xCurrentPoint[ 1 ], xCurrentPoint[ 2 ], xCurrentColour[ 0 ], xCurrentColour[ 1 ], xCurrentColour[ 2 ], bSkip, fSizeX, fSizeY );
 
-    GLToy_Array< JD1_AVS_Component > m_xComponents;
-
-};
-
-#endif
+		if( !bSkip )
+		{
+            m_xSprites[ u ]->SetPosition( xCurrentPoint );
+            m_xSprites[ u ]->SetSize( fSizeX );
+		}
+	}
+}

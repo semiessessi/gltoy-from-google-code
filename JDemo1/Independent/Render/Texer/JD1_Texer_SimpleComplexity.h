@@ -24,15 +24,42 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_CONFIG_H_
-#define __GLTOY_CONFIG_H_
+#ifndef __JD1_TEXER_SIMPLECOMPLEXITY_H_
+#define __JD1_TEXER_SIMPLECOMPLEXITY_H_
 
-#ifndef GLTOY_PLATFORM_LINUX
-	#define GLTOY_USE_FRIDGESCRIPT		(1)
-    
-    #ifndef _NOHAVOK
-	    #define GLTOY_USE_HAVOK_PHYSICS		(1)
-    #endif
-#endif
+/////////////////////////////////////////////////////////////////////////////////////////////
+// I N C L U D E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+// Parent
+#include <Render/Texer/JD1_Texer.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C L A S S E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+class JD1_Texer_SimpleComplexity
+: public JD1_Texer
+{
+
+    typedef JD1_Texer GLToy_Parent;
+
+public:
+
+    JD1_Texer_SimpleComplexity()
+    : GLToy_Parent( GLToy_Hash_Constant( "Sprites/Simple.png" ) )
+    {
+    }
+
+    virtual ~JD1_Texer_SimpleComplexity() {}
+
+    virtual void Initialise();
+    virtual void PerFrame();
+    virtual void OnBeat();
+    virtual void PerPoint( const float i, const float v, float& x, float& y, float& z, float& red, float& green, float& blue, bool& skip, float& sizex, float& sizey ) const;
+
+    // ignore...
+    virtual void PerPoint( const float i, const float v, float& x, float& y, float& red, float& green, float& blue, bool& skip, float& linesize ) const {}
+};
 
 #endif

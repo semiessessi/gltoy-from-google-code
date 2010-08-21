@@ -24,52 +24,56 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_DEMOSCENE_AVS_H_
-#define __JD1_DEMOSCENE_AVS_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Demo/JD1_DemoScene.h>
+#include <Core/JD1.h>
+
+// This file's header
+#include <Demo/JD1_DemoScene_AVS.h>
 
 // GLToy
-#include <Core/Data Structures/GLToy_Array.h>
-#include <Core/Data Structures/GLToy_Pair.h>
+#include <Render/GLToy_Camera.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef GLToy_Pair< GLToy_Renderable*, GLToy_Updateable* > JD1_AVS_Component;
-
-class JD1_DemoScene_AVS
-: public JD1_DemoScene
+void JD1_DemoScene_AVS::Initialise()
 {
-    
-    typedef JD1_DemoScene GLToy_Parent;
-
-public:
-
-    virtual ~JD1_DemoScene_AVS()
+    GLToy_Iterate( JD1_AVS_Component, xIterator, &m_xComponents )
     {
+        GLToy_Renderable* const pxRenderable = xIterator.Current().First();
+        pxRenderable->Initialise();
     }
 
-    GLToy_Inline void AppendComponent( GLToy_Renderable* const pxRenderable, GLToy_Updateable* const pxUpdateable )
+    GLToy_Camera::SetPosition( GLToy_Maths::ZeroVector3 );
+}
+
+void JD1_DemoScene_AVS::Shutdown()
+{
+    GLToy_Iterate( JD1_AVS_Component, xIterator, &m_xComponents )
     {
-        m_xComponents.Append( JD1_AVS_Component( pxRenderable, pxUpdateable ) );
+        GLToy_Renderable* const pxRenderable = xIterator.Current().First();
+        pxRenderable->Shutdown();
     }
+}
 
-    virtual void Initialise();
-    virtual void Shutdown();
-    virtual void Render() const;
-    virtual void Update();
+void JD1_DemoScene_AVS::Render() const
+{
+    GLToy_ConstIterate( JD1_AVS_Component, xIterator, &m_xComponents )
+    {
+        const GLToy_Renderable* const pxRenderable = xIterator.Current().First();
+        pxRenderable->Render();
+    }
+}
 
-protected:
-
-    GLToy_Array< JD1_AVS_Component > m_xComponents;
-
-};
-
-#endif
+void JD1_DemoScene_AVS::Update()
+{
+    GLToy_Iterate( JD1_AVS_Component, xIterator, &m_xComponents )
+    {
+        GLToy_Updateable* const pxUpdateable = xIterator.Current().Second();
+        pxUpdateable->Update();
+    }
+}
