@@ -59,6 +59,9 @@
 
 u_int Platform_GLToy_Render::s_uVersion = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnSwapInterval )( u_int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnActiveTexture )( u_int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnMultiTexCoord2fv )( u_int, const float* const ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnMultiTexCoord3fv )( u_int, const float* const ) = 0;
 u_int ( __stdcall* Platform_GLToy_Render::s_pfnIsShader )( u_int ) = 0;
 u_int ( __stdcall* Platform_GLToy_Render::s_pfnCreateShader )( u_int ) = 0;
 u_int ( __stdcall* Platform_GLToy_Render::s_pfnCreateProgram )() = 0;
@@ -139,7 +142,10 @@ bool Platform_GLToy_Render::Initialise()
     }
 
     // fill extensions - they should be set to null if unsupported...
-    s_pfnSwapInterval       = reinterpret_cast< void ( __stdcall* )( u_int ) >(                            wglGetProcAddress( "wglSwapIntervalEXT" ) );
+    s_pfnSwapInterval       = reinterpret_cast< void ( __stdcall* )( u_int ) >(                             wglGetProcAddress( "wglSwapIntervalEXT" ) );
+    s_pfnActiveTexture      = reinterpret_cast< void ( __stdcall* )( u_int ) >(                             wglGetProcAddress( "glActiveTexture" ) );
+    s_pfnMultiTexCoord2fv   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(         wglGetProcAddress( "glMultiTexCoord2fv" ) );
+    s_pfnMultiTexCoord3fv   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(         wglGetProcAddress( "glMultiTexCoord3fv" ) );
     s_pfnIsShader           = reinterpret_cast< u_int ( __stdcall* )( u_int ) >(                            wglGetProcAddress( "glIsShader" ) );
     s_pfnCreateShader       = reinterpret_cast< u_int ( __stdcall* )( u_int ) >(                            wglGetProcAddress( "glCreateShader" ) );
     s_pfnCreateProgram      = reinterpret_cast< u_int ( __stdcall* )() >(                                   wglGetProcAddress( "glCreateProgram" ) );
@@ -372,14 +378,26 @@ void Platform_GLToy_Render::SubmitColour( const GLToy_Vector_4& xColour )
 
 void Platform_GLToy_Render::SubmitUV( const GLToy_Vector_2& xUV, const u_int uTextureUnit )
 {
-    // TODO - ignore texture unit for now...
-    glTexCoord3fv( xUV.GetFloatPointer() );
+    if( uTextureUnit == 0 )
+    {
+        glTexCoord3fv( xUV.GetFloatPointer() );
+    }
+    else
+    {
+        s_pfnMultiTexCoord2fv( GL_TEXTURE0 + uTextureUnit, xUV.GetFloatPointer() );
+    }
 }
 
 void Platform_GLToy_Render::SubmitUV( const GLToy_Vector_3& xUV, const u_int uTextureUnit )
 {
-    // TODO - ignore texture unit for now...
-    glTexCoord3fv( xUV.GetFloatPointer() );
+    if( uTextureUnit == 0 )
+    {
+        glTexCoord3fv( xUV.GetFloatPointer() );
+    }
+    else
+    {
+        s_pfnMultiTexCoord3fv( GL_TEXTURE0 + uTextureUnit, xUV.GetFloatPointer() );
+    }
 }
 
 void Platform_GLToy_Render::Flush()
@@ -452,6 +470,11 @@ void Platform_GLToy_Render::SetVsyncEnabled( const bool bEnabled )
     }
 
     glDrawBuffer( bEnabled ? GL_BACK : GL_FRONT );
+}
+
+void Platform_GLToy_Render::ActiveTexture( const u_int uTextureUnit )
+{
+    s_pfnActiveTexture( uTextureUnit );
 }
 
 bool Platform_GLToy_Render::IsShader( const u_int uID )

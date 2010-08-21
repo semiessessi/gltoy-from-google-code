@@ -33,6 +33,9 @@
 // This file's header
 #include <Render/GLToy_Texture.h>
 
+// GLToy
+#include <Render/Platform_GLToy_Render.h>
+
 // GL
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -102,7 +105,7 @@ void GLToy_Texture::Platform_Destroy()
 
 void GLToy_Texture::Platform_Bind( const u_int uTextureUnit ) const
 {
-    // TODO: texture unit
+    Platform_GLToy_Render::ActiveTexture( GL_TEXTURE0 + uTextureUnit );
     glBindTexture( GL_TEXTURE_2D, m_uUID );
 }
 

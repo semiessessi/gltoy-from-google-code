@@ -42,6 +42,12 @@
 #pragma comment( lib, "glu32" )
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// F O R W A R D   D E C L A R A T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+class GLToy_Texture;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -49,6 +55,7 @@ class Platform_GLToy_Render
 {
 
     friend class GLToy_Render;
+    friend class GLToy_Texture;
 
 public:
 
@@ -155,10 +162,16 @@ private:
     static void SubmitUV( const GLToy_Vector_2& xUV, const u_int uTextureUnit );
     static void SubmitUV( const GLToy_Vector_3& xUV, const u_int uTextureUnit );
 
+    static void ActiveTexture( const u_int uTextureUnit );
+
     static u_int s_uVersion;
 
     // wgl functions
     static void ( __stdcall* s_pfnSwapInterval )( u_int );
+    // multitexture functions
+    static void ( __stdcall* s_pfnActiveTexture )( u_int );
+    static void ( __stdcall* s_pfnMultiTexCoord2fv )( u_int, const float* const );
+    static void ( __stdcall* s_pfnMultiTexCoord3fv )( u_int, const float* const );
     // shader functions
     static u_int ( __stdcall* s_pfnIsShader )( u_int );
     static u_int ( __stdcall* s_pfnCreateShader )( u_int );

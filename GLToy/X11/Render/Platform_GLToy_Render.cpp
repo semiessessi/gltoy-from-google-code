@@ -56,6 +56,9 @@
 
 u_int Platform_GLToy_Render::s_uVersion = 0;
 void ( * Platform_GLToy_Render::s_pfnSwapInterval )( u_int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnActiveTexture )( u_int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnMultiTexCoord2fv )( u_int, const float* const ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnMultiTexCoord3fv )( u_int, const float* const ) = 0;
 u_int ( * Platform_GLToy_Render::s_pfnIsShader )( u_int ) = 0;
 u_int ( * Platform_GLToy_Render::s_pfnCreateShader )( u_int ) = 0;
 u_int ( * Platform_GLToy_Render::s_pfnCreateProgram )() = 0;
@@ -445,6 +448,11 @@ void Platform_GLToy_Render::SetVsyncEnabled( const bool bEnabled )
     }
 
     glDrawBuffer( bEnabled ? GL_BACK : GL_FRONT );
+}
+
+void Platform_GLToy_Render::ActiveTexture( const u_int uTextureUnit )
+{
+    s_pfnActiveTexture( uTextureUnit );
 }
 
 bool Platform_GLToy_Render::IsShader( const u_int uID )

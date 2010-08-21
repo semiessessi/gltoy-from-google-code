@@ -31,23 +31,25 @@
 // M A C R O S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#define BLEND_ZERO                           0
-#define BLEND_ONE                            1
-#define BLEND_SRC_COLOR                      0x0300
-#define BLEND_ONE_MINUS_SRC_COLOR            0x0301
-#define BLEND_SRC_ALPHA                      0x0302
-#define BLEND_ONE_MINUS_SRC_ALPHA            0x0303
-#define BLEND_DST_ALPHA                      0x0304
-#define BLEND_ONE_MINUS_DST_ALPHA            0x0305
+#define BLEND_ZERO                              0
+#define BLEND_ONE                               1
+#define BLEND_SRC_COLOR                         0x0300
+#define BLEND_ONE_MINUS_SRC_COLOR               0x0301
+#define BLEND_SRC_ALPHA                         0x0302
+#define BLEND_ONE_MINUS_SRC_ALPHA               0x0303
+#define BLEND_DST_ALPHA                         0x0304
+#define BLEND_ONE_MINUS_DST_ALPHA               0x0305
 
-#define DEPTH_NEVER                          0x0200
-#define DEPTH_LESS                           0x0201
-#define DEPTH_EQUAL                          0x0202
-#define DEPTH_LEQUAL                         0x0203
-#define DEPTH_GREATER                        0x0204
-#define DEPTH_NOTEQUAL                       0x0205
-#define DEPTH_GEQUAL                         0x0206
-#define DEPTH_ALWAYS                         0x0207
+#define DEPTH_NEVER                             0x0200
+#define DEPTH_LESS                              0x0201
+#define DEPTH_EQUAL                             0x0202
+#define DEPTH_LEQUAL                            0x0203
+#define DEPTH_GREATER                           0x0204
+#define DEPTH_NOTEQUAL                          0x0205
+#define DEPTH_GEQUAL                            0x0206
+#define DEPTH_ALWAYS                            0x0207
+
+#define GL_TEXTURE0                             0x84C0
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S

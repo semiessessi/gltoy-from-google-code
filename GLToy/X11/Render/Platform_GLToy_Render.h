@@ -35,6 +35,12 @@
 #include <Render/GLToy_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// F O R W A R D   D E C L A R A T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+class GLToy_Texture;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -42,6 +48,7 @@ class Platform_GLToy_Render
 {
 
     friend class GLToy_Render;
+    friend class GLToy_Texture;
 
 public:
 
@@ -147,10 +154,15 @@ private:
     static void SubmitUV( const GLToy_Vector_2& xUV, const u_int uTextureUnit );
     static void SubmitUV( const GLToy_Vector_3& xUV, const u_int uTextureUnit );
 
+    static void ActiveTexture( const u_int uTextureUnit );
+
     static u_int s_uVersion;
 
     // wgl functions
     static void ( * s_pfnSwapInterval )( u_int );
+    // multitexture functions
+    static void ( __stdcall* s_pfnMultiTexCoord2fv )( u_int, float* );
+    static void ( __stdcall* s_pfnMultiTexCoord3fv )( u_int, float* );
     // shader functions
     static u_int ( * s_pfnIsShader )( u_int );
     static u_int ( * s_pfnCreateShader )( u_int );
