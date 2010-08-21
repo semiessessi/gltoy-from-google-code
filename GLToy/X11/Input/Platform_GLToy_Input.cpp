@@ -34,6 +34,13 @@
 #include <Input/GLToy_Input.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// M A C R O S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#define max( a, b ) ( ( a > b ) ? a : b )
+#define min( a, b ) ( ( a < b ) ? a : b )
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -82,20 +89,18 @@ bool GLToy_Input_System::Platform_IsMouseRightButtonDown()
 }
 
 void GLToy_Input_System::Platform_ChangeLayout()
-{
-    // TODO: Implement for Linux
-    //// get console key code
-    //s_uConsoleKeyCode = MapVirtualKeyExA( 0x29, 1, uKeyLayout );
+{	// set console key code
+    s_uConsoleKeyCode = 49;
 
-    //s_uReturnKeyCode = VK_RETURN;
-    //s_uExecuteKeyCode = VK_EXECUTE;
-    //s_uUpKeyCode = VK_UP;
-    //s_uDownKeyCode = VK_DOWN;
-    //s_uLeftKeyCode = VK_LEFT;
-    //s_uRightKeyCode = VK_RIGHT;
-    //s_uPageUpKeyCode = VK_PRIOR;
-    //s_uPageDownKeyCode = VK_NEXT;
-    //s_uSpaceKeyCode = VK_SPACE;
+    s_uReturnKeyCode = 36;
+    s_uExecuteKeyCode = 108;
+    s_uUpKeyCode = 98;
+    s_uDownKeyCode = 104;
+    s_uLeftKeyCode = 100;
+    s_uRightKeyCode = 102;
+    s_uPageUpKeyCode = 99;
+    s_uPageDownKeyCode = 105;
+    s_uSpaceKeyCode = 65;
 
     // this would be the approriate time to change key labels...
 }
@@ -126,57 +131,55 @@ void GLToy_KeyInputHandler::Platform_HandleCharacter( const wchar_t wcCharacter 
 void GLToy_KeyInputHandler::Platform_HandleKey( const unsigned int uKey )
 {
     const unsigned int uInputLength = m_szInput.GetLength();
-	GLToy_DebugOutput( "%d", uKey );
 
-    // TODO: Implement for Linux
-    //switch( uKey ) 
-    //{ 
-    //    case VK_LEFT:
-    //    {
-    //        m_uCaret = max( m_uCaret - 1, 0 );
-    //        break; 
-    //    }
-    //    case VK_RIGHT:
-    //    {
-    //        m_uCaret = min( m_uCaret + 1, uInputLength );
-    //        break;
-    //    }
+    switch( uKey ) 
+    { 
+        case 100: // Left
+        {
+            m_uCaret = max( m_uCaret - 1, 0 );
+            break; 
+        }
+        case 102: // Right
+        {
+            m_uCaret = min( m_uCaret + 1, uInputLength );
+            break;
+        }
 
-    //    case VK_HOME:
-    //    {
-    //        m_uCaret = 0; 
-    //        break;
-    //    }
+        case 97: // Home
+        {
+            m_uCaret = 0; 
+            break;
+        }
 
-    //    case VK_END:
-    //    {
-    //        m_uCaret = uInputLength;
-    //        break;
-    //    }
+        case 103: // End
+        {
+            m_uCaret = uInputLength;
+            break;
+        }
 
-    //    case VK_INSERT:
-    //    {
-    //        m_bInsert = !m_bInsert; 
-    //        break;
-    //    }
+        case 106: // Insert
+        {
+            m_bInsert = !m_bInsert; 
+            break;
+        }
 
-    //    case VK_DELETE:
-    //    { 
-    //        if( m_uCaret < m_szInput.GetLength() )
-    //        {
-    //            m_szInput.RemoveAt( m_uCaret );
-    //        }
-    //        break;
-    //    }
+        case 107: // Delete
+        { 
+            if( m_uCaret < m_szInput.GetLength() )
+            {
+                m_szInput.RemoveAt( m_uCaret );
+            }
+            break;
+        }
 
-    //    case VK_BACK:
-    //    {
-    //        if( m_uCaret > 0 )
-    //        {
-    //            m_szInput.RemoveAt( m_uCaret - 1 );
-    //            --m_uCaret;
-    //        }            
-    //        break;
-    //    }
-    //}
+        case 22: // Backspace
+        {
+            if( m_uCaret > 0 )
+            {
+                m_szInput.RemoveAt( m_uCaret - 1 );
+                --m_uCaret;
+            }            
+            break;
+        }
+    }
 }

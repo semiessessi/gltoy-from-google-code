@@ -125,13 +125,17 @@ bool GLToy::Platform_EarlyInitialise()
 		ExposureMask
 		| KeyPressMask
 		| ButtonPressMask
+		| KeyReleaseMask
+		| ButtonReleaseMask
+		| KeymapStateMask
+		| PointerMotionMask
 		| StructureNotifyMask;
 
 	g_xWindow = XCreateWindow(
 		g_xDisplay,
 		xRootWindow,
 		0, 0,
-		600, 600,
+		s_iWidth, s_iHeight,
 		0,
 		g_xVisualInfo->depth,
 		InputOutput,
@@ -178,10 +182,12 @@ bool GLToy::Platform_MainLoop()
 	if( xWindow == g_xWindow )
 	{
 		GLToy::GiveFocus();
+		XGrabKeyboard( g_xDisplay, xWindow, true, GrabModeAsync, GrabModeAsync, CurrentTime );
 	}
 	else
 	{
 		GLToy::LoseFocus();
+		XUngrabKeyboard( g_xDisplay, CurrentTime );
 	}
 
 	while( XPending( g_xDisplay ) > 0 )
@@ -189,6 +195,11 @@ bool GLToy::Platform_MainLoop()
 		XNextEvent( g_xDisplay, &g_xEvent );
 		switch( g_xEvent.type )
 		{
+			case ConfigureNotify:
+			{
+				// TODO: resize with g_xEvent.xconfigure.width and g_xEvent.xconfigure.height
+				break;
+			}
 			case DestroyNotify:
 			{
 				if( g_xEvent.xdestroywindow.window == g_xWindow )
@@ -204,6 +215,27 @@ bool GLToy::Platform_MainLoop()
 		        {
 		            GLToy_Input_System::HandleKey( g_xEvent.xkey.keycode );
 		        }
+				break;
+			}
+
+			case KeyRelease:
+			{
+				if( GLToy::HasFocus() )
+		        {
+					char szBuffer[ 32 ];
+					KeySym xKeySym;
+					int iLength = XLookupString( &g_xEvent.xkey, szBuffer, 32, &xKeySym, NULL );
+		            if( iLength > 0 )
+					{
+						GLToy_Input_System::HandleCharacter( szBuffer[ 0 ] );
+					}
+		        }
+				break;
+			}
+
+			case KeymapNotify:
+			{
+				XRefreshKeyboardMapping( &g_xEvent.xmapping );
 				break;
 			}
 

@@ -121,9 +121,16 @@ void GLToy_Texture_System::Platform_Shutdown()
     glDisable( GL_TEXTURE_2D );
 }
 
-void GLToy_Texture_System::Platform_SaveTextureTGA( const GLToy_String& szName, const u_int* const puData, const u_int uWidth, const u_int uHeight )
+void GLToy_Texture_System::Platform_SaveTextureBMP( const GLToy_String& szName, u_int* const puData, const u_int uWidth, const u_int uHeight )
+{
+    char* szFilename = ( szName.EndsWith( ".bmp" ) ? szName : ( szName + ".bmp" ) ).CreateANSIString();
+    stbi_write_bmp( szFilename, uWidth, uHeight, STBI_rgb_alpha, reinterpret_cast< void* >( puData ) );
+    delete[] szFilename;
+}
+
+void GLToy_Texture_System::Platform_SaveTextureTGA( const GLToy_String& szName, u_int* const puData, const u_int uWidth, const u_int uHeight )
 {
     char* szFilename = ( szName.EndsWith( ".tga" ) ? szName : ( szName + ".tga" ) ).CreateANSIString();
-    stbi_write_tga( szFilename, uWidth, uHeight, STBI_rgb_alpha, puData );
+    stbi_write_tga( szFilename, uWidth, uHeight, STBI_rgb_alpha, reinterpret_cast< void* >( puData ) );
     delete[] szFilename;
 }

@@ -99,7 +99,7 @@ float GLToy_Maths::Cos( const float fValue )
 
 float GLToy_Maths::Abs( const float fValue )
 {
-    return abs( fValue );
+    return fabs( fValue );
 }
 
 float GLToy_Maths::Sqrt( const float fValue )

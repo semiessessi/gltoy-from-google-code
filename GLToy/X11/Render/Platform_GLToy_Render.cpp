@@ -42,6 +42,7 @@
 // GL
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <GL/glx.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // M A C R O S
@@ -56,9 +57,9 @@
 
 u_int Platform_GLToy_Render::s_uVersion = 0;
 void ( * Platform_GLToy_Render::s_pfnSwapInterval )( u_int ) = 0;
-void ( __stdcall* Platform_GLToy_Render::s_pfnActiveTexture )( u_int ) = 0;
-void ( __stdcall* Platform_GLToy_Render::s_pfnMultiTexCoord2fv )( u_int, const float* const ) = 0;
-void ( __stdcall* Platform_GLToy_Render::s_pfnMultiTexCoord3fv )( u_int, const float* const ) = 0;
+void ( * Platform_GLToy_Render::s_pfnActiveTexture )( u_int ) = 0;
+void ( * Platform_GLToy_Render::s_pfnMultiTexCoord2fv )( u_int, const float* const ) = 0;
+void ( * Platform_GLToy_Render::s_pfnMultiTexCoord3fv )( u_int, const float* const ) = 0;
 u_int ( * Platform_GLToy_Render::s_pfnIsShader )( u_int ) = 0;
 u_int ( * Platform_GLToy_Render::s_pfnCreateShader )( u_int ) = 0;
 u_int ( * Platform_GLToy_Render::s_pfnCreateProgram )() = 0;
@@ -139,8 +140,8 @@ bool Platform_GLToy_Render::Initialise()
     }
 
     // fill extensions - they should be set to null if unsupported...
-    // TODO: Linux
-    //s_pfnSwapInterval       = reinterpret_cast< void ( * )( u_int ) >(                            wglGetProcAddress( "wglSwapIntervalEXT" ) );
+    //s_pfnSwapInterval       = reinterpret_cast< void ( * )( u_int ) >(                            glXGetProcAddress( "wglSwapIntervalEXT" ) );
+	s_pfnActiveTexture        = reinterpret_cast< void ( * )( u_int ) >(                            glXGetProcAddress( "glActiveTexture" ) );	
     //s_pfnIsShader           = reinterpret_cast< u_int ( * )( u_int ) >(                            wglGetProcAddress( "glIsShader" ) );
     //s_pfnCreateShader       = reinterpret_cast< u_int ( * )( u_int ) >(                            wglGetProcAddress( "glCreateShader" ) );
     //s_pfnCreateProgram      = reinterpret_cast< u_int ( * )() >(                                   wglGetProcAddress( "glCreateProgram" ) );
@@ -344,6 +345,11 @@ void Platform_GLToy_Render::PopViewMatrix()
 void Platform_GLToy_Render::SubmitVertex( const float fX, const float fY, const float fZ )
 {
     glVertex3f( fX, fY, fZ );
+}
+
+void Platform_GLToy_Render::SubmitVertex( const GLToy_Vector_2& xVertex )
+{
+    glVertex2fv( xVertex.GetFloatPointer() );
 }
 
 void Platform_GLToy_Render::SubmitVertex( const GLToy_Vector_3& xVertex )
