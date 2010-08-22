@@ -635,11 +635,11 @@ void Platform_GLToy_Render::FramebufferTexture3D( const u_int uTarget, const u_i
     }
 }
 
-void Platform_GLToy_Render::FramebufferRenderbuffer( const u_int uTarget, const u_int uAttachment, const u_int uRenderBuffertarget, const u_int uRenderBuffer )
+void Platform_GLToy_Render::FramebufferRenderbuffer( const u_int uTarget, const u_int uAttachment, const u_int uRenderBufferTarget, const u_int uRenderBuffer )
 {
     if( s_pfnFramebufferRenderbuffer )
     {
-        s_pfnFramebufferRenderbuffer( uTarget, uAttachment, uRenderBuffertarget, uRenderBuffer );
+        s_pfnFramebufferRenderbuffer( uTarget, uAttachment, uRenderBufferTarget, uRenderBuffer );
     }
 }
 

@@ -170,7 +170,7 @@ public:
     static void FramebufferTexture1D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel );
     static void FramebufferTexture2D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel );
     static void FramebufferTexture3D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel, const int iZOffset );
-    static void FramebufferRenderbuffer( const u_int uTarget, const u_int uAttachment, const u_int uRenderBuffertarget, const u_int uRenderBuffer );
+    static void FramebufferRenderbuffer( const u_int uTarget, const u_int uAttachment, const u_int uRenderBufferTarget, const u_int uRenderBuffer );
     static void GetFramebufferAttachmentParameter( const u_int uTarget, const u_int uAttachment, const u_int uPName, int* const piParams );
     static void GenerateMipmap( const u_int uTarget );
 

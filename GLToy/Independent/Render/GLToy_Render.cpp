@@ -455,6 +455,91 @@ void GLToy_Render::SetVsyncEnabled( const bool bEnabled )
     Platform_GLToy_Render::SetVsyncEnabled( bEnabled );
 }
 
+bool GLToy_Render::IsRenderbuffer( const u_int uRenderBuffer )
+{
+    return Platform_GLToy_Render::IsRenderbuffer( uRenderBuffer );
+}
+
+void GLToy_Render::BindRenderbuffer( const u_int uTarget, const u_int uRenderBuffer )
+{
+    Platform_GLToy_Render::BindRenderbuffer( uTarget, uRenderBuffer );
+}
+
+void GLToy_Render::DeleteRenderbuffers( const int iCount, u_int* const puRenderBuffers )
+{
+    Platform_GLToy_Render::DeleteFramebuffers( iCount, puRenderBuffers );
+}
+
+void GLToy_Render::GenRenderbuffers( const int iCount, u_int* const puRenderBuffers )
+{
+    Platform_GLToy_Render::GenRenderbuffers( iCount, puRenderBuffers );
+}
+
+void GLToy_Render::RenderbufferStorage( const u_int uTarget, const u_int uInternalFormat, const int iWidth, const int iHeight )
+{
+    Platform_GLToy_Render::RenderbufferStorage( uTarget, uInternalFormat, iWidth, iHeight );
+}
+
+void GLToy_Render::GetRenderbufferParameter( const u_int uTarget, const u_int uPName, int* const piParams )
+{
+    Platform_GLToy_Render::GetRenderbufferParameter( uTarget, uPName, piParams );
+}
+
+bool GLToy_Render::IsFramebuffer( const u_int uFrameBuffer )
+{
+    return Platform_GLToy_Render::IsFramebuffer( uFrameBuffer );
+}
+
+void GLToy_Render::BindFramebuffer( const u_int uTarget, const u_int uFrameBuffer )
+{
+    Platform_GLToy_Render::BindFramebuffer( uTarget, uFrameBuffer );
+}
+
+void GLToy_Render::DeleteFramebuffers( const int iCount, u_int* const puFrameBuffers )
+{
+    Platform_GLToy_Render::DeleteFramebuffers( iCount, puFrameBuffers );
+}
+
+void GLToy_Render::GenFramebuffers( const int iCount, u_int* const puFrameBuffers )
+{
+    Platform_GLToy_Render::GenFramebuffers( iCount, puFrameBuffers );
+}
+
+u_int GLToy_Render::CheckFramebufferStatus( const u_int uTarget )
+{
+    return Platform_GLToy_Render::CheckFramebufferStatus( uTarget );
+}
+
+void GLToy_Render::FramebufferTexture1D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel )
+{
+    Platform_GLToy_Render::FramebufferTexture1D( uTarget, uAttachment, uTexTarget, uTexture, iLevel );
+}
+
+void GLToy_Render::FramebufferTexture2D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel )
+{
+    Platform_GLToy_Render::FramebufferTexture2D( uTarget, uAttachment, uTexTarget, uTexture, iLevel );
+}
+
+void GLToy_Render::FramebufferTexture3D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel, const int iZOffset )
+{
+    Platform_GLToy_Render::FramebufferTexture3D( uTarget, uAttachment, uTexTarget, uTexture, iLevel, iZOffset );
+}
+
+void GLToy_Render::FramebufferRenderbuffer( const u_int uTarget, const u_int uAttachment, const u_int uRenderBufferTarget, const u_int uRenderBuffer )
+{
+    Platform_GLToy_Render::FramebufferRenderbuffer( uTarget, uAttachment, uRenderBufferTarget, uRenderBuffer );
+}
+
+void GetFramebufferAttachmentParameter( const u_int uTarget, const u_int uAttachment, const u_int uPName, int* const piParams )
+{
+    Platform_GLToy_Render::GetFramebufferAttachmentParameter( uTarget, uAttachment, uPName, piParams );
+}
+
+void GLToy_Render::GenerateMipmap( const u_int uTarget )
+{
+    Platform_GLToy_Render::GenerateMipmap( uTarget );
+}
+
 bool GLToy_Render::IsShader( const u_int uID )
 {
     return Platform_GLToy_Render::IsShader( uID );
