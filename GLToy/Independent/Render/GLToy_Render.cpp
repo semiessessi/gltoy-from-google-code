@@ -84,6 +84,16 @@ bool GLToy_Render::Initialise()
 
     SetVsyncEnabled( s_bVsync );
 
+    if( Platform_GLToy_Render::SupportFramebuffer() )
+    {
+        GLToy_DebugOutput_Release( "Supports framebuffer extensions" );
+    }
+
+    if( Platform_GLToy_Render::SupportShaders() )
+    {
+        GLToy_DebugOutput_Release( "Supports shaders" );
+    }
+
     return true;
 }
 

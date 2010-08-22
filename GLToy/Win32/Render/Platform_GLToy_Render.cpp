@@ -62,6 +62,23 @@ void ( __stdcall* Platform_GLToy_Render::s_pfnSwapInterval )( u_int ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnActiveTexture )( u_int ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnMultiTexCoord2fv )( u_int, const float* const ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnMultiTexCoord3fv )( u_int, const float* const ) = 0;
+bool ( __stdcall* Platform_GLToy_Render::s_pfnIsRenderbuffer )( const u_int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnBindRenderbuffer )( const u_int, const u_int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnDeleteRenderbuffers )( const int, u_int* const ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnGenRenderbuffers )( const int, u_int* const ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnRenderbufferStorage )( const u_int, const u_int, const int, const int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnGetRenderbufferParameter )( const u_int, const u_int, int* const ) = 0;
+bool ( __stdcall* Platform_GLToy_Render::s_pfnIsFramebuffer )( const u_int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnBindFramebuffer )( const u_int, const u_int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnDeleteFramebuffers )( const int, u_int* const ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnGenFramebuffers )( const int, u_int* const ) = 0;
+u_int ( __stdcall* Platform_GLToy_Render::s_pfnCheckFramebufferStatus )( const u_int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnFramebufferTexture1D )( const u_int, const u_int, const u_int, const u_int, const int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnFramebufferTexture2D )( const u_int, const u_int, const u_int, const u_int, const int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnFramebufferTexture3D )( const u_int, const u_int, const u_int, const u_int, const int, const int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnFramebufferRenderbuffer )( const u_int, const u_int, const u_int, const u_int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnGetFramebufferAttachmentParameter )( const u_int, const u_int, const u_int, int* const ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnGenerateMipmap )( const u_int ) = 0;
 u_int ( __stdcall* Platform_GLToy_Render::s_pfnIsShader )( u_int ) = 0;
 u_int ( __stdcall* Platform_GLToy_Render::s_pfnCreateShader )( u_int ) = 0;
 u_int ( __stdcall* Platform_GLToy_Render::s_pfnCreateProgram )() = 0;
@@ -142,43 +159,63 @@ bool Platform_GLToy_Render::Initialise()
     }
 
     // fill extensions - they should be set to null if unsupported...
-    s_pfnSwapInterval       = reinterpret_cast< void ( __stdcall* )( u_int ) >(                             wglGetProcAddress( "wglSwapIntervalEXT" ) );
-    s_pfnActiveTexture      = reinterpret_cast< void ( __stdcall* )( u_int ) >(                             wglGetProcAddress( "glActiveTexture" ) );
-    s_pfnMultiTexCoord2fv   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(         wglGetProcAddress( "glMultiTexCoord2fv" ) );
-    s_pfnMultiTexCoord3fv   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(         wglGetProcAddress( "glMultiTexCoord3fv" ) );
-    s_pfnIsShader           = reinterpret_cast< u_int ( __stdcall* )( u_int ) >(                            wglGetProcAddress( "glIsShader" ) );
-    s_pfnCreateShader       = reinterpret_cast< u_int ( __stdcall* )( u_int ) >(                            wglGetProcAddress( "glCreateShader" ) );
-    s_pfnCreateProgram      = reinterpret_cast< u_int ( __stdcall* )() >(                                   wglGetProcAddress( "glCreateProgram" ) );
-    s_pfnDeleteShader       = reinterpret_cast< void ( __stdcall* )( u_int ) >(                             wglGetProcAddress( "glDeleteShader" ) );
-    s_pfnDeleteProgram      = reinterpret_cast< void ( __stdcall* )( u_int ) >(                             wglGetProcAddress( "glDeleteProgram" ) );
-    s_pfnValidateProgram    = reinterpret_cast< void ( __stdcall* )( u_int ) >(                             wglGetProcAddress( "glValidateProgram" ) );
-    s_pfnCompileShader      = reinterpret_cast< void ( __stdcall* )( u_int ) >(                             wglGetProcAddress( "glCompileShader" ) );
-    s_pfnLinkProgram        = reinterpret_cast< void ( __stdcall* )( u_int ) >(                             wglGetProcAddress( "glLinkProgram" ) );
-    s_pfnUseProgram         = reinterpret_cast< void ( __stdcall* )( u_int ) >(                             wglGetProcAddress( "glUseProgram" ) );
-    s_pfnAttachShader       = reinterpret_cast< void ( __stdcall* )( u_int, u_int ) >(                      wglGetProcAddress( "glAttachShader" ) );
-    s_pfnDetachShader       = reinterpret_cast< void ( __stdcall* )( u_int, u_int ) >(                      wglGetProcAddress( "glDetachShader" ) );
-    s_pfnShaderSource       = reinterpret_cast< void ( __stdcall* )( u_int, int, char**, const int* ) >(    wglGetProcAddress( "glShaderSource" ) );
-    s_pfnGetProgramInfoLog  = reinterpret_cast< void ( __stdcall* )( u_int, int, int*, char* ) >(           wglGetProcAddress( "glGetProgramInfoLog" ) );
-    s_pfnGetShaderInfoLog   = reinterpret_cast< void ( __stdcall* )( u_int, int, int*, char* ) >(           wglGetProcAddress( "glGetShaderInfoLog" ) );
-    s_pfnGetUniformID = reinterpret_cast< u_int ( __stdcall* )( u_int, const char* ) >(                     wglGetProcAddress( "glGetUniformLocation" ) );
-    s_pfnGetAttributeID = reinterpret_cast< u_int ( __stdcall* )( u_int, const char* ) >(                   wglGetProcAddress( "glGetAttribLocation" ) );
-    s_pfnBindAttributeID = reinterpret_cast< void ( __stdcall* )( u_int, u_int, const char* ) >(            wglGetProcAddress( "glBindAttribLocation" ) );
-    s_pfnSetUniform1i = reinterpret_cast< void ( __stdcall* )( u_int, int ) >(                              wglGetProcAddress( "glUniform1i" ) );
-    s_pfnSetUniform2i = reinterpret_cast< void ( __stdcall* )( u_int, int, int ) >(                         wglGetProcAddress( "glUniform2i" ) );
-    s_pfnSetUniform3i = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int ) >(                    wglGetProcAddress( "glUniform3i" ) );
-    s_pfnSetUniform4i = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int, int ) >(               wglGetProcAddress( "glUniform4i" ) );
-    s_pfnSetUniform1f = reinterpret_cast< void ( __stdcall* )( u_int, float ) >(                            wglGetProcAddress( "glUniform1f" ) );
-    s_pfnSetUniform2f = reinterpret_cast< void ( __stdcall* )( u_int, float, float ) >(                     wglGetProcAddress( "glUniform2f" ) );
-    s_pfnSetUniform3f = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float ) >(              wglGetProcAddress( "glUniform3f" ) );
-    s_pfnSetUniform4f = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float, float ) >(       wglGetProcAddress( "glUniform4f" ) );
-    s_pfnSetAttribute1i = reinterpret_cast< void ( __stdcall* )( u_int, int ) >(                            wglGetProcAddress( "glVertexAttrib1i" ) );
-    s_pfnSetAttribute2i = reinterpret_cast< void ( __stdcall* )( u_int, int, int ) >(                       wglGetProcAddress( "glVertexAttrib2i" ) );
-    s_pfnSetAttribute3i = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int ) >(                  wglGetProcAddress( "glVertexAttrib3i" ) );
-    s_pfnSetAttribute4i = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int, int ) >(             wglGetProcAddress( "glVertexAttrib4i" ) );
-    s_pfnSetAttribute1f = reinterpret_cast< void ( __stdcall* )( u_int, float ) >(                          wglGetProcAddress( "glVertexAttrib1f" ) );
-    s_pfnSetAttribute2f = reinterpret_cast< void ( __stdcall* )( u_int, float, float ) >(                   wglGetProcAddress( "glVertexAttrib2f" ) );
-    s_pfnSetAttribute3f = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float ) >(            wglGetProcAddress( "glVertexAttrib3f" ) );
-    s_pfnSetAttribute4f = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float, float ) >(     wglGetProcAddress( "glVertexAttrib4f" ) );
+    s_pfnSwapInterval                       = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "wglSwapIntervalEXT" ) );
+
+    s_pfnActiveTexture                      = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glActiveTexture" ) );
+    s_pfnMultiTexCoord2fv                   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(                                                     wglGetProcAddress( "glMultiTexCoord2fv" ) );
+    s_pfnMultiTexCoord3fv                   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(                                                     wglGetProcAddress( "glMultiTexCoord3fv" ) );
+
+    s_pfnIsRenderbuffer                     = reinterpret_cast< bool ( __stdcall* )( const u_int ) >(                                                                   wglGetProcAddress( "glIsRenderbufferEXT" ) );
+    s_pfnBindRenderbuffer                   = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int ) >(                                                      wglGetProcAddress( "glBindRenderbufferEXT" ) );
+    s_pfnDeleteRenderbuffers                = reinterpret_cast< void ( __stdcall* )( const int, u_int* const ) >(                                                       wglGetProcAddress( "glDeleteRenderbuffersEXT" ) );
+    s_pfnGenRenderbuffers                   = reinterpret_cast< void ( __stdcall* )( const int, u_int* const ) >(                                                       wglGetProcAddress( "glGenRenderbuffersEXT" ) );
+    s_pfnRenderbufferStorage                = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const int, const int ) >(                                wglGetProcAddress( "glRenderbufferStorageEXT" ) );
+    s_pfnGetRenderbufferParameter           = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, int* const ) >(                                          wglGetProcAddress( "glGetRenderbufferParameterivEXT" ) );
+    s_pfnIsFramebuffer                      = reinterpret_cast< bool ( __stdcall* )( const u_int ) >(                                                                   wglGetProcAddress( "glIsFramebufferEXT" ) );
+    s_pfnBindFramebuffer                    = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int ) >(                                                      wglGetProcAddress( "glBindFramebufferEXT" ) );
+    s_pfnDeleteFramebuffers                 = reinterpret_cast< void ( __stdcall* )( const int, u_int* const ) >(                                                       wglGetProcAddress( "glDeleteFramebuffersEXT" ) );
+    s_pfnGenFramebuffers                    = reinterpret_cast< void ( __stdcall* )( const int, u_int* const ) >(                                                       wglGetProcAddress( "glGenFramebuffersEXT" ) );
+    s_pfnCheckFramebufferStatus             = reinterpret_cast< u_int ( __stdcall* )( const u_int ) >(                                                                  wglGetProcAddress( "glCheckFramebufferStatusEXT" ) );
+    s_pfnFramebufferTexture1D               = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const u_int, const int ) >(                 wglGetProcAddress( "glFramebufferTexture1DEXT" ) );
+    s_pfnFramebufferTexture2D               = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const u_int, const int ) >(                 wglGetProcAddress( "glFramebufferTexture2DEXT" ) );
+    s_pfnFramebufferTexture3D               = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const u_int, const int, const int ) >(      wglGetProcAddress( "glFramebufferTexture3DEXT" ) );
+    s_pfnFramebufferRenderbuffer            = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const u_int ) >(                            wglGetProcAddress( "glFramebufferRenderbufferEXT" ) );
+    s_pfnGetFramebufferAttachmentParameter  = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, int* const ) >(                             wglGetProcAddress( "glGetFramebufferAttachmentParameterivEXT" ) );
+    s_pfnGenerateMipmap                     = reinterpret_cast< void ( __stdcall* )( const u_int ) >(                                                                   wglGetProcAddress( "glGenerateMipmapEXT" ) );
+
+    s_pfnIsShader                           = reinterpret_cast< u_int ( __stdcall* )( u_int ) >(                                                                        wglGetProcAddress( "glIsShader" ) );
+    s_pfnCreateShader                       = reinterpret_cast< u_int ( __stdcall* )( u_int ) >(                                                                        wglGetProcAddress( "glCreateShader" ) );
+    s_pfnCreateProgram                      = reinterpret_cast< u_int ( __stdcall* )() >(                                                                               wglGetProcAddress( "glCreateProgram" ) );
+    s_pfnDeleteShader                       = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glDeleteShader" ) );
+    s_pfnDeleteProgram                      = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glDeleteProgram" ) );
+    s_pfnValidateProgram                    = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glValidateProgram" ) );
+    s_pfnCompileShader                      = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glCompileShader" ) );
+    s_pfnLinkProgram                        = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glLinkProgram" ) );
+    s_pfnUseProgram                         = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glUseProgram" ) );
+    s_pfnAttachShader                       = reinterpret_cast< void ( __stdcall* )( u_int, u_int ) >(                                                                  wglGetProcAddress( "glAttachShader" ) );
+    s_pfnDetachShader                       = reinterpret_cast< void ( __stdcall* )( u_int, u_int ) >(                                                                  wglGetProcAddress( "glDetachShader" ) );
+    s_pfnShaderSource                       = reinterpret_cast< void ( __stdcall* )( u_int, int, char**, const int* ) >(                                                wglGetProcAddress( "glShaderSource" ) );
+    s_pfnGetProgramInfoLog                  = reinterpret_cast< void ( __stdcall* )( u_int, int, int*, char* ) >(                                                       wglGetProcAddress( "glGetProgramInfoLog" ) );
+    s_pfnGetShaderInfoLog                   = reinterpret_cast< void ( __stdcall* )( u_int, int, int*, char* ) >(                                                       wglGetProcAddress( "glGetShaderInfoLog" ) );
+    s_pfnGetUniformID                       = reinterpret_cast< u_int ( __stdcall* )( u_int, const char* ) >(                                                           wglGetProcAddress( "glGetUniformLocation" ) );
+    s_pfnGetAttributeID                     = reinterpret_cast< u_int ( __stdcall* )( u_int, const char* ) >(                                                           wglGetProcAddress( "glGetAttribLocation" ) );
+    s_pfnBindAttributeID                    = reinterpret_cast< void ( __stdcall* )( u_int, u_int, const char* ) >(                                                     wglGetProcAddress( "glBindAttribLocation" ) );
+    s_pfnSetUniform1i                       = reinterpret_cast< void ( __stdcall* )( u_int, int ) >(                                                                    wglGetProcAddress( "glUniform1i" ) );
+    s_pfnSetUniform2i                       = reinterpret_cast< void ( __stdcall* )( u_int, int, int ) >(                                                               wglGetProcAddress( "glUniform2i" ) );
+    s_pfnSetUniform3i                       = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int ) >(                                                          wglGetProcAddress( "glUniform3i" ) );
+    s_pfnSetUniform4i                       = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int, int ) >(                                                     wglGetProcAddress( "glUniform4i" ) );
+    s_pfnSetUniform1f                       = reinterpret_cast< void ( __stdcall* )( u_int, float ) >(                                                                  wglGetProcAddress( "glUniform1f" ) );
+    s_pfnSetUniform2f                       = reinterpret_cast< void ( __stdcall* )( u_int, float, float ) >(                                                           wglGetProcAddress( "glUniform2f" ) );
+    s_pfnSetUniform3f                       = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float ) >(                                                    wglGetProcAddress( "glUniform3f" ) );
+    s_pfnSetUniform4f                       = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float, float ) >(                                             wglGetProcAddress( "glUniform4f" ) );
+    s_pfnSetAttribute1i                     = reinterpret_cast< void ( __stdcall* )( u_int, int ) >(                                                                    wglGetProcAddress( "glVertexAttrib1i" ) );
+    s_pfnSetAttribute2i                     = reinterpret_cast< void ( __stdcall* )( u_int, int, int ) >(                                                               wglGetProcAddress( "glVertexAttrib2i" ) );
+    s_pfnSetAttribute3i                     = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int ) >(                                                          wglGetProcAddress( "glVertexAttrib3i" ) );
+    s_pfnSetAttribute4i                     = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int, int ) >(                                                     wglGetProcAddress( "glVertexAttrib4i" ) );
+    s_pfnSetAttribute1f                     = reinterpret_cast< void ( __stdcall* )( u_int, float ) >(                                                                  wglGetProcAddress( "glVertexAttrib1f" ) );
+    s_pfnSetAttribute2f                     = reinterpret_cast< void ( __stdcall* )( u_int, float, float ) >(                                                           wglGetProcAddress( "glVertexAttrib2f" ) );
+    s_pfnSetAttribute3f                     = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float ) >(                                                    wglGetProcAddress( "glVertexAttrib3f" ) );
+    s_pfnSetAttribute4f                     = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float, float ) >(                                             wglGetProcAddress( "glVertexAttrib4f" ) );
 
     return true;
 }
@@ -380,9 +417,9 @@ void Platform_GLToy_Render::SubmitUV( const GLToy_Vector_2& xUV, const u_int uTe
 {
     if( uTextureUnit == 0 )
     {
-        glTexCoord3fv( xUV.GetFloatPointer() );
+        glTexCoord2fv( xUV.GetFloatPointer() );
     }
-    else
+    else if( s_pfnMultiTexCoord2fv )
     {
         s_pfnMultiTexCoord2fv( GL_TEXTURE0 + uTextureUnit, xUV.GetFloatPointer() );
     }
@@ -394,7 +431,7 @@ void Platform_GLToy_Render::SubmitUV( const GLToy_Vector_3& xUV, const u_int uTe
     {
         glTexCoord3fv( xUV.GetFloatPointer() );
     }
-    else
+    else if( s_pfnMultiTexCoord3fv )
     {
         s_pfnMultiTexCoord3fv( GL_TEXTURE0 + uTextureUnit, xUV.GetFloatPointer() );
     }
@@ -474,57 +511,240 @@ void Platform_GLToy_Render::SetVsyncEnabled( const bool bEnabled )
 
 void Platform_GLToy_Render::ActiveTexture( const u_int uTextureUnit )
 {
-    s_pfnActiveTexture( uTextureUnit );
+    if( s_pfnActiveTexture )
+    {
+        s_pfnActiveTexture( uTextureUnit );
+    }
+}
+
+bool Platform_GLToy_Render::IsRenderbuffer( const u_int uRenderBuffer )
+{
+    if( s_pfnIsRenderbuffer )
+    {
+        return s_pfnIsRenderbuffer( uRenderBuffer );
+    }
+
+    return false;
+}
+
+void Platform_GLToy_Render::BindRenderbuffer( const u_int uTarget, const u_int uRenderBuffer )
+{
+    if( s_pfnBindRenderbuffer )
+    {
+        s_pfnBindRenderbuffer( uTarget, uRenderBuffer ); 
+    }
+}
+
+void Platform_GLToy_Render::DeleteRenderbuffers( const int iCount, u_int* const puRenderBuffers )
+{
+    if( s_pfnDeleteRenderbuffers )
+    {
+        s_pfnDeleteRenderbuffers( iCount, puRenderBuffers );
+    }
+}
+
+void Platform_GLToy_Render::GenRenderbuffers( const int iCount, u_int* const puRenderBuffers )
+{
+    if( s_pfnGenRenderbuffers )
+    {
+        s_pfnGenRenderbuffers( iCount, puRenderBuffers ); 
+    }
+}
+
+void Platform_GLToy_Render::RenderbufferStorage( const u_int uTarget, const u_int uInternalFormat, const int iWidth, const int iHeight )
+{
+    if( s_pfnRenderbufferStorage )
+    {
+        s_pfnRenderbufferStorage( uTarget, uInternalFormat, iWidth, iHeight );
+    }
+}
+
+void Platform_GLToy_Render::GetRenderbufferParameter( const u_int uTarget, const u_int uPName, int* const piParams )
+{
+    if( s_pfnGetRenderbufferParameter )
+    {
+        s_pfnGetRenderbufferParameter( uTarget, uPName, piParams );
+    }
+}
+
+bool Platform_GLToy_Render::IsFramebuffer( const u_int uFrameBuffer )
+{
+    if( s_pfnIsFramebuffer )
+    {
+        return s_pfnIsFramebuffer( uFrameBuffer );
+    }
+
+    return false;
+}
+
+void Platform_GLToy_Render::BindFramebuffer( const u_int uTarget, const u_int uFrameBuffer )
+{
+    if( s_pfnBindFramebuffer )
+    {
+        s_pfnBindFramebuffer( uTarget, uFrameBuffer );
+    }
+}
+
+void Platform_GLToy_Render::DeleteFramebuffers( const int iCount, u_int* const puFrameBuffers )
+{
+    if( s_pfnDeleteFramebuffers )
+    {
+        s_pfnDeleteFramebuffers( iCount, puFrameBuffers );
+    }
+}
+
+void Platform_GLToy_Render::GenFramebuffers( const int iCount, u_int* const puFrameBuffers )
+{
+    if( s_pfnGenFramebuffers )
+    {
+        s_pfnGenFramebuffers( iCount, puFrameBuffers );
+    }
+}
+
+u_int Platform_GLToy_Render::CheckFramebufferStatus( const u_int uTarget )
+{
+    if( s_pfnCheckFramebufferStatus )
+    {
+        return s_pfnCheckFramebufferStatus( uTarget );
+    }
+
+    return 0;
+}
+
+void Platform_GLToy_Render::FramebufferTexture1D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel )
+{
+    if( s_pfnFramebufferTexture1D )
+    {
+        s_pfnFramebufferTexture1D( uTarget, uAttachment, uTexTarget, uTexture, iLevel );
+    }
+}
+
+void Platform_GLToy_Render::FramebufferTexture2D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel )
+{
+    if( s_pfnFramebufferTexture2D )
+    {
+        s_pfnFramebufferTexture2D( uTarget, uAttachment, uTexTarget, uTexture, iLevel );
+    }
+}
+
+void Platform_GLToy_Render::FramebufferTexture3D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel, const int iZOffset )
+{
+    if( s_pfnFramebufferTexture3D )
+    {
+        s_pfnFramebufferTexture3D( uTarget, uAttachment, uTexTarget, uTexture, iLevel, iZOffset );
+    }
+}
+
+void Platform_GLToy_Render::FramebufferRenderbuffer( const u_int uTarget, const u_int uAttachment, const u_int uRenderBuffertarget, const u_int uRenderBuffer )
+{
+    if( s_pfnFramebufferRenderbuffer )
+    {
+        s_pfnFramebufferRenderbuffer( uTarget, uAttachment, uRenderBuffertarget, uRenderBuffer );
+    }
+}
+
+void Platform_GLToy_Render::GetFramebufferAttachmentParameter( const u_int uTarget, const u_int uAttachment, const u_int uPName, int* const piParams )
+{
+    if( s_pfnGetFramebufferAttachmentParameter )
+    {
+        s_pfnGetFramebufferAttachmentParameter( uTarget, uAttachment, uPName, piParams );
+    }
+}
+
+void Platform_GLToy_Render::GenerateMipmap( const u_int uTarget )
+{
+    if( s_pfnGenerateMipmap )
+    {
+        s_pfnGenerateMipmap( uTarget );
+    }
 }
 
 bool Platform_GLToy_Render::IsShader( const u_int uID )
 {
-    return s_pfnIsShader( uID ) == GL_TRUE;
+    if( s_pfnIsShader )
+    {
+        return s_pfnIsShader( uID ) == GL_TRUE;
+    }
+    
+    return false;
 }
 
 u_int Platform_GLToy_Render::CreateFragmentShader()
 {
-    return s_pfnCreateShader( GL_FRAGMENT_SHADER );
+    if( s_pfnCreateShader )
+    {
+        return s_pfnCreateShader( GL_FRAGMENT_SHADER );
+    }
+    
+    return 0;
 }
 
 u_int Platform_GLToy_Render::CreateVertexShader()
 {
-    return s_pfnCreateShader( GL_VERTEX_SHADER );
+    if( s_pfnCreateShader )
+    {
+        return s_pfnCreateShader( GL_VERTEX_SHADER );
+    }
+    
+    return 0;
 }
 
 u_int Platform_GLToy_Render::CreateProgram()
 {
-    return s_pfnCreateProgram();
+    if( s_pfnCreateProgram )
+    {
+        return s_pfnCreateProgram();
+    }
+    
+    return 0;
 }
 
 void Platform_GLToy_Render::DeleteShader( u_int uShaderID )
 {
-    s_pfnDeleteShader( uShaderID );
+    if( s_pfnDeleteShader )
+    {
+        s_pfnDeleteShader( uShaderID );
+    }
 }
 
 void Platform_GLToy_Render::DeleteProgram( u_int uProgramID )
 {
-    s_pfnDeleteProgram( uProgramID );
+    if( s_pfnDeleteProgram )
+    {
+        s_pfnDeleteProgram( uProgramID );
+    }
 }
 
 void Platform_GLToy_Render::ValidateProgram( u_int uProgramID )
 {
-    s_pfnValidateProgram( uProgramID );
+    if( s_pfnValidateProgram )
+    {
+        s_pfnValidateProgram( uProgramID );
+    }
 }
 
 void Platform_GLToy_Render::CompileShader( u_int uShaderID )
 {
-    s_pfnCompileShader( uShaderID );
+    if( s_pfnCompileShader )
+    {
+        s_pfnCompileShader( uShaderID );
+    }
 }
 
 void Platform_GLToy_Render::LinkProgram( u_int uProgramID )
 {
-    s_pfnLinkProgram( uProgramID );
+    if( s_pfnLinkProgram )
+    {
+        s_pfnLinkProgram( uProgramID );
+    }
 }
 
 void Platform_GLToy_Render::UseProgram( u_int uProgramID )
 {
-    s_pfnUseProgram( uProgramID );
+    if( s_pfnUseProgram )
+    {
+        s_pfnUseProgram( uProgramID );
+    }
 }
 
 void Platform_GLToy_Render::AttachShader( u_int uProgramID, u_int uShaderID )

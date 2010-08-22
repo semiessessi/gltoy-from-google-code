@@ -60,6 +60,28 @@ public:
 
     static void SetVsyncEnabled( const bool bEnabled );
 
+    static bool SupportFramebuffer() { return s_pfnIsFramebuffer != NULL; }
+    static bool SupportShaders() { return s_pfnIsShader != NULL; }
+
+    // framebuffer functions
+    static bool IsRenderbuffer( const u_int uRenderBuffer );
+    static void BindRenderbuffer( const u_int uTarget, const u_int uRenderBuffer );
+    static void DeleteRenderbuffers( const int iCount, u_int* const puRenderBuffers );
+    static void GenRenderbuffers( const int iCount, u_int* const puRenderBuffers );
+    static void RenderbufferStorage( const u_int uTarget, const u_int uInternalFormat, const int iWidth, const int iHeight );
+    static void GetRenderbufferParameter( const u_int uTarget, const u_int uPName, int* const piParams );
+    static bool IsFramebuffer( const u_int uFrameBuffer );
+    static void BindFramebuffer( const u_int uTarget, const u_int uFrameBuffer );
+    static void DeleteFramebuffers( const int iCount, u_int* const puFrameBuffers );
+    static void GenFramebuffers( const int iCount, u_int* const puFrameBuffers );
+    static u_int CheckFramebufferStatus( const u_int uTarget );
+    static void FramebufferTexture1D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel );
+    static void FramebufferTexture2D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel );
+    static void FramebufferTexture3D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel, const int iZOffset );
+    static void FramebufferRenderbuffer( const u_int uTarget, const u_int uAttachment, const u_int uRenderBuffertarget, const u_int uRenderBuffer );
+    static void GetFramebufferAttachmentParameter( const u_int uTarget, const u_int uAttachment, const u_int uPName, int* const piParams );
+    static void GenerateMipmap( const u_int uTarget );
+
     // shader functions
     static bool IsShader( const u_int uID );
     static u_int CreateFragmentShader();
@@ -165,6 +187,24 @@ private:
     static void ( * s_pfnActiveTexture )( u_int );
     static void ( * s_pfnMultiTexCoord2fv )( u_int, const float* const );
     static void ( * s_pfnMultiTexCoord3fv )( u_int, const float* const );
+    // framebuffer functions
+    static bool ( __stdcall* s_pfnIsRenderbuffer )( const u_int );
+    static void ( __stdcall* s_pfnBindRenderbuffer )( const u_int, const u_int );
+    static void ( __stdcall* s_pfnDeleteRenderbuffers )( const int, u_int* const );
+    static void ( __stdcall* s_pfnGenRenderbuffers )( const int, u_int* const );
+    static void ( __stdcall* s_pfnRenderbufferStorage )( const u_int, const u_int, const int, const int );
+    static void ( __stdcall* s_pfnGetRenderbufferParameter )( const u_int, const u_int, int* const );
+    static bool ( __stdcall* s_pfnIsFramebuffer )( const u_int );
+    static void ( __stdcall* s_pfnBindFramebuffer )( const u_int, const u_int );
+    static void ( __stdcall* s_pfnDeleteFramebuffers )( const int, u_int* const );
+    static void ( __stdcall* s_pfnGenFramebuffers )( const int, u_int* const );
+    static u_int ( __stdcall* s_pfnCheckFramebufferStatus )( const u_int );
+    static void ( __stdcall* s_pfnFramebufferTexture1D )( const u_int, const u_int, const u_int, const u_int, const int );
+    static void ( __stdcall* s_pfnFramebufferTexture2D )( const u_int, const u_int, const u_int, const u_int, const int );
+    static void ( __stdcall* s_pfnFramebufferTexture3D )( const u_int, const u_int, const u_int, const u_int, const int, const int );
+    static void ( __stdcall* s_pfnFramebufferRenderbuffer )( const u_int, const u_int, const u_int, const u_int );
+    static void ( __stdcall* s_pfnGetFramebufferAttachmentParameter )( const u_int, const u_int, const u_int, int* const );
+    static void ( __stdcall* s_pfnGenerateMipmap )( const u_int );
     // shader functions
     static u_int ( * s_pfnIsShader )( u_int );
     static u_int ( * s_pfnCreateShader )( u_int );
