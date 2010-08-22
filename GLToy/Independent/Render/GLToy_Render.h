@@ -31,25 +31,81 @@
 // M A C R O S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#define BLEND_ZERO                              0
-#define BLEND_ONE                               1
-#define BLEND_SRC_COLOR                         0x0300
-#define BLEND_ONE_MINUS_SRC_COLOR               0x0301
-#define BLEND_SRC_ALPHA                         0x0302
-#define BLEND_ONE_MINUS_SRC_ALPHA               0x0303
-#define BLEND_DST_ALPHA                         0x0304
-#define BLEND_ONE_MINUS_DST_ALPHA               0x0305
+#define BLEND_ZERO                                          0
+#define BLEND_ONE                                           1
+#define BLEND_SRC_COLOR                                     0x0300
+#define BLEND_ONE_MINUS_SRC_COLOR                           0x0301
+#define BLEND_SRC_ALPHA                                     0x0302
+#define BLEND_ONE_MINUS_SRC_ALPHA                           0x0303
+#define BLEND_DST_ALPHA                                     0x0304
+#define BLEND_ONE_MINUS_DST_ALPHA                           0x0305
 
-#define DEPTH_NEVER                             0x0200
-#define DEPTH_LESS                              0x0201
-#define DEPTH_EQUAL                             0x0202
-#define DEPTH_LEQUAL                            0x0203
-#define DEPTH_GREATER                           0x0204
-#define DEPTH_NOTEQUAL                          0x0205
-#define DEPTH_GEQUAL                            0x0206
-#define DEPTH_ALWAYS                            0x0207
+#define DEPTH_NEVER                                         0x0200
+#define DEPTH_LESS                                          0x0201
+#define DEPTH_EQUAL                                         0x0202
+#define DEPTH_LEQUAL                                        0x0203
+#define DEPTH_GREATER                                       0x0204
+#define DEPTH_NOTEQUAL                                      0x0205
+#define DEPTH_GEQUAL                                        0x0206
+#define DEPTH_ALWAYS                                        0x0207
 
-#define GL_TEXTURE0                             0x84C0
+#define TEXTURE_2D                                          0x0DE1
+
+#define TEXTURE0                                            0x84C0
+
+#define DEPTH_COMPONENT                                     0x1902
+
+#define FRAMEBUFFER                                         0x8D40
+#define RENDERBUFFER                                        0x8D41
+#define STENCIL_INDEX1                                      0x8D46
+#define STENCIL_INDEX4                                      0x8D47
+#define STENCIL_INDEX8                                      0x8D48
+#define STENCIL_INDEX16                                     0x8D49
+#define RENDERBUFFER_WIDTH                                  0x8D42
+#define RENDERBUFFER_HEIGHT                                 0x8D43
+#define RENDERBUFFER_INTERNAL_FORMAT                        0x8D44
+#define RENDERBUFFER_RED_SIZE                               0x8D50
+#define RENDERBUFFER_GREEN_SIZE                             0x8D51
+#define RENDERBUFFER_BLUE_SIZE                              0x8D52
+#define RENDERBUFFER_ALPHA_SIZE                             0x8D53
+#define RENDERBUFFER_DEPTH_SIZE                             0x8D54
+#define RENDERBUFFER_STENCIL_SIZE                           0x8D55
+#define FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE                  0x8CD0
+#define FRAMEBUFFER_ATTACHMENT_OBJECT_NAME                  0x8CD1
+#define FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL                0x8CD2
+#define FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE        0x8CD3
+#define FRAMEBUFFER_ATTACHMENT_TEXTURE_3D_ZOFFSET           0x8CD4
+#define COLOR_ATTACHMENT0                                   0x8CE0
+#define COLOR_ATTACHMENT1                                   0x8CE1
+#define COLOR_ATTACHMENT2                                   0x8CE2
+#define COLOR_ATTACHMENT3                                   0x8CE3
+#define COLOR_ATTACHMENT4                                   0x8CE4
+#define COLOR_ATTACHMENT5                                   0x8CE5
+#define COLOR_ATTACHMENT6                                   0x8CE6
+#define COLOR_ATTACHMENT7                                   0x8CE7
+#define COLOR_ATTACHMENT8                                   0x8CE8
+#define COLOR_ATTACHMENT9                                   0x8CE9
+#define COLOR_ATTACHMENT10                                  0x8CEA
+#define COLOR_ATTACHMENT11                                  0x8CEB
+#define COLOR_ATTACHMENT12                                  0x8CEC
+#define COLOR_ATTACHMENT13                                  0x8CED
+#define COLOR_ATTACHMENT14                                  0x8CEE
+#define COLOR_ATTACHMENT15                                  0x8CEF
+#define DEPTH_ATTACHMENT                                    0x8D00
+#define STENCIL_ATTACHMENT                                  0x8D20
+#define FRAMEBUFFER_COMPLETE                                0x8CD5
+#define FRAMEBUFFER_INCOMPLETE_ATTACHMENT                   0x8CD6
+#define FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT           0x8CD7
+#define FRAMEBUFFER_INCOMPLETE_DIMENSIONS                   0x8CD9
+#define FRAMEBUFFER_INCOMPLETE_FORMATS                      0x8CDA
+#define FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER                  0x8CDB
+#define FRAMEBUFFER_INCOMPLETE_READ_BUFFER                  0x8CDC
+#define FRAMEBUFFER_UNSUPPORTED                             0x8CDD
+#define FRAMEBUFFER_BINDING                                 0x8CA6
+#define RENDERBUFFER_BINDING                                0x8CA7
+#define MAX_COLOR_ATTACHMENTS                               0x8CDF
+#define MAX_RENDERBUFFER_SIZE                               0x84E8
+#define INVALID_FRAMEBUFFER_OPERATION                       0x0506
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
@@ -80,6 +136,7 @@ public:
     static float Get2DWidth() { return 2.0f * GetAspectRatio(); }
     static void SetClearFrame( const bool bClear = true ) { s_bClearFrame = bClear; }
     static bool GetClearFrame() { return s_bClearFrame; }
+    static bool HasFrameBuffer() { return s_uFrameBuffer != 0xFFFFFFFF; }
 
     static bool Initialise();
     static void Shutdown();
@@ -111,6 +168,8 @@ public:
     static void Rotate( const GLToy_Vector_3& xAxis, const float fAngle );
     static void Transform( const GLToy_Matrix_3& xMatrix );
 
+    static void PushViewAttributes();
+    static void PopViewAttributes();
     static void PushViewMatrix();
     static void PopViewMatrix();
 
@@ -228,6 +287,9 @@ private:
     static bool s_bDrawFPS;
     static bool s_bVsync;
     static bool s_bClearFrame;
+    static u_int s_uDepthBuffer;
+    static u_int s_uFrameBuffer;
+    static u_int s_uFrameTexture;
 
     static GLToy_BinaryTree< const GLToy_Renderable*, float > s_xTransparents;
 

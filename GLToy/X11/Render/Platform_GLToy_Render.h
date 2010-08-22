@@ -139,6 +139,8 @@ private:
     static void Rotate( const GLToy_Vector_3& xAxis, const float fAngle );
     static void Transform( const GLToy_Matrix_3& xMatrix );
 
+    static void PushViewAttributes();
+    static void PopViewAttributes();
     static void PushViewMatrix();
     static void PopViewMatrix();
 

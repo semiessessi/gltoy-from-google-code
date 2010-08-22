@@ -56,6 +56,9 @@ float GLToy_Render::s_fAspectRatio = 1.0f;
 bool GLToy_Render::s_bDrawFPS = GLToy_IsDebugBuild();
 bool GLToy_Render::s_bVsync = true;
 bool GLToy_Render::s_bClearFrame = true;
+u_int GLToy_Render::s_uDepthBuffer = 0xFFFFFFFF;
+u_int GLToy_Render::s_uFrameBuffer = 0xFFFFFFFF;
+u_int GLToy_Render::s_uFrameTexture = 0xFFFFFFFF;
 GLToy_BinaryTree< const GLToy_Renderable*, float > GLToy_Render::s_xTransparents;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,12 +89,44 @@ bool GLToy_Render::Initialise()
 
     if( Platform_GLToy_Render::SupportFramebuffer() )
     {
-        GLToy_DebugOutput_Release( "Supports framebuffer extensions" );
+        // set up framebuffer
+        GLToy_Render::GenFramebuffers( 1, &s_uFrameBuffer );
+        GLToy_Render::BindFramebuffer( FRAMEBUFFER, s_uFrameBuffer );
+        GLToy_Render::GenRenderbuffers( 1, &s_uDepthBuffer );
+        GLToy_Render::BindRenderbuffer( RENDERBUFFER, s_uDepthBuffer );
+        GLToy_Render::RenderbufferStorage( RENDERBUFFER, DEPTH_COMPONENT, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+        GLToy_Texture_System::CreateFrameBufferTexture( s_uFrameTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+        GLToy_Render::FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT0, TEXTURE_2D, s_uFrameTexture, 0 );
+
+        if( GLToy_Render::CheckFramebufferStatus( FRAMEBUFFER ) != FRAMEBUFFER_COMPLETE )
+        {
+            if( s_uFrameBuffer != 0xFFFFFFFF )
+            {
+                GLToy_Render::DeleteFramebuffers( 1, &s_uFrameBuffer );
+                s_uFrameBuffer = 0xFFFFFFFF;
+            }
+
+            if( s_uDepthBuffer != 0xFFFFFFFF )
+            {
+                GLToy_Render::DeleteRenderbuffers( 1, &s_uDepthBuffer );
+                s_uDepthBuffer = 0xFFFFFFFF;
+            }
+
+            if( s_uFrameTexture != 0xFFFFFFFF )
+            {
+                GLToy_Texture_System::DestroyFrameBufferTexture( s_uFrameTexture );
+                s_uFrameTexture = 0xFFFFFFFF;
+            }
+        }
     }
 
-    if( Platform_GLToy_Render::SupportShaders() )
+    if( HasFrameBuffer() )
     {
-        GLToy_DebugOutput_Release( "Supports shaders" );
+        GLToy_DebugOutput( "Framebuffer created successfully." );
+    }
+    else
+    {
+        GLToy_DebugOutput( "Framebuffer not created!" );
     }
 
     return true;
@@ -99,6 +134,24 @@ bool GLToy_Render::Initialise()
 
 void GLToy_Render::Shutdown()
 {
+    if( s_uFrameBuffer != 0xFFFFFFFF )
+    {
+        GLToy_Render::DeleteFramebuffers( 1, &s_uFrameBuffer );
+        s_uFrameBuffer = 0xFFFFFFFF;
+    }
+
+    if( s_uDepthBuffer != 0xFFFFFFFF )
+    {
+        GLToy_Render::DeleteRenderbuffers( 1, &s_uDepthBuffer );
+        s_uDepthBuffer = 0xFFFFFFFF;
+    }
+
+    if( s_uFrameTexture != 0xFFFFFFFF )
+    {
+        GLToy_Texture_System::DestroyFrameBufferTexture( s_uFrameTexture );
+        s_uFrameTexture = 0xFFFFFFFF;
+    }
+    
     Project_Shutdown();
 
     GLToy_Font_System::Shutdown();
@@ -115,6 +168,12 @@ void GLToy_Render::BeginRender()
     SetDepthFunction( DEPTH_LEQUAL );
 
     Platform_BeginRender();
+
+    if( HasFrameBuffer() )
+    {
+        BindFramebuffer( FRAMEBUFFER, s_uFrameBuffer );
+        SetViewport( 0, 0, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+    }
 
     GLToy_Camera::ApplyTransforms();
 }
@@ -164,6 +223,24 @@ void GLToy_Render::Render2D()
 
 void GLToy_Render::EndRender()
 {
+    if( HasFrameBuffer() )
+    {
+        BindFramebuffer( FRAMEBUFFER, 0 );
+
+        GLToy_Render::SetOrthogonalProjectionMatrix();
+        GLToy_Render::PushViewMatrix();
+        GLToy_Render::SetIdentityViewMatrix();
+
+        GLToy_Texture_System::BindFrameBufferTexture( s_uFrameTexture );
+        StartSubmittingQuads();
+        SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+        SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), -1.0f ), GLToy_Vector_2( GLToy_Render::Get2DWidth(), 2.0f ) );
+        EndSubmit();
+
+        GLToy_Render::SetPerspectiveProjectionMatrix();
+        GLToy_Render::PopViewMatrix();
+    }
+
     Flush();
 
     Platform_EndRender();
@@ -260,6 +337,16 @@ void GLToy_Render::Rotate( const GLToy_Vector_3& xAxis, const float fAngle )
 void GLToy_Render::Transform( const GLToy_Matrix_3& xMatrix )
 {
     Platform_GLToy_Render::Transform( xMatrix );
+}
+
+void GLToy_Render::PushViewAttributes()
+{
+    Platform_GLToy_Render::PushViewAttributes();
+}
+
+void GLToy_Render::PopViewAttributes()
+{
+    Platform_GLToy_Render::PopViewAttributes();
 }
 
 void GLToy_Render::PushViewMatrix()

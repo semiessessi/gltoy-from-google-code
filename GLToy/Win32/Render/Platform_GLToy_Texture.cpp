@@ -132,7 +132,7 @@ void GLToy_Texture::Platform_Destroy()
 
 void GLToy_Texture::Platform_Bind( const u_int uTextureUnit ) const
 {
-    Platform_GLToy_Render::ActiveTexture( GL_TEXTURE0 + uTextureUnit );
+    Platform_GLToy_Render::ActiveTexture( TEXTURE0 + uTextureUnit );
     glBindTexture( GL_TEXTURE_2D, m_uUID );
 }
 
@@ -167,4 +167,21 @@ void GLToy_Texture_System::Platform_SaveTextureTGA( const GLToy_String& szName, 
     char* szFilename = ( szName.EndsWith( ".tga" ) ? szName : ( szName + ".tga" ) ).CreateANSIString();
     stbi_write_tga( szFilename, uWidth, uHeight, STBI_rgb_alpha, reinterpret_cast< void* >( puData ) );
     delete[] szFilename;
+}
+
+void GLToy_Texture_System::Platform_CreateFrameBufferTexture( u_int& uID, const int iWidth, const int iHeight )
+{
+    glGenTextures( 1, &uID );
+        glBindTexture( GL_TEXTURE_2D, uID );
+        glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL );
+}
+
+void GLToy_Texture_System::Platform_DestroyFrameBufferTexture( u_int& uID )
+{
+    glDeleteTextures( 1, &uID );
+}
+
+void GLToy_Texture_System::Platform_BindFrameBufferTexture( const u_int uID )
+{
+    glBindTexture( GL_TEXTURE_2D, uID );
 }

@@ -369,6 +369,16 @@ void Platform_GLToy_Render::Transform( const GLToy_Matrix_3& xMatrix )
     glMultMatrixf( aafMatrix[ 0 ] );
 }
 
+void Platform_GLToy_Render::PushViewAttributes()
+{
+    glPushAttrib( GL_VIEWPORT_BIT );
+}
+
+void Platform_GLToy_Render::PopViewAttributes()
+{
+    glPopAttrib();
+}
+
 void Platform_GLToy_Render::PushViewMatrix()
 {
     glMatrixMode( GL_MODELVIEW );
@@ -419,7 +429,7 @@ void Platform_GLToy_Render::SubmitUV( const GLToy_Vector_2& xUV, const u_int uTe
     }
     else if( s_pfnMultiTexCoord2fv )
     {
-        s_pfnMultiTexCoord2fv( GL_TEXTURE0 + uTextureUnit, xUV.GetFloatPointer() );
+        s_pfnMultiTexCoord2fv( TEXTURE0 + uTextureUnit, xUV.GetFloatPointer() );
     }
 }
 
@@ -431,7 +441,7 @@ void Platform_GLToy_Render::SubmitUV( const GLToy_Vector_3& xUV, const u_int uTe
     }
     else if( s_pfnMultiTexCoord3fv )
     {
-        s_pfnMultiTexCoord3fv( GL_TEXTURE0 + uTextureUnit, xUV.GetFloatPointer() );
+        s_pfnMultiTexCoord3fv( TEXTURE0 + uTextureUnit, xUV.GetFloatPointer() );
     }
 }
 
