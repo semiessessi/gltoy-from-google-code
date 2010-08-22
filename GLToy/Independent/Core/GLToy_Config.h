@@ -28,7 +28,10 @@
 #define __GLTOY_CONFIG_H_
 
 #ifndef GLTOY_PLATFORM_LINUX
-    #define GLTOY_USE_FRIDGESCRIPT        (1)
+    // keep FridgeScript out of final builds for now
+    #ifndef _FINAL
+        #define GLTOY_USE_FRIDGESCRIPT        (1)
+    #endif
     
     #ifndef _NOHAVOK
         #define GLTOY_USE_HAVOK_PHYSICS        (1)
