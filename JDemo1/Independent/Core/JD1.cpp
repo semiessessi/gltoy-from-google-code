@@ -33,6 +33,7 @@
 
 // GLToy
 #include <Core/State/GLToy_State_System.h>
+#include <Render/GLToy_Render.h>
 
 // JD1
 #include <Demo/JD1_Demo_System.h>
@@ -57,6 +58,8 @@ bool JD1::Initialise()
     //JD1_Demo_System::Queue( new JD1_DemoScene_Test(), 2.0f );
     JD1_Demo_System::Queue( new JD1_DemoScene_AVS_Test(), -1.0f );
     //JD1_Demo_System::Queue( new JD1_DemoScene_Tunnel(), -1.0f );
+
+    GLToy_Render::SetClearFrame( false );
 
     return true;
 }

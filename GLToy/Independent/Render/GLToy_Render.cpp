@@ -55,6 +55,7 @@ float GLToy_Render::s_fFOV = 90.0f;
 float GLToy_Render::s_fAspectRatio = 1.0f;
 bool GLToy_Render::s_bDrawFPS = GLToy_IsDebugBuild();
 bool GLToy_Render::s_bVsync = true;
+bool GLToy_Render::s_bClearFrame = true;
 GLToy_BinaryTree< const GLToy_Renderable*, float > GLToy_Render::s_xTransparents;
 
 /////////////////////////////////////////////////////////////////////////////////////////////

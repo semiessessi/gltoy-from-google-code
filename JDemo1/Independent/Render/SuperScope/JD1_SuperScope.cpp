@@ -95,6 +95,6 @@ void JD1_SuperScope::Update()
         fTimer = 0.0f;
     }
 
-    m_fWidth = GLToy::GetWindowViewportWidth();
-    m_fHeight = GLToy::GetWindowViewportHeight();
+    m_fWidth = static_cast< float >( GLToy::GetWindowViewportWidth() );
+    m_fHeight = static_cast< float >( GLToy::GetWindowViewportHeight() );
 }

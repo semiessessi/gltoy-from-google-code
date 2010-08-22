@@ -43,6 +43,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 GLToy_HashTree< GLToy_Texture > GLToy_Texture_System::s_xTextures;
+GLToy_Texture* GLToy_Texture_System::s_pxBlackTexture = NULL;
 GLToy_Texture* GLToy_Texture_System::s_pxWhiteTexture = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,6 +123,7 @@ bool GLToy_Texture_System::Initialise()
     s_xTextures.AddNode( GLToy_Texture( "white", 0xFFFFFFFF ), GLToy_Hash_Constant( "white" ) );
     s_pxWhiteTexture = s_xTextures.FindData( GLToy_Hash_Constant( "white" ) );
     s_xTextures.AddNode( GLToy_Texture( "black", 0xFF000000 ), GLToy_Hash_Constant( "black" ) );
+    s_pxBlackTexture = s_xTextures.FindData( GLToy_Hash_Constant( "black" ) );
     s_xTextures.AddNode( GLToy_Texture( "transparent", 0x00000000 ), GLToy_Hash_Constant( "transparent" ) );
 
     CreateTexture( "white" );
@@ -298,6 +300,14 @@ void GLToy_Texture_System::Reset()
     {
         xIterator.Current().Destroy();
         xIterator.Current().Unload();
+    }
+}
+
+void GLToy_Texture_System::BindBlack( const u_int uTextureUnit )
+{
+    if( s_pxBlackTexture )
+    {
+        s_pxBlackTexture->Bind( uTextureUnit );
     }
 }
 

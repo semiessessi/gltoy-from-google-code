@@ -186,7 +186,7 @@ void Platform_GLToy_Render::Shutdown()
 
 void Platform_GLToy_Render::BeginRender()
 {
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
+    glClear( ( GLToy_Render::GetClearFrame() ? GL_COLOR_BUFFER_BIT : 0 ) | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 }
 
 void Platform_GLToy_Render::EndRender()

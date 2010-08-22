@@ -136,6 +136,7 @@ public:
     static void BindTexture( const GLToy_String& szName, const u_int uTextureUnit = 0 );
     static void Reset();
 
+    static void BindBlack( const u_int uTextureUnit = 0 );
     static void BindWhite( const u_int uTextureUnit = 0 );
 
     // TODO - find a better solution for lightmaps = creating from the hash directly leaves the name blank, which might be flakey
@@ -155,6 +156,7 @@ private:
 
     static GLToy_HashTree< GLToy_Texture > s_xTextures;
 
+    static GLToy_Texture* s_pxBlackTexture;
     static GLToy_Texture* s_pxWhiteTexture;
 
 };

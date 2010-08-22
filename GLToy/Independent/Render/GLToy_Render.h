@@ -78,6 +78,8 @@ public:
     static float GetMinX() { return -GetAspectRatio(); }
     static float GetMaxX() { return GetAspectRatio(); }
     static float Get2DWidth() { return 2.0f * GetAspectRatio(); }
+    static void SetClearFrame( const bool bClear = true ) { s_bClearFrame = bClear; }
+    static bool GetClearFrame() { return s_bClearFrame; }
 
     static bool Initialise();
     static void Shutdown();
@@ -206,6 +208,7 @@ private:
     static float s_fAspectRatio;
     static bool s_bDrawFPS;
     static bool s_bVsync;
+    static bool s_bClearFrame;
 
     static GLToy_BinaryTree< const GLToy_Renderable*, float > s_xTransparents;
 

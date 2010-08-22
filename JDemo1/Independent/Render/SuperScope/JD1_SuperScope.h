@@ -49,7 +49,7 @@
 #define equal( a, b ) ( a == b )
 #define rand( f ) ( static_cast< int >( GLToy_Maths::Random() * static_cast< float >( f ) ) )
 #define getspec( ... ) ( GLToy_Maths::Random() )
-#define getosc( ... ) ( GLToy_Maths::Random() )
+#define getosc( ... ) ( GLToy_Maths::Random( -1.0f ) )
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S

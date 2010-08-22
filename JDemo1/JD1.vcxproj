@@ -153,6 +153,7 @@
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Test.cpp" />
     <ClCompile Include="Independent\Render\Texer\JD1_Texer.cpp" />
     <ClCompile Include="Independent\Render\Texer\JD1_Texer_SimpleComplexity.cpp" />
+    <ClCompile Include="Independent\Render\Trans\JD1_Trans_Fadeout.cpp" />
     <ClCompile Include="Independent\Sound\JD1_Sound.cpp" />
     <ClCompile Include="Independent\Sound\JD1_Sound_System.cpp" />
     <ClCompile Include="Win32\Core\Platform_JD1.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Independent\Render\Texer\JD1_Texer.h" />
     <ClInclude Include="Independent\Render\Texer\JD1_Texer_SimpleComplexity.h" />
     <ClInclude Include="Independent\Render\Trans\JD1_Trans.h" />
+    <ClInclude Include="Independent\Render\Trans\JD1_Trans_Fadeout.h" />
     <ClInclude Include="Independent\Sound\JD1_Sound.h" />
     <ClInclude Include="Independent\Sound\JD1_Sound_Source.h" />
     <ClInclude Include="Independent\Sound\JD1_Sound_System.h" />

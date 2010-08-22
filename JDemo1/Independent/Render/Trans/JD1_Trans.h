@@ -47,10 +47,12 @@ class JD1_Trans
 public:
 
     JD1_Trans() {}
-    virtual void ~JD1_Trans() {}
+    virtual ~JD1_Trans() {}
 
     virtual void Initialise() {}
     virtual void Shutdown() {}
+
+    virtual void Update() {}
 
 };
 

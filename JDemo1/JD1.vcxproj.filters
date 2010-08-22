@@ -105,6 +105,9 @@
     <ClCompile Include="Independent\Render\Texer\JD1_Texer_SimpleComplexity.cpp">
       <Filter>Independent\Render\Texer</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Render\Trans\JD1_Trans_Fadeout.cpp">
+      <Filter>Independent\Render\Trans</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_JD1.h">
@@ -172,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Render\Texer\JD1_Texer_SimpleComplexity.h">
       <Filter>Independent\Render\Texer</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\Trans\JD1_Trans_Fadeout.h">
+      <Filter>Independent\Render\Trans</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
