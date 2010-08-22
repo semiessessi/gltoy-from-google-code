@@ -51,9 +51,9 @@ class JD1_SoundFile;
 
 enum JD1_Sound_Transition
 {
-	JD1_SOUND_CUT,
-	JD1_SOUND_WAIT,
-	JD1_SOUND_FADE
+    JD1_SOUND_CUT,
+    JD1_SOUND_WAIT,
+    JD1_SOUND_FADE
 };
 
 class JD1_Sound_System
@@ -64,15 +64,15 @@ class JD1_Sound_System
 
 public:
 
-	static bool Initialise();
-	static void Shutdown();
+    static bool Initialise();
+    static void Shutdown();
 
-	static void Update();
+    static void Update();
 
-	static GLToy_Handle CreateSource( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const bool bRelative = false, const bool bLooped = false );
-	static GLToy_Handle PlayMusic( const GLToy_Hash uHash, const JD1_Sound_Transition eTransitionType = JD1_SOUND_CUT );
+    static GLToy_Handle CreateSource( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const bool bRelative = false, const bool bLooped = false );
+    static GLToy_Handle PlayMusic( const GLToy_Hash uHash, const JD1_Sound_Transition eTransitionType = JD1_SOUND_CUT );
 
-	static void Stop( const GLToy_Handle iHandle, const JD1_Sound_Transition eTransitionType = JD1_SOUND_CUT );
+    static void Stop( const GLToy_Handle iHandle, const JD1_Sound_Transition eTransitionType = JD1_SOUND_CUT );
 
 private:
 
@@ -84,9 +84,9 @@ private:
     static void DestroySoundHandle( const GLToy_Handle iHandle );
     static void DestroySourceHandle( const GLToy_Handle iHandle );
 
-	static JD1_Sound* LoadSound( const GLToy_Hash uHash );
+    static JD1_Sound* LoadSound( const GLToy_Hash uHash );
 
-	static GLToy_HashTree< JD1_SoundFile* > s_xSounds;
+    static GLToy_HashTree< JD1_SoundFile* > s_xSounds;
     static GLToy_Array< JD1_Sound_Source* > s_xSources;
 
 };

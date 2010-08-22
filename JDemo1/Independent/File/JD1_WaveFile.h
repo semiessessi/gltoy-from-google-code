@@ -55,7 +55,7 @@ public:
     {
     }
 
-	virtual JD1_Sound* LoadSound() const;
+    virtual JD1_Sound* LoadSound() const;
 
 protected:
 

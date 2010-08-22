@@ -46,12 +46,12 @@ class JD1_DemoScene
 
 public:
 
-	JD1_DemoScene()
-	: m_fTimer( 0.0f )
-	{
-	}
+    JD1_DemoScene()
+    : m_fTimer( 0.0f )
+    {
+    }
 
-	virtual ~JD1_DemoScene() {}
+    virtual ~JD1_DemoScene() {}
 
     virtual void Start() { m_fTimer = 0.0f; }
     virtual void Stop() {}
@@ -60,7 +60,7 @@ public:
 
 protected:
 
-	float m_fTimer;
+    float m_fTimer;
 
 };
 

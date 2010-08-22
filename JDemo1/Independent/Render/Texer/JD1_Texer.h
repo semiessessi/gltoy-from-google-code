@@ -58,7 +58,7 @@ public:
     }
 
     // I've diverged from the coding standards here to make it easier to port things in from AVS
-	virtual void PerPoint( const float i, const float v, float& x, float& y, float& z, float& red, float& green, float& blue, bool& skip, float& sizex, float& sizey ) const = 0;
+    virtual void PerPoint( const float i, const float v, float& x, float& y, float& z, float& red, float& green, float& blue, bool& skip, float& sizex, float& sizey ) const = 0;
 
     virtual void Render() const;
     virtual void Update();

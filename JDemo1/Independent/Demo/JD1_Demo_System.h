@@ -40,7 +40,7 @@ class JD1_DemoScene;
 
 enum JD1_Demo_Transition
 {
-	JD1_DEMO_CUT
+    JD1_DEMO_CUT
 };
 
 class JD1_Demo_System
@@ -49,10 +49,10 @@ class JD1_Demo_System
 public:
 
     static bool Initialise();
-	static void Shutdown();
+    static void Shutdown();
 
     static void Render();
-	static void Update();
+    static void Update();
 
     static float GetDemoTimer() { return s_fTimer; }
     static void Queue( JD1_DemoScene* const pxScene, const float fRunTime = -1.0f, const JD1_Demo_Transition eTransition = JD1_DEMO_CUT, const float fTransitionTime = 0.0f );

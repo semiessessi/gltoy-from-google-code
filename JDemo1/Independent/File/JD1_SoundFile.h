@@ -60,7 +60,7 @@ public:
         delete m_pxSound;
     }
 
-	// for sufficiently small sounds, allow loading them directly
+    // for sufficiently small sounds, allow loading them directly
     virtual JD1_Sound* LoadSound() const = 0;
 
     const JD1_Sound* GetSoundPointer() const { return m_pxSound; }

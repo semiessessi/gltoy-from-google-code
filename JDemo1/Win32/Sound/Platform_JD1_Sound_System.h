@@ -43,10 +43,10 @@ class Platform_JD1_Sound_System
 
 public:
 
-	static bool Initialise();
-	static void Shutdown();
+    static bool Initialise();
+    static void Shutdown();
 
-	static void Update();
+    static void Update();
 
     static GLToy_Handle CreateSoundHandle();
     static GLToy_Handle CreateSourceHandle();

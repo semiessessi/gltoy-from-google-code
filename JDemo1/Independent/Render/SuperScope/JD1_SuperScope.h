@@ -62,31 +62,31 @@ class JD1_SuperScope
 
 public:
 
-	JD1_SuperScope()
-	: m_uPointCount( 200 )
-	{
-	}
-	
-	virtual ~JD1_SuperScope() {}
+    JD1_SuperScope()
+    : m_uPointCount( 200 )
+    {
+    }
+    
+    virtual ~JD1_SuperScope() {}
 
-	virtual void PerFrame() = 0;
+    virtual void PerFrame() = 0;
     virtual void OnBeat() = 0;
 
-	// I've diverged from the coding standards here to make it easier to port things in from AVS
-	virtual void PerPoint( const float i, const float v, float& x, float& y, float& red, float& green, float& blue, bool& skip, float& linesize ) const = 0;
+    // I've diverged from the coding standards here to make it easier to port things in from AVS
+    virtual void PerPoint( const float i, const float v, float& x, float& y, float& red, float& green, float& blue, bool& skip, float& linesize ) const = 0;
 
     virtual void Initialise() {}
-	virtual void Shutdown() {}
-	virtual void Render() const;
+    virtual void Shutdown() {}
+    virtual void Render() const;
     virtual void Update();
 
 protected:
 
-	union
-	{
-		u_int m_uPointCount;
-		u_int n;
-	};
+    union
+    {
+        u_int m_uPointCount;
+        u_int n;
+    };
 
     union
     {

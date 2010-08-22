@@ -36,16 +36,16 @@ class JD1_Sound_Source
 
 public:
 
-	JD1_Sound_Source()
-	: m_iHandle( uGLTOY_INVALID_HANDLE )
-	{
-	}
+    JD1_Sound_Source()
+    : m_iHandle( uGLTOY_INVALID_HANDLE )
+    {
+    }
 
-	virtual ~JD1_Sound_Source() {}
+    virtual ~JD1_Sound_Source() {}
 
 protected:
 
-	GLToy_Handle m_iHandle;
+    GLToy_Handle m_iHandle;
 };
 
 #endif

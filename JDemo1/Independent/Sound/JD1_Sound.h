@@ -39,8 +39,8 @@ class JD1_Sound
 
 public:
 
-	JD1_Sound();
-	virtual ~JD1_Sound();
+    JD1_Sound();
+    virtual ~JD1_Sound();
 
     GLToy_Handle GetHandle() const { return m_iHandle; }
 
@@ -48,7 +48,7 @@ protected:
 
     void SetHandle( const GLToy_Handle iHandle ) { m_iHandle = iHandle; }
 
-	GLToy_Handle m_iHandle;
+    GLToy_Handle m_iHandle;
 };
 
 #endif
