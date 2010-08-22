@@ -211,7 +211,7 @@ template < class DataType, class KeyType >
 class GLToy_BinaryTree
 : public GLToy_Tree< DataType >
 {
-	
+    
     typedef GLToy_Tree< DataType > GLToy_Parent;
 
 public:
@@ -346,7 +346,7 @@ public:
         }
         
 
-	    AddFunctor xAddFunctor( this );
+        AddFunctor xAddFunctor( this );
         pxNode->TraverseNodes( xAddFunctor );
 
         delete pxNode;

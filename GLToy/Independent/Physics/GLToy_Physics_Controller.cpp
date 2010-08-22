@@ -283,13 +283,13 @@ void GLToy_Physics_Controller::Update( const float fTimestep )
     xInput.m_stepInfo = xStepInfo;
 
     xInput.m_characterGravity.set( 0, -16.0f, 0.0f );
-	
-	hkpRigidBody* const pxRigidBody = m_pxHavokRigidBody->getRigidBody();
-	
-	GLToy_Assert( pxRigidBody != NULL, "A character's Havok rigid body pointer has been nulled. Get ready for a crash!" );
-	
-	xInput.m_velocity = pxRigidBody->getLinearVelocity();
-	xInput.m_position = pxRigidBody->getPosition();
+    
+    hkpRigidBody* const pxRigidBody = m_pxHavokRigidBody->getRigidBody();
+    
+    GLToy_Assert( pxRigidBody != NULL, "A character's Havok rigid body pointer has been nulled. Get ready for a crash!" );
+    
+    xInput.m_velocity = pxRigidBody->getLinearVelocity();
+    xInput.m_position = pxRigidBody->getPosition();
 
     m_pxHavokRigidBody->checkSupport( xStepInfo, xInput.m_surfaceInfo );
 
@@ -316,9 +316,9 @@ void GLToy_Physics_Controller::Update( const float fTimestep )
     //        input.m_surfaceInfo.m_surfaceVelocity = ladderVelocity;
     //    }
 
-	const hkpCollidable* const pxCollidable = pxRigidBody->getCollidable();
+    const hkpCollidable* const pxCollidable = pxRigidBody->getCollidable();
 
-	GLToy_Assert( pxRigidBody != NULL, "A character's Havok collidable pointer has been nulled. We are going to assume they aren't crouching." );
+    GLToy_Assert( pxRigidBody != NULL, "A character's Havok collidable pointer has been nulled. We are going to assume they aren't crouching." );
 
     const bool bIsCrouched = pxCollidable ? ( pxRigidBody->getCollidable()->getShape() == m_pxCrouchShape ) : false;
 
@@ -361,7 +361,7 @@ void GLToy_Physics_Controller::LateUpdate()
     // TODO - when merged with GLToy get rid of this rubbish
     // also do something to allow for multiple controllers for
     // AI and perhaps even remote players...
-	// ... er I should have done this by now, but I guess I am just too lazy :I
+    // ... er I should have done this by now, but I guess I am just too lazy :I
     if( GLToy_Camera::IsControllerCamEnabled() && m_pxHavokRigidBody )
     {
         pxWorld->lockReadOnly();

@@ -49,19 +49,19 @@ static timespec g_xLastTime;
 
 bool Platform_GLToy_Timer::Initialise()
 {
-	clock_gettime( CLOCK_REALTIME, &g_xLastTime );
+    clock_gettime( CLOCK_REALTIME, &g_xLastTime );
     return true;
 }
 
 float Platform_GLToy_Timer::GetTimeSinceLastGet()
 {
-	timespec xNewTime;
-	clock_gettime( CLOCK_REALTIME, &xNewTime );
+    timespec xNewTime;
+    clock_gettime( CLOCK_REALTIME, &xNewTime );
 
-	const double dSeconds = static_cast< double >( xNewTime.tv_sec - g_xLastTime.tv_sec );
-	const double dNanoSeconds = static_cast< double >( xNewTime.tv_nsec - g_xLastTime.tv_nsec ) * 0.000000001f;
+    const double dSeconds = static_cast< double >( xNewTime.tv_sec - g_xLastTime.tv_sec );
+    const double dNanoSeconds = static_cast< double >( xNewTime.tv_nsec - g_xLastTime.tv_nsec ) * 0.000000001f;
 
-	g_xLastTime = xNewTime;
+    g_xLastTime = xNewTime;
 
     return static_cast< float >( dSeconds + dNanoSeconds );
 }

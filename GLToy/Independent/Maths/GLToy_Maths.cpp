@@ -163,7 +163,7 @@ float GLToy_Maths::Round( const float fValue )
 float GLToy_Maths::Random( const float fLower, const float fHigher )
 {
     static u_int uWorkingValue = 0xA183E191;
-	static const float fFactor = 1.0f / 4294967295.0f;
+    static const float fFactor = 1.0f / 4294967295.0f;
 
     uWorkingValue += 37 * *reinterpret_cast< const u_int* >( &GLToy_Timer::GetTime() );
 

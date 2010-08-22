@@ -56,7 +56,7 @@ union JD1_Sound_HandleUnion
 
 bool Platform_JD1_Sound_System::Initialise()
 {
-	alutInit( NULL, NULL );
+    alutInit( NULL, NULL );
     return alGetError() == AL_NO_ERROR;
 }
 

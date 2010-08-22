@@ -73,9 +73,9 @@ static char szDebugMessageBuffer[ uDEBUGOUTPUT_MAX_LENGTH ];
 int GLToy::EntryPoint()
 {
     if( !Initialise() )
-	{
-		return 0;
-	}
+    {
+        return 0;
+    }
 
     GLToy_Console::RegisterCommand( "quit", Quit );
 
@@ -129,7 +129,7 @@ bool GLToy::Initialise()
 {
     GLToy_DebugOutput( "\r\nGLToy::Initialise() - Initialising systems:\r\n" );
 
-	GLToy::GiveFocus();
+    GLToy::GiveFocus();
 
     GLToy_InitialiserCall( GLToy_Maths );
     GLToy_InitialiserCall( GLToy_Input_System );
@@ -267,12 +267,12 @@ void GLToy::DebugOutput( const char* szFormatString, ... )
     va_start( xArgumentList, szFormatString );
     int iMessageLength = _vscprintf( szFormatString, xArgumentList ) + 1;
 
-	if( iMessageLength >= uDEBUGOUTPUT_MAX_LENGTH )
-	{
-		iMessageLength = uDEBUGOUTPUT_MAX_LENGTH - 1;
-		// TODO: this might get annoying, particularly with messages from shader compilers or Havok, which are often huge
-		// GLToy_Assert( iMessageLength < uDEBUGOUTPUT_MAX_LENGTH, "Debug ouput message too long (%d chars)! Truncating...", iMessageLength );
-	}
+    if( iMessageLength >= uDEBUGOUTPUT_MAX_LENGTH )
+    {
+        iMessageLength = uDEBUGOUTPUT_MAX_LENGTH - 1;
+        // TODO: this might get annoying, particularly with messages from shader compilers or Havok, which are often huge
+        // GLToy_Assert( iMessageLength < uDEBUGOUTPUT_MAX_LENGTH, "Debug ouput message too long (%d chars)! Truncating...", iMessageLength );
+    }
 
     vsnprintf( szDebugMessageBuffer, iMessageLength, szFormatString, xArgumentList );
 

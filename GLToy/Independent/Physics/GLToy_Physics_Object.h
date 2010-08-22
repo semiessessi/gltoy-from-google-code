@@ -82,9 +82,9 @@ public:
     virtual ~GLToy_Physics_Object()
     {
 #ifdef GLTOY_USE_HAVOK_PHYSICS
-	    m_pxHavokRigidBody = NULL;
+        m_pxHavokRigidBody = NULL;
 #endif
-	    }
+        }
 
     void SetPosition( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
     void SetVelocity( const GLToy_Vector_3& xVelocity );

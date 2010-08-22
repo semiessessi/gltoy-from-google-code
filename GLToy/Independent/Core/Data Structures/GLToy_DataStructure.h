@@ -69,7 +69,7 @@ protected:
 template< class T >
 class GLToy_Iterator
 {
-	    
+        
 public:
 
     GLToy_Iterator( GLToy_DataStructure< T >* const pxDataStructure )

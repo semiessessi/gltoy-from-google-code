@@ -208,7 +208,7 @@ public:
 
         GLToy_Physics_Object* pxObject = GLToy_Physics_System::FindPhysicsObject( m_pxHavokRigidBody->getUserData() );
         hkpRigidBody* const pxRigidBody = xContactPointEvent.getBody( 0 );
-		GLToy_Assert( pxRigidBody != NULL, "A Havok has provided bad data into GLToy_Havok_PhysicsCollisionListener::contactPointCallback" );
+        GLToy_Assert( pxRigidBody != NULL, "A Havok has provided bad data into GLToy_Havok_PhysicsCollisionListener::contactPointCallback" );
         if( pxObject && pxRigidBody )
         {
             pxObject->m_xCollisions.Append( GLToy_Physics_ObjectCollision() );

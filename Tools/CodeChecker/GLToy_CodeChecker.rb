@@ -28,12 +28,25 @@ puts "GLToy Code Checker"
 
 # strip tabs and trim trailing whitespace, leaving just one newline behind
 
+files = Array.new;
+if ARGV.size == 0
+	puts "Finding files..."
+	Dir.glob( "**/*.cpp" ) do | szFile |
+		files.push szFile
+    end
+	Dir.glob( "**/*.h" ) do | szFile |
+		files.push szFile
+    end
+else
+	files = Array.new( ARGV )
+end
+
 puts "Cleaning whitespace..."
 uTabCount = 0
 uTrailCount = 0
 uExistCount = 0
 uTotalCount = 0
-ARGV.each do | szPath |
+files.each do | szPath |
     uTotalCount += 1
     if File::exists? szPath
         uExistCount += 1
@@ -67,7 +80,8 @@ end
 
 puts "Warning: Replaced #{ uTabCount } tabs with spaces" if ( uTabCount > 0 )
 puts "Warning: Removed trailing whitespace from #{ uTrailCount } files" if ( uTrailCount > 0 )
-puts "Successfully cleaned whitespace from #{ uExistCount } files" if( uExistCount > 0 )
+puts "Checked line endings in #{ uExistCount } files" if ( uExistCount > 0 )
+puts "Successfully cleaned whitespace in #{ uExistCount } files" if ( uExistCount > 0 )
 puts "Error: Unable to open #{ uTotalCount - uExistCount } files" if ( uTotalCount != uExistCount )
 
 # need to implement something like in jEngine's scripts

@@ -28,10 +28,10 @@
 #define __GLTOY_CONFIG_H_
 
 #ifndef GLTOY_PLATFORM_LINUX
-	#define GLTOY_USE_FRIDGESCRIPT		(1)
+    #define GLTOY_USE_FRIDGESCRIPT        (1)
     
     #ifndef _NOHAVOK
-	    #define GLTOY_USE_HAVOK_PHYSICS		(1)
+        #define GLTOY_USE_HAVOK_PHYSICS        (1)
     #endif
 #endif
 

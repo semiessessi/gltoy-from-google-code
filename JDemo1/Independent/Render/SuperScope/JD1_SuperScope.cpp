@@ -46,12 +46,12 @@
 
 void JD1_SuperScope::Render() const
 {
-	GLToy_Vector_2 xCurrentPoint;
-	GLToy_Vector_3 xCurrentColour = GLToy_Vector_3( 1.0f, 1.0f, 1.0f );
-	float fParameter;
-	float fFakeOsc;
-	float fSize;
-	bool bSkip = false;
+    GLToy_Vector_2 xCurrentPoint;
+    GLToy_Vector_3 xCurrentColour = GLToy_Vector_3( 1.0f, 1.0f, 1.0f );
+    float fParameter;
+    float fFakeOsc;
+    float fSize;
+    bool bSkip = false;
 
     GLToy_Render::SetOrthogonalProjectionMatrix();
     GLToy_Render::PushViewMatrix();
@@ -59,24 +59,24 @@ void JD1_SuperScope::Render() const
 
     GLToy_Texture_System::BindWhite();
 
-	GLToy_Render::StartSubmittingLineStrip();
-	
-	for( u_int u = 0; u < m_uPointCount; ++u )
-	{
-		fParameter = static_cast< float >( u ) / static_cast< float >( m_uPointCount - 1 );
-		fFakeOsc = GLToy_Noise::Fractal2D( fParameter * 20.0f + 5.0f * GLToy_Timer::GetTime(), 0.0f, 30.0f );
+    GLToy_Render::StartSubmittingLineStrip();
+    
+    for( u_int u = 0; u < m_uPointCount; ++u )
+    {
+        fParameter = static_cast< float >( u ) / static_cast< float >( m_uPointCount - 1 );
+        fFakeOsc = GLToy_Noise::Fractal2D( fParameter * 20.0f + 5.0f * GLToy_Timer::GetTime(), 0.0f, 30.0f );
 
-		PerPoint( fParameter, fFakeOsc, xCurrentPoint[ 0 ], xCurrentPoint[ 1 ], xCurrentColour[ 0 ], xCurrentColour[ 1 ], xCurrentColour[ 2 ], bSkip, fSize );
+        PerPoint( fParameter, fFakeOsc, xCurrentPoint[ 0 ], xCurrentPoint[ 1 ], xCurrentColour[ 0 ], xCurrentColour[ 1 ], xCurrentColour[ 2 ], bSkip, fSize );
 
-		if( !bSkip )
-		{
+        if( !bSkip )
+        {
             xCurrentPoint[ 1 ] = -xCurrentPoint[ 1 ];
-			GLToy_Render::SubmitColour( xCurrentColour );
-			GLToy_Render::SubmitVertex( xCurrentPoint );
-		}
-	}
+            GLToy_Render::SubmitColour( xCurrentColour );
+            GLToy_Render::SubmitVertex( xCurrentPoint );
+        }
+    }
 
-	GLToy_Render::EndSubmit();
+    GLToy_Render::EndSubmit();
 
     GLToy_Render::SetPerspectiveProjectionMatrix();
     GLToy_Render::PopViewMatrix();

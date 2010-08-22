@@ -121,6 +121,14 @@ public:
         // set the new value
         GLToy_Parent::m_pxData[ iIndex ] = xValue;
     }
+
+    virtual void InsertAt( const int iIndex, const GLToy_Array& xValues )
+    {
+        for( u_int u = 0; u < xValues.m_uCount; ++u )
+        {
+            InsertAt( iIndex + u, xValues[ u ] );
+        }
+    }
     
     virtual void RemoveAt( const int iIndex, const u_int uAmount = 1 )
     {
@@ -233,14 +241,14 @@ class GLToy_IndirectArray
 : public GLToy_DataStructure< T >
 {
 
-	typedef GLToy_DataStructure< T > GLToy_Parent;
+    typedef GLToy_DataStructure< T > GLToy_Parent;
 
 public:
 
-	GLToy_IndirectArray()
-	: GLToy_Parent()
-	{
-	}
+    GLToy_IndirectArray()
+    : GLToy_Parent()
+    {
+    }
 
     virtual u_int GetCount() const { return m_xArray.GetCount(); }
     virtual u_int GetMemoryUsage() const { return m_xArray.GetMemoryUsage(); }

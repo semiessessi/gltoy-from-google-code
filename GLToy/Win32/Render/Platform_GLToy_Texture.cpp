@@ -87,24 +87,24 @@ void GLToy_Texture::Platform_LoadFromFile()
     const GLToy_String szPath = GLToy_String( "textures/" ) + m_szName;
 
     // TODO - check width + height and load a "unloadable texture" texture for this one if they are zero
-	char* szANSIPath = szPath.CreateANSIString();
-	int iComponents;
+    char* szANSIPath = szPath.CreateANSIString();
+    int iComponents;
 
-	u_char* pucData = stbi_load(
-		szPath.CreateANSIString(),
-		reinterpret_cast< int* >( &m_uWidth ),
-		reinterpret_cast< int* >( &m_uHeight ),
-		&iComponents,
-		STBI_rgb_alpha );
+    u_char* pucData = stbi_load(
+        szPath.CreateANSIString(),
+        reinterpret_cast< int* >( &m_uWidth ),
+        reinterpret_cast< int* >( &m_uHeight ),
+        &iComponents,
+        STBI_rgb_alpha );
 
-	delete[] szANSIPath;
+    delete[] szANSIPath;
 
-	// specifiying STBI_rgb_alpha should force output to always be RGBA
-	Resize( m_uWidth * m_uHeight );
-	GLToy_PointerArray< u_int > xData( reinterpret_cast< u_int* >( pucData ), m_uWidth * m_uHeight );
-	CopyFrom( &xData );
+    // specifiying STBI_rgb_alpha should force output to always be RGBA
+    Resize( m_uWidth * m_uHeight );
+    GLToy_PointerArray< u_int > xData( reinterpret_cast< u_int* >( pucData ), m_uWidth * m_uHeight );
+    CopyFrom( &xData );
 
-	stbi_image_free( pucData );
+    stbi_image_free( pucData );
 }
 
 void GLToy_Texture::Platform_Create()

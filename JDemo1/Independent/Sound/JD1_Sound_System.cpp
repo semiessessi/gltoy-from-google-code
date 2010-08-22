@@ -61,8 +61,8 @@ bool JD1_Sound_System::Initialise()
 {
     GLToy_Console::RegisterCommand( "test.sound", TestSound_Console );
 
-	s_xSounds.Clear(); // really? GLToy_Model_System etc. do this as well
-	s_xSources.Clear();
+    s_xSounds.Clear(); // really? GLToy_Model_System etc. do this as well
+    s_xSources.Clear();
 
     GLToy_Array< GLToy_String > xWavePaths = GLToy_File_System::PathsFromFilter( "Sounds/", "*.wav" );
 
@@ -77,20 +77,20 @@ bool JD1_Sound_System::Initialise()
         s_xSounds.AddNode( new JD1_WaveFile( xIterator.Current() ), xName.GetHash() );
     }
 
-	return Platform_JD1_Sound_System::Initialise();
+    return Platform_JD1_Sound_System::Initialise();
 }
 
 void JD1_Sound_System::Shutdown()
 {
-	Platform_JD1_Sound_System::Shutdown();
+    Platform_JD1_Sound_System::Shutdown();
 
-	s_xSounds.DeleteAll();
-	s_xSources.DeleteAll();
+    s_xSounds.DeleteAll();
+    s_xSources.DeleteAll();
 }
 
 void JD1_Sound_System::Update()
 {
-	Platform_JD1_Sound_System::Update();
+    Platform_JD1_Sound_System::Update();
 }
 
 GLToy_Handle JD1_Sound_System::CreateSource( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const bool bRelative, const bool bLooped )

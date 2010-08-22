@@ -66,15 +66,16 @@ void GLToy_Input_System::Platform_Update()
 
 bool GLToy_Input_System::Platform_IsKeyDown( const u_int uKey )
 {
-	// TODO: fix
-	char acState[ 32 ];	XQueryKeymap( g_pxDisplay, acState );
+    // TODO: fix
+    char acState[ 32 ];
+    XQueryKeymap( g_pxDisplay, acState );
 
     return acState[ uKey >> 3 ] & ( 1 << ( uKey & 0x7 ) );
 }
 
 bool GLToy_Input_System::Platform_IsMouseLeftButtonDown()
 {
-	return false;
+    return false;
     //return Platform_IsKeyDown( VK_LBUTTON );
 }
 
@@ -91,7 +92,8 @@ bool GLToy_Input_System::Platform_IsMouseRightButtonDown()
 }
 
 void GLToy_Input_System::Platform_ChangeLayout()
-{	// set console key code
+{
+    // set console key code
     s_uConsoleKeyCode = 49;
 
     s_uReturnKeyCode = 36;

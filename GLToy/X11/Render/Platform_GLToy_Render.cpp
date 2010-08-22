@@ -141,7 +141,7 @@ bool Platform_GLToy_Render::Initialise()
 
     // fill extensions - they should be set to null if unsupported...
     //s_pfnSwapInterval       = reinterpret_cast< void ( * )( u_int ) >(                            glXGetProcAddress( "wglSwapIntervalEXT" ) );
-	s_pfnActiveTexture        = reinterpret_cast< void ( * )( u_int ) >(                            glXGetProcAddress( "glActiveTexture" ) );	
+    s_pfnActiveTexture        = reinterpret_cast< void ( * )( u_int ) >(                            glXGetProcAddress( "glActiveTexture" ) );    
     //s_pfnIsShader           = reinterpret_cast< u_int ( * )( u_int ) >(                            wglGetProcAddress( "glIsShader" ) );
     //s_pfnCreateShader       = reinterpret_cast< u_int ( * )( u_int ) >(                            wglGetProcAddress( "glCreateShader" ) );
     //s_pfnCreateProgram      = reinterpret_cast< u_int ( * )() >(                                   wglGetProcAddress( "glCreateProgram" ) );
@@ -463,90 +463,90 @@ void Platform_GLToy_Render::ActiveTexture( const u_int uTextureUnit )
 
 bool Platform_GLToy_Render::IsShader( const u_int uID )
 {
-	if( s_pfnIsShader )
-	{
-	    return s_pfnIsShader( uID ) == GL_TRUE;
-	}
-	
-	return false;
+    if( s_pfnIsShader )
+    {
+        return s_pfnIsShader( uID ) == GL_TRUE;
+    }
+    
+    return false;
 }
 
 u_int Platform_GLToy_Render::CreateFragmentShader()
 {
-	if( s_pfnCreateShader )
-	{
-    	return s_pfnCreateShader( GL_FRAGMENT_SHADER );
-	}
-	
-	return 0;
+    if( s_pfnCreateShader )
+    {
+        return s_pfnCreateShader( GL_FRAGMENT_SHADER );
+    }
+    
+    return 0;
 }
 
 u_int Platform_GLToy_Render::CreateVertexShader()
 {
-	if( s_pfnCreateShader )
-	{
-	    return s_pfnCreateShader( GL_VERTEX_SHADER );
-	}
-	
-	return 0;
+    if( s_pfnCreateShader )
+    {
+        return s_pfnCreateShader( GL_VERTEX_SHADER );
+    }
+    
+    return 0;
 }
 
 u_int Platform_GLToy_Render::CreateProgram()
 {
     if( s_pfnCreateProgram )
-	{
-		return s_pfnCreateProgram();
-	}
-	
-	return 0;
+    {
+        return s_pfnCreateProgram();
+    }
+    
+    return 0;
 }
 
 void Platform_GLToy_Render::DeleteShader( u_int uShaderID )
 {
     if( s_pfnDeleteShader )
-	{
-		s_pfnDeleteShader( uShaderID );
-	}
+    {
+        s_pfnDeleteShader( uShaderID );
+    }
 }
 
 void Platform_GLToy_Render::DeleteProgram( u_int uProgramID )
 {
     if( s_pfnDeleteProgram )
-	{
-		s_pfnDeleteProgram( uProgramID );
-	}
+    {
+        s_pfnDeleteProgram( uProgramID );
+    }
 }
 
 void Platform_GLToy_Render::ValidateProgram( u_int uProgramID )
 {
     if( s_pfnValidateProgram )
-	{
-	    s_pfnValidateProgram( uProgramID );
-	}
+    {
+        s_pfnValidateProgram( uProgramID );
+    }
 }
 
 void Platform_GLToy_Render::CompileShader( u_int uShaderID )
 {
     if( s_pfnCompileShader )
-	{
-	    s_pfnCompileShader( uShaderID );
-	}
+    {
+        s_pfnCompileShader( uShaderID );
+    }
 }
 
 void Platform_GLToy_Render::LinkProgram( u_int uProgramID )
 {
     if( s_pfnLinkProgram )
-	{
-	    s_pfnLinkProgram( uProgramID );
-	}
+    {
+        s_pfnLinkProgram( uProgramID );
+    }
 }
 
 void Platform_GLToy_Render::UseProgram( u_int uProgramID )
 {
     if( s_pfnUseProgram )
-	{
-	    s_pfnUseProgram( uProgramID );
-	}
+    {
+        s_pfnUseProgram( uProgramID );
+    }
 }
 
 void Platform_GLToy_Render::AttachShader( u_int uProgramID, u_int uShaderID )
