@@ -24,63 +24,41 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __JD1_TRANS_FADEOUT_H_
+#define __JD1_TRANS_FADEOUT_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/JD1.h>
-
-// This file's header
-#include <Render/Texer/JD1_Texer.h>
-
-// GLToy
-#include <Core/GLToy_Timer.h>
-#include <Maths/GLToy_Maths.h>
-#include <Maths/GLToy_Noise.h>
-#include <Render/GLToy_Render.h>
-#include <Render/GLToy_RenderFunctor.h>
-#include <Render/GLToy_Texture.h>
+// Parent
+#include <Render/Trans/JD1_Trans.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void JD1_Texer::Render() const
+class JD1_Trans_Fadeout
+: public JD1_Trans
 {
-    GLToy_PointerRenderFunctor< GLToy_Sprite* > xFunctor;
-    m_xSprites.Traverse( xFunctor );
-}
 
-void JD1_Texer::Update()
-{
-    GLToy_Parent::Update();
+    typedef JD1_Trans GLToy_Parent;
 
-    for( u_int u = m_xSprites.GetCount(); u < m_uPointCount; ++u )
+public:
+
+    JD1_Trans_Fadeout( const float fAmount = 0.75f )
+    : GLToy_Parent()
+    , m_fAmount( fAmount )
     {
-        m_xSprites.Append( new GLToy_Sprite() );
-        m_xSprites[ u ]->SetTexture( m_uTexture );
     }
 
-    GLToy_Vector_3 xCurrentPoint;
-	GLToy_Vector_3 xCurrentColour = GLToy_Vector_3( 1.0f, 1.0f, 1.0f );
-	float fParameter;
-	float fFakeOsc;
-	float fSizeX;
-    float fSizeY;
-	bool bSkip = false;
+    virtual ~JD1_Trans_Fadeout() {}
 
-    for( u_int u = 0; u < m_uPointCount; ++u )
-	{
-		fParameter = static_cast< float >( u ) / static_cast< float >( m_uPointCount - 1 );
-		fFakeOsc = GLToy_Noise::Fractal2D( fParameter * 20.0f + 5.0f * GLToy_Timer::GetTime(), 0.0f, 30.0f );
+    virtual void Render() const;
 
-		PerPoint( fParameter, fFakeOsc, xCurrentPoint[ 0 ], xCurrentPoint[ 1 ], xCurrentPoint[ 2 ], xCurrentColour[ 0 ], xCurrentColour[ 1 ], xCurrentColour[ 2 ], bSkip, fSizeX, fSizeY );
+private:
 
-		if( !bSkip )
-		{
-            m_xSprites[ u ]->SetPosition( xCurrentPoint );
-            m_xSprites[ u ]->SetSize( fSizeX );
-            m_xSprites[ u ]->SetColour( xCurrentColour );
-		}
-	}
-}
+    float m_fAmount;
+};
+
+#endif

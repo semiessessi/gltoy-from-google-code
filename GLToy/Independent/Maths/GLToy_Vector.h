@@ -145,6 +145,7 @@ class GLToy_Vector_4
 public:
 
     GLToy_Vector_4();
+    GLToy_Vector_4( const GLToy_Vector_3& xVector, const float fW = 1.0f );
     GLToy_Vector_4( float fX, float fY, float fZ, float fW );
     GLToy_Vector_4( const GLToy_Vector_4& xVector );
 

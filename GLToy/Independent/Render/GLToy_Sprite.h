@@ -66,6 +66,7 @@ public:
 
     GLToy_Sprite()
     : m_xPosition( GLToy_Maths::ZeroVector3 )
+    , m_xColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) )
     , m_fSize( 1.0f )
     , m_ucBlendFunc( 0 )
     , m_uTextureHash( uGLTOY_BAD_HASH )
@@ -95,11 +96,13 @@ public:
     void SetTexture( const GLToy_Hash uHash );
     void SetTexture( const GLToy_String& szName );
     
+    void SetColour( const GLToy_Vector_3& xColour ) { m_xColour = xColour; }
     void SetAlphaMultiplier( const float fMultiplier ) { m_fMultiplier = fMultiplier; }
 
 protected:
 
     GLToy_Vector_3  m_xPosition;
+    GLToy_Vector_3  m_xColour;
     float m_fSize;
     u_char m_ucBlendFunc;
     u_int m_uTextureHash;

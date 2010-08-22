@@ -148,6 +148,11 @@ void JD1_Texer_SimpleComplexity::PerPoint(
     blue=max((1-cf1)*0.5f*alpha,0.1f); // note: removed ambiguities
     green=max(cf2*0.5f*alpha,0.1f); // note: removed ambiguities
 
+    // note: addition
+    red *= 2.0f;
+    blue *= 2.0f;
+    green *= 2.0f;
+
     //sizex=sz*z1;
     //sizey=sizex;
 

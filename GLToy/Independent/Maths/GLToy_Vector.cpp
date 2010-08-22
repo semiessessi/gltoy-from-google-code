@@ -254,6 +254,14 @@ GLToy_Vector_4::GLToy_Vector_4()
         = 0.0f;
 }
 
+GLToy_Vector_4::GLToy_Vector_4( const GLToy_Vector_3& xVector, const float fW )
+{
+    m_fComponents[ 0 ] = xVector[ 0 ];
+    m_fComponents[ 1 ] = xVector[ 1 ];
+    m_fComponents[ 2 ] = xVector[ 2 ];
+    m_fComponents[ 3 ] = fW;
+}
+
 GLToy_Vector_4::GLToy_Vector_4( float fX, float fY, float fZ, float fW )
 {
     m_fComponents[ 0 ] = fX;

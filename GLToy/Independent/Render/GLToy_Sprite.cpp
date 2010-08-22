@@ -47,6 +47,7 @@ void GLToy_Sprite::ReadFromBitStream( const GLToy_BitStream& xStream )
     bool bAdditive = false;
 
     xStream >> m_xPosition;
+    xStream >> m_xColour;
     xStream >> m_fSize;
     xStream >> bAdditive;
     xStream >> m_uTextureHash;
@@ -59,6 +60,7 @@ void GLToy_Sprite::ReadFromBitStream( const GLToy_BitStream& xStream )
 void GLToy_Sprite::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
     xStream << m_xPosition;
+    xStream << m_xColour;
     xStream << m_fSize;
     xStream << ( m_ucBlendFunc == 1 );
     xStream << m_uTextureHash;
@@ -100,7 +102,7 @@ void GLToy_Sprite::RenderTransparent() const
 
     GLToy_Render::StartSubmittingQuads();
 
-    GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, m_fMultiplier ) );
+    GLToy_Render::SubmitColour( GLToy_Vector_4( m_xColour, m_fMultiplier ) );
 
     GLToy_Render::SubmitUV( GLToy_Vector_3( 1.0f, 0.0f, 0.0f ) );
     GLToy_Render::SubmitVertex( m_xPosition + ( xRight + xUp ) * m_fSize );
