@@ -27,7 +27,7 @@
 #ifndef __GLTOY_CONFIG_H_
 #define __GLTOY_CONFIG_H_
 
-#ifndef GLTOY_PLATFORM_LINUX
+#ifndef GLTOY_PLATFORM_X11
     // keep FridgeScript out of final builds for now
     #ifndef _FINAL
         #define GLTOY_USE_FRIDGESCRIPT        (1)
