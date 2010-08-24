@@ -38,6 +38,7 @@
 #include <Render/GLToy_Camera.h>
 
 // JD1
+#include <Render/Trans/JD1_Trans_BlitterFeedback.h>
 #include <Render/Trans/JD1_Trans_Fadeout.h>
 #include <Render/SuperScope/JD1_SuperScope_Dragon.h>
 #include <Render/SuperScope/JD1_SuperScope_Morph.h>
@@ -58,7 +59,8 @@ public:
     JD1_DemoScene_AVS_Test()
     : GLToy_Parent()
     , m_xTest()
-    , m_xFadeout()
+    , m_xFadeout( 0.5f )
+    , m_xBlitterFeedback()
     {
     }
 
@@ -68,6 +70,7 @@ public:
 
     virtual void Initialise()
     {
+        AppendComponent( static_cast< GLToy_Renderable* >( &m_xBlitterFeedback ), static_cast< GLToy_Updateable* >( &m_xBlitterFeedback ) );
         AppendComponent( static_cast< GLToy_Renderable* >( &m_xFadeout ), static_cast< GLToy_Updateable* >( &m_xFadeout ) );
         AppendComponent( static_cast< GLToy_Renderable* >( &m_xTest ), static_cast< GLToy_Updateable* >( &m_xTest ) );
 
@@ -78,6 +81,7 @@ protected:
 
     JD1_Texer_SimpleComplexity m_xTest;
     JD1_Trans_Fadeout m_xFadeout;
+    JD1_Trans_BlitterFeedback m_xBlitterFeedback;
 
 };
 

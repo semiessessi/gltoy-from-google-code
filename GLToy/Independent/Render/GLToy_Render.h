@@ -140,7 +140,7 @@ public:
     static float Get2DWidth() { return 2.0f * GetAspectRatio(); }
     static void SetClearFrame( const bool bClear = true ) { s_bClearFrame = bClear; }
     static bool GetClearFrame() { return s_bClearFrame; }
-    static bool HasFrameBuffer() { return s_uFrameBuffer != 0xFFFFFFFF; }
+    static bool HasFrameBuffer() { return s_uSwapBuffer != 0xFFFFFFFF; }
 
     static bool Initialise();
     static void Shutdown();
@@ -152,6 +152,9 @@ public:
     static void EndRender();
 
     static void RegisterTransparent( const GLToy_Renderable* const pxTransparent, const float fSquaredDistanceFromCamera );
+
+    static void BindFrameBuffer( const u_int uTextureUnit = 0 );
+    static void BindFrameBufferNoCopy( const u_int uTextureUnit = 0 );
 
     // GL interface
     static u_int GetError();
@@ -294,6 +297,10 @@ private:
     static u_int s_uDepthBuffer;
     static u_int s_uFrameBuffer;
     static u_int s_uFrameTexture;
+    static u_int s_uSwapBuffer;
+    static u_int s_uSwapTexture;
+    static u_int& s_uCurrentBuffer;
+    static u_int& s_uCurrentTexture;
 
     static GLToy_BinaryTree< const GLToy_Renderable*, float > s_xTransparents;
 

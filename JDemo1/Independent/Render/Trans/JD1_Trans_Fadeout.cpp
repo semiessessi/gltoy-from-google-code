@@ -62,6 +62,7 @@ void JD1_Trans_Fadeout::Render() const
     GLToy_Texture_System::BindBlack();
 
     GLToy_Render::DisableDepthWrites();
+    GLToy_Render::DisableDepthTesting();
     GLToy_Render::EnableBlending();
     GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
 
@@ -72,6 +73,7 @@ void JD1_Trans_Fadeout::Render() const
 
     GLToy_Render::EndSubmit();
 
+    GLToy_Render::EnableDepthTesting();
     GLToy_Render::EnableDepthWrites();
     GLToy_Render::DisableBlending();
 
