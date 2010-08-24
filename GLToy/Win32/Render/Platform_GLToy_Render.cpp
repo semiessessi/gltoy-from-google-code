@@ -222,7 +222,6 @@ bool Platform_GLToy_Render::Initialise()
 
 void Platform_GLToy_Render::Shutdown()
 {
-
 }
 
 void Platform_GLToy_Render::BeginRender()
@@ -242,6 +241,11 @@ void Platform_GLToy_Render::EndRender()
 u_int Platform_GLToy_Render::GetError()
 {
     return glGetError();
+}
+
+void Platform_GLToy_Render::Clear()
+{
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 }
 
 void Platform_GLToy_Render::ClearDepth( const float fDepth )
