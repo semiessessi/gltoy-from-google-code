@@ -172,8 +172,13 @@ void GLToy_Texture_System::Platform_SaveTextureTGA( const GLToy_String& szName, 
 void GLToy_Texture_System::Platform_CreateFrameBufferTexture( u_int& uID, const int iWidth, const int iHeight )
 {
     glGenTextures( 1, &uID );
-        glBindTexture( GL_TEXTURE_2D, uID );
-        glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL );
+    glBindTexture( GL_TEXTURE_2D, uID );
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+    GLToy_Render::GenerateMipmap( GL_TEXTURE_2D );
 }
 
 void GLToy_Texture_System::Platform_DestroyFrameBufferTexture( u_int& uID )

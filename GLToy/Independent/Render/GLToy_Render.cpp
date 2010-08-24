@@ -94,7 +94,7 @@ bool GLToy_Render::Initialise()
         GLToy_Render::BindFramebuffer( FRAMEBUFFER, s_uFrameBuffer );
         GLToy_Render::GenRenderbuffers( 1, &s_uDepthBuffer );
         GLToy_Render::BindRenderbuffer( RENDERBUFFER, s_uDepthBuffer );
-        GLToy_Render::RenderbufferStorage( RENDERBUFFER, DEPTH_COMPONENT, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+        GLToy_Render::RenderbufferStorage( RENDERBUFFER, DEPTH_COMPONENT24, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
         GLToy_Texture_System::CreateFrameBufferTexture( s_uFrameTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
         GLToy_Render::FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT0, TEXTURE_2D, s_uFrameTexture, 0 );
 
@@ -118,6 +118,8 @@ bool GLToy_Render::Initialise()
                 s_uFrameTexture = 0xFFFFFFFF;
             }
         }
+
+        GLToy_Render::BindFramebuffer( FRAMEBUFFER, 0 );
     }
 
     if( HasFrameBuffer() )
@@ -234,7 +236,7 @@ void GLToy_Render::EndRender()
         GLToy_Texture_System::BindFrameBufferTexture( s_uFrameTexture );
         StartSubmittingQuads();
         SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-        SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), -1.0f ), GLToy_Vector_2( GLToy_Render::Get2DWidth(), 2.0f ) );
+        SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), -1.0f ), GLToy_Vector_2( GLToy_Render::Get2DWidth(), 2.0f ), 0.0f, 1.0f, 1.0f, 0.0f );
         EndSubmit();
 
         GLToy_Render::SetPerspectiveProjectionMatrix();
