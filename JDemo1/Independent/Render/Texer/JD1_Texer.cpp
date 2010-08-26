@@ -61,7 +61,7 @@ void JD1_Texer::Update()
         m_xSprites[ u ]->SetTexture( m_uTexture );
     }
 
-    GLToy_Vector_3 xCurrentPoint;
+    GLToy_Vector_3 xCurrentPoint = GLToy_Vector_3( 0.0f, 0.0f, 1.0f );
     GLToy_Vector_3 xCurrentColour = GLToy_Vector_3( 1.0f, 1.0f, 1.0f );
     float fParameter;
     float fFakeOsc;
@@ -81,6 +81,7 @@ void JD1_Texer::Update()
             m_xSprites[ u ]->SetPosition( xCurrentPoint );
             m_xSprites[ u ]->SetSize( fSizeX );
             m_xSprites[ u ]->SetColour( xCurrentColour );
+            m_xSprites[ u ]->SetBlendFunction( m_ucBlendFunction );
         }
     }
 }

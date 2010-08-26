@@ -255,6 +255,7 @@ void GLToy_Render::Render()
         PushViewMatrix();
         SetIdentityViewMatrix();
         DisableDepthTesting();
+        DisableBlending();
 
         GLToy_Texture_System::BindFrameBufferTexture( s_uCurrentTexture );
         StartSubmittingQuads();

@@ -65,21 +65,23 @@ static float vx, u, d, sv, x1, y1, z1, x2, y2, z2, alpha;
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// note, i changed a lot of constants to be floats with f suffixed
+
 void JD1_Texer_SimpleComplexity::Initialise()
 {
     //n=512;
     n = 1024; // note: change
-    tpi=2*acos(-1);lasttime=gettime(0);
+    tpi=2.0f*acos(-1.0f);lasttime=gettime(0.0f);
 }
 
 void JD1_Texer_SimpleComplexity::PerFrame()
 {
-    ddt=gettime(lasttime);lasttime=gettime(0);
-    o1=pow(.9,ddt*30);o2=1-o1;
-    o3=pow(.95,ddt*30);o4=1-o3;
+    ddt=gettime(lasttime);lasttime=gettime(0.0f);
+    o1=pow(.9f,ddt*30.0f);o2=1.0f-o1;
+    o3=pow(.95f,ddt*30.0f);o4=1.0f-o3;
     q=q+1;
-    rx=rx+drx*ddt;ry=ry+dry*ddt;rz=rz+ddt*getspec(0.1,0.1,0);
-    ts=o1*ts+o2*getspec(0.2,0.1,0);
+    rx=rx+drx*ddt;ry=ry+dry*ddt;rz=rz+ddt*getspec(0.1f,0.1f,0f);
+    ts=o1*ts+o2*getspec(0.2f,0.1f,0f);
     drx=drx*o3;
     dry=dry*o3;
     t1=t1+ddt*ts;
@@ -88,16 +90,16 @@ void JD1_Texer_SimpleComplexity::PerFrame()
     fac1=o3*fac1+o4*nfac1;
     fac2=o3*fac2+o4*nfac2;
     fac3=o3*fac3+o4*nfac3;
-    sz=0.002*w;
+    sz=0.002f*w;
     a=0;
 }
 
 void JD1_Texer_SimpleComplexity::OnBeat()
 {
-    drx=(rand(4)?drx:8*getosc(0.2,0.2,0)); // note: if --> ? :
-    dry=4*getspec(0.2,0.2,0);
-    cft1=(31469*q+1)%2;
-    cft2=(31081*q+1)%2;
+    drx=(rand(4)?drx:8.0f*getosc(0.2f,0.2f,0f)); // note: if --> ? :
+    dry=4.0f*getspec(0.2f,0.2f,0f);
+    cft1 = static_cast< float >( ( 31469 * q + 1 ) & 1 ); // note: completely the same, but all tidy
+    cft2 = static_cast< float >( ( 31081 * q + 1 ) & 1 ); // note: completely the same, but all tidy
     nfac1=(rand(3)?nfac1:rand(2)); // note: if --> ? :
     nfac2=(rand(3)?nfac2:rand(2)); // note: if --> ? :
     nfac3=(rand(3)?nfac3:rand(2)); // note: if --> ? :
@@ -113,9 +115,9 @@ void JD1_Texer_SimpleComplexity::PerPoint(
     float& sizey ) const
 {
     vx=tpi*i; // note: vx --> vx
-    u=160*vx+(.1*t1)*(a%17);
+    u=160*vx+(.1f*t1)*(a%17);
 
-    d=0.5*((1+0.2*cos(4*u))*fac1+cos(2*u)*fac2+sin(2*vx)*fac3)+0.6;
+    d=0.5f*((1.0f+0.2f*cos(4*u))*fac1+cos(2.0f*u)*fac2+sin(2.0f*vx)*fac3)+0.6f;
 
     sv=sin(vx);
 

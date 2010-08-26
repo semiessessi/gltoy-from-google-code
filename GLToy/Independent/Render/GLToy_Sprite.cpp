@@ -68,7 +68,25 @@ void GLToy_Sprite::WriteToBitStream( GLToy_BitStream& xStream ) const
 
 void GLToy_Sprite::Render() const
 {
-    GLToy_Render::RegisterTransparent( this, ( m_xPosition - GLToy_Camera::GetPosition() ).MagnitudeSquared() );
+    switch( m_ucBlendFunc )
+    {
+        default:
+        case ucSPRITE_BLEND_NORMAL:
+        {
+            GLToy_Render::RegisterTransparent( this, ( m_xPosition - GLToy_Camera::GetPosition() ).MagnitudeSquared() );
+            break;
+        }
+        
+        case ucSPRITE_BLEND_ADDITIVE:
+        {
+            GLToy_Render::SetBlendFunction( BLEND_ONE, BLEND_ONE );
+            GLToy_Render::EnableBlending();
+            GLToy_Render::EnableDepthTesting();
+            GLToy_Render::DisableDepthWrites();
+            RenderTransparent();
+            break;
+        }
+    }
 }
 
 void GLToy_Sprite::RenderTransparent() const
@@ -84,8 +102,7 @@ void GLToy_Sprite::RenderTransparent() const
         
         case ucSPRITE_BLEND_ADDITIVE:
         {
-            GLToy_Render::SetBlendFunction( BLEND_ONE, BLEND_ONE );
-            break;
+            return;
         }
     }
 

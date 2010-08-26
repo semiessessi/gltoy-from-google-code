@@ -54,8 +54,11 @@ public:
     : GLToy_Parent()
     , m_uTexture( uTexture )
     , m_xSprites()
+    , m_ucBlendFunction( ucSPRITE_BLEND_NORMAL )
     {
     }
+
+    virtual void SetBlendFunction( const u_char ucBlendFunction ) { m_ucBlendFunction = ucBlendFunction; }
 
     // I've diverged from the coding standards here to make it easier to port things in from AVS
     virtual void PerPoint( const float i, const float v, float& x, float& y, float& z, float& red, float& green, float& blue, bool& skip, float& sizex, float& sizey ) const = 0;
@@ -69,6 +72,7 @@ protected:
 
     GLToy_Hash m_uTexture;
     GLToy_Array< GLToy_Sprite* > m_xSprites;
+    u_char m_ucBlendFunction;
 
 };
 
