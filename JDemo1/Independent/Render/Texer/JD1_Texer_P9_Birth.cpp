@@ -110,62 +110,62 @@ void JD1_Texer_P9_Birth::PerFrame()
 	for(int i=0;i<num;++i)
 	{
 
-	  theta = megabuf(pos1);
-	  delta = megabuf(pos1+1);
-	  life = megabuf(pos1+2);
-	  death=megabuf(pos1+3);
-	  rad= megabuf(pos1+4);
+		theta = megabuf(pos1);
+		delta = megabuf(pos1+1);
+		life = megabuf(pos1+2);
+		death=megabuf(pos1+3);
+		rad= megabuf(pos1+4);
 
-	  life=life+slow*0.1f;
+		life=life+slow*0.1f;
 
-	  if( life > death )
-	  {
-		  theta=rand(1000)/1000.0f*PI;
-		  delta=rand(1000)/1000.0f*PI*2.0f;
-		  life=0.0f;
-		  death=rand(100)/100.0f+mxdeath;
-	  }
+		if( life > death )
+		{
+			theta=rand(1000)/1000.0f*PI;
+			delta=rand(1000)/1000.0f*PI*2.0f;
+			life=0.0f;
+			death=rand(100)/100.0f+mxdeath;
+		}
 
-	  insz=0.3f;
-	  if( life > insz )
-	  {
-		rad=rad+slow*(min(life,1.0f)-insz)*0.05f;
-	  }
-	  else
-	  {
-		rad=0.25f;
-	  }
+		insz=0.3f;
+		if( life > insz )
+		{
+			rad=rad+slow*(min(life,1.0f)-insz)*0.05f;
+		}
+		else
+		{
+			rad=0.25f;
+		}
 
-	  x1= rad*sin(theta)*cos(delta);
-	  y1= rad*sin(theta)*sin(delta);
-	  z1= rad*cos(theta);
+		x1= rad*sin(theta)*cos(delta);
+		y1= rad*sin(theta)*sin(delta);
+		z1= rad*cos(theta);
 
-	  x2 = x1*crotz-y1*srotz;
-	  y2 = x1*srotz+y1*crotz;
-	  x3 = x2*croty+z1*sroty;
-	  z3 = -x2*sroty+z1*croty;
-	  y1 = y2*crotx-z3*srotx;
-	  z1 = y2*srotx+z3*crotx;
+		x2 = x1*crotz-y1*srotz;
+		y2 = x1*srotz+y1*crotz;
+		x3 = x2*croty+z1*sroty;
+		z3 = -x2*sroty+z1*croty;
+		y1 = y2*crotx-z3*srotx;
+		z1 = y2*srotx+z3*crotx;
 
-	  
-z2=focal/(z1+depth);
 
-	  if( z1 > -1.0f )
-	  {
-		  megabuf(pos2) = x3*z2;
-		  megabuf(pos2+1) = y1*z2;
-		  megabuf(pos2+2) = z1;
-		  megabuf(pos2+3) = life/death;
-		  pos2=pos2+4;
-		  total=total+1;
-	  }
+		z2=focal/(z1+depth);
 
-	  megabuf(pos1) = theta;
-	  megabuf(pos1+1) = delta;
-	  megabuf(pos1+2) = life;
-	  megabuf(pos1+3) = death;
-	  megabuf(pos1+4) = rad;
-	  pos1=pos1+5;
+		if( z1 > -1.0f )
+		{
+			megabuf(pos2) = x3*z2;
+			megabuf(pos2+1) = y1*z2;
+			megabuf(pos2+2) = z1;
+			megabuf(pos2+3) = life/death;
+			pos2=pos2+4;
+			total=total+1;
+		}
+
+		megabuf(pos1) = theta;
+		megabuf(pos1+1) = delta;
+		megabuf(pos1+2) = life;
+		megabuf(pos1+3) = death;
+		megabuf(pos1+4) = rad;
+		pos1=pos1+5;
 	}
 
 	dcount=dcount+slow;
@@ -185,13 +185,13 @@ void JD1_Texer_P9_Birth::OnBeat()
 }
 
 void JD1_Texer_P9_Birth::PerPoint(
-    const float i,
-    const float v,
-    float& x, float& y, float& z,
-    float& red, float& green, float& blue,
-    bool& skip,
-    float& sizex,
-    float& sizey ) const
+	const float i,
+	const float v,
+	float& x, float& y, float& z,
+	float& red, float& green, float& blue,
+	bool& skip,
+	float& sizex,
+	float& sizey ) const
 {
 	x=megabuf(posit);
 	y=megabuf(posit+1);
