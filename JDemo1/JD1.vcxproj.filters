@@ -141,6 +141,9 @@
     <ClCompile Include="Independent\Render\Texer\JD1_Texer_MovingParticles.cpp">
       <Filter>Independent\Render\Texer</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Render\Texer\JD1_Texer_P9_Birth.cpp">
+      <Filter>Independent\Render\Texer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_JD1.h">
@@ -240,6 +243,12 @@
       <Filter>Independent\Demo</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Render\Texer\JD1_Texer_MovingParticles.h">
+      <Filter>Independent\Render\Texer</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_P9_Birth.h">
+      <Filter>Independent\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\Texer\JD1_Texer_P9_Birth.h">
       <Filter>Independent\Render\Texer</Filter>
     </ClInclude>
   </ItemGroup>

@@ -165,6 +165,7 @@
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Test.cpp" />
     <ClCompile Include="Independent\Render\Texer\JD1_Texer.cpp" />
     <ClCompile Include="Independent\Render\Texer\JD1_Texer_MovingParticles.cpp" />
+    <ClCompile Include="Independent\Render\Texer\JD1_Texer_P9_Birth.cpp" />
     <ClCompile Include="Independent\Render\Texer\JD1_Texer_SimpleComplexity.cpp" />
     <ClCompile Include="Independent\Render\Trans\JD1_Trans_Flow.cpp" />
     <ClCompile Include="Independent\Render\Trans\JD1_Trans_Shader.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Independent\Demo\JD1_DemoScene_Dragon.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_Intro.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_MovingParticles.h" />
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_P9_Birth.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_Test.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_TexerFlow.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_Tunnel.h" />
@@ -200,6 +202,7 @@
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Test.h" />
     <ClInclude Include="Independent\Render\Texer\JD1_Texer.h" />
     <ClInclude Include="Independent\Render\Texer\JD1_Texer_MovingParticles.h" />
+    <ClInclude Include="Independent\Render\Texer\JD1_Texer_P9_Birth.h" />
     <ClInclude Include="Independent\Render\Texer\JD1_Texer_SimpleComplexity.h" />
     <ClInclude Include="Independent\Render\Trans\JD1_Trans.h" />
     <ClInclude Include="Independent\Render\Trans\JD1_Trans_BlitterFeedback.h" />
