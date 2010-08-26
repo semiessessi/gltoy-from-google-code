@@ -82,6 +82,7 @@ void JD1_Texer::Update()
             m_xSprites[ u ]->SetSize( fSizeX );
             m_xSprites[ u ]->SetColour( xCurrentColour );
             m_xSprites[ u ]->SetBlendFunction( m_ucBlendFunction );
+			m_xSprites[ u ]->SetOrdering( m_ucOrdering );
         }
     }
 }
