@@ -49,7 +49,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef NULL
-#define NULL (0)
+    #define NULL ( 0 )
 #endif
 
 // prevent const_cast and dynamic cast
@@ -67,18 +67,19 @@
     #define GLToy_DebugOutput GLToy::DebugOutput
 #else
     #define GLTOY_RELEASE
+    #ifdef _FINAL
+        #define GLTOY_FINAL
+    #endif
     #define GLToy_IsDebugBuild() ( false )
     #define GLToy_DebugVar static const
     #define GLToy_DebugOutput( format, ... ) ;
 #endif
 
 #define GLToy_DebugOutput_Release GLToy::DebugOutput
-
 #define GLToy_HeaderBytes( string ) ( ( string[ 3 ] << 24 ) | ( string[ 2 ] << 16 ) | ( string[ 1 ] << 8 ) | string[ 0 ] )
-
 #define GLToy_InitialiserCall( system ) GLToy_DebugOutput( "\r\n  " #system "\r\n" ); if( !system::Initialise() ) { GLToy_DebugOutput( "\r\n  Failed to initialise " #system "!\r\n" ); return false; }
-
 #define GLToy_IsValidHandle( handle ) ( ( handle ) > 0 )
+#define GLToy_XORSwap( a, b ) do { a ^= b; b ^= a; a ^= b; } while( false )
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // T Y P E D E F S

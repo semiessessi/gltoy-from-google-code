@@ -24,39 +24,47 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_TEXER_SIMPLECOMPLEXITY_H_
-#define __JD1_TEXER_SIMPLECOMPLEXITY_H_
+#ifndef __JD1_TRANS_SHADER_H_
+#define __JD1_TRANS_SHADER_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // Parent
-#include <Render/Texer/JD1_Texer.h>
+#include <Render/Trans/JD1_Trans.h>
+
+// GLToy
+#include <Core/Data Structures/GLToy_Pair.h>
+#include <String/GLToy_String.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class JD1_Texer_SimpleComplexity
-: public JD1_Texer
+class JD1_Trans_Shader
+: public JD1_Trans
 {
 
-    typedef JD1_Texer GLToy_Parent;
+    typedef JD1_Trans GLToy_Parent;
 
 public:
 
-    JD1_Texer_SimpleComplexity()
-    : GLToy_Parent( GLToy_Hash_Constant( "Sprites/Simple.png" ) )
-    {
-    }
+    JD1_Trans_Shader( const GLToy_Hash uShaderHash );
 
-    virtual ~JD1_Texer_SimpleComplexity() {}
+    virtual ~JD1_Trans_Shader() {}
 
-    virtual void Initialise();
-    virtual void PerFrame();
-    virtual void OnBeat();
-    virtual void PerPoint( const float i, const float v, float& x, float& y, float& z, float& red, float& green, float& blue, bool& skip, float& sizex, float& sizey ) const;
+    virtual void Render() const;
+
+    virtual void SetUniforms() const {}
+
+    void BindTexture( const GLToy_String& szUniformName, const GLToy_Hash uTextureHash, const u_int uTextureUnit = 0 );
+
+protected:
+
+    GLToy_Hash m_uShader;
+    GLToy_Pair< GLToy_Hash, GLToy_String > m_axTextures[ 8 ];
+
 };
 
 #endif

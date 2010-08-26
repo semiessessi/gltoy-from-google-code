@@ -155,10 +155,12 @@ public:
 
     static void BindFrameBuffer( const u_int uTextureUnit = 0 );
     static void BindFrameBufferNoCopy( const u_int uTextureUnit = 0 );
+    static void BindLastFrameBufferTexture( const u_int uTextureUnit = 0 );
 
     // GL interface
     static u_int GetError();
 
+    static void Clear();
     static void ClearDepth( const float fDepth );
     static void SetDepthFunction( const u_int uDepthFunction );
 
@@ -220,6 +222,8 @@ public:
 
     static void SetVsyncEnabled( const bool bEnabled );
     static bool IsVSyncEnabled() { return s_bVsync; }
+
+    static void DrawBuffers( const int iCount, const u_int* const puBuffers );
 
     // framebuffer functions
     static bool IsRenderbuffer( const u_int uRenderBuffer );

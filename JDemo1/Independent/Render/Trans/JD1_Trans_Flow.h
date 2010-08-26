@@ -24,39 +24,37 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_TEXER_SIMPLECOMPLEXITY_H_
-#define __JD1_TEXER_SIMPLECOMPLEXITY_H_
+#ifndef __JD1_TRANS_FLOW_H_
+#define __JD1_TRANS_FLOW_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // Parent
-#include <Render/Texer/JD1_Texer.h>
+#include <Render/Trans/JD1_Trans_Shader.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class JD1_Texer_SimpleComplexity
-: public JD1_Texer
+class JD1_Trans_Flow
+: public JD1_Trans_Shader
 {
 
-    typedef JD1_Texer GLToy_Parent;
+    typedef JD1_Trans_Shader GLToy_Parent;
 
 public:
 
-    JD1_Texer_SimpleComplexity()
-    : GLToy_Parent( GLToy_Hash_Constant( "Sprites/Simple.png" ) )
+    JD1_Trans_Flow()
+    : GLToy_Parent( GLToy_Hash_Constant( "JD1_Trans_Flow" ) )
     {
     }
 
-    virtual ~JD1_Texer_SimpleComplexity() {}
+    virtual ~JD1_Trans_Flow() {}
 
-    virtual void Initialise();
-    virtual void PerFrame();
-    virtual void OnBeat();
-    virtual void PerPoint( const float i, const float v, float& x, float& y, float& z, float& red, float& green, float& blue, bool& skip, float& sizex, float& sizey ) const;
+    virtual void SetUniforms() const;
+
 };
 
 #endif

@@ -24,39 +24,34 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_TEXER_SIMPLECOMPLEXITY_H_
-#define __JD1_TEXER_SIMPLECOMPLEXITY_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parent
-#include <Render/Texer/JD1_Texer.h>
+#include <Core/JD1.h>
+
+// This file's header
+#include <Demo/JD1_DemoScene_MovingParticles.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class JD1_Texer_SimpleComplexity
-: public JD1_Texer
+JD1_DemoScene_MovingParticles::JD1_DemoScene_MovingParticles()
+: GLToy_Parent()
+, m_xBlitterFeedback( 1.5f )
+, m_xBlur()
+, m_xFadeout( 0.02f )
+, m_xTexer()
 {
+}
 
-    typedef JD1_Texer GLToy_Parent;
+void JD1_DemoScene_MovingParticles::Initialise()
+{
+    AppendComponent( static_cast< GLToy_Renderable* >( &m_xBlitterFeedback ), static_cast< GLToy_Updateable* >( &m_xBlitterFeedback ) );
+    AppendComponent( static_cast< GLToy_Renderable* >( &m_xBlur ), static_cast< GLToy_Updateable* >( &m_xBlur ) );
+    AppendComponent( static_cast< GLToy_Renderable* >( &m_xFadeout ), static_cast< GLToy_Updateable* >( &m_xFadeout ) );
+    AppendComponent( static_cast< GLToy_Renderable* >( &m_xTexer ), static_cast< GLToy_Updateable* >( &m_xTexer ) );
 
-public:
-
-    JD1_Texer_SimpleComplexity()
-    : GLToy_Parent( GLToy_Hash_Constant( "Sprites/Simple.png" ) )
-    {
-    }
-
-    virtual ~JD1_Texer_SimpleComplexity() {}
-
-    virtual void Initialise();
-    virtual void PerFrame();
-    virtual void OnBeat();
-    virtual void PerPoint( const float i, const float v, float& x, float& y, float& z, float& red, float& green, float& blue, bool& skip, float& sizex, float& sizey ) const;
-};
-
-#endif
+    GLToy_Parent::Initialise();
+}

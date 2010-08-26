@@ -478,6 +478,15 @@
     <ClInclude Include="Independent\Physics\GLToy_Physics_Object.h" />
     <ClInclude Include="Independent\Physics\GLToy_Physics_System.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Data\Shaders\Default.vs" />
+    <None Include="..\Data\Shaders\Raytrace_Bounded.vs" />
+    <None Include="..\Data\Shaders\Raytrace_Fullscreen.vs" />
+    <None Include="..\Data\Shaders\Raytrace_Plane.fs" />
+    <None Include="..\Data\Shaders\Raytrace_Plane.shader" />
+    <None Include="..\Data\Shaders\Raytrace_Sphere.fs" />
+    <None Include="..\Data\Shaders\Raytrace_Sphere.shader" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

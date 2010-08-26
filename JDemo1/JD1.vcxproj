@@ -149,7 +149,13 @@
   <ItemGroup>
     <ClCompile Include="Independent\Demo\JD1_DemoScene.cpp" />
     <ClCompile Include="Independent\Demo\JD1_DemoScene_AVS.cpp" />
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_AVS_Test.cpp" />
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_Chmutov.cpp" />
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_Dragon.cpp" />
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_Intro.cpp" />
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_MovingParticles.cpp" />
     <ClCompile Include="Independent\Demo\JD1_DemoScene_Test.cpp" />
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_TexerFlow.cpp" />
     <ClCompile Include="Independent\Demo\JD1_DemoScene_Tunnel.cpp" />
     <ClCompile Include="Independent\Demo\JD1_Demo_System.cpp" />
     <ClCompile Include="Independent\File\JD1_WaveFile.cpp" />
@@ -158,7 +164,10 @@
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Morph.cpp" />
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Test.cpp" />
     <ClCompile Include="Independent\Render\Texer\JD1_Texer.cpp" />
+    <ClCompile Include="Independent\Render\Texer\JD1_Texer_MovingParticles.cpp" />
     <ClCompile Include="Independent\Render\Texer\JD1_Texer_SimpleComplexity.cpp" />
+    <ClCompile Include="Independent\Render\Trans\JD1_Trans_Flow.cpp" />
+    <ClCompile Include="Independent\Render\Trans\JD1_Trans_Shader.cpp" />
     <ClCompile Include="Independent\Render\Trans\JD1_Trans_BlitterFeedback.cpp" />
     <ClCompile Include="Independent\Render\Trans\JD1_Trans_Fadeout.cpp" />
     <ClCompile Include="Independent\Sound\JD1_Sound.cpp" />
@@ -175,7 +184,12 @@
     <ClInclude Include="Independent\Demo\JD1_DemoScene.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_AVS.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_AVS_Test.h" />
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_Chmutov.h" />
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_Dragon.h" />
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_Intro.h" />
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_MovingParticles.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_Test.h" />
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_TexerFlow.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_Tunnel.h" />
     <ClInclude Include="Independent\Demo\JD1_Demo_System.h" />
     <ClInclude Include="Independent\File\JD1_SoundFile.h" />
@@ -185,10 +199,14 @@
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Morph.h" />
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Test.h" />
     <ClInclude Include="Independent\Render\Texer\JD1_Texer.h" />
+    <ClInclude Include="Independent\Render\Texer\JD1_Texer_MovingParticles.h" />
     <ClInclude Include="Independent\Render\Texer\JD1_Texer_SimpleComplexity.h" />
     <ClInclude Include="Independent\Render\Trans\JD1_Trans.h" />
     <ClInclude Include="Independent\Render\Trans\JD1_Trans_BlitterFeedback.h" />
+    <ClInclude Include="Independent\Render\Trans\JD1_Trans_Blur.h" />
     <ClInclude Include="Independent\Render\Trans\JD1_Trans_Fadeout.h" />
+    <ClInclude Include="Independent\Render\Trans\JD1_Trans_Flow.h" />
+    <ClInclude Include="Independent\Render\Trans\JD1_Trans_Shader.h" />
     <ClInclude Include="Independent\Sound\JD1_Sound.h" />
     <ClInclude Include="Independent\Sound\JD1_Sound_Source.h" />
     <ClInclude Include="Independent\Sound\JD1_Sound_System.h" />
@@ -202,6 +220,14 @@
       <Project>{d102268c-2c78-4954-99a9-433ef8f9182f}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Data\Shaders\JD1_Raytrace_Tunnel.fs" />
+    <None Include="..\Data\Shaders\JD1_Raytrace_Tunnel.shader" />
+    <None Include="..\Data\Shaders\JD1_Trans_Blur.fs" />
+    <None Include="..\Data\Shaders\JD1_Trans_Blur.shader" />
+    <None Include="..\Data\Shaders\JD1_Trans_Flow.fs" />
+    <None Include="..\Data\Shaders\JD1_Trans_Flow.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

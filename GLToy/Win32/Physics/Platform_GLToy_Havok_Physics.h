@@ -53,7 +53,7 @@
 
 // TODO - work out a way to do this properly so the release libraries are used...
 
-#ifdef _DEBUG
+#ifdef GLTOY_DEBUG
 
 #pragma comment( lib, "hkbase" )
 #pragma comment( lib, "hkserialize" )

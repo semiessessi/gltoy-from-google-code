@@ -24,39 +24,43 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_TEXER_SIMPLECOMPLEXITY_H_
-#define __JD1_TEXER_SIMPLECOMPLEXITY_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parent
-#include <Render/Texer/JD1_Texer.h>
+#include <Core/JD1.h>
+
+// This file's headers
+#include <Demo/JD1_DemoScene_Chmutov.h>
+
+// GLToy
+#include <Render/GLToy_Render.h>
+#include <Render/Font/GLToy_Font.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class JD1_Texer_SimpleComplexity
-: public JD1_Texer
+void JD1_DemoScene_Chmutov::Initialise()
 {
+}
 
-    typedef JD1_Texer GLToy_Parent;
+void JD1_DemoScene_Chmutov::Render() const
+{
+    GLToy_Render::SetClearFrame( true );
 
-public:
+    const GLToy_Font* const pxFont = GLToy_Font_System::FindFont( GLToy_Hash_Constant( "Console" ) );
 
-    JD1_Texer_SimpleComplexity()
-    : GLToy_Parent( GLToy_Hash_Constant( "Sprites/Simple.png" ) )
-    {
-    }
+    GLToy_Render::SetOrthogonalProjectionMatrix();
+    GLToy_Render::PushViewMatrix();
+    GLToy_Render::SetIdentityViewMatrix();
+    GLToy_Render::DisableDepthWrites();
+    GLToy_Render::DisableDepthTesting();
 
-    virtual ~JD1_Texer_SimpleComplexity() {}
+    pxFont->RenderString( "Chmutov goes here...", 0.0f, 0.0f, GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-    virtual void Initialise();
-    virtual void PerFrame();
-    virtual void OnBeat();
-    virtual void PerPoint( const float i, const float v, float& x, float& y, float& z, float& red, float& green, float& blue, bool& skip, float& sizex, float& sizey ) const;
-};
-
-#endif
+    GLToy_Render::EnableDepthTesting();
+    GLToy_Render::EnableDepthWrites();
+    GLToy_Render::SetPerspectiveProjectionMatrix();
+    GLToy_Render::PopViewMatrix();
+}

@@ -31,9 +31,10 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <Render/GLToy_Raytrace_Fullscreen.h>
+#include <Render/Trans/JD1_Trans_Shader.h>
 
 // GLToy
+#include <Core/GLToy_Timer.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
@@ -44,7 +45,7 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Raytrace_Fullscreen::GLToy_Raytrace_Fullscreen( const GLToy_Hash uShaderHash )
+JD1_Trans_Shader::JD1_Trans_Shader( const GLToy_Hash uShaderHash )
 : m_uShader( uShaderHash )
 {
     for( u_int u = 0; u < 8; ++u )
@@ -53,13 +54,24 @@ GLToy_Raytrace_Fullscreen::GLToy_Raytrace_Fullscreen( const GLToy_Hash uShaderHa
     }
 }
 
-void GLToy_Raytrace_Fullscreen::Render() const
+void JD1_Trans_Shader::Render() const
 {
-    for( u_int u = 0; u < 8; ++u )
+    const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
+    const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
+    GLToy_Render::SetOrthogonalProjectionMatrix();
+    GLToy_Render::PushViewMatrix();
+    GLToy_Render::SetIdentityViewMatrix();
+    GLToy_Render::DisableDepthWrites();
+    GLToy_Render::DisableDepthTesting();
+    GLToy_Render::DisableBlending();
+
+    GLToy_Render::BindFrameBufferNoCopy();
+
+    for( u_int u = 1; u < 8; ++u )
     {
         if( m_axTextures[ u ].First() != uGLTOY_BAD_HASH )
         {
-            GLToy_Texture* pxTexture = GLToy_Texture_System::FindTexture( m_axTextures[ u ].First() );
+            const GLToy_Texture* const pxTexture = GLToy_Texture_System::FindTexture( m_axTextures[ u ].First() );
 
             if( pxTexture )
             {
@@ -72,13 +84,22 @@ void GLToy_Raytrace_Fullscreen::Render() const
         }
     }
 
-    GLToy_ShaderProgram* pxShader = GLToy_Shader_System::FindShader( m_uShader );
+    GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( m_uShader );
     
     if( pxShader )
     {
+        // TODO: this fails to get the texture somehow
         pxShader->Bind();
 
-        for( u_int u = 0; u < 8; ++u )
+        pxShader->SetUniform( "xFrameBuffer", 0 );
+        pxShader->SetUniform( "xSize", xSize );
+        pxShader->SetUniform( "xOneOverSize", xOneOverSize );
+        pxShader->SetUniform( "fTime", GLToy_Timer::GetTime() );
+        pxShader->SetUniform( "fLastFrameTime", GLToy_Timer::GetFrameTime() );
+
+        SetUniforms();
+
+        for( u_int u = 1; u < 8; ++u )
         {
             if( m_axTextures[ u ].First() != uGLTOY_BAD_HASH )
             {
@@ -87,32 +108,23 @@ void GLToy_Raytrace_Fullscreen::Render() const
         }
     }
 
-    const float fAspectRatio = static_cast< float >( GLToy::GetWindowViewportWidth() ) / static_cast< float >( GLToy::GetWindowViewportHeight() );
-
     GLToy_Render::StartSubmittingQuads();
-
-    GLToy_Render::SubmitNormal( GLToy_Camera::GetPosition() );
-
-    GLToy_Render::SubmitUV( GLToy_Vector_3( -1.0f * fAspectRatio, -1.0f, -1.0f ) );
-    GLToy_Render::SubmitVertex( GLToy_Vector_3( -1.0f, -1.0f, 0.0f ) );
-
-    GLToy_Render::SubmitUV( GLToy_Vector_3( 1.0f * fAspectRatio, -1.0f, -1.0f ) );
-    GLToy_Render::SubmitVertex( GLToy_Vector_3( 1.0f, -1.0f, 0.0f ) );
-
-    GLToy_Render::SubmitUV( GLToy_Vector_3( 1.0f * fAspectRatio, 1.0f, -1.0f ) );
-    GLToy_Render::SubmitVertex( GLToy_Vector_3( 1.0f, 1.0f, 0.0f ) );
-
-    GLToy_Render::SubmitUV( GLToy_Vector_3( -1.0f * fAspectRatio, 1.0f, -1.0f ) );
-    GLToy_Render::SubmitVertex( GLToy_Vector_3( -1.0f, 1.0f, 0.0f ) );
-
+    GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    GLToy_Render::SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), -1.0f ), GLToy_Vector_2( GLToy_Render::Get2DWidth(), 2.0f ), 0.0f, 1.0f, 1.0f, 0.0f );
     GLToy_Render::EndSubmit();
+
+    GLToy_Render::EnableDepthTesting();
+    GLToy_Render::EnableDepthWrites();
+    GLToy_Render::SetPerspectiveProjectionMatrix();
+    GLToy_Render::PopViewMatrix();
 
     GLToy_Render::UseProgram( 0 );
 }
 
-void GLToy_Raytrace_Fullscreen::BindTexture( const GLToy_String& szUniformName, const GLToy_Hash uTextureHash, const u_int uTextureUnit )
+void JD1_Trans_Shader::BindTexture( const GLToy_String& szUniformName, const GLToy_Hash uTextureHash, const u_int uTextureUnit )
 {
     GLToy_Assert( uTextureUnit < 8, "Texture unit %d is not valid", uTextureUnit );
+    GLToy_Assert( uTextureUnit == 0, "Texture unit 0 is reserved for the framebuffer", uTextureUnit );
 
     m_axTextures[ uTextureUnit ].First() = uTextureHash;
     m_axTextures[ uTextureUnit ].Second() = szUniformName;

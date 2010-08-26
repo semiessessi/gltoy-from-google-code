@@ -60,4 +60,5 @@ void JD1_DemoScene_Test::Render() const
 
 void JD1_DemoScene_Test::Update()
 {
+    GLToy_Parent::Update();
 }

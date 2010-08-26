@@ -36,6 +36,14 @@
 #include <String/GLToy_String.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// F O R W A R D   D E C L A R A T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+class GLToy_Vector_2;
+class GLToy_Vector_3;
+class GLToy_Vector_4;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,6 +60,13 @@ public:
     void Bind() const;
 
     void SetUniform( const GLToy_String& szName, const int iValue );
+    void SetUniform( const GLToy_String& szName, const float fValue );
+    void SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2 );
+    void SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2, const float fValue3 );
+    void SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2, const float fValue3, const float fValue4 );
+    void SetUniform( const GLToy_String& szName, const GLToy_Vector_2& xValue );
+    void SetUniform( const GLToy_String& szName, const GLToy_Vector_3& xValue );
+    void SetUniform( const GLToy_String& szName, const GLToy_Vector_4& xValue );
 
 protected:
 

@@ -48,6 +48,8 @@ float JD1_Demo_System::s_fTimer = 0.0f;
 GLToy_List< JD1_Demo_System::JD1_DemoQueueItem > JD1_Demo_System::s_xQueue;
 GLToy_List< JD1_Demo_System::JD1_DemoQueueItem > JD1_Demo_System::s_xDeleteList;
 
+static bool g_bFirst = true;
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,6 +59,7 @@ bool JD1_Demo_System::Initialise()
     s_xQueue.Clear();
     s_xDeleteList.Clear();
     s_fTimer = 0.0f;
+    g_bFirst = true;
 
     return true;
 }
@@ -75,6 +78,8 @@ void JD1_Demo_System::Shutdown()
 
     s_xQueue.Clear();
     s_xDeleteList.Clear();
+
+    g_bFirst = false;
 }
 
 void JD1_Demo_System::Render()
@@ -110,6 +115,15 @@ void JD1_Demo_System::Update()
     }
 
     JD1_DemoQueueItem& xQueueItem = s_xQueue.Head();
+
+    if( g_bFirst )
+    {
+        g_bFirst = false;
+        if( xQueueItem.m_pxScene )
+        {
+            xQueueItem.m_pxScene->Start();
+        }
+    }
 
     if( ( xQueueItem.m_fRunTime > 0.0f )
         && ( s_fTimer > xQueueItem.m_fRunTime ) )

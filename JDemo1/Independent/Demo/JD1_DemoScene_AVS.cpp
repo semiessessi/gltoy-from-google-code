@@ -35,6 +35,7 @@
 
 // GLToy
 #include <Render/GLToy_Camera.h>
+#include <Render/GLToy_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -60,6 +61,13 @@ void JD1_DemoScene_AVS::Shutdown()
     }
 }
 
+void JD1_DemoScene_AVS::Start()
+{
+    GLToy_Parent::Start();
+
+    GLToy_Render::SetClearFrame( false );
+}
+
 void JD1_DemoScene_AVS::Render() const
 {
     GLToy_ConstIterate( JD1_AVS_Component, xIterator, &m_xComponents )
@@ -71,6 +79,8 @@ void JD1_DemoScene_AVS::Render() const
 
 void JD1_DemoScene_AVS::Update()
 {
+    GLToy_Parent::Update();
+
     GLToy_Iterate( JD1_AVS_Component, xIterator, &m_xComponents )
     {
         GLToy_Updateable* const pxUpdateable = xIterator.Current().Second();

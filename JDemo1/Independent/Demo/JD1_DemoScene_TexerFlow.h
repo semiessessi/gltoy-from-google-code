@@ -24,39 +24,46 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_TEXER_SIMPLECOMPLEXITY_H_
-#define __JD1_TEXER_SIMPLECOMPLEXITY_H_
+#ifndef __JD1_DEMOSCENE_TEXERFLOW_H_
+#define __JD1_DEMOSCENE_TEXERFLOW_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parent
-#include <Render/Texer/JD1_Texer.h>
+// Parents
+#include <Demo/JD1_DemoScene_AVS.h>
+
+// JD1
+#include <Render/Texer/JD1_Texer_SimpleComplexity.h>
+#include <Render/Trans/JD1_Trans_Blur.h>
+#include <Render/Trans/JD1_Trans_Flow.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class JD1_Texer_SimpleComplexity
-: public JD1_Texer
+class JD1_DemoScene_TexerFlow
+: public JD1_DemoScene_AVS
 {
-
-    typedef JD1_Texer GLToy_Parent;
+    
+    typedef JD1_DemoScene_AVS GLToy_Parent;
 
 public:
 
-    JD1_Texer_SimpleComplexity()
-    : GLToy_Parent( GLToy_Hash_Constant( "Sprites/Simple.png" ) )
-    {
-    }
-
-    virtual ~JD1_Texer_SimpleComplexity() {}
+    JD1_DemoScene_TexerFlow();
 
     virtual void Initialise();
-    virtual void PerFrame();
-    virtual void OnBeat();
-    virtual void PerPoint( const float i, const float v, float& x, float& y, float& z, float& red, float& green, float& blue, bool& skip, float& sizex, float& sizey ) const;
+    virtual void Start();
+
+    virtual void Update();
+
+protected:
+
+    JD1_Texer_SimpleComplexity m_xTexer;
+    JD1_Trans_Blur m_xBlur;
+    JD1_Trans_Flow m_xFlow;
+
 };
 
 #endif

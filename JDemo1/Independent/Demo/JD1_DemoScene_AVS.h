@@ -52,10 +52,6 @@ class JD1_DemoScene_AVS
 
 public:
 
-    virtual ~JD1_DemoScene_AVS()
-    {
-    }
-
     GLToy_Inline void AppendComponent( GLToy_Renderable* const pxRenderable, GLToy_Updateable* const pxUpdateable )
     {
         m_xComponents.Append( JD1_AVS_Component( pxRenderable, pxUpdateable ) );
@@ -63,6 +59,9 @@ public:
 
     virtual void Initialise();
     virtual void Shutdown();
+
+    virtual void Start();
+
     virtual void Render() const;
     virtual void Update();
 

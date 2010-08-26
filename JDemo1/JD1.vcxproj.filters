@@ -40,6 +40,9 @@
     <Filter Include="Independent\Render\Trans">
       <UniqueIdentifier>{f621f016-3a76-4f25-a299-3b43210a7f4d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{f1cb7b6e-bc73-43cc-8025-158633a35c28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_JD1.cpp">
@@ -110,6 +113,33 @@
     </ClCompile>
     <ClCompile Include="Independent\Render\Trans\JD1_Trans_BlitterFeedback.cpp">
       <Filter>Independent\Render\Trans</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Trans\JD1_Trans_Shader.cpp">
+      <Filter>Independent\Render\Trans</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Trans\JD1_Trans_Flow.cpp">
+      <Filter>Independent\Render\Trans</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_Intro.cpp">
+      <Filter>Independent\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_AVS_Test.cpp">
+      <Filter>Independent\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_Chmutov.cpp">
+      <Filter>Independent\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_Dragon.cpp">
+      <Filter>Independent\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_MovingParticles.cpp">
+      <Filter>Independent\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_TexerFlow.cpp">
+      <Filter>Independent\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Texer\JD1_Texer_MovingParticles.cpp">
+      <Filter>Independent\Render\Texer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,5 +215,52 @@
     <ClInclude Include="Independent\Render\Trans\JD1_Trans_BlitterFeedback.h">
       <Filter>Independent\Render\Trans</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\Render\Trans\JD1_Trans_Shader.h">
+      <Filter>Independent\Render\Trans</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\Trans\JD1_Trans_Blur.h">
+      <Filter>Independent\Render\Trans</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\Trans\JD1_Trans_Flow.h">
+      <Filter>Independent\Render\Trans</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_Intro.h">
+      <Filter>Independent\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_TexerFlow.h">
+      <Filter>Independent\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_Chmutov.h">
+      <Filter>Independent\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_Dragon.h">
+      <Filter>Independent\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_MovingParticles.h">
+      <Filter>Independent\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\Texer\JD1_Texer_MovingParticles.h">
+      <Filter>Independent\Render\Texer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Data\Shaders\JD1_Raytrace_Tunnel.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\JD1_Raytrace_Tunnel.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\JD1_Trans_Flow.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\JD1_Trans_Flow.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\JD1_Trans_Blur.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\JD1_Trans_Blur.shader">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

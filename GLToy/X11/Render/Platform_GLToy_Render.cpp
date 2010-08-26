@@ -57,6 +57,7 @@
 
 u_int Platform_GLToy_Render::s_uVersion = 0;
 void ( * Platform_GLToy_Render::s_pfnSwapInterval )( u_int ) = 0;
+void ( * Platform_GLToy_Render::s_pfnDrawBuffers )( const int, const u_int* const ) = 0;
 void ( * Platform_GLToy_Render::s_pfnActiveTexture )( u_int ) = 0;
 void ( * Platform_GLToy_Render::s_pfnMultiTexCoord2fv )( u_int, const float* const ) = 0;
 void ( * Platform_GLToy_Render::s_pfnMultiTexCoord3fv )( u_int, const float* const ) = 0;
@@ -158,6 +159,8 @@ bool Platform_GLToy_Render::Initialise()
 
     // fill extensions - they should be set to null if unsupported...
     s_pfnSwapInterval                       = NULL;
+
+    s_pfnDrawBuffers                        = reinterpret_cast< void ( __stdcall* )( const int, const u_int* const ) >(                                        glXGetProcAddress( "glDrawBuffers" ) );
     
     s_pfnActiveTexture                      = reinterpret_cast< void ( * )( u_int ) >(                                                                         glXGetProcAddress( "glActiveTexture" ) );
     s_pfnMultiTexCoord2fv                   = reinterpret_cast< void ( * )( u_int, const float* const ) >(                                                     glXGetProcAddress( "glMultiTexCoord2fv" ) );
@@ -520,6 +523,14 @@ void Platform_GLToy_Render::SetVsyncEnabled( const bool bEnabled )
     }
 
     glDrawBuffer( bEnabled ? GL_BACK : GL_FRONT );
+}
+
+void Platform_GLToy_Render::DrawBuffers( const int iCount, const u_int* const puBuffers )
+{
+    if( s_pfnDrawBuffers )
+    {
+        s_pfnDrawBuffers( iCount, puBuffers );
+    }
 }
 
 void Platform_GLToy_Render::ActiveTexture( const u_int uTextureUnit )

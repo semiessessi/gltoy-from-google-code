@@ -24,39 +24,32 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_TEXER_SIMPLECOMPLEXITY_H_
-#define __JD1_TEXER_SIMPLECOMPLEXITY_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parent
-#include <Render/Texer/JD1_Texer.h>
+#include <Core/JD1.h>
+
+// This file's header
+#include <Render/Trans/JD1_Trans_Flow.h>
+
+// GLToy
+#include <Core/GLToy_Timer.h>
+#include <Maths/GLToy_Maths.h>
+#include <Render/Shader/GLToy_Shader.h>
+#include <Render/Shader/GLToy_Shader_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class JD1_Texer_SimpleComplexity
-: public JD1_Texer
+void JD1_Trans_Flow::SetUniforms() const
 {
+    const float fT = GLToy_Timer::GetTime();
 
-    typedef JD1_Texer GLToy_Parent;
-
-public:
-
-    JD1_Texer_SimpleComplexity()
-    : GLToy_Parent( GLToy_Hash_Constant( "Sprites/Simple.png" ) )
-    {
-    }
-
-    virtual ~JD1_Texer_SimpleComplexity() {}
-
-    virtual void Initialise();
-    virtual void PerFrame();
-    virtual void OnBeat();
-    virtual void PerPoint( const float i, const float v, float& x, float& y, float& z, float& red, float& green, float& blue, bool& skip, float& sizex, float& sizey ) const;
-};
-
-#endif
+    GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( m_uShader );
+    pxShader->SetUniform( "xPoint0", GLToy_Vector_2( GLToy_Maths::Cos( fT ), GLToy_Maths::Sin( fT ) ) );
+    pxShader->SetUniform( "xPoint1", GLToy_Vector_2( 0.5f * GLToy_Maths::Cos( -fT ), 0.5f * GLToy_Maths::Sin( -fT ) ) );
+    pxShader->SetUniform( "xPoint2", GLToy_Vector_2( GLToy_Maths::Cos( -0.989f * fT ), GLToy_Maths::Sin( -1.321f * fT ) ) );
+    pxShader->SetUniform( "xPoint3", GLToy_Vector_2( 0.5f * GLToy_Maths::Cos( 0.337f * fT ), 0.5f * GLToy_Maths::Sin( 0.297f * fT ) ) );
+}

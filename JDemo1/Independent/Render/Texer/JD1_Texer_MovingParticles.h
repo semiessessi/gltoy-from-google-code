@@ -24,8 +24,8 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_TEXER_SIMPLECOMPLEXITY_H_
-#define __JD1_TEXER_SIMPLECOMPLEXITY_H_
+#ifndef __JD1_TEXER_MOVINGPARTICLES_H_
+#define __JD1_TEXER_MOVINGPARTICLES_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
@@ -38,7 +38,7 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class JD1_Texer_SimpleComplexity
+class JD1_Texer_MovingParticles
 : public JD1_Texer
 {
 
@@ -46,12 +46,12 @@ class JD1_Texer_SimpleComplexity
 
 public:
 
-    JD1_Texer_SimpleComplexity()
-    : GLToy_Parent( GLToy_Hash_Constant( "Sprites/Simple.png" ) )
+    JD1_Texer_MovingParticles()
+    : GLToy_Parent( GLToy_Hash_Constant( "Sprites/Circle.png" ) )
     {
     }
 
-    virtual ~JD1_Texer_SimpleComplexity() {}
+    virtual ~JD1_Texer_MovingParticles() {}
 
     virtual void Initialise();
     virtual void PerFrame();

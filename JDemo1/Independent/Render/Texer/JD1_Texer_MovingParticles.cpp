@@ -24,91 +24,101 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_SPRITE_H_
-#define __GLTOY_SPRITE_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Core/GLToy_Serialisable.h>
-#include <Render/GLToy_Renderable.h>
+#include <Core/JD1.h>
+
+// This file's header
+#include <Render/Texer/JD1_Texer_MovingParticles.h>
 
 // GLToy
-#include <Core/GLToy_Hash.h>
+#include <Core/GLToy_Timer.h>
 #include <Maths/GLToy_Maths.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C O N S T A N T S
+// M A C R O S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-const u_char ucSPRITE_BLEND_NORMAL = 0;
-const u_char ucSPRITE_BLEND_ADDITIVE = 1;
+#define acos GLToy_Maths::ACos
+#define cos GLToy_Maths::Cos
+#define sin GLToy_Maths::Sin
+#define sqrt GLToy_Maths::Sqrt
+#define pow GLToy_Maths::Pow
+#define max GLToy_Maths::Max
+#define abs GLToy_Maths::Abs
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_String;
-class GLToy_Texture;
+static u_int g_uPoint = 0;
+static bool g_bBeat = false;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Sprite
-: public GLToy_Renderable
-, public GLToy_Serialisable
+void JD1_Texer_MovingParticles::Initialise()
 {
+    m_uPointCount = 3;
+}
 
-public:
+void JD1_Texer_MovingParticles::PerFrame()
+{
+    g_uPoint = 0;
+    g_bBeat = false;
+}
 
-    GLToy_Sprite()
-    : m_xPosition( GLToy_Maths::ZeroVector3 )
-    , m_xColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) )
-    , m_fSize( 1.0f )
-    , m_ucBlendFunc( ucSPRITE_BLEND_NORMAL )
-    , m_uTextureHash( uGLTOY_BAD_HASH )
-    , m_fMultiplier( 1.0f )
-    , m_fAngle( 0.0f )
+void JD1_Texer_MovingParticles::OnBeat()
+{
+    g_bBeat = true;
+}
+
+void JD1_Texer_MovingParticles::PerPoint(
+    const float i,
+    const float v,
+    float& x, float& y, float& z,
+    float& red, float& green, float& blue,
+    bool& skip,
+    float& sizex,
+    float& sizey ) const
+{
+    const float fScale = g_bBeat ? 1.0f : 0.7f;
+
+    switch( g_uPoint )
     {
+        case 0:
+        {
+            sizex = sizey = fScale * 0.1f;
+            red = 0.9f; green = 0.1f; blue = 0.1f;
+            x = 0.5f;
+            y = 0.0f;
+            z = 1.0f;
+            break;
+        }
+
+        case 1:
+        {
+            sizex = sizey = fScale * 0.3f;
+            red = 0.1f; green = 0.7f; blue = 0.0f;
+            x = 0.0f;
+            y = 0.0f;
+            z = 1.0f;
+            break;
+        }
+
+        case 2:
+        {
+            sizex = sizey = fScale * 0.4f;
+            red = 0.3f; green = 0.6f; blue = 1.0f;
+            x = -0.4f;
+            y = 0.3f;
+            z = 1.0f;
+            break;
+        }
     }
 
-    virtual ~GLToy_Sprite() {}
-    
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
-
-    virtual void Render() const;
-    virtual void RenderTransparent() const;
-
-    void Rotate( const float fAngle ) { m_fAngle += fAngle; }
-
-    const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
-    float GetSize() const { return m_fSize; }
-    u_char GetBlendFunction() const { return m_ucBlendFunc; }
-    
-    void SetAngle( const float fAngle ) { m_fAngle = fAngle; }
-    void SetPosition( const GLToy_Vector_3& xPosition ) { m_xPosition = xPosition; }
-    void SetSize( const float fSize ) { m_fSize = fSize; }
-    void SetBlendFunction( const u_char ucBlendFunc ) { m_ucBlendFunc = ucBlendFunc; }
-    void SetTexture( const GLToy_Hash uHash );
-    void SetTexture( const GLToy_String& szName );
-    
-    void SetColour( const GLToy_Vector_3& xColour ) { m_xColour = xColour; }
-    void SetAlphaMultiplier( const float fMultiplier ) { m_fMultiplier = fMultiplier; }
-
-protected:
-
-    GLToy_Vector_3  m_xPosition;
-    GLToy_Vector_3  m_xColour;
-    float m_fSize;
-    u_char m_ucBlendFunc;
-    u_int m_uTextureHash;
-    float m_fMultiplier;
-    float m_fAngle;
-
-};
-
-#endif
+    ++g_uPoint;
+}

@@ -256,7 +256,7 @@ void GLToy_Console::HandleKey( const unsigned int uKey )
 bool GLToy_Console::Initialise()
 {
     GLToy_Font_System::InitialiseFont( "Console" );
-    s_pxFont = GLToy_Font_System::LookUpFont( "Console" );
+    s_pxFont = GLToy_Font_System::FindFont( GLToy_Hash_Constant( "Console" ) );
 
     RegisterCommand( "echo", Print );
     RegisterCommand( "help", ListAll ); // TODO - a real help function and help...

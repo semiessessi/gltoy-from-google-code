@@ -211,6 +211,8 @@ void GLToy_Render::BeginRender()
     {
         BindFramebuffer( FRAMEBUFFER, s_uCurrentBuffer );
         SetViewport( 0, 0, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+        u_int uBuffer = COLOR_ATTACHMENT0;
+        GLToy_Render::DrawBuffers( 1, &uBuffer );
     }
 
     EnableDepthTesting();
@@ -331,6 +333,23 @@ void GLToy_Render::BindFrameBufferNoCopy( const u_int uTextureUnit )
     }
 }
 
+void GLToy_Render::BindLastFrameBufferTexture( const u_int uTextureUnit )
+{
+    if( HasFrameBuffer() )
+    {        
+        GLToy_Texture_System::BindFrameBufferTexture( s_uCurrentTexture );
+
+        if( &s_uCurrentBuffer == &s_uFrameBuffer )
+        {
+            GLToy_Texture_System::BindFrameBufferTexture( s_uSwapTexture );
+        }
+        else
+        {
+            GLToy_Texture_System::BindFrameBufferTexture( s_uFrameTexture );
+        }
+    }
+}
+
 bool GLToy_Render::Platform_Initialise()
 {
     return Platform_GLToy_Render::Initialise();
@@ -358,6 +377,11 @@ void GLToy_Render::Platform_EndRender()
 u_int GLToy_Render::GetError()
 {
     return Platform_GLToy_Render::GetError();
+}
+
+void GLToy_Render::Clear()
+{
+    Platform_GLToy_Render::Clear();
 }
 
 void GLToy_Render::ClearDepth( const float fDepth )
@@ -620,6 +644,11 @@ void GLToy_Render::SetVsyncEnabled( const bool bEnabled )
     // pretend this is a console variable
     GLToy_Console::Print( GLToy_String( "vsync is set to " ) + ( bEnabled ? "true" : "false" ) );
     Platform_GLToy_Render::SetVsyncEnabled( bEnabled );
+}
+
+void GLToy_Render::DrawBuffers( const int iCount, const u_int* const puBuffers )
+{
+    Platform_GLToy_Render::DrawBuffers( iCount, puBuffers );
 }
 
 bool GLToy_Render::IsRenderbuffer( const u_int uRenderBuffer )

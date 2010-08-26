@@ -24,39 +24,34 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_TEXER_SIMPLECOMPLEXITY_H_
-#define __JD1_TEXER_SIMPLECOMPLEXITY_H_
+#ifndef __JD1_DEMOSCENE_CHMUTOV_H_
+#define __JD1_DEMOSCENE_CHMUTOV_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parent
-#include <Render/Texer/JD1_Texer.h>
+// Parents
+#include <Demo/JD1_DemoScene.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class JD1_Texer_SimpleComplexity
-: public JD1_Texer
+class JD1_DemoScene_Chmutov
+: public JD1_DemoScene
 {
-
-    typedef JD1_Texer GLToy_Parent;
+    
+    typedef JD1_DemoScene GLToy_Parent;
 
 public:
 
-    JD1_Texer_SimpleComplexity()
-    : GLToy_Parent( GLToy_Hash_Constant( "Sprites/Simple.png" ) )
-    {
-    }
-
-    virtual ~JD1_Texer_SimpleComplexity() {}
-
     virtual void Initialise();
-    virtual void PerFrame();
-    virtual void OnBeat();
-    virtual void PerPoint( const float i, const float v, float& x, float& y, float& z, float& red, float& green, float& blue, bool& skip, float& sizex, float& sizey ) const;
+
+    virtual void Render() const;
+
+protected:
+
 };
 
 #endif

@@ -63,6 +63,8 @@ public:
     static bool SupportFramebuffer() { return s_pfnIsFramebuffer != NULL; }
     static bool SupportShaders() { return s_pfnIsShader != NULL; }
 
+    static void DrawBuffers( const int iCount, const u_int* const puBuffers );
+
     // framebuffer functions
     static bool IsRenderbuffer( const u_int uRenderBuffer );
     static void BindRenderbuffer( const u_int uTarget, const u_int uRenderBuffer );
@@ -186,6 +188,8 @@ private:
 
     // wgl functions
     static void ( * s_pfnSwapInterval )( u_int );
+    // draw buffers
+    static void ( * s_pfnDrawBuffers )( const int, const u_int* const );
     // multitexture functions
     static void ( * s_pfnActiveTexture )( u_int );
     static void ( * s_pfnMultiTexCoord2fv )( u_int, const float* const );
