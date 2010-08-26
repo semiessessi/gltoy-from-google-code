@@ -94,8 +94,6 @@ void JD1_Texer_MovingParticles::PerPoint(
         {
             sizex = sizey = fScale * 0.1f;
             red = 0.9f; green = 0.1f; blue = 0.1f;
-            x = 0.5f;
-            y = 0.0f;
             break;
         }
 
@@ -103,8 +101,6 @@ void JD1_Texer_MovingParticles::PerPoint(
         {
             sizex = sizey = fScale * 0.3f;
             red = 0.1f; green = 0.7f; blue = 0.0f;
-            x = 0.0f;
-            y = 0.0f;
             break;
         }
 
@@ -112,11 +108,12 @@ void JD1_Texer_MovingParticles::PerPoint(
         {
             sizex = sizey = fScale * 0.4f;
             red = 0.3f; green = 0.6f; blue = 1.0f;
-            x = -0.4f;
-            y = 0.3f;
             break;
         }
     }
+
+    x = i;
+    y = static_cast< float >( GLToy_Maths::Random( -1.0f, 1.0f ) );
 
     ++g_uPoint;
 }

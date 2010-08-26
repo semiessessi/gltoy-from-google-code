@@ -163,11 +163,13 @@ float GLToy_Maths::Round( const float fValue )
 float GLToy_Maths::Random( const float fLower, const float fHigher )
 {
     static u_int uWorkingValue = 0xA183E191;
-    static const float fFactor = 1.0f / 4294967295.0f;
 
-    uWorkingValue += 37 * *reinterpret_cast< const u_int* >( &GLToy_Timer::GetTime() );
+    u_int u = uWorkingValue;
+    u ^= u << 24;
+    u -= ~( u << 6 );
+    uWorkingValue = u * 16807 + 2147483647;
 
-    return ( static_cast< float >( uWorkingValue ) * fFactor ) * ( fHigher - fLower ) + fLower;
+    return fLower + ( ( fHigher - fLower ) * uWorkingValue ) / static_cast< float >( 0xFFFFFFFF );
 }
 
 float GLToy_Maths::Deg2Rad( const float fValue )

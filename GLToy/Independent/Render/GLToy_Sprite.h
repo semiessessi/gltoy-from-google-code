@@ -43,8 +43,13 @@
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// SE - 26/08/2010 - should I have made these enums?
 const u_char ucSPRITE_BLEND_NORMAL = 0;
 const u_char ucSPRITE_BLEND_ADDITIVE = 1;
+
+const u_char ucSPRITE_ORDERED_DEFAULT = 0;
+const u_char ucSPRITE_ORDERED_ALWAYS = 1;
+const u_char ucSPRITE_ORDERED_NEVER = 2;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
@@ -69,6 +74,7 @@ public:
     , m_xColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) )
     , m_fSize( 1.0f )
     , m_ucBlendFunc( ucSPRITE_BLEND_NORMAL )
+    , m_ucOrdering( ucSPRITE_ORDERED_DEFAULT )
     , m_uTextureHash( uGLTOY_BAD_HASH )
     , m_fMultiplier( 1.0f )
     , m_fAngle( 0.0f )
@@ -95,6 +101,7 @@ public:
     void SetBlendFunction( const u_char ucBlendFunc ) { m_ucBlendFunc = ucBlendFunc; }
     void SetTexture( const GLToy_Hash uHash );
     void SetTexture( const GLToy_String& szName );
+    void SetOrdering( const u_char ucOrdering ) { m_ucOrdering = ucOrdering; }
     
     void SetColour( const GLToy_Vector_3& xColour ) { m_xColour = xColour; }
     void SetAlphaMultiplier( const float fMultiplier ) { m_fMultiplier = fMultiplier; }
@@ -105,6 +112,7 @@ protected:
     GLToy_Vector_3  m_xColour;
     float m_fSize;
     u_char m_ucBlendFunc;
+    u_char m_ucOrdering;
     u_int m_uTextureHash;
     float m_fMultiplier;
     float m_fAngle;

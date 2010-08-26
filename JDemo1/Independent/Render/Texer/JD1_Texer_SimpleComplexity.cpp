@@ -72,6 +72,7 @@ void JD1_Texer_SimpleComplexity::Initialise()
     //n=512;
     n = 1024; // note: change
     tpi=2.0f*acos(-1.0f);lasttime=gettime(0.0f);
+    SetBlendFunction( ucSPRITE_BLEND_NORMAL );
 }
 
 void JD1_Texer_SimpleComplexity::PerFrame()
