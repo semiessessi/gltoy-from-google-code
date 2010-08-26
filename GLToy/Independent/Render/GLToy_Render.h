@@ -53,11 +53,11 @@
 
 #define TEXTURE0                                            0x84C0
 
-#define DEPTH_COMPONENT16	                                0x81A5
-#define DEPTH_COMPONENT24	                                0x81A6
-#define DEPTH_COMPONENT32	                                0x81A7
-#define TEXTURE_DEPTH_SIZE	                                0x884A
-#define DEPTH_TEXTURE_MODE	                                0x884B
+#define DEPTH_COMPONENT16                                    0x81A5
+#define DEPTH_COMPONENT24                                    0x81A6
+#define DEPTH_COMPONENT32                                    0x81A7
+#define TEXTURE_DEPTH_SIZE                                    0x884A
+#define DEPTH_TEXTURE_MODE                                    0x884B
 
 #define FRAMEBUFFER                                         0x8D40
 #define RENDERBUFFER                                        0x8D41

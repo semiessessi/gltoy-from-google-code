@@ -108,10 +108,10 @@ void GLToy_Sprite::RenderTransparent() const
 {
     switch( m_ucBlendFunc )
     {
-		case ucSPRITE_BLEND_ADDITIVE:
-		{
-			break;
-		}
+        case ucSPRITE_BLEND_ADDITIVE:
+        {
+            break;
+        }
 
         default:
         case ucSPRITE_BLEND_NORMAL:

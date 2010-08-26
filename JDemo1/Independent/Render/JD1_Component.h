@@ -17,67 +17,67 @@
 
 class JD1_Component
 {
-	friend class JD1_Component_Helper;
+    friend class JD1_Component_Helper;
 
-	protected:
+    protected:
 
-		JD1_Component()
-		: m_afMegabuffer( 0 )
-		{
-		}
+        JD1_Component()
+        : m_afMegabuffer( 0 )
+        {
+        }
 
-		virtual ~JD1_Component()
-		{
-			delete []m_afMegabuffer;
-		}
+        virtual ~JD1_Component()
+        {
+            delete []m_afMegabuffer;
+        }
 
-		float& megabuf( int iIndex ) const
-		{
-			if( !m_afMegabuffer )
-			{
-				m_afMegabuffer = new float[1024 * 1024];
-				memset( m_afMegabuffer, 0, sizeof( float ) * 1024 * 1024 );
-			}
-			return m_afMegabuffer[iIndex];
-		}
+        float& megabuf( int iIndex ) const
+        {
+            if( !m_afMegabuffer )
+            {
+                m_afMegabuffer = new float[1024 * 1024];
+                memset( m_afMegabuffer, 0, sizeof( float ) * 1024 * 1024 );
+            }
+            return m_afMegabuffer[iIndex];
+        }
 
-		static float& gmegabuf( int iIndex )
-		{
-			if( !s_afGMegabuffer )
-			{
-				s_afGMegabuffer = new float[1024 * 1024];
-				memset( s_afGMegabuffer, 0, sizeof( float ) * 1024 * 1024 );
-			}
-			return s_afGMegabuffer[iIndex];
-		}
+        static float& gmegabuf( int iIndex )
+        {
+            if( !s_afGMegabuffer )
+            {
+                s_afGMegabuffer = new float[1024 * 1024];
+                memset( s_afGMegabuffer, 0, sizeof( float ) * 1024 * 1024 );
+            }
+            return s_afGMegabuffer[iIndex];
+        }
 
-		static float& reg( int iReg )
-		{
-			if( !s_afRegisters )
-			{
-				s_afRegisters = new float[100];
-				memset( s_afRegisters, 0, sizeof(float) * 100 );
-			}
-			return s_afRegisters[0];
-		}
+        static float& reg( int iReg )
+        {
+            if( !s_afRegisters )
+            {
+                s_afRegisters = new float[100];
+                memset( s_afRegisters, 0, sizeof(float) * 100 );
+            }
+            return s_afRegisters[0];
+        }
 
 
-		static float* s_afGMegabuffer;
-		static float* s_afRegisters;
-		
-		mutable float* m_afMegabuffer;
-	
+        static float* s_afGMegabuffer;
+        static float* s_afRegisters;
+        
+        mutable float* m_afMegabuffer;
+    
 };
 
 class JD1_Component_Helper
 {
-	public:
-		
-		~JD1_Component_Helper()
-		{
-			delete []JD1_Component::s_afGMegabuffer;
-			delete []JD1_Component::s_afRegisters;
-		}
+    public:
+        
+        ~JD1_Component_Helper()
+        {
+            delete []JD1_Component::s_afGMegabuffer;
+            delete []JD1_Component::s_afRegisters;
+        }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////

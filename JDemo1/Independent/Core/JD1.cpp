@@ -42,7 +42,7 @@
 #include <Demo/JD1_DemoScene_Dragon.h>
 #include <Demo/JD1_DemoScene_TexerFlow.h>
 #include <Demo/JD1_DemoScene_Tunnel.h>
-#include "Demo/JD1_DemoScene_P9_Birth.h"
+#include <Demo/JD1_DemoScene_P9_Birth.h>
 #include <Sound/JD1_Sound_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,10 +61,10 @@ bool JD1::Initialise()
     //JD1_Demo_System::Queue( new JD1_DemoScene_Intro(), 2.0f );
     //JD1_Demo_System::Queue( new JD1_DemoScene_MovingParticles(), 10.0f );
     //JD1_Demo_System::Queue( new JD1_DemoScene_Dragon(), 10.0f );
-	JD1_Demo_System::Queue( new JD1_DemoScene_P9_Birth() );
+    JD1_Demo_System::Queue( new JD1_DemoScene_P9_Birth() );
     //JD1_Demo_System::Queue( new JD1_DemoScene_Tunnel() );
-	//JD1_Demo_System::Queue( new JD1_DemoScene_AVS_Test() );
-	//JD1_Demo_System::Queue( new JD1_DemoScene_TexerFlow(), 20.0f );
+    //JD1_Demo_System::Queue( new JD1_DemoScene_AVS_Test() );
+    //JD1_Demo_System::Queue( new JD1_DemoScene_TexerFlow(), 20.0f );
 
     return true;
 }

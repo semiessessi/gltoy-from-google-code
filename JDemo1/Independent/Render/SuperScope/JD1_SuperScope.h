@@ -69,7 +69,7 @@ public:
     {}
     
     virtual ~JD1_SuperScope()
-	{}
+    {}
 
     virtual void PerFrame() = 0;
     virtual void OnBeat() = 0;

@@ -55,7 +55,7 @@ public:
     , m_uTexture( uTexture )
     , m_xSprites()
     , m_ucBlendFunction( ucSPRITE_BLEND_ADDITIVE )
-	, m_ucOrdering( ucSPRITE_ORDERED_DEFAULT )
+    , m_ucOrdering( ucSPRITE_ORDERED_DEFAULT )
     {
     }
 
