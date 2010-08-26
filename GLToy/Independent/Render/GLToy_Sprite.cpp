@@ -106,23 +106,18 @@ void GLToy_Sprite::Render() const
 
 void GLToy_Sprite::RenderTransparent() const
 {
-    if( m_ucOrdering == ucSPRITE_ORDERED_NEVER )
-    {
-        return;
-    }
-
     switch( m_ucBlendFunc )
     {
+		case ucSPRITE_BLEND_ADDITIVE:
+		{
+			break;
+		}
+
         default:
         case ucSPRITE_BLEND_NORMAL:
         {
             GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
             break;
-        }
-        
-        case ucSPRITE_BLEND_ADDITIVE:
-        {
-            return;
         }
     }
 

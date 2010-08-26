@@ -43,7 +43,8 @@
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// SE - 26/08/2010 - should I have made these enums?
+// SE - 26/08/2010 - should I have made these enums? 
+// TY - 26/08/2010 - Yes
 const u_char ucSPRITE_BLEND_NORMAL = 0;
 const u_char ucSPRITE_BLEND_ADDITIVE = 1;
 
