@@ -34,12 +34,10 @@
 // Parents
 #include <Core/GLToy_Updateable.h>
 #include <Render/GLToy_Renderable.h>
+#include "../JD1_Component.h"
 
 // GLToy
 #include <Maths/GLToy_Vector.h>
-
-// CRT
-#include <string.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // M A C R O S
@@ -61,20 +59,17 @@
 class JD1_SuperScope
 : public GLToy_Renderable
 , public GLToy_Updateable
+, public JD1_Component
 {
 
 public:
 
     JD1_SuperScope()
     : m_uPointCount( 200 )
-	, m_afMegabuffer( 0 )
-    {
-    }
+    {}
     
     virtual ~JD1_SuperScope()
-	{
-		delete []m_afMegabuffer;
-	}
+	{}
 
     virtual void PerFrame() = 0;
     virtual void OnBeat() = 0;
@@ -88,16 +83,6 @@ public:
     virtual void Update();
 
 protected:
-
-	float& megabuf( int iIndex ) const // as above, to make AVSTrans syntax easier to port
-	{
-		if( !m_afMegabuffer )
-		{
-			m_afMegabuffer = new float[1024 * 1024];
-			memset( m_afMegabuffer, 0, sizeof( float ) * 1024 * 1024 );
-		}
-		return m_afMegabuffer[iIndex];
-	}
 
     union
     {
@@ -116,8 +101,6 @@ protected:
         float m_fWidth;
         float w;
     };
-
-	mutable float* m_afMegabuffer;
 };
 
 #endif

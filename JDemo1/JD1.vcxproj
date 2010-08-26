@@ -159,6 +159,7 @@
     <ClCompile Include="Independent\Demo\JD1_DemoScene_Tunnel.cpp" />
     <ClCompile Include="Independent\Demo\JD1_Demo_System.cpp" />
     <ClCompile Include="Independent\File\JD1_WaveFile.cpp" />
+    <ClCompile Include="Independent\Render\JD1_Component.cpp" />
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope.cpp" />
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Dragon.cpp" />
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Morph.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Independent\Demo\JD1_Demo_System.h" />
     <ClInclude Include="Independent\File\JD1_SoundFile.h" />
     <ClInclude Include="Independent\File\JD1_WaveFile.h" />
+    <ClInclude Include="Independent\Render\JD1_Component.h" />
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope.h" />
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Dragon.h" />
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Morph.h" />

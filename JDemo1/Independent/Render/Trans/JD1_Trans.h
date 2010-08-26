@@ -34,6 +34,7 @@
 // Parents
 #include <Core/GLToy_Updateable.h>
 #include <Render/GLToy_Renderable.h>
+#include "../JD1_Component.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -42,6 +43,7 @@
 class JD1_Trans
 : public GLToy_Renderable
 , public GLToy_Updateable
+, public JD1_Component
 {
 
 public:

@@ -144,6 +144,9 @@
     <ClCompile Include="Independent\Render\Texer\JD1_Texer_P9_Birth.cpp">
       <Filter>Independent\Render\Texer</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Render\JD1_Component.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_JD1.h">
@@ -250,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Render\Texer\JD1_Texer_P9_Birth.h">
       <Filter>Independent\Render\Texer</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\JD1_Component.h">
+      <Filter>Independent\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
