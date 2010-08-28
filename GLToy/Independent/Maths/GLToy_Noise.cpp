@@ -56,6 +56,25 @@ float GLToy_Noise::Cosine1D( const float fX, const float fFrequency, const float
     return fScale * GLToy_Maths::CosineInterpolate( PRNG( u1 ), PRNG( u2 ), fT - static_cast< float >( u1 ) );
 }
 
+float GLToy_Noise::Fractal1D( const float fX, const float fFrequency, const float fScale, const float fFactor, const u_int uDepth )
+{
+    float fValue = 0.0f;
+    const float fFrequencyChange = 1.0f / fFactor;
+    float fFractalFrequency = fFrequency;
+    float fU = fX;
+    float fFractalScale = 0.5f;
+    
+    for( u_int u = 0; u < uDepth; ++u )
+    {
+        fValue += fFractalScale * ( fValue + Cosine1D( fU, fFractalFrequency, fScale ) );
+
+        fFractalFrequency *= fFrequencyChange;
+        fFractalScale *= 0.5f;
+    }
+
+    return GLToy_Maths::Clamp( fValue, -fScale, fScale );
+}
+
 float GLToy_Noise::Linear2D( const float fX, const float fY, const float fFrequency, const float fScale )
 {
     const float fT = fX * fFrequency;

@@ -81,8 +81,17 @@ class JD1_Component_Helper
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// D E F I N E S
+// M A C R O S
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+#define gettime( fLastTime ) ( GLToy_Timer::GetTime() - fLastTime )
+#define invsqrt( f ) ( 1 / GLToy_Maths::Sqrt( f ) )
+#define above( a, b ) ( a > b )
+#define below( a, b ) ( a < b )
+#define equal( a, b ) ( a == b )
+#define rand( f ) ( static_cast< int >( GLToy_Maths::Random() * static_cast< float >( f ) ) )
+#define getspec( ... ) ( GLToy_Maths::Random() )
+#define getosc( ... ) ( GLToy_Maths::Random( -1.0f ) )
 
 #define reg00 reg(0)
 #define reg01 reg(1)

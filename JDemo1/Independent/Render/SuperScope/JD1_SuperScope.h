@@ -34,23 +34,10 @@
 // Parents
 #include <Core/GLToy_Updateable.h>
 #include <Render/GLToy_Renderable.h>
-#include "../JD1_Component.h"
+#include <Render/JD1_Component.h>
 
 // GLToy
 #include <Maths/GLToy_Vector.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// M A C R O S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-#define gettime( fLastTime ) ( GLToy_Timer::GetTime() - fLastTime )
-#define invsqrt( f ) ( 1 / GLToy_Maths::Sqrt( f ) )
-#define above( a, b ) ( a > b )
-#define below( a, b ) ( a < b )
-#define equal( a, b ) ( a == b )
-#define rand( f ) ( static_cast< int >( GLToy_Maths::Random() * static_cast< float >( f ) ) )
-#define getspec( ... ) ( GLToy_Maths::Random() )
-#define getosc( ... ) ( GLToy_Maths::Random( -1.0f ) )
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S

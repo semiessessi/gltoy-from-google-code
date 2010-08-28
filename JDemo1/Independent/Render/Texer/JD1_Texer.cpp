@@ -72,7 +72,7 @@ void JD1_Texer::Update()
     for( u_int u = 0; u < m_uPointCount; ++u )
     {
         fParameter = static_cast< float >( u ) / static_cast< float >( m_uPointCount - 1 );
-        fFakeOsc = GLToy_Noise::Fractal2D( fParameter * 20.0f + 5.0f * GLToy_Timer::GetTime(), 0.0f, 30.0f );
+        fFakeOsc = GLToy_Noise::Fractal1D( fParameter * 20.0f + 5.0f * GLToy_Timer::GetTime(), 30.0f );
 
         PerPoint( fParameter, fFakeOsc, xCurrentPoint[ 0 ], xCurrentPoint[ 1 ], xCurrentPoint[ 2 ], xCurrentColour[ 0 ], xCurrentColour[ 1 ], xCurrentColour[ 2 ], bSkip, fSizeX, fSizeY );
 
