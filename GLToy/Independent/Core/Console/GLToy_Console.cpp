@@ -270,6 +270,8 @@ void GLToy_Console::Shutdown()
 {
     GLToy_Font_System::ShutdownFont( "Console" );
     s_pxFont = NULL;
+
+    s_xCommandTree.Clear();
 }
 
 void GLToy_Console::Render2D()

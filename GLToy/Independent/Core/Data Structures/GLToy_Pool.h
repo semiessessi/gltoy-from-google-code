@@ -69,11 +69,7 @@ public:
 
     ~GLToy_Pool()
     {
-        // TODO: this leaks in practice because of static deallocation order... lame
-        if( m_uAllocated == 0 )
-        {
-            m_xData.DeleteAll();
-        }
+        m_xData.DeleteAll();
     }
 
     GLToy_Inline T* Allocate()
