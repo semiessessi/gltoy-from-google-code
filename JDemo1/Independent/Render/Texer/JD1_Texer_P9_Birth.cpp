@@ -43,7 +43,7 @@ static const int iRenderOff = 100 * 1024;
 
 JD1_Texer_P9_Birth::JD1_Texer_P9_Birth() : GLToy_Parent( GLToy_Hash_Constant( "Sprites/P9_Sprite1.png" ) )
 {
-    SetOrdering(ucSPRITE_ORDERED_NEVER);
+    SetOrdering( ucSPRITE_ORDERED_ALWAYS );
 }
 
 JD1_Texer_P9_Birth::~JD1_Texer_P9_Birth()
