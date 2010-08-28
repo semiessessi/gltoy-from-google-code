@@ -151,10 +151,10 @@ protected:
 
             m_pxData = static_cast< T* >( realloc( m_pxData, sizeof( T ) * m_uSize ) );
         }
-        // else if uCount goes below half of m_uSize then reallocate
-        else if( uCount < ( m_uSize >> 1 ) )
+        // else if uCount goes below 1/4 of m_uSize then reallocate
+        else if( uCount < ( m_uSize >> 2 ) )
         {
-            while( uCount < ( m_uSize >> 1 ) )
+            while( uCount < ( m_uSize >> 2 ) )
             {
                 if( m_uSize == uGLTOY_FLATDATASTRUCTURE_START_ALLOC )
                 {

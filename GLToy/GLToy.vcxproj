@@ -330,6 +330,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\stb_image\stb_image.h" />
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_Pool.h" />
     <ClInclude Include="Independent\Core\State\GLToy_State_FixedCamera.h" />
     <ClInclude Include="Independent\Maths\GLToy_Noise.h" />
     <ClInclude Include="Independent\Render\GLToy_Raytrace_Fullscreen.h" />

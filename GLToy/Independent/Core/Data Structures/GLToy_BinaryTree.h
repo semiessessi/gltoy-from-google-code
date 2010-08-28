@@ -32,6 +32,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // Parents
+#include <Core/Data Structures/GLToy_Pool.h>
 #include <Core/Data Structures/GLToy_Tree.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,6 +47,7 @@ template < class DataType, class KeyType > class GLToy_BinaryTree;
 
 template < class DataType, class KeyType >
 class GLToy_BinaryTreeNode
+: public GLToy_PoolAllocated< GLToy_BinaryTreeNode< DataType, KeyType > >
 {
 
     friend class GLToy_BinaryTree< DataType, KeyType >;

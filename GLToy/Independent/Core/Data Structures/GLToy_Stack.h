@@ -75,12 +75,12 @@ public:
         return GLToy_Parent::m_pxData[ m_iStackPointer ];
     }
 
-    T& Peek()
+    GLToy_Inline T& Peek()
     {
         return GLToy_Parent::m_pxData[ m_iStackPointer ];
     }
     
-    T Pop()
+    GLToy_Inline T Pop()
     {
         T xReturnValue = GLToy_Parent::m_pxData[ m_iStackPointer ];
         GLToy_Parent::m_pxData[ m_iStackPointer ].~T();
@@ -96,6 +96,16 @@ public:
         {
             GLToy_Parent::m_pxData[ i ].~T();
         }
+    }
+
+    void DeleteAll()
+    {
+        GLToy_Iterate( T, xIterator, this )
+        {
+            delete xIterator.Current();
+        }
+
+        Clear();
     }
     
     virtual u_int GetCount() const

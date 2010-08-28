@@ -75,11 +75,13 @@ void GLToy_Sprite::Render() const
     }
     else if( m_ucOrdering == ucSPRITE_ORDERED_NEVER )
     {
-        GLToy_Render::SetBlendFunction( BLEND_ONE, BLEND_ONE );
         GLToy_Render::EnableBlending();
         GLToy_Render::EnableDepthTesting();
         GLToy_Render::DisableDepthWrites();
+
         RenderTransparent();
+
+        GLToy_Render::EnableDepthWrites();
         return;
     }
 
@@ -110,6 +112,7 @@ void GLToy_Sprite::RenderTransparent() const
     {
         case ucSPRITE_BLEND_ADDITIVE:
         {
+            GLToy_Render::SetBlendFunction( BLEND_ONE, BLEND_ONE );
             break;
         }
 
