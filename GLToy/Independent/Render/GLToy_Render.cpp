@@ -99,6 +99,7 @@ bool GLToy_Render::Initialise()
         GenRenderbuffers( 1, &s_uDepthBuffer );
         BindRenderbuffer( RENDERBUFFER, s_uDepthBuffer );
         RenderbufferStorage( RENDERBUFFER, DEPTH_COMPONENT24, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+        FramebufferRenderbuffer( FRAMEBUFFER, DEPTH_ATTACHMENT, RENDERBUFFER, s_uDepthBuffer );
         GLToy_Texture_System::CreateFrameBufferTexture( s_uFrameTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
         FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT0, TEXTURE_2D, s_uFrameTexture, 0 );
 
@@ -128,6 +129,7 @@ bool GLToy_Render::Initialise()
             GenFramebuffers( 1, &s_uSwapBuffer );
             BindFramebuffer( FRAMEBUFFER, s_uSwapBuffer );
             RenderbufferStorage( RENDERBUFFER, DEPTH_COMPONENT24, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+            FramebufferRenderbuffer( FRAMEBUFFER, DEPTH_ATTACHMENT, RENDERBUFFER, s_uDepthBuffer );
             GLToy_Texture_System::CreateFrameBufferTexture( s_uSwapTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
             FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT0, TEXTURE_2D, s_uSwapTexture, 0 );
 
@@ -211,8 +213,8 @@ void GLToy_Render::BeginRender()
     {
         BindFramebuffer( FRAMEBUFFER, s_uCurrentBuffer );
         SetViewport( 0, 0, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
-        u_int uBuffer = COLOR_ATTACHMENT0;
-        GLToy_Render::DrawBuffers( 1, &uBuffer );
+        // u_int uBuffer = COLOR_ATTACHMENT0;
+        // GLToy_Render::DrawBuffers( 1, &uBuffer );
     }
 
     EnableDepthTesting();
@@ -587,6 +589,7 @@ void GLToy_Render::Flush()
 void GLToy_Render::DisableBlending()
 {
     Platform_GLToy_Render::DisableBlending();
+    SetBlendFunction( BLEND_ONE, BLEND_ZERO );
 }
 
 void GLToy_Render::EnableBlending()

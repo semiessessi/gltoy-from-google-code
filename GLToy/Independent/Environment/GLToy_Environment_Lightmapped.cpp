@@ -80,7 +80,6 @@ void GLToy_Environment_Lightmapped::Shutdown()
 }
 
 // TODO - many optimisations
-// * use PVS to cull
 // * frustrum cull PVS
 // * vertex/index buffers
 // * single pass lightmapping with shader - although it will need its own pass anyway when there is a deferred renderer
@@ -89,6 +88,9 @@ void GLToy_Environment_Lightmapped::Render() const
     GLToy_Render::EnableBackFaceCulling();
     GLToy_Render::SetCWFaceWinding();
     GLToy_Render::DisableBlending();
+    GLToy_Render::EnableDepthTesting();
+    GLToy_Render::EnableDepthWrites();
+    GLToy_Render::UseProgram( 0 );
 
     GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
     {

@@ -33,6 +33,7 @@
 
 // Parents
 #include <Core/Data Structures/GLToy_DataStructure.h>
+#include <Core/Data Structures/GLToy_Pool.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
@@ -50,6 +51,7 @@ class GLToy_List;
 template< class T >
 class GLToy_ListNode
 : public GLToy_DataStructure< T >
+, public GLToy_PoolAllocated< GLToy_ListNode< T > >
 {
     friend class GLToy_List< T >;
 

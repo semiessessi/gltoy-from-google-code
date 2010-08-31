@@ -482,7 +482,7 @@ void Platform_GLToy_Render::DisableDepthTesting()
 void Platform_GLToy_Render::EnableDepthTesting()
 {
     glEnable( GL_DEPTH_TEST );
-    glDepthFunc( GL_LEQUAL);
+    glDepthFunc( GL_LEQUAL );
 }
 
 void Platform_GLToy_Render::DisableDepthWrites()
