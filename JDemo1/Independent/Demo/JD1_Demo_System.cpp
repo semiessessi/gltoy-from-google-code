@@ -36,6 +36,9 @@
 // GLToy
 #include <Core/Data Structures/GLToy_List.h>
 #include <Core/GLToy_Timer.h>
+#include <Maths/GLToy_Maths.h>
+#include <Render/GLToy_Render.h>
+#include <Render/GLToy_Texture.h>
 
 // JD1
 #include <Demo/JD1_DemoScene.h>
@@ -44,6 +47,8 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+bool JD1_Demo_System::s_bFlashFade = false;
+float JD1_Demo_System::s_fFlashTime = 0.0f;
 float JD1_Demo_System::s_fTimer = 0.0f;
 GLToy_List< JD1_Demo_System::JD1_DemoQueueItem > JD1_Demo_System::s_xQueue;
 GLToy_List< JD1_Demo_System::JD1_DemoQueueItem > JD1_Demo_System::s_xDeleteList;
@@ -98,10 +103,71 @@ void JD1_Demo_System::Render()
         && ( s_xQueue.GetCount() > 1 ) )
     {
         // TODO: handle transitions somehow, probably use another framebuffer...
+        const float fTransitionAmount = ( s_fTimer - fTimeToTransition ) / xQueueItem.m_fTransitionTime;
+        switch( xQueueItem.m_eTransition )
+        {
+            case JD1_DEMO_FLASH_WHITE:
+            {
+                GLToy_Render::SetOrthogonalProjectionMatrix();
+                GLToy_Render::PushViewMatrix();
+                GLToy_Render::SetIdentityViewMatrix();
+
+                GLToy_Texture_System::BindWhite();
+
+                GLToy_Render::DisableDepthWrites();
+                GLToy_Render::DisableDepthTesting();
+                GLToy_Render::EnableBlending();
+                GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+
+                GLToy_Render::StartSubmittingQuads();
+
+                GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, fTransitionAmount ) );
+                GLToy_Render::SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), -1.0f ), GLToy_Vector_2( GLToy_Render::Get2DWidth(), 2.0f ) );
+
+                GLToy_Render::EndSubmit();
+
+                GLToy_Render::EnableDepthTesting();
+                GLToy_Render::EnableDepthWrites();
+                GLToy_Render::DisableBlending();
+
+                GLToy_Render::SetPerspectiveProjectionMatrix();
+                GLToy_Render::PopViewMatrix();
+                break;
+            }
+        }
     }
     else if( xQueueItem.m_pxScene )
     {
         xQueueItem.m_pxScene->Render();
+
+        if( s_bFlashFade && ( s_fTimer < s_fFlashTime ) )
+        {
+            const float fTransitionAmount = ( s_fFlashTime - s_fTimer ) / s_fFlashTime;
+            GLToy_Render::SetOrthogonalProjectionMatrix();
+            GLToy_Render::PushViewMatrix();
+            GLToy_Render::SetIdentityViewMatrix();
+
+            GLToy_Texture_System::BindWhite();
+
+            GLToy_Render::DisableDepthWrites();
+            GLToy_Render::DisableDepthTesting();
+            GLToy_Render::EnableBlending();
+            GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+
+            GLToy_Render::StartSubmittingQuads();
+
+            GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, fTransitionAmount ) );
+            GLToy_Render::SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), -1.0f ), GLToy_Vector_2( GLToy_Render::Get2DWidth(), 2.0f ) );
+
+            GLToy_Render::EndSubmit();
+
+            GLToy_Render::EnableDepthTesting();
+            GLToy_Render::EnableDepthWrites();
+            GLToy_Render::DisableBlending();
+
+            GLToy_Render::SetPerspectiveProjectionMatrix();
+            GLToy_Render::PopViewMatrix();
+        }
     }
 }
 
@@ -131,6 +197,11 @@ void JD1_Demo_System::Update()
         if( xQueueItem.m_pxScene )
         {
             xQueueItem.m_pxScene->Stop();
+            if( xQueueItem.m_eTransition == JD1_DEMO_FLASH_WHITE )
+            {
+                s_bFlashFade = true;
+                s_fFlashTime = xQueueItem.m_fTransitionTime;
+            }
         }
 
         s_fTimer = 0.0f;
@@ -143,11 +214,11 @@ void JD1_Demo_System::Update()
             return;
         }
 
-        xQueueItem = s_xQueue.Head();
+        JD1_DemoQueueItem& xNewQueueItem = s_xQueue.Head();
 
-        if( xQueueItem.m_pxScene )
+        if( xNewQueueItem.m_pxScene )
         {
-            xQueueItem.m_pxScene->Start();
+            xNewQueueItem.m_pxScene->Start();
         }
     }
 

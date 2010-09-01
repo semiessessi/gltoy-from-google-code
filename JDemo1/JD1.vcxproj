@@ -233,6 +233,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.fs" />
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.shader" />
     <None Include="..\Data\Shaders\JD1_Raytrace_Tunnel.fs" />
     <None Include="..\Data\Shaders\JD1_Raytrace_Tunnel.shader" />
     <None Include="..\Data\Shaders\JD1_Trans_Blur.fs" />

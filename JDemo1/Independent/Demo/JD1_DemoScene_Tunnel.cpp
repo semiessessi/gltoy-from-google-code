@@ -37,6 +37,7 @@
 #include <Maths/GLToy_Noise.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Raytrace_Fullscreen.h>
+#include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,5 +68,18 @@ void JD1_DemoScene_Tunnel::Update()
     GLToy_Camera::SetPosition( GLToy_Vector_3(
         GLToy_Noise::Cosine1D( m_fTimer, 0.3f, 40.0f ), 
         0.0f,
-        m_fTimer * 150.0f ) );
+        m_fTimer * 10.0f ) );
+}
+
+void JD1_DemoScene_Tunnel::Start()
+{
+    GLToy_Parent::Start();
+
+    GLToy_Render::SetClearFrame( true );
+    GLToy_Render::Clear();
+}
+
+void JD1_DemoScene_Tunnel::Stop()
+{
+    GLToy_Camera::SetPosition( GLToy_Maths::ZeroVector3 );
 }

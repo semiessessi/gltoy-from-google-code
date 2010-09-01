@@ -277,5 +277,11 @@
     <None Include="..\Data\Shaders\JD1_Trans_Blur.shader">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.shader">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -40,7 +40,8 @@ class JD1_DemoScene;
 
 enum JD1_Demo_Transition
 {
-    JD1_DEMO_CUT
+    JD1_DEMO_CUT,
+    JD1_DEMO_FLASH_WHITE
 };
 
 class JD1_Demo_System
@@ -69,6 +70,8 @@ private:
 
     };
 
+    static bool s_bFlashFade;
+    static float s_fFlashTime;
     static float s_fTimer;
     static GLToy_List< JD1_DemoQueueItem > s_xQueue;
     static GLToy_List< JD1_DemoQueueItem > s_xDeleteList;

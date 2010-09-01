@@ -56,7 +56,7 @@ void JD1_DemoScene_TexerFlow::Update()
 {
     GLToy_Parent::Update();
 
-    if( m_fTimer > 10.0f )
+    if( m_fTimer > 7.0f )
     {
         GLToy_Render::SetClearFrame( false );
     }

@@ -18,22 +18,22 @@ void main()
 
 	xCoord = xCoord + xPoint0;
 	fD = sqrt( dot( xCoord, xCoord ) );
-	fR = atan( xCoord[ 1 ], xCoord[ 0 ] ) - 0.175 * fLastFrameTime * ( pow( 2.0, 1.0 / ( fD + 0.175 ) ) - 1.0 );
+	fR = atan( xCoord[ 1 ], xCoord[ 0 ] ) - 0.275 * fLastFrameTime * ( pow( 2.0, 1.0 / ( fD + 0.175 ) ) - 1.0 );
 	xCoord = vec2( fD * cos( fR ), fD * sin( fR ) ) - xPoint0;
 
 	xCoord = xCoord + xPoint1;
 	fD = sqrt( dot( xCoord, xCoord ) );
-	fR = atan( xCoord[ 1 ], xCoord[ 0 ] ) + 0.175 * fLastFrameTime * ( pow( 2.0, 1.0 / ( fD + 0.175 ) ) - 1.0 );
+	fR = atan( xCoord[ 1 ], xCoord[ 0 ] ) + 0.275 * fLastFrameTime * ( pow( 2.0, 1.0 / ( fD + 0.175 ) ) - 1.0 );
 	xCoord = vec2( fD * cos( fR ), fD * sin( fR ) ) - xPoint1;
 
 	xCoord = xCoord + xPoint2;
 	fD = sqrt( dot( xCoord, xCoord ) );
-	fR = atan( xCoord[ 1 ], xCoord[ 0 ] ) - 0.175 * fLastFrameTime * ( pow( 2.0, 1.0 / ( fD + 0.175 ) ) - 1.0 );
+	fR = atan( xCoord[ 1 ], xCoord[ 0 ] ) - 0.275 * fLastFrameTime * ( pow( 2.0, 1.0 / ( fD + 0.175 ) ) - 1.0 );
 	xCoord = vec2( fD * cos( fR ), fD * sin( fR ) ) - xPoint2;
 
 	xCoord = xCoord + xPoint3;
 	fD = sqrt( dot( xCoord, xCoord ) );
-	fR = atan( xCoord[ 1 ], xCoord[ 0 ] ) + 0.175 * fLastFrameTime * ( pow( 2.0, 1.0 / ( fD + 0.175 ) ) - 1.0 );
+	fR = atan( xCoord[ 1 ], xCoord[ 0 ] ) + 0.275 * fLastFrameTime * ( pow( 2.0, 1.0 / ( fD + 0.175 ) ) - 1.0 );
 	xCoord = vec2( fD * cos( fR ), fD * sin( fR ) ) - xPoint3;
 
 	xCoord = vec2( 0.5 + 0.5 * xCoord.x,  0.5 + 0.5 * xCoord.y / fAspectRatio );

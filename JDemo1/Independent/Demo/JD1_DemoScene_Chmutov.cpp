@@ -34,8 +34,12 @@
 #include <Demo/JD1_DemoScene_Chmutov.h>
 
 // GLToy
+#include <Core/GLToy_Timer.h>
+#include <Maths/GLToy_Noise.h>
+#include <Render/GLToy_Camera.h>
+#include <Render/GLToy_Raytrace_Fullscreen.h>
 #include <Render/GLToy_Render.h>
-#include <Render/Font/GLToy_Font.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -43,24 +47,37 @@
 
 void JD1_DemoScene_Chmutov::Initialise()
 {
+    GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid2.png" ) );
+}
+
+void JD1_DemoScene_Chmutov::Shutdown()
+{
 }
 
 void JD1_DemoScene_Chmutov::Render() const
 {
+    GLToy_Raytrace_Fullscreen xRaytrace( GLToy_Hash_Constant( "JD1_Raytrace_Chmutov" ) );
+
+    xRaytrace.BindTexture( "xTexture", GLToy_Hash_Constant( "generic/grid2.png" ) );
+    xRaytrace.Render();
+}
+
+void JD1_DemoScene_Chmutov::Update()
+{
+    GLToy_Parent::Update();
+
+    GLToy_Camera::SetPosition( GLToy_Vector_3( 0.0f, 0.0f, -1.5f + GLToy_Maths::Sin( GLToy_Timer::GetTime() ) ) );
+}
+
+void JD1_DemoScene_Chmutov::Start()
+{
+    GLToy_Parent::Start();
+
     GLToy_Render::SetClearFrame( true );
+    GLToy_Render::Clear();
+}
 
-    const GLToy_Font* const pxFont = GLToy_Font_System::FindFont( GLToy_Hash_Constant( "Console" ) );
-
-    GLToy_Render::SetOrthogonalProjectionMatrix();
-    GLToy_Render::PushViewMatrix();
-    GLToy_Render::SetIdentityViewMatrix();
-    GLToy_Render::DisableDepthWrites();
-    GLToy_Render::DisableDepthTesting();
-
-    pxFont->RenderString( "Chmutov goes here...", 0.0f, 0.0f, GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-
-    GLToy_Render::EnableDepthTesting();
-    GLToy_Render::EnableDepthWrites();
-    GLToy_Render::SetPerspectiveProjectionMatrix();
-    GLToy_Render::PopViewMatrix();
+void JD1_DemoScene_Chmutov::Stop()
+{
+    GLToy_Camera::SetPosition( GLToy_Maths::ZeroVector3 );
 }

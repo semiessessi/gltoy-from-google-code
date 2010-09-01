@@ -41,12 +41,16 @@
 class JD1_DemoScene_Tunnel
 : public JD1_DemoScene
 {
+
     typedef JD1_DemoScene GLToy_Parent;
 
 public:
 
     virtual void Initialise();
     virtual void Shutdown();
+
+    virtual void Start();
+    virtual void Stop();
 
     virtual void Render() const;
     virtual void Update();

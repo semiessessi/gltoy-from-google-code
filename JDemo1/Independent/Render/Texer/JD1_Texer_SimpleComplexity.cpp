@@ -61,6 +61,9 @@ static float rx, drx, ry, dry, rz, ts, t1, crz, srz, cry, sry, crx, srx, asp, cf
 static float fac1, nfac1, fac2, nfac2, fac3, nfac3, sz;
 static float vx, u, d, sv, x1, y1, z1, x2, y2, z2, alpha;
 
+static GLToy_Vector_3 g_xColour;
+static GLToy_Vector_3 g_xColourTarget;
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,6 +76,7 @@ void JD1_Texer_SimpleComplexity::Initialise()
     n = 1024; // note: change
     tpi=2.0f*acos(-1.0f);lasttime=gettime(0.0f);
     SetBlendFunction( ucSPRITE_BLEND_NORMAL );
+    g_xColour = g_xColourTarget = GLToy_Vector_3( 0.75f, 0.25f, 0.0f );
 }
 
 void JD1_Texer_SimpleComplexity::PerFrame()
@@ -104,6 +108,11 @@ void JD1_Texer_SimpleComplexity::OnBeat()
     nfac1=(rand(3)?nfac1:rand(2)); // note: if --> ? :
     nfac2=(rand(3)?nfac2:rand(2)); // note: if --> ? :
     nfac3=(rand(3)?nfac3:rand(2)); // note: if --> ? :
+
+    const float fSeed = GLToy_Maths::Random( 0.0f, 0.5f * GLToy_Maths::Pi );
+    g_xColourTarget[ 0 ] = GLToy_Maths::Cos( fSeed );
+    g_xColourTarget[ 1 ] = 0.35f + 0.35f * GLToy_Maths::Cos( fSeed );
+    g_xColourTarget[ 2 ] = GLToy_Maths::Sin( fSeed ) + 0.15f;
 }
 
 void JD1_Texer_SimpleComplexity::PerPoint(
@@ -147,21 +156,22 @@ void JD1_Texer_SimpleComplexity::PerPoint(
     // note: replaces the above
     x = x1; y = y1; z = z1 + 2;
 
-    red=max((cf1+cf2)*0.5f*alpha,0.1f); // note: removed ambiguities
-    blue=max((1-cf1)*0.5f*alpha,0.1f); // note: removed ambiguities
-    green=max(cf2*0.5f*alpha,0.1f); // note: removed ambiguities
+    //red=max((cf1+cf2)*0.5f*alpha,0.1f); // note: removed ambiguities
+    //blue=max((1-cf1)*0.5f*alpha,0.1f); // note: removed ambiguities
+    //green=max(cf2*0.5f*alpha,0.1f); // note: removed ambiguities
 
-    // note: addition
-    red *= 2.0f;
-    blue *= 2.0f;
-    green *= 2.0f;
+    // note: replaces the above
+    g_xColour = GLToy_Maths::Lerp( g_xColour, g_xColourTarget, 0.01f * GLToy_Timer::GetFrameTime() );
+    red = g_xColour[ 0 ];
+    green = g_xColour[ 1 ];
+    blue = g_xColour[ 2 ];
 
     //sizex=sz*z1;
     //sizey=sizex;
 
     // note: replaces the above
-    sizex = 0.02f;
-    sizey = 0.02f;
+    sizex = 0.025f;
+    sizey = 0.025f;
 
     //assign(gmegabuf(a),x);
     //assign(gmegabuf(a+1),y);

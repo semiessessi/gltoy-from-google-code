@@ -89,7 +89,7 @@ void JD1_SuperScope::Update()
     static float fTimer = 0.0f;
     fTimer += GLToy_Timer::GetFrameTime();
 
-    if( fTimer > 0.5f )
+    if( fTimer > 0.6f )
     {
         OnBeat();
         fTimer = 0.0f;
