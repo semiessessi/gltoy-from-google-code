@@ -450,6 +450,9 @@
     <ClCompile Include="Independent\Maths\GLToy_Noise.cpp">
       <Filter>Independent\Maths</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Core\GLToy_Memory.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
@@ -802,6 +805,15 @@
     </ClInclude>
     <ClInclude Include="Independent\Core\Data Structures\GLToy_Pool.h">
       <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_Memory.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_Memory_DebugOn.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_Memory_DebugOff.h">
+      <Filter>Independent\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

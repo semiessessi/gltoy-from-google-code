@@ -38,9 +38,13 @@
 // C++
 #include <stdio.h>
 
+#include <Core/GLToy_Memory_DebugOff.h>
+
 // Win32
 #include <windows.h>
 #include <gdiplus.h>
+
+#include <Core/GLToy_Memory_DebugOn.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // U S I N G   N A M E S P A C E S
@@ -139,7 +143,7 @@ bool GLToy::Platform_EarlyInitialise()
 
     WNDCLASSA xWindowClass;
 
-    memset( &xWindowClass, 0, sizeof( WNDCLASSA ) );
+    GLToy_Memory::Zero( &xWindowClass, sizeof( WNDCLASSA ) );
 
     xWindowClass.lpszClassName      = "GLToy";
     xWindowClass.style              = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -158,7 +162,7 @@ bool GLToy::Platform_EarlyInitialise()
     {
         DEVMODE xDeviceMode;
 
-        memset( &xDeviceMode, 0, sizeof( DEVMODE ) );
+        GLToy_Memory::Zero( &xDeviceMode, sizeof( DEVMODE ) );
 
         xDeviceMode.dmSize = sizeof( DEVMODE );
         xDeviceMode.dmPelsWidth = s_iWidth;
@@ -228,7 +232,7 @@ bool GLToy::Platform_EarlyInitialise()
 
     PIXELFORMATDESCRIPTOR xPFD;
 
-    memset( &xPFD, 0, sizeof( PIXELFORMATDESCRIPTOR ) );
+    GLToy_Memory::Zero( &xPFD, sizeof( PIXELFORMATDESCRIPTOR ) );
 
     xPFD.nSize = sizeof( PIXELFORMATDESCRIPTOR );
     xPFD.nVersion = 1;
@@ -377,6 +381,8 @@ void GLToy::Platform_ChangeWindowTitle( const char* const szNewTitle )
     SetWindowText( g_uWindowHandle, szNewTitle );
 }
 
+#include <Core/GLToy_Memory_DebugOff.h>
+
 void GLToy::Platform_ChangeWindowIcon( const char* const szTextureName )
 {
     const GLToy_String szPath = GLToy_String( "textures/" ) + szTextureName;
@@ -395,3 +401,5 @@ void GLToy::Platform_ChangeWindowIcon( const char* const szTextureName )
 
     delete pxBitmap;
 }
+
+#include <Core/GLToy_Memory_DebugOn.h>

@@ -36,7 +36,9 @@
 #include <Core/GLToy_Serialisable.h>
 
 // C/C++
-#include <new> 
+#include <new>
+
+#include <Core/GLToy_Memory_DebugOff.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -79,6 +81,7 @@ public:
             xIterator.Current().~T();
         }
     }
+
     
     virtual void Append( const T& xValue )
     {
@@ -334,6 +337,8 @@ public:
         
         m_xArray.RemoveFromEnd( uAmount );
     }
+
+#include <Core/GLToy_Memory_DebugOn.h>
 
 protected:
 

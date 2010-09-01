@@ -37,6 +37,8 @@
 #include <Maths/GLToy_Volume.h>
 #include <Physics/GLToy_Physics_System.h>
 
+#include <Core/GLToy_Memory_DebugOff.h>
+
 // Havok
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
@@ -168,3 +170,5 @@ void GLToy_Physics_Object::Destroy()
 #endif
 
 }
+
+#include <Core/GLToy_Memory_DebugOn.h>

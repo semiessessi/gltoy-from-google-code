@@ -131,6 +131,7 @@ bool GLToy::Initialise()
 
     GLToy::GiveFocus();
 
+    GLToy_InitialiserCall( GLToy_Memory );
     GLToy_InitialiserCall( GLToy_Maths );
     GLToy_InitialiserCall( GLToy_Input_System );
 
@@ -202,6 +203,8 @@ void GLToy::Shutdown()
     Platform_Shutdown();
 
     GLToy_Maths::Shutdown();
+
+    GLToy_Memory::Shutdown();
 
     GLToy_DebugOutput( "\r\nGLToy::Shutdown() - Completed successfully.\r\n" );
 }

@@ -34,7 +34,7 @@
 // Parents
 #include <Core/GLToy_Updateable.h>
 #include <Render/GLToy_Renderable.h>
-#include "../JD1_Component.h"
+#include <Render/JD1_Component.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S

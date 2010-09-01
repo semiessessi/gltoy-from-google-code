@@ -55,7 +55,7 @@ class GLToy_Pool
     };
 
 public:
-
+#include <Core/GLToy_Memory_DebugOff.h>
     GLToy_Pool( const u_int uInitialSize = 256 )
     : m_xData()
     , m_uAllocated( 0 )
@@ -66,7 +66,7 @@ public:
         m_xData.Push( new GLToy_Array< Allocation >() );
         m_xData.Peek()->Resize( uInitialSize );
     }
-
+#include <Core/GLToy_Memory_DebugOn.h>
     ~GLToy_Pool()
     {
         m_xData.DeleteAll();
@@ -99,6 +99,10 @@ public:
             pxAllocationData = m_xData[ m_uListCursor ];
         }
 
+#ifdef GLTOY_DEBUG
+        GLToy_Memory::MarkUninitialised( &( ( *pxAllocationData )[ m_uCursor ].m_aucData ), sizeof( T ) );
+#endif
+
         ( *pxAllocationData )[ m_uCursor ].m_bFree = false;
         return reinterpret_cast< T* >( &( ( *pxAllocationData )[ m_uCursor ].m_aucData ) );
     }
@@ -107,11 +111,9 @@ public:
     {
         reinterpret_cast< Allocation* const >( pxPointer )->m_bFree = true;
         --m_uAllocated;
-#ifndef GLTOY_FINAL
-        for( u_int u = 0; u < sizeof( T ); ++u )
-        {
-            reinterpret_cast< Allocation* const >( pxPointer )->m_aucData[ u ] = 0xDD;
-        }
+
+#ifdef GLTOY_DEBUG
+        GLToy_Memory::MarkDestroyed( reinterpret_cast< Allocation* const >( pxPointer )->m_aucData, sizeof( T ) );
 #endif
     }
 
@@ -126,13 +128,19 @@ protected:
 
 };
 
+#include <Core/GLToy_Memory_DebugOff.h>
+
 template< class T >
 class GLToy_PoolAllocated
 {
 
 public:
 
-    GLToy_Inline void* operator new( const size_t uSize )
+#ifdef GLTOY_DEBUG
+    GLToy_Inline void* operator new( const u_int uSize, const char* szFile, const int iLine ) { return operator new( uSize ); }
+#endif
+
+    GLToy_Inline void* operator new( const u_int uSize )
     {
         return s_pxPool.Allocate();
     }
@@ -150,5 +158,7 @@ private:
 
 template< class T >
 GLToy_Pool< T > GLToy_PoolAllocated< T >::s_pxPool;
+
+#include <Core/GLToy_Memory_DebugOn.h>
 
 #endif

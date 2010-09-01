@@ -38,7 +38,6 @@
 
 // Win32
 #include <windows.h>
-#include <gdiplus.h>
 
 // GL
 #include <gl/gl.h>
@@ -47,6 +46,14 @@
 // TODO: it would be nice to work out a "not shit" way to include this
 // stb_image
 #include "../../../stb_image/stb_image.h"
+
+#include <Core/GLToy_Memory_DebugOff.h>
+
+// Win32
+#include <windows.h>
+#include <gdiplus.h>
+
+#include <Core/GLToy_Memory_DebugOn.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // M A C R O S

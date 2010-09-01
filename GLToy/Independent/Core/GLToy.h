@@ -28,15 +28,47 @@
 #define __GLTOY_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// M A C R O S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+// is this a debug build?
+// also set all debug related defines here
+#ifdef _DEBUG
+    #define GLTOY_DEBUG
+    #define GLToy_IsDebugBuild() ( true )
+    #define GLToy_DebugVar static
+    #define GLToy_DebugOutput GLToy::DebugOutput
+#else
+    #define GLTOY_RELEASE
+    #ifdef _FINAL
+        #define GLTOY_FINAL
+    #endif
+    #define GLToy_IsDebugBuild() ( false )
+    #define GLToy_DebugVar static const
+    #define GLToy_DebugOutput( format, ... ) ;
+#endif
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// T Y P E D E F S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+typedef unsigned char u_char;
+typedef unsigned short u_short;
+typedef unsigned int u_int;
+
+typedef int GLToy_Handle;
+typedef unsigned int GLToy_Hash;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// these should always come first
+// Order is important here!!!
 #include <Core/Platform_GLToy.h>
 #include <Core/GLToy_Config.h>
-
-// core
 #include <Core/GLToy_Assert.h>
+#include <Core/GLToy_Memory.h>
+#include <Core/GLToy_Memory_DebugOn.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // P R A G M A S
@@ -58,39 +90,11 @@
 //#define const_cast CONST_CAST_IS_FORBIDDEN_if_you_really_must_then_undef_const_cast
 //#define dynamic_cast DYNAMIC_CAST_IS_FORBIDDEN_dont_undef_dynamic_cast
 
-// is this a debug build?
-// also set all debug related defines here
-#ifdef _DEBUG
-    #define GLTOY_DEBUG
-    #define GLToy_IsDebugBuild() ( true )
-    #define GLToy_DebugVar static
-    #define GLToy_DebugOutput GLToy::DebugOutput
-#else
-    #define GLTOY_RELEASE
-    #ifdef _FINAL
-        #define GLTOY_FINAL
-    #endif
-    #define GLToy_IsDebugBuild() ( false )
-    #define GLToy_DebugVar static const
-    #define GLToy_DebugOutput( format, ... ) ;
-#endif
-
 #define GLToy_DebugOutput_Release GLToy::DebugOutput
 #define GLToy_HeaderBytes( string ) ( ( string[ 3 ] << 24 ) | ( string[ 2 ] << 16 ) | ( string[ 1 ] << 8 ) | string[ 0 ] )
 #define GLToy_InitialiserCall( system ) GLToy_DebugOutput( "\r\n  " #system "\r\n" ); if( !system::Initialise() ) { GLToy_DebugOutput( "\r\n  Failed to initialise " #system "!\r\n" ); return false; }
 #define GLToy_IsValidHandle( handle ) ( ( handle ) > 0 )
 #define GLToy_XORSwap( a, b ) do { a ^= b; b ^= a; a ^= b; } while( false )
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// T Y P E D E F S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-typedef unsigned char u_char;
-typedef unsigned short u_short;
-typedef unsigned int u_int;
-
-typedef int GLToy_Handle;
-typedef unsigned int GLToy_Hash;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S

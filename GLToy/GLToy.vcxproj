@@ -186,6 +186,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\stb_image\stb_image.c" />
+    <ClCompile Include="Independent\Core\GLToy_Memory.cpp" />
     <ClCompile Include="Independent\Core\State\GLToy_State_FixedCamera.cpp" />
     <ClCompile Include="Independent\Maths\GLToy_Noise.cpp" />
     <ClCompile Include="Independent\Render\GLToy_Raytrace_Fullscreen.cpp" />
@@ -336,6 +337,9 @@
   <ItemGroup>
     <ClInclude Include="..\stb_image\stb_image.h" />
     <ClInclude Include="Independent\Core\Data Structures\GLToy_Pool.h" />
+    <ClInclude Include="Independent\Core\GLToy_Memory.h" />
+    <ClInclude Include="Independent\Core\GLToy_Memory_DebugOff.h" />
+    <ClInclude Include="Independent\Core\GLToy_Memory_DebugOn.h" />
     <ClInclude Include="Independent\Core\State\GLToy_State_FixedCamera.h" />
     <ClInclude Include="Independent\Maths\GLToy_Noise.h" />
     <ClInclude Include="Independent\Render\GLToy_Raytrace_Fullscreen.h" />

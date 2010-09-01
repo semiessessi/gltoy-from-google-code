@@ -28,10 +28,6 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-// I N C L U D E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
 #include <Core/GLToy.h>
 
 // This file's header
@@ -51,6 +47,8 @@
 #include <Physics/GLToy_Physics_Controller.h>
 #include <Physics/GLToy_Physics_Object.h>
 #include <Render/GLToy_Camera.h>
+
+#include <Core/GLToy_Memory_DebugOff.h>
 
 // Havok
 #include <Physics/Platform_GLToy_Havok_Physics.h>
@@ -87,6 +85,7 @@
 
 // keycode - this needs to go somewhere, this seems as good a place as any
 #include <Common/Base/KeyCode.cxx>
+
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -729,3 +728,5 @@ void GLToy_Physics_System::ResetCollisions()
 
     s_xPhysicsObjects.Traverse( xFunctor );
 }
+
+#include <Core/GLToy_Memory_DebugOn.h>

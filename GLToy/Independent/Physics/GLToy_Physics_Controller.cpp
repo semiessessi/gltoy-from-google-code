@@ -39,6 +39,8 @@
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 
+#include <Core/GLToy_Memory_DebugOff.h>
+
 // Havok
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
@@ -394,3 +396,5 @@ void GLToy_Physics_Controller::SetPosition( const GLToy_Vector_3& xPosition, con
 void GLToy_Physics_Controller::SetVelocity( const GLToy_Vector_3& xVelocity )
 {
 }
+
+#include <Core/GLToy_Memory_DebugOn.h>

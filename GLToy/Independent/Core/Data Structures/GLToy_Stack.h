@@ -41,6 +41,8 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <Core/GLToy_Memory_DebugOff.h>
+
 template < class T >
 class GLToy_Stack
 : public GLToy_FlatDataStructure< T >
@@ -131,5 +133,7 @@ protected:
     int m_iStackPointer;
 
 };
+
+#include <Core/GLToy_Memory_DebugOn.h>
 
 #endif

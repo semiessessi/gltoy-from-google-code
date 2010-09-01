@@ -211,8 +211,8 @@ void JD1_Texer_P9_Birth::PerPoint(
     green=green*mod;
 
     float siz=(1.0f-(zed+0.5f)*0.5f)*sc;
-    sizex=siz*0.02f;
-    sizey=siz*0.02f;
+    sizex=siz*0.06f;
+    sizey=siz*0.06f;
 
     posit=posit+4; 
     z=1;
