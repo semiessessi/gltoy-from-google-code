@@ -88,7 +88,7 @@ vec4 trace( vec3 xPos, vec3 xDir )
 	// df/dx = 4x^3 - 2x
 	// df/dy = 4y^3 - 2y
 	// df/sz = 4z^3 - 2z
-	vec3 xNormal = 4.0f * xSolution * xSolution * xSolution - 2.0f * xSolution;
+	vec3 xNormal = normalize( 4.0f * xSolution * xSolution * xSolution - 2.0f * xSolution );
 	vec3 xLightPosition = xPos;
 	float fLight = 0.0f;
 	float fSpecularity = 0.0f;
@@ -100,15 +100,15 @@ vec4 trace( vec3 xPos, vec3 xDir )
 	// this doesn't seem to work at all...
 	//float fShadow = 1.0f - clamp( 100.0f * solve( xCurrentSolution + xLightDirection * 0.01f, xLightDirection ), 0.0f, 1.0f );
 	
-	float fAttenuation = /* fShadow * */ 1.75f / ( 1.0f + 0.5f * dot( xLightDirection, xLightDirection ) );
-	fLight = clamp( fAttenuation * dot( xNormal, -xLightDirection ), 0.0f, 2.0f );
+	float fAttenuation = /* fShadow * */ 0.75f / ( 1.0f + 0.5f * dot( xLightDirection, xLightDirection ) );
+	fLight = clamp( fAttenuation * dot( xNormal, -xLightDirection ), 0.0f, 1.0f );
 	
 	vec3 xSpecularDirection = 2 * dot( xNormal, -xCurrentDirection ) * xNormal + xCurrentDirection;
-	fSpecularity = clamp( fAttenuation * pow( dot( xSpecularDirection, xLightDirection ), 8.0f ), 0.0f, 1.0f );
+	fSpecularity = clamp( pow( dot( xSpecularDirection, -xLightDirection ), 64.0f ), 0.0f, 1.0f );
 
 	return fEdgeFade * (
 			fLight *
-			texture2D( xTexture, vec2( ( 8.0f / 3.141592654f ) * atan( -xSolution.y, xSolution.x ), 8.0f * xSolution.z ) )
+			0.75f * texture2D( xTexture, vec2( ( 8.0f / 3.141592654f ) * atan( -xSolution.z, xSolution.x ), 6.0f * xSolution.y ) )
 			+ vec4( fSpecularity, fSpecularity, fSpecularity, 1.0f )
 		);
 }
