@@ -6,56 +6,9 @@ uniform sampler2D xTexture;
 
 vec3 xSolution;
 vec3 xNormalisedDirection;
-vec3 xNormal;
+float fHackEdgeSoften;
 
-/*
-x1=x;y1=y*asp;f=1/sqrt(sqr(x1)+sqr(y1)+1);
-x2=x1*crz-y1*srz;y2=x1*srz+y1*crz;
-y1=y2*crx-srx;z2=y2*srx+crx;
-x1=x2*cry-z2*sry;z1=x2*sry+z2*cry;
-
-·Quartic Coefficients for ax^4+bx^3+cx^2+dx+e=0;
-·(Chmutov Surface);
-x2=sqr(x1);y2=sqr(y1);z2=sqr(z1);
-va=sqr(x2)+sqr(y2)+sqr(z2);
-vb=4*(x2*x1*gx+y2*y1*gy+z2*z1*gz);
-vc=sqr(x1)*(6*sqr(gx)-1)+sqr(y1)*(6*sqr(gy)-1)+sqr(z1)*(6*sqr(gz)-1);
-vd=x1*gx*(4*sqr(gx)-2)+y1*gy*(4*sqr(gy)-2)+z1*gz*(4*sqr(gz)-2);
-ve=(sqr(gx)*(sqr(gx)-1))+(sqr(gy)*(sqr(gy)-1))+(sqr(gz)*(sqr(gz)-1))+.375;
-
-k=f*.6;wh=-.15;
-£ Whittaker Iteration;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-wh=-.5;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-wh=-.5;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-wh=-.5;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-wh=-2;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-k=k-((((va*k+vb)*k+vc)*k+vd)*k+ve)*wh;
-
-x=asin(sin(atan2(y1*k+gy,z1*k+gz)));y=x1*k+gx;
-
-fk0=min(0,((4*va*k+3*vb)*k+2*vc)*k+vd);
-alpha=sqr(fk0)*.5+exp(-k)*.5;
-*/
-
-vec4 trace( vec3 xPos, vec3 xDir )
+float solve( vec3 xPos, vec3 xDir )
 {
 	const float fSize = 0.375f;
 	xNormalisedDirection = normalize( xDir );
@@ -67,13 +20,14 @@ vec4 trace( vec3 xPos, vec3 xDir )
 	vec3 xCHelp = 6.0f * xPosSquares - 1.0f;
 	vec3 xDHelp = xPos * ( 4.0f * xPosSquares - 2.0f );
 
+	// f = x^4 + y^4 + z^4 - x^2 - y^2 - z^2 + fSize
 	float fA = dot( xSquares, xSquares ); // i.e. x^4 + y^4 + z^4
 	float fB = 4.0f * dot( xCubes, xPosition ); // i.e. 4 * ( ox x^3 + oy y^3 + oz z^3 )
 	float fC = dot( xCHelp, xSquares ); // i.e. x^2 * ( 6 ox^2 - 1 ) + y^2 * ( 6 oy^2 - 1 ) + z^2 * ( 6 oz^2 - 1 );
 	float fD = dot( xNormalisedDirection, xDHelp ); // i.e. x * ox * ( 4 ox^2 - 2 ) + y * oy * ( 4 oy^2 - 2 ) + z * oz * ( 4 oz^2 - 2 );
 	float fE = dot( xPosSquares, xPosSquares - 1.0f ) + fSize;
 	
-	float fK = 1.0f / sqrt( dot( xNormalisedDirection.xy, xNormalisedDirection.xy ) + 1.0f );
+	float fK = 1.5f;
 	float fL = -0.15f;
 
 	// Whittaker iteration
@@ -98,32 +52,65 @@ vec4 trace( vec3 xPos, vec3 xDir )
 	fK = fK - ( ( ( ( fA * fK + fB ) * fK + fC ) * fK + fD ) * fK + fE ) * fL;
 	fK = fK - ( ( ( ( fA * fK + fB ) * fK + fC ) * fK + fD ) * fK + fE ) * fL;
 	fK = fK - ( ( ( ( fA * fK + fB ) * fK + fC ) * fK + fD ) * fK + fE ) * fL;
+	fL = -0.5f;
 	fK = fK - ( ( ( ( fA * fK + fB ) * fK + fC ) * fK + fD ) * fK + fE ) * fL;
 	fK = fK - ( ( ( ( fA * fK + fB ) * fK + fC ) * fK + fD ) * fK + fE ) * fL;
-
-	if( fK < 0.0f )
-	{
-		 return vec4( 0.0, 0.0, 0.0, 0.0 );
-	}
+	fK = fK - ( ( ( ( fA * fK + fB ) * fK + fC ) * fK + fD ) * fK + fE ) * fL;
+	fK = fK - ( ( ( ( fA * fK + fB ) * fK + fC ) * fK + fD ) * fK + fE ) * fL;
+	fK = fK - ( ( ( ( fA * fK + fB ) * fK + fC ) * fK + fD ) * fK + fE ) * fL;
+	fK = fK - ( ( ( ( fA * fK + fB ) * fK + fC ) * fK + fD ) * fK + fE ) * fL;
 
 	if( fK > 100.0f )
 	{
-		 return vec4( 0.0, 0.0, 0.0, 0.0 );
+		fK = -1.0f;
+	}
+
+	fHackEdgeSoften = min( ( ( 4.0f * fA * fK + 3.0f * fB ) * fK + 2.0f * fC ) * fK + fD, 0.0f );
+	fHackEdgeSoften = -fHackEdgeSoften;
+
+	return fK;
+}
+
+vec4 trace( vec3 xPos, vec3 xDir )
+{
+	float fK = solve( xPos, xDir );
+
+	float fEdgeFade = fHackEdgeSoften;
+
+	if( fK < 0.0f )
+	{
+		return vec4( 0.0f, 0.0f, 0.0f, 0.0f );
 	}
 
 	xSolution = xNormalisedDirection * fK + xPos;
 
-	//xNormal = -normalize( vec3( xSolution.x, xSolution.y, 8.0f * sin( 0.6f * xSolution.z ) ) );
-	//float fAttenuation = 32.0f / ( 1.0f + 0.005f * dot( xSolution - xPos, xSolution - xPos ) );
-	//float fLight = fAttenuation * dot( xNormal, -xNormalisedDirection );
-	//vec3 xSpecularDirection = 2 * dot( xNormal, -xNormalisedDirection ) * xNormal + xNormalisedDirection;
-	//float fSpecularity = clamp( fAttenuation * pow( dot( xSpecularDirection, xNormalisedDirection ), 8.0f ), 0.0f, 1.0f );
+	// f = x^4 + y^4 + z^4 - x^2 - y^2 - z^2 + fSize
+	// df/dx = 4x^3 - 2x
+	// df/dy = 4y^3 - 2y
+	// df/sz = 4z^3 - 2z
+	vec3 xNormal = 4.0f * xSolution * xSolution * xSolution - 2.0f * xSolution;
+	vec3 xLightPosition = xPos;
+	float fLight = 0.0f;
+	float fSpecularity = 0.0f;
+	vec3 xCurrentSolution = xSolution;
+	vec3 xCurrentDirection = xNormalisedDirection;
+	float fLightDistance = length( xCurrentSolution - xLightPosition );
+	vec3 xLightDirection = normalize( xCurrentSolution - xLightPosition );
 	
+	// this doesn't seem to work at all...
+	//float fShadow = 1.0f - clamp( 100.0f * solve( xCurrentSolution + xLightDirection * 0.01f, xLightDirection ), 0.0f, 1.0f );
+	
+	float fAttenuation = /* fShadow * */ 1.75f / ( 1.0f + 0.5f * dot( xLightDirection, xLightDirection ) );
+	fLight = clamp( fAttenuation * dot( xNormal, -xLightDirection ), 0.0f, 2.0f );
+	
+	vec3 xSpecularDirection = 2 * dot( xNormal, -xCurrentDirection ) * xNormal + xCurrentDirection;
+	fSpecularity = clamp( fAttenuation * pow( dot( xSpecularDirection, xLightDirection ), 8.0f ), 0.0f, 1.0f );
 
-	return
-		/* fLight * */
-		texture2D( xTexture, vec2( ( 4.0f / 3.141592654f ) * atan( -xSolution.y, xSolution.x ), 2.0f * xSolution.z ) )
-		/* + vec4( fSpecularity, fSpecularity, fSpecularity, 1.0f ) */;
+	return fEdgeFade * (
+			fLight *
+			texture2D( xTexture, vec2( ( 8.0f / 3.141592654f ) * atan( -xSolution.y, xSolution.x ), 8.0f * xSolution.z ) )
+			+ vec4( fSpecularity, fSpecularity, fSpecularity, 1.0f )
+		);
 }
 
 void main()

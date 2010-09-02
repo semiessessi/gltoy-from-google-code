@@ -62,9 +62,9 @@ bool JD1::Initialise()
     //JD1_Demo_System::Queue( new JD1_DemoScene_Intro(), 2.0f );
     //JD1_Demo_System::Queue( new JD1_DemoScene_MovingParticles(), 10.0f );
     //JD1_Demo_System::Queue( new JD1_DemoScene_Dragon(), 10.0f );
-    JD1_Demo_System::Queue( new JD1_DemoScene_Chmutov(), 30.0f, JD1_DEMO_FLASH_WHITE, 0.4f );
-    //JD1_Demo_System::Queue( new JD1_DemoScene_Tunnel(), 30.0f, JD1_DEMO_FLASH_WHITE, 0.4f );
+    JD1_Demo_System::Queue( new JD1_DemoScene_Chmutov() , 30.0f, JD1_DEMO_FLASH_WHITE, 0.4f );
     JD1_Demo_System::Queue( new JD1_DemoScene_TexerFlow(), 20.0f, JD1_DEMO_FLASH_WHITE, 0.4f );
+    JD1_Demo_System::Queue( new JD1_DemoScene_Tunnel(), 30.0f, JD1_DEMO_FLASH_WHITE, 0.4f );
     JD1_Demo_System::Queue( new JD1_DemoScene_P9_Birth() );
     //JD1_Demo_System::Queue( new JD1_DemoScene_AVS_Test() );
 

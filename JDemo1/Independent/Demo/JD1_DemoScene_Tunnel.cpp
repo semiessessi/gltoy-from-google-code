@@ -81,5 +81,5 @@ void JD1_DemoScene_Tunnel::Start()
 
 void JD1_DemoScene_Tunnel::Stop()
 {
-    GLToy_Camera::SetPosition( GLToy_Maths::ZeroVector3 );
+    GLToy_Camera::Reset();
 }

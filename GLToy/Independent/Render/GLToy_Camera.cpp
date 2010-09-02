@@ -153,6 +153,18 @@ void GLToy_Camera::ApplyTransforms()
     GLToy_Render::Translate( -s_xPosition );
 }
 
+void GLToy_Camera::LookAt( const GLToy_Vector_3& xPosition )
+{
+    s_xDirection = xPosition - s_xPosition;
+    s_xDirection.Normalise();
+}
+
+void GLToy_Camera::Reset()
+{
+    s_xPosition = GLToy_Maths::ZeroVector3;
+    s_xDirection = GLToy_Vector_3( 0.0f, 0.0f, 1.0f );
+}
+
 void GLToy_Camera::SetLocked( const bool bLocked )
 {
     s_bLockedCam = bLocked;

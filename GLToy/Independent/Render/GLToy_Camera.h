@@ -48,6 +48,8 @@ public:
     static void Update();
 
     static void ApplyTransforms();
+    static void LookAt( const GLToy_Vector_3& xPosition );
+    static void Reset();
 
     static const GLToy_Vector_3& GetPosition() { return s_xPosition; }
     static const GLToy_Vector_3& GetDirection() { return s_xDirection; }

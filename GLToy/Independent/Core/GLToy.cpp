@@ -223,14 +223,16 @@ bool GLToy::MainLoop()
 
     GLToy_Console::Update();
     GLToy_UI_System::Update();
-    GLToy_Physics_System::Update(); // this comes before camera to avoid a frame of lag on user controlled physics objects
-    GLToy_Camera::Update();
+    GLToy_Physics_System::Update();
 
     GLToy_Environment_System::Update();
     GLToy_Entity_System::Update();
     GLToy_PFX_System::Update();
 
     Project_Update();
+
+    // hopefully this will avoid a frame of camera lag if it stays here...
+    GLToy_Camera::Update();
 
     // Render functions
     GLToy_Render::BeginRender();
