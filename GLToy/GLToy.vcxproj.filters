@@ -453,6 +453,12 @@
     <ClCompile Include="Independent\Core\GLToy_Memory.cpp">
       <Filter>Independent\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Win32\Render\Platform_GLToy_Texture_Renderable.cpp">
+      <Filter>Win32\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="X11\Render\Platform_GLToy_Texture_Renderable.cpp">
+      <Filter>X11\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
@@ -814,6 +820,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Core\GLToy_Memory_DebugOff.h">
       <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\GLToy_Texture_Renderable.h">
+      <Filter>Independent\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

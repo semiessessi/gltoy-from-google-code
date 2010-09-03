@@ -111,7 +111,7 @@ vec4 trace( vec3 xPos, vec3 xDir )
 	fSpecularity = fGlossTexture * clamp( 0.25f * pow( dot( xSpecularDirection, -xLightDirection ), fSpecularTexture ), 0.0f, 1.0f );
 
 	return fEdgeFade * (
-			fLight * 0.8f * xDiffuseTexture
+			fLight * 0.6f * xDiffuseTexture
 			+ vec4( fSpecularity, fSpecularity, fSpecularity, 1.0f )
 		);
 }
