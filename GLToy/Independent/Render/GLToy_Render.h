@@ -110,6 +110,8 @@
 #define MAX_COLOR_ATTACHMENTS                               0x8CDF
 #define MAX_RENDERBUFFER_SIZE                               0x84E8
 #define INVALID_FRAMEBUFFER_OPERATION                       0x0506
+#define FRAMEBUFFER_BINDING									0x8CA6
+#define DRAW_FRAMEBUFFER_BINDING							FRAMEBUFFER_BINDING
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S

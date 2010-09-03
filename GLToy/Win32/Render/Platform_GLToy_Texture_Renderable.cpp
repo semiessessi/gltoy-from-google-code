@@ -34,6 +34,8 @@
 #include <Render/GLToy_Texture_Renderable.h>
 
 // GLToy
+#include <Core/Data Structures/GLToy_Pair.h>
+#include <Core/Data Structures/GLToy_Stack.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
 
@@ -42,6 +44,18 @@
 
 // GL
 #include <gl/gl.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C L A S S E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+struct GLToy_Viewport
+{
+    int m_iX;
+    int m_iY;
+    int m_iWidth;
+    int m_iHeight;
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // M A C R O S
@@ -55,6 +69,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static int g_aiViewport[ 4 ];
+static GLToy_Stack< GLToy_Pair< GLToy_Viewport, u_int > > g_xFBStack;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -113,15 +128,30 @@ void GLToy_Texture_Renderable::Platform_Destroy()
 
 void GLToy_Texture_Renderable::Platform_Bind( const u_int uTextureUnit ) const
 {
+    GLToy_Texture_System::BindFrameBufferTexture( m_uID /*, uTextureUnit */ );
 }
 
 void GLToy_Texture_Renderable::Platform_BeginRender() const
 {
-    glGetIntegerv( GL_VIEWPORT, g_aiViewport );
+    int aiViewport[ 4 ];
+    glGetIntegerv( GL_VIEWPORT, aiViewport );
+
+    GLToy_Viewport xViewport = { aiViewport[ 0 ], aiViewport[ 1 ], aiViewport[ 2 ], aiViewport[ 3 ] };
+    u_int uFBID;
+
+    glGetIntegerv( DRAW_FRAMEBUFFER_BINDING, reinterpret_cast< int* const >( &uFBID ) );
+
+    g_xFBStack.Push( GLToy_Pair< GLToy_Viewport, u_int >( xViewport, uFBID ) );
+
     glViewport( 0, 0, m_uWidth, m_uHeight );
+    GLToy_Render::BindFramebuffer( FRAMEBUFFER, m_uFrameBuffer );
 }
 
 void GLToy_Texture_Renderable::Platform_EndRender() const
 {
-    glViewport( g_aiViewport[ 0 ], g_aiViewport[ 1 ], g_aiViewport[ 2 ], g_aiViewport[ 3 ] );
+    const GLToy_Pair< GLToy_Viewport, u_int >& xStackTop = g_xFBStack.Peek();
+    glViewport( xStackTop.First().m_iX, xStackTop.First().m_iY, xStackTop.First().m_iWidth, xStackTop.First().m_iHeight );
+    GLToy_Render::BindFramebuffer( FRAMEBUFFER, xStackTop.Second() );
+
+    g_xFBStack.Pop();
 }
