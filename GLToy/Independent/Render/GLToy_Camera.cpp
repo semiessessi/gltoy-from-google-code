@@ -157,12 +157,16 @@ void GLToy_Camera::LookAt( const GLToy_Vector_3& xPosition )
 {
     s_xDirection = xPosition - s_xPosition;
     s_xDirection.Normalise();
+    s_xUp = GLToy_Vector_3( s_xDirection[ 1 ], s_xDirection[ 2 ], s_xDirection[ 0 ] ); 
+    s_xUp = s_xDirection.Cross( GetRight() );
+    s_xUp.Normalise();
 }
 
 void GLToy_Camera::Reset()
 {
     s_xPosition = GLToy_Maths::ZeroVector3;
     s_xDirection = GLToy_Vector_3( 0.0f, 0.0f, 1.0f );
+    s_xUp = GLToy_Vector_3( 0.0f, 1.0f, 0.0f );
 }
 
 void GLToy_Camera::SetLocked( const bool bLocked )

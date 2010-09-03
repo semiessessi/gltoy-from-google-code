@@ -96,19 +96,22 @@ vec4 trace( vec3 xPos, vec3 xDir )
 	vec3 xCurrentDirection = xNormalisedDirection;
 	float fLightDistance = length( xCurrentSolution - xLightPosition );
 	vec3 xLightDirection = normalize( xCurrentSolution - xLightPosition );
+
+	vec4 xDiffuseTexture = texture2D( xTexture, vec2( ( 8.0f / 3.141592654f ) * atan( -xSolution.z, xSolution.x ), 2.0f * xSolution.y ) );
+	float fSpecularTexture = ( dot( xDiffuseTexture, xDiffuseTexture ) > 1.5f ) ? 32.0f : 16.0f;
+	float fGlossTexture = ( fSpecularTexture > 16.0f ) ? 1.0f : 0.75f;
 	
 	// this doesn't seem to work at all...
 	//float fShadow = 1.0f - clamp( 100.0f * solve( xCurrentSolution + xLightDirection * 0.01f, xLightDirection ), 0.0f, 1.0f );
 	
-	float fAttenuation = /* fShadow * */ 0.75f / ( 1.0f + 0.5f * dot( xLightDirection, xLightDirection ) );
+	float fAttenuation = /* fShadow * */ 1.0f / ( 1.0f + 0.5f * dot( xLightDirection, xLightDirection ) );
 	fLight = clamp( fAttenuation * dot( xNormal, -xLightDirection ), 0.0f, 1.0f );
 	
 	vec3 xSpecularDirection = 2 * dot( xNormal, -xCurrentDirection ) * xNormal + xCurrentDirection;
-	fSpecularity = clamp( pow( dot( xSpecularDirection, -xLightDirection ), 64.0f ), 0.0f, 1.0f );
+	fSpecularity = fGlossTexture * clamp( 0.25f * pow( dot( xSpecularDirection, -xLightDirection ), fSpecularTexture ), 0.0f, 1.0f );
 
 	return fEdgeFade * (
-			fLight *
-			0.75f * texture2D( xTexture, vec2( ( 8.0f / 3.141592654f ) * atan( -xSolution.z, xSolution.x ), 6.0f * xSolution.y ) )
+			fLight * 0.8f * xDiffuseTexture
 			+ vec4( fSpecularity, fSpecularity, fSpecularity, 1.0f )
 		);
 }

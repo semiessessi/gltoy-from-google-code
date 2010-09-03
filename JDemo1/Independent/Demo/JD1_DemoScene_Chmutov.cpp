@@ -66,11 +66,15 @@ void JD1_DemoScene_Chmutov::Update()
 {
     GLToy_Parent::Update();
 
-    const float fHeight = 2.5f * GLToy_Maths::Sin( 0.337f * GLToy_Timer::GetTime() );
-    GLToy_Camera::SetPosition( GLToy_Vector_3(
-        ( 2.75f - 0.35f * GLToy_Maths::Abs( fHeight ) ) * GLToy_Maths::Cos( GLToy_Timer::GetTime() ),
-        fHeight,
-        ( 2.75f - 0.35f * GLToy_Maths::Abs( fHeight ) ) * GLToy_Maths::Sin( GLToy_Timer::GetTime() ) ) );
+    const float fHeight = 0.5f * GLToy_Maths::Sin( 0.337f * GLToy_Timer::GetTime() );
+    GLToy_Vector_3 xCameraPosition = 
+        GLToy_Vector_3(
+            GLToy_Maths::Cos( GLToy_Timer::GetTime() * 0.701f ),
+            0.85f * GLToy_Maths::Cos( GLToy_Timer::GetTime() * 0.377f ),
+            GLToy_Maths::Sin( GLToy_Timer::GetTime() * 0.898f ) );
+    xCameraPosition.Normalise();
+    xCameraPosition *= ( 3.0f - GLToy_Maths::Abs( fHeight ) );
+    GLToy_Camera::SetPosition( xCameraPosition );
     GLToy_Camera::LookAt( GLToy_Vector_3( 0.0f, 0.0f, 0.0f ) );
 }
 
