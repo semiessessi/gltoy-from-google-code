@@ -88,6 +88,7 @@ void GLToy_Texture_Renderable::Platform_Create()
 
     if( GLToy_Render::CheckFramebufferStatus( FRAMEBUFFER ) != FRAMEBUFFER_COMPLETE )
     {
+        GLToy_Assert( false, "Framebuffer incomplete!" );
         if( m_iFrameBuffer != -1 )
         {
             GLToy_Render::DeleteFramebuffers( 1, &m_uFrameBuffer );

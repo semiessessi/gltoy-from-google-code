@@ -34,9 +34,6 @@
 // Parents
 #include <Demo/JD1_DemoScene.h>
 
-// GLToy
-#include <Render/GLToy_Texture_Renderable.h>
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,10 +54,6 @@ public:
 
     virtual void Render() const;
     virtual void Update();
-
-protected:
-
-    GLToy_Texture_Renderable m_xTexture;
 
 };
 

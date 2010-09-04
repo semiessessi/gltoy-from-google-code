@@ -49,39 +49,17 @@
 void JD1_DemoScene_Chmutov::Initialise()
 {
     GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid2.png" ) );
-
-    m_xTexture.Create();
 }
 
 void JD1_DemoScene_Chmutov::Shutdown()
 {
-    m_xTexture.Destroy();
 }
 
 void JD1_DemoScene_Chmutov::Render() const
 {
-    //m_xTexture.BeginRender();
-
-    //    GLToy_Render::Clear();
-    //    GLToy_Texture_System::BindWhite();
-    //    
-    //    GLToy_Render::StartSubmittingQuads();
-
-    //        GLToy_Render::SubmitColour( GLToy_Vector_3(
-    //            0.5f * ( GLToy_Maths::Cos( GLToy_Timer::GetTime() ) + 1.0f ),
-    //            0.5f * ( GLToy_Maths::Sin( GLToy_Timer::GetTime() ) + 1.0f ),
-    //            0.5f ) );
-
-    //        GLToy_Render::SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f, -0.5f ), GLToy_Vector_2( 1.0f, 1.0f ) );
-
-    //    GLToy_Render::EndSubmit();
-
-    //m_xTexture.EndRender();
-
     GLToy_Raytrace_Fullscreen xRaytrace( GLToy_Hash_Constant( "JD1_Raytrace_Chmutov" ) );
 
     xRaytrace.BindTexture( "xTexture", GLToy_Hash_Constant( "generic/grid2.png" ) );
-    //xRaytrace.BindFrameBufferTexture( "xTexture", m_xTexture.GetID() );
     xRaytrace.Render();
 }
 
