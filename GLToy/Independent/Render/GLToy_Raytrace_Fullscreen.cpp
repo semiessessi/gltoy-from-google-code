@@ -49,7 +49,8 @@ GLToy_Raytrace_Fullscreen::GLToy_Raytrace_Fullscreen( const GLToy_Hash uShaderHa
 {
     for( u_int u = 0; u < 8; ++u )
     {
-        m_axTextures[ u ].First() = uGLTOY_BAD_HASH;
+        m_axTextures[ u ].First().First() = uGLTOY_BAD_HASH;
+        m_axTextures[ u ].First().Second() = 0xFFFFFFFF;
     }
 }
 
@@ -57,22 +58,19 @@ void GLToy_Raytrace_Fullscreen::Render() const
 {
     for( u_int u = 0; u < 8; ++u )
     {
-        GLToy_Texture* pxTexture = GLToy_Texture_System::FindTexture( m_axTextures[ u ].First().First() );
+        GLToy_Texture* pxTexture = ( m_axTextures[ u ].First().First() == uGLTOY_BAD_HASH ) ? NULL : GLToy_Texture_System::FindTexture( m_axTextures[ u ].First().First() );
 
         if( pxTexture )
         {
             pxTexture->Bind( u );
         }
+        else if( m_axTextures[ u ].First().Second() != 0xFFFFFFFF )
+        {
+            GLToy_Texture_System::BindFrameBufferTexture( m_axTextures[ u ].First().Second(), u );
+        }
         else
         {
-            if( m_axTextures[ u ].First().Second() != 0xFFFFFFFF )
-            {
-                GLToy_Texture_System::BindFrameBufferTexture( m_axTextures[ u ].First().Second() );
-            }
-            else
-            {
-                GLToy_Texture_System::BindWhite( u );
-            }
+            GLToy_Texture_System::BindWhite( u );
         }
     }
 
