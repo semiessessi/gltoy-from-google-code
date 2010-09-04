@@ -141,7 +141,7 @@ public:
 
     static void CreateFrameBufferTexture( u_int& uID, const int iWidth, const int iHeight ) { Platform_CreateFrameBufferTexture( uID, iWidth, iHeight ); }
     static void DestroyFrameBufferTexture( u_int& uID ) { Platform_DestroyFrameBufferTexture( uID ); }
-    static void BindFrameBufferTexture( const u_int uID ) { Platform_BindFrameBufferTexture( uID ); }
+    static void BindFrameBufferTexture( const u_int uID, const u_int uTextureUnit = 0 ) { Platform_BindFrameBufferTexture( uID, uTextureUnit ); }
 
     // TODO - find a better solution for lightmaps = creating from the hash directly leaves the name blank, which might be flakey
     static void CreateTextureFromRGBAData( const GLToy_Hash uHash, u_int* const puData, const u_int uWidth, const u_int uHeight );
@@ -160,7 +160,7 @@ private:
 
     static void Platform_CreateFrameBufferTexture( u_int& uID, const int iWidth, const int iHeight );
     static void Platform_DestroyFrameBufferTexture( u_int& uID );
-    static void Platform_BindFrameBufferTexture( const u_int uID );
+    static void Platform_BindFrameBufferTexture( const u_int uID, const u_int uTextureUnit );
 
     static GLToy_HashTree< GLToy_Texture > s_xTextures;
 

@@ -57,13 +57,17 @@ void GLToy_Raytrace_Fullscreen::Render() const
 {
     for( u_int u = 0; u < 8; ++u )
     {
-        if( m_axTextures[ u ].First() != uGLTOY_BAD_HASH )
-        {
-            GLToy_Texture* pxTexture = GLToy_Texture_System::FindTexture( m_axTextures[ u ].First() );
+        GLToy_Texture* pxTexture = GLToy_Texture_System::FindTexture( m_axTextures[ u ].First().First() );
 
-            if( pxTexture )
+        if( pxTexture )
+        {
+            pxTexture->Bind( u );
+        }
+        else
+        {
+            if( m_axTextures[ u ].First().Second() != 0xFFFFFFFF )
             {
-                pxTexture->Bind( u );
+                GLToy_Texture_System::BindFrameBufferTexture( m_axTextures[ u ].First().Second() );
             }
             else
             {
@@ -80,7 +84,7 @@ void GLToy_Raytrace_Fullscreen::Render() const
 
         for( u_int u = 0; u < 8; ++u )
         {
-            if( m_axTextures[ u ].First() != uGLTOY_BAD_HASH )
+            if( ( m_axTextures[ u ].First().First() != uGLTOY_BAD_HASH ) || ( m_axTextures[ u ].First().Second() != 0xFFFFFFFF ) )
             {
                 pxShader->SetUniform( m_axTextures[ u ].Second(), static_cast< int >( u ) );
             }
@@ -114,6 +118,16 @@ void GLToy_Raytrace_Fullscreen::BindTexture( const GLToy_String& szUniformName, 
 {
     GLToy_Assert( uTextureUnit < 8, "Texture unit %d is not valid", uTextureUnit );
 
-    m_axTextures[ uTextureUnit ].First() = uTextureHash;
+    m_axTextures[ uTextureUnit ].First().First() = uTextureHash;
+    m_axTextures[ uTextureUnit ].First().Second() = 0xFFFFFFFF;
+    m_axTextures[ uTextureUnit ].Second() = szUniformName;
+}
+
+void GLToy_Raytrace_Fullscreen::BindFrameBufferTexture( const GLToy_String& szUniformName, const u_int uTextureID, const u_int uTextureUnit )
+{
+    GLToy_Assert( uTextureUnit < 8, "Texture unit %d is not valid", uTextureUnit );
+
+    m_axTextures[ uTextureUnit ].First().First() = uGLTOY_BAD_HASH;
+    m_axTextures[ uTextureUnit ].First().Second() = uTextureID;
     m_axTextures[ uTextureUnit ].Second() = szUniformName;
 }

@@ -53,6 +53,56 @@
 
 #define TEXTURE0                                            0x84C0
 
+#define STENCIL_INDEX8                                      0x8D48
+#define ALPHA4                                              0x803B
+#define ALPHA8                                              0x803C
+#define ALPHA12                                             0x803D
+#define ALPHA16                                             0x803E
+#define LUMINANCE4                                          0x803F
+#define LUMINANCE8                                          0x8040
+#define LUMINANCE12                                         0x8041
+#define LUMINANCE16                                         0x8042
+#define LUMINANCE4_ALPHA4                                   0x8043
+#define LUMINANCE6_ALPHA2                                   0x8044
+#define LUMINANCE8_ALPHA8                                   0x8045
+#define LUMINANCE12_ALPHA4                                  0x8046
+#define LUMINANCE12_ALPHA12                                 0x8047
+#define LUMINANCE16_ALPHA16                                 0x8048
+#define INTENSITY                                           0x8049
+#define INTENSITY4                                          0x804A
+#define INTENSITY8                                          0x804B
+#define INTENSITY12                                         0x804C
+#define INTENSITY16                                         0x804D
+#define R3_G3_B2                                            0x2A10
+#define RGB4                                                0x804F
+#define RGB5                                                0x8050
+#define RGB8                                                0x8051
+#define RGB10                                               0x8052
+#define RGB12                                               0x8053
+#define RGB16                                               0x8054
+#define RGBA2                                               0x8055
+#define RGBA4                                               0x8056
+#define RGB5_A1                                             0x8057
+#define RGBA8                                               0x8058
+#define RGB10_A2                                            0x8059
+#define RGBA12                                              0x805A
+#define RGBA16                                              0x805B
+
+#define UNSIGNED_BYTE_3_3_2                                 0x8032
+#define UNSIGNED_BYTE_2_3_3_REV                             0x8362
+#define UNSIGNED_SHORT_4_4_4_4                              0x8033
+#define UNSIGNED_SHORT_4_4_4_4_REV                          0x8365
+#define UNSIGNED_SHORT_5_6_5                                0x8363
+#define UNSIGNED_INT_8_8_8_8                                0x8035
+#define UNSIGNED_INT_8_8_8_8_REV                            0x8367
+#define UNSIGNED_SHORT_5_6_5_REV                            0x8364
+#define UNSIGNED_INT_10_10_10_2                             0x8036
+#define UNSIGNED_INT_2_10_10_10_REV                         0x8368
+#define UNSIGNED_SHORT_5_5_5_1                              0x8034
+#define UNSIGNED_SHORT_1_5_5_5_REV                          0x8366
+#define UNSIGNED_SHORT_8_8                                  0x85BA
+#define UNSIGNED_SHORT_8_8_REV                              0x85BB
+
 #define DEPTH_COMPONENT16                                   0x81A5
 #define DEPTH_COMPONENT24                                   0x81A6
 #define DEPTH_COMPONENT32                                   0x81A7

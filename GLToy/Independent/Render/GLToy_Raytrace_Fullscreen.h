@@ -45,7 +45,6 @@
 class GLToy_Raytrace_Fullscreen
 : public GLToy_Renderable
 {
-
 public:
 
     GLToy_Raytrace_Fullscreen( const GLToy_Hash uShaderHash );
@@ -55,11 +54,12 @@ public:
     virtual void Render() const;
 
     void BindTexture( const GLToy_String& szUniformName, const GLToy_Hash uTextureHash, const u_int uTextureUnit = 0 );
+    void BindFrameBufferTexture( const GLToy_String& szUniformName, const u_int uTextureID, const u_int uTextureUnit = 0 );
 
 private:
 
     GLToy_Hash m_uShader;
-    GLToy_Pair< GLToy_Hash, GLToy_String > m_axTextures[ 8 ];
+    GLToy_Pair< GLToy_Pair< GLToy_Hash, u_int >, GLToy_String > m_axTextures[ 8 ];
 
 };
 

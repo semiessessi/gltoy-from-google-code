@@ -56,6 +56,7 @@ class Platform_GLToy_Render
 
     friend class GLToy_Render;
     friend class GLToy_Texture;
+    friend class GLToy_Texture_System;
 
 public:
 

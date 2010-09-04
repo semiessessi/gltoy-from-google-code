@@ -36,7 +36,6 @@
 // GLToy
 #include <Core/Data Structures/GLToy_Pair.h>
 #include <Core/Data Structures/GLToy_Stack.h>
-#include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
 
 // Win32
@@ -128,7 +127,7 @@ void GLToy_Texture_Renderable::Platform_Destroy()
 
 void GLToy_Texture_Renderable::Platform_Bind( const u_int uTextureUnit ) const
 {
-    GLToy_Texture_System::BindFrameBufferTexture( m_uID /*, uTextureUnit */ );
+    GLToy_Texture_System::BindFrameBufferTexture( m_uID, uTextureUnit );
 }
 
 void GLToy_Texture_Renderable::Platform_BeginRender() const

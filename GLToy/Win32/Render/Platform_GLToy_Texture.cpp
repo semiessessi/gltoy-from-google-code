@@ -193,7 +193,8 @@ void GLToy_Texture_System::Platform_DestroyFrameBufferTexture( u_int& uID )
     glDeleteTextures( 1, &uID );
 }
 
-void GLToy_Texture_System::Platform_BindFrameBufferTexture( const u_int uID )
+void GLToy_Texture_System::Platform_BindFrameBufferTexture( const u_int uID, const u_int uTextureUnit )
 {
+    Platform_GLToy_Render::ActiveTexture( TEXTURE0 + uTextureUnit );
     glBindTexture( GL_TEXTURE_2D, uID );
 }

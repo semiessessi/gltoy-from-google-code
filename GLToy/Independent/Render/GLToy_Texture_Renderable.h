@@ -28,6 +28,13 @@
 #define __GLTOY_TEXTURE_RENDERABLE_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// I N C L U D E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+// GLToy
+#include <Render/GLToy_Render.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -36,19 +43,21 @@ class GLToy_Texture_Renderable
 
 public:
 
-    GLToy_Texture_Renderable( const u_int uWidth = 512, const u_int uHeight = 512 )
+    GLToy_Texture_Renderable( const u_int uWidth = 512, const u_int uHeight = 512, const u_int uFormat = RGBA8 )
     : m_uWidth( uWidth )
     , m_uHeight( uHeight )
     , m_iID( -1 )
     , m_iDepthBuffer( -1 )
     , m_uFrameBuffer( -1 )
+    , m_uFormat( uFormat )
     {
     }
 
     virtual ~GLToy_Texture_Renderable() {}
 
-    u_int GetHeight() const { return m_uHeight; }
-    u_int GetWidth() const { return m_uWidth; }
+    GLToy_Inline u_int GetHeight() const { return m_uHeight; }
+    GLToy_Inline u_int GetWidth() const { return m_uWidth; }
+    GLToy_Inline u_int GetID() const { return m_uID; }
 
     GLToy_Inline void Create() { Platform_Create(); }
     GLToy_Inline void Destroy() { Platform_Destroy(); }
@@ -84,6 +93,8 @@ protected:
         int m_iFrameBuffer;
         u_int m_uFrameBuffer;
     };
+
+    const u_int m_uFormat;
 
 };
 

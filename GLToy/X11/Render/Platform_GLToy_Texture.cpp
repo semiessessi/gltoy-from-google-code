@@ -137,9 +137,63 @@ void GLToy_Texture_System::Platform_SaveTextureTGA( const GLToy_String& szName, 
 
 void GLToy_Texture_System::Platform_CreateFrameBufferTexture( u_int& uID, const int iWidth, const int iHeight )
 {
+    u_int uComponents = GL_RGBA;
+    switch( m_uFormat )
+    {
+        case R3_G3_B2:
+        //case RGB4:
+        //case RGB5:
+        case RGB8:
+        //case RGB10:
+        //case RGB12:
+        //case RGB16:
+        {
+            uComponents = GL_RGB;
+            break;
+        }
+        
+        //case ALPHA4:
+        case ALPHA8:
+        //case ALPHA12:
+        //case ALPHA16:
+        {
+            uComponents = GL_ALPHA;
+            break;
+        }
+    }
+
+    u_int uComponentFormat = UNSIGNED_INT_8_8_8_8;
+
+    switch( m_uFormat )
+    {
+        case R3_G3_B2:
+        {
+            uComponentFormat = UNSIGNED_BYTE_3_3_2;
+            break;
+        }
+
+        case RGB8:
+        {
+            uComponentFormat = GL_UNSIGNED_BYTE;
+            break;
+        }
+
+        case RGBA8:
+        {
+            uComponentFormat = UNSIGNED_INT_8_8_8_8;
+            break;
+        }
+        
+        case ALPHA8:
+        {
+            uComponentFormat = GL_UNSIGNED_BYTE;
+            break;
+        }
+    }
+
     glGenTextures( 1, &uID );
     glBindTexture( GL_TEXTURE_2D, uID );
-    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL );
+    glTexImage2D( GL_TEXTURE_2D, 0, m_uFormat, iWidth, iHeight, 0, uComponents, uComponentFormat, NULL );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
@@ -152,7 +206,8 @@ void GLToy_Texture_System::Platform_DestroyFrameBufferTexture( u_int& uID )
     glDeleteTextures( 1, &uID );
 }
 
-void GLToy_Texture_System::Platform_BindFrameBufferTexture( const u_int uID )
+void GLToy_Texture_System::Platform_BindFrameBufferTexture( const u_int uID, const u_int uTextureUnit )
 {
+    Platform_GLToy_Render::ActiveTexture( TEXTURE0 + uTextureUnit );
     glBindTexture( GL_TEXTURE_2D, uID );
 }
