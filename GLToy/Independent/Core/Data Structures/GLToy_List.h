@@ -200,6 +200,9 @@ public:
     : GLToy_Parent()
     , m_bEmpty( true )
     , m_xData()
+#ifdef GLTOY_DEBUG
+    , dbg_uCount( 0 )
+#endif
     {
     }
 
@@ -207,6 +210,9 @@ public:
     : GLToy_Parent()
     , m_bEmpty( false )
     , m_xData( xData )
+#ifdef GLTOY_DEBUG
+    , dbg_uCount( 1 )
+#endif
     {
     }
 
@@ -214,16 +220,16 @@ public:
     : GLToy_Parent( xList )
     , m_bEmpty( xList.m_bEmpty )
     , m_xData( xList.m_xData )
+#ifdef GLTOY_DEBUG
+    , dbg_uCount( xList.dbg_uCount )
+#endif
     {
         CopyFrom( &xList );
     }
 
     virtual ~GLToy_List()
     {
-        if( !m_bEmpty )
-        {
-            m_xData.DestroyList();
-        }
+        Clear();
     }
 
     virtual T& operator []( const int iIndex )
@@ -280,6 +286,9 @@ public:
             m_xData.Append( xData );
         }
         m_bEmpty = false;
+#ifdef GLTOY_DEBUG
+        ++dbg_uCount;
+#endif
     }
 
     void RemoveAt( const u_int uIndex )
@@ -288,6 +297,10 @@ public:
         {
             return;
         }
+
+#ifdef GLTOY_DEBUG
+        --dbg_uCount;
+#endif
 
         if( uIndex == 0 )
         {
@@ -326,6 +339,9 @@ public:
         }
 
         m_bEmpty = true;
+#ifdef GLTOY_DEBUG
+        dbg_uCount = 0;
+#endif
     }
 
     T& Head()
@@ -343,6 +359,9 @@ public:
     void RemoveHead()
     {
         RemoveAt( 0 );
+#ifdef GLTOY_DEBUG
+        --dbg_uCount;
+#endif
     }
 
 protected:
@@ -378,11 +397,19 @@ protected:
             return;
         }
 
+#ifdef GLTOY_DEBUG
+        dbg_uCount = pxDataStructure->GetCount();
+#endif
+
         m_xData.CopyFrom( pxDataStructure );
     }
 
     bool m_bEmpty;
     GLToy_ListNode< T > m_xData;
+
+#ifdef GLTOY_DEBUG
+    u_int dbg_uCount;
+#endif
 
 };
 

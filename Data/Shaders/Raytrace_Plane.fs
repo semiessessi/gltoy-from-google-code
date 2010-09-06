@@ -14,7 +14,12 @@ void main()
 	float fT = -( xPlane.w + dot( xPosition, xPlaneNormal ) ) / ( dot( xDirection, xPlaneNormal ) );
 	
 	vec3 xSolution = xDirection * fT + xPosition;
+
+	if( fT < 0.0 )
+	{
+		discard;
+	}
 	
-	gl_FragDepth = ( fT > 0.0 ) ? 0.99999 : 1.0; // TODO - something clever about this
-	gl_FragColor = ( fT > 0.0 ) ? texture2D( xTexture, 0.015625 * vec2( xSolution.x, xSolution.z ) ) : vec4( 0.0, 0.0, 0.0, 0.0 );
+	gl_FragDepth = 1.0f; //gl_DepthRange.diff / xSolution.z;
+	gl_FragColor = texture2D( xTexture, 0.015625 * vec2( xSolution.x, xSolution.z ) );
 }
