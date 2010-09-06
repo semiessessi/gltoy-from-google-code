@@ -387,6 +387,11 @@ void GLToy_Render::Clear()
     Platform_GLToy_Render::Clear();
 }
 
+void GLToy_Render::ClearColour( const GLToy_Vector_4& xColour )
+{
+    Platform_GLToy_Render::ClearColour( xColour );
+}
+
 void GLToy_Render::ClearDepth( const float fDepth )
 {
     Platform_GLToy_Render::ClearDepth( fDepth );

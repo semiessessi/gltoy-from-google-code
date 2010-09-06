@@ -34,28 +34,51 @@
 #include <Demo/JD1_DemoScene_Test.h>
 
 // GLToy
-#include <Render/GLToy_Raytrace_Fullscreen.h>
-#include <Render/GLToy_Texture.h>
+#include <Maths/GLToy_Maths.h>
+#include <Render/GLToy_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+JD1_DemoScene_Test::JD1_DemoScene_Test()
+: m_xTexture( 256, 256, RGB8 )
+{
+}
+
 void JD1_DemoScene_Test::Initialise()
 {
-    GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid2.png" ) );
+    m_xTexture.Create();
 }
 
 void JD1_DemoScene_Test::Shutdown()
 {
+    m_xTexture.Destroy();
 }
 
 void JD1_DemoScene_Test::Render() const
 {
-    GLToy_Raytrace_Fullscreen xRaytrace( GLToy_Hash_Constant( "Raytrace_Plane" ) );
+    m_xTexture.BeginRender();
+    GLToy_Render::ClearColour( GLToy_Vector_4( 1.0f, 0.0f, 0.0f, 1.0f ) );
+    m_xTexture.EndRender();
 
-    xRaytrace.BindTexture( "xTexture", GLToy_Hash_Constant( "generic/grid2.png" ) );
-    xRaytrace.Render();
+    m_xTexture.Bind();
+    
+    GLToy_Render::SetOrthogonalProjectionMatrix();
+    GLToy_Render::PushViewMatrix();
+    GLToy_Render::SetIdentityViewMatrix();
+    GLToy_Render::DisableDepthWrites();
+    GLToy_Render::DisableDepthTesting();
+
+    GLToy_Render::StartSubmittingQuads();
+    GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    GLToy_Render::SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f, -0.5f ), GLToy_Vector_2( 1.0f, 1.0f ), 0.0f, 1.0f, 1.0f, 0.0f );
+    GLToy_Render::EndSubmit();
+
+    GLToy_Render::EnableDepthTesting();
+    GLToy_Render::EnableDepthWrites();
+    GLToy_Render::SetPerspectiveProjectionMatrix();
+    GLToy_Render::PopViewMatrix();
 }
 
 void JD1_DemoScene_Test::Update()

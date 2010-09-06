@@ -40,7 +40,6 @@
 #include <Render/GLToy_Raytrace_Fullscreen.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
-#include <Render/GLToy_Texture_Renderable.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S

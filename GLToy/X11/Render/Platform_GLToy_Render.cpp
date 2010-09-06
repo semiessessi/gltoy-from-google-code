@@ -250,6 +250,13 @@ void Platform_GLToy_Render::Clear()
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 }
 
+void Platform_GLToy_Render::ClearColour( const GLToy_Vector_4& xColour )
+{
+    glClearColor( xColour[ 0 ], xColour[ 1 ], xColour[ 2 ], xColour[ 3 ] );
+    glClear( GL_COLOR_BUFFER_BIT );
+    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+}
+
 void Platform_GLToy_Render::ClearDepth( const float fDepth )
 {
     glClearDepth( fDepth );

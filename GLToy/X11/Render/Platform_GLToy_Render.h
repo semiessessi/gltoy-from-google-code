@@ -126,6 +126,7 @@ private:
     static u_int GetError();
 
     static void Clear();
+    static void ClearColour( const GLToy_Vector_4& xColour );
     static void ClearDepth( const float fDepth );
     static void SetDepthFunction( const u_int uDepthFunction );
 
