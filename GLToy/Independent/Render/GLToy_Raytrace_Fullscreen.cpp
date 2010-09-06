@@ -44,8 +44,9 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Raytrace_Fullscreen::GLToy_Raytrace_Fullscreen( const GLToy_Hash uShaderHash )
+GLToy_Raytrace_Fullscreen::GLToy_Raytrace_Fullscreen( const GLToy_Hash uShaderHash, const bool bDepthBuffered )
 : m_uShader( uShaderHash )
+, m_bDepthBuffered( bDepthBuffered )
 {
     for( u_int u = 0; u < 8; ++u )
     {
@@ -56,6 +57,12 @@ GLToy_Raytrace_Fullscreen::GLToy_Raytrace_Fullscreen( const GLToy_Hash uShaderHa
 
 void GLToy_Raytrace_Fullscreen::Render() const
 {
+    if( !m_bDepthBuffered )
+    {
+        GLToy_Render::DisableDepthWrites();
+        GLToy_Render::DisableDepthTesting();
+    }
+
     for( u_int u = 0; u < 8; ++u )
     {
         GLToy_Texture* pxTexture = ( m_axTextures[ u ].First().First() == uGLTOY_BAD_HASH ) ? NULL : GLToy_Texture_System::FindTexture( m_axTextures[ u ].First().First() );
@@ -110,6 +117,12 @@ void GLToy_Raytrace_Fullscreen::Render() const
     GLToy_Render::EndSubmit();
 
     GLToy_Render::UseProgram( 0 );
+
+    if( !m_bDepthBuffered )
+    {
+        GLToy_Render::EnableDepthWrites();
+        GLToy_Render::EnableDepthTesting();
+    }
 }
 
 void GLToy_Raytrace_Fullscreen::BindTexture( const GLToy_String& szUniformName, const GLToy_Hash uTextureHash, const u_int uTextureUnit )

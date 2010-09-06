@@ -47,7 +47,7 @@ class GLToy_Raytrace_Fullscreen
 {
 public:
 
-    GLToy_Raytrace_Fullscreen( const GLToy_Hash uShaderHash );
+    GLToy_Raytrace_Fullscreen( const GLToy_Hash uShaderHash, const bool bDepthBuffered = true );
 
     virtual ~GLToy_Raytrace_Fullscreen() {}
 
@@ -60,6 +60,7 @@ private:
 
     GLToy_Hash m_uShader;
     GLToy_Pair< GLToy_Pair< GLToy_Hash, u_int >, GLToy_String > m_axTextures[ 8 ];
+    const bool m_bDepthBuffered;
 
 };
 

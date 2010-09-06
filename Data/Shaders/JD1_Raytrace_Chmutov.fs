@@ -5,6 +5,7 @@ varying vec3 xPosition;
 uniform sampler2D xTexture;
 
 vec3 xSolution;
+vec3 xTraceSolution;
 vec3 xNormalisedDirection;
 float fHackEdgeSoften;
 
@@ -66,7 +67,7 @@ float solve( vec3 xPos, vec3 xDir )
 	}
 
 	fHackEdgeSoften = min( ( ( 4.0f * fA * fK + 3.0f * fB ) * fK + 2.0f * fC ) * fK + fD, 0.0f );
-	fHackEdgeSoften = -fHackEdgeSoften;
+	fHackEdgeSoften = clamp( -fHackEdgeSoften, 0.0f, 1.0f );
 
 	return fK;
 }
@@ -79,6 +80,7 @@ vec4 trace( vec3 xPos, vec3 xDir )
 
 	if( fK < 0.0f )
 	{
+		discard;
 		return vec4( 0.0f, 0.0f, 0.0f, 0.0f );
 	}
 
@@ -92,17 +94,17 @@ vec4 trace( vec3 xPos, vec3 xDir )
 	vec3 xLightPosition = xPos;
 	float fLight = 0.0f;
 	float fSpecularity = 0.0f;
-	vec3 xCurrentSolution = xSolution;
+	xTraceSolution = xSolution;
 	vec3 xCurrentDirection = xNormalisedDirection;
-	float fLightDistance = length( xCurrentSolution - xLightPosition );
-	vec3 xLightDirection = normalize( xCurrentSolution - xLightPosition );
+	float fLightDistance = length( xTraceSolution - xLightPosition );
+	vec3 xLightDirection = normalize( xTraceSolution - xLightPosition );
 
 	vec4 xDiffuseTexture = texture2D( xTexture, vec2( ( 8.0f / 3.141592654f ) * atan( -xSolution.z, xSolution.x ), 2.0f * xSolution.y ) );
 	float fSpecularTexture = ( dot( xDiffuseTexture, xDiffuseTexture ) > 1.5f ) ? 32.0f : 16.0f;
 	float fGlossTexture = ( fSpecularTexture > 16.0f ) ? 1.0f : 0.75f;
 	
 	// this doesn't seem to work at all...
-	//float fShadow = 1.0f - clamp( 100.0f * solve( xCurrentSolution + xLightDirection * 0.01f, xLightDirection ), 0.0f, 1.0f );
+	//float fShadow = 1.0f - clamp( 100.0f * solve( xTraceSolution + xLightDirection * 0.01f, xLightDirection ), 0.0f, 1.0f );
 	
 	float fAttenuation = /* fShadow * */ 1.0f / ( 1.0f + 0.5f * dot( xLightDirection, xLightDirection ) );
 	fLight = clamp( fAttenuation * dot( xNormal, -xLightDirection ), 0.0f, 1.0f );
@@ -113,7 +115,7 @@ vec4 trace( vec3 xPos, vec3 xDir )
 	// return xDiffuseTexture;
 
 	return fEdgeFade * (
-			fLight * 0.6f * xDiffuseTexture
+			fLight * 0.8f * xDiffuseTexture
 			+ vec4( fSpecularity, fSpecularity, fSpecularity, 1.0f )
 		);
 }
@@ -122,5 +124,5 @@ void main()
 {
 	gl_FragColor = trace( xPosition, xDirection );
 
-	//gl_FragDepth = ( fT > 0.0 ) ? 0.99999 : 1.0; // TODO - something clever about this
+	// gl_FragDepth = ( gl_DepthRange.far - gl_DepthRange.near ) gl_DepthRange.diff
 }
