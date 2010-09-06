@@ -67,7 +67,7 @@ class GLToy_Texture;
 class GLToy_Sprite
 : public GLToy_Renderable
 , public GLToy_Serialisable
-, public GLToy_PoolAllocated< GLToy_Sprite >
+//, public GLToy_PoolAllocated< GLToy_Sprite >
 {
 
 public:

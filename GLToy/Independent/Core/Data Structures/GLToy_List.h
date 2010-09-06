@@ -51,7 +51,7 @@ class GLToy_List;
 template< class T >
 class GLToy_ListNode
 : public GLToy_DataStructure< T >
-, public GLToy_PoolAllocated< GLToy_ListNode< T > >
+//, public GLToy_PoolAllocated< GLToy_ListNode< T > >
 {
     friend class GLToy_List< T >;
 
@@ -264,6 +264,9 @@ public:
     {
         if( m_bEmpty )
         {
+#ifdef GLTOY_DEBUG
+            GLToy_Assert( dbg_uCount == 0, "List reporting empty but debug count is not zero!" );
+#endif
             return 0;
         }
         
@@ -359,9 +362,6 @@ public:
     void RemoveHead()
     {
         RemoveAt( 0 );
-#ifdef GLTOY_DEBUG
-        --dbg_uCount;
-#endif
     }
 
 protected:
