@@ -34,11 +34,13 @@
 #include <Render/GLToy_Raytrace_Fullscreen.h>
 
 // GLToy
+#include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
 #include <Render/Shader/GLToy_Shader.h>
 #include <Render/Shader/GLToy_Shader_System.h>
+#include <String/GLToy_String.h> 
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -96,6 +98,12 @@ void GLToy_Raytrace_Fullscreen::Render() const
         }
     }
 
+	GLToy_ConstIterate( Vector4Uniform, xIterator, &m_xVector4Uniforms )
+	{
+		const Vector4Uniform& xCurrent = xIterator.Current();
+		pxShader->SetUniform( xCurrent.First(), *( xCurrent.Second() ) );
+	}
+
     const float fAspectRatio = static_cast< float >( GLToy::GetWindowViewportWidth() ) / static_cast< float >( GLToy::GetWindowViewportHeight() );
 
     GLToy_Render::StartSubmittingQuads();
@@ -141,4 +149,18 @@ void GLToy_Raytrace_Fullscreen::BindFrameBufferTexture( const GLToy_String& szUn
     m_axTextures[ uTextureUnit ].First().First() = uGLTOY_BAD_HASH;
     m_axTextures[ uTextureUnit ].First().Second() = uTextureID;
     m_axTextures[ uTextureUnit ].Second() = szUniformName;
+}
+
+void GLToy_Raytrace_Fullscreen::BindUniform( const GLToy_String& szUniformName, const GLToy_Vector_4* const pxVector )
+{
+	const GLToy_Hash uHash = szUniformName.GetHash();
+	if( pxVector && !m_xVector4Uniforms.FindData( uHash ) )
+	{
+		m_xVector4Uniforms.AddNode( Vector4Uniform( szUniformName, pxVector ), uHash );
+	}
+	else
+	{
+		GLToy_Assert( pxVector != NULL, "Passing in null vector pointer!" );
+		GLToy_Assert( !m_xVector4Uniforms.FindData( uHash ), "Uniform already bound!" );
+	}
 }

@@ -7,6 +7,7 @@ uniform sampler2D xTexture;
 vec3 xSolution;
 vec3 xTraceSolution;
 vec3 xNormalisedDirection;
+uniform vec4 xDebugVector = vec4( 1.0f, 1.0f, 1.0f, 1.0f );
 float fHackEdgeSoften;
 
 float solve( vec3 xPos, vec3 xDir )
@@ -67,7 +68,7 @@ float solve( vec3 xPos, vec3 xDir )
 	}
 
 	fHackEdgeSoften = min( ( ( 4.0f * fA * fK + 3.0f * fB ) * fK + 2.0f * fC ) * fK + fD, 0.0f );
-	fHackEdgeSoften = clamp( -fHackEdgeSoften, 0.0f, 1.0f );
+	fHackEdgeSoften = ( xDebugVector.x > 0.0f ) ? clamp( -fHackEdgeSoften, 0.0f, 1.0f ) : 1.0f;
 
 	return fK;
 }
@@ -115,8 +116,8 @@ vec4 trace( vec3 xPos, vec3 xDir )
 	// return xDiffuseTexture;
 
 	return fEdgeFade * (
-			fLight * 0.8f * xDiffuseTexture
-			+ vec4( fSpecularity, fSpecularity, fSpecularity, 1.0f )
+			fLight * 0.8f * xDiffuseTexture * xDebugVector.y
+			+ vec4( fSpecularity, fSpecularity, fSpecularity, 1.0f ) * xDebugVector.z
 		);
 }
 

@@ -34,6 +34,9 @@
 #include <Demo/JD1_DemoScene_Chmutov.h>
 
 // GLToy
+#ifdef GLTOY_DEBUG
+	#include <Core/Console/GLToy_Console.h>
+#endif
 #include <Core/GLToy_Timer.h>
 #include <Maths/GLToy_Noise.h>
 #include <Render/GLToy_Camera.h>
@@ -42,12 +45,27 @@
 #include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifdef GLTOY_DEBUG
+	static bool dbg_bAA = true;
+	static bool dbg_bDiffuse = true;
+	static bool dbg_bSpecular = true;
+#endif
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 void JD1_DemoScene_Chmutov::Initialise()
 {
     GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid2.png" ) );
+#ifdef GLTOY_DEBUG
+	GLToy_Console::RegisterVariable( "chmutov.aa", &dbg_bAA );
+	GLToy_Console::RegisterVariable( "chmutov.diffuse", &dbg_bDiffuse );
+	GLToy_Console::RegisterVariable( "chmutov.specular", &dbg_bSpecular );
+#endif
 }
 
 void JD1_DemoScene_Chmutov::Shutdown()
@@ -59,6 +77,12 @@ void JD1_DemoScene_Chmutov::Render() const
     GLToy_Raytrace_Fullscreen xRaytrace( GLToy_Hash_Constant( "JD1_Raytrace_Chmutov" ) );
 
     xRaytrace.BindTexture( "xTexture", GLToy_Hash_Constant( "generic/grid2.png" ) );
+
+#ifdef GLTOY_DEBUG
+	const GLToy_Vector_4 xDebugVector( ( dbg_bAA ? 1.0f: 0.0f ), ( dbg_bDiffuse ? 1.0f: 0.0f ), ( dbg_bSpecular ? 1.0f: 0.0f ), 0.0f ); 
+	xRaytrace.BindUniform( "xDebugVector", &xDebugVector );
+#endif
+
     xRaytrace.Render();
 }
 
