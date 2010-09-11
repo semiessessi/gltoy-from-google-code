@@ -7,7 +7,6 @@ uniform sampler2D xTexture;
 vec3 xSolution;
 vec3 xTraceSolution;
 vec3 xNormalisedDirection;
-uniform vec4 xDebugVector = vec4( 1.0f, 1.0f, 1.0f, 1.0f );
 float fHackEdgeSoften;
 
 float solve( vec3 xPos, vec3 xDir )
@@ -68,7 +67,7 @@ float solve( vec3 xPos, vec3 xDir )
 	}
 
 	fHackEdgeSoften = min( ( ( 4.0f * fA * fK + 3.0f * fB ) * fK + 2.0f * fC ) * fK + fD, 0.0f );
-	fHackEdgeSoften = ( xDebugVector.x > 0.0f ) ? clamp( -fHackEdgeSoften, 0.0f, 1.0f ) : 1.0f;
+	fHackEdgeSoften = clamp( -fHackEdgeSoften, 0.0f, 1.0f );
 
 	return fK;
 }
@@ -93,36 +92,29 @@ vec4 trace( vec3 xPos, vec3 xDir )
 	// df/sz = 4z^3 - 2z
 	vec3 xNormal = normalize( 4.0f * xSolution * xSolution * xSolution - 2.0f * xSolution );
 	vec3 xLightPosition = xPos;
-	//xPos.x += 2.0f;
-	xLightPosition.y += 1.0f;
-	xLightPosition.z += 10.0f;
-	//xPos.y -= 1.0f;
+	xLightPosition -= xNormalisedDirection;
 
 	float fLight = 0.0f;
 	float fSpecularity = 0.0f;
 	xTraceSolution = xSolution;
 	vec3 xCurrentDirection = xNormalisedDirection;
 	float fLightDistance = length( xTraceSolution - xLightPosition );
-	vec3 xLightDirection = normalize( xTraceSolution - xLightPosition );
+	vec3 xLightDirection = xTraceSolution - xLightPosition;
+	vec3 xNormalisedLightDirection = normalize( xLightDirection );
 
 	vec4 xDiffuseTexture = texture2D( xTexture, vec2( ( 8.0f / 3.141592654f ) * atan( -xSolution.z, xSolution.x ), 2.0f * xSolution.y ) );
 	float fSpecularTexture = ( dot( xDiffuseTexture, xDiffuseTexture ) > 1.5f ) ? 32.0f : 16.0f;
 	float fGlossTexture = ( fSpecularTexture > 16.0f ) ? 1.0f : 0.75f;
 	
-	// this doesn't seem to work at all...
-	//float fShadow = 1.0f - clamp( 100.0f * solve( xTraceSolution + xLightDirection * 0.01f, xLightDirection ), 0.0f, 1.0f );
-	
-	float fAttenuation = /* fShadow * */ 1.0f / ( 1.0f + 0.5f * dot( xLightDirection, xLightDirection ) );
-	fLight = clamp( fAttenuation * dot( xNormal, -xLightDirection ), 0.0f, 1.0f );
+	float fAttenuation = 3.0f / ( 1.0f + 0.5f * dot( xLightDirection, xLightDirection ) );
+	fLight = clamp( fAttenuation * dot( xNormal, -xNormalisedLightDirection ), 0.0f, 1.0f );
 	
 	vec3 xSpecularDirection = 2 * dot( xNormal, -xCurrentDirection ) * xNormal + xCurrentDirection;
-	fSpecularity = fGlossTexture *  clamp( 0.25f * pow( dot( xSpecularDirection, -xLightDirection ), fSpecularTexture ), 0.00001f, 1.0f );
-
-	// return xDiffuseTexture;
+	fSpecularity = fGlossTexture *  clamp( 0.25f * pow( dot( xSpecularDirection, -xNormalisedLightDirection ), fSpecularTexture ), 0.00001f, 1.0f );
 
 	return fEdgeFade * (
-			fLight * 1.1f * xDiffuseTexture
-			+ vec4( fSpecularity, fSpecularity, fSpecularity, 1.0f ) * xDebugVector.z
+			fLight * 0.8f * xDiffuseTexture
+			+ vec4( fSpecularity, fSpecularity, fSpecularity, 1.0f )
 		);
 }
 

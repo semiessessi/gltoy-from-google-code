@@ -49,6 +49,7 @@
 GLToy_Raytrace_Fullscreen::GLToy_Raytrace_Fullscreen( const GLToy_Hash uShaderHash, const bool bDepthBuffered )
 : m_uShader( uShaderHash )
 , m_bDepthBuffered( bDepthBuffered )
+, m_xVector4Uniforms()
 {
     for( u_int u = 0; u < 8; ++u )
     {
