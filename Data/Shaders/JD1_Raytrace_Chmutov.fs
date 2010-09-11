@@ -93,6 +93,11 @@ vec4 trace( vec3 xPos, vec3 xDir )
 	// df/sz = 4z^3 - 2z
 	vec3 xNormal = normalize( 4.0f * xSolution * xSolution * xSolution - 2.0f * xSolution );
 	vec3 xLightPosition = xPos;
+	//xPos.x += 2.0f;
+	xLightPosition.y += 1.0f;
+	xLightPosition.z += 10.0f;
+	//xPos.y -= 1.0f;
+
 	float fLight = 0.0f;
 	float fSpecularity = 0.0f;
 	xTraceSolution = xSolution;
@@ -111,12 +116,12 @@ vec4 trace( vec3 xPos, vec3 xDir )
 	fLight = clamp( fAttenuation * dot( xNormal, -xLightDirection ), 0.0f, 1.0f );
 	
 	vec3 xSpecularDirection = 2 * dot( xNormal, -xCurrentDirection ) * xNormal + xCurrentDirection;
-	fSpecularity = fGlossTexture * clamp( 0.25f * pow( dot( xSpecularDirection, -xLightDirection ), fSpecularTexture ), 0.0f, 1.0f );
+	fSpecularity = fGlossTexture *  clamp( 0.25f * pow( dot( xSpecularDirection, -xLightDirection ), fSpecularTexture ), 0.00001f, 1.0f );
 
 	// return xDiffuseTexture;
 
 	return fEdgeFade * (
-			fLight * 0.8f * xDiffuseTexture * xDebugVector.y
+			fLight * 1.1f * xDiffuseTexture
 			+ vec4( fSpecularity, fSpecularity, fSpecularity, 1.0f ) * xDebugVector.z
 		);
 }
