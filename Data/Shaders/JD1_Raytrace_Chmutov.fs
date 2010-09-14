@@ -136,7 +136,7 @@ void main()
 	fK = 1.5f;
 	vec4 xColour = trace( xPosition, xDirection, true );
 	float fFade = fHackEdgeSoften;
-	float fBounceScale = 0.8f;
+	float fBounceScale = 1.0f;
 	float fGloss = fBounceScale * fGlossTexture;
 	fK = 1.0f;
 	// reflect

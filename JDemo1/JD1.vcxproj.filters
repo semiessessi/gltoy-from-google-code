@@ -43,6 +43,9 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{f1cb7b6e-bc73-43cc-8025-158633a35c28}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Render\Text">
+      <UniqueIdentifier>{034f95a1-9e27-46f5-9a79-e47d87840dd6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_JD1.cpp">
@@ -146,6 +149,9 @@
     </ClCompile>
     <ClCompile Include="Independent\Render\JD1_Component.cpp">
       <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Text\JD1_Render_Text.cpp">
+      <Filter>Independent\Render\Text</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Render\JD1_Component.h">
       <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\Text\JD1_Render_Text.h">
+      <Filter>Independent\Render\Text</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
