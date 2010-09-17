@@ -94,7 +94,9 @@ private:
     static bool s_bBSPQuadRes;
     static bool s_bDebugRender;
     static GLToy_Environment* s_pxCurrentEnvironment;
-
+#ifdef GLTOY_PLATFORM_WIN32
+	__declspec( align( 4 ) )
+#endif
     static GLToy_HashTree< GLToy_EnvironmentFile* > s_xEnvironments;
 
 };
