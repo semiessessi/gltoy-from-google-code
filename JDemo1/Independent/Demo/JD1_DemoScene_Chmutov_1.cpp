@@ -31,7 +31,7 @@
 #include <Core/JD1.h>
 
 // This file's headers
-#include <Demo/JD1_DemoScene_Chmutov.h>
+#include <Demo/JD1_DemoScene_Chmutov_1.h>
 
 // GLToy
 #include <Core/GLToy_Timer.h>
@@ -45,25 +45,25 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void JD1_DemoScene_Chmutov::Initialise()
+void JD1_DemoScene_Chmutov_1::Initialise()
 {
     GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid2.png" ) );
 }
 
-void JD1_DemoScene_Chmutov::Shutdown()
+void JD1_DemoScene_Chmutov_1::Shutdown()
 {
 }
 
-void JD1_DemoScene_Chmutov::Render() const
+void JD1_DemoScene_Chmutov_1::Render() const
 {
-    GLToy_Raytrace_Fullscreen xRaytrace( GLToy_Hash_Constant( "JD1_Raytrace_Chmutov" ) );
+    GLToy_Raytrace_Fullscreen xRaytrace( GLToy_Hash_Constant( "JD1_Raytrace_Chmutov_1" ) );
 
     xRaytrace.BindTexture( "xTexture", GLToy_Hash_Constant( "generic/grid2.png" ) );
 
     xRaytrace.Render();
 }
 
-void JD1_DemoScene_Chmutov::Update()
+void JD1_DemoScene_Chmutov_1::Update()
 {
     GLToy_Parent::Update();
 
@@ -79,7 +79,7 @@ void JD1_DemoScene_Chmutov::Update()
     GLToy_Camera::LookAt( GLToy_Vector_3( 0.0f, 0.0f, 0.0f ) );
 }
 
-void JD1_DemoScene_Chmutov::Start()
+void JD1_DemoScene_Chmutov_1::Start()
 {
     GLToy_Parent::Start();
 
@@ -87,7 +87,7 @@ void JD1_DemoScene_Chmutov::Start()
     GLToy_Render::Clear();
 }
 
-void JD1_DemoScene_Chmutov::Stop()
+void JD1_DemoScene_Chmutov_1::Stop()
 {
     GLToy_Camera::Reset();
 }

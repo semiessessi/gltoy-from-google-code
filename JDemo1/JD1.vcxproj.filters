@@ -153,6 +153,15 @@
     <ClCompile Include="Independent\Render\Text\JD1_Render_Text.cpp">
       <Filter>Independent\Render\Text</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_Chmutov_1.cpp">
+      <Filter>Independent\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_Chmutov_2.cpp">
+      <Filter>Independent\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_Chmutov_3.cpp">
+      <Filter>Independent\Demo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_JD1.h">
@@ -266,6 +275,15 @@
     <ClInclude Include="Independent\Render\Text\JD1_Render_Text.h">
       <Filter>Independent\Render\Text</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_Chmutov_1.h">
+      <Filter>Independent\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_Chmutov_2.h">
+      <Filter>Independent\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_Chmutov_3.h">
+      <Filter>Independent\Demo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\JD1_Raytrace_Tunnel.fs">
@@ -290,6 +308,24 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_3.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_1.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_1.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_2.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_2.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_3.fs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

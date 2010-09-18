@@ -157,6 +157,9 @@
     <ClCompile Include="Independent\Demo\JD1_DemoScene_AVS.cpp" />
     <ClCompile Include="Independent\Demo\JD1_DemoScene_AVS_Test.cpp" />
     <ClCompile Include="Independent\Demo\JD1_DemoScene_Chmutov.cpp" />
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_Chmutov_1.cpp" />
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_Chmutov_2.cpp" />
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_Chmutov_3.cpp" />
     <ClCompile Include="Independent\Demo\JD1_DemoScene_Dragon.cpp" />
     <ClCompile Include="Independent\Demo\JD1_DemoScene_Intro.cpp" />
     <ClCompile Include="Independent\Demo\JD1_DemoScene_MovingParticles.cpp" />
@@ -194,6 +197,9 @@
     <ClInclude Include="Independent\Demo\JD1_DemoScene_AVS.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_AVS_Test.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_Chmutov.h" />
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_Chmutov_1.h" />
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_Chmutov_2.h" />
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_Chmutov_3.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_Dragon.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_Intro.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_MovingParticles.h" />
@@ -237,6 +243,12 @@
   <ItemGroup>
     <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.fs" />
     <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.shader" />
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_1.fs" />
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_1.shader" />
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_2.fs" />
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_2.shader" />
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_3.fs" />
+    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_3.shader" />
     <None Include="..\Data\Shaders\JD1_Raytrace_Tunnel.fs" />
     <None Include="..\Data\Shaders\JD1_Raytrace_Tunnel.shader" />
     <None Include="..\Data\Shaders\JD1_Trans_Blur.fs" />
