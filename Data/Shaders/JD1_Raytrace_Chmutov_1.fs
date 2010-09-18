@@ -3,6 +3,7 @@
 varying vec3 xDirection;
 varying vec3 xPosition;
 uniform sampler2D xTexture;
+uniform vec3 xRippleTimers;
 
 vec3 xSolution;
 vec3 xTraceSolution;
@@ -11,7 +12,8 @@ vec3 xSpecularDirection;
 vec3 xLightPosition;
 float fGlossTexture;
 float fHackEdgeSoften;
-float fK = 1.0f;
+float fInitialK = -1.0f;
+float fK;
 
 float solve( vec3 xPos, vec3 xDir )
 {
@@ -32,6 +34,7 @@ float solve( vec3 xPos, vec3 xDir )
 	float fD = dot( xNormalisedDirection, xDHelp ); // i.e. x * ox * ( 4 ox^2 - 2 ) + y * oy * ( 4 oy^2 - 2 ) + z * oz * ( 4 oz^2 - 2 );
 	float fE = dot( xPosSquares, xPosSquares - 1.0f ) + fSize;
 	
+	fK = max( 0.0f, fInitialK + length( xPos ) );
 	float fL = -0.15f;
 
 	// Whittaker iteration
@@ -99,7 +102,7 @@ vec4 trace( vec3 xPos, vec3 xDir, const bool bDiscard = false )
 	// df/sz = 4z^3 - 2z
 	vec3 xNormal = normalize( 4.0f * xSolution * xSolution * xSolution - 2.0f * xSolution );
 	// ok, lets mess with the normal, why not
-	xNormal += 0.15f * normalize( sin( 170.0f * xSolution ) );
+	xNormal += 0.05f * normalize( sin( 120.0f * xSolution ) );
 	xNormal = normalize( xNormal );
 
 	float fLight = 0.0f;
@@ -115,7 +118,7 @@ vec4 trace( vec3 xPos, vec3 xDir, const bool bDiscard = false )
 			( 10.0f / 3.141592654f ) * atan( -xSolution.z, xSolution.x ),
 			2.5f * xSolution.y
 			) );
-	float fSpecularTexture = ( dot( xDiffuseTexture, xDiffuseTexture ) > 1.5f ) ? 32.0f : 8.0f;
+	float fSpecularTexture = 32.0f;
 	fGlossTexture = ( fSpecularTexture > 16.0f ) ? 1.0f : 0.75f;
 	
 	float fAttenuation = 3.0f / ( 1.0f + 0.5f * dot( xLightDirection, xLightDirection ) );
@@ -135,13 +138,12 @@ void main()
 	xLightPosition = xPosition - normalize( xDirection );
 	fK = 1.5f;
 	vec4 xColour = trace( xPosition, xDirection, true );
-	float fFade = fHackEdgeSoften;
-	float fBounceScale = 1.0f;
-	float fGloss = fBounceScale * fGlossTexture;
-	fK = 1.0f;
+	// float fFade = fHackEdgeSoften;
+	// float fBounceScale = 1.0f;
+	// float fGloss = fBounceScale * fGlossTexture;
 	// reflect
 	// 1 bounce
-	xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection );
+	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection );
 	// fGloss *= fBounceScale * fGlossTexture;
 	// 2 bounces
 	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection );

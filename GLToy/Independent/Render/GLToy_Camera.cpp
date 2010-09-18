@@ -146,6 +146,7 @@ void GLToy_Camera::ApplyTransforms()
     GLToy_Render::SetIdentityViewMatrix();
 
     GLToy_Matrix_3 xOrientation = GetOrientation();
+    xOrientation.Orthonormalise();
     // TODO - re-work platform look at code to avoid gluLookAt and hide this too.
     xOrientation[ 2 ] = -xOrientation[ 2 ]; // silly OpenGL specific twiddling
     GLToy_Render::Transform( xOrientation );
@@ -247,4 +248,18 @@ bool GLToy_Camera::IsPointOnScreen( const GLToy_Vector_2& xPoint )
     }
 
     return true;
+}
+
+void GLToy_Camera::SetEuler( const float fX, const float fY, const float fZ )
+{
+    s_xDirection = GLToy_Vector_3( 0.0f, 0.0f, 1.0f );
+    s_xUp = GLToy_Vector_3( 0.0f, 1.0f, 0.0f );
+    
+    s_xDirection = GLToy_Maths::Rotate_AxisAngle( s_xDirection, GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), fY );
+    s_xDirection = GLToy_Maths::Rotate_AxisAngle( s_xDirection, GLToy_Vector_3( 1.0f, 0.0f, 0.0f ), fX );
+    s_xDirection = GLToy_Maths::Rotate_AxisAngle( s_xDirection, GLToy_Vector_3( 0.0f, 0.0f, 1.0f ), fZ );
+
+    s_xUp = GLToy_Maths::Rotate_AxisAngle( s_xUp, GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), fY );
+    s_xUp = GLToy_Maths::Rotate_AxisAngle( s_xUp, GLToy_Vector_3( 1.0f, 0.0f, 0.0f ), fX );
+    s_xUp = GLToy_Maths::Rotate_AxisAngle( s_xUp, GLToy_Vector_3( 0.0f, 0.0f, 1.0f ), fZ );
 }

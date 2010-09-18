@@ -78,10 +78,11 @@ public:
     static GLToy_Inline int Min( const int iValue1, const int iValue2 ) { return ( iValue1 < iValue2 ) ? iValue1 : iValue2; }
 
     static GLToy_Inline float Lerp( const float fValue1, const float fValue2, const float fAmount ) { return fValue1 + ( fValue2 - fValue1 ) * fAmount; }
+    static GLToy_Inline float ClampedLerp( const float fValue1, const float fValue2, const float fAmount ) { return Clamp( Lerp( fValue1, fValue2, fAmount ), Min( fValue1, fValue2 ), Max( fValue1, fValue2 ) ); }
     static GLToy_Inline float CosineInterpolate( const float fValue1, const float fValue2, const float fAmount ) { return fValue1 + ( fValue2 - fValue1 ) * 0.5f * ( 1.0f - Cos( Pi * fAmount ) ); }
-    //static GLToy_Vector_2 Lerp( const GLToy_Vector_2& xValue1, const GLToy_Vector_2& xValue2, float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
+    //static GLToy_Inline GLToy_Vector_2 Lerp( const GLToy_Vector_2& xValue1, const GLToy_Vector_2& xValue2, const float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
     static GLToy_Inline GLToy_Vector_3 Lerp( const GLToy_Vector_3& xValue1, const GLToy_Vector_3& xValue2, const float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
-    //static GLToy_Vector_4 Lerp( const GLToy_Vector_4& xValue1, const GLToy_Vector_4& xValue2, float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
+    //static GLToy_Inline GLToy_Vector_4 Lerp( const GLToy_Vector_4& xValue1, const GLToy_Vector_4& xValue2, const float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
 
     static float Sin( const float fValue );
     static float Cos( const float fValue );

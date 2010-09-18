@@ -37,14 +37,7 @@
 
 // JD1
 #include <Demo/JD1_Demo_System.h>
-#include <Demo/JD1_DemoScene_Chmutov.h>
-#include <Demo/JD1_DemoScene_Dragon.h>
-#include <Demo/JD1_DemoScene_Intro.h>
-#include <Demo/JD1_DemoScene_MovingParticles.h>
-#include <Demo/JD1_DemoScene_P9_Birth.h>
-#include <Demo/JD1_DemoScene_Test.h>
-#include <Demo/JD1_DemoScene_TexerFlow.h>
-#include <Demo/JD1_DemoScene_Tunnel.h>
+#include <Demo/JD1_DemoScene_Chmutov_1.h>
 #include <Sound/JD1_Sound_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,15 +53,9 @@ bool JD1::Initialise()
 
     GLToy_State_System::ChangeState( GLToy_Hash_Constant( "FixedCamera" ) );
 
-    //JD1_Demo_System::Queue( new JD1_DemoScene_Test() );
-    //JD1_Demo_System::Queue( new JD1_DemoScene_Intro(), 2.0f );
-    //JD1_Demo_System::Queue( new JD1_DemoScene_MovingParticles(), 10.0f );
-    //JD1_Demo_System::Queue( new JD1_DemoScene_Dragon(), 10.0f );
-    JD1_Demo_System::Queue( new JD1_DemoScene_Chmutov() );// , 30.0f, JD1_DEMO_FLASH_WHITE, 0.4f );
-    //JD1_Demo_System::Queue( new JD1_DemoScene_TexerFlow(), 20.0f, JD1_DEMO_FLASH_WHITE, 0.4f );
-    //JD1_Demo_System::Queue( new JD1_DemoScene_Tunnel(), 30.0f, JD1_DEMO_FLASH_WHITE, 0.4f );
-    //JD1_Demo_System::Queue( new JD1_DemoScene_P9_Birth() );
-    //JD1_Demo_System::Queue( new JD1_DemoScene_AVS_Test() );
+
+    JD1_Demo_System::Queue( new JD1_DemoScene_Chmutov_1() );// , 30.0f, JD1_DEMO_FLASH_WHITE, 0.4f );
+
 
     return true;
 }

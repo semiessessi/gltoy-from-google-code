@@ -45,6 +45,12 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+
+JD1_DemoScene_Chmutov_1::JD1_DemoScene_Chmutov_1()
+: m_xRippleTimers( GLToy_Maths::ZeroVector4 )
+{
+}
+
 void JD1_DemoScene_Chmutov_1::Initialise()
 {
     GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid2.png" ) );
@@ -59,6 +65,7 @@ void JD1_DemoScene_Chmutov_1::Render() const
     GLToy_Raytrace_Fullscreen xRaytrace( GLToy_Hash_Constant( "JD1_Raytrace_Chmutov_1" ) );
 
     xRaytrace.BindTexture( "xTexture", GLToy_Hash_Constant( "generic/grid2.png" ) );
+    xRaytrace.BindUniform( "xRippleTimers", &m_xRippleTimers );
 
     xRaytrace.Render();
 }
@@ -67,16 +74,21 @@ void JD1_DemoScene_Chmutov_1::Update()
 {
     GLToy_Parent::Update();
 
-    const float fHeight = 0.5f * GLToy_Maths::Sin( 0.337f * GLToy_Timer::GetTime() );
-    GLToy_Vector_3 xCameraPosition = 
-        GLToy_Vector_3(
-            GLToy_Maths::Cos( GLToy_Timer::GetTime() * 0.701f ),
-            0.85f * GLToy_Maths::Cos( GLToy_Timer::GetTime() * 0.377f ),
-            GLToy_Maths::Sin( GLToy_Timer::GetTime() * 0.898f ) );
-    xCameraPosition.Normalise();
-    xCameraPosition *= ( 3.0f - GLToy_Maths::Abs( fHeight ) );
+    const float fHeight = GLToy_Maths::ClampedLerp( 3.0f, 0.0f, 0.002f * m_fTimer * m_fTimer );
+    GLToy_Vector_3 xCameraPosition = GLToy_Vector_3( -0.05f, 0.2f, -1.0f );
+    xCameraPosition.Normalise();    
+    xCameraPosition *= fHeight;
+
+    static float fX = 0.0f, fY = 0.0f, fZ = 0.0f;
+    if( fHeight == 0.0f )
+    {
+        // rotate camera
+        fX += 0.35f * GLToy_Timer::GetFrameTime();
+        fY += 0.75f * GLToy_Timer::GetFrameTime();
+    }
+
+    GLToy_Camera::SetEuler( fX, fY, fZ );
     GLToy_Camera::SetPosition( xCameraPosition );
-    GLToy_Camera::LookAt( GLToy_Vector_3( 0.0f, 0.0f, 0.0f ) );
 }
 
 void JD1_DemoScene_Chmutov_1::Start()

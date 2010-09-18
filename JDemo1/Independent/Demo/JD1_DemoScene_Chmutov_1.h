@@ -34,6 +34,9 @@
 // Parents
 #include <Demo/JD1_DemoScene.h>
 
+// GLToy
+#include <Maths/GLToy_Vector.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,6 +49,8 @@ class JD1_DemoScene_Chmutov_1
 
 public:
 
+    JD1_DemoScene_Chmutov_1();
+
     virtual void Initialise();
     virtual void Shutdown();
 
@@ -55,6 +60,9 @@ public:
     virtual void Render() const;
     virtual void Update();
 
+protected:
+
+    GLToy_Vector_4 m_xRippleTimers;
 };
 
 #endif

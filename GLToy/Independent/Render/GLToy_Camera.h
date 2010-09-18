@@ -58,6 +58,8 @@ public:
     static GLToy_Matrix_3 GetOrientation() { return s_xOrientation; }
     static GLToy_Matrix_3 GetInverseOrientation() { return s_xInverseOrientation; }
 
+    static void Set( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection, const GLToy_Vector_3& xUp ) { s_xPosition = xPosition; s_xDirection = xDirection; s_xUp = xUp; }
+    static void SetEuler( const float fX, const float fY, const float fZ );
     static void SetPosition( const GLToy_Vector_3& xPosition ) { s_xPosition = xPosition; }
 
     static void SetLocked( const bool bLocked = true );

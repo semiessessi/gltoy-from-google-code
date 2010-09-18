@@ -35,6 +35,7 @@
 
 // GLToy
 #include <Core/GLToy_Timer.h>
+#include <Maths/GLToy_Maths.h>
 #include <Maths/GLToy_Noise.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Raytrace_Fullscreen.h>
