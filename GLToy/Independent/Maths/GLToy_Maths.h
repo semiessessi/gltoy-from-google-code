@@ -71,11 +71,22 @@ public:
     static float Deg2Rad( const float fDegrees );
     static float Rad2Deg( const float fDegrees );
 
-    static GLToy_Inline float Clamp( const float fValue, const float fMin, const float fMax ) { return Min( fMax, Max( fValue, fMin ) ); }
+    static GLToy_Inline float Clamp( const float fValue, const float fMin = 0.0f, const float fMax = 1.0f ) { return Min( fMax, Max( fValue, fMin ) ); }
     static GLToy_Inline float Max( const float fValue1, const float fValue2 ) { return ( fValue1 > fValue2 ) ? fValue1 : fValue2; }
     static GLToy_Inline float Min( const float fValue1, const float fValue2 ) { return ( fValue1 < fValue2 ) ? fValue1 : fValue2; }
     static GLToy_Inline int Max( const int iValue1, const int iValue2 ) { return ( iValue1 > iValue2 ) ? iValue1 : iValue2; }
-    static GLToy_Inline int Min( const int iValue1, const int iValue2 ) { return ( iValue1 < iValue2 ) ? iValue1 : iValue2; }
+	static GLToy_Inline int Min( const int iValue1, const int iValue2 ) { return ( iValue1 < iValue2 ) ? iValue1 : iValue2; }
+
+	static GLToy_Inline float Wrap( const float fValue, const float fMin = 0.0f, const float fMax = 1.0f )
+	{
+		const float fRange = fMax - fMin;
+		float fReturnValue = ( fValue - fMin ) / fRange;
+		// lazy - avoiding library floating point mod
+		const float fIntegerPart = Floor( fReturnValue );
+		fReturnValue -= fIntegerPart;
+		fReturnValue *= fRange;
+		return fReturnValue;
+	}
 
     static GLToy_Inline float Lerp( const float fValue1, const float fValue2, const float fAmount ) { return fValue1 + ( fValue2 - fValue1 ) * fAmount; }
     static GLToy_Inline float ClampedLerp( const float fValue1, const float fValue2, const float fAmount ) { return Clamp( Lerp( fValue1, fValue2, fAmount ), Min( fValue1, fValue2 ), Max( fValue1, fValue2 ) ); }

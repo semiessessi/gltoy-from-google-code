@@ -87,6 +87,8 @@ void JD1_DemoScene_Chmutov_1::Update()
         fY += 0.75f * GLToy_Timer::GetFrameTime();
     }
 
+	m_xRippleTimers[ 0 ] = GLToy_Maths::Wrap( GLToy_Timer::GetTime() );
+
     GLToy_Camera::SetEuler( fX, fY, fZ );
     GLToy_Camera::SetPosition( xCameraPosition );
 }

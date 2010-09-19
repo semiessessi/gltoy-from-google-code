@@ -3,7 +3,7 @@
 varying vec3 xDirection;
 varying vec3 xPosition;
 uniform sampler2D xTexture;
-uniform vec3 xRippleTimers;
+uniform vec4 xRippleTimers;
 
 vec3 xSolution;
 vec3 xTraceSolution;
@@ -78,7 +78,7 @@ float solve( vec3 xPos, vec3 xDir )
 	return fK;
 }
 
-vec4 trace( vec3 xPos, vec3 xDir, const bool bDiscard = false )
+vec4 trace( vec3 xPos, vec3 xDir, const bool bDiscard )
 {
 	float fK = solve( xPos, xDir );
 
@@ -102,8 +102,8 @@ vec4 trace( vec3 xPos, vec3 xDir, const bool bDiscard = false )
 	// df/sz = 4z^3 - 2z
 	vec3 xNormal = normalize( 4.0f * xSolution * xSolution * xSolution - 2.0f * xSolution );
 	// ok, lets mess with the normal, why not
-	xNormal += 0.05f * normalize( sin( 120.0f * xSolution ) );
-	xNormal = normalize( xNormal );
+	// xNormal += 0.05f * normalize( sin( 120.0f * xSolution ) );
+	// xNormal = normalize( xNormal );
 
 	float fLight = 0.0f;
 	float fSpecularity = 0.0f;
@@ -113,11 +113,18 @@ vec4 trace( vec3 xPos, vec3 xDir, const bool bDiscard = false )
 	vec3 xLightDirection = xTraceSolution - xLightPosition;
 	vec3 xNormalisedLightDirection = normalize( xLightDirection );
 
-	vec4 xDiffuseTexture = texture2D( xTexture,
-		vec2(
-			( 10.0f / 3.141592654f ) * atan( -xSolution.z, xSolution.x ),
-			2.5f * xSolution.y
-			) );
+	float fRippleParameter = length( xSolution );
+	float fRipple1 = pow( 1.0f - ( -xRippleTimers.x + fRippleParameter ), 8 );
+	vec4 xDiffuseTexture = vec4( fRipple1, fRipple1, fRipple1, 1.0f );
+	/*
+		texture2D( xTexture,
+			vec2(
+				( 10.0f / 3.141592654f ) * atan( -xSolution.z, xSolution.x ),
+				2.5f * xSolution.y
+			)
+		);
+
+	*/
 	float fSpecularTexture = 32.0f;
 	fGlossTexture = ( fSpecularTexture > 16.0f ) ? 1.0f : 0.75f;
 	
@@ -143,16 +150,16 @@ void main()
 	// float fGloss = fBounceScale * fGlossTexture;
 	// reflect
 	// 1 bounce
-	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection );
+	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection, false );
 	// fGloss *= fBounceScale * fGlossTexture;
 	// 2 bounces
-	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection );
+	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection, false );
 	// fGloss *= fBounceScale * fGlossTexture;
 	// 3 bounces
-	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection );
+	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection, false );
 	// fGloss *= fBounceScale * fGlossTexture;
 	// 4 bounces
-	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection );
+	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection, false );
 
 	gl_FragColor = xColour;
 
