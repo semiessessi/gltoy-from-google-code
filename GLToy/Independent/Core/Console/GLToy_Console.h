@@ -65,6 +65,7 @@ public:
     static void ClearLog();
     static void Print( const GLToy_String& szLine );
     static void ExecuteLine( const GLToy_String& szLine, const bool bStoreInHistory = true );
+    static void ExecuteFile( const GLToy_String& szFilename );
     static void Toggle();
     static bool IsDown() { return s_bConsoleDown; }
 

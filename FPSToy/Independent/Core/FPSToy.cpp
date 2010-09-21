@@ -32,6 +32,7 @@
 #include <Core/FPSToy.h>
 
 // GLToy
+#include <Core/Console/GLToy_Console.h>
 #include <Core/State/GLToy_State_System.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment_System.h>
@@ -64,6 +65,8 @@ bool FPSToy::Initialise()
 
     // TODO - something better here
     FPSToy_Player::Spawn( GLToy_Vector_3( 0.0f, 100.0f, 0.0f ), GLToy_Maths::IdentityMatrix3 );
+
+    GLToy_Console::ExecuteFile( "autoexec.console" );
 
     return true;
 }

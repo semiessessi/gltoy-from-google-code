@@ -390,6 +390,14 @@ public:
         }
     }
 
+    GLToy_Inline void TrimTrailingWhiteSpace()
+    {
+        while( IsWhiteSpace( End() ) )
+        {
+            RemoveFromEnd( 1 );
+        }
+    }
+
     GLToy_Inline void RemoveWhiteSpace()
     {
         for( u_int u = 0; u < GetLength(); ++u )

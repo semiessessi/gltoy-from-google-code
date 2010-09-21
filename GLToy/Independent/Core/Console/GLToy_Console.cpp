@@ -38,6 +38,7 @@
 #include <Core/Console/GLToy_ConsoleVariable.h>
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <Core/GLToy_Timer.h>
+#include <File/GLToy_ANSITextFile.h>
 #include <Input/GLToy_Input.h>
 #include <Maths/GLToy_Maths.h>
 #include <Render/Font/GLToy_Font.h>
@@ -122,6 +123,26 @@ void GLToy_Console::Print( const GLToy_String& szLine )
         }
 
         s_xLog.Append( szCopy.RemoveFirstLine() );
+    }
+}
+
+void GLToy_Console::ExecuteFile( const GLToy_String& szFilename )
+{
+    GLToy_ANSITextFile xFile( szFilename );
+
+    if( !xFile.GetSize() )
+    {
+        return;
+    }
+
+    const GLToy_String szSource = xFile.GetString();
+
+    const GLToy_Array< GLToy_String > xLines = szSource.Split( '\n' );
+    GLToy_ConstIterate( GLToy_String, xIterator, &xLines )
+    {
+        GLToy_String xLine = xIterator.Current();
+        xLine.TrimTrailingWhiteSpace();
+        ExecuteLine( xLine, false );
     }
 }
 

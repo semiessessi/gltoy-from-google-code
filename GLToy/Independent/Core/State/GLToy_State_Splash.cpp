@@ -61,7 +61,7 @@ const GLToy_String szOPENGL_STRING2 = "Silicon Graphics, Inc. in the United Stat
 void GLToy_State_Splash::Initialise()
 {
     GLToy_UI_System::ShowPointer( false );
-    GLToy_Camera::SetFlyCamEnabled( false );
+    GLToy_Camera::SetLocked( true );
 
     GLToy_Entity_System::SetRender( false );
     GLToy_Environment_System::SetRender( false );
