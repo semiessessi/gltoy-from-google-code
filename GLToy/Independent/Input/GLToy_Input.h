@@ -100,6 +100,7 @@ public:
     static void SetKeyInputHandler( GLToy_KeyInputHandler* pxKeyInputHandler );
 
     static GLToy_Inline u_int GetConsoleKey() { return s_uConsoleKeyCode; }
+	static GLToy_Inline u_int GetEscapeKey() { return s_uEscapeKeyCode; }
     static GLToy_Inline u_int GetExecuteKey() { return s_uExecuteKeyCode; }
     static GLToy_Inline u_int GetReturnKey() { return s_uReturnKeyCode; }
     static GLToy_Inline u_int GetUpKey() { return s_uUpKeyCode; }
@@ -120,7 +121,8 @@ private:
     static void Platform_Update();    
     
     static u_int s_uConsoleKeyCode;
-    static u_int s_uExecuteKeyCode;
+    static u_int s_uEscapeKeyCode;
+	static u_int s_uExecuteKeyCode;
     static u_int s_uReturnKeyCode;
     static u_int s_uUpKeyCode;
     static u_int s_uDownKeyCode;

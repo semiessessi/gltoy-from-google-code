@@ -63,6 +63,7 @@ int GLToy::s_iHeight = 480;
 
 bool GLToy::s_bQuitFlag = false;
 bool GLToy::s_bHasFocus = false;
+bool GLToy::s_bEscapeQuits = true;
 
 static char szDebugMessageBuffer[ uDEBUGOUTPUT_MAX_LENGTH ];
 
@@ -296,6 +297,11 @@ u_int GLToy::GetWindowViewportWidth()
 u_int GLToy::GetWindowViewportHeight()
 {
     return static_cast<u_int>( s_iHeight );
+}
+
+void GLToy::QuitDialog()
+{
+	GLToy_UI_System::ShowQuitDialog();
 }
 
 void GLToy::ChangeWindowTitle( const char* const szNewTitle )

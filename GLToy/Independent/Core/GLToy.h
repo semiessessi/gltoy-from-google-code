@@ -131,6 +131,7 @@ public:
     static u_int GetWindowViewportHeight();
 
     static void Quit() { s_bQuitFlag = true; }
+	static void QuitDialog();
 
     static void LoseFocus() { s_bHasFocus = false; }
     static void GiveFocus() { s_bHasFocus = true; }
@@ -138,6 +139,10 @@ public:
 
     static void ChangeWindowTitle( const char* const szNewTitle );
     static void ChangeWindowIcon( const char* const szTextureName );
+
+	// a bit hacky but very useful for small projects
+	static void SetGloballyQuitWithEscape( const bool bEscapeQuits = true ) { s_bEscapeQuits = bEscapeQuits; }
+	static bool GetGloballyQuitWithEscape() { return s_bEscapeQuits; }
 
 private:
 
@@ -171,6 +176,7 @@ private:
 
     static bool s_bQuitFlag;
     static bool s_bHasFocus;
+	static bool s_bEscapeQuits;
 
 #ifdef WIN32
     friend unsigned int WndProc( unsigned int uWindowHandle, unsigned int uMessage,

@@ -97,6 +97,7 @@ void GLToy_Input_System::Platform_ChangeLayout()
     s_uConsoleKeyCode = 49;
 
     s_uReturnKeyCode = 36;
+	// TODO: s_uEscapeKeyCode = VK_ESCAPE;
     s_uExecuteKeyCode = 108;
     s_uUpKeyCode = 98;
     s_uDownKeyCode = 104;

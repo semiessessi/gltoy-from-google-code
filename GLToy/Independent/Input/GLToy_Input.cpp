@@ -43,6 +43,7 @@
 static GLToy_KeyInputHandler g_xDefaultKeyInputHandler;
 
 u_int GLToy_Input_System::s_uConsoleKeyCode = 0;
+u_int GLToy_Input_System::s_uEscapeKeyCode = 0;
 u_int GLToy_Input_System::s_uExecuteKeyCode = 0;
 u_int GLToy_Input_System::s_uReturnKeyCode = 0;
 u_int GLToy_Input_System::s_uUpKeyCode = 0;
@@ -111,6 +112,11 @@ void GLToy_Input_System::HandleKey( const u_int uKey )
         GLToy_Console::Toggle();
         return;
     }
+
+	if( GLToy::GetGloballyQuitWithEscape() && ( uKey == GLToy_Input_System::GetEscapeKey() ) )
+	{
+		GLToy::QuitDialog();
+	}
 }
 
 bool GLToy_Input_System::IsKeyDown( const u_int uKey )

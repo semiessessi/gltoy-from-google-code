@@ -68,19 +68,11 @@ GLToy_Dialog* GLToy_UI_System::s_pxCurrentModalDialog = NULL;
 GLToy_Array< GLToy_Dialog* > GLToy_UI_System::s_xDialogs;
 GLToy_Array< GLToy_Widget* > GLToy_UI_System::s_xWidgets;
 
+bool GLToy_UI_System::s_bModalOldPointerShow = false;
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
-
-void GLToy_UI_QuitCallback( void* const pData )
-{
-    GLToy::Quit();
-}
-
-void GLToy_UI_DefaultModalCallback( void* const pData )
-{
-    GLToy_UI_System::DestroyCurrentModalDialog();
-}
 
 bool GLToy_UI_System::Initialise()
 {
@@ -189,6 +181,10 @@ GLToy_Dialog* GLToy_UI_System::CreateDialog(
     const float fX, const float fY,
     const float fWidth, const float fHeight )
 {
+    s_bModalOldPointerShow = IsPointerShown();
+
+    ShowPointer( true );
+
     if( ucStyle & DIALOG_STYLE_MODAL )
     {
         if( s_pxCurrentModalDialog )
@@ -223,7 +219,7 @@ void GLToy_UI_System::ShowErrorDialog( const GLToy_String& szError, ... )
 
     pxQuitDialog->AddText( szError );
     pxQuitDialog->SizeToText( szError );
-    pxQuitDialog->AddOKButton( GLToy_UI_DefaultModalCallback );
+    pxQuitDialog->AddOKButton( DefaultModalCallback );
 }
 
 void GLToy_UI_System::ShowQuitDialog()
@@ -232,7 +228,7 @@ void GLToy_UI_System::ShowQuitDialog()
 
     pxQuitDialog->AddText( "Are you sure you want to quit?" );
     pxQuitDialog->SizeToText( "Are you sure you want to quit?" );
-    pxQuitDialog->AddYesNoButtons( GLToy_UI_QuitCallback, GLToy_UI_DefaultModalCallback );
+    pxQuitDialog->AddYesNoButtons( QuitCallback, DefaultModalCallback );
 }
 
 GLToy_Widget* GLToy_UI_System::CreateWidget(
@@ -311,4 +307,16 @@ void GLToy_UI_System::ShowPointer( const bool bShow )
 float GLToy_UI_System::GetPulse()
 {
     return 0.92f + 0.08f * GLToy_Maths::Cos( 7.5f * GLToy_Timer::GetTime() );
+}
+
+
+void GLToy_UI_System::QuitCallback( void* const pData )
+{
+    GLToy::Quit();
+}
+
+void GLToy_UI_System::DefaultModalCallback( void* const pData )
+{
+    GLToy_UI_System::ShowPointer( GLToy_UI_System::s_bModalOldPointerShow );
+    GLToy_UI_System::DestroyCurrentModalDialog();
 }

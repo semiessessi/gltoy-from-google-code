@@ -90,6 +90,7 @@ void GLToy_Input_System::Platform_ChangeLayout()
     s_uConsoleKeyCode = MapVirtualKeyExA( 0x29, 1, uKeyLayout );
 
     s_uReturnKeyCode = VK_RETURN;
+	s_uEscapeKeyCode = VK_ESCAPE;
     s_uExecuteKeyCode = VK_EXECUTE;
     s_uUpKeyCode = VK_UP;
     s_uDownKeyCode = VK_DOWN;

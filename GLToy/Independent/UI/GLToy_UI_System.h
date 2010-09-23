@@ -90,6 +90,10 @@ public:
 private:
 
     static GLToy_Widget* CreateWidget( const GLToy_WidgetType eType, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f );
+    
+    // Dialog callbacks
+    static void DefaultModalCallback( void* const pData );
+    static void QuitCallback( void* const pData );
 
     static bool s_bShowPointer;
     static GLToy_Vector_2 s_xMousePosition;
@@ -97,6 +101,8 @@ private:
     static GLToy_Dialog* s_pxCurrentModalDialog;
     static GLToy_Array< GLToy_Dialog* > s_xDialogs;
     static GLToy_Array< GLToy_Widget* > s_xWidgets;
+    
+    static bool s_bModalOldPointerShow;
 
 };
 

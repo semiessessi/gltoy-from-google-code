@@ -169,7 +169,7 @@ void GLToy_Dialog::AddOKButton(
 
     pxOKButton->SetLabelString( "OK" );
     pxOKButton->SetFont( "Console" );
-    pxOKButton->SetTexture( "Widgets/Base_Round.png" );
+    pxOKButton->SetTexture( "Widgets/Tick.png" );
     pxOKButton->SetCallback( pfnCallback );
 }
 
