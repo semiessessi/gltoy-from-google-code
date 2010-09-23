@@ -157,7 +157,7 @@ void GLToy_Dialog::AddWidget( GLToy_Widget* const pxWidget )
 
 void GLToy_Dialog::AddOKButton(
     void ( * const pfnCallback )( void * const ),
-    void* const pYData )
+    void* const pData )
 {
     Expand( 0.0f, 0.2f + fDIALOG_TEXT_OFFSET );
 
@@ -169,8 +169,10 @@ void GLToy_Dialog::AddOKButton(
 
     pxOKButton->SetLabelString( "OK" );
     pxOKButton->SetFont( "Console" );
-    pxOKButton->SetTexture( "Widgets/Tick.png" );
+    pxOKButton->SetTexture( "Widgets/Base_Round_Gray.png" );
     pxOKButton->SetCallback( pfnCallback );
+
+    AddWidget( pxOKButton );
 }
 
 void GLToy_Dialog::AddYesNoButtons(
