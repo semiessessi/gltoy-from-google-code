@@ -51,7 +51,7 @@ class GLToy_List;
 template< class T >
 class GLToy_ListNode
 : public GLToy_DataStructure< T >
-//, public GLToy_PoolAllocated< GLToy_ListNode< T > >
+, public GLToy_PoolAllocated< GLToy_ListNode< T > >
 {
     friend class GLToy_List< T >;
 
@@ -198,8 +198,7 @@ public:
 
     GLToy_List()
     : GLToy_Parent()
-    , m_bEmpty( true )
-    , m_xData()
+    , m_pxData( NULL )
 #ifdef GLTOY_DEBUG
     , dbg_uCount( 0 )
 #endif
@@ -208,8 +207,7 @@ public:
 
     GLToy_List( const T& xData )
     : GLToy_Parent()
-    , m_bEmpty( false )
-    , m_xData( xData )
+    , m_pxData( new GLToy_ListNode< T >( xData ) )
 #ifdef GLTOY_DEBUG
     , dbg_uCount( 1 )
 #endif
@@ -218,8 +216,7 @@ public:
 
     GLToy_List( const GLToy_List& xList )
     : GLToy_Parent( xList )
-    , m_bEmpty( xList.m_bEmpty )
-    , m_xData( xList.m_xData )
+    , m_pxData( NULL )
 #ifdef GLTOY_DEBUG
     , dbg_uCount( xList.dbg_uCount )
 #endif
@@ -234,27 +231,27 @@ public:
 
     virtual T& operator []( const int iIndex )
     {
-        return m_xData[ iIndex ];
+        return ( *m_pxData )[ iIndex ];
     }
 
     virtual const T& operator []( const int iIndex ) const
     {
-        return m_xData[ iIndex ];
+        return ( *m_pxData )[ iIndex ];
     }
 
     virtual void Traverse( GLToy_Functor< T >& xFunctor )
     {
-        if( !m_bEmpty )
+        if( m_pxData )
         {
-            m_xData.Traverse( xFunctor );
+            m_pxData->Traverse( xFunctor );
         }
     }
 
     virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
     {
-        if( !m_bEmpty )
+        if( m_pxData )
         {
-            m_xData.Traverse( xFunctor );
+            m_pxData->Traverse( xFunctor );
         }
     }
 
@@ -262,7 +259,7 @@ public:
     
     virtual u_int GetCount() const
     {
-        if( m_bEmpty )
+        if( !m_pxData )
         {
 #ifdef GLTOY_DEBUG
             GLToy_Assert( dbg_uCount == 0, "List reporting empty but debug count is not zero!" );
@@ -270,25 +267,25 @@ public:
             return 0;
         }
         
-        return m_xData.GetCount();
+        return m_pxData->GetCount();
     }
 
     virtual u_int GetMemoryUsage() const
     {
-        return m_xData.GetMemoryUsage();
+        return m_pxData->GetMemoryUsage();
     }
 
     void Append( const T& xData )
     {
-        if( m_bEmpty )
+        if( !m_pxData )
         {
-            m_xData[ 0 ] = xData;
+            m_pxData = new GLToy_ListNode< T >( xData );
         }
         else
         {
-            m_xData.Append( xData );
+            m_pxData->Append( xData );
         }
-        m_bEmpty = false;
+
 #ifdef GLTOY_DEBUG
         ++dbg_uCount;
 #endif
@@ -296,7 +293,7 @@ public:
 
     void RemoveAt( const u_int uIndex )
     {
-        if( m_bEmpty )
+        if( !m_pxData )
         {
             return;
         }
@@ -307,15 +304,15 @@ public:
 
         if( uIndex == 0 )
         {
-            GLToy_ListNode< T >* pxNode = m_xData.m_pxTail;
+            GLToy_ListNode< T >* pxNode = m_pxData->m_pxTail;
             if( !pxNode )
             {
-                m_bEmpty = true;
+                m_pxData = NULL;
             }
             else
             {
-                m_xData = *pxNode;
-                delete pxNode;
+                delete m_pxData;
+                m_pxData = pxNode;
             }
 
             return;
@@ -332,8 +329,13 @@ public:
 
     void Clear()
     {
-        GLToy_ListNode< T >* pxNode = m_xData.m_pxTail;
-        const u_int uCount = m_bEmpty ? 0 : m_xData.GetCount();
+        if( !m_pxData )
+        {
+            return;
+        }
+
+        GLToy_ListNode< T >* pxNode = m_pxData->m_pxTail;
+        const u_int uCount = m_pxData ? 0 : m_pxData->GetCount();
         for( u_int u = 1; u < uCount; ++u )
         {
             GLToy_ListNode< T >* pxDelete = pxNode;
@@ -341,7 +343,8 @@ public:
             delete pxDelete;
         }
 
-        m_bEmpty = true;
+        delete m_pxData;
+        m_pxData = NULL;
 #ifdef GLTOY_DEBUG
         dbg_uCount = 0;
 #endif
@@ -349,12 +352,12 @@ public:
 
     T& Head()
     {
-        return m_xData[ 0 ];
+        return ( *m_pxData )[ 0 ];
     }
 
     GLToy_List Tail()
     {
-        GLToy_List xTail;
+        GLToy_List xTail( *this );
         xTail.RemoveAt( 0 );
         return xTail;
     }
@@ -368,7 +371,7 @@ protected:
 
     virtual GLToy_ListNode< T >& GetNode( const u_int uIndex )
     {
-        GLToy_ListNode< T >* pxNode = &m_xData;
+        GLToy_ListNode< T >* pxNode = m_pxData;
         for( u_int u = 1; u < uIndex; ++u )
         {
             pxNode = pxNode->m_pxTail;
@@ -379,7 +382,7 @@ protected:
 
     virtual const GLToy_ListNode< T >& GetNode( const u_int uIndex ) const
     {
-        const GLToy_ListNode< T >* pxNode = &m_xData;
+        const GLToy_ListNode< T >* pxNode = m_pxData;
         for( u_int u = 1; u < uIndex; ++u )
         {
             pxNode = pxNode->m_pxTail;
@@ -390,22 +393,22 @@ protected:
 
     virtual void CopyFrom( const GLToy_DataStructure< T >* const pxDataStructure )
     {
-        m_bEmpty = pxDataStructure->IsEmpty();
-        if( m_bEmpty )
+        if( pxDataStructure->IsEmpty() )
         {
-            m_xData = GLToy_ListNode< T >();
+            m_pxData = NULL;
             return;
         }
+
+        m_pxData = new GLToy_ListNode< T >();
 
 #ifdef GLTOY_DEBUG
         dbg_uCount = pxDataStructure->GetCount();
 #endif
 
-        m_xData.CopyFrom( pxDataStructure );
+        m_pxData->CopyFrom( pxDataStructure );
     }
 
-    bool m_bEmpty;
-    GLToy_ListNode< T > m_xData;
+    GLToy_ListNode< T >* m_pxData;
 
 #ifdef GLTOY_DEBUG
     u_int dbg_uCount;
