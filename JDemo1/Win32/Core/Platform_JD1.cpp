@@ -12,7 +12,11 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifdef _CRINKLER
+int WinMainCRTStartup()
+#else
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd )
+#endif
 {
     return GLToy::EntryPoint();
 }
