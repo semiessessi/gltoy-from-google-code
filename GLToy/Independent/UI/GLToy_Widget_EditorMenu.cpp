@@ -86,6 +86,7 @@ GLToy_EditorMenu_SecondLevelItem* g_pxCurrentSecondItem = NULL;
 
 void GLToy_Widget_EditorMenu::Render2D() const
 {
+    float fX = GetX();
     float fY = GetY();
     for( u_int u = 0; u < sizeof( g_axTopLevelItems ) / sizeof( GLToy_EditorMenu_TopLevelItem ); ++u )
     {

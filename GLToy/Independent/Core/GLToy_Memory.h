@@ -44,6 +44,9 @@ public:
     static void MarkUninitialised( void* const pxMemory, const u_int uBytes ) { Set( pxMemory, uBytes, 0xCC ); }
     static void MarkDestroyed( void* const pxMemory, const u_int uBytes ) { Set( pxMemory, uBytes, 0xDD ); }
     static void Zero( void* const pxMemory, const u_int uBytes ) { Set( pxMemory, uBytes, 0 ); }
+
+    static void* Platform_Allocate( const u_int uSize );
+    static void Platform_Free( void* const pxMemory );
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +56,8 @@ public:
 #ifdef GLTOY_DEBUG
 void* operator new( u_int uSize, const char* szFile, const int iLine );
 void operator delete( void* pxMemory, const char* szFile, const int iLine );
+#else
+void* operator new( u_int uSize );
 #endif
 void operator delete( void* pxMemory );
 #endif

@@ -459,6 +459,12 @@
     <ClCompile Include="X11\Render\Platform_GLToy_Texture_Renderable.cpp">
       <Filter>X11\Render</Filter>
     </ClCompile>
+    <ClCompile Include="X11\Core\Platform_GLToy_Memory.cpp">
+      <Filter>X11\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Core\Platform_GLToy_Memory.cpp">
+      <Filter>Win32\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">

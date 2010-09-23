@@ -38,9 +38,6 @@
 #include <Core/Data Structures/GLToy_BinaryTree.h>
 #include <String/GLToy_String.h>
 
-// C/C++
-#include <malloc.h>
-
 #include <Core/GLToy_Memory_DebugOff.h>
 
 // tree hacks...
@@ -140,7 +137,7 @@ void GLToy_Memory::Set( void* const pxMemory, const u_int uBytes, const u_char u
 void* operator new( u_int uSize, const char* szFile, const int iLine )
 {
     GLToy_MemoryRecord xRecord = { uSize, GLToy_String( szFile ) + " @ line " + iLine };
-    void* const pxAllocation = malloc( uSize );
+    void* const pxAllocation = GLToy_Memory::Platform_Allocate( uSize );
 
     g_xMap.AddNode( xRecord, pxAllocation );
 
@@ -156,6 +153,11 @@ void operator delete( void* pxMemory, const char* szFile, const int iLine )
 }
 #endif
 
+void* operator new( u_int uSize )
+{
+    return GLToy_Memory::Platform_Allocate( uSize );
+}
+
 void operator delete( void* pxMemory )
 {
 #ifdef GLTOY_DEBUG
@@ -167,7 +169,7 @@ void operator delete( void* pxMemory )
     }
 #endif
 
-    free( pxMemory );
+    GLToy_Memory::Platform_Free( pxMemory );
 }
 
 #include <Core/GLToy_Memory_DebugOn.h>
