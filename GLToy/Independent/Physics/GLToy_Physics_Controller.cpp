@@ -247,26 +247,29 @@ void GLToy_Physics_Controller::Update( const float fTimestep )
     float fDX = 0.0f;
     float fDZ = 0.0f;
 
-    if( GLToy_Input_System::IsKeyDown( 'W' )
-        || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetUpKey() ) )
+    if( GLToy_Camera::IsControllerCamEnabled() )
     {
-        fDZ -= 0.5f;
-    }
+        if( GLToy_Input_System::IsKeyDown( 'W' )
+            || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetUpKey() ) )
+        {
+            fDZ -= 0.5f;
+        }
 
-    if( GLToy_Input_System::IsKeyDown( 'S' )
-        || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetDownKey() ) )
-    {
-        fDZ += 0.5f;
-    }
+        if( GLToy_Input_System::IsKeyDown( 'S' )
+            || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetDownKey() ) )
+        {
+            fDZ += 0.5f;
+        }
 
-    if( GLToy_Input_System::IsKeyDown( 'A' ) )
-    {
-        fDX -= 0.5f;
-    }
+        if( GLToy_Input_System::IsKeyDown( 'A' ) )
+        {
+            fDX -= 0.5f;
+        }
 
-    if( GLToy_Input_System::IsKeyDown( 'D' ) )
-    {
-        fDX += 0.5f;
+        if( GLToy_Input_System::IsKeyDown( 'D' ) )
+        {
+            fDX += 0.5f;
+        }
     }
 
     xInput.m_inputLR = fDX;

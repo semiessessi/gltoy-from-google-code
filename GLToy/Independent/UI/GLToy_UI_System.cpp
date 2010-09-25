@@ -68,7 +68,9 @@ GLToy_Dialog* GLToy_UI_System::s_pxCurrentModalDialog = NULL;
 GLToy_Array< GLToy_Dialog* > GLToy_UI_System::s_xDialogs;
 GLToy_Array< GLToy_Widget* > GLToy_UI_System::s_xWidgets;
 
-bool GLToy_UI_System::s_bModalOldPointerShow = false;
+bool GLToy_UI_System::s_bOldPointerShow = false;
+bool GLToy_UI_System::s_bOldFlyCam = false;
+bool GLToy_UI_System::s_bOldFpsCam = false;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -181,10 +183,8 @@ GLToy_Dialog* GLToy_UI_System::CreateDialog(
     const float fX, const float fY,
     const float fWidth, const float fHeight )
 {
-    s_bModalOldPointerShow = IsPointerShown();
 
-    ShowPointer( true );
-
+    GLToy_Dialog* pxDialog = NULL;
     if( ucStyle & DIALOG_STYLE_MODAL )
     {
         if( s_pxCurrentModalDialog )
@@ -195,11 +195,17 @@ GLToy_Dialog* GLToy_UI_System::CreateDialog(
         else
         {
             s_pxCurrentModalDialog  = new GLToy_Dialog( ucStyle, fX, fY, fWidth, fHeight );
-            return s_pxCurrentModalDialog;
+            pxDialog = s_pxCurrentModalDialog;
         }
     }
+    else
+    {
+        pxDialog = new GLToy_Dialog( ucStyle, fX, fY, fWidth, fHeight );
+    }
 
-    GLToy_Dialog* pxDialog = new GLToy_Dialog( ucStyle, fX, fY, fWidth, fHeight );
+    s_bOldPointerShow = IsPointerShown();
+
+    ShowPointer( true );
 
     return pxDialog;
 }
@@ -215,16 +221,26 @@ void GLToy_UI_System::ShowErrorDialog( const GLToy_String& szError, ... )
 
     va_end( xArgumentList );
 
-    GLToy_Dialog* pxQuitDialog = CreateDialog( DIALOG_STYLE_CENTRE | DIALOG_STYLE_MODAL );
+    GLToy_Dialog* const pxErrorDialog = CreateDialog( DIALOG_STYLE_CENTRE | DIALOG_STYLE_MODAL );
+    
+    if( !pxErrorDialog )
+    {
+        return;
+    }
 
-    pxQuitDialog->AddText( szError );
-    pxQuitDialog->SizeToText( szError );
-    pxQuitDialog->AddOKButton( DefaultModalCallback );
+    pxErrorDialog->AddText( szError );
+    pxErrorDialog->SizeToText( szError );
+    pxErrorDialog->AddOKButton( DefaultModalCallback );
 }
 
 void GLToy_UI_System::ShowQuitDialog()
 {
-    GLToy_Dialog* pxQuitDialog = CreateDialog( DIALOG_STYLE_CENTRE | DIALOG_STYLE_MODAL );
+    GLToy_Dialog* const pxQuitDialog = CreateDialog( DIALOG_STYLE_CENTRE | DIALOG_STYLE_MODAL );
+
+    if( !pxQuitDialog )
+    {
+        return;
+    }
 
     pxQuitDialog->AddText( "Are you sure you want to quit?" );
     pxQuitDialog->SizeToText( "Are you sure you want to quit?" );
@@ -288,11 +304,14 @@ GLToy_Widget* GLToy_UI_System::CreateWidget(
 
 void GLToy_UI_System::DestroyCurrentModalDialog()
 {
-    if( s_pxCurrentModalDialog )
+    if( !s_pxCurrentModalDialog )
     {
-        s_pxCurrentModalDialog->Destroy();
-        s_pxCurrentModalDialog = NULL;
+        return;
     }
+
+    s_pxCurrentModalDialog->Destroy();
+    s_pxCurrentModalDialog = NULL;
+    ShowPointer( s_bOldPointerShow );
 }
 
 void GLToy_UI_System::ShowPointer( const bool bShow )
@@ -300,7 +319,18 @@ void GLToy_UI_System::ShowPointer( const bool bShow )
     s_bShowPointer = bShow;
     if( bShow )
     {
+        s_bOldFlyCam = GLToy_Camera::IsFlyCamEnabled();
+        s_bOldFpsCam = GLToy_Camera::IsControllerCamEnabled();
+        GLToy_Camera::SetControllerCamEnabled( false );
         GLToy_Camera::SetFlyCamEnabled( false );
+    }
+
+    GLToy_Camera::SetLocked( bShow );
+
+    if( !bShow )
+    {
+        GLToy_Camera::SetFlyCamEnabled( s_bOldFlyCam );
+        GLToy_Camera::SetControllerCamEnabled( s_bOldFpsCam );
     }
 }
 
@@ -317,6 +347,5 @@ void GLToy_UI_System::QuitCallback( void* const pData )
 
 void GLToy_UI_System::DefaultModalCallback( void* const pData )
 {
-    GLToy_UI_System::ShowPointer( GLToy_UI_System::s_bModalOldPointerShow );
-    GLToy_UI_System::DestroyCurrentModalDialog();
+    DestroyCurrentModalDialog();
 }

@@ -102,7 +102,9 @@ private:
     static GLToy_Array< GLToy_Dialog* > s_xDialogs;
     static GLToy_Array< GLToy_Widget* > s_xWidgets;
     
-    static bool s_bModalOldPointerShow;
+    static bool s_bOldPointerShow;
+    static bool s_bOldFlyCam;
+    static bool s_bOldFpsCam;
 
 };
 
