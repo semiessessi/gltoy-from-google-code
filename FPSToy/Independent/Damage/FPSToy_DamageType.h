@@ -36,14 +36,16 @@ class FPSToy_DamageType
     
 public:
 
-    static bool Initialise();
-    static void Shutdown();
+	FPSToy_DamageType( const GLToy_Hash uHash )
+	: m_uHash( uHash )
+	{
+	}
 
-    static void ApplyDamage( const GLToy_Hash uEntityHash, const float fAmount, const FPSToy_DamageType* const pxDamageType = NULL );
+	virtual ~FPSToy_DamageType() {}
 
-private:
+protected:
 
-    GLToy_HashTree< FPSToy_DamageType* > s_xDamageTypes;
+    GLToy_Hash m_uHash;
 };
 
 #endif
