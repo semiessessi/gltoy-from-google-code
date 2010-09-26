@@ -58,6 +58,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 u_int Platform_GLToy_Render::s_uVersion = 0;
+bool Platform_GLToy_Render::s_bIntel = false;
+
 void ( __stdcall* Platform_GLToy_Render::s_pfnSwapInterval )( u_int ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnDrawBuffers )( const int, const u_int* const ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnActiveTexture )( u_int ) = 0;
@@ -134,6 +136,9 @@ bool Platform_GLToy_Render::Initialise()
     }
 
     s_uVersion = 0;
+
+	GLToy_String szVendorString = reinterpret_cast< const char* >( glGetString( GL_VENDOR ) );
+	s_bIntel = szVendorString.Contains( "Intel" );
 
     // make the string into a nice number to compare stuff
     const u_int uVersionStringLength = szVersionString.GetLength();
@@ -515,12 +520,12 @@ void Platform_GLToy_Render::DisableBackFaceCulling()
 
 void Platform_GLToy_Render::SetCCWFaceWinding()
 {
-    glFrontFace( GL_CCW );
+    glFrontFace( s_bIntel ? GL_CW : GL_CCW );
 }
 
 void Platform_GLToy_Render::SetCWFaceWinding()
 {
-    glFrontFace( GL_CW );
+    glFrontFace( s_bIntel ? GL_CCW : GL_CW );
 }
 
 void Platform_GLToy_Render::SetVsyncEnabled( const bool bEnabled )

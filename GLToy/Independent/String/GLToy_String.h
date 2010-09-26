@@ -357,6 +357,33 @@ public:
         return false;
     }
 
+	GLToy_Inline bool Contains( const GLToy_String& szString )
+	{
+		if( GetCount() < szString.GetCount() )
+		{
+			return false;
+		}
+
+		u_int uPos = 0;
+		GLToy_ConstIterate( wchar_t, xIterator, this )
+		{
+			if( xIterator.Current() == szString[ uPos ] )
+			{
+				++uPos;
+				if( uPos == szString.GetCount() )
+				{
+					return true;
+				}
+			}
+			else
+			{
+				uPos = 0;
+			}
+		}
+
+		return false;
+	}
+
     GLToy_Inline bool MeansFalse() const
     {
         return ( ( *this ) == "False" )

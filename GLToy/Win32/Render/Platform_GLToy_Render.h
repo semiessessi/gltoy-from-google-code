@@ -194,6 +194,7 @@ private:
     static void ActiveTexture( const u_int uTextureUnit );
 
     static u_int s_uVersion;
+	static bool s_bIntel;
 
     // wgl functions
     static void ( __stdcall* s_pfnSwapInterval )( u_int );
