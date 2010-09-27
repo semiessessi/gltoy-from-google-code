@@ -36,6 +36,7 @@
 
 // GLToy
 #include <Core/GLToy_Timer.h>
+#include <Maths/Platform_GLToy_Vector.h>
 
 // C++ headers (!)
 #include <math.h>
@@ -75,7 +76,7 @@ void GLToy_Maths::Update()
 
 bool GLToy_Maths::Platform_Initialise()
 {
-    return Platform_GLToy_Maths::Initialise();
+    return Platform_GLToy_Maths::Initialise() && Platform_GLToy_Vector::Initialise();
 }
 
 void GLToy_Maths::Platform_Shutdown()
