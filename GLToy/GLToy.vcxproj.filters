@@ -142,6 +142,9 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{cf2352a4-63bc-4910-8a18-adffe839878b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Test">
+      <UniqueIdentifier>{17276518-1248-46fb-8969-d5069e309ce2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_GLToy.cpp">
@@ -464,6 +467,9 @@
     </ClCompile>
     <ClCompile Include="Win32\Core\Platform_GLToy_Memory.cpp">
       <Filter>Win32\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Test\GLToy_Test_System.cpp">
+      <Filter>Independent\Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -829,6 +835,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Render\GLToy_Texture_Renderable.h">
       <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Test\GLToy_Test_System.h">
+      <Filter>Independent\Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

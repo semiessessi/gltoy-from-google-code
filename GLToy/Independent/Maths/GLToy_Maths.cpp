@@ -37,6 +37,7 @@
 // GLToy
 #include <Core/GLToy_Timer.h>
 #include <Maths/Platform_GLToy_Vector.h>
+#include <Test/GLToy_Test_System.h>
 
 // C++ headers (!)
 #include <math.h>
@@ -56,11 +57,31 @@ const GLToy_Matrix_3 GLToy_Maths::IdentityMatrix3 = GLToy_Matrix_3( GLToy_Vector
 const GLToy_Quaternion GLToy_Maths::IdentityQuaternion = GLToy_Quaternion( 1.0f, 0.0f, 0.0f, 0.0f );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// T E S T S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+bool GLToy_Maths_AbsoluteValueTest()
+{
+    return ( GLToy_Maths::Abs( -1.0f ) >= 0.0f )
+        && ( GLToy_Maths::Abs( 0.0f ) >= 0.0f )
+        && ( GLToy_Maths::Abs( 1.0f ) >= 0.0f );
+}
+
+bool GLToy_Maths_TrigIdentityTest()
+{
+    return ( GLToy_Maths::Abs( GLToy_Maths::Sin( 0.0f ) ) < 0.00001f )
+        && ( GLToy_Maths::Abs( GLToy_Maths::Cos( 0.0f ) - 1.0f ) < 0.00001f );
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 bool GLToy_Maths::Initialise()
 {
+    GLToy_Test_System::RegisterTest( GLToy_Maths_AbsoluteValueTest, "Absolute value test" );
+    GLToy_Test_System::RegisterTest( GLToy_Maths_TrigIdentityTest, "Trig identities (to 5 decimal places) test" );
+
     return Platform_Initialise();
 }
 

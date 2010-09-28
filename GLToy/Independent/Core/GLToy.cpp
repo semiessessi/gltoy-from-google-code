@@ -47,6 +47,7 @@
 #include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
+#include <Test/GLToy_Test_System.h>
 #include <UI/GLToy_UI_System.h>
 
 // C/C++ headers
@@ -77,6 +78,10 @@ int GLToy::EntryPoint()
     {
         return 0;
     }
+
+    GLToy_DebugOutput( "\r\nGLToy::EntryPoint() - Running tests.\r\n" );
+
+    GLToy_Test_System::RunTests();
 
     GLToy_Console::RegisterCommand( "quit", Quit );
 
