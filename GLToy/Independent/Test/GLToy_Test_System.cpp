@@ -44,11 +44,12 @@ GLToy_Array< GLToy_Test_System::Test > GLToy_Test_System::s_xTests;
 
 bool GLToy_Test_System::RunTests()
 {
+    GLToy_DebugOutput_Release( "\r\nGLToy_Test_System::RunTests() - Starting tests\r\n" );
     u_int uFailCount = 0;
     GLToy_ConstIterate( Test, xIterator, &s_xTests )
     {
         const bool bResult = xIterator.Current().m_pfnTestFunction();
-        GLToy_DebugOutput_Release( "  %S %s\r\n", xIterator.Current().m_szName.GetWideString(), bResult ? "succeeded" : "failed" );
+        GLToy_DebugOutput_Release( "  %S %s\r\n", xIterator.Current().m_szName.GetWideString(), bResult ? " - succeeded" : " - FAILED!!!" );
         if( !bResult )
         {
             ++uFailCount;
@@ -61,7 +62,7 @@ bool GLToy_Test_System::RunTests()
         return false;
     }
     
-    GLToy_DebugOutput_Release( "GLToy_Test_System::RunTests() - All tests passed\r\n" );
+    GLToy_DebugOutput_Release( "\r\nGLToy_Test_System::RunTests() - All tests passed\r\n" );
     return true;
 }
 
