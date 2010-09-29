@@ -73,14 +73,27 @@ bool GLToy_Maths_TrigIdentityTest()
         && ( GLToy_Maths::Abs( GLToy_Maths::Cos( 0.0f ) - 1.0f ) < 0.00001f );
 }
 
+bool GLToy_Maths_SqrtTest()
+{
+    #define GLToy_Maths_SqrtTest_Test( fValue ) ( GLToy_Maths::Abs( GLToy_Maths::Sqrt( fValue ) * GLToy_Maths::Sqrt( fValue ) - fValue ) / fValue )
+    float fMaxError = GLToy_Maths_SqrtTest_Test( 5.0f );
+    fMaxError = GLToy_Maths::Max( fMaxError, GLToy_Maths_SqrtTest_Test( 10000.0f ) );
+    fMaxError = GLToy_Maths::Max( fMaxError, GLToy_Maths_SqrtTest_Test( 1000.0f ) );
+    fMaxError = GLToy_Maths::Max( fMaxError, GLToy_Maths_SqrtTest_Test( 1000000.0f ) );
+    #undef GLToy_Maths_SqrtTest_Test
+
+    return fMaxError < 0.005f;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 bool GLToy_Maths::Initialise()
 {
-    GLToy_Test_System::RegisterTest( GLToy_Maths_AbsoluteValueTest, "Absolute value test" );
-    GLToy_Test_System::RegisterTest( GLToy_Maths_TrigIdentityTest, "Trig identities (to 5 decimal places) test" );
+    GLToy_Test_System::RegisterTest( GLToy_Maths_AbsoluteValueTest, "Absolute value really is positive test" );
+    GLToy_Test_System::RegisterTest( GLToy_Maths_TrigIdentityTest, "Trig identities accurate to 5 decimal places test" );
+    GLToy_Test_System::RegisterTest( GLToy_Maths_TrigIdentityTest, "Square of square root accurate to 0.5%" );
 
     return Platform_Initialise();
 }
