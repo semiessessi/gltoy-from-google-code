@@ -24,8 +24,8 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_SOUND_SYSTEM_H_
-#define __JD1_SOUND_SYSTEM_H_
+#ifndef __GLTOY_SOUND_SYSTEM_H_
+#define __GLTOY_SOUND_SYSTEM_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
@@ -42,25 +42,25 @@
 template < class T > class GLToy_Array;
 template < class T > class GLToy_HashTree;
 class GLToy_Vector_3;
-class JD1_Sound_Source;
-class JD1_SoundFile;
+class GLToy_Sound_Source;
+class GLToy_SoundFile;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-enum JD1_Sound_Transition
+enum GLToy_Sound_Transition
 {
-    JD1_SOUND_CUT,
-    JD1_SOUND_WAIT,
-    JD1_SOUND_FADE
+    GLToy_SOUND_CUT,
+    GLToy_SOUND_WAIT,
+    GLToy_SOUND_FADE
 };
 
-class JD1_Sound_System
+class GLToy_Sound_System
 {
 
-    friend class JD1_Sound;
-    friend class JD1_WaveFile;
+    friend class GLToy_Sound;
+    friend class GLToy_WaveFile;
 
 public:
 
@@ -70,9 +70,9 @@ public:
     static void Update();
 
     static GLToy_Handle CreateSource( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const bool bRelative = false, const bool bLooped = false );
-    static GLToy_Handle PlayMusic( const GLToy_Hash uHash, const JD1_Sound_Transition eTransitionType = JD1_SOUND_CUT );
+    static GLToy_Handle PlayMusic( const GLToy_Hash uHash, const GLToy_Sound_Transition eTransitionType = GLToy_SOUND_CUT );
 
-    static void Stop( const GLToy_Handle iHandle, const JD1_Sound_Transition eTransitionType = JD1_SOUND_CUT );
+    static void Stop( const GLToy_Handle iHandle, const GLToy_Sound_Transition eTransitionType = GLToy_SOUND_CUT );
 
 private:
 
@@ -84,10 +84,10 @@ private:
     static void DestroySoundHandle( const GLToy_Handle iHandle );
     static void DestroySourceHandle( const GLToy_Handle iHandle );
 
-    static JD1_Sound* LoadSound( const GLToy_Hash uHash );
+    static GLToy_Sound* LoadSound( const GLToy_Hash uHash );
 
-    static GLToy_HashTree< JD1_SoundFile* > s_xSounds;
-    static GLToy_Array< JD1_Sound_Source* > s_xSources;
+    static GLToy_HashTree< GLToy_SoundFile* > s_xSounds;
+    static GLToy_Array< GLToy_Sound_Source* > s_xSources;
 
 };
 

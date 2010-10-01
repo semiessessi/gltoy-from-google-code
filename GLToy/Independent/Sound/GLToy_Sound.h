@@ -24,34 +24,31 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-// I N C L U D E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-#include <Core/GLToy.h>
-
-// This file's header
-#include <File/JD1_WaveFile.h>
-
-// JD1
-#include <Sound/JD1_Sound_System.h>
+#ifndef __GLTOY_SOUND_H_
+#define __GLTOY_SOUND_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-JD1_Sound* JD1_WaveFile::LoadSound() const
+class GLToy_Sound
 {
-    if( m_pxSound )
-    {
-        return m_pxSound;
-    }
 
-    m_pxSound = new JD1_Sound();
+    friend class GLToy_Sound_System;
+    friend class GLToy_WaveFile;
 
-    m_pxSound->SetHandle( JD1_Sound_System::CreateSoundHandle() );
+public:
 
-    Platform_LoadSound( m_pxSound->GetHandle() );
+    GLToy_Sound();
+    virtual ~GLToy_Sound();
 
-    return m_pxSound;
-}
+    GLToy_Handle GetHandle() const { return m_iHandle; }
+
+protected:
+
+    void SetHandle( const GLToy_Handle iHandle ) { m_iHandle = iHandle; }
+
+    GLToy_Handle m_iHandle;
+};
+
+#endif

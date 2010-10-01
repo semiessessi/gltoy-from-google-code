@@ -145,6 +145,12 @@
     <Filter Include="Independent\Test">
       <UniqueIdentifier>{17276518-1248-46fb-8969-d5069e309ce2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Sound">
+      <UniqueIdentifier>{5b25a7a3-e9a8-48c0-a761-2d77b4492272}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Sound">
+      <UniqueIdentifier>{82f465b4-2ab0-4bd7-bae5-fc6fb4110914}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_GLToy.cpp">
@@ -470,6 +476,21 @@
     </ClCompile>
     <ClCompile Include="Independent\Test\GLToy_Test_System.cpp">
       <Filter>Independent\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Sound\GLToy_Sound.cpp">
+      <Filter>Independent\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Sound\GLToy_Sound_System.cpp">
+      <Filter>Independent\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Sound\Platform_GLToy_Sound_System.cpp">
+      <Filter>Win32\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\GLToy_WaveFile.cpp">
+      <Filter>Independent\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\File\Platform_GLToy_WaveFile.cpp">
+      <Filter>Win32\File</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -838,6 +859,24 @@
     </ClInclude>
     <ClInclude Include="Independent\Test\GLToy_Test_System.h">
       <Filter>Independent\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Sound\GLToy_Sound.h">
+      <Filter>Independent\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Sound\GLToy_Sound_Source.h">
+      <Filter>Independent\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Sound\GLToy_Sound_System.h">
+      <Filter>Independent\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Sound\Platform_GLToy_Sound_System.h">
+      <Filter>Win32\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\GLToy_SoundFile.h">
+      <Filter>Independent\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\GLToy_WaveFile.h">
+      <Filter>Independent\File</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

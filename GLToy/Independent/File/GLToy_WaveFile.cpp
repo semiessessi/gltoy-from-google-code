@@ -31,25 +31,25 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <File/JD1_WaveFile.h>
+#include <File/GLToy_WaveFile.h>
 
-// JD1
-#include <Sound/JD1_Sound_System.h>
+// GLToy
+#include <Sound/GLToy_Sound_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-JD1_Sound* JD1_WaveFile::LoadSound() const
+GLToy_Sound* GLToy_WaveFile::LoadSound() const
 {
     if( m_pxSound )
     {
         return m_pxSound;
     }
 
-    m_pxSound = new JD1_Sound();
+    m_pxSound = new GLToy_Sound();
 
-    m_pxSound->SetHandle( JD1_Sound_System::CreateSoundHandle() );
+    m_pxSound->SetHandle( GLToy_Sound_System::CreateSoundHandle() );
 
     Platform_LoadSound( m_pxSound->GetHandle() );
 

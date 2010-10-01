@@ -52,6 +52,7 @@
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 #ifndef GLTOY_DEMO
+#include <Sound/GLToy_Sound_System.h>
 #include <Test/GLToy_Test_System.h>
 #include <UI/GLToy_UI_System.h>
 #endif
@@ -164,6 +165,7 @@ bool GLToy::Initialise()
     GLToy_InitialiserCall( GLToy_State_System );
 #ifndef GLTOY_DEMO
     GLToy_InitialiserCall( GLToy_Physics_System );
+    GLToy_InitialiserCall( GLToy_Sound_System );
 #endif
 
     if( !Platform_LateInitialise() )
@@ -219,6 +221,7 @@ void GLToy::Shutdown()
 
 #ifndef GLTOY_DEMO
     GLToy_Physics_System::Shutdown();
+    GLToy_Sound_System::Shutdown();
 #endif
 
     GLToy_State_System::Shutdown();
@@ -259,6 +262,8 @@ bool GLToy::MainLoop()
     GLToy_Environment_System::Update();
     GLToy_Entity_System::Update();
     GLToy_PFX_System::Update();
+
+    GLToy_Sound_System::Update();
 #endif
 
     Project_Update();

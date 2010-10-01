@@ -165,7 +165,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
       <FloatingPointModel>Fast</FloatingPointModel>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <WarningLevel>Level3</WarningLevel>
@@ -197,7 +197,7 @@
       <Optimization>MinSpace</Optimization>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\GLToy\Independent;..\GLToy\Win32;Independent\;Win32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_FINAL;_DEMO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_FINAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -291,7 +291,6 @@ JD1_Crinkler.bat</Command>
     <ClCompile Include="Independent\Demo\JD1_DemoScene_TexerFlow.cpp" />
     <ClCompile Include="Independent\Demo\JD1_DemoScene_Tunnel.cpp" />
     <ClCompile Include="Independent\Demo\JD1_Demo_System.cpp" />
-    <ClCompile Include="Independent\File\JD1_WaveFile.cpp" />
     <ClCompile Include="Independent\Render\JD1_Component.cpp" />
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope.cpp" />
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Dragon.cpp" />
@@ -306,15 +305,11 @@ JD1_Crinkler.bat</Command>
     <ClCompile Include="Independent\Render\Trans\JD1_Trans_Shader.cpp" />
     <ClCompile Include="Independent\Render\Trans\JD1_Trans_BlitterFeedback.cpp" />
     <ClCompile Include="Independent\Render\Trans\JD1_Trans_Fadeout.cpp" />
-    <ClCompile Include="Independent\Sound\JD1_Sound.cpp" />
-    <ClCompile Include="Independent\Sound\JD1_Sound_System.cpp" />
     <ClCompile Include="Win32\Core\Platform_JD1.cpp" />
     <ClCompile Include="Independent\Render\JD1_Render.cpp" />
     <ClCompile Include="Independent\Render\Project_GLToy_Render.cpp" />
     <ClCompile Include="Independent\Core\JD1.cpp" />
     <ClCompile Include="Independent\Core\Project_GLToy.cpp" />
-    <ClCompile Include="Win32\File\Platform_JD1_WaveFile.cpp" />
-    <ClCompile Include="Win32\Sound\Platform_JD1_Sound_System.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Independent\Demo\JD1_DemoScene.h" />
@@ -332,8 +327,6 @@ JD1_Crinkler.bat</Command>
     <ClInclude Include="Independent\Demo\JD1_DemoScene_TexerFlow.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_Tunnel.h" />
     <ClInclude Include="Independent\Demo\JD1_Demo_System.h" />
-    <ClInclude Include="Independent\File\JD1_SoundFile.h" />
-    <ClInclude Include="Independent\File\JD1_WaveFile.h" />
     <ClInclude Include="Independent\Render\JD1_Component.h" />
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope.h" />
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Dragon.h" />
@@ -350,13 +343,9 @@ JD1_Crinkler.bat</Command>
     <ClInclude Include="Independent\Render\Trans\JD1_Trans_Fadeout.h" />
     <ClInclude Include="Independent\Render\Trans\JD1_Trans_Flow.h" />
     <ClInclude Include="Independent\Render\Trans\JD1_Trans_Shader.h" />
-    <ClInclude Include="Independent\Sound\JD1_Sound.h" />
-    <ClInclude Include="Independent\Sound\JD1_Sound_Source.h" />
-    <ClInclude Include="Independent\Sound\JD1_Sound_System.h" />
     <ClInclude Include="Win32\Core\Platform_JD1.h" />
     <ClInclude Include="Independent\Render\JD1_Render.h" />
     <ClInclude Include="Independent\Core\JD1.h" />
-    <ClInclude Include="Win32\Sound\Platform_JD1_Sound_System.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GLToy\GLToy.vcxproj">

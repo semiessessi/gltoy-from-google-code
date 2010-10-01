@@ -24,38 +24,38 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_WAVEFILE_H_
-#define __JD1_WAVEFILE_H_
+#ifndef __GLTOY_WAVEFILE_H_
+#define __GLTOY_WAVEFILE_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // Parent
-#include <File/JD1_SoundFile.h>
+#include <File/GLToy_SoundFile.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class JD1_WaveFile
-: public JD1_SoundFile
+class GLToy_WaveFile
+: public GLToy_SoundFile
 {
 
-    typedef JD1_SoundFile GLToy_Parent;
+    typedef GLToy_SoundFile GLToy_Parent;
 
 public:
     
-    JD1_WaveFile( const GLToy_String& szFilename )
+    GLToy_WaveFile( const GLToy_String& szFilename )
     : GLToy_Parent( szFilename )
     {
     }
 
-    virtual ~JD1_WaveFile()
+    virtual ~GLToy_WaveFile()
     {
     }
 
-    virtual JD1_Sound* LoadSound() const;
+    virtual GLToy_Sound* LoadSound() const;
 
 protected:
 

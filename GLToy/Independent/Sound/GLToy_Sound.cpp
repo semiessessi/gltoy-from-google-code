@@ -24,43 +24,28 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_WAVEFILE_H_
-#define __JD1_WAVEFILE_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parent
-#include <File/JD1_SoundFile.h>
+#include <Core/GLToy.h>
+
+// This file's header
+#include <Sound/GLToy_Sound.h>
+
+// GLToy
+#include <Sound/GLToy_Sound_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class JD1_WaveFile
-: public JD1_SoundFile
+GLToy_Sound::GLToy_Sound()
+: m_iHandle( uGLTOY_INVALID_HANDLE )
 {
+}
 
-    typedef JD1_SoundFile GLToy_Parent;
-
-public:
-    
-    JD1_WaveFile( const GLToy_String& szFilename )
-    : GLToy_Parent( szFilename )
-    {
-    }
-
-    virtual ~JD1_WaveFile()
-    {
-    }
-
-    virtual JD1_Sound* LoadSound() const;
-
-protected:
-
-    void Platform_LoadSound( const GLToy_Handle iHandle ) const;
-
-};
-
-#endif
+GLToy_Sound::~GLToy_Sound()
+{
+    GLToy_Sound_System::DestroySoundHandle( m_iHandle );
+}

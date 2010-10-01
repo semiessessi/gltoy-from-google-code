@@ -37,10 +37,7 @@
 
 // JD1
 #include <Demo/JD1_Demo_System.h>
-#include <Demo/JD1_DemoScene_Chmutov.h>
-#ifndef GLTOY_DEMO
-#include <Sound/JD1_Sound_System.h>
-#endif
+#include <Demo/JD1_DemoScene_Chmutov_1.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -49,14 +46,12 @@
 bool JD1::Initialise()
 {
     GLToy::ChangeWindowTitle( "JDemo 1" );
-#ifndef GLTOY_DEMO
-    GLToy_InitialiserCall( JD1_Sound_System );
-#endif
+
     GLToy_InitialiserCall( JD1_Demo_System );
 
     GLToy_State_System::ChangeState( GLToy_Hash_Constant( "FixedCamera" ) );
 
-    JD1_Demo_System::Queue( new JD1_DemoScene_Chmutov() );// , 30.0f, JD1_DEMO_FLASH_WHITE, 0.4f );
+    JD1_Demo_System::Queue( new JD1_DemoScene_Chmutov_1() );// , 30.0f, JD1_DEMO_FLASH_WHITE, 0.4f );
 
     return true;
 }
@@ -64,15 +59,9 @@ bool JD1::Initialise()
 void JD1::Shutdown()
 {
     JD1_Demo_System::Shutdown();
-#ifndef GLTOY_DEMO
-    JD1_Sound_System::Shutdown();
-#endif
 }
 
 void JD1::Update()
 {
     JD1_Demo_System::Update();
-#ifndef GLTOY_DEMO
-    JD1_Sound_System::Update();
-#endif
 }

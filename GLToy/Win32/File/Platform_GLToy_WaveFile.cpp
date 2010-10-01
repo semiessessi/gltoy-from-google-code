@@ -31,7 +31,7 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <File/JD1_WaveFile.h>
+#include <File/GLToy_WaveFile.h>
 
 // OpenAL
 #include <al/alut.h>
@@ -40,7 +40,7 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void JD1_WaveFile::Platform_LoadSound( const GLToy_Handle iHandle ) const
+void GLToy_WaveFile::Platform_LoadSound( const GLToy_Handle iHandle ) const
 {
     if( !GLToy_IsValidHandle( iHandle ) )
     {
@@ -55,8 +55,9 @@ void JD1_WaveFile::Platform_LoadSound( const GLToy_Handle iHandle ) const
     char* const szFilename = GetFilename().CreateANSIString();
 
     // TODO: alutLoadWAVFile and alutUnloadWAV are deprecated...
+#pragma warning( disable : 4996 )
     alutLoadWAVFile( szFilename, &eFormat, &pData, &iSize, &iFrequency, &bLoop );
-
+#pragma warning( default : 4996 )
     delete[] szFilename;
 
     const union
@@ -66,5 +67,7 @@ void JD1_WaveFile::Platform_LoadSound( const GLToy_Handle iHandle ) const
     } xHandle = { iHandle };
 
     alBufferData( xHandle.u, eFormat, pData, iSize, iFrequency );
+#pragma warning( disable : 4996 )
     alutUnloadWAV( eFormat, pData, iSize, iFrequency );
+#pragma warning( default : 4996 )
 }

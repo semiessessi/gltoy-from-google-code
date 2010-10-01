@@ -24,8 +24,8 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_SOUNDFILE_H_
-#define __JD1_SOUNDFILE_H_
+#ifndef __GLTOY_SOUNDFILE_H_
+#define __GLTOY_SOUNDFILE_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
@@ -34,14 +34,14 @@
 // Parents
 #include <File/GLToy_File.h>
 
-// JD1
-#include <Sound/JD1_Sound.h>
+// GLToy
+#include <Sound/GLToy_Sound.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class JD1_SoundFile
+class GLToy_SoundFile
 : public GLToy_File
 {
 
@@ -49,25 +49,25 @@ class JD1_SoundFile
 
 public:
 
-    JD1_SoundFile( const GLToy_String& szFilename )
+    GLToy_SoundFile( const GLToy_String& szFilename )
     : GLToy_Parent( szFilename )
     , m_pxSound( NULL )
     {
     }
 
-    virtual ~JD1_SoundFile()
+    virtual ~GLToy_SoundFile()
     {
         delete m_pxSound;
     }
 
     // for sufficiently small sounds, allow loading them directly
-    virtual JD1_Sound* LoadSound() const = 0;
+    virtual GLToy_Sound* LoadSound() const = 0;
 
-    const JD1_Sound* GetSoundPointer() const { return m_pxSound; }
+    const GLToy_Sound* GetSoundPointer() const { return m_pxSound; }
 
 protected:
 
-    mutable JD1_Sound* m_pxSound;
+    mutable GLToy_Sound* m_pxSound;
 
 };
 

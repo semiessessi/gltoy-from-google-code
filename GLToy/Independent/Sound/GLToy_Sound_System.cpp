@@ -28,36 +28,34 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/JD1.h>
+#include <Core/GLToy.h>
 
 // This file's headers
-#include <Sound/JD1_Sound_System.h>
-#include <Sound/Platform_JD1_Sound_System.h>
+#include <Sound/GLToy_Sound_System.h>
+#include <Sound/Platform_GLToy_Sound_System.h>
 
 // GLToy
 #include <Core/Console/GLToy_Console.h>
 #include <Core/Data Structures/GLToy_Array.h>
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <File/GLToy_File_System.h>
-
-// JD1
-#include <File/JD1_SoundFile.h>
-#include <File/JD1_WaveFile.h>
-#include <Sound/JD1_Sound.h>
-#include <Sound/JD1_Sound_Source.h>
+#include <File/GLToy_SoundFile.h>
+#include <File/GLToy_WaveFile.h>
+#include <Sound/GLToy_Sound.h>
+#include <Sound/GLToy_Sound_Source.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_HashTree< JD1_SoundFile* > JD1_Sound_System::s_xSounds;
-GLToy_Array< JD1_Sound_Source* > JD1_Sound_System::s_xSources;
+GLToy_HashTree< GLToy_SoundFile* > GLToy_Sound_System::s_xSounds;
+GLToy_Array< GLToy_Sound_Source* > GLToy_Sound_System::s_xSources;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool JD1_Sound_System::Initialise()
+bool GLToy_Sound_System::Initialise()
 {
     GLToy_Console::RegisterCommand( "test.sound", TestSound_Console );
 
@@ -74,42 +72,42 @@ bool JD1_Sound_System::Initialise()
         
         GLToy_DebugOutput( "   - Found sound \"%S\".\r\n", xName.GetWideString() );
 
-        s_xSounds.AddNode( new JD1_WaveFile( xIterator.Current() ), xName.GetHash() );
+        s_xSounds.AddNode( new GLToy_WaveFile( xIterator.Current() ), xName.GetHash() );
     }
 
-    return Platform_JD1_Sound_System::Initialise();
+    return Platform_GLToy_Sound_System::Initialise();
 }
 
-void JD1_Sound_System::Shutdown()
+void GLToy_Sound_System::Shutdown()
 {
-    Platform_JD1_Sound_System::Shutdown();
+    Platform_GLToy_Sound_System::Shutdown();
 
     s_xSounds.DeleteAll();
     s_xSources.DeleteAll();
 }
 
-void JD1_Sound_System::Update()
+void GLToy_Sound_System::Update()
 {
-    Platform_JD1_Sound_System::Update();
+    Platform_GLToy_Sound_System::Update();
 }
 
-GLToy_Handle JD1_Sound_System::CreateSource( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const bool bRelative, const bool bLooped )
+GLToy_Handle GLToy_Sound_System::CreateSource( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const bool bRelative, const bool bLooped )
 {
     return uGLTOY_INVALID_HANDLE;
 }
 
-GLToy_Handle JD1_Sound_System::PlayMusic( const GLToy_Hash uHash, const JD1_Sound_Transition eTransitionType )
+GLToy_Handle GLToy_Sound_System::PlayMusic( const GLToy_Hash uHash, const GLToy_Sound_Transition eTransitionType )
 {
     return uGLTOY_INVALID_HANDLE;
 }
 
-void JD1_Sound_System::Stop( const GLToy_Handle iHandle, const JD1_Sound_Transition eTransitionType )
+void GLToy_Sound_System::Stop( const GLToy_Handle iHandle, const GLToy_Sound_Transition eTransitionType )
 {
 }
 
-JD1_Sound* JD1_Sound_System::LoadSound( const GLToy_Hash uHash )
+GLToy_Sound* GLToy_Sound_System::LoadSound( const GLToy_Hash uHash )
 {
-    JD1_SoundFile** ppxSoundFile = s_xSounds.FindData( uHash );
+    GLToy_SoundFile** ppxSoundFile = s_xSounds.FindData( uHash );
     if( !ppxSoundFile )
     {
         return NULL;
@@ -118,34 +116,34 @@ JD1_Sound* JD1_Sound_System::LoadSound( const GLToy_Hash uHash )
     return (*ppxSoundFile)->LoadSound();
 }
 
-GLToy_Handle JD1_Sound_System::CreateSoundHandle()
+GLToy_Handle GLToy_Sound_System::CreateSoundHandle()
 {
-    return Platform_JD1_Sound_System::CreateSoundHandle();
+    return Platform_GLToy_Sound_System::CreateSoundHandle();
 }
 
-GLToy_Handle JD1_Sound_System::CreateSourceHandle()
+GLToy_Handle GLToy_Sound_System::CreateSourceHandle()
 {
-    return Platform_JD1_Sound_System::CreateSourceHandle();
+    return Platform_GLToy_Sound_System::CreateSourceHandle();
 }
 
-void JD1_Sound_System::DestroySoundHandle( const GLToy_Handle iHandle )
+void GLToy_Sound_System::DestroySoundHandle( const GLToy_Handle iHandle )
 {
-    Platform_JD1_Sound_System::DestroySoundHandle( iHandle );
+    Platform_GLToy_Sound_System::DestroySoundHandle( iHandle );
 }
 
-void JD1_Sound_System::DestroySourceHandle( const GLToy_Handle iHandle )
+void GLToy_Sound_System::DestroySourceHandle( const GLToy_Handle iHandle )
 {
-    Platform_JD1_Sound_System::DestroySourceHandle( iHandle );
+    Platform_GLToy_Sound_System::DestroySourceHandle( iHandle );
 }
 
-void JD1_Sound_System::TestSound_Console( const GLToy_String& szName )
+void GLToy_Sound_System::TestSound_Console( const GLToy_String& szName )
 {
-    const JD1_Sound* const pxSound = LoadSound( szName.GetHash() );
+    const GLToy_Sound* const pxSound = LoadSound( szName.GetHash() );
 
     if( !pxSound )
     {
         return;
     }
 
-    Platform_JD1_Sound_System::TestSound( pxSound->GetHandle() );
+    Platform_GLToy_Sound_System::TestSound( pxSound->GetHandle() );
 }

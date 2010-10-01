@@ -19,18 +19,6 @@
     <Filter Include="Independent\Demo">
       <UniqueIdentifier>{9fd4d354-920b-4fbc-b76f-bf0e6a515b44}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Independent\Sound">
-      <UniqueIdentifier>{8da73d21-08a4-4df6-8f68-5b244ad4023b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Win32\Sound">
-      <UniqueIdentifier>{8e7963c8-eb6b-4fea-8b7f-838f785391f9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Independent\File">
-      <UniqueIdentifier>{08e22cb4-6193-44e4-b7ca-0b5fef8ae606}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Win32\File">
-      <UniqueIdentifier>{a4013387-3f25-485e-8368-565d796d39dc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Independent\Render\SuperScope">
       <UniqueIdentifier>{09906367-8f0c-41fb-acfa-f74e41c6cefc}</UniqueIdentifier>
     </Filter>
@@ -63,23 +51,8 @@
     <ClCompile Include="Independent\Core\Project_GLToy.cpp">
       <Filter>Independent\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Win32\Sound\Platform_JD1_Sound_System.cpp">
-      <Filter>Win32\Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Sound\JD1_Sound_System.cpp">
-      <Filter>Independent\Sound</Filter>
-    </ClCompile>
     <ClCompile Include="Independent\Demo\JD1_Demo_System.cpp">
       <Filter>Independent\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\File\JD1_WaveFile.cpp">
-      <Filter>Independent\File</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32\File\Platform_JD1_WaveFile.cpp">
-      <Filter>Win32\File</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Sound\JD1_Sound.cpp">
-      <Filter>Independent\Sound</Filter>
     </ClCompile>
     <ClCompile Include="Independent\Demo\JD1_DemoScene_Test.cpp">
       <Filter>Independent\Demo</Filter>
@@ -173,26 +146,8 @@
     <ClInclude Include="Independent\Core\JD1.h">
       <Filter>Independent\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Win32\Sound\Platform_JD1_Sound_System.h">
-      <Filter>Win32\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Sound\JD1_Sound_System.h">
-      <Filter>Independent\Sound</Filter>
-    </ClInclude>
     <ClInclude Include="Independent\Demo\JD1_Demo_System.h">
       <Filter>Independent\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\File\JD1_SoundFile.h">
-      <Filter>Independent\File</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Sound\JD1_Sound.h">
-      <Filter>Independent\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\File\JD1_WaveFile.h">
-      <Filter>Independent\File</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Sound\JD1_Sound_Source.h">
-      <Filter>Independent\Sound</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Demo\JD1_DemoScene.h">
       <Filter>Independent\Demo</Filter>

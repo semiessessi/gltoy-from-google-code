@@ -24,43 +24,22 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __JD1_SOUND_SYSTEM_H_
-#define __JD1_SOUND_SYSTEM_H_
+#ifndef __PLATFORM_GLTOY_SOUND_SYSTEM_H_
+#define __PLATFORM_GLTOY_SOUND_SYSTEM_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// I N C L U D E S
+// L I B R A R I E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// GLToy
-#include <Core/GLToy_Hash.h>
-#include <String/GLToy_String.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-template < class T > class GLToy_Array;
-template < class T > class GLToy_HashTree;
-class GLToy_Vector_3;
-class JD1_Sound_Source;
-class JD1_SoundFile;
+#pragma comment( lib, "openal32" )
+#pragma comment( lib, "alut" )
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-enum JD1_Sound_Transition
+class Platform_GLToy_Sound_System
 {
-    JD1_SOUND_CUT,
-    JD1_SOUND_WAIT,
-    JD1_SOUND_FADE
-};
-
-class JD1_Sound_System
-{
-
-    friend class JD1_Sound;
-    friend class JD1_WaveFile;
 
 public:
 
@@ -69,25 +48,15 @@ public:
 
     static void Update();
 
-    static GLToy_Handle CreateSource( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const bool bRelative = false, const bool bLooped = false );
-    static GLToy_Handle PlayMusic( const GLToy_Hash uHash, const JD1_Sound_Transition eTransitionType = JD1_SOUND_CUT );
-
-    static void Stop( const GLToy_Handle iHandle, const JD1_Sound_Transition eTransitionType = JD1_SOUND_CUT );
-
-private:
-
-    static void TestSound_Console( const GLToy_String& szName );
-
     static GLToy_Handle CreateSoundHandle();
     static GLToy_Handle CreateSourceHandle();
 
     static void DestroySoundHandle( const GLToy_Handle iHandle );
     static void DestroySourceHandle( const GLToy_Handle iHandle );
 
-    static JD1_Sound* LoadSound( const GLToy_Hash uHash );
+    static void TestSound( const GLToy_Handle iHandle );
 
-    static GLToy_HashTree< JD1_SoundFile* > s_xSounds;
-    static GLToy_Array< JD1_Sound_Source* > s_xSources;
+protected:
 
 };
 

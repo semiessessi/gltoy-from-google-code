@@ -28,10 +28,10 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/JD1.h>
+#include <Core/GLToy.h>
 
 // This file's header
-#include <Sound/Platform_JD1_Sound_System.h>
+#include <Sound/Platform_GLToy_Sound_System.h>
 
 // GLToy
 #include <Render/GLToy_Camera.h>
@@ -44,7 +44,7 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-union JD1_Sound_HandleUnion
+union GLToy_Sound_HandleUnion
 {
     GLToy_Handle i;
     ALuint u;
@@ -54,18 +54,18 @@ union JD1_Sound_HandleUnion
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Platform_JD1_Sound_System::Initialise()
+bool Platform_GLToy_Sound_System::Initialise()
 {
     alutInit( NULL, NULL );
     return alGetError() == AL_NO_ERROR;
 }
 
-void Platform_JD1_Sound_System::Shutdown()
+void Platform_GLToy_Sound_System::Shutdown()
 {
     alutExit();
 }
 
-void Platform_JD1_Sound_System::Update()
+void Platform_GLToy_Sound_System::Update()
 {
     alListenerfv( AL_POSITION, GLToy_Camera::GetPosition().GetFloatPointer() );
     alListenerfv( AL_VELOCITY, GLToy_Maths::ZeroVector3.GetFloatPointer() ); // TODO: some kind of velocity would be nice...
@@ -81,25 +81,25 @@ void Platform_JD1_Sound_System::Update()
     alListenerfv( AL_ORIENTATION, afOrientation );
 }
 
-GLToy_Handle Platform_JD1_Sound_System::CreateSoundHandle()
+GLToy_Handle Platform_GLToy_Sound_System::CreateSoundHandle()
 {
-    JD1_Sound_HandleUnion xBuffer;
+    GLToy_Sound_HandleUnion xBuffer;
 
     alGenBuffers( 1, &(xBuffer.u) );
 
     return xBuffer.i;
 }
 
-GLToy_Handle Platform_JD1_Sound_System::CreateSourceHandle()
+GLToy_Handle Platform_GLToy_Sound_System::CreateSourceHandle()
 {
-    JD1_Sound_HandleUnion xSource;
+    GLToy_Sound_HandleUnion xSource;
 
     alGenSources( 1, &(xSource.u) );
 
     return xSource.i;
 }
 
-void Platform_JD1_Sound_System::DestroySoundHandle( const GLToy_Handle iHandle )
+void Platform_GLToy_Sound_System::DestroySoundHandle( const GLToy_Handle iHandle )
 {
     if( !GLToy_IsValidHandle( iHandle ) )
     {
@@ -110,7 +110,7 @@ void Platform_JD1_Sound_System::DestroySoundHandle( const GLToy_Handle iHandle )
     alDeleteBuffers( 1, reinterpret_cast< const ALuint* >( &iHandle ) );
 }
 
-void Platform_JD1_Sound_System::DestroySourceHandle( const GLToy_Handle iHandle )
+void Platform_GLToy_Sound_System::DestroySourceHandle( const GLToy_Handle iHandle )
 {
     if( !GLToy_IsValidHandle( iHandle ) )
     {
@@ -121,7 +121,7 @@ void Platform_JD1_Sound_System::DestroySourceHandle( const GLToy_Handle iHandle 
     alDeleteSources( 1, reinterpret_cast< const ALuint* >( &iHandle ) );
 }
 
-void Platform_JD1_Sound_System::TestSound( const GLToy_Handle iHandle )
+void Platform_GLToy_Sound_System::TestSound( const GLToy_Handle iHandle )
 {
     if( !GLToy_IsValidHandle( iHandle ) )
     {
@@ -129,8 +129,8 @@ void Platform_JD1_Sound_System::TestSound( const GLToy_Handle iHandle )
         return;
     }
 
-    JD1_Sound_HandleUnion xBufferHandle = { iHandle };
-    JD1_Sound_HandleUnion xSourceHandle = { CreateSourceHandle() };
+    GLToy_Sound_HandleUnion xBufferHandle = { iHandle };
+    GLToy_Sound_HandleUnion xSourceHandle = { CreateSourceHandle() };
 
     alSourcef( xSourceHandle.u, AL_PITCH, 1.0f );
     alSourcef( xSourceHandle.u, AL_GAIN, 1.0f );
