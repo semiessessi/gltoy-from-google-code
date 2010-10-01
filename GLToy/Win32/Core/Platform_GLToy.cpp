@@ -80,25 +80,25 @@ LRESULT CALLBACK WndProc( HWND uWindowHandle, unsigned int uMessage,
 {
     switch( uMessage )
     {
-        
+#ifndef GLTOY_DEMO
         case WM_SIZE:
         {
             GLToy::Resize( LOWORD( uLParam ), HIWORD( uLParam ) );
             return 0;
         }
-
+#endif
         case WM_CLOSE:
         {
             PostMessage( uWindowHandle, WM_QUIT, 0, 0 );
             return 0;
         }
-
+#ifndef GLTOY_DEMO
         case WM_INPUTLANGCHANGE:
         {
             GLToy_Input_System::ChangeLayout();
             break;
         }
-
+#endif
         case WM_SETFOCUS:
         {
             GLToy::GiveFocus();

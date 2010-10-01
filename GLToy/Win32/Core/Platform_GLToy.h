@@ -33,7 +33,14 @@
 
 #define GLTOY_PLATFORM_WIN32
 
+#ifndef GLTOY_DEMO
 #define GLToy_Inline __forceinline
+#else
+#define GLToy_Inline
+#endif
+
+#define GLToy_ForceCDecl __cdecl
+#define GLToy_ForceInline __inline
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S

@@ -54,10 +54,11 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef GLTOY_DEBUG
-void* operator new( u_int uSize, const char* szFile, const int iLine );
-void operator delete( void* pxMemory, const char* szFile, const int iLine );
+void* GLToy_ForceCDecl operator new( u_int uSize, const char* szFile, const int iLine );
+void GLToy_ForceCDecl operator delete( void* pxMemory, const char* szFile, const int iLine );
 #else
-void* operator new( u_int uSize );
+void* GLToy_ForceCDecl operator new( u_int uSize );
 #endif
-void operator delete( void* pxMemory );
+void GLToy_ForceCDecl operator delete( void* pxMemory );
+
 #endif

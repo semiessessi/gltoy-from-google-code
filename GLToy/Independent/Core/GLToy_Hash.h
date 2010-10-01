@@ -37,7 +37,7 @@
 // This implements Bernstein's hash, modified to be case-insensitive
 //
 
-GLToy_Inline GLToy_Hash GLToy_GetHash( const char* szString )
+GLToy_ForceInline GLToy_Hash GLToy_GetHash( const char* szString )
 {
     GLToy_Hash uHash = 0;
 
@@ -51,7 +51,7 @@ GLToy_Inline GLToy_Hash GLToy_GetHash( const char* szString )
     return uHash;
 }
 
-GLToy_Inline GLToy_Hash GLToy_GetHash( const wchar_t* wszString )
+GLToy_ForceInline GLToy_Hash GLToy_GetHash( const wchar_t* wszString )
 {
     GLToy_Hash uHash = 0;
 
@@ -69,7 +69,7 @@ GLToy_Inline GLToy_Hash GLToy_GetHash( const wchar_t* wszString )
 // This version is designed to compile out
 //
 
-GLToy_Inline GLToy_Hash _GLToy_GetHash( const char* const szString, const u_int uLength )
+GLToy_ForceInline GLToy_Hash _GLToy_GetHash( const char* const szString, const u_int uLength )
 {
     GLToy_Hash uHash = 0;
 

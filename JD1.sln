@@ -9,6 +9,7 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Final (Crinkler)|Win32 = Final (Crinkler)|Win32
+		Final (Demo)|Win32 = Final (Demo)|Win32
 		Final|Win32 = Final|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
@@ -17,6 +18,8 @@ Global
 		{D102268C-2C78-4954-99A9-433EF8F9182F}.Debug|Win32.Build.0 = Debug|Win32
 		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (Crinkler)|Win32.ActiveCfg = Final (Crinkler + No Havok)|Win32
 		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (Crinkler)|Win32.Build.0 = Final (Crinkler + No Havok)|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (Demo)|Win32.ActiveCfg = Final (Demo)|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (Demo)|Win32.Build.0 = Final (Demo)|Win32
 		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final|Win32.ActiveCfg = Final (No Havok)|Win32
 		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final|Win32.Build.0 = Final (No Havok)|Win32
 		{D102268C-2C78-4954-99A9-433EF8F9182F}.Release|Win32.ActiveCfg = Release|Win32
@@ -25,6 +28,8 @@ Global
 		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Debug|Win32.Build.0 = Debug|Win32
 		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Final (Crinkler)|Win32.ActiveCfg = Final (Crinkler)|Win32
 		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Final (Crinkler)|Win32.Build.0 = Final (Crinkler)|Win32
+		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Final (Demo)|Win32.ActiveCfg = Final (Demo)|Win32
+		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Final (Demo)|Win32.Build.0 = Final (Demo)|Win32
 		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Final|Win32.ActiveCfg = Final|Win32
 		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Final|Win32.Build.0 = Final|Win32
 		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Release|Win32.ActiveCfg = Release|Win32

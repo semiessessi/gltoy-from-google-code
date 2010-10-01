@@ -35,20 +35,26 @@
 #include <Core/Console/GLToy_Console.h>
 #include <Core/State/GLToy_State_System.h>
 #include <Core/GLToy_Timer.h>
+#ifndef GLTOY_DEMO
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment_System.h>
+#endif
 #ifdef GLTOY_USE_FRIDGESCRIPT
 #include <FridgeScript/GLToy_FridgeScript.h>
 #endif
 #include <Input/GLToy_Input.h>
 #include <Maths/GLToy_Maths.h>
+#ifndef GLTOY_DEMO
 #include <Model/GLToy_Model_System.h>
 #include <Particle/GLToy_PFX_System.h>
 #include <Physics/GLToy_Physics_System.h>
+#endif
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
+#ifndef GLTOY_DEMO
 #include <Test/GLToy_Test_System.h>
 #include <UI/GLToy_UI_System.h>
+#endif
 
 // C/C++ headers
 #include <stdarg.h>
@@ -81,7 +87,9 @@ int GLToy::EntryPoint()
 
     GLToy_DebugOutput( "\r\nGLToy::EntryPoint() - Running tests.\r\n" );
 
+#ifndef GLTOY_DEMO
     GLToy_Test_System::RunTests();
+#endif
 
     GLToy_Console::RegisterCommand( "quit", Quit );
 
@@ -148,9 +156,15 @@ bool GLToy::Initialise()
 
     GLToy_InitialiserCall( GLToy_Render );
     GLToy_InitialiserCall( GLToy_Console );
+
+#ifndef GLTOY_DEMO
     GLToy_InitialiserCall( GLToy_UI_System );
+#endif
+
     GLToy_InitialiserCall( GLToy_State_System );
+#ifndef GLTOY_DEMO
     GLToy_InitialiserCall( GLToy_Physics_System );
+#endif
 
     if( !Platform_LateInitialise() )
     {
@@ -166,10 +180,12 @@ bool GLToy::Initialise()
     GLToy_InitialiserCall( GLToy_FridgeScript );
 #endif
 
+#ifndef GLTOY_DEMO
     GLToy_InitialiserCall( GLToy_Model_System );
     GLToy_InitialiserCall( GLToy_Environment_System );
     GLToy_InitialiserCall( GLToy_Entity_System );
     GLToy_InitialiserCall( GLToy_PFX_System );
+#endif
 
     GLToy::ChangeWindowIcon( "Icons/GLToy_24x24.png" ); // here so the project can override immediately if it wants to
 
@@ -190,19 +206,27 @@ void GLToy::Shutdown()
     Project_Shutdown();
 
     GLToy_DebugOutput( "\r\nGLToy::Shutdown() - Shutting down systems.\r\n" );
-
+#ifndef GLTOY_DEMO
     GLToy_PFX_System::Shutdown();
     GLToy_Entity_System::Shutdown();
     GLToy_Environment_System::Shutdown();
     GLToy_Model_System::Shutdown();
+#endif
 
 #ifdef GLTOY_USE_FRIDGESCRIPT
     GLToy_FridgeScript::Shutdown();
 #endif
 
+#ifndef GLTOY_DEMO
     GLToy_Physics_System::Shutdown();
+#endif
+
     GLToy_State_System::Shutdown();
+
+#ifndef GLTOY_DEMO
     GLToy_UI_System::Shutdown();
+#endif
+
     GLToy_Console::Shutdown();
     GLToy_Render::Shutdown();
 
@@ -228,12 +252,14 @@ bool GLToy::MainLoop()
     GLToy_State_System::Update();
 
     GLToy_Console::Update();
+#ifndef GLTOY_DEMO
     GLToy_UI_System::Update();
     GLToy_Physics_System::Update();
 
     GLToy_Environment_System::Update();
     GLToy_Entity_System::Update();
     GLToy_PFX_System::Update();
+#endif
 
     Project_Update();
 
@@ -243,19 +269,27 @@ bool GLToy::MainLoop()
     // Render functions
     GLToy_Render::BeginRender();
 
+#ifndef GLTOY_DEMO
     GLToy_Environment_System::Render();
     GLToy_Entity_System::Render();
     GLToy_PFX_System::Render();
+#endif
 
     GLToy_State_System::Render();
     GLToy_Render::Render();
 
     GLToy_Render::BeginRender2D();
 
+#ifndef GLTOY_DEMO
     GLToy_Environment_System::Render2D();
+#endif
 
     GLToy_State_System::Render2D();
+
+#ifndef GLTOY_DEMO
     GLToy_UI_System::Render2D();
+#endif
+
     GLToy_Render::Render2D();
     GLToy_Console::Render2D();
 
@@ -266,13 +300,16 @@ bool GLToy::MainLoop()
 
 void GLToy::DebugOutput( const GLToy_String& szString )
 {
+#ifndef GLTOY_DEMO
     const char* const szANSI = szString.CreateANSIString();
     DebugOutput( szANSI );
     delete[] szANSI;
+#endif
 }
 
 void GLToy::DebugOutput( const char* szFormatString, ... )
 {
+#ifndef GLTOY_DEMO
     va_list xArgumentList;
 
     va_start( xArgumentList, szFormatString );
@@ -292,6 +329,7 @@ void GLToy::DebugOutput( const char* szFormatString, ... )
 
     GLToy_Console::Print( szDebugMessageBuffer );
     Platform_DebugOutput( szDebugMessageBuffer );
+#endif
 }
 
 u_int GLToy::GetWindowViewportWidth()
@@ -306,7 +344,11 @@ u_int GLToy::GetWindowViewportHeight()
 
 void GLToy::QuitDialog()
 {
+#ifndef GLTOY_DEMO
 	GLToy_UI_System::ShowQuitDialog();
+#else
+    Quit();
+#endif
 }
 
 void GLToy::ChangeWindowTitle( const char* const szNewTitle )

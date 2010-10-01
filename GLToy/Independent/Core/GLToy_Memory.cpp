@@ -134,7 +134,7 @@ void GLToy_Memory::Set( void* const pxMemory, const u_int uBytes, const u_char u
 }
 
 #ifdef GLTOY_DEBUG
-void* operator new( u_int uSize, const char* szFile, const int iLine )
+void* GLToy_ForceCDecl operator new( u_int uSize, const char* szFile, const int iLine )
 {
     GLToy_MemoryRecord xRecord = { uSize, GLToy_String( szFile ) + " @ line " + iLine };
     void* const pxAllocation = GLToy_Memory::Platform_Allocate( uSize );
@@ -153,12 +153,12 @@ void operator delete( void* pxMemory, const char* szFile, const int iLine )
 }
 #endif
 
-void* operator new( u_int uSize )
+void* GLToy_ForceCDecl operator new( u_int uSize )
 {
     return GLToy_Memory::Platform_Allocate( uSize );
 }
 
-void operator delete( void* pxMemory )
+void GLToy_ForceCDecl operator delete( void* pxMemory )
 {
 #ifdef GLTOY_DEBUG
     const GLToy_MemoryRecord* const pxRecord = g_xMap.FindData( pxMemory );

@@ -44,7 +44,14 @@
 
 #define GLTOY_PLATFORM_X11
 
+#ifndef GLTOY_DEMO
 #define GLToy_Inline __inline__
+#else
+#define GLToy_Inline
+#endif
+
+#define GLToy_ForceCDecl __attribute__( cdecl )
+#define GLToy_ForceInline __inline__
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
