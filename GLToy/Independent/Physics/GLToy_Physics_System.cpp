@@ -62,6 +62,8 @@
 #include <Common/Base/System/hkBaseSystem.h>
 #include <Common/Base/Memory/System/Util/hkMemoryInitUtil.h>
 #include <Common/Base/Memory/System/hkMemorySystem.h>
+// TODO: work out how to make this next include only if havok 2010, or not havok 7
+#include <Common/Base/Memory/Allocator/Malloc/hkMallocAllocator.h>
 #include <Common/Base/Thread/Job/ThreadPool/Cpu/hkCpuJobThreadPool.h>
 #include <Common/Base/Thread/JobQueue/hkJobQueue.h>
 #include <Common/Internal/ConvexHull/hkGeometryUtility.h>
@@ -85,6 +87,19 @@
 
 // keycode - this needs to go somewhere, this seems as good a place as any
 #include <Common/Base/KeyCode.cxx>
+
+#define HK_CLASSES_FILE <Common/Serialize/Classlist/hkKeyCodeClasses.h>
+
+#undef HK_FEATURE_PRODUCT_AI
+#undef HK_FEATURE_PRODUCT_ANIMATION
+#undef HK_FEATURE_PRODUCT_CLOTH
+#undef HK_FEATURE_PRODUCT_DESTRUCTION
+#undef HK_FEATURE_PRODUCT_BEHAVIOR
+
+#define HK_EXCLUDE_LIBRARY_hkgpConvexDecomposition
+#define HK_FEATURE_REFLECTION_PHYSICS
+
+#include <Common/Base/Config/hkProductFeatures.cxx>
 
 #endif
 
@@ -244,13 +259,15 @@ protected:
 
 bool GLToy_Physics_System::Initialise()
 {
-
     GLToy_Console::RegisterCommand( "testbox", TestBox_Console );
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
     // this initialisation routine is inspired by the ConsoleExampleMt_win32_9-0 example in the Havok SDK
-    hkMemoryRouter* pxMemoryRouter = hkMemoryInitUtil::initDefault();
+    hkMemoryRouter* pxMemoryRouter = hkMemoryInitUtil::initDefault(
+			// TODO: work out how to make this next line only if havok 2010, or not havok 7
+			hkMallocAllocator::m_defaultMallocAllocator, hkMemorySystem::FrameInfo( 500000 )
+		);
     hkBaseSystem::init( pxMemoryRouter, GLToy_Havok_ErrorReport );
 
     hkHardwareInfo xHardwareInfo;

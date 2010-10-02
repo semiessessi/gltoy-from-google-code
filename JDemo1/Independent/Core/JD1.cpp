@@ -37,7 +37,7 @@
 
 // JD1
 #include <Demo/JD1_Demo_System.h>
-#include <Demo/JD1_DemoScene_Chmutov_1.h>
+#include <Demo/JD1_DemoScene_Chmutov.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -51,7 +51,7 @@ bool JD1::Initialise()
 
     GLToy_State_System::ChangeState( GLToy_Hash_Constant( "FixedCamera" ) );
 
-    JD1_Demo_System::Queue( new JD1_DemoScene_Chmutov_1() );// , 30.0f, JD1_DEMO_FLASH_WHITE, 0.4f );
+    JD1_Demo_System::Queue( new JD1_DemoScene_Chmutov() );// , 30.0f, JD1_DEMO_FLASH_WHITE, 0.4f );
 
     return true;
 }

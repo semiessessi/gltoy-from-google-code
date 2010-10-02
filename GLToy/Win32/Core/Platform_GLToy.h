@@ -33,6 +33,8 @@
 
 #define GLTOY_PLATFORM_WIN32
 
+#define WIN32_LEAN
+
 #ifndef GLTOY_DEMO
 #define GLToy_Inline __forceinline
 #else

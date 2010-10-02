@@ -11,7 +11,8 @@ vec3 xSpecularDirection;
 vec3 xLightPosition;
 float fGlossTexture;
 float fHackEdgeSoften;
-float fK = 1.0f;
+float fInitialK = -1.0f;
+float fK;
 
 float solve( vec3 xPos, vec3 xDir )
 {
@@ -32,6 +33,7 @@ float solve( vec3 xPos, vec3 xDir )
 	float fD = dot( xNormalisedDirection, xDHelp ); // i.e. x * ox * ( 4 ox^2 - 2 ) + y * oy * ( 4 oy^2 - 2 ) + z * oz * ( 4 oz^2 - 2 );
 	float fE = dot( xPosSquares, xPosSquares - 1.0f ) + fSize;
 	
+	fK = max( 0.0f, fInitialK + length( xPos ) );
 	float fL = -0.15f;
 
 	// Whittaker iteration
@@ -63,7 +65,7 @@ float solve( vec3 xPos, vec3 xDir )
 	fK = fK - ( ( ( ( fA * fK + fB ) * fK + fC ) * fK + fD ) * fK + fE ) * fL;
 	fK = fK - ( ( ( ( fA * fK + fB ) * fK + fC ) * fK + fD ) * fK + fE ) * fL;
 	fK = fK - ( ( ( ( fA * fK + fB ) * fK + fC ) * fK + fD ) * fK + fE ) * fL;
-
+	
 	if( fK > 100.0f )
 	{
 		fK = -1.0f;
@@ -75,7 +77,7 @@ float solve( vec3 xPos, vec3 xDir )
 	return fK;
 }
 
-vec4 trace( vec3 xPos, vec3 xDir, const bool bDiscard = false )
+vec4 trace( vec3 xPos, vec3 xDir, bool bDiscard )
 {
 	float fK = solve( xPos, xDir );
 
@@ -141,16 +143,16 @@ void main()
 	fK = 1.0f;
 	// reflect
 	// 1 bounce
-	xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection );
+	xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection, false );
 	// fGloss *= fBounceScale * fGlossTexture;
 	// 2 bounces
-	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection );
+	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection, false );
 	// fGloss *= fBounceScale * fGlossTexture;
 	// 3 bounces
-	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection );
+	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection, false );
 	// fGloss *= fBounceScale * fGlossTexture;
 	// 4 bounces
-	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection );
+	// xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection, false );
 
 	gl_FragColor = xColour;
 

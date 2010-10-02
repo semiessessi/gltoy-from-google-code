@@ -60,6 +60,8 @@ public:
     static GLToy_ShaderProgram* FindShader( const GLToy_Hash uHash );
     static GLToy_ShaderProgram* LookUpShader( const GLToy_String& szName );
 
+	static void CreateShaderFromStrings( const GLToy_String& szName, const GLToy_String& szFragmentShader, const GLToy_String& szVertexShader );
+
 private:
 
     static GLToy_HashTree< GLToy_ShaderProgram* > s_xPrograms;
