@@ -72,9 +72,8 @@ void GLToy_Input_System::SetKeyInputHandler( GLToy_KeyInputHandler* pxKeyInputHa
 
 bool GLToy_Input_System::Initialise()
 {
-#ifndef GLTOY_DEMO
     ChangeLayout();
-#endif
+
     return true;
 }
 
