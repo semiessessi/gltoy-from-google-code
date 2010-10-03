@@ -65,13 +65,16 @@ GLToy_KeyInputHandler* GLToy_Input_System::s_pxKeyInputHandler = NULL;
 
 void GLToy_Input_System::SetKeyInputHandler( GLToy_KeyInputHandler* pxKeyInputHandler )
 {
+#ifndef GLTOY_DEMO
     s_pxKeyInputHandler = pxKeyInputHandler;
+#endif
 }
 
 bool GLToy_Input_System::Initialise()
 {
+#ifndef GLTOY_DEMO
     ChangeLayout();
-
+#endif
     return true;
 }
 
@@ -94,14 +97,17 @@ void GLToy_Input_System::ChangeLayout()
 
 void GLToy_Input_System::HandleCharacter( const wchar_t wcCharacter )
 {
+#ifndef GLTOY_DEMO
     if( s_pxKeyInputHandler )
     {
         s_pxKeyInputHandler->HandleCharacter( wcCharacter );
     }
+#endif
 }
 
 void GLToy_Input_System::HandleKey( const u_int uKey )
 {
+#ifndef GLTOY_DEMO
     if( s_pxKeyInputHandler )
     {
         s_pxKeyInputHandler->HandleKey( uKey );
@@ -112,6 +118,7 @@ void GLToy_Input_System::HandleKey( const u_int uKey )
         GLToy_Console::Toggle();
         return;
     }
+#endif
 
 	if( GLToy::GetGloballyQuitWithEscape() && ( uKey == GLToy_Input_System::GetEscapeKey() ) )
 	{

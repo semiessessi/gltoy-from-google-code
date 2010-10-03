@@ -37,11 +37,14 @@
 #include <Core/Console/GLToy_Console.h>
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <Core/State/GLToy_State.h>
+#ifndef GLTOY_DEMO
 #include <Core/State/GLToy_State_Editor.h>
 #include <Core/State/GLToy_State_EditorFrontEnd.h>
+#endif
 #include <Core/State/GLToy_State_FixedCamera.h>
+#ifndef GLTOY_DEMO
 #include <Core/State/GLToy_State_Splash.h>
-
+#endif
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,10 +61,12 @@ bool GLToy_State_System::Initialise()
 {
     s_xStates.Clear();
 
+#ifndef GLTOY_DEMO
     RegisterState( new GLToy_State_EditorFrontEnd(), GLToy_Hash_Constant( "EditorFrontEnd" ) );
     RegisterState( new GLToy_State_Editor(), GLToy_Hash_Constant( "Editor" ) );
+	RegisterState( new GLToy_State_Splash(), GLToy_Hash_Constant( "Splash" ) );
+#endif
     RegisterState( new GLToy_State_FixedCamera(), GLToy_Hash_Constant( "FixedCamera" ) );
-    RegisterState( new GLToy_State_Splash(), GLToy_Hash_Constant( "Splash" ) );
 
     GLToy_Console::RegisterCommand( "changestate", ChangeState_Console );
 
