@@ -153,6 +153,7 @@ void operator delete( void* pxMemory, const char* szFile, const int iLine )
 }
 #endif
 
+#ifndef GLTOY_DEMO
 void* GLToy_ForceCDecl operator new( u_int uSize )
 {
     return GLToy_Memory::Platform_Allocate( uSize );
@@ -171,5 +172,5 @@ void GLToy_ForceCDecl operator delete( void* pxMemory )
 
     GLToy_Memory::Platform_Free( pxMemory );
 }
-
+#endif
 #include <Core/GLToy_Memory_DebugOn.h>

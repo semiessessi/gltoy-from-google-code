@@ -57,8 +57,12 @@ public:
 void* GLToy_ForceCDecl operator new( u_int uSize, const char* szFile, const int iLine );
 void GLToy_ForceCDecl operator delete( void* pxMemory, const char* szFile, const int iLine );
 #else
+#ifndef GLTOY_DEMO
 void* GLToy_ForceCDecl operator new( u_int uSize );
 #endif
+#endif
+#ifndef GLTOY_DEMO
 void GLToy_ForceCDecl operator delete( void* pxMemory );
+#endif
 
 #endif

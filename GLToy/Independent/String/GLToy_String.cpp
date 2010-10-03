@@ -60,8 +60,7 @@ void GLToy_String::SetToFormatString( const GLToy_String szFormatString, ... )
 
     int iLength = _vscwprintf( szFormatString.GetWideString(), xArgumentList ) + 1;
     Resize( static_cast< u_int >( iLength ) );
-
-    vswprintf( GetWideString(), iLength, szFormatString.GetWideString(), xArgumentList );
+	_vsnwprintf( GetWideString(), iLength, szFormatString.GetWideString(), xArgumentList );
 
     va_end( xArgumentList );
 }
@@ -71,5 +70,5 @@ void GLToy_String::SetToFormatString( const GLToy_String& szFormatString, const 
     int iLength = _vscwprintf( szFormatString.GetWideString(), xArgumentList ) + 1;
     Resize( static_cast< u_int >( iLength ) );
 
-    vswprintf( GetWideString(), iLength, szFormatString.GetWideString(), xArgumentList );
+    _vsnwprintf( GetWideString(), iLength, szFormatString.GetWideString(), xArgumentList );
 }

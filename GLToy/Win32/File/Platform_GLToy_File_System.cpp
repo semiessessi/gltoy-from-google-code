@@ -34,8 +34,11 @@
 #include <File/GLToy_File_System.h>
 
 // C/C++
-#include <io.h>
-#include <stdio.h>
+//#include <io.h>
+//#include <stdio.h>
+
+// Win32
+#include <Windows.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -43,59 +46,62 @@
 
 GLToy_Array< GLToy_String > GLToy_File_System::Platform_PathsFromFilter( const GLToy_String& szBasePath, const GLToy_String& szFilter, const bool bRecursive )
 {
+
     GLToy_Array< GLToy_String > xPaths;
 
     char* szSearchString = ( GLToy_String( "./" ) + szBasePath + szFilter ).CreateANSIString();
     char* szRecurseString = ( GLToy_String( "./" ) + szBasePath + "*" ).CreateANSIString();
 
-    _finddata_t xFindData;
-    intptr_t xFilePtr;
+	// for the demo configuration _findfirst etc doesn't work
+	// why not just not use these functions altogether...
+    /*_finddata_t*/ WIN32_FIND_DATA xFindData;
+    /*intptr_t*/ HANDLE xFilePtr;
 
     if( bRecursive )
     {
-        xFilePtr = _findfirst( szRecurseString, &xFindData );
+        xFilePtr = /*_findfirst*/FindFirstFile( szRecurseString, &xFindData );
 
-        if( xFilePtr != -1L )
+        if( xFilePtr != /*-1L*/INVALID_HANDLE_VALUE  )
         {
             do
             {
-                if( xFindData.name[ 0 ] == '.' )
+                if( xFindData./*name*/cFileName[ 0 ] == '.' )
                 {
                     // we always get back "." and ".."
                     continue;
                 }
 
-                if( xFindData.attrib & _A_SUBDIR )
+                if( xFindData./*attrib & _A_SUBDIR*/dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY )
                 {
                     GLToy_String szSubPath = szBasePath;
-                    szSubPath += xFindData.name;
+                    szSubPath += xFindData./*name*/cFileName;
                     szSubPath += "/";
 
                     xPaths.Append( Platform_PathsFromFilter( szSubPath, szFilter, true ) );
                 }
             }
-            while ( _findnext( xFilePtr, &xFindData ) == 0 );
+            while ( /*_findnext*/FindNextFile( xFilePtr, &xFindData )/* == 0*/ );
         }
     }
 
-    xFilePtr = _findfirst( szSearchString, &xFindData );
+    xFilePtr = /*_findfirst*/FindFirstFile( szSearchString, &xFindData );
 
-    if( xFilePtr != -1L )
+    if( xFilePtr != /*-1L*/INVALID_HANDLE_VALUE  )
     {
         do
         {
-            if( xFindData.name[ 0 ] == '.' )
+            if( xFindData./*name*/cFileName[ 0 ] == '.' )
             {
                 // we always get back "." and ".."
                 continue;
             }
 
-            if( !( xFindData.attrib & _A_SUBDIR ) )
+            if( !( xFindData./*attrib & _A_SUBDIR*/dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) )
             {
-                xPaths.Append( szBasePath + xFindData.name );
+                xPaths.Append( szBasePath + xFindData./*name*/cFileName );
             }
         }
-        while ( _findnext( xFilePtr, &xFindData ) == 0 );
+        while ( /*_findnext*/FindNextFile( xFilePtr, &xFindData )/* == 0*/ );
     }
 
     delete[] szSearchString;
