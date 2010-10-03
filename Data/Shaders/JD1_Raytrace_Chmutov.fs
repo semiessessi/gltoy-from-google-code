@@ -112,12 +112,13 @@ vec4 trace( vec3 xPos, vec3 xDir, bool bDiscard )
 	vec3 xLightDirection = xTraceSolution - xLightPosition;
 	vec3 xNormalisedLightDirection = normalize( xLightDirection );
 
-	vec4 xDiffuseTexture = texture2D( xTexture,
+	vec4 xDiffuseTexture = vec4( ( ( cos( 12.0f * xSolution.x ) * cos( 12.0f * xSolution.y ) * cos( 12.0f * xSolution.z ) ) > 0.0f ) ? vec3( 0.7f, 0.6f, 1.0f ) : vec3( 0.45f, 0.3f, 0.85f ), 1.0f );
+	/*texture2D( xTexture,
 		vec2(
 			( 10.0f / 3.141592654f ) * atan( -xSolution.z, xSolution.x ),
 			2.5f * xSolution.y
-			) );
-	float fSpecularTexture = ( dot( xDiffuseTexture, xDiffuseTexture ) > 1.5f ) ? 32.0f : 8.0f;
+			) );*/
+	float fSpecularTexture = ( xDiffuseTexture.x > 0.5f ) ? 32.0f : 8.0f;
 	fGlossTexture = ( fSpecularTexture > 16.0f ) ? 1.0f : 0.75f;
 	
 	float fAttenuation = 3.0f / ( 1.0f + 0.5f * dot( xLightDirection, xLightDirection ) );

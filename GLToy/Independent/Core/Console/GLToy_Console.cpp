@@ -114,6 +114,7 @@ void GLToy_Console::ClearLog()
 
 void GLToy_Console::Print( const GLToy_String& szLine )
 {
+#ifndef GLTOY_DEMO
     GLToy_String szCopy = szLine;
     while( szCopy.GetLength() > 0 )
     {
@@ -124,10 +125,12 @@ void GLToy_Console::Print( const GLToy_String& szLine )
 
         s_xLog.Append( szCopy.RemoveFirstLine() );
     }
+#endif
 }
 
 void GLToy_Console::ExecuteFile( const GLToy_String& szFilename )
 {
+#ifndef GLTOY_DEMO
     GLToy_ANSITextFile xFile( szFilename );
 
     if( !xFile.GetSize() )
@@ -144,10 +147,12 @@ void GLToy_Console::ExecuteFile( const GLToy_String& szFilename )
         xLine.TrimTrailingWhiteSpace();
         ExecuteLine( xLine, false );
     }
+#endif
 }
 
 void GLToy_Console::ExecuteLine( const GLToy_String& szLine, const bool bStoreInHistory )
 {
+#ifndef GLTOY_DEMO
     GLToy_String szParameters = szLine;
     const GLToy_String szCommand = szParameters.RemoveFirstWord();
 
@@ -167,10 +172,12 @@ void GLToy_Console::ExecuteLine( const GLToy_String& szLine, const bool bStoreIn
         s_xHistory.Append( szLine );
         s_uHistoryPosition = s_xHistory.GetCount();
     }
+#endif
 }
 
 void GLToy_Console::Toggle()
 {
+#ifndef GLTOY_DEMO
     s_bConsoleDown = !s_bConsoleDown;
     static GLToy_KeyInputHandler* ls_pxOldHandler = NULL;
     if( s_bConsoleDown )
@@ -178,36 +185,49 @@ void GLToy_Console::Toggle()
         ls_pxOldHandler = GLToy_Input_System::GetKeyInputHandler();
     }
     GLToy_Input_System::SetKeyInputHandler( s_bConsoleDown ? &s_xInputHandler : ls_pxOldHandler );
+#endif
 }
 
 void GLToy_Console::RegisterCommand( const GLToy_String& szName, void ( *pfnFunction )() )
 {
+#ifndef GLTOY_DEMO
     s_xCommandTree.AddNode( new GLToy_ConsoleCommand_Void( szName, pfnFunction ), szName.GetHash() );
+#endif
 }
 
 void GLToy_Console::RegisterCommand( const GLToy_String& szName, void ( *pfnFunction )( const bool ) )
 {
+#ifndef GLTOY_DEMO
     s_xCommandTree.AddNode( new GLToy_ConsoleCommand_Bool( szName, pfnFunction ), szName.GetHash() );
+#endif
 }
 
 void GLToy_Console::RegisterCommand( const GLToy_String& szName, void ( *pfnFunction )( const u_int ) )
 {
+#ifndef GLTOY_DEMO
     s_xCommandTree.AddNode( new GLToy_ConsoleCommand_Uint( szName, pfnFunction ), szName.GetHash() );
+#endif
 }
 
 void GLToy_Console::RegisterCommand( const GLToy_String& szName, void ( *pfnFunction )( const GLToy_String& ) )
 {
+#ifndef GLTOY_DEMO
     s_xCommandTree.AddNode( new GLToy_ConsoleCommand_String( szName, pfnFunction ), szName.GetHash() );
+#endif
 }
 
 void GLToy_Console::RegisterVariable( const GLToy_String& szName, bool* pbVariable )
 {
+#ifndef GLTOY_DEMO
     s_xCommandTree.AddNode( new GLToy_ConsoleVariable_Bool( szName, pbVariable ), szName.GetHash() );
+#endif
 }
 
 void GLToy_Console::RegisterVariable( const GLToy_String& szName, u_int* puVariable )
 {
+#ifndef GLTOY_DEMO
     s_xCommandTree.AddNode( new GLToy_ConsoleVariable_Uint( szName, puVariable ), szName.GetHash() );
+#endif
 }
 
 GLToy_ConsoleCommand* GLToy_Console::LookUpCommand( const GLToy_String& szName )
@@ -230,6 +250,7 @@ void GLToy_Console::HandleCharacter( const wchar_t wcCharacter )
 
 void GLToy_Console::HandleKey( const unsigned int uKey )
 {
+#ifndef GLTOY_DEMO
     if( ( uKey == GLToy_Input_System::GetReturnKey() )
         || ( uKey == GLToy_Input_System::GetExecuteKey() ) )
     {
@@ -272,10 +293,12 @@ void GLToy_Console::HandleKey( const unsigned int uKey )
             --s_uVerticalPosition;
         }
     }
+#endif
 }
 
 bool GLToy_Console::Initialise()
 {
+#ifndef GLTOY_DEMO
     GLToy_Font_System::InitialiseFont( "Console" );
     s_pxFont = GLToy_Font_System::FindFont( GLToy_Hash_Constant( "Console" ) );
 
@@ -283,20 +306,24 @@ bool GLToy_Console::Initialise()
     RegisterCommand( "help", ListAll ); // TODO - a real help function and help...
     RegisterCommand( "listall", ListAll );
     RegisterCommand( "print", Print );
+#endif
 
     return true;
 }
 
 void GLToy_Console::Shutdown()
 {
+#ifndef GLTOY_DEMO
     GLToy_Font_System::ShutdownFont( "Console" );
     s_pxFont = NULL;
 
     s_xCommandTree.Clear();
+#endif
 }
 
 void GLToy_Console::Render2D()
 {
+#ifndef GLTOY_DEMO
     if( !s_bConsoleDown && s_fSlideOffset >= 1.1f )
     {
         return;
@@ -354,10 +381,12 @@ void GLToy_Console::Render2D()
     }
 
     GLToy_Render::DisableBlending();
+#endif
 }
 
 void GLToy_Console::Update()
 {
+#ifndef GLTOY_DEMO
     if( s_bConsoleDown )
     {
         if( s_fSlideOffset > fGLTOY_CONSOLE_BOTTOM )
@@ -382,4 +411,5 @@ void GLToy_Console::Update()
             s_fSlideOffset = fGLTOY_CONSOLE_TOP;
         }
     }
+#endif
 }
