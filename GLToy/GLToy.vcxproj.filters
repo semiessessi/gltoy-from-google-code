@@ -878,6 +878,9 @@
     <ClInclude Include="Independent\File\GLToy_WaveFile.h">
       <Filter>Independent\File</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\Maths\GLToy_Spline.h">
+      <Filter>Independent\Maths</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\Default.vs">

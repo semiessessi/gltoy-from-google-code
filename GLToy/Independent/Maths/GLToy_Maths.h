@@ -88,12 +88,45 @@ public:
 		return fReturnValue;
 	}
 
-    static GLToy_Inline float Lerp( const float fValue1, const float fValue2, const float fAmount ) { return fValue1 + ( fValue2 - fValue1 ) * fAmount; }
-    static GLToy_Inline float ClampedLerp( const float fValue1, const float fValue2, const float fAmount ) { return Clamp( Lerp( fValue1, fValue2, fAmount ), Min( fValue1, fValue2 ), Max( fValue1, fValue2 ) ); }
-    static GLToy_Inline float CosineInterpolate( const float fValue1, const float fValue2, const float fAmount ) { return fValue1 + ( fValue2 - fValue1 ) * 0.5f * ( 1.0f - Cos( Pi * fAmount ) ); }
-    //static GLToy_Inline GLToy_Vector_2 Lerp( const GLToy_Vector_2& xValue1, const GLToy_Vector_2& xValue2, const float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
-    static GLToy_Inline GLToy_Vector_3 Lerp( const GLToy_Vector_3& xValue1, const GLToy_Vector_3& xValue2, const float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
-    //static GLToy_Inline GLToy_Vector_4 Lerp( const GLToy_Vector_4& xValue1, const GLToy_Vector_4& xValue2, const float fAmount ) { return xValue1 + ( xValue2 - xValue1 ) * fAmount; }
+	template < class T >
+	static GLToy_Inline T Lerp( const T& xValue1, const T& xValue2, const float fAmount )
+	{
+		return xValue1 + ( xValue2 - xValue1 ) * fAmount;
+	}
+
+	template < class T >
+    static GLToy_Inline T ClampedLerp( const T& xValue1, const T& xValue2, const float fAmount )
+	{
+		return Lerp( xValue1, xValue2, Clamp( fAmount, 0.0f, 1.0f ) );
+	}
+
+	template < class T >
+    static GLToy_Inline T CosineInterpolate( const T& xValue1, const T& xValue2, const float fAmount )
+	{
+		return xValue1 + ( xValue2 - xValue1 ) * 0.5f * ( 1.0f - Cos( Pi * fAmount ) );
+	}
+	
+	template < class T >
+	static GLToy_Inline T CubicInterpolate( const T& xValue1, const T& xValue2, const T& xValue3, const T& xValue4, const float fAmount )
+	{
+		const T xA = xValue4 - xValue3 + xValue2 - xValue1;
+		const T xB = xValue1 - xValue2 - xA;
+		const T xC = xValue3 - xValue1;
+		const T xD = xValue2;
+
+		return ( ( xA * fAmount + xB ) * fAmount + xC ) * fAmount + xD;
+	}
+
+	template < class T >
+	static GLToy_Inline T CatmullRomInterpolate( const T& xValue1, const T& xValue2, const T& xValue3, const T& xValue4, const float fAmount )
+	{
+		const T xA = 0.5f * xValue4 - 1.5f * xValue3 + 1.5f * xValue2 - 0.5f * xValue1;
+		const T xB = xValue1 - 2.5f * xValue2 + 2.0f * xValue3 - 0.5f* xValue4;
+		const T xC = 0.5f * ( xValue3 - xValue1 );
+		const T xD = xValue2;
+
+		return ( ( xA * fAmount + xB ) * fAmount + xC ) * fAmount + xD;
+	}
 
     static float Sin( const float fValue );
     static float Cos( const float fValue );
