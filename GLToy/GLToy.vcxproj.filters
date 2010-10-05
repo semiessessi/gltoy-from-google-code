@@ -492,6 +492,9 @@
     <ClCompile Include="Win32\File\Platform_GLToy_WaveFile.cpp">
       <Filter>Win32\File</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Maths\GLToy_OrientedSpline.cpp">
+      <Filter>Independent\Maths</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">

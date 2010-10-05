@@ -95,7 +95,7 @@ protected:
 
 template < class T >
 class GLToy_Spline_Linear
-: public GLToy_Spline< T >
+: public virtual GLToy_Spline< T >
 {
 
 protected:
@@ -135,7 +135,7 @@ protected:
 
 template < class T >
 class GLToy_Spline_Cubic
-: public GLToy_Spline< T >
+: public virtual GLToy_Spline< T >
 {
 
 protected:
@@ -210,7 +210,7 @@ protected:
 
 template < class T >
 class GLToy_Spline_CatmullRom
-: public GLToy_Spline< T >
+: public virtual GLToy_Spline< T >
 {
 
 protected:

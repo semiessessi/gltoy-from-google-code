@@ -24,76 +24,33 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_ORIENTED_SPLINE_H_
-#define __GLTOY_ORIENTED_SPLINE_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parent
-#include <Maths/GLToy_Spline.h>
+#include <Core/GLToy.h>
+
+// This file's header
+#include <Maths/GLToy_OrientedSpline.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_OrientedSpline
-: public virtual GLToy_Spline< GLToy_Vector_3 >
+GLToy_Matrix_3 GLToy_OrientedSpline_LinearLinear::OrientationInterpolate( const float fParameter ) const
 {
-
-	typedef GLToy_Spline< GLToy_Vector_3 > GLToy_Parent;
-
-protected:
-
-public:
-
-	GLToy_OrientedSpline()
-	: GLToy_Parent()
-	, m_xOrientations()
-    {
-    }
-
-	GLToy_OrientedSpline( const GLToy_OrientedSpline& xSpline )
-    : GLToy_Parent( xSpline )
-	, m_xOrientations( xSpline.m_xOrientations )
+	u_int uIndex = 0;
+	while( GetLengthToPoint( uIndex + 1 ) < fParameter )
 	{
+		++uIndex;
 	}
 
-	virtual GLToy_Matrix_3 GetOrientation( const float fParameter ) const
-	{
-		return OrientationInterpolate( GLToy_Maths::Clamp( fParameter, 0.0f, 1.0f ) * GetLength() );
-	}
+	const float fSegmentLength = GetSegmentLength( uIndex );
+	const float fLengthToPoint = GetLengthToPoint( uIndex );
 
-	GLToy_Inline void AppendOrientation( const GLToy_Matrix_3& xOrientation )
-	{
-		m_xOrientations.Append( xOrientation );
-	}
-
-	GLToy_Inline bool IsComplete() const { return m_xOrientations.GetCount() == GetCount(); }
-
-	// TODO: if its useful implement this?
-    //virtual GLToy_Matrix_3 GetOrientationDerivative( const float fParameter ) const
-	//{
-	//	return GetOrientationDerivativeFromScaledParameter( GLToy_Maths::Clamp( fParameter, 0.0f, 1.0f ) * GetLength() );
-	//}
-
-protected:
-
-	virtual GLToy_Matrix_3 OrientationInterpolate( const float fParameter ) const = 0;
-	//virtual GLToy_Matrix_3 GetOrientationDerivativeFromScaledParameter( const float fParameter ) const = 0;
-
-	GLToy_Array< GLToy_Matrix_3 > m_xOrientations;
-
-};
-
-class GLToy_OrientedSpline_LinearLinear
-: public GLToy_Spline_Linear< GLToy_Vector_3 >
-, public GLToy_OrientedSpline
-{
-protected:
-
-	virtual GLToy_Matrix_3 OrientationInterpolate( const float fParameter ) const;
-};
-
-#endif
+	return GLToy_Maths::Lerp(
+			GLToy_Quaternion( m_xOrientations[ uIndex ] ),
+			GLToy_Quaternion( m_xOrientations[ uIndex + 1 ] ),
+			( fParameter - fLengthToPoint ) / fSegmentLength
+		).GetOrientationMatrix();
+}
