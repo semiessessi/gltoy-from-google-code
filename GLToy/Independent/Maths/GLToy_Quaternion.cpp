@@ -40,6 +40,77 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+GLToy_Quaternion::GLToy_Quaternion( const GLToy_Matrix_3& xOrientation )
+{
+	const float fTrace = xOrientation[ 0 ][ 0 ] + xOrientation[ 1 ][ 1 ] + xOrientation[ 2 ][ 2 ] + 1.0f;
+
+	if( fTrace > 0.0f )
+	{
+		const float fScale = 0.5f * GLToy_Maths::InvSqrt( fTrace );
+		m_fComponents[ 0 ] = 0.5f * fTrace;
+		m_fComponents[ 1 ] = fScale * ( xOrientation[ 2 ][ 1 ] - xOrientation[ 1 ][ 2 ] );
+		m_fComponents[ 2 ] = fScale * ( xOrientation[ 0 ][ 2 ] - xOrientation[ 2 ][ 0 ] );
+		m_fComponents[ 3 ] = fScale * ( xOrientation[ 1 ][ 0 ] - xOrientation[ 0 ][ 1 ] );
+	}
+	else if( ( xOrientation[ 0 ][ 0 ] > xOrientation[ 1 ][ 1 ] ) && ( xOrientation[ 0 ][ 0 ] > xOrientation[ 2 ][ 2 ] ) )
+	{
+		const float fSortOfTrace = 1.0f + xOrientation[ 0 ][ 0 ] - xOrientation[ 1 ][ 1 ] - xOrientation[ 2 ][ 2 ];
+		const float fScale = 0.5f * GLToy_Maths::InvSqrt( fSortOfTrace );
+		m_fComponents[ 0 ] = fScale * ( xOrientation[ 2 ][ 1 ] - xOrientation[ 1 ][ 2 ] );
+		m_fComponents[ 1 ] = 0.5f * fSortOfTrace;
+		m_fComponents[ 2 ] = fScale * ( xOrientation[ 1 ][ 0 ] - xOrientation[ 0 ][ 1 ] );
+		m_fComponents[ 3 ] = fScale * ( xOrientation[ 0 ][ 2 ] - xOrientation[ 2 ][ 0 ] );
+	}
+	else if( xOrientation[ 1 ][ 1 ] > xOrientation[ 2 ][ 2 ] )
+	{
+		const float fSortOfTrace = 1.0f + xOrientation[ 1 ][ 1 ] - xOrientation[ 2 ][ 2 ] - xOrientation[ 0 ][ 0 ];
+		const float fScale = 0.5f * GLToy_Maths::InvSqrt( fSortOfTrace );
+		m_fComponents[ 0 ] = fScale * ( xOrientation[ 0 ][ 2 ] - xOrientation[ 2 ][ 0 ] );
+		m_fComponents[ 1 ] = fScale * ( xOrientation[ 1 ][ 0 ] - xOrientation[ 0 ][ 1 ] );
+		m_fComponents[ 2 ] = 0.5f * fSortOfTrace;
+		m_fComponents[ 3 ] = fScale * ( xOrientation[ 2 ][ 1 ] - xOrientation[ 1 ][ 2 ] );
+	}
+	else
+	{
+		const float fSortOfTrace = 1.0f + xOrientation[ 2 ][ 2 ] - xOrientation[ 0 ][ 0 ] - xOrientation[ 1 ][ 1 ];
+		const float fScale = 0.5f * GLToy_Maths::InvSqrt( fSortOfTrace );
+		m_fComponents[ 0 ] = fScale * ( xOrientation[ 1 ][ 0 ] - xOrientation[ 0 ][ 1 ] );
+		m_fComponents[ 1 ] = fScale * ( xOrientation[ 2 ][ 1 ] - xOrientation[ 1 ][ 2 ] );
+		m_fComponents[ 2 ] = fScale * ( xOrientation[ 0 ][ 2 ] - xOrientation[ 2 ][ 0 ] );
+		m_fComponents[ 3 ] = 0.5f * fSortOfTrace;
+	}
+}
+
+GLToy_Quaternion GLToy_Quaternion::operator +( const GLToy_Quaternion& xQuaternion ) const
+{
+    return GLToy_Quaternion(
+		m_fComponents[ 0 ] + xQuaternion[ 0 ],
+		m_fComponents[ 1 ] + xQuaternion[ 1 ],
+		m_fComponents[ 2 ] + xQuaternion[ 2 ],
+		m_fComponents[ 3 ] + xQuaternion[ 3 ]
+	);
+}
+
+GLToy_Quaternion GLToy_Quaternion::operator -( const GLToy_Quaternion& xQuaternion ) const
+{
+    return GLToy_Quaternion(
+		m_fComponents[ 0 ] - xQuaternion[ 0 ],
+		m_fComponents[ 1 ] - xQuaternion[ 1 ],
+		m_fComponents[ 2 ] - xQuaternion[ 2 ],
+		m_fComponents[ 3 ] - xQuaternion[ 3 ]
+	);
+}
+
+GLToy_Quaternion GLToy_Quaternion::operator *( const float fFloat ) const
+{
+    return GLToy_Quaternion(
+		fFloat * m_fComponents[ 0 ],
+		fFloat * m_fComponents[ 1 ],
+		fFloat * m_fComponents[ 2 ],
+		fFloat * m_fComponents[ 3 ]
+	);
+}
+
 GLToy_Matrix_3 GLToy_Quaternion::GetOrientationMatrix()
 {
     const float& w = m_fComponents[ 0 ];

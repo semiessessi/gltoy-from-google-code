@@ -503,6 +503,7 @@
     <ClInclude Include="Independent\File\GLToy_SoundFile.h" />
     <ClInclude Include="Independent\File\GLToy_WaveFile.h" />
     <ClInclude Include="Independent\Maths\GLToy_Noise.h" />
+    <ClInclude Include="Independent\Maths\GLToy_OrientedSpline.h" />
     <ClInclude Include="Independent\Maths\GLToy_Spline.h" />
     <ClInclude Include="Independent\Render\GLToy_Raytrace_Fullscreen.h" />
     <ClInclude Include="Independent\Render\GLToy_Texture_Renderable.h" />

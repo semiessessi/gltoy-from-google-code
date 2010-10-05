@@ -881,6 +881,9 @@
     <ClInclude Include="Independent\Maths\GLToy_Spline.h">
       <Filter>Independent\Maths</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\Maths\GLToy_OrientedSpline.h">
+      <Filter>Independent\Maths</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\Default.vs">

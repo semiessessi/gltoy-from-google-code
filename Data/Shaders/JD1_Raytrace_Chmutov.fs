@@ -101,7 +101,7 @@ vec4 trace( vec3 xPos, vec3 xDir, bool bDiscard )
 	// df/sz = 4z^3 - 2z
 	vec3 xNormal = normalize( 4.0f * xSolution * xSolution * xSolution - 2.0f * xSolution );
 	// ok, lets mess with the normal, why not
-	xNormal += 0.15f * normalize( sin( 170.0f * xSolution ) );
+	xNormal += 0.1f * normalize( sin( 170.0f * xSolution ) );
 	xNormal = normalize( xNormal );
 
 	float fLight = 0.0f;
@@ -136,12 +136,10 @@ vec4 trace( vec3 xPos, vec3 xDir, bool bDiscard )
 void main()
 {
 	xLightPosition = xPosition - normalize( xDirection );
-	fK = 1.5f;
 	vec4 xColour = trace( xPosition, xDirection, true );
 	float fFade = fHackEdgeSoften;
 	float fBounceScale = 1.0f;
 	float fGloss = fBounceScale * fGlossTexture;
-	fK = 1.0f;
 	// reflect
 	// 1 bounce
 	xColour += fFade * fGloss * trace( xTraceSolution + xSpecularDirection * 0.05f, xSpecularDirection, false );

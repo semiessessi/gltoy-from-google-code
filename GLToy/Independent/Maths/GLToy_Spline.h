@@ -64,7 +64,7 @@ public:
 
 	virtual T GetPoint( const float fParameter ) const
 	{
-		return SplineLerp( GLToy_Maths::Clamp( fParameter, 0.0f, 1.0f ) * GetLength() );
+		return SplineInterpolate( GLToy_Maths::Clamp( fParameter, 0.0f, 1.0f ) * GetLength() );
 	}
 
     virtual T GetDerivative( const float fParameter ) const
@@ -76,7 +76,7 @@ public:
 
 protected:
 
-	virtual T SplineLerp( const float fParameter ) const = 0;
+	virtual T SplineInterpolate( const float fParameter ) const = 0;
 	virtual T GetDerivativeFromScaledParameter( const float fParameter ) const = 0;
 	virtual float GetSegmentLength( const u_int uFirstPointIndex ) const = 0;
 
@@ -117,7 +117,7 @@ protected:
 		return GLToy_Maths::Sqrt( xDifference * xDifference );
 	}
 
-	virtual T SplineLerp( const float fParameter ) const
+	virtual T SplineInterpolate( const float fParameter ) const
 	{
 		u_int uIndex = 0;
 		while( GetLengthToPoint( uIndex + 1 ) < fParameter )
@@ -187,7 +187,7 @@ protected:
 		return GLToy_Maths::Sqrt( xDifference1 * xDifference1 ) + GLToy_Maths::Sqrt( xDifference2 * xDifference2 ) + GLToy_Maths::Sqrt( xDifference3 * xDifference3 );
 	}
 
-	virtual T SplineLerp( const float fParameter ) const
+	virtual T SplineInterpolate( const float fParameter ) const
 	{
 		u_int uIndex2 = 0;
 		while( GetLengthToPoint( uIndex2 + 1 ) < fParameter )
@@ -262,7 +262,7 @@ protected:
 		return GLToy_Maths::Sqrt( xDifference1 * xDifference1 ) + GLToy_Maths::Sqrt( xDifference2 * xDifference2 ) + GLToy_Maths::Sqrt( xDifference3 * xDifference3 );
 	}
 
-	virtual T SplineLerp( const float fParameter ) const
+	virtual T SplineInterpolate( const float fParameter ) const
 	{
 		u_int uIndex2 = 0;
 		while( GetLengthToPoint( uIndex2 + 1 ) < fParameter )

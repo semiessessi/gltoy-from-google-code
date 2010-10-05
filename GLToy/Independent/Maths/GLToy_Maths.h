@@ -134,6 +134,7 @@ public:
     static float ACos( const float fValue );
 
     static float Abs( const float fValue );
+	static float InvSqrt( const float fValue ) { return 1.0f / Sqrt( fValue ); } // shocking I know...
     static float Sqrt( const float fValue );
     static float Pow( const float fValue, const float fPower );
 

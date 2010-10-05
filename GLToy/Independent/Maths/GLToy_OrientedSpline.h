@@ -24,57 +24,56 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_QUATERNION_H_
-#define __GLTOY_QUATERNION_H_
+#ifndef __GLTOY_ORIENTED_SPLINE_H_
+#define __GLTOY_ORIENTED_SPLINE_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Maths/GLToy_Matrix.h>
+// Parent
+#include <Maths/GLToy_Spline.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Quaternion
+class GLToy_OrientedSpline
+: public GLToy_Spline< GLToy_Vector_3 >
 {
 
-public:
-
-    GLToy_Quaternion()
-    {
-        m_fComponents[ 0 ] = 0.0f;
-        m_fComponents[ 1 ] = 0.0f;
-        m_fComponents[ 2 ] = 0.0f;
-        m_fComponents[ 3 ] = 0.0f;
-    }
-
-    GLToy_Quaternion( const float fW, const float fX, const float fY, const float fZ )
-    {
-        m_fComponents[ 0 ] = fW;
-        m_fComponents[ 1 ] = fX;
-        m_fComponents[ 2 ] = fY;
-        m_fComponents[ 3 ] = fZ;
-    }
-
-	GLToy_Quaternion( const GLToy_Matrix_3& xOrientation );
-
-    virtual ~GLToy_Quaternion() {}
-
-	float& operator[] ( int i ) { return m_fComponents[ i ]; }
-    const float& operator[] ( int i ) const { return m_fComponents[ i ]; }
-
-	GLToy_Quaternion operator +( const GLToy_Quaternion& xVector ) const;
-    GLToy_Quaternion operator -( const GLToy_Quaternion& xVector ) const;
-    GLToy_Quaternion operator *( const float fFloat ) const;
-    GLToy_Quaternion operator /( const float fFloat ) const { return operator *( 1.0f / fFloat ); }
-
-	GLToy_Matrix_3 GetOrientationMatrix();
+	typedef GLToy_Spline< GLToy_Vector_3 > GLToy_Parent;
 
 protected:
 
-    float m_fComponents[ 4 ];
+public:
+
+	GLToy_OrientedSpline()
+	: GLToy_Parent()
+    {
+    }
+
+	GLToy_OrientedSpline( const GLToy_OrientedSpline& xSpline )
+    : GLToy_Parent( xSpline )
+	{
+	}
+
+	virtual GLToy_Matrix_3 GetOrientation( const float fParameter ) const
+	{
+		return OrientationInterpolate( GLToy_Maths::Clamp( fParameter, 0.0f, 1.0f ) * GetLength() );
+	}
+
+    virtual GLToy_Matrix_3 GetOrientationDerivative( const float fParameter ) const
+	{
+		return GetOrientationDerivativeFromScaledParameter( GLToy_Maths::Clamp( fParameter, 0.0f, 1.0f ) * GetLength() );
+	}
+
+protected:
+
+	virtual GLToy_Matrix_3 OrientationInterpolate( const float fParameter ) const = 0;
+	virtual GLToy_Matrix_3 GetOrientationDerivativeFromScaledParameter( const float fParameter ) const = 0;
+
+	GLToy_Array< GLToy_Matrix_3 > m_xOrientations;
 
 };
 
