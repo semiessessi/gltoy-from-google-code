@@ -67,6 +67,8 @@ public:
 		return SplineLerp( fParameter * GetLength() );
 	}
 
+    virtual T GetDerivative( const float fParameter ) const = 0;
+
 	virtual float GetLength() const { return GetLengthToPoint( GetCount() - 1 ); }
 
 protected:
@@ -91,6 +93,19 @@ template < class T >
 class GLToy_Spline_Linear
 : public GLToy_Spline< T >
 {
+
+public:
+
+    virtual T GetDerivative( const float fParameter ) const
+    {
+        u_int uIndex = 0;
+		while( GetLengthToPoint( uIndex + 1 ) < fParameter )
+		{
+			++uIndex;
+		}
+
+        return ( ( *this )[ uIndex ] - ( *this )[ uIndex + 1 ] ) / GetSegmentLength( uIndex );
+    }
 
 protected:
 
@@ -121,13 +136,55 @@ class GLToy_Spline_Cubic
 : public GLToy_Spline< T >
 {
 
+public:
+
+    virtual T GetDerivative( const float fParameter ) const
+    {
+        u_int uIndex2 = 0;
+		while( GetLengthToPoint( uIndex2 + 1 ) < fParameter )
+		{
+			++uIndex2;
+		}
+
+        const u_int uMax = GetCount() - 1;
+		const u_int uIndex1 = ( uIndex2 == 0 ) ? 0 : uIndex2 - 1;
+		const u_int uIndex3 = ( uIndex2 == uMax ) ? uMax : uIndex2 + 1;
+		const u_int uIndex4 = ( uIndex3 == uMax ) ? uMax : uIndex3 + 1;
+
+        const T& xValue1 = ( *this )[ uIndex1 ];
+        const T& xValue2 = ( *this )[ uIndex2 ];
+        const T& xValue3 = ( *this )[ uIndex3 ];
+        const T& xValue4 = ( *this )[ uIndex4 ];
+
+        const T xA = xValue4 - xValue3 + xValue2 - xValue1;
+		const T xB = xValue1 - xValue2 - xA;
+		const T xC = xValue3 - xValue1;
+		const T xD = xValue2;
+
+		return ( ( xA * 2.0f * fParameter + xB ) * fParameter + xC ) / GetSegmentLength( uIndex2 );
+    }
+
 protected:
 
-	// TODO: this isn't the real length!!!
+    // the general problem is very difficult, for now take 3 segments and add them up...
 	virtual float GetSegmentLength( const u_int uFirstPointIndex ) const
 	{
-		T xDifference = ( *this )[ uFirstPointIndex + 1 ] - ( *this )[ uFirstPointIndex ];
-		return GLToy_Maths::Sqrt( xDifference * xDifference );
+        const u_int uIndex2 = uFirstPointIndex;
+        const u_int uMax = GetCount() - 1;
+		const u_int uIndex1 = ( uIndex2 == 0 ) ? 0 : uIndex2 - 1;
+		const u_int uIndex3 = ( uIndex2 == uMax ) ? uMax : uIndex2 + 1;
+		const u_int uIndex4 = ( uIndex3 == uMax ) ? uMax : uIndex3 + 1;
+
+        const T xStart = ( *this )[ uIndex2 ];
+        const T xEnd = ( *this )[ uIndex3 ];
+        const T xMidPoint1 = GLToy_Maths::CubicInterpolate( ( *this )[ uIndex1 ], ( *this )[ uIndex2 ], ( *this )[ uIndex3 ], ( *this )[ uIndex4 ], 0.333333f );
+        const T xMidPoint2 = GLToy_Maths::CubicInterpolate( ( *this )[ uIndex1 ], ( *this )[ uIndex2 ], ( *this )[ uIndex3 ], ( *this )[ uIndex4 ], 0.666666f );
+		
+        const T xDifference1 = xEnd - xMidPoint2;
+        const T xDifference2 = xMidPoint2 - xMidPoint1;
+        const T xDifference3 = xMidPoint1 - xStart;
+
+		return GLToy_Maths::Sqrt( xDifference1 * xDifference1 ) + GLToy_Maths::Sqrt( xDifference2 * xDifference2 ) + GLToy_Maths::Sqrt( xDifference3 * xDifference3 );
 	}
 
 	virtual T SplineLerp( const float fParameter ) const
@@ -143,8 +200,8 @@ protected:
 		const u_int uIndex3 = ( uIndex2 == uMax ) ? uMax : uIndex2 + 1;
 		const u_int uIndex4 = ( uIndex3 == uMax ) ? uMax : uIndex3 + 1;
 
-		const float fSegmentLength = GetSegmentLength( uIndex );
-		const float fLengthToPoint = GetLengthToPoint( uIndex );
+		const float fSegmentLength = GetSegmentLength( uIndex2 );
+		const float fLengthToPoint = GetLengthToPoint( uIndex2 );
 
 		return GLToy_Maths::CubicInterpolate( ( *this )[ uIndex1 ], ( *this )[ uIndex2 ], ( *this )[ uIndex3 ], ( *this )[ uIndex4 ], ( fParameter - fLengthToPoint ) / fSegmentLength );
 	}
@@ -156,13 +213,55 @@ class GLToy_Spline_CatmullRom
 : public GLToy_Spline< T >
 {
 
+public:
+
+    virtual T GetDerivative( const float fParameter ) const
+    {
+        u_int uIndex2 = 0;
+		while( GetLengthToPoint( uIndex2 + 1 ) < fParameter )
+		{
+			++uIndex2;
+		}
+
+        const u_int uMax = GetCount() - 1;
+		const u_int uIndex1 = ( uIndex2 == 0 ) ? 0 : uIndex2 - 1;
+		const u_int uIndex3 = ( uIndex2 == uMax ) ? uMax : uIndex2 + 1;
+		const u_int uIndex4 = ( uIndex3 == uMax ) ? uMax : uIndex3 + 1;
+
+        const T& xValue1 = ( *this )[ uIndex1 ];
+        const T& xValue2 = ( *this )[ uIndex2 ];
+        const T& xValue3 = ( *this )[ uIndex3 ];
+        const T& xValue4 = ( *this )[ uIndex4 ];
+
+        const T xA = xValue4 - xValue3 + xValue2 - xValue1;
+		const T xB = xValue1 - xValue2 - xA;
+		const T xC = xValue3 - xValue1;
+		const T xD = xValue2;
+
+		return ( ( xA * 2.0f * fParameter + xB ) * fParameter + xC ) / GetSegmentLength( uIndex2 );
+    }
+
 protected:
 
 	// TODO: this isn't the real length!!!
 	virtual float GetSegmentLength( const u_int uFirstPointIndex ) const
 	{
-		T xDifference = ( *this )[ uFirstPointIndex + 1 ] - ( *this )[ uFirstPointIndex ];
-		return GLToy_Maths::Sqrt( xDifference * xDifference );
+		const u_int uIndex2 = uFirstPointIndex;
+        const u_int uMax = GetCount() - 1;
+		const u_int uIndex1 = ( uIndex2 == 0 ) ? 0 : uIndex2 - 1;
+		const u_int uIndex3 = ( uIndex2 == uMax ) ? uMax : uIndex2 + 1;
+		const u_int uIndex4 = ( uIndex3 == uMax ) ? uMax : uIndex3 + 1;
+
+        const T xStart = ( *this )[ uIndex2 ];
+        const T xEnd = ( *this )[ uIndex3 ];
+        const T xMidPoint1 = GLToy_Maths::CatmullRomInterpolate( ( *this )[ uIndex1 ], ( *this )[ uIndex2 ], ( *this )[ uIndex3 ], ( *this )[ uIndex4 ], 0.333333f );
+        const T xMidPoint2 = GLToy_Maths::CatmullRomInterpolate( ( *this )[ uIndex1 ], ( *this )[ uIndex2 ], ( *this )[ uIndex3 ], ( *this )[ uIndex4 ], 0.666666f );
+		
+        const T xDifference1 = xEnd - xMidPoint2;
+        const T xDifference2 = xMidPoint2 - xMidPoint1;
+        const T xDifference3 = xMidPoint1 - xStart;
+
+		return GLToy_Maths::Sqrt( xDifference1 * xDifference1 ) + GLToy_Maths::Sqrt( xDifference2 * xDifference2 ) + GLToy_Maths::Sqrt( xDifference3 * xDifference3 );
 	}
 
 	virtual T SplineLerp( const float fParameter ) const
@@ -178,8 +277,8 @@ protected:
 		const u_int uIndex3 = ( uIndex2 == uMax ) ? uMax : uIndex2 + 1;
 		const u_int uIndex4 = ( uIndex3 == uMax ) ? uMax : uIndex3 + 1;
 
-		const float fSegmentLength = GetSegmentLength( uIndex );
-		const float fLengthToPoint = GetLengthToPoint( uIndex );
+		const float fSegmentLength = GetSegmentLength( uIndex2 );
+		const float fLengthToPoint = GetLengthToPoint( uIndex2 );
 
 		return GLToy_Maths::CatmullRomInterpolate( ( *this )[ uIndex1 ], ( *this )[ uIndex2 ], ( *this )[ uIndex3 ], ( *this )[ uIndex4 ], ( fParameter - fLengthToPoint ) / fSegmentLength );
 	}

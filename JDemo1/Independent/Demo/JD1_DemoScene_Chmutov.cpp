@@ -37,6 +37,7 @@
 #include <Core/GLToy_Timer.h>
 #include <Maths/GLToy_Maths.h>
 #include <Maths/GLToy_Noise.h>
+#include <Maths/GLToy_Spline.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Raytrace_Fullscreen.h>
 #include <Render/GLToy_Render.h>
@@ -197,6 +198,7 @@ static const GLToy_String szFragmentShader =
 	"gl_FragColor = xColour;"
 "}"
 	;
+
 static const GLToy_String szVertexShader =
 "#version 120\r\n"
 
@@ -212,6 +214,12 @@ static const GLToy_String szVertexShader =
 	;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+static GLToy_Spline_Cubic< GLToy_Vector_3 > s_xSpline;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -219,6 +227,11 @@ void JD1_DemoScene_Chmutov::Initialise()
 {
     GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid2.png" ) );
 	GLToy_Shader_System::CreateShaderFromStrings( "JD1_Raytrace_Chmutov_Hardcoded", szFragmentShader, szVertexShader );
+
+    s_xSpline.Append( GLToy_Vector_3( 0.0f, 10.0f, 0.0f ) );
+    s_xSpline.Append( GLToy_Vector_3( 0.0f, 0.0f, 0.0f ) );
+    s_xSpline.Append( GLToy_Vector_3( 1.0f, 0.0f, 0.0f ) );
+    s_xSpline.Append( GLToy_Vector_3( 10.0f, 0.0f, 0.0f ) );
 }
 
 void JD1_DemoScene_Chmutov::Shutdown()
@@ -238,14 +251,15 @@ void JD1_DemoScene_Chmutov::Update()
 {
     GLToy_Parent::Update();
 
-    const float fHeight = 0.5f * GLToy_Maths::Sin( 0.337f * GLToy_Timer::GetTime() );
-    GLToy_Vector_3 xCameraPosition = 
-        GLToy_Vector_3(
-            GLToy_Maths::Cos( GLToy_Timer::GetTime() * 0.701f ),
-            0.85f * GLToy_Maths::Cos( GLToy_Timer::GetTime() * 0.377f ),
-            GLToy_Maths::Sin( GLToy_Timer::GetTime() * 0.898f ) );
-    xCameraPosition.Normalise();
-    xCameraPosition *= ( 3.5f + fHeight );
+    //const float fHeight = 0.5f * GLToy_Maths::Sin( 0.337f * GLToy_Timer::GetTime() );
+    //GLToy_Vector_3 xCameraPosition = 
+    //    GLToy_Vector_3(
+    //        GLToy_Maths::Cos( GLToy_Timer::GetTime() * 0.701f ),
+    //        0.85f * GLToy_Maths::Cos( GLToy_Timer::GetTime() * 0.377f ),
+    //        GLToy_Maths::Sin( GLToy_Timer::GetTime() * 0.898f ) );
+    //xCameraPosition.Normalise();
+    //xCameraPosition *= ( 3.5f + fHeight );
+    GLToy_Vector_3 xCameraPosition = s_xSpline.GetPoint( GLToy_Timer::GetTime() );
     GLToy_Camera::SetPosition( xCameraPosition );
     GLToy_Camera::LookAt( GLToy_Vector_3( 0.0f, 0.0f, 0.0f ) );
 }

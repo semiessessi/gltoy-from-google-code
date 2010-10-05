@@ -90,6 +90,9 @@
 
 #define HK_CLASSES_FILE <Common/Serialize/Classlist/hkKeyCodeClasses.h>
 
+//#if // Havok 7.1
+// #include <Common/Serialize/Util/hkBuiltinTypeRegistry.cxx>
+//#elseif // Havok 2010
 #undef HK_FEATURE_PRODUCT_AI
 #undef HK_FEATURE_PRODUCT_ANIMATION
 #undef HK_FEATURE_PRODUCT_CLOTH
@@ -98,8 +101,8 @@
 
 #define HK_EXCLUDE_LIBRARY_hkgpConvexDecomposition
 #define HK_FEATURE_REFLECTION_PHYSICS
-
 #include <Common/Base/Config/hkProductFeatures.cxx>
+//#endif
 
 #endif
 
