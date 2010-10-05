@@ -64,16 +64,20 @@ public:
 
 	virtual T GetPoint( const float fParameter ) const
 	{
-		return SplineLerp( fParameter * GetLength() );
+		return SplineLerp( GLToy_Maths::Clamp( fParameter, 0.0f, 1.0f ) * GetLength() );
 	}
 
-    virtual T GetDerivative( const float fParameter ) const = 0;
+    virtual T GetDerivative( const float fParameter ) const
+	{
+		return GetDerivativeFromScaledParameter( GLToy_Maths::Clamp( fParameter, 0.0f, 1.0f ) * GetLength() );
+	}
 
 	virtual float GetLength() const { return GetLengthToPoint( GetCount() - 1 ); }
 
 protected:
 
 	virtual T SplineLerp( const float fParameter ) const = 0;
+	virtual T GetDerivativeFromScaledParameter( const float fParameter ) const = 0;
 	virtual float GetSegmentLength( const u_int uFirstPointIndex ) const = 0;
 
 	virtual float GetLengthToPoint( const u_int uPointIndex ) const
@@ -94,9 +98,9 @@ class GLToy_Spline_Linear
 : public GLToy_Spline< T >
 {
 
-public:
+protected:
 
-    virtual T GetDerivative( const float fParameter ) const
+    virtual T GetDerivativeFromScaledParameter( const float fParameter ) const
     {
         u_int uIndex = 0;
 		while( GetLengthToPoint( uIndex + 1 ) < fParameter )
@@ -106,8 +110,6 @@ public:
 
         return ( ( *this )[ uIndex ] - ( *this )[ uIndex + 1 ] ) / GetSegmentLength( uIndex );
     }
-
-protected:
 
 	virtual float GetSegmentLength( const u_int uFirstPointIndex ) const
 	{
@@ -136,9 +138,9 @@ class GLToy_Spline_Cubic
 : public GLToy_Spline< T >
 {
 
-public:
+protected:
 
-    virtual T GetDerivative( const float fParameter ) const
+    virtual T GetDerivativeFromScaledParameter( const float fParameter ) const
     {
         u_int uIndex2 = 0;
 		while( GetLengthToPoint( uIndex2 + 1 ) < fParameter )
@@ -163,8 +165,6 @@ public:
 
 		return ( ( xA * 2.0f * fParameter + xB ) * fParameter + xC ) / GetSegmentLength( uIndex2 );
     }
-
-protected:
 
     // the general problem is very difficult, for now take 3 segments and add them up...
 	virtual float GetSegmentLength( const u_int uFirstPointIndex ) const
@@ -213,9 +213,9 @@ class GLToy_Spline_CatmullRom
 : public GLToy_Spline< T >
 {
 
-public:
+protected:
 
-    virtual T GetDerivative( const float fParameter ) const
+    virtual T GetDerivativeFromScaledParameter( const float fParameter ) const
     {
         u_int uIndex2 = 0;
 		while( GetLengthToPoint( uIndex2 + 1 ) < fParameter )
@@ -241,9 +241,7 @@ public:
 		return ( ( xA * 2.0f * fParameter + xB ) * fParameter + xC ) / GetSegmentLength( uIndex2 );
     }
 
-protected:
-
-	// TODO: this isn't the real length!!!
+	// the general problem is very difficult, for now take 3 segments and add them up...
 	virtual float GetSegmentLength( const u_int uFirstPointIndex ) const
 	{
 		const u_int uIndex2 = uFirstPointIndex;
