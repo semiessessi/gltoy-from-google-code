@@ -37,7 +37,7 @@
 #include <Core/GLToy_Timer.h>
 #include <Maths/GLToy_Maths.h>
 #include <Maths/GLToy_Noise.h>
-#include <Maths/GLToy_Spline.h>
+#include <Maths/GLToy_OrientedSpline.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Raytrace_Fullscreen.h>
 #include <Render/GLToy_Render.h>
@@ -215,7 +215,7 @@ static const GLToy_String szVertexShader =
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static GLToy_Spline_Cubic< GLToy_Vector_3 > s_xSpline;
+static GLToy_OrientedSpline_CatmullRomLinear s_xSpline;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -227,11 +227,19 @@ void JD1_DemoScene_Chmutov::Initialise()
 	GLToy_Shader_System::CreateShaderFromStrings( "JD1_Raytrace_Chmutov_Hardcoded", szFragmentShader, szVertexShader );
 
     s_xSpline.Append( GLToy_Vector_3( 0.0f, 3.0f, 0.0f ) );
+	s_xSpline.AppendOrientation( GLToy_Vector_3( 0.0f, -1.0f, 0.0f) );
     s_xSpline.Append( GLToy_Vector_3( 0.0f, 0.2f, 0.0f ) );
+	s_xSpline.AppendOrientation( GLToy_Vector_3( 0.0f, -1.0f, 0.0f) );
     s_xSpline.Append( GLToy_Vector_3( 0.2f, 0.0f, 0.0f ) );
+	s_xSpline.AppendOrientation( GLToy_Vector_3( -1.0f, 0.0f, 0.0f) );
     s_xSpline.Append( GLToy_Vector_3( 3.0f, 0.0f, 0.0f ) );
+	s_xSpline.AppendOrientation( GLToy_Vector_3( -1.0f, 0.0f, 0.0f) );
 	s_xSpline.Append( GLToy_Vector_3( 3.0f, 3.0f, 0.0f ) );
+	s_xSpline.AppendOrientation( GLToy_Vector_3( -1.0f, -1.0f, 0.0f) );
 	s_xSpline.Append( GLToy_Vector_3( 0.0f, 3.0f, 0.0f ) );
+	s_xSpline.AppendOrientation( GLToy_Vector_3( 0.0f, -1.0f, 0.0f) );
+
+	GLToy_Assert( s_xSpline.IsComplete(), "Incomplete oriented spline for camera!" );
 }
 
 void JD1_DemoScene_Chmutov::Shutdown()
@@ -260,8 +268,10 @@ void JD1_DemoScene_Chmutov::Update()
     //xCameraPosition.Normalise();
     //xCameraPosition *= ( 3.5f + fHeight );
     GLToy_Vector_3 xCameraPosition = s_xSpline.GetPoint( GLToy_Maths::Wrap( 0.05f * GLToy_Timer::GetTime() ) );
+	GLToy_Matrix_3 xCameraOrientation = s_xSpline.GetOrientation( GLToy_Maths::Wrap( 0.05f * GLToy_Timer::GetTime() ) );
     GLToy_Camera::SetPosition( xCameraPosition );
-    GLToy_Camera::LookAt( GLToy_Vector_3( 0.0f, 0.0f, 0.0f ) );
+	GLToy_Camera::SetOrientation( xCameraOrientation );
+    //GLToy_Camera::LookAt( GLToy_Vector_3( 0.0f, 0.0f, 0.0f ) );
 }
 
 void JD1_DemoScene_Chmutov::Start()

@@ -62,6 +62,7 @@ public:
     GLToy_Inline GLToy_Vector_2 operator +( const GLToy_Vector_2& xVector ) const { return GLToy_Vector_2( m_fComponents[ 0 ] + xVector[ 0 ], m_fComponents[ 1 ] + xVector[ 1 ] ); }
     GLToy_Inline GLToy_Vector_2 operator -( const GLToy_Vector_2& xVector ) const { return GLToy_Vector_2( m_fComponents[ 0 ] - xVector[ 0 ], m_fComponents[ 1 ] - xVector[ 1 ] ); }
     GLToy_Vector_2 operator *( const float fFloat ) const;
+	friend GLToy_Vector_2 operator *( const float fFloat, const GLToy_Vector_2& xVector ) { return xVector * fFloat; }
     GLToy_Vector_2 operator /( const float fFloat ) const;
 
     bool operator ==( const GLToy_Vector_2& xVector ) const;
@@ -105,6 +106,7 @@ public:
     GLToy_Vector_3 operator +( const GLToy_Vector_3& xVector ) const;
     GLToy_Vector_3 operator -( const GLToy_Vector_3& xVector ) const;
     GLToy_Vector_3 operator *( const float fFloat ) const;
+	friend GLToy_Vector_3 operator *( const float fFloat, const GLToy_Vector_3& xVector ) { return xVector * fFloat; }
     GLToy_Vector_3 operator *( const GLToy_Matrix_3& xMatrix ) const;
     GLToy_Vector_3 operator /( const float fFloat ) const { return operator *( 1.0f / fFloat ); }
 

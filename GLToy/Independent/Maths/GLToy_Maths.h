@@ -139,6 +139,7 @@ public:
     static float Pow( const float fValue, const float fPower );
 
     static GLToy_Vector_3 Rotate_AxisAngle( const GLToy_Vector_3& xVector, const GLToy_Vector_3& xAxis, const float fAngle );
+	static GLToy_Matrix_3 Orientation_FromDirection( const GLToy_Vector_3& xDirection, const GLToy_Vector_3 xUp = GLToy_Vector_3( 0.0f, 1.0f, 0.0f ) );
 
 private:
     

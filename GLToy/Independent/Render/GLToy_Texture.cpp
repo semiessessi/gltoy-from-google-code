@@ -153,26 +153,22 @@ bool GLToy_Texture_System::Initialise()
 
 void GLToy_Texture_System::Shutdown()
 {
-    class GLToy_TextureShutdownFunctor
-    : public GLToy_Functor< GLToy_Texture >
-    {
-    public:
-        void operator ()( GLToy_Texture* const xTexture )
+	GLToy_QuickFunctorInstance(
+		TextureShutdownFunctor,
+		GLToy_Texture,
+		pxTexture,
+		if( pxTexture->IsReadyForUse() )
         {
-            if( xTexture->IsReadyForUse() )
-            {
-                xTexture->Destroy();
-            }
-
-            if( xTexture->IsDataLoaded() )
-            {
-                xTexture->Unload();
-            }
+            pxTexture->Destroy();
         }
-    };
 
-    GLToy_TextureShutdownFunctor xFunctor;
-    s_xTextures.Traverse( xFunctor  );
+        if( pxTexture->IsDataLoaded() )
+        {
+            pxTexture->Unload();
+        },
+		xFunctor );
+
+    s_xTextures.Traverse( xFunctor );
 
     s_xTextures.Clear();
 

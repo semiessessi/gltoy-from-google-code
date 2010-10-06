@@ -61,6 +61,7 @@ public:
     static void Set( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection, const GLToy_Vector_3& xUp ) { s_xPosition = xPosition; s_xDirection = xDirection; s_xUp = xUp; }
     static void SetEuler( const float fX, const float fY, const float fZ );
     static void SetPosition( const GLToy_Vector_3& xPosition ) { s_xPosition = xPosition; }
+	static void SetOrientation( const GLToy_Matrix_3& xOrientation ) { s_xDirection = xOrientation[ 2 ]; s_xUp = xOrientation[ 1 ]; }
 
     static void SetLocked( const bool bLocked = true );
     static void SetFlyCamEnabled( const bool bEnabled = true );

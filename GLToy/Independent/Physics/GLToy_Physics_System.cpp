@@ -733,18 +733,12 @@ void GLToy_Physics_System::DestroyPhysicsObject( const GLToy_Hash uHash )
 
 void GLToy_Physics_System::ResetCollisions()
 {
-    class CollisionResetFunctor
-    : public GLToy_Functor< GLToy_Physics_Object* >
-    {
-
-    public:
-
-        virtual void operator ()( GLToy_Physics_Object** const ppxObject )
-        {
-            ( *ppxObject )->ResetCollisions();
-        }
-
-    } xFunctor;
+	GLToy_QuickFunctorInstance(
+		CollisionResetFunctor,
+		GLToy_Physics_Object*,
+		ppxObject,
+		( *ppxObject )->ResetCollisions();,
+		xFunctor );
 
     s_xPhysicsObjects.Traverse( xFunctor );
 }

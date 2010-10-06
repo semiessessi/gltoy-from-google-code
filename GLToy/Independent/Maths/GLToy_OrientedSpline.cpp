@@ -37,7 +37,7 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Matrix_3 GLToy_OrientedSpline_LinearLinear::OrientationInterpolate( const float fParameter ) const
+GLToy_Matrix_3 GLToy_OrientedSpline::LinearOrientationInterpolate( const float fParameter ) const
 {
 	u_int uIndex = 0;
 	while( GetLengthToPoint( uIndex + 1 ) < fParameter )
@@ -51,6 +51,56 @@ GLToy_Matrix_3 GLToy_OrientedSpline_LinearLinear::OrientationInterpolate( const 
 	return GLToy_Maths::Lerp(
 			GLToy_Quaternion( m_xOrientations[ uIndex ] ),
 			GLToy_Quaternion( m_xOrientations[ uIndex + 1 ] ),
+			( fParameter - fLengthToPoint ) / fSegmentLength
+		).GetOrientationMatrix();
+}
+
+GLToy_Matrix_3 GLToy_OrientedSpline::CubicOrientationInterpolate( const float fParameter ) const
+{
+	u_int uIndex2 = 0;
+	while( GetLengthToPoint( uIndex2 + 1 ) < fParameter )
+	{
+		++uIndex2;
+	}
+
+	const u_int uMax = GetCount() - 1;
+	const u_int uIndex1 = ( uIndex2 == 0 ) ? 0 : uIndex2 - 1;
+	const u_int uIndex3 = ( uIndex2 == uMax ) ? uMax : uIndex2 + 1;
+	const u_int uIndex4 = ( uIndex3 == uMax ) ? uMax : uIndex3 + 1;
+
+	const float fSegmentLength = GetSegmentLength( uIndex2 );
+	const float fLengthToPoint = GetLengthToPoint( uIndex2 );
+
+	return GLToy_Maths::CubicInterpolate(
+			GLToy_Quaternion( m_xOrientations[ uIndex1 ] ),
+			GLToy_Quaternion( m_xOrientations[ uIndex2 ] ),
+			GLToy_Quaternion( m_xOrientations[ uIndex3 ] ),
+			GLToy_Quaternion( m_xOrientations[ uIndex4 ] ),
+			( fParameter - fLengthToPoint ) / fSegmentLength
+		).GetOrientationMatrix();
+}
+
+GLToy_Matrix_3 GLToy_OrientedSpline::CatmullRomOrientationInterpolate( const float fParameter ) const
+{
+	u_int uIndex2 = 0;
+	while( GetLengthToPoint( uIndex2 + 1 ) < fParameter )
+	{
+		++uIndex2;
+	}
+
+	const u_int uMax = GetCount() - 1;
+	const u_int uIndex1 = ( uIndex2 == 0 ) ? 0 : uIndex2 - 1;
+	const u_int uIndex3 = ( uIndex2 == uMax ) ? uMax : uIndex2 + 1;
+	const u_int uIndex4 = ( uIndex3 == uMax ) ? uMax : uIndex3 + 1;
+
+	const float fSegmentLength = GetSegmentLength( uIndex2 );
+	const float fLengthToPoint = GetLengthToPoint( uIndex2 );
+
+	return GLToy_Maths::CatmullRomInterpolate(
+			GLToy_Quaternion( m_xOrientations[ uIndex1 ] ),
+			GLToy_Quaternion( m_xOrientations[ uIndex2 ] ),
+			GLToy_Quaternion( m_xOrientations[ uIndex3 ] ),
+			GLToy_Quaternion( m_xOrientations[ uIndex4 ] ),
 			( fParameter - fLengthToPoint ) / fSegmentLength
 		).GetOrientationMatrix();
 }

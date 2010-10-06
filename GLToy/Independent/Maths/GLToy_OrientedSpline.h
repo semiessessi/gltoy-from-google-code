@@ -44,8 +44,6 @@ class GLToy_OrientedSpline
 
 	typedef GLToy_Spline< GLToy_Vector_3 > GLToy_Parent;
 
-protected:
-
 public:
 
 	GLToy_OrientedSpline()
@@ -70,6 +68,11 @@ public:
 		m_xOrientations.Append( xOrientation );
 	}
 
+	GLToy_Inline void AppendOrientation( const GLToy_Vector_3& xDirection, const GLToy_Vector_3 xUp = GLToy_Vector_3( 0.0f, 1.0f, 0.0f ) )
+	{
+		m_xOrientations.Append( GLToy_Maths::Orientation_FromDirection( xDirection, xUp ) );
+	}
+
 	GLToy_Inline bool IsComplete() const { return m_xOrientations.GetCount() == GetCount(); }
 
 	// TODO: if its useful implement this?
@@ -81,6 +84,9 @@ public:
 protected:
 
 	virtual GLToy_Matrix_3 OrientationInterpolate( const float fParameter ) const = 0;
+	GLToy_Matrix_3 LinearOrientationInterpolate( const float fParameter ) const;
+	GLToy_Matrix_3 CubicOrientationInterpolate( const float fParameter ) const;
+	GLToy_Matrix_3 CatmullRomOrientationInterpolate( const float fParameter ) const;
 	//virtual GLToy_Matrix_3 GetOrientationDerivativeFromScaledParameter( const float fParameter ) const = 0;
 
 	GLToy_Array< GLToy_Matrix_3 > m_xOrientations;
@@ -91,9 +97,42 @@ class GLToy_OrientedSpline_LinearLinear
 : public GLToy_Spline_Linear< GLToy_Vector_3 >
 , public GLToy_OrientedSpline
 {
+
 protected:
 
-	virtual GLToy_Matrix_3 OrientationInterpolate( const float fParameter ) const;
+	virtual GLToy_Matrix_3 OrientationInterpolate( const float fParameter ) const
+	{
+		return LinearOrientationInterpolate( fParameter );
+	}
+
+};
+
+class GLToy_OrientedSpline_CubicLinear
+: public GLToy_Spline_Cubic< GLToy_Vector_3 >
+, public GLToy_OrientedSpline
+{
+
+protected:
+
+	virtual GLToy_Matrix_3 OrientationInterpolate( const float fParameter ) const
+	{
+		return LinearOrientationInterpolate( fParameter );
+	}
+
+};
+
+class GLToy_OrientedSpline_CatmullRomLinear
+: public GLToy_Spline_CatmullRom< GLToy_Vector_3 >
+, public GLToy_OrientedSpline
+{
+
+protected:
+
+	virtual GLToy_Matrix_3 OrientationInterpolate( const float fParameter ) const
+	{
+		return LinearOrientationInterpolate( fParameter );
+	}
+
 };
 
 #endif

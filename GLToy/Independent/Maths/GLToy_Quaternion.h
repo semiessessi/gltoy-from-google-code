@@ -68,6 +68,7 @@ public:
 	GLToy_Quaternion operator +( const GLToy_Quaternion& xVector ) const;
     GLToy_Quaternion operator -( const GLToy_Quaternion& xVector ) const;
     GLToy_Quaternion operator *( const float fFloat ) const;
+	friend GLToy_Quaternion operator *( const float fFloat, const GLToy_Quaternion& xQuaternion ) { return xQuaternion * fFloat; }
     GLToy_Quaternion operator /( const float fFloat ) const { return operator *( 1.0f / fFloat ); }
 
 	GLToy_Matrix_3 GetOrientationMatrix();
