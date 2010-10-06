@@ -68,9 +68,14 @@ public:
 		m_xOrientations.Append( xOrientation );
 	}
 
-	GLToy_Inline void AppendOrientation( const GLToy_Vector_3& xDirection, const GLToy_Vector_3 xUp = GLToy_Vector_3( 0.0f, 1.0f, 0.0f ) )
+	GLToy_Inline void AppendOrientation( const GLToy_Vector_3& xDirection )
 	{
-		m_xOrientations.Append( GLToy_Maths::Orientation_FromDirection( xDirection, xUp ) );
+		m_xOrientations.Append( GLToy_Maths::Orientation_FromDirection( xDirection ) );
+	}
+
+    GLToy_Inline void AppendOrientation( const GLToy_Vector_3& xDirection, const GLToy_Vector_3& xUp )
+	{
+		m_xOrientations.Append( GLToy_Maths::Orientation_FromDirectionAndUp( xDirection, xUp ) );
 	}
 
 	GLToy_Inline bool IsComplete() const { return m_xOrientations.GetCount() == GetCount(); }

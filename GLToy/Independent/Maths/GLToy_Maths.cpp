@@ -191,7 +191,23 @@ GLToy_Vector_3 GLToy_Maths::Rotate_AxisAngle( const GLToy_Vector_3& xVector, con
         );
 }
 
-GLToy_Matrix_3 GLToy_Maths::Orientation_FromDirection( const GLToy_Vector_3& xDirection, const GLToy_Vector_3 xUp )
+GLToy_Matrix_3 GLToy_Maths::Orientation_FromDirection( const GLToy_Vector_3& xDirection )
+{
+	GLToy_Vector_3 xFixedDirection = xDirection;
+	xFixedDirection.Normalise();
+
+	GLToy_Vector_3 xFixedRight = GLToy_Vector_3( xDirection[ 1 ], xDirection[ 2 ], xDirection[ 0 ] );
+	xFixedRight.Normalise();
+	xFixedRight.Cross( xFixedDirection );
+
+	GLToy_Matrix_3 xReturnValue( xFixedRight, xFixedDirection.Cross( xFixedRight ), xFixedDirection );
+	xReturnValue.Orthonormalise();
+
+	return xReturnValue;
+}
+
+
+GLToy_Matrix_3 GLToy_Maths::Orientation_FromDirectionAndUp( const GLToy_Vector_3& xDirection, const GLToy_Vector_3 xUp )
 {
 	GLToy_Vector_3 xFixedDirection = xDirection;
 	xFixedDirection.Normalise();
