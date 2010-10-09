@@ -78,6 +78,8 @@ public:
 		m_xOrientations.Append( GLToy_Maths::Orientation_FromDirectionAndUp( xDirection, xUp ) );
 	}
 
+	GLToy_Matrix_3 GetNaturalOrientation( const float fParameter ) const;
+
 	GLToy_Inline bool IsComplete() const { return m_xOrientations.GetCount() == GetCount(); }
 
 	// TODO: if its useful implement this?

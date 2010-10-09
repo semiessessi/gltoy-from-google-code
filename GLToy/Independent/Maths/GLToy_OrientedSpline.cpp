@@ -104,3 +104,8 @@ GLToy_Matrix_3 GLToy_OrientedSpline::CatmullRomOrientationInterpolate( const flo
 			( fParameter - fLengthToPoint ) / fSegmentLength
 		).GetOrientationMatrix();
 }
+
+GLToy_Matrix_3 GLToy_OrientedSpline::GetNaturalOrientation( const float fParameter ) const
+{
+	return GLToy_Maths::Orientation_FromDirection( GetDerivative( fParameter ) );
+}
