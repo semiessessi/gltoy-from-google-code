@@ -296,7 +296,10 @@ bool GLToy::MainLoop()
 #endif
 
     GLToy_Render::Render2D();
-    GLToy_Console::Render2D();
+
+#ifndef GLTOY_DEMO
+	GLToy_Console::Render2D();
+#endif
 
     GLToy_Render::EndRender();
 

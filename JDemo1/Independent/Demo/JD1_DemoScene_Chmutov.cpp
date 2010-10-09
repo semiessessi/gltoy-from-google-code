@@ -223,7 +223,7 @@ static GLToy_OrientedSpline_CatmullRomCatmullRom s_xSpline;
 
 void JD1_DemoScene_Chmutov::Initialise()
 {
-    GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid2.png" ) );
+    //GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "generic/grid2.png" ) );
 	GLToy_Shader_System::CreateShaderFromStrings( "JD1_Raytrace_Chmutov_Hardcoded", szFragmentShader, szVertexShader );
 
     s_xSpline.Append( GLToy_Vector_3( 0.0f, 3.0f, 0.0f ) );
@@ -250,7 +250,7 @@ void JD1_DemoScene_Chmutov::Render() const
 {
     GLToy_Raytrace_Fullscreen xRaytrace( GLToy_Hash_Constant( "JD1_Raytrace_Chmutov_Hardcoded" ) );
 
-    xRaytrace.BindTexture( "xTexture", GLToy_Hash_Constant( "generic/grid2.png" ) );
+    //xRaytrace.BindTexture( "xTexture", GLToy_Hash_Constant( "generic/grid2.png" ) );
 
     xRaytrace.Render();
 }

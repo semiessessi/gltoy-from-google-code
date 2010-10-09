@@ -94,7 +94,12 @@ typedef unsigned int GLToy_Hash;
 //#define const_cast CONST_CAST_IS_FORBIDDEN_if_you_really_must_then_undef_const_cast
 //#define dynamic_cast DYNAMIC_CAST_IS_FORBIDDEN_dont_undef_dynamic_cast
 
-#define GLToy_DebugOutput_Release GLToy::DebugOutput
+#ifdef GLTOY_DEMO
+	#define GLToy_DebugOutput_Release
+#else
+	#define GLToy_DebugOutput_Release GLToy::DebugOutput
+#endif
+
 #define GLToy_HeaderBytes( string ) ( ( string[ 3 ] << 24 ) | ( string[ 2 ] << 16 ) | ( string[ 1 ] << 8 ) | string[ 0 ] )
 #define GLToy_InitialiserCall( system ) GLToy_DebugOutput( "\r\n  " #system "\r\n" ); if( !system::Initialise() ) { GLToy_DebugOutput( "\r\n  Failed to initialise " #system "!\r\n" ); return false; }
 #define GLToy_IsValidHandle( handle ) ( ( handle ) > 0 )
@@ -104,7 +109,12 @@ typedef unsigned int GLToy_Hash;
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const u_int uDEBUGOUTPUT_MAX_LENGTH = 512;
+static const u_int uDEBUGOUTPUT_MAX_LENGTH =
+#ifdef GLTOY_DEMO
+	1;
+#else
+	512;
+#endif
 
 static const GLToy_Handle uGLTOY_INVALID_HANDLE = -1;
 static const GLToy_Hash uGLTOY_BAD_HASH = 0;
