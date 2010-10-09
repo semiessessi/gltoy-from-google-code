@@ -98,46 +98,18 @@ protected:
 
 };
 
-class GLToy_OrientedSpline_LinearLinear
-: public GLToy_Spline_Linear< GLToy_Vector_3 >
-, public GLToy_OrientedSpline
-{
+#define GLToy_Declare_OrientedSpline( xName, xSplineParent, xOrientationInterpolator ) class xName: public xSplineParent< GLToy_Vector_3 >, public GLToy_OrientedSpline { protected: virtual GLToy_Matrix_3 OrientationInterpolate( const float fParameter ) const { return xOrientationInterpolator( fParameter ); } }
 
-protected:
+GLToy_Declare_OrientedSpline( GLToy_OrientedSpline_LinearLinear, GLToy_Spline_Linear, LinearOrientationInterpolate );
+GLToy_Declare_OrientedSpline( GLToy_OrientedSpline_CubicLinear, GLToy_Spline_Cubic, LinearOrientationInterpolate );
+GLToy_Declare_OrientedSpline( GLToy_OrientedSpline_CatmullRomLinear, GLToy_Spline_CatmullRom, LinearOrientationInterpolate );
 
-	virtual GLToy_Matrix_3 OrientationInterpolate( const float fParameter ) const
-	{
-		return LinearOrientationInterpolate( fParameter );
-	}
+GLToy_Declare_OrientedSpline( GLToy_OrientedSpline_LinearCubic, GLToy_Spline_Linear, CubicOrientationInterpolate );
+GLToy_Declare_OrientedSpline( GLToy_OrientedSpline_CubicCubic, GLToy_Spline_Cubic, CubicOrientationInterpolate );
+GLToy_Declare_OrientedSpline( GLToy_OrientedSpline_CatmullRomCubic, GLToy_Spline_CatmullRom, CubicOrientationInterpolate );
 
-};
-
-class GLToy_OrientedSpline_CubicLinear
-: public GLToy_Spline_Cubic< GLToy_Vector_3 >
-, public GLToy_OrientedSpline
-{
-
-protected:
-
-	virtual GLToy_Matrix_3 OrientationInterpolate( const float fParameter ) const
-	{
-		return LinearOrientationInterpolate( fParameter );
-	}
-
-};
-
-class GLToy_OrientedSpline_CatmullRomLinear
-: public GLToy_Spline_CatmullRom< GLToy_Vector_3 >
-, public GLToy_OrientedSpline
-{
-
-protected:
-
-	virtual GLToy_Matrix_3 OrientationInterpolate( const float fParameter ) const
-	{
-		return LinearOrientationInterpolate( fParameter );
-	}
-
-};
+GLToy_Declare_OrientedSpline( GLToy_OrientedSpline_LinearCatmullRom, GLToy_Spline_Linear, CatmullRomOrientationInterpolate );
+GLToy_Declare_OrientedSpline( GLToy_OrientedSpline_CubicCatmullRom, GLToy_Spline_Cubic, CatmullRomOrientationInterpolate );
+GLToy_Declare_OrientedSpline( GLToy_OrientedSpline_CatmullRomCatmullRom, GLToy_Spline_CatmullRom, CatmullRomOrientationInterpolate );
 
 #endif

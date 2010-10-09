@@ -81,6 +81,16 @@ GLToy_Quaternion::GLToy_Quaternion( const GLToy_Matrix_3& xOrientation )
 	}
 }
 
+GLToy_Quaternion& GLToy_Quaternion::operator =( const GLToy_Quaternion& xQuaternion )
+{
+	m_fComponents[ 0 ] = xQuaternion[ 0 ];
+	m_fComponents[ 1 ] = xQuaternion[ 1 ];
+	m_fComponents[ 2 ] = xQuaternion[ 2 ];
+	m_fComponents[ 3 ] = xQuaternion[ 3 ];
+	
+	return *this;
+}
+
 GLToy_Quaternion GLToy_Quaternion::operator +( const GLToy_Quaternion& xQuaternion ) const
 {
     return GLToy_Quaternion(
@@ -132,4 +142,10 @@ GLToy_Matrix_3 GLToy_Quaternion::GetOrientationMatrix()
 float GLToy_Quaternion::Magnitude() const
 {
 	return GLToy_Maths::Sqrt( MagnitudeSquared() );
+}
+
+void GLToy_Quaternion::Normalise()
+{
+	const float fConstant = GLToy_Maths::InvSqrt( MagnitudeSquared() );
+	*this *= fConstant;
 }

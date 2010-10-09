@@ -65,15 +65,21 @@ public:
 	float& operator[] ( int i ) { return m_fComponents[ i ]; }
     const float& operator[] ( int i ) const { return m_fComponents[ i ]; }
 
-	GLToy_Quaternion operator +( const GLToy_Quaternion& xVector ) const;
-    GLToy_Quaternion operator -( const GLToy_Quaternion& xVector ) const;
+	GLToy_Quaternion& operator =( const GLToy_Quaternion& xQuaternion );
+
+	GLToy_Quaternion operator +( const GLToy_Quaternion& xQuaternion ) const;
+    GLToy_Quaternion operator -( const GLToy_Quaternion& xQuaternion ) const;
     GLToy_Quaternion operator *( const float fFloat ) const;
 	friend GLToy_Quaternion operator *( const float fFloat, const GLToy_Quaternion& xQuaternion ) { return xQuaternion * fFloat; }
     GLToy_Quaternion operator /( const float fFloat ) const { return operator *( 1.0f / fFloat ); }
 
+	GLToy_Quaternion& operator *=( const float fFloat ) { return ( *this = *this * fFloat ); }
+
 	GLToy_Quaternion Conjugate() const { return GLToy_Quaternion( m_fComponents[ 0 ], -m_fComponents[ 1 ], -m_fComponents[ 2 ], -m_fComponents[ 3 ] ); }
 	float MagnitudeSquared() const { return m_fComponents[ 0 ] * m_fComponents[ 0 ] + m_fComponents[ 1 ] * m_fComponents[ 1 ] + m_fComponents[ 2 ] * m_fComponents[ 2 ] + m_fComponents[ 3 ] * m_fComponents[ 3 ]; }
 	float Magnitude() const;
+
+	void Normalise();
 
 	GLToy_Matrix_3 GetOrientationMatrix();
 

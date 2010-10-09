@@ -198,7 +198,7 @@ GLToy_Matrix_3 GLToy_Maths::Orientation_FromDirection( const GLToy_Vector_3& xDi
 
 	GLToy_Vector_3 xFixedRight = GLToy_Vector_3( xDirection[ 1 ], xDirection[ 2 ], xDirection[ 0 ] );
 	xFixedRight.Normalise();
-	xFixedRight.Cross( xFixedDirection );
+	xFixedRight = xFixedRight.Cross( xFixedDirection );
 
 	GLToy_Matrix_3 xReturnValue( xFixedRight, xFixedDirection.Cross( xFixedRight ), xFixedDirection );
 	xReturnValue.Orthonormalise();
@@ -214,7 +214,7 @@ GLToy_Matrix_3 GLToy_Maths::Orientation_FromDirectionAndUp( const GLToy_Vector_3
 
 	GLToy_Vector_3 xFixedRight = xUp;
 	xFixedRight.Normalise();
-	xFixedRight.Cross( xFixedDirection );
+	xFixedRight = xFixedRight.Cross( xFixedDirection );
 
 	GLToy_Matrix_3 xReturnValue( xFixedRight, xFixedDirection.Cross( xFixedRight ), xFixedDirection );
 	xReturnValue.Orthonormalise();
