@@ -70,7 +70,7 @@ public:
     GLToy_AlignedVector_Base( const float fFloat )
     : m_pxComponents( new GLToy_AlignedVector_Data )
     {
-        m_pxComponents[ 0 ] = fFloat;
+        ( *m_pxComponents )[ 0 ] = fFloat;
     }
 
     void Destroy()
