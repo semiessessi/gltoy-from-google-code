@@ -887,6 +887,9 @@
     <ClInclude Include="Independent\File\GLToy_TextFile.h">
       <Filter>Independent\File</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\Maths\GLToy_AlignedVector.h">
+      <Filter>Independent\Maths</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\Default.vs">

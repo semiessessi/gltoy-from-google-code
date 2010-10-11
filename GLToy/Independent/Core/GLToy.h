@@ -129,6 +129,19 @@ class GLToy_String;
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// Didn't think this deserves its own header, but its useful enough to deserve being here
+// NOTE: This class should be derived from to make classes which use a Destroy function
+// for destruction, but do not want virtual destructors
+template< class T >
+class GLToy_Destroyable
+{
+
+public:
+
+    ~GLToy_Destroyable() { static_cast< T* >( this )->Destroy(); }
+
+};
+
 class GLToy
 {
     

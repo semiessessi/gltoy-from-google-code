@@ -54,6 +54,7 @@ private:
     static GLToy_Vector_3 Add( const GLToy_Vector_3& xVector1, const GLToy_Vector_3& xVector2 );
     static GLToy_Vector_3 Sub( const GLToy_Vector_3& xVector1, const GLToy_Vector_3& xVector2 );
     static GLToy_Vector_3 Mul( const float fFloat, const GLToy_Vector_3& xVector );
+
 };
 
 #endif
