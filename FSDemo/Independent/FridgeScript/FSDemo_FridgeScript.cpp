@@ -35,7 +35,7 @@
 
 
 // GLToy headers
-#include <File/GLToy_ANSITextFile.h>
+#include <File/GLToy_TextFile.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -83,7 +83,7 @@ FSDemo_FridgeScript::~FSDemo_FridgeScript()
 
 void FSDemo_FridgeScript::CompileFromFile( const char* const szFilename )
 {
-    GLToy_ANSITextFile xFile = GLToy_ANSITextFile( szFilename );
+    GLToy_TextFile xFile = GLToy_TextFile( szFilename );
     u_int uLength = xFile.GetSize();
     
     char* pcData = new char[ uLength ];

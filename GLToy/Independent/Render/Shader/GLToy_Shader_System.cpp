@@ -35,7 +35,7 @@
 
 // GLToy
 #include <Core/Data Structures/GLToy_HashTree.h>
-#include <File/GLToy_ANSITextFile.h>
+#include <File/GLToy_TextFile.h>
 #include <File/GLToy_File_System.h>
 #include <Render/GLToy_Render.h>
 #include <Render/Shader/GLToy_Shader.h>
@@ -64,15 +64,15 @@ bool GLToy_Shader_System::Initialise()
     
         GLToy_DebugOutput( "   - Found shader \"%S\".\r\n", szName.GetWideString() );
         
-        GLToy_ANSITextFile xShaderFile = GLToy_ANSITextFile( xIterator.Current() );
+        GLToy_TextFile xShaderFile = GLToy_TextFile( xIterator.Current() );
 
         GLToy_String szShaderData = xShaderFile.GetString();
 
         const GLToy_String szFSPath = GLToy_String( "Shaders/" ) + szShaderData.RemoveFirstLine() + ".fs";
         const GLToy_String szVSPath = GLToy_String( "Shaders/" ) + szShaderData.RemoveFirstLine() + ".vs";
 
-        GLToy_ANSITextFile xFSFile = GLToy_ANSITextFile( szFSPath );
-        GLToy_ANSITextFile xVSFile = GLToy_ANSITextFile( szVSPath );
+        GLToy_TextFile xFSFile = GLToy_TextFile( szFSPath );
+        GLToy_TextFile xVSFile = GLToy_TextFile( szVSPath );
 
         if( xFSFile.GetSize() == 1 )
         {

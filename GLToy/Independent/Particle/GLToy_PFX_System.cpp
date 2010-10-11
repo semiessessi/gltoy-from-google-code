@@ -36,7 +36,7 @@
 // GLToy
 #include <Core/GLToy_UpdateFunctor.h>
 #include <Core/Data Structures/GLToy_HashTree.h>
-#include <File/GLToy_ANSITextFile.h>
+#include <File/GLToy_TextFile.h>
 #include <File/GLToy_File_System.h>
 #include <Particle/GLToy_ParticleSource.h>
 #include <Particle/GLToy_PFX.h>
@@ -173,7 +173,7 @@ bool GLToy_PFX_System::InitialisePFXProperties()
 
         GLToy_DebugOutput( "   - Found PFX \"%S\".\r\n", szName.GetWideString() );
         
-        GLToy_ANSITextFile xFile( xIterator.Current() );
+        GLToy_TextFile xFile( xIterator.Current() );
 
         GLToy_String xData = xFile.GetString();
 
@@ -220,7 +220,7 @@ bool GLToy_PFX_System::InitialiseSourceProperties()
 
         GLToy_DebugOutput( "   - Found particle source \"%S\".\r\n", szName.GetWideString() );
         
-        GLToy_ANSITextFile xFile( xIterator.Current() );
+        GLToy_TextFile xFile( xIterator.Current() );
 
         GLToy_String xData = xFile.GetString();
 
@@ -271,7 +271,7 @@ bool GLToy_PFX_System::InitialiseParticleProperties()
 
         GLToy_DebugOutput( "   - Found particle \"%S\".\r\n", szName.GetWideString() );
         
-        GLToy_ANSITextFile xFile( xIterator.Current() );
+        GLToy_TextFile xFile( xIterator.Current() );
 
         GLToy_String xData = xFile.GetString();
 

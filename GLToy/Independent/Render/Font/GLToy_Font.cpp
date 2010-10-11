@@ -35,7 +35,7 @@
 
 // GLToy
 #include <Core/Data Structures/GLToy_HashTree.h>
-#include <File/GLToy_ANSITextFile.h>
+#include <File/GLToy_TextFile.h>
 #include <File/GLToy_File_System.h>
 #include <Render/Font/GLToy_Font_Bitmap.h>
 
@@ -63,7 +63,7 @@ bool GLToy_Font_System::Initialise()
         
         GLToy_DebugOutput( "   - Found font \"%S\".\r\n", xName.GetWideString() );
 
-        GLToy_ANSITextFile xFontFile = GLToy_ANSITextFile( xIterator.Current() );
+        GLToy_TextFile xFontFile = GLToy_TextFile( xIterator.Current() );
 
         GLToy_String xFontData = xFontFile.GetString();
 

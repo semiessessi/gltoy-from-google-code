@@ -282,9 +282,6 @@
     <ClCompile Include="Independent\File\GLToy_3DSFile.cpp">
       <Filter>Independent\File</Filter>
     </ClCompile>
-    <ClCompile Include="Independent\File\GLToy_ANSITextFile.cpp">
-      <Filter>Independent\File</Filter>
-    </ClCompile>
     <ClCompile Include="Independent\File\GLToy_EntityFile.cpp">
       <Filter>Independent\File</Filter>
     </ClCompile>
@@ -495,6 +492,9 @@
     <ClCompile Include="Independent\Maths\GLToy_OrientedSpline.cpp">
       <Filter>Independent\Maths</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\File\GLToy_TextFile.cpp">
+      <Filter>Independent\File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
@@ -678,9 +678,6 @@
       <Filter>Independent\Model</Filter>
     </ClInclude>
     <ClInclude Include="Independent\File\GLToy_3DSFile.h">
-      <Filter>Independent\File</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\File\GLToy_ANSITextFile.h">
       <Filter>Independent\File</Filter>
     </ClInclude>
     <ClInclude Include="Independent\File\GLToy_EntityFile.h">
@@ -886,6 +883,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Maths\GLToy_OrientedSpline.h">
       <Filter>Independent\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\GLToy_TextFile.h">
+      <Filter>Independent\File</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -36,7 +36,7 @@
 // GLToy
 #include <Core/Data Structures/GLToy_Array.h>
 #include <Core/Data Structures/GLToy_HashTree.h>
-#include <File/GLToy_ANSITextFile.h>
+#include <File/GLToy_TextFile.h>
 #include <File/GLToy_File_System.h>
 #include <String/GLToy_String.h>
 
@@ -121,7 +121,7 @@ bool FPSToy_Weapon_System::InitialiseAmmoTypes()
 
         GLToy_DebugOutput( "   - Found ammo type \"%S\".\r\n", szName.GetWideString() );
         
-        GLToy_ANSITextFile xFile( xIterator.Current() );
+        GLToy_TextFile xFile( xIterator.Current() );
 
         GLToy_String xData = xFile.GetString();
 
@@ -162,7 +162,7 @@ bool FPSToy_Weapon_System::InitialiseWeaponDefinitions()
 
         GLToy_DebugOutput( "   - Found weapon definition \"%S\".\r\n", szName.GetWideString() );
 
-        GLToy_ANSITextFile xFile( xIterator.Current() );
+        GLToy_TextFile xFile( xIterator.Current() );
 
         GLToy_String xData = xFile.GetString();
 
@@ -211,7 +211,7 @@ bool FPSToy_Weapon_System::InitialiseWeaponTypes()
 
         GLToy_DebugOutput( "   - Found weapon type \"%S\".\r\n", szName.GetWideString() );
         
-        GLToy_ANSITextFile xFile( xIterator.Current() );
+        GLToy_TextFile xFile( xIterator.Current() );
 
         GLToy_String xData = xFile.GetString();
         GLToy_String xDataCopy = xData;

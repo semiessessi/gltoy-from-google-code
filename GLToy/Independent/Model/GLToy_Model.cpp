@@ -34,7 +34,7 @@
 #include <Model/GLToy_Model.h>
 
 // GLToy
-#include <File/GLToy_ANSITextFile.h>
+#include <File/GLToy_TextFile.h>
 #include <Maths/GLToy_Matrix.h>
 #include <Maths/GLToy_Vector.h>
 #include <Render/GLToy_Render.h>
@@ -225,7 +225,7 @@ u_int GLToy_Model::GetVertexIndex( const GLToy_Vector_3& xVertex )
 void GLToy_Model::LoadFromOBJFile( GLToy_Model* const pxModel, const GLToy_String& szFilename )
 {
     pxModel->Reset();
-    GLToy_ANSITextFile xFile( szFilename );
+    GLToy_TextFile xFile( szFilename );
 
     const u_int uLength = xFile.GetSize();
     if( uLength <= 1 )

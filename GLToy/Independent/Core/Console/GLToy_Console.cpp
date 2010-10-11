@@ -38,7 +38,7 @@
 #include <Core/Console/GLToy_ConsoleVariable.h>
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <Core/GLToy_Timer.h>
-#include <File/GLToy_ANSITextFile.h>
+#include <File/GLToy_TextFile.h>
 #include <Input/GLToy_Input.h>
 #include <Maths/GLToy_Maths.h>
 #include <Render/Font/GLToy_Font.h>
@@ -131,7 +131,7 @@ void GLToy_Console::Print( const GLToy_String& szLine )
 void GLToy_Console::ExecuteFile( const GLToy_String& szFilename )
 {
 #ifndef GLTOY_DEMO
-    GLToy_ANSITextFile xFile( szFilename );
+    GLToy_TextFile xFile( szFilename );
 
     if( !xFile.GetSize() )
     {

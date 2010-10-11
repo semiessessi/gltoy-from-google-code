@@ -68,6 +68,16 @@ public:
         Append( 0 );
     }
 
+    GLToy_String( const u_char* const szString )
+    : GLToy_Parent()
+    {
+        for( u_int u = 0; szString[ u ]; ++u )
+        {
+            Append( szString[ u ] );
+        }
+        Append( 0 );
+    }
+
     GLToy_String( const wchar_t* const wszString )
     : GLToy_Parent()
     {
