@@ -492,6 +492,9 @@
     <ClCompile Include="Independent\Maths\GLToy_OrientedSpline.cpp">
       <Filter>Independent\Maths</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Environment\GLToy_Environment_HeightField.cpp">
+      <Filter>Independent\Environment</Filter>
+    </ClCompile>
     <ClCompile Include="Independent\File\GLToy_TextFile.cpp">
       <Filter>Independent\File</Filter>
     </ClCompile>
@@ -883,6 +886,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Maths\GLToy_OrientedSpline.h">
       <Filter>Independent\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Environment\GLToy_Environment_HeightField.h">
+      <Filter>Independent\Environment</Filter>
     </ClInclude>
     <ClInclude Include="Independent\File\GLToy_TextFile.h">
       <Filter>Independent\File</Filter>

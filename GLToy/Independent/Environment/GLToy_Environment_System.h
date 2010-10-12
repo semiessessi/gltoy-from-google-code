@@ -45,6 +45,7 @@ enum GLToy_EnvironmentType
 {
     ENV_PLANE = 0,
     ENV_LIGHTMAPPED = 1,
+	ENV_HEIGHTFIELD = 2,
 
     NUM_ENV_TYPES
 };

@@ -307,6 +307,7 @@
     <ClCompile Include="..\stb_image\stb_image.c" />
     <ClCompile Include="Independent\Core\GLToy_Memory.cpp" />
     <ClCompile Include="Independent\Core\State\GLToy_State_FixedCamera.cpp" />
+    <ClCompile Include="Independent\Environment\GLToy_Environment_HeightField.cpp" />
     <ClCompile Include="Independent\File\GLToy_TextFile.cpp" />
     <ClCompile Include="Independent\File\GLToy_WaveFile.cpp" />
     <ClCompile Include="Independent\Maths\GLToy_Noise.cpp" />
@@ -503,6 +504,7 @@
     <ClInclude Include="Independent\Core\GLToy_Memory_DebugOff.h" />
     <ClInclude Include="Independent\Core\GLToy_Memory_DebugOn.h" />
     <ClInclude Include="Independent\Core\State\GLToy_State_FixedCamera.h" />
+    <ClInclude Include="Independent\Environment\GLToy_Environment_HeightField.h" />
     <ClInclude Include="Independent\File\GLToy_SoundFile.h" />
     <ClInclude Include="Independent\File\GLToy_TextFile.h" />
     <ClInclude Include="Independent\File\GLToy_WaveFile.h" />

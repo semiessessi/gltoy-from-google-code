@@ -38,11 +38,19 @@ public:
 
     static float Linear1D( const float fX, const float fFrequency = 1.0f, const float fScale = 1.0f );
     static float Cosine1D( const float fX, const float fFrequency = 1.0f, const float fScale = 1.0f );
-    static float Fractal1D( const float fX, const float fFrequency = 1.0f, const float fScale = 1.0f, const float fFactor = 0.5f, const u_int uDepth = 4 );
+	static float Cubic1D( const float fX, const float fFrequency = 1.0f, const float fScale = 1.0f );
+	static float CatmullRom1D( const float fX, const float fFrequency = 1.0f, const float fScale = 1.0f );
+    static float FractalCosine1D( const float fX, const float fFrequency = 1.0f, const float fScale = 1.0f, const float fFactor = 0.5f, const u_int uDepth = 4 );
+	static float FractalCubic1D( const float fX, const float fFrequency = 1.0f, const float fScale = 1.0f, const float fFactor = 0.5f, const u_int uDepth = 4 );
+	static float FractalCatmullRom1D( const float fX, const float fFrequency = 1.0f, const float fScale = 1.0f, const float fFactor = 0.5f, const u_int uDepth = 4 );
 
     static float Linear2D( const float fX, const float fY, const float fFrequency = 1.0f, const float fScale = 1.0f );
     static float Cosine2D( const float fX, const float fY, const float fFrequency = 1.0f, const float fScale = 1.0f );
-    static float Fractal2D( const float fX, const float fY, const float fFrequency = 1.0f, const float fScale = 1.0f, const float fFactor = 0.5f, const u_int uDepth = 6 );
+	static float Cubic2D( const float fX, const float fY, const float fFrequency = 1.0f, const float fScale = 1.0f );
+	static float CatmullRom2D( const float fX, const float fY, const float fFrequency = 1.0f, const float fScale = 1.0f );
+    static float FractalCosine2D( const float fX, const float fY, const float fFrequency = 1.0f, const float fScale = 1.0f, const float fFactor = 0.5f, const u_int uDepth = 6 );
+	static float FractalCubic2D( const float fX, const float fY, const float fFrequency = 1.0f, const float fScale = 1.0f, const float fFactor = 0.5f, const u_int uDepth = 6 );
+	static float FractalCatmullRom2D( const float fX, const float fY, const float fFrequency = 1.0f, const float fScale = 1.0f, const float fFactor = 0.5f, const u_int uDepth = 6 );
 
 private:
 

@@ -24,65 +24,48 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __GLTOY_ENVIRONMENT_HEIGHTFIELD_H_
+#define __GLTOY_ENVIRONMENT_HEIGHTFIELD_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/JD1.h>
-
-// This file's header
-#include <Render/Texer/JD1_Texer.h>
-
-// GLToy
-#include <Core/GLToy_Timer.h>
-#include <Maths/GLToy_Maths.h>
-#include <Maths/GLToy_Noise.h>
-#include <Render/GLToy_Render.h>
-#include <Render/GLToy_RenderFunctor.h>
-#include <Render/GLToy_Texture.h>
+// Parent
+#include <Environment/GLToy_Environment.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void JD1_Texer::Render() const
+class GLToy_Environment_HeightField
+: public GLToy_Environment
 {
-    GLToy_PointerRenderFunctor< GLToy_Sprite* > xFunctor;
-    m_xSprites.Traverse( xFunctor );
-}
 
-void JD1_Texer::Update()
-{
-    GLToy_Parent::Update();
+    typedef GLToy_Environment GLToy_Parent;
 
-    for( u_int u = m_xSprites.GetCount(); u < m_uPointCount; ++u )
+public:
+
+    GLToy_Environment_HeightField()
+    : GLToy_Parent()
     {
-        m_xSprites.Append( new GLToy_Sprite() );
-        m_xSprites[ u ]->SetTexture( m_uTexture );
     }
 
-    GLToy_Vector_3 xCurrentPoint = GLToy_Vector_3( 0.0f, 0.0f, 1.0f );
-    GLToy_Vector_3 xCurrentColour = GLToy_Vector_3( 1.0f, 1.0f, 1.0f );
-    float fParameter;
-    float fFakeOsc;
-    float fSizeX;
-    float fSizeY;
-    bool bSkip = false;
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
-    for( u_int u = 0; u < m_uPointCount; ++u )
-    {
-        fParameter = static_cast< float >( u ) / static_cast< float >( m_uPointCount - 1 );
-        fFakeOsc = GLToy_Noise::FractalCosine1D( fParameter * 20.0f + 5.0f * GLToy_Timer::GetTime(), 30.0f );
+    virtual void Initialise();
+    virtual void Shutdown();    
+    
+    virtual void Render() const;
+    virtual void Update();
 
-        PerPoint( fParameter, fFakeOsc, xCurrentPoint[ 0 ], xCurrentPoint[ 1 ], xCurrentPoint[ 2 ], xCurrentColour[ 0 ], xCurrentColour[ 1 ], xCurrentColour[ 2 ], bSkip, fSizeX, fSizeY );
+    virtual int GetType() const;
 
-        if( !bSkip )
-        {
-            m_xSprites[ u ]->SetPosition( xCurrentPoint );
-            m_xSprites[ u ]->SetSize( fSizeX );
-            m_xSprites[ u ]->SetColour( xCurrentColour );
-            m_xSprites[ u ]->SetBlendFunction( m_ucBlendFunction );
-            m_xSprites[ u ]->SetOrdering( m_ucOrdering );
-        }
-    }
-}
+    virtual float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f ) const;
+
+protected:
+
+};
+
+#endif

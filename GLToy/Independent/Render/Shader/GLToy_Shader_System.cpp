@@ -54,6 +54,8 @@ bool GLToy_Shader_System::Initialise()
 {
     s_xPrograms.Clear();
 
+#ifndef GLTOY_DEMO
+
     GLToy_Array< GLToy_String > xShaderPaths = GLToy_File_System::PathsFromFilter( "Shaders/", "*.shader" );
 
     GLToy_ConstIterate( GLToy_String, xIterator, &xShaderPaths )
@@ -171,6 +173,8 @@ bool GLToy_Shader_System::Initialise()
             GLToy_DebugOutput( "   - Success!\r\n" );
         }
     }
+
+#endif
 
     return true;
 }
