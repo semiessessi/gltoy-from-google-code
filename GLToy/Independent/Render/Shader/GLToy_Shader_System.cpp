@@ -37,8 +37,10 @@
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <File/GLToy_TextFile.h>
 #include <File/GLToy_File_System.h>
+#include <Maths/GLToy_Noise.h>
 #include <Render/GLToy_Render.h>
 #include <Render/Shader/GLToy_Shader.h>
+#include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -53,6 +55,27 @@ GLToy_HashTree< GLToy_ShaderProgram* > GLToy_Shader_System::s_xPrograms;
 bool GLToy_Shader_System::Initialise()
 {
     s_xPrograms.Clear();
+
+    // create a noise texture
+    u_int* puNoise = new u_int[ 256 * 256 ];
+
+    for( u_int u = 0; u < 256; ++u )
+    {
+        for( u_int v = 0; v < 256; ++v )
+        {
+            u_char* const pucComponents = reinterpret_cast< u_char* >( puNoise[ u + v * 256 ] );
+            const float fU = static_cast< float >( u ) / 256;
+            const float fV = static_cast< float >( v ) / 256;
+            pucComponents[ 0 ] = static_cast< u_char >( GLToy_Noise::Cubic2D( fU, fV, 32.0f, 0.0f, 32 ) * 255.0f );
+            pucComponents[ 1 ] = static_cast< u_char >( GLToy_Noise::Cubic2D( fU + 1000.0f, fV, 32.0f, 0.0f, 32 ) * 255.0f );
+            pucComponents[ 2 ] = static_cast< u_char >( GLToy_Noise::Cubic2D( fU, fV + 1000.0f, 32.0f, 0.0f, 32 ) * 255.0f );
+            pucComponents[ 3 ] = static_cast< u_char >( GLToy_Noise::Cubic2D( fU + 1000.0f, fV + 1000.0f, 32.0f, 0.0f, 32 ) * 255.0f );
+        }
+    }
+
+    GLToy_Texture_System::CreateTextureFromRGBAData( GLToy_Hash_Constant( "GLToy_Shader_Noise" ), puNoise, 256, 256 );
+    
+    delete[] puNoise;
 
 #ifndef GLTOY_DEMO
 

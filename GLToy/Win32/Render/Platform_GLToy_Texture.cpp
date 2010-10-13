@@ -91,6 +91,7 @@ ULONG_PTR g_xGDIToken = NULL;
 
 void GLToy_Texture::Platform_LoadFromFile()
 {
+#ifndef GLTOY_DEMO
     const GLToy_String szPath = GLToy_String( "textures/" ) + m_szName;
 
     // TODO - check width + height and load a "unloadable texture" texture for this one if they are zero
@@ -112,6 +113,7 @@ void GLToy_Texture::Platform_LoadFromFile()
     CopyFrom( &xData );
 
     stbi_image_free( pucData );
+#endif
 }
 
 void GLToy_Texture::Platform_Create()
@@ -164,16 +166,20 @@ void GLToy_Texture_System::Platform_Shutdown()
 
 void GLToy_Texture_System::Platform_SaveTextureBMP( const GLToy_String& szName, u_int* const puData, const u_int uWidth, const u_int uHeight )
 {
+#ifndef GLTOY_DEMO
     char* szFilename = ( szName.EndsWith( ".bmp" ) ? szName : ( szName + ".bmp" ) ).CreateANSIString();
     stbi_write_bmp( szFilename, uWidth, uHeight, STBI_rgb_alpha, reinterpret_cast< void* >( puData ) );
     delete[] szFilename;
+#endif
 }
 
 void GLToy_Texture_System::Platform_SaveTextureTGA( const GLToy_String& szName, u_int* const puData, const u_int uWidth, const u_int uHeight )
 {
+#ifndef GLTOY_DEMO
     char* szFilename = ( szName.EndsWith( ".tga" ) ? szName : ( szName + ".tga" ) ).CreateANSIString();
     stbi_write_tga( szFilename, uWidth, uHeight, STBI_rgb_alpha, reinterpret_cast< void* >( puData ) );
     delete[] szFilename;
+#endif
 }
 
 void GLToy_Texture_System::Platform_CreateFrameBufferTexture( u_int& uID, const int iWidth, const int iHeight )

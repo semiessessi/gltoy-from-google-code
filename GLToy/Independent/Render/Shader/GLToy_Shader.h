@@ -59,6 +59,8 @@ public:
 
     void Bind() const;
 
+    void SetUseNoise( const bool bUseNoise );
+
     void SetUniform( const GLToy_String& szName, const int iValue );
     void SetUniform( const GLToy_String& szName, const float fValue );
     void SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2 );

@@ -79,6 +79,8 @@ public:
 
 	static GLToy_Inline float Wrap( const float fValue, const float fMin = 0.0f, const float fMax = 1.0f )
 	{
+        GLToy_Assert( fMax > fMin, "Minimum is greater than maximum!" );
+
 		const float fRange = fMax - fMin;
 		float fReturnValue = ( fValue - fMin ) / fRange;
 		// lazy - avoiding library floating point mod
@@ -87,6 +89,12 @@ public:
 		fReturnValue *= fRange;
 		return fReturnValue;
 	}
+
+    static GLToy_Inline u_int Wrap( const u_int uValue, const u_int uMin = 0, const u_int uMax = 1 )
+    {
+        GLToy_Assert( uMax > uMin, "Minimum is greater than maximum!" );
+        return uMin + ( ( uValue - uMin ) % ( uMax - uMin ) );
+    }
 
 	template < class T >
 	static GLToy_Inline T Lerp( const T& xValue1, const T& xValue2, const float fAmount )

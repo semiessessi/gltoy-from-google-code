@@ -79,6 +79,7 @@ typedef unsigned int GLToy_Hash;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 #pragma warning( disable : 4250 ) // inheritance by dominance - which I think is pretty desirable behaviour...
+#pragma warning( disable : 4724 ) // potential mod by zero - this should be checked with asserts - let release builds do whatever...
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // M A C R O S
