@@ -63,7 +63,7 @@ bool GLToy_Shader_System::Initialise()
     {
         for( u_int v = 0; v < 256; ++v )
         {
-            u_char* const pucComponents = reinterpret_cast< u_char* >( puNoise[ u + v * 256 ] );
+            u_char* const pucComponents = reinterpret_cast< u_char* >( &( puNoise[ u + v * 256 ] ) );
             const float fU = static_cast< float >( u ) / 256;
             const float fV = static_cast< float >( v ) / 256;
             pucComponents[ 0 ] = static_cast< u_char >( GLToy_Noise::Cubic2D( fU, fV, 32.0f, 0.0f, 32 ) * 255.0f );
