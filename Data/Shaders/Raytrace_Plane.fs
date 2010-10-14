@@ -18,7 +18,7 @@ void main()
         discard;
     }
     
-    gl_FragDepth = 1.0f; //gl_DepthRange.diff / xSolution.z;
+    gl_FragDepth = 1.0; //gl_DepthRange.diff / xSolution.z;
     vec4 xColour = texture2D( xTexture, 0.015625 * vec2( xSolution.x, xSolution.z ) );
     gl_FragColor = xColour;
 }

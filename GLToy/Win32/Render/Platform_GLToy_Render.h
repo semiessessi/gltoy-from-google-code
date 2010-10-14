@@ -128,6 +128,8 @@ public:
     static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3 );
     static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3, float fValue4 );
 
+    static bool IsIntelGraphicsCard() { return s_bIntel; }
+
 private:
 
     // GL interface

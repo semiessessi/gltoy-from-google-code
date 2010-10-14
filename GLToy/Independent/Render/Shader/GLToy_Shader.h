@@ -61,14 +61,14 @@ public:
 
     void SetUseNoise( const bool bUseNoise );
 
-    void SetUniform( const GLToy_String& szName, const int iValue );
-    void SetUniform( const GLToy_String& szName, const float fValue );
-    void SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2 );
-    void SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2, const float fValue3 );
-    void SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2, const float fValue3, const float fValue4 );
-    void SetUniform( const GLToy_String& szName, const GLToy_Vector_2& xValue );
-    void SetUniform( const GLToy_String& szName, const GLToy_Vector_3& xValue );
-    void SetUniform( const GLToy_String& szName, const GLToy_Vector_4& xValue );
+    void SetUniform( const GLToy_String& szName, const int iValue ) const;
+    void SetUniform( const GLToy_String& szName, const float fValue ) const;
+    void SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2 ) const;
+    void SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2, const float fValue3 ) const;
+    void SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2, const float fValue3, const float fValue4 ) const;
+    void SetUniform( const GLToy_String& szName, const GLToy_Vector_2& xValue ) const;
+    void SetUniform( const GLToy_String& szName, const GLToy_Vector_3& xValue ) const;
+    void SetUniform( const GLToy_String& szName, const GLToy_Vector_4& xValue ) const;
 
 protected:
 

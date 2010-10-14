@@ -42,14 +42,10 @@
 
 void* GLToy_Memory::Platform_Allocate( const u_int uSize )
 {
-    //return malloc( uSize );
-    //return VirtualAlloc( NULL, uSize, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE );
     return HeapAlloc( GetProcessHeap(), 0, uSize );
 }
 
 void GLToy_Memory::Platform_Free( void* const pxMemory )
 {
-    //free( pxMemory );
-    //VirtualFree( pxMemory, 0, MEM_RELEASE );
     HeapFree( GetProcessHeap(), 0, pxMemory );
 }

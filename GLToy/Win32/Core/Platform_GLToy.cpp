@@ -35,9 +35,6 @@
 #include <Input/GLToy_Input.h>
 #include <String/GLToy_String.h>
 
-// C++
-#include <stdio.h>
-
 #include <Core/GLToy_Memory_DebugOff.h>
 
 // Win32

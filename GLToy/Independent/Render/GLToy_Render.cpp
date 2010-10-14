@@ -923,3 +923,8 @@ void GLToy_Render::SetAttribute( u_int uAttributeID, float fValue1, float fValue
 {
     Platform_GLToy_Render::SetAttribute( uAttributeID, fValue1, fValue2, fValue3, fValue4 );
 }
+
+bool GLToy_Render::IsIntelGraphicsCard()
+{
+    return Platform_GLToy_Render::IsIntelGraphicsCard();
+}
