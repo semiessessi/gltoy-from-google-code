@@ -49,6 +49,8 @@
 GLToy_File::GLToy_File( const GLToy_String& szFilename )
 : m_szFilename( szFilename )
 {
+	// might want to rethink this if we want sound and procedural sound is hard...
+#ifndef GLTOY_DEMO
     char* szPath = m_szFilename.CreateANSIString();
     FILE* pxFile = fopen( szPath, "rb" );
     delete[] szPath;
@@ -60,10 +62,12 @@ GLToy_File::GLToy_File( const GLToy_String& szFilename )
         m_uSize = ftell( pxFile );
         fclose( pxFile );
     }
+#endif
 }
 
 void GLToy_File::GetAllData( void* const pPointer ) const
 {
+#ifndef GLTOY_DEMO
     char* const pData = static_cast< char* const >( pPointer );
 
     char* szPath = m_szFilename.CreateANSIString();
@@ -78,17 +82,21 @@ void GLToy_File::GetAllData( void* const pPointer ) const
     fread( pData, sizeof( char ), m_uSize, pxFile );
 
     fclose( pxFile );
+#endif
 }
 
 void GLToy_File::ReadToBitStream( GLToy_BitStream &xStream ) const
 {
+#ifndef GLTOY_DEMO
     char* pcData = new char[ m_uSize ];
     GetAllData( pcData );
     xStream.SetFromByteArray( pcData, m_uSize );
+#endif
 }
 
 void GLToy_File::WriteFromBitStream( const GLToy_BitStream &xStream )
 {
+#ifndef GLTOY_DEMO
     char* szPath = m_szFilename.CreateANSIString();
     FILE* pxFile = fopen( szPath, "wb" );
     delete[] szPath;
@@ -104,4 +112,5 @@ void GLToy_File::WriteFromBitStream( const GLToy_BitStream &xStream )
     m_uSize = ftell( pxFile );
     
     fclose( pxFile );
+#endif
 }

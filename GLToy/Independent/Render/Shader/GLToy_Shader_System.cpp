@@ -67,9 +67,9 @@ bool GLToy_Shader_System::Initialise()
             u_char* const pucComponents = reinterpret_cast< u_char* >( &( puNoise[ u * 256 + v ] ) );
             const float fU = static_cast< float >( u ) / 256;
             const float fV = static_cast< float >( v ) / 256;
-            pucComponents[ 0 ] = static_cast< u_char >( GLToy_Maths::Clamp( GLToy_Noise::Cubic2D( fU, fV, 32.0f, 1.0f, 32 ) * 128.0f + 127.0f, 0.0f, 255.0f ) );
-            pucComponents[ 1 ] = static_cast< u_char >( GLToy_Maths::Clamp( GLToy_Noise::Cubic2D( fU + 0.5f, fV, 32.0f, 1.0f, 32 ) * 128.0f + 127.0f, 0.0f, 255.0f ) );
-            pucComponents[ 2 ] = static_cast< u_char >( GLToy_Maths::Clamp( GLToy_Noise::Cubic2D( fU, fV + 0.5f, 32.0f, 1.0f, 32 ) * 128.0f + 127.0f, 0.0f, 255.0f ) );
+            pucComponents[ 0 ] = static_cast< u_char >( GLToy_Maths::Clamp( GLToy_Noise::Cubic2D( fU, fV, 32.0f, 1.0f, 32, 0xF0F0F0F0 ) * 128.0f + 127.0f, 0.0f, 255.0f ) );
+            pucComponents[ 1 ] = static_cast< u_char >( GLToy_Maths::Clamp( GLToy_Noise::Cubic2D( fU + 0.5f, fV, 32.0f, 1.0f, 32, 0xFFFF0000 ) * 128.0f + 127.0f, 0.0f, 255.0f ) );
+            pucComponents[ 2 ] = static_cast< u_char >( GLToy_Maths::Clamp( GLToy_Noise::Cubic2D( fU, fV + 0.5f, 32.0f, 1.0f, 32, 0x0000FFFF ) * 128.0f + 127.0f, 0.0f, 255.0f ) );
             pucComponents[ 3 ] = static_cast< u_char >( GLToy_Maths::Clamp( GLToy_Noise::Cubic2D( fU + 0.5f, fV + 0.5f, 32.0f, 1.0f, 32 ) * 128.0f + 127.0f, 0.0f, 255.0f ) );
         }
     }

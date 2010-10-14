@@ -113,6 +113,12 @@ public:
 	{
 		return xValue1 + ( xValue2 - xValue1 ) * 0.5f * ( 1.0f - Cos( Pi * fAmount ) );
 	}
+
+	template < class T >
+    static GLToy_Inline T QuinticNoiseInterpolate( const T& xValue1, const T& xValue2, const float fAmount )
+	{
+		return Lerp( xValue1, xValue2, ( ( ( fAmount * 6.0f - 15.0f ) * fAmount + 10.0f ) * fAmount * fAmount * fAmount ) );
+	}
 	
 	template < class T >
 	static GLToy_Inline T CubicInterpolate( const T& xValue1, const T& xValue2, const T& xValue3, const T& xValue4, const float fAmount )
