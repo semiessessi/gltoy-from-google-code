@@ -81,6 +81,9 @@
     <ClCompile Include="Independent\Render\Text\JD1_Render_Text.cpp">
       <Filter>Independent\Render\Text</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_NoiseTest.cpp">
+      <Filter>Independent\Demo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_JD1.h">
@@ -128,12 +131,21 @@
     <ClInclude Include="Independent\Render\Text\JD1_Render_Text.h">
       <Filter>Independent\Render\Text</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_NoiseTest.h">
+      <Filter>Independent\Demo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.fs">
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\JD1_Raytrace_NoiseTest.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\JD1_Raytrace_NoiseTest.shader">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

@@ -293,6 +293,7 @@ JD1_Crinkler.bat</Command>
     <ClCompile Include="Independent\Demo\JD1_DemoScene.cpp" />
     <ClCompile Include="Independent\Demo\JD1_DemoScene_AVS.cpp" />
     <ClCompile Include="Independent\Demo\JD1_DemoScene_Chmutov.cpp" />
+    <ClCompile Include="Independent\Demo\JD1_DemoScene_NoiseTest.cpp" />
     <ClCompile Include="Independent\Demo\JD1_Demo_System.cpp" />
     <ClCompile Include="Independent\Render\JD1_Component.cpp" />
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope.cpp" />
@@ -310,6 +311,7 @@ JD1_Crinkler.bat</Command>
     <ClInclude Include="Independent\Demo\JD1_DemoScene.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_AVS.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_Chmutov.h" />
+    <ClInclude Include="Independent\Demo\JD1_DemoScene_NoiseTest.h" />
     <ClInclude Include="Independent\Demo\JD1_DemoScene_P9_Birth.h" />
     <ClInclude Include="Independent\Demo\JD1_Demo_System.h" />
     <ClInclude Include="Independent\Render\JD1_Component.h" />
@@ -332,6 +334,8 @@ JD1_Crinkler.bat</Command>
   <ItemGroup>
     <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.fs" />
     <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.shader" />
+    <None Include="..\Data\Shaders\JD1_Raytrace_NoiseTest.fs" />
+    <None Include="..\Data\Shaders\JD1_Raytrace_NoiseTest.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

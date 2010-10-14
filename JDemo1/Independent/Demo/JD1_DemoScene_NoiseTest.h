@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,50 +24,37 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __JD1_DEMOSCENE_NOISETEST_H_
+#define __JD1_DEMOSCENE_NOISETEST_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
-
-// This file's headers
-#include <Core/Platform_GLToy_Timer.h>
-
-// Win32
-#include <windows.h>
+// Parents
+#include <Demo/JD1_DemoScene.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// D A T A
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static LARGE_INTEGER xPerformanceCount;
-static LARGE_INTEGER xPerformanceFrequency;
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-
-bool Platform_GLToy_Timer::Initialise()
+class JD1_DemoScene_NoiseTest
+: public JD1_DemoScene
 {
-	SetThreadAffinityMask( GetCurrentThread(), 1 ); // make sure we only run this (main) thread on the first CPU - to avoid obscure bugs in CPU/BIOS etc
-    QueryPerformanceCounter( &xPerformanceCount );
 
-    return true;
-}
+    typedef JD1_DemoScene GLToy_Parent;
 
-float Platform_GLToy_Timer::GetTimeSinceLastGet()
-{
-    // this can change... so we had better update it
-    QueryPerformanceFrequency( &xPerformanceFrequency );
+public:
 
-    LARGE_INTEGER xNewPerformanceCount;
-    QueryPerformanceCounter( &xNewPerformanceCount );
+    virtual void Initialise();
+    virtual void Shutdown();
 
-    float fTime = static_cast<float>( xNewPerformanceCount.QuadPart - xPerformanceCount.QuadPart )
-        / static_cast<float>( xPerformanceFrequency.QuadPart );
+    virtual void Start();
+    virtual void Stop();
 
-    xPerformanceCount = xNewPerformanceCount;
+    virtual void Render() const;
+    virtual void Update();
 
-    return fTime;
-}
+};
+
+#endif

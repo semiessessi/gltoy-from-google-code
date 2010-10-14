@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -28,46 +28,55 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
+#include <Core/JD1.h>
 
 // This file's headers
-#include <Core/Platform_GLToy_Timer.h>
+#include <Demo/JD1_DemoScene_NoiseTest.h>
 
-// Win32
-#include <windows.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// D A T A
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-static LARGE_INTEGER xPerformanceCount;
-static LARGE_INTEGER xPerformanceFrequency;
+// GLToy
+#include <Core/GLToy_Timer.h>
+#include <Maths/GLToy_Maths.h>
+#include <Render/GLToy_Camera.h>
+#include <Render/GLToy_Raytrace_Fullscreen.h>
+#include <Render/GLToy_Render.h>
+#include <Render/Shader/GLToy_Shader_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-
-bool Platform_GLToy_Timer::Initialise()
+void JD1_DemoScene_NoiseTest::Initialise()
 {
-	SetThreadAffinityMask( GetCurrentThread(), 1 ); // make sure we only run this (main) thread on the first CPU - to avoid obscure bugs in CPU/BIOS etc
-    QueryPerformanceCounter( &xPerformanceCount );
-
-    return true;
 }
 
-float Platform_GLToy_Timer::GetTimeSinceLastGet()
+void JD1_DemoScene_NoiseTest::Shutdown()
 {
-    // this can change... so we had better update it
-    QueryPerformanceFrequency( &xPerformanceFrequency );
+}
 
-    LARGE_INTEGER xNewPerformanceCount;
-    QueryPerformanceCounter( &xNewPerformanceCount );
+void JD1_DemoScene_NoiseTest::Render() const
+{
+    GLToy_Raytrace_Fullscreen xRaytrace( GLToy_Hash_Constant( "JD1_Raytrace_NoiseTest" ) );
 
-    float fTime = static_cast<float>( xNewPerformanceCount.QuadPart - xPerformanceCount.QuadPart )
-        / static_cast<float>( xPerformanceFrequency.QuadPart );
+    xRaytrace.Render();
+}
 
-    xPerformanceCount = xNewPerformanceCount;
+void JD1_DemoScene_NoiseTest::Update()
+{
+    GLToy_Parent::Update();
 
-    return fTime;
+    GLToy_Camera::SetPosition( GLToy_Maths::ZeroVector3 );
+	GLToy_Camera::SetOrientation( GLToy_Maths::IdentityMatrix3 );
+}
+
+void JD1_DemoScene_NoiseTest::Start()
+{
+    GLToy_Parent::Start();
+
+    GLToy_Render::SetClearFrame( true );
+    GLToy_Render::Clear();
+}
+
+void JD1_DemoScene_NoiseTest::Stop()
+{
+    GLToy_Camera::Reset();
 }
