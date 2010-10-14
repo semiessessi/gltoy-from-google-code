@@ -37,6 +37,7 @@
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <File/GLToy_TextFile.h>
 #include <File/GLToy_File_System.h>
+#include <Maths/GLToy_Maths.h>
 #include <Maths/GLToy_Noise.h>
 #include <Render/GLToy_Render.h>
 #include <Render/Shader/GLToy_Shader.h>
@@ -63,13 +64,13 @@ bool GLToy_Shader_System::Initialise()
     {
         for( u_int v = 0; v < 256; ++v )
         {
-            u_char* const pucComponents = reinterpret_cast< u_char* >( &( puNoise[ u + v * 256 ] ) );
+            u_char* const pucComponents = reinterpret_cast< u_char* >( &( puNoise[ u * 256 + v ] ) );
             const float fU = static_cast< float >( u ) / 256;
             const float fV = static_cast< float >( v ) / 256;
-            pucComponents[ 0 ] = static_cast< u_char >( GLToy_Noise::Cubic2D( fU, fV, 32.0f, 0.0f, 32 ) * 255.0f );
-            pucComponents[ 1 ] = static_cast< u_char >( GLToy_Noise::Cubic2D( fU + 1000.0f, fV, 32.0f, 0.0f, 32 ) * 255.0f );
-            pucComponents[ 2 ] = static_cast< u_char >( GLToy_Noise::Cubic2D( fU, fV + 1000.0f, 32.0f, 0.0f, 32 ) * 255.0f );
-            pucComponents[ 3 ] = static_cast< u_char >( GLToy_Noise::Cubic2D( fU + 1000.0f, fV + 1000.0f, 32.0f, 0.0f, 32 ) * 255.0f );
+            pucComponents[ 0 ] = static_cast< u_char >( GLToy_Maths::Clamp( GLToy_Noise::Cubic2D( fU, fV, 32.0f, 1.0f, 32 ) * 128.0f + 127.0f, 0.0f, 255.0f ) );
+            pucComponents[ 1 ] = static_cast< u_char >( GLToy_Maths::Clamp( GLToy_Noise::Cubic2D( fU + 0.5f, fV, 32.0f, 1.0f, 32 ) * 128.0f + 127.0f, 0.0f, 255.0f ) );
+            pucComponents[ 2 ] = static_cast< u_char >( GLToy_Maths::Clamp( GLToy_Noise::Cubic2D( fU, fV + 0.5f, 32.0f, 1.0f, 32 ) * 128.0f + 127.0f, 0.0f, 255.0f ) );
+            pucComponents[ 3 ] = static_cast< u_char >( GLToy_Maths::Clamp( GLToy_Noise::Cubic2D( fU + 0.5f, fV + 0.5f, 32.0f, 1.0f, 32 ) * 128.0f + 127.0f, 0.0f, 255.0f ) );
         }
     }
 

@@ -46,13 +46,15 @@ float GLToy_Noise::Linear1D( const float fX, const float fFrequency, const float
     u_int u1 = static_cast< u_int >( GLToy_Maths::Floor( fT ) );
     u_int u2 = static_cast< u_int >( GLToy_Maths::Ceiling( fT ) );
     
-    if( uWrap )
+    const float fU1 = static_cast< float >( u1 );
+	
+	if( uWrap )
     {
         u1 = GLToy_Maths::Wrap( u1, 0, uWrap );
         u2 = GLToy_Maths::Wrap( u2, 0, uWrap );
     }
     
-    return fScale * GLToy_Maths::Lerp( PRNG( u1 ), PRNG( u2 ), fT - static_cast< float >( u1 ) );
+    return fScale * GLToy_Maths::Lerp( PRNG( u1 ), PRNG( u2 ), fT - fU1 );
 }
 
 float GLToy_Noise::Cosine1D( const float fX, const float fFrequency, const float fScale, const u_int uWrap )
@@ -61,22 +63,26 @@ float GLToy_Noise::Cosine1D( const float fX, const float fFrequency, const float
     u_int u1 = static_cast< u_int >( GLToy_Maths::Floor( fT ) );
     u_int u2 = static_cast< u_int >( GLToy_Maths::Ceiling( fT ) );
 
+	const float fU1 = static_cast< float >( u1 );
+
     if( uWrap )
     {
         u1 = GLToy_Maths::Wrap( u1, 0, uWrap );
         u2 = GLToy_Maths::Wrap( u2, 0, uWrap );
     }
 
-    return fScale * GLToy_Maths::CosineInterpolate( PRNG( u1 ), PRNG( u2 ), fT - static_cast< float >( u1 ) );
+    return fScale * GLToy_Maths::CosineInterpolate( PRNG( u1 ), PRNG( u2 ), fT - fU1 );
 }
 
 float GLToy_Noise::Cubic1D( const float fX, const float fFrequency, const float fScale, const u_int uWrap )
 {
     const float fT = fX * fFrequency;
     u_int u1 = static_cast< u_int >( GLToy_Maths::Floor( fT ) ) - 1;
-    u_int u2 = static_cast< u_int >( GLToy_Maths::Floor( fT ) );
-	u_int u3 = static_cast< u_int >( GLToy_Maths::Ceiling( fT ) );
-    u_int u4 = static_cast< u_int >( GLToy_Maths::Ceiling( fT ) ) + 1;
+    u_int u2 = u1 + 1;
+	u_int u3 = u2 + 1;
+    u_int u4 = u3 + 1;
+
+	const float fU2 = static_cast< float >( u2 );
 
     if( uWrap )
     {
@@ -86,16 +92,18 @@ float GLToy_Noise::Cubic1D( const float fX, const float fFrequency, const float 
         u4 = GLToy_Maths::Wrap( u4, 0, uWrap );
     }
 
-    return fScale * GLToy_Maths::CubicInterpolate( PRNG( u1 ), PRNG( u2 ), PRNG( u3 ), PRNG( u4 ), fT - static_cast< float >( u2 ) );
+    return fScale * GLToy_Maths::CubicInterpolate( PRNG( u1 ), PRNG( u2 ), PRNG( u3 ), PRNG( u4 ), fT - fU2 );
 }
 
 float GLToy_Noise::CatmullRom1D( const float fX, const float fFrequency, const float fScale, const u_int uWrap )
 {
     const float fT = fX * fFrequency;
     u_int u1 = static_cast< u_int >( GLToy_Maths::Floor( fT ) ) - 1;
-    u_int u2 = static_cast< u_int >( GLToy_Maths::Floor( fT ) );
-	u_int u3 = static_cast< u_int >( GLToy_Maths::Ceiling( fT ) );
-    u_int u4 = static_cast< u_int >( GLToy_Maths::Ceiling( fT ) ) + 1;
+    u_int u2 = u1 + 1;
+	u_int u3 = u2 + 1;
+    u_int u4 = u3 + 1;
+
+	const float fU2 = static_cast< float >( u2 );
 
     if( uWrap )
     {
@@ -105,7 +113,7 @@ float GLToy_Noise::CatmullRom1D( const float fX, const float fFrequency, const f
         u4 = GLToy_Maths::Wrap( u4, 0, uWrap );
     }
 
-    return fScale * GLToy_Maths::CatmullRomInterpolate( PRNG( u1 ), PRNG( u2 ), PRNG( u3 ), PRNG( u4 ), fT - static_cast< float >( u2 ) );
+    return fScale * GLToy_Maths::CatmullRomInterpolate( PRNG( u1 ), PRNG( u2 ), PRNG( u3 ), PRNG( u4 ), fT - fU2 );
 }
 
 float GLToy_Noise::FractalCosine1D( const float fX, const float fFrequency, const float fScale, const float fFactor, const u_int uDepth )
@@ -169,11 +177,11 @@ float GLToy_Noise::Linear2D( const float fX, const float fY, const float fFreque
 {
     const float fT = fX * fFrequency;
     u_int u1 = static_cast< u_int >( GLToy_Maths::Floor( fT ) );
-    u_int u2 = static_cast< u_int >( GLToy_Maths::Ceiling( fT ) );
+    u_int u2 = u1 + 1;
     
     const float fS = fY * fFrequency;
     u_int v1 = static_cast< u_int >( GLToy_Maths::Floor( fS ) );
-    u_int v2 = static_cast< u_int >( GLToy_Maths::Ceiling( fS ) );
+    u_int v2 = v1 + 1;
 
     if( uWrap )
     {
@@ -193,11 +201,14 @@ float GLToy_Noise::Cosine2D( const float fX, const float fY, const float fFreque
 {
     const float fT = fX * fFrequency;
     u_int u1 = static_cast< u_int >( GLToy_Maths::Floor( fT ) );
-    u_int u2 = static_cast< u_int >( GLToy_Maths::Ceiling( fT ) );
+    u_int u2 = u1 + 1;
     
     const float fS = fY * fFrequency;
     u_int v1 = static_cast< u_int >( GLToy_Maths::Floor( fS ) );
-    u_int v2 = static_cast< u_int >( GLToy_Maths::Ceiling( fS ) );
+    u_int v2 = v1 + 1;
+
+	const float fU1 = static_cast< float >( u1 );
+	const float fV1 = static_cast< float >( v1 );
 
     if( uWrap )
     {
@@ -207,25 +218,28 @@ float GLToy_Noise::Cosine2D( const float fX, const float fY, const float fFreque
         v2 = GLToy_Maths::Wrap( v2, 0, uWrap );
     }
 
-    const float fX1 = GLToy_Maths::CosineInterpolate( PRNG( u1, v1 ), PRNG( u2, v1 ), fT - static_cast< float >( u1 ) );
-    const float fX2 = GLToy_Maths::CosineInterpolate( PRNG( u1, v2 ), PRNG( u2, v2 ), fT - static_cast< float >( u1 ) );
+    const float fX1 = GLToy_Maths::CosineInterpolate( PRNG( u1, v1 ), PRNG( u2, v1 ), fT - fU1 );
+    const float fX2 = GLToy_Maths::CosineInterpolate( PRNG( u1, v2 ), PRNG( u2, v2 ), fT - fU1 );
 
-    return fScale * GLToy_Maths::CosineInterpolate( fX1, fX2, fS - static_cast< float >( v1 ) );
+    return fScale * GLToy_Maths::CosineInterpolate( fX1, fX2, fS - fV1 );
 }
 
 float GLToy_Noise::Cubic2D( const float fX, const float fY, const float fFrequency, const float fScale, const u_int uWrap )
 {
     const float fT = fX * fFrequency;
     u_int u1 = static_cast< u_int >( GLToy_Maths::Floor( fT ) ) - 1;
-    u_int u2 = static_cast< u_int >( GLToy_Maths::Floor( fT ) );
-	u_int u3 = static_cast< u_int >( GLToy_Maths::Ceiling( fT ) );
-    u_int u4 = static_cast< u_int >( GLToy_Maths::Ceiling( fT ) ) + 1;
+    u_int u2 = u1 + 1;
+	u_int u3 = u2 + 1;
+    u_int u4 = u3 + 1;
     
     const float fS = fY * fFrequency;
     u_int v1 = static_cast< u_int >( GLToy_Maths::Floor( fS ) ) - 1;
-    u_int v2 = static_cast< u_int >( GLToy_Maths::Floor( fS ) );
-	u_int v3 = static_cast< u_int >( GLToy_Maths::Ceiling( fS ) );
-    u_int v4 = static_cast< u_int >( GLToy_Maths::Ceiling( fS ) ) + 1;
+    u_int v2 = v1 + 1;
+	u_int v3 = v2 + 1;
+    u_int v4 = v3 + 1;
+
+	const float fU2 = static_cast< float >( u2 );
+	const float fV2 = static_cast< float >( v2 );
 
     if( uWrap )
     {
@@ -239,27 +253,30 @@ float GLToy_Noise::Cubic2D( const float fX, const float fY, const float fFrequen
         v4 = GLToy_Maths::Wrap( v4, 0, uWrap );
     }
 
-    const float fX1 = GLToy_Maths::CubicInterpolate( PRNG( u1, v1 ), PRNG( u2, v1 ), PRNG( u3, v1 ), PRNG( u4, v1 ), fT - static_cast< float >( u2 ) );
-    const float fX2 = GLToy_Maths::CubicInterpolate( PRNG( u1, v2 ), PRNG( u2, v2 ), PRNG( u3, v2 ), PRNG( u4, v2 ), fT - static_cast< float >( u2 ) );
-	const float fX3 = GLToy_Maths::CubicInterpolate( PRNG( u1, v3 ), PRNG( u2, v3 ), PRNG( u3, v3 ), PRNG( u4, v3 ), fT - static_cast< float >( u2 ) );
-	const float fX4 = GLToy_Maths::CubicInterpolate( PRNG( u1, v4 ), PRNG( u2, v4 ), PRNG( u3, v4 ), PRNG( u4, v4 ), fT - static_cast< float >( u2 ) );
+    const float fX1 = GLToy_Maths::CubicInterpolate( PRNG( u1, v1 ), PRNG( u2, v1 ), PRNG( u3, v1 ), PRNG( u4, v1 ), fT - fU2 );
+    const float fX2 = GLToy_Maths::CubicInterpolate( PRNG( u1, v2 ), PRNG( u2, v2 ), PRNG( u3, v2 ), PRNG( u4, v2 ), fT - fU2 );
+	const float fX3 = GLToy_Maths::CubicInterpolate( PRNG( u1, v3 ), PRNG( u2, v3 ), PRNG( u3, v3 ), PRNG( u4, v3 ), fT - fU2 );
+	const float fX4 = GLToy_Maths::CubicInterpolate( PRNG( u1, v4 ), PRNG( u2, v4 ), PRNG( u3, v4 ), PRNG( u4, v4 ), fT - fU2 );
 
-    return fScale * GLToy_Maths::CubicInterpolate( fX1, fX2, fX3, fX4, fS - static_cast< float >( v2 ) );
+    return fScale * GLToy_Maths::CubicInterpolate( fX1, fX2, fX3, fX4, fS - fV2 );
 }
 
 float GLToy_Noise::CatmullRom2D( const float fX, const float fY, const float fFrequency, const float fScale, const u_int uWrap )
 {
     const float fT = fX * fFrequency;
     u_int u1 = static_cast< u_int >( GLToy_Maths::Floor( fT ) ) - 1;
-    u_int u2 = static_cast< u_int >( GLToy_Maths::Floor( fT ) );
-	u_int u3 = static_cast< u_int >( GLToy_Maths::Ceiling( fT ) );
-    u_int u4 = static_cast< u_int >( GLToy_Maths::Ceiling( fT ) ) + 1;
+    u_int u2 = u1 + 1;
+	u_int u3 = u2 + 1;
+    u_int u4 = u3 + 1;
     
     const float fS = fY * fFrequency;
     u_int v1 = static_cast< u_int >( GLToy_Maths::Floor( fS ) ) - 1;
-    u_int v2 = static_cast< u_int >( GLToy_Maths::Floor( fS ) );
-	u_int v3 = static_cast< u_int >( GLToy_Maths::Ceiling( fS ) );
-    u_int v4 = static_cast< u_int >( GLToy_Maths::Ceiling( fS ) ) + 1;
+    u_int v2 = v1 + 1;
+	u_int v3 = v2 + 1;
+    u_int v4 = v3 + 1;
+
+	const float fU2 = static_cast< float >( u2 );
+	const float fV2 = static_cast< float >( v2 );
 
     if( uWrap )
     {
@@ -273,12 +290,12 @@ float GLToy_Noise::CatmullRom2D( const float fX, const float fY, const float fFr
         v4 = GLToy_Maths::Wrap( v4, 0, uWrap );
     }
 
-    const float fX1 = GLToy_Maths::CatmullRomInterpolate( PRNG( u1, v1 ), PRNG( u2, v1 ), PRNG( u3, v1 ), PRNG( u4, v1 ), fT - static_cast< float >( u2 ) );
-    const float fX2 = GLToy_Maths::CatmullRomInterpolate( PRNG( u1, v2 ), PRNG( u2, v2 ), PRNG( u3, v2 ), PRNG( u4, v2 ), fT - static_cast< float >( u2 ) );
-	const float fX3 = GLToy_Maths::CatmullRomInterpolate( PRNG( u1, v3 ), PRNG( u2, v3 ), PRNG( u3, v3 ), PRNG( u4, v3 ), fT - static_cast< float >( u2 ) );
-	const float fX4 = GLToy_Maths::CatmullRomInterpolate( PRNG( u1, v4 ), PRNG( u2, v4 ), PRNG( u3, v4 ), PRNG( u4, v4 ), fT - static_cast< float >( u2 ) );
+    const float fX1 = GLToy_Maths::CatmullRomInterpolate( PRNG( u1, v1 ), PRNG( u2, v1 ), PRNG( u3, v1 ), PRNG( u4, v1 ), fT - fU2 );
+    const float fX2 = GLToy_Maths::CatmullRomInterpolate( PRNG( u1, v2 ), PRNG( u2, v2 ), PRNG( u3, v2 ), PRNG( u4, v2 ), fT - fU2 );
+	const float fX3 = GLToy_Maths::CatmullRomInterpolate( PRNG( u1, v3 ), PRNG( u2, v3 ), PRNG( u3, v3 ), PRNG( u4, v3 ), fT - fU2 );
+	const float fX4 = GLToy_Maths::CatmullRomInterpolate( PRNG( u1, v4 ), PRNG( u2, v4 ), PRNG( u3, v4 ), PRNG( u4, v4 ), fT - fU2 );
 
-    return fScale * GLToy_Maths::CatmullRomInterpolate( fX1, fX2, fX3, fX4, fS - static_cast< float >( v2 ) );
+    return fScale * GLToy_Maths::CatmullRomInterpolate( fX1, fX2, fX3, fX4, fS - fV2 );
 }
 
 float GLToy_Noise::FractalCosine2D( const float fX, const float fY, const float fFrequency, const float fScale, const float fFactor, const u_int uDepth )
