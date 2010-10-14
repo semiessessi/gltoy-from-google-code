@@ -70,8 +70,8 @@ void JD1_DemoScene_NoiseTest::Update()
 {
     GLToy_Parent::Update();
 
-	const float fDepth = GLToy_Maths::Wrap( 0.2f * GLToy_Timer::GetTime(), -1.0f, 1.0f );
-    GLToy_Camera::SetPosition( GLToy_Vector_3( 0.0f, 0.0f, 1000.0f * fDepth ) );
+	const float fDepth = GLToy_Maths::Wrap( 0.05f * GLToy_Timer::GetTime(), -1.0f, 1.0f );
+    GLToy_Camera::SetPosition( GLToy_Vector_3( 0.0f, 0.0f, 100.0f * fDepth ) );
 	GLToy_Camera::SetOrientation( GLToy_Maths::IdentityMatrix3 );
 }
 
