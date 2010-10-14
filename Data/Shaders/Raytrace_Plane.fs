@@ -1,5 +1,3 @@
-#version 120
-
 varying vec3 xDirection;
 varying vec3 xPosition;
 uniform sampler2D xTexture;

@@ -49,8 +49,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static const GLToy_String szFragmentShader =
-"#version 120\r\n"
-
 "varying vec3 xDirection;"
 "varying vec3 xPosition;"
 "uniform sampler2D xTexture;"

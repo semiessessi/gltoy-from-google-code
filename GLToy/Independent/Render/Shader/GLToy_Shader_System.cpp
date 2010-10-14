@@ -49,6 +49,15 @@
 
 GLToy_HashTree< GLToy_ShaderProgram* > GLToy_Shader_System::s_xPrograms;
 
+static const GLToy_String szVersionPrefix = "#version 120\r\n";
+
+static const GLToy_String szNoiseShader =
+"float noise( vec2d xPos )"
+"{"
+    "return 0.0;"
+"}"
+;
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,20 +146,24 @@ bool GLToy_Shader_System::Initialise()
             continue;
         }
 
-        char* pxFSString = new char[ xFSFile.GetSize() ];
-        xFSFile.GetRawString( pxFSString );
+        //char* pcFSString = new char[ xFSFile.GetSize() ];
+        //xFSFile.GetRawString( pcFSString );
+
+        GLToy_String szFSString = xFSFile.GetString();
+        szFSString = szVersionPrefix + szNoiseShader + szFSString;
+        char* pcFSString = szFSString.CreateANSIString();
 
         u_int uFoo = GLToy_Render::GetError();
         bool bGoo = GLToy_Render::IsShader( uFSID );
 
-        GLToy_Render::ShaderSource( uFSID, 1, &pxFSString, 0 );
+        GLToy_Render::ShaderSource( uFSID, 1, &pcFSString, 0 );
         uFoo = GLToy_Render::GetError();
         bGoo = GLToy_Render::IsShader( uFSID );
         GLToy_Render::CompileShader( uFSID );
         uFoo = GLToy_Render::GetError();
         bGoo = GLToy_Render::IsShader( uFSID );
 
-        delete[] pxFSString;
+        delete[] pcFSString;
 
         char acLog[ 1024 ];
         int iLogLength = 0;
@@ -166,13 +179,14 @@ bool GLToy_Shader_System::Initialise()
             GLToy_DebugOutput( "   - Success!\r\n" );
         }
 
-        char* pxVSString = new char[ xVSFile.GetSize() ];
-        xVSFile.GetRawString( pxVSString );
+        GLToy_String szVSString = xFSFile.GetString();
+        szVSString = szVersionPrefix + szNoiseShader + szVSString;
+        char* pcVSString = szVSString.CreateANSIString();
 
-        GLToy_Render::ShaderSource( uVSID, 1, &pxVSString, 0 );
+        GLToy_Render::ShaderSource( uVSID, 1, &pcVSString, 0 );
         GLToy_Render::CompileShader( uVSID );
 
-        delete[] pxVSString;
+        delete[] pcVSString;
 
         GLToy_Render::GetShaderInfoLog( uVSID, 1023, &iLogLength, acLog );
         GLToy_DebugOutput( "   - Compiling vertex shader \"%S\"...\r\n", szVSPath.GetWideString() );
@@ -260,19 +274,19 @@ void GLToy_Shader_System::CreateShaderFromStrings( const GLToy_String& szName, c
         return;
     }
 
-    char* pxFSString = szFragmentShader.CreateANSIString();
+    char* pcFSString = ( szVersionPrefix + szNoiseShader + szFragmentShader ).CreateANSIString();
 
     u_int uFoo = GLToy_Render::GetError();
     bool bGoo = GLToy_Render::IsShader( uFSID );
 
-    GLToy_Render::ShaderSource( uFSID, 1, &pxFSString, 0 );
+    GLToy_Render::ShaderSource( uFSID, 1, &pcFSString, 0 );
     uFoo = GLToy_Render::GetError();
     bGoo = GLToy_Render::IsShader( uFSID );
     GLToy_Render::CompileShader( uFSID );
     uFoo = GLToy_Render::GetError();
     bGoo = GLToy_Render::IsShader( uFSID );
 
-    delete[] pxFSString;
+    delete[] pcFSString;
 
     char acLog[ 1024 ];
     int iLogLength = 0;
@@ -288,12 +302,12 @@ void GLToy_Shader_System::CreateShaderFromStrings( const GLToy_String& szName, c
         GLToy_DebugOutput( "   - Success!\r\n" );
     }
 
-    char* pxVSString = szVertexShader.CreateANSIString();
+    char* pcVSString = ( szVersionPrefix + szNoiseShader + szVertexShader ).CreateANSIString();
 
-    GLToy_Render::ShaderSource( uVSID, 1, &pxVSString, 0 );
+    GLToy_Render::ShaderSource( uVSID, 1, &pcVSString, 0 );
     GLToy_Render::CompileShader( uVSID );
 
-    delete[] pxVSString;
+    delete[] pcVSString;
 
     GLToy_Render::GetShaderInfoLog( uVSID, 1023, &iLogLength, acLog );
     GLToy_DebugOutput( "   - Compiling vertex shader for \"%S\"...\r\n", szName.GetWideString() );

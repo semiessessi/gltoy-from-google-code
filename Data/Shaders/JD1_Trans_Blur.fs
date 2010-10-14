@@ -1,5 +1,3 @@
-#version 120
-
 uniform sampler2D xFrameBuffer;
 uniform float fTime;
 uniform float fLastFrameTime;
