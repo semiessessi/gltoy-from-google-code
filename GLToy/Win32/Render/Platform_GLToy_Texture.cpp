@@ -51,7 +51,9 @@
 
 // Win32
 #include <windows.h>
+#ifndef GLTOY_DEMO
 #include <gdiplus.h>
+#endif
 
 #include <Core/GLToy_Memory_DebugOn.h>
 
@@ -68,13 +70,17 @@
 
 // TODO: GDI plus is still used for setting the window icon - it should probably be moved to
 // Platform_GLToy.cpp for the sake of encapsulation though...
+#ifndef GLTOY_DEMO
 #pragma comment( lib, "gdiplus" )
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // U S I N G   N A M E S P A C E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef GLTOY_DEMO
 using namespace Gdiplus; 
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -147,9 +153,11 @@ void GLToy_Texture::Platform_Bind( const u_int uTextureUnit ) const
 
 bool GLToy_Texture_System::Platform_Initialise()
 {
+#ifndef GLTOY_DEMO
     GdiplusStartupInput xInput;
     GdiplusStartup( &g_xGDIToken, &xInput, NULL );
     CoInitialize( NULL );
+#endif
 
     glEnable( GL_TEXTURE_2D );
     
@@ -159,9 +167,10 @@ bool GLToy_Texture_System::Platform_Initialise()
 void GLToy_Texture_System::Platform_Shutdown()
 {
     glDisable( GL_TEXTURE_2D );
-
+#ifndef GLTOY_DEMO
     CoUninitialize();
     GdiplusShutdown( g_xGDIToken );
+#endif
 }
 
 void GLToy_Texture_System::Platform_SaveTextureBMP( const GLToy_String& szName, u_int* const puData, const u_int uWidth, const u_int uHeight )

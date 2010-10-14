@@ -42,7 +42,9 @@
 
 // Win32
 #include <windows.h>
+#ifndef GLTOY_DEMO
 #include <gdiplus.h>
+#endif
 
 #include <Core/GLToy_Memory_DebugOn.h>
 
@@ -50,7 +52,9 @@
 // U S I N G   N A M E S P A C E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef GLTOY_DEMO
 using namespace Gdiplus; 
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -385,6 +389,7 @@ void GLToy::Platform_ChangeWindowTitle( const char* const szNewTitle )
 
 void GLToy::Platform_ChangeWindowIcon( const char* const szTextureName )
 {
+#ifndef GLTOY_DEMO
     const GLToy_String szPath = GLToy_String( "textures/" ) + szTextureName;
 
     Bitmap* pxBitmap = new Bitmap( szPath.GetWideString() );
@@ -400,6 +405,7 @@ void GLToy::Platform_ChangeWindowIcon( const char* const szTextureName )
     SetClassLong( g_uWindowHandle, GCL_HICON, reinterpret_cast< LONG >( uHIcon ) );
 
     delete pxBitmap;
+#endif
 }
 
 #include <Core/GLToy_Memory_DebugOn.h>
