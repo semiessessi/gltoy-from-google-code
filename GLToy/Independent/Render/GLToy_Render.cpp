@@ -82,7 +82,9 @@ bool GLToy_Render::Initialise()
     // SE - 13/10/2010 - a material system would sit here, so we can materialise fonts why not... :)
     // but actually, just commenting because my original rationale for the texture system initialising after shaders
     // was to allow shader based materials...
+#ifndef GLTOY_DEMO
     GLToy_InitialiserCall( GLToy_Font_System );
+#endif
 
     if( !Project_Initialise() )
     {
@@ -200,8 +202,9 @@ void GLToy_Render::Shutdown()
     }
     
     Project_Shutdown();
-
+#ifndef GLTOY_DEMO
     GLToy_Font_System::Shutdown();
+#endif
     GLToy_Texture_System::Shutdown();
     GLToy_Shader_System::Shutdown();
 
@@ -277,7 +280,8 @@ void GLToy_Render::Render2D()
 {
     // Project_Render2D();
 
-    if( s_bDrawFPS )
+#ifndef GLTOY_DEM0
+	if( s_bDrawFPS )
     {
         UseProgram( 0 );
         // draw fps counter, we should have the console's font by now
@@ -289,6 +293,8 @@ void GLToy_Render::Render2D()
             pxFont->RenderString( szFPSString, GLToy_Render::GetMaxX() - szFPSString.GetLength() * pxFont->GetWidth(), 1.0f - pxFont->GetHeight() );
         }
     }
+#endif
+
 }
 
 

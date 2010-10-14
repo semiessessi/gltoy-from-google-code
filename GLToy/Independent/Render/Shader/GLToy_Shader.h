@@ -75,6 +75,7 @@ protected:
     u_int m_uID;
     u_int m_uFSID;
     u_int m_uVSID;
+	bool m_bUseNoise;
 };
 
 #endif

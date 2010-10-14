@@ -136,3 +136,8 @@ void GLToy_ShaderProgram::SetUniform( const GLToy_String& szName, const GLToy_Ve
     delete[] szString;
     GLToy_Render::SetUniform( uUniformID, xValue[ 0 ], xValue[ 1 ], xValue[ 2 ], xValue[ 3 ] );
 }
+
+void GLToy_ShaderProgram::SetUseNoise( const bool bUseNoise )
+{
+	m_bUseNoise = bUseNoise;
+}

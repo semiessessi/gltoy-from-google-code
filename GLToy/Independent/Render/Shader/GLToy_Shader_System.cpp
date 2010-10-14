@@ -74,7 +74,10 @@ bool GLToy_Shader_System::Initialise()
     }
 
     GLToy_Texture_System::CreateTextureFromRGBAData( GLToy_Hash_Constant( "GLToy_Shader_Noise" ), puNoise, 256, 256 );
-    
+#ifdef GLTOY_DEBUG
+	GLToy_Texture_System::SaveTextureTGA( "GLToy_Shader_Noise", puNoise, 256, 256 );
+#endif
+
     delete[] puNoise;
 
 #ifndef GLTOY_DEMO
