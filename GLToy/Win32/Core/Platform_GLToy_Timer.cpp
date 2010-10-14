@@ -64,8 +64,8 @@ float Platform_GLToy_Timer::GetTimeSinceLastGet()
     LARGE_INTEGER xNewPerformanceCount;
     QueryPerformanceCounter( &xNewPerformanceCount );
 
-    float fTime = static_cast<float>( xNewPerformanceCount.QuadPart - xPerformanceCount.QuadPart )
-        / static_cast<float>( xPerformanceFrequency.QuadPart );
+    float fTime = static_cast< float >( xNewPerformanceCount.QuadPart - xPerformanceCount.QuadPart )
+        / static_cast< float >( xPerformanceFrequency.QuadPart );
 
     xPerformanceCount = xNewPerformanceCount;
 
