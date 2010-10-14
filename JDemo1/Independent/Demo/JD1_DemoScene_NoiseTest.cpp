@@ -39,6 +39,7 @@
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Raytrace_Fullscreen.h>
 #include <Render/GLToy_Render.h>
+#include <Render/Shader/GLToy_Shader.h>
 #include <Render/Shader/GLToy_Shader_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,6 +48,11 @@
 
 void JD1_DemoScene_NoiseTest::Initialise()
 {
+	GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "JD1_Raytrace_NoiseTest" ) );
+	if( pxShader )
+	{
+		pxShader->SetUseNoise( true );
+	}
 }
 
 void JD1_DemoScene_NoiseTest::Shutdown()
@@ -64,7 +70,8 @@ void JD1_DemoScene_NoiseTest::Update()
 {
     GLToy_Parent::Update();
 
-    GLToy_Camera::SetPosition( GLToy_Maths::ZeroVector3 );
+	const float fDepth = GLToy_Maths::Wrap( 0.2f * GLToy_Timer::GetTime(), -1.0f, 1.0f );
+    GLToy_Camera::SetPosition( GLToy_Vector_3( 0.0f, 0.0f, 1000.0f * fDepth ) );
 	GLToy_Camera::SetOrientation( GLToy_Maths::IdentityMatrix3 );
 }
 

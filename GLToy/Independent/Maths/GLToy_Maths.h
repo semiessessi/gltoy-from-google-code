@@ -87,7 +87,7 @@ public:
 		const float fIntegerPart = Floor( fReturnValue );
 		fReturnValue -= fIntegerPart;
 		fReturnValue *= fRange;
-		return fReturnValue;
+		return fReturnValue + fMin;
 	}
 
     static GLToy_Inline u_int Wrap( const u_int uValue, const u_int uMin = 0, const u_int uMax = 1 )
