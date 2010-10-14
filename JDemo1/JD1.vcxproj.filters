@@ -54,25 +54,10 @@
     <ClCompile Include="Independent\Demo\JD1_Demo_System.cpp">
       <Filter>Independent\Demo</Filter>
     </ClCompile>
-    <ClCompile Include="Independent\Demo\JD1_DemoScene_Test.cpp">
-      <Filter>Independent\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Demo\JD1_DemoScene_Tunnel.cpp">
-      <Filter>Independent\Demo</Filter>
-    </ClCompile>
     <ClCompile Include="Independent\Demo\JD1_DemoScene.cpp">
       <Filter>Independent\Demo</Filter>
     </ClCompile>
     <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope.cpp">
-      <Filter>Independent\Render\SuperScope</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Test.cpp">
-      <Filter>Independent\Render\SuperScope</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Dragon.cpp">
-      <Filter>Independent\Render\SuperScope</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Render\SuperScope\JD1_SuperScope_Morph.cpp">
       <Filter>Independent\Render\SuperScope</Filter>
     </ClCompile>
     <ClCompile Include="Independent\Render\Texer\JD1_Texer.cpp">
@@ -81,41 +66,11 @@
     <ClCompile Include="Independent\Demo\JD1_DemoScene_AVS.cpp">
       <Filter>Independent\Demo</Filter>
     </ClCompile>
-    <ClCompile Include="Independent\Render\Texer\JD1_Texer_SimpleComplexity.cpp">
-      <Filter>Independent\Render\Texer</Filter>
-    </ClCompile>
     <ClCompile Include="Independent\Render\Trans\JD1_Trans_Fadeout.cpp">
       <Filter>Independent\Render\Trans</Filter>
     </ClCompile>
-    <ClCompile Include="Independent\Render\Trans\JD1_Trans_BlitterFeedback.cpp">
-      <Filter>Independent\Render\Trans</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Render\Trans\JD1_Trans_Shader.cpp">
-      <Filter>Independent\Render\Trans</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Render\Trans\JD1_Trans_Flow.cpp">
-      <Filter>Independent\Render\Trans</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Demo\JD1_DemoScene_Intro.cpp">
-      <Filter>Independent\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Demo\JD1_DemoScene_AVS_Test.cpp">
-      <Filter>Independent\Demo</Filter>
-    </ClCompile>
     <ClCompile Include="Independent\Demo\JD1_DemoScene_Chmutov.cpp">
       <Filter>Independent\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Demo\JD1_DemoScene_Dragon.cpp">
-      <Filter>Independent\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Demo\JD1_DemoScene_MovingParticles.cpp">
-      <Filter>Independent\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Demo\JD1_DemoScene_TexerFlow.cpp">
-      <Filter>Independent\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Render\Texer\JD1_Texer_MovingParticles.cpp">
-      <Filter>Independent\Render\Texer</Filter>
     </ClCompile>
     <ClCompile Include="Independent\Render\Texer\JD1_Texer_P9_Birth.cpp">
       <Filter>Independent\Render\Texer</Filter>
@@ -125,15 +80,6 @@
     </ClCompile>
     <ClCompile Include="Independent\Render\Text\JD1_Render_Text.cpp">
       <Filter>Independent\Render\Text</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Demo\JD1_DemoScene_Chmutov_1.cpp">
-      <Filter>Independent\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Demo\JD1_DemoScene_Chmutov_2.cpp">
-      <Filter>Independent\Demo</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent\Demo\JD1_DemoScene_Chmutov_3.cpp">
-      <Filter>Independent\Demo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -152,71 +98,23 @@
     <ClInclude Include="Independent\Demo\JD1_DemoScene.h">
       <Filter>Independent\Demo</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Demo\JD1_DemoScene_Test.h">
-      <Filter>Independent\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Demo\JD1_DemoScene_Tunnel.h">
-      <Filter>Independent\Demo</Filter>
-    </ClInclude>
     <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope.h">
       <Filter>Independent\Render\SuperScope</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Render\Texer\JD1_Texer.h">
       <Filter>Independent\Render\Texer</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Test.h">
-      <Filter>Independent\Render\SuperScope</Filter>
-    </ClInclude>
     <ClInclude Include="Independent\Demo\JD1_DemoScene_AVS.h">
       <Filter>Independent\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Demo\JD1_DemoScene_AVS_Test.h">
-      <Filter>Independent\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Dragon.h">
-      <Filter>Independent\Render\SuperScope</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Render\SuperScope\JD1_SuperScope_Morph.h">
-      <Filter>Independent\Render\SuperScope</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Render\Trans\JD1_Trans.h">
       <Filter>Independent\Render\Trans</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Render\Texer\JD1_Texer_SimpleComplexity.h">
-      <Filter>Independent\Render\Texer</Filter>
-    </ClInclude>
     <ClInclude Include="Independent\Render\Trans\JD1_Trans_Fadeout.h">
       <Filter>Independent\Render\Trans</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Render\Trans\JD1_Trans_BlitterFeedback.h">
-      <Filter>Independent\Render\Trans</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Render\Trans\JD1_Trans_Shader.h">
-      <Filter>Independent\Render\Trans</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Render\Trans\JD1_Trans_Blur.h">
-      <Filter>Independent\Render\Trans</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Render\Trans\JD1_Trans_Flow.h">
-      <Filter>Independent\Render\Trans</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Demo\JD1_DemoScene_Intro.h">
-      <Filter>Independent\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Demo\JD1_DemoScene_TexerFlow.h">
-      <Filter>Independent\Demo</Filter>
-    </ClInclude>
     <ClInclude Include="Independent\Demo\JD1_DemoScene_Chmutov.h">
       <Filter>Independent\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Demo\JD1_DemoScene_Dragon.h">
-      <Filter>Independent\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Demo\JD1_DemoScene_MovingParticles.h">
-      <Filter>Independent\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Render\Texer\JD1_Texer_MovingParticles.h">
-      <Filter>Independent\Render\Texer</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Demo\JD1_DemoScene_P9_Birth.h">
       <Filter>Independent\Demo</Filter>
@@ -230,57 +128,12 @@
     <ClInclude Include="Independent\Render\Text\JD1_Render_Text.h">
       <Filter>Independent\Render\Text</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Demo\JD1_DemoScene_Chmutov_1.h">
-      <Filter>Independent\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Demo\JD1_DemoScene_Chmutov_2.h">
-      <Filter>Independent\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Demo\JD1_DemoScene_Chmutov_3.h">
-      <Filter>Independent\Demo</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Data\Shaders\JD1_Raytrace_Tunnel.fs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\JD1_Raytrace_Tunnel.shader">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\JD1_Trans_Flow.fs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\JD1_Trans_Flow.shader">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\JD1_Trans_Blur.fs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\JD1_Trans_Blur.shader">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.fs">
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.shader">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_3.shader">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_1.fs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_1.shader">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_2.fs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_2.shader">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov_3.fs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
