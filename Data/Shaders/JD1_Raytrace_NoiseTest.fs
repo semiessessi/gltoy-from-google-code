@@ -23,7 +23,7 @@ void main()
     }
     
     gl_FragDepth = 1.0; //gl_DepthRange.diff / xSolution.z;
-    float fNoise = noise3d( xSolution * 4096.0 );
+    float fNoise = noise3d( xSolution * 8192.0 );
 	vec4 xColour = vec4( fNoise, fNoise, fNoise, 1.0 ) * -dot( normalize( xSolution ), xNormalisedDirection );
 	gl_FragColor = xColour;
 }

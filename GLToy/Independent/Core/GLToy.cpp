@@ -88,7 +88,7 @@ int GLToy::EntryPoint()
 
     GLToy_DebugOutput( "\r\nGLToy::EntryPoint() - Running tests.\r\n" );
 
-#ifndef GLTOY_DEMO
+#ifndef GLTOY_FINAL
     GLToy_Test_System::RunTests();
 #endif
 
