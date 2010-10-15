@@ -13,7 +13,7 @@ void main()
 	
 	// SE - 15/10/2010 - this always seems too convenient to not have a geometric interpetation I am missing somehow
 	vec3 xQ = 2.0 * vec3( dot( xNormalisedDirection, xNormalisedDirection ), dot( xPosition, xNormalisedDirection ), dot( xPosition, xPosition ) - 1.0 );
-    float fT = -xQ.y - sqrt( xQ.y * xQ.y - xQ.x * xQ.z ) / xQ.x;
+    float fT = ( -xQ.y - sqrt( xQ.y * xQ.y - xQ.x * xQ.z ) ) / xQ.x;
     
     vec3 xSolution = xNormalisedDirection * fT + xPosition;
 
@@ -23,7 +23,7 @@ void main()
     }
     
     gl_FragDepth = 1.0; //gl_DepthRange.diff / xSolution.z;
-    float fNoise = noise3d( xSolution * 512.0 );
-	vec4 xColour = vec4( fNoise, fNoise, fNoise, 1.0 ) * dot( normalize( xSolution ), xNormalisedDirection );
+    float fNoise = noise3d( xSolution * 4096.0 );
+	vec4 xColour = vec4( fNoise, fNoise, fNoise, 1.0 ) * -dot( normalize( xSolution ), xNormalisedDirection );
 	gl_FragColor = xColour;
 }

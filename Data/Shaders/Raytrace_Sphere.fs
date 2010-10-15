@@ -13,7 +13,7 @@ void main()
 	
 	// SE - 15/10/2010 - this always seems too convenient to not have a geometric interpetation I am missing somehow
 	vec3 xQ = 2.0 * vec3( dot( xNormalisedDirection, xNormalisedDirection ), dot( xPosition, xNormalisedDirection ), dot( xPosition, xPosition ) - 1.0 );
-    float fT = -xQ.y - sqrt( xQ.y * xQ.y - xQ.x * xQ.z ) / xQ.x;
+    float fT = ( -xQ.y - sqrt( xQ.y * xQ.y - xQ.x * xQ.z ) ) / xQ.x;
     
     vec3 xSolution = xNormalisedDirection * fT + xPosition;
 

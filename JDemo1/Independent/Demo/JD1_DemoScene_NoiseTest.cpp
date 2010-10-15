@@ -63,12 +63,20 @@ void JD1_DemoScene_NoiseTest::Initialise()
 
 	s_xSpline.Append( GLToy_Vector_3( 0.0f, 2.5f, 0.0f ) );
 	s_xSpline.AppendOrientation( GLToy_Vector_3( 0.0f, -1.0f, 0.0f) );
+	s_xSpline.Append( GLToy_Vector_3( 2.0f, 2.0f, 0.0f ) );
+	s_xSpline.AppendOrientation( GLToy_Vector_3( -1.0f, -1.0f, 0.0f) );
 	s_xSpline.Append( GLToy_Vector_3( 2.5f, 0.0f, 0.0f ) );
 	s_xSpline.AppendOrientation( GLToy_Vector_3( -1.0f, 0.0f, 0.0f) );
 	s_xSpline.Append( GLToy_Vector_3( 0.0f, -2.5f, 0.0f ) );
 	s_xSpline.AppendOrientation( GLToy_Vector_3( 0.0f, 1.0f, 0.0f) );
+	s_xSpline.Append( GLToy_Vector_3( 2.0f, -2.0f, 0.0f ) );
+	s_xSpline.AppendOrientation( GLToy_Vector_3( -1.0f, 1.0f, 0.0f) );
+	s_xSpline.Append( GLToy_Vector_3( -2.0f, -2.0f, 0.0f ) );
+	s_xSpline.AppendOrientation( GLToy_Vector_3( 1.0f, 1.0f, 0.0f) );
 	s_xSpline.Append( GLToy_Vector_3( -2.5f, 0.0f, 0.0f ) );
 	s_xSpline.AppendOrientation( GLToy_Vector_3( 1.0f, 0.0f, 0.0f) );
+	s_xSpline.Append( GLToy_Vector_3( 0.0f, 2.5f, 0.0f ) );
+	s_xSpline.AppendOrientation( GLToy_Vector_3( 0.0f, -1.0f, 0.0f) );
 
 	GLToy_Assert( s_xSpline.IsComplete(), "Incomplete oriented spline for camera!" );
 }
