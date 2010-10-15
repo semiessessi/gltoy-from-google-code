@@ -13,14 +13,21 @@ void main()
 	
 	// SE - 15/10/2010 - this always seems too convenient to not have a geometric interpetation I am missing somehow
 	vec3 xQ = 2.0 * vec3( dot( xNormalisedDirection, xNormalisedDirection ), dot( xPosition, xNormalisedDirection ), dot( xPosition, xPosition ) - 1.0 );
-    float fT = ( -xQ.y - sqrt( xQ.y * xQ.y - xQ.x * xQ.z ) ) / xQ.x;
-    
-    vec3 xSolution = xNormalisedDirection * fT + xPosition;
-
-    if( fT < 0.0 )
+	
+	float fDiscriminant = xQ.y * xQ.y - xQ.x * xQ.z;
+	if( fDiscriminant < 0.0 )
     {
         discard;
     }
+
+    float fT = ( -xQ.y - sqrt( fDiscriminant ) ) / xQ.x;
+    
+	if( fT < 0.0 )
+    {
+        discard;
+    }
+
+    vec3 xSolution = xNormalisedDirection * fT + xPosition;
     
     gl_FragDepth = 1.0; //gl_DepthRange.diff / xSolution.z;
     vec4 xColour = texture2D( xTexture, 0.015625 * vec2( xSolution.x, xSolution.z ) );
