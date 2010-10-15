@@ -126,7 +126,6 @@ void GLToy_Texture::Platform_LoadFromFile()
 
 void GLToy_Texture::Platform_Create()
 {
-#ifndef GLTOY_DEMO
     glGenTextures( 1, &m_uUID );
     glBindTexture( GL_TEXTURE_2D, m_uUID );
     
@@ -138,25 +137,20 @@ void GLToy_Texture::Platform_Create()
     // at least have some mipmaps by default
     // TODO - generate own mipmaps with non-shit filtering
     gluBuild2DMipmaps( GL_TEXTURE_2D, 4, GetWidth(), GetHeight(), GL_RGBA, GL_UNSIGNED_BYTE, GetDataPointer() );
-#endif
 }
 
 void GLToy_Texture::Platform_Destroy()
 {
-#ifndef GLTOY_DEMO
     if( IsReadyForUse() )
     {
         glDeleteTextures( 1, &m_uUID );
     }
-#endif
 }
 
 void GLToy_Texture::Platform_Bind( const u_int uTextureUnit ) const
 {
-#ifndef GLTOY_DEMO
     Platform_GLToy_Render::ActiveTexture( TEXTURE0 + uTextureUnit );
     glBindTexture( GL_TEXTURE_2D, m_uUID );
-#endif
 }
 
 bool GLToy_Texture_System::Platform_Initialise()
