@@ -36,11 +36,18 @@
 // GLToy
 #include <Core/GLToy_Timer.h>
 #include <Maths/GLToy_Maths.h>
+#include <Maths/GLToy_OrientedSpline.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Raytrace_Fullscreen.h>
 #include <Render/GLToy_Render.h>
 #include <Render/Shader/GLToy_Shader.h>
 #include <Render/Shader/GLToy_Shader_System.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+static GLToy_OrientedSpline_CatmullRomCatmullRom s_xSpline;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -53,6 +60,17 @@ void JD1_DemoScene_NoiseTest::Initialise()
 	{
 		pxShader->SetUseNoise( true );
 	}
+
+	s_xSpline.Append( GLToy_Vector_3( 0.0f, 2.5f, 0.0f ) );
+	s_xSpline.AppendOrientation( GLToy_Vector_3( 0.0f, -1.0f, 0.0f) );
+	s_xSpline.Append( GLToy_Vector_3( 2.5f, 0.0f, 0.0f ) );
+	s_xSpline.AppendOrientation( GLToy_Vector_3( -1.0f, 0.0f, 0.0f) );
+	s_xSpline.Append( GLToy_Vector_3( 0.0f, -2.5f, 0.0f ) );
+	s_xSpline.AppendOrientation( GLToy_Vector_3( 0.0f, 1.0f, 0.0f) );
+	s_xSpline.Append( GLToy_Vector_3( -2.5f, 0.0f, 0.0f ) );
+	s_xSpline.AppendOrientation( GLToy_Vector_3( 1.0f, 0.0f, 0.0f) );
+
+	GLToy_Assert( s_xSpline.IsComplete(), "Incomplete oriented spline for camera!" );
 }
 
 void JD1_DemoScene_NoiseTest::Shutdown()
@@ -70,9 +88,9 @@ void JD1_DemoScene_NoiseTest::Update()
 {
     GLToy_Parent::Update();
 
-	const float fDepth = GLToy_Maths::Wrap( 0.05f * GLToy_Timer::GetTime(), -1.0f, 1.0f );
-    GLToy_Camera::SetPosition( GLToy_Vector_3( 0.0f, 0.0f, 100.0f * fDepth ) );
-	GLToy_Camera::SetOrientation( GLToy_Maths::IdentityMatrix3 );
+	const float fTimer = GLToy_Maths::Wrap( GLToy_Timer::GetTime() * 0.03f );
+    GLToy_Camera::SetPosition( s_xSpline.GetPoint( fTimer ) );
+	GLToy_Camera::SetOrientation( s_xSpline.GetOrientation( fTimer ) );
 }
 
 void JD1_DemoScene_NoiseTest::Start()

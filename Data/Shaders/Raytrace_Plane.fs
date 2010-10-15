@@ -6,12 +6,12 @@ void main()
 {
     // ax + by + cz + d = 0
     // t = -( d + aox + boy + coz ) / ( adx + bdy + cdz )
-    normalize( xDirection );
+    vec3 xNormalisedDirection = normalize( xDirection );
     vec4 xPlane = vec4( 0.0, -1.0, 0.0, 0.0 );
     vec3 xPlaneNormal = vec3( xPlane );
-    float fT = -( xPlane.w + dot( xPosition, xPlaneNormal ) ) / ( dot( xDirection, xPlaneNormal ) );
+    float fT = -( xPlane.w + dot( xPosition, xPlaneNormal ) ) / ( dot( xNormalisedDirection, xPlaneNormal ) );
     
-    vec3 xSolution = xDirection * fT + xPosition;
+    vec3 xSolution = xNormalisedDirection * fT + xPosition;
 
     if( fT < 0.0 )
     {
