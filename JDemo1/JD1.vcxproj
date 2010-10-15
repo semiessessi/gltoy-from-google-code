@@ -331,12 +331,6 @@ JD1_Crinkler.bat</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.fs" />
-    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.shader" />
-    <None Include="..\Data\Shaders\JD1_Raytrace_NoiseTest.fs" />
-    <None Include="..\Data\Shaders\JD1_Raytrace_NoiseTest.shader" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

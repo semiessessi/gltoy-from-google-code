@@ -28,9 +28,6 @@
     <Filter Include="Independent\Render\Trans">
       <UniqueIdentifier>{f621f016-3a76-4f25-a299-3b43210a7f4d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{f1cb7b6e-bc73-43cc-8025-158633a35c28}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Independent\Render\Text">
       <UniqueIdentifier>{034f95a1-9e27-46f5-9a79-e47d87840dd6}</UniqueIdentifier>
     </Filter>
@@ -134,19 +131,5 @@
     <ClInclude Include="Independent\Demo\JD1_DemoScene_NoiseTest.h">
       <Filter>Independent\Demo</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.fs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\JD1_Raytrace_Chmutov.shader">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\JD1_Raytrace_NoiseTest.fs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\JD1_Raytrace_NoiseTest.shader">
-      <Filter>Shaders</Filter>
-    </None>
   </ItemGroup>
 </Project>
