@@ -30,9 +30,8 @@
 
 #include <Core/GLToy.h>
 
-// This file's headers
+// This file's header
 #include <Maths/GLToy_Maths.h>
-#include <Maths/Platform_GLToy_Maths.h>
 
 // GLToy
 #include <Core/GLToy_Timer.h>
@@ -133,16 +132,6 @@ void GLToy_Maths::Platform_Update()
     Platform_GLToy_Maths::Update();
 }
 
-float GLToy_Maths::Sin( const float fValue )
-{
-    return sin( fValue );
-}
-
-float GLToy_Maths::Cos( const float fValue )
-{
-    return cos( fValue );
-}
-
 float GLToy_Maths::ACos( const float fValue )
 {
     return acos( fValue );
@@ -151,11 +140,6 @@ float GLToy_Maths::ACos( const float fValue )
 float GLToy_Maths::Abs( const float fValue )
 {
     return fabs( fValue );
-}
-
-float GLToy_Maths::Sqrt( const float fValue )
-{
-    return Platform_GLToy_Maths::Sqrt( fValue );
 }
 
 float GLToy_Maths::Pow( const float fValue, const float fPower )

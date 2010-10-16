@@ -215,7 +215,7 @@ u_int GLToy_Compress::Float_3Bytes( const float fFloat )
 
     // extract the exponent and throw away two bits
     const u_int uFloat = *reinterpret_cast< const u_int* >( &fFloat );
-    int iExponent = ( uFloat & 0x78000000 ) ? GLToy_Maths::Min( 32, GLToy_Maths::Max( -31, ( ( uFloat & 0x78000000 ) >> 23 ) - 127 ) ) : 0;
+    int iExponent = ( uFloat & 0x78000000 ) ? GLToy_Maths::Min( 32, GLToy_Maths::Max< int >( -31, ( ( uFloat & 0x78000000 ) >> 23 ) - 127 ) ) : 0;
     uReturnValue |= ( iExponent + 31 ) << 22;
 
     // finally throwaway the trailing 6 bits of mantissa

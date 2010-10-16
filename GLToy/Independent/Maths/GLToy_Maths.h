@@ -37,6 +37,7 @@
 #include <Maths/GLToy_Ray.h>
 #include <Maths/GLToy_Quaternion.h>
 #include <Maths/GLToy_Vector.h>
+#include <Maths/Platform_GLToy_Maths.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -72,10 +73,8 @@ public:
     static float Rad2Deg( const float fDegrees );
 
     static GLToy_Inline float Clamp( const float fValue, const float fMin = 0.0f, const float fMax = 1.0f ) { return Min( fMax, Max( fValue, fMin ) ); }
-    static GLToy_Inline float Max( const float fValue1, const float fValue2 ) { return ( fValue1 > fValue2 ) ? fValue1 : fValue2; }
-    static GLToy_Inline float Min( const float fValue1, const float fValue2 ) { return ( fValue1 < fValue2 ) ? fValue1 : fValue2; }
-    static GLToy_Inline int Max( const int iValue1, const int iValue2 ) { return ( iValue1 > iValue2 ) ? iValue1 : iValue2; }
-	static GLToy_Inline int Min( const int iValue1, const int iValue2 ) { return ( iValue1 < iValue2 ) ? iValue1 : iValue2; }
+    template< class T > static GLToy_ForceInline T Max( const T xValue1, const T xValue2 ) { return ( xValue1 > xValue2 ) ? xValue1 : xValue2; }
+	template< class T > static GLToy_ForceInline T Min( const T xValue1, const T xValue2 ) { return ( xValue1 < xValue2 ) ? xValue1 : xValue2; }
 
 	static GLToy_Inline float Wrap( const float fValue, const float fMin = 0.0f, const float fMax = 1.0f )
 	{
@@ -103,15 +102,15 @@ public:
 	}
 
 	template < class T >
-    static GLToy_Inline T ClampedLerp( const T& xValue1, const T& xValue2, const float fAmount )
+    static GLToy_ForceInline T ClampedLerp( const T& xValue1, const T& xValue2, const float fAmount )
 	{
 		return Lerp( xValue1, xValue2, Clamp( fAmount, 0.0f, 1.0f ) );
 	}
 
 	template < class T >
-    static GLToy_Inline T CosineInterpolate( const T& xValue1, const T& xValue2, const float fAmount )
+    static GLToy_ForceInline T CosineInterpolate( const T& xValue1, const T& xValue2, const float fAmount )
 	{
-		return xValue1 + ( xValue2 - xValue1 ) * 0.5f * ( 1.0f - Cos( Pi * fAmount ) );
+		return Lerp( xValue1, xValue2, 0.5f * ( 1.0f - Cos( Pi * fAmount ) ) );
 	}
 
 	template < class T >
@@ -142,14 +141,14 @@ public:
 		return ( ( xA * fAmount + xB ) * fAmount + xC ) * fAmount + xD;
 	}
 
-    static float Sin( const float fValue );
-    static float Cos( const float fValue );
+    static GLToy_ForceInline float Sin( const float fValue ) { return Platform_GLToy_Maths::Sin( fValue ); }
+    static GLToy_ForceInline float Cos( const float fValue ) { return Platform_GLToy_Maths::Cos( fValue ); }
 
     static float ACos( const float fValue );
 
     static float Abs( const float fValue );
-	static float InvSqrt( const float fValue ) { return 1.0f / Sqrt( fValue ); } // shocking I know...
-    static float Sqrt( const float fValue );
+	static GLToy_ForceInline float InvSqrt( const float fValue ) { return 1.0f / Sqrt( fValue ); } // shocking I know...
+    static GLToy_ForceInline float Sqrt( const float fValue ) { return Platform_GLToy_Maths::Sqrt( fValue ); }
     static float Pow( const float fValue, const float fPower );
 
     static GLToy_Vector_3 Rotate_AxisAngle( const GLToy_Vector_3& xVector, const GLToy_Vector_3& xAxis, const float fAngle );

@@ -35,19 +35,21 @@
 
 #ifdef GLTOY_DEMO
 #define WIN32_LEAN_AND_MEAN
+#define VC_EXTRALEAN
 #else
 #define WIN32_LEAN
 #endif
 
 #ifndef GLTOY_DEMO
+#define GLToy_ForceInline __forceinline
 #define GLToy_Inline __forceinline
 #else
+#define GLToy_ForceInline __inline
 #define GLToy_Inline
 #endif
 
 #define GLToy_ForceCDecl __cdecl
 #define GLToy_ForceStdCall __stdcall
-#define GLToy_ForceInline __inline
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S

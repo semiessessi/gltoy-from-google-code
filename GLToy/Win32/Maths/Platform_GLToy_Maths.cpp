@@ -90,12 +90,3 @@ void Platform_GLToy_Maths::Update()
     usCW &= ~0x300; // clear bits 8 and 9 - force low precision
     __asm fldcw [ usCW ];
 }
-
-float Platform_GLToy_Maths::Sqrt( const float fValue )
-{
-    __asm
-    {
-        fld [ fValue ]
-        fsqrt
-    }
-}

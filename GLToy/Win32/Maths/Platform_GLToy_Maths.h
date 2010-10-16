@@ -42,7 +42,32 @@ public:
     static bool Initialise();
     static void Update();
 
-    static float Sqrt( const float fValue );
+	static GLToy_ForceInline float Sin( const float fValue )
+	{
+		__asm
+		{
+			fld [ fValue ]
+			fsin
+		}
+	}
+
+	static GLToy_ForceInline float Cos( const float fValue )
+	{
+		__asm
+		{
+			fld [ fValue ]
+			fcos
+		}
+	}
+
+    static GLToy_ForceInline float Sqrt( const float fValue )
+	{
+		__asm
+		{
+			fld [ fValue ]
+			fsqrt
+		}
+	}
 
 private:
 
