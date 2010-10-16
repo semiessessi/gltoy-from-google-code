@@ -8,8 +8,7 @@ void main()
     // t = -( d + aox + boy + coz ) / ( adx + bdy + cdz )
     vec3 xNormalisedDirection = normalize( xDirection );
     vec4 xPlane = vec4( 0.0, -1.0, 0.0, 0.0 );
-    vec3 xPlaneNormal = vec3( xPlane );
-    float fT = -( xPlane.w + dot( xPosition, xPlaneNormal ) ) / ( dot( xNormalisedDirection, xPlaneNormal ) );
+    float fT = -dot( xPlane, vec4( xPosition, 1.0 ) ) / ( dot( xNormalisedDirection, xPlane.xyz ) );
     
     vec3 xSolution = xNormalisedDirection * fT + xPosition;
 

@@ -47,42 +47,67 @@
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// raytrace a plane with noise added from the 2d noise function
+// the plane we trace at first gives the starting point for solving 
+//
+
 static const GLToy_String szFragmentShader =
 "varying vec3 xDirection;"
 "varying vec3 xPosition;"
 "uniform sampler2D xTexture;"
 
+// the function we are finding the isosurface for
+"float surface( vec3 xPosition )"
+"{"
+	"vec4 xPlane = vec4( 0.0, 1.0, 0.0, -noise2d( xPosition.xz ) );"
+    "return dot( xPlane, vec4( xPosition, 1.0 ) );"
+"}"
+
 "void main()"
 "{"
-    // x^2 + y^2 + z^2 - r^2 = 0
-    // t^2(dx^2 + dy^2 + dz^2) + 2t(oxdx + oydy + ozdz) + (ox^2 + oy^2 + oz^2 - r^2) = 0
-	// at^2 + bt + c = 0
-	// t = -b - sqrt(b^2 - 4ac) / 2a // (always take the nearest, so discard the '+' solution)
+    // ax + by + cz + d = 0
+    // t = -( d + aox + boy + coz ) / ( adx + bdy + cdz )
+    "vec3 xNormalisedDirection = normalize( xDirection );"
+    "vec4 xPlane = vec4( 0.0, 1.0, 0.0, -1.0 );"
+    "float fT = -dot( xPlane, vec4( xPosition, 1.0 ) ) / ( dot( xNormalisedDirection, xPlane.xyz ) );"
 
-	"vec3 xNormalisedDirection = normalize( xDirection );"
-	
-	// SE - 15/10/2010 - this always seems too convenient to not have a geometric interpetation I am missing somehow
-	"vec3 xQ = 2.0 * vec3( dot( xNormalisedDirection, xNormalisedDirection ), dot( xPosition, xNormalisedDirection ), dot( xPosition, xPosition ) - 1.0 );"
-    
-	"float fDiscriminant = xQ.y * xQ.y - xQ.x * xQ.z;"
-	"if( fDiscriminant < 0.0 )"
+	// now iterate onto the noisy surface
+	// ax + by + cz - noise = 0
+	"fT = max( fT, 0.0 );" // always start at the view plane or further
+	"float fW = 0.5;" // Whittaker constant
+	// iterations
+	"vec3 xSolution = xNormalisedDirection * fT + xPosition;"
+	"fT += fW * surface( xSolution );"
+	"xSolution = xNormalisedDirection * fT + xPosition;"
+	"fT += fW * surface( xSolution );"
+	"xSolution = xNormalisedDirection * fT + xPosition;"
+	"fT += fW * surface( xSolution );"
+	"xSolution = xNormalisedDirection * fT + xPosition;"
+	"fT += fW * surface( xSolution );"
+	"xSolution = xNormalisedDirection * fT + xPosition;"
+	"fT += fW * surface( xSolution );"
+	"xSolution = xNormalisedDirection * fT + xPosition;"
+	"fT += fW * surface( xSolution );"
+	"xSolution = xNormalisedDirection * fT + xPosition;"
+	"fT += fW * surface( xSolution );"
+    "xSolution = xNormalisedDirection * fT + xPosition;"
+
+    "if( fT < 0.0 )"
     "{"
         "discard;"
     "}"
 
-    "float fT = ( -xQ.y - sqrt( fDiscriminant ) ) / xQ.x;"
-    
-	"if( fT < 0.0 )"
-    "{"
-        "discard;"
-    "}"
-
-    "vec3 xSolution = xNormalisedDirection * fT + xPosition;"
+	// find approximate normal from finite differences (central difference to avoid lopsidedness)
+	"float fXP = surface( xSolution + vec3( 0.01, 0.0, 0.0 ) );"
+	"float fXM = surface( xSolution - vec3( 0.01, 0.0, 0.0 ) );"
+	"float fZP = surface( xSolution + vec3( 0.0, 0.0, 0.01 ) );"
+	"float fZM = surface( xSolution - vec3( 0.0, 0.0, 0.01 ) );"
+	"vec3 xNormal = -normalize( vec3( fXP - fXM, 1.0, fZP - fZM ) );"
     
     "gl_FragDepth = 1.0;" //gl_DepthRange.diff / xSolution.z;
-    "float fNoise = noise3d( xSolution * 8192.0 );"
-	"vec4 xColour = vec4( fNoise, fNoise, fNoise, 1.0 ) * -dot( normalize( xSolution ), xNormalisedDirection );"
-	"gl_FragColor = xColour;"
+    "float fLight = dot( xNormalisedDirection, xNormal );"
+    "vec4 xColour = vec4( fLight, fLight, fLight, 1.0 );"
+    "gl_FragColor = xColour;"
 "}"
 ;
 
@@ -104,7 +129,7 @@ static const GLToy_String szVertexShader =
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static GLToy_OrientedSpline_CatmullRomCatmullRom s_xSpline;
+//static GLToy_OrientedSpline_CatmullRomCatmullRom s_xSpline;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -120,28 +145,28 @@ void JD1_DemoScene_NoiseTest::Initialise()
 		pxShader->SetUseNoise( true );
 	}
 
-	s_xSpline.Append( GLToy_Vector_3( 0.0f, 2.5f, 0.0f ) );
-	s_xSpline.AppendOrientation( GLToy_Vector_3( 0.0f, -1.0f, 0.0f) );
-	s_xSpline.Append( GLToy_Vector_3( 2.0f, 1.0f, 0.0f ) );
-	s_xSpline.AppendOrientation( GLToy_Vector_3( -1.0f, -0.5f, 0.0f) );
-	s_xSpline.Append( GLToy_Vector_3( 2.5f, 0.0f, 0.0f ) );
-	s_xSpline.AppendOrientation( GLToy_Vector_3( -1.0f, 0.0f, 0.0f) );
-	s_xSpline.Append( GLToy_Vector_3( 1.5f, -1.0f, 0.0f ) );
-	s_xSpline.AppendOrientation( GLToy_Vector_3( -1.0f, 1.0f, 0.0f) );
-	s_xSpline.Append( GLToy_Vector_3( 0.0f, -2.0f, 0.0f ) );
-	s_xSpline.AppendOrientation( GLToy_Vector_3( 0.0f, 1.0f, 0.0f) );
-	s_xSpline.Append( GLToy_Vector_3( 2.0f, -2.0f, 0.0f ) );
-	s_xSpline.AppendOrientation( GLToy_Vector_3( -1.0f, 1.0f, 0.0f) );
-	s_xSpline.Append( GLToy_Vector_3( -2.0f, -2.0f, 0.0f ) );
-	s_xSpline.AppendOrientation( GLToy_Vector_3( 1.0f, 1.0f, 0.0f) );
-	s_xSpline.Append( GLToy_Vector_3( -2.5f, 0.0f, 0.0f ) );
-	s_xSpline.AppendOrientation( GLToy_Vector_3( 1.0f, 0.0f, 0.0f) );
-	s_xSpline.Append( GLToy_Vector_3( -0.75f, 0.95f, 0.0f ) );
-	s_xSpline.AppendOrientation( GLToy_Vector_3( 1.0f, -1.0f, 0.0f) );
-	s_xSpline.Append( GLToy_Vector_3( 0.0f, 2.5f, 0.0f ) );
-	s_xSpline.AppendOrientation( GLToy_Vector_3( 0.0f, -1.0f, 0.0f) );
+	//s_xSpline.Append( GLToy_Vector_3( 0.0f, 2.5f, 0.0f ) );
+	//s_xSpline.AppendOrientation( GLToy_Vector_3( 0.0f, -1.0f, 0.0f) );
+	//s_xSpline.Append( GLToy_Vector_3( 2.0f, 1.0f, 0.0f ) );
+	//s_xSpline.AppendOrientation( GLToy_Vector_3( -1.0f, -0.5f, 0.0f) );
+	//s_xSpline.Append( GLToy_Vector_3( 2.5f, 0.0f, 0.0f ) );
+	//s_xSpline.AppendOrientation( GLToy_Vector_3( -1.0f, 0.0f, 0.0f) );
+	//s_xSpline.Append( GLToy_Vector_3( 1.5f, -1.0f, 0.0f ) );
+	//s_xSpline.AppendOrientation( GLToy_Vector_3( -1.0f, 1.0f, 0.0f) );
+	//s_xSpline.Append( GLToy_Vector_3( 0.0f, -2.0f, 0.0f ) );
+	//s_xSpline.AppendOrientation( GLToy_Vector_3( 0.0f, 1.0f, 0.0f) );
+	//s_xSpline.Append( GLToy_Vector_3( 2.0f, -2.0f, 0.0f ) );
+	//s_xSpline.AppendOrientation( GLToy_Vector_3( -1.0f, 1.0f, 0.0f) );
+	//s_xSpline.Append( GLToy_Vector_3( -2.0f, -2.0f, 0.0f ) );
+	//s_xSpline.AppendOrientation( GLToy_Vector_3( 1.0f, 1.0f, 0.0f) );
+	//s_xSpline.Append( GLToy_Vector_3( -2.5f, 0.0f, 0.0f ) );
+	//s_xSpline.AppendOrientation( GLToy_Vector_3( 1.0f, 0.0f, 0.0f) );
+	//s_xSpline.Append( GLToy_Vector_3( -0.75f, 0.95f, 0.0f ) );
+	//s_xSpline.AppendOrientation( GLToy_Vector_3( 1.0f, -1.0f, 0.0f) );
+	//s_xSpline.Append( GLToy_Vector_3( 0.0f, 2.5f, 0.0f ) );
+	//s_xSpline.AppendOrientation( GLToy_Vector_3( 0.0f, -1.0f, 0.0f) );
 
-	GLToy_Assert( s_xSpline.IsComplete(), "Incomplete oriented spline for camera!" );
+	//GLToy_Assert( s_xSpline.IsComplete(), "Incomplete oriented spline for camera!" );
 }
 
 void JD1_DemoScene_NoiseTest::Shutdown()
@@ -159,9 +184,12 @@ void JD1_DemoScene_NoiseTest::Update()
 {
     GLToy_Parent::Update();
 
-	const float fTimer = GLToy_Maths::Wrap( GLToy_Timer::GetTime() * 0.03f );
-    GLToy_Camera::SetPosition( s_xSpline.GetPoint( fTimer ) );
-	GLToy_Camera::SetOrientation( s_xSpline.GetOrientation( fTimer ) );
+    GLToy_Camera::SetPosition( GLToy_Vector_3( 0.0f, 2.05f + GLToy_Maths::Sin( 0.2f * GLToy_Timer::GetTime() ), GLToy_Timer::GetTime() ) );
+    GLToy_Camera::SetOrientation( GLToy_Maths::IdentityMatrix3 );
+
+	//const float fTimer = GLToy_Maths::Wrap( GLToy_Timer::GetTime() * 0.03f );
+    //GLToy_Camera::SetPosition( s_xSpline.GetPoint( fTimer ) );
+	//GLToy_Camera::SetOrientation( s_xSpline.GetOrientation( fTimer ) );
 }
 
 void JD1_DemoScene_NoiseTest::Start()
