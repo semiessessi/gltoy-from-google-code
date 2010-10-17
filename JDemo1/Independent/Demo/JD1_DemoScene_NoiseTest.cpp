@@ -89,6 +89,8 @@ static const GLToy_String szFragmentShader =
 	//"xSolution = xNormalisedDirection * fT + xPosition;"
 	//"fT += fW * surface( xSolution );"
 	//"xSolution = xNormalisedDirection * fT + xPosition;"
+    //"fT += fW * surface( xSolution );"
+	//"xSolution = xNormalisedDirection * fT + xPosition;"
 
     "if( fT < 0.0 )"
     "{"
