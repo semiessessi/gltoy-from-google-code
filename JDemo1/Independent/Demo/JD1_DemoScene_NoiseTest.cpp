@@ -73,7 +73,7 @@ static const GLToy_String szFragmentShader =
 
 	// now iterate onto the noisy surface
 	// ax + by + cz - noise = 0
-	"fT = max( fT, 0.0 );" // always start at the view plane or further
+	"fT = max( ( xPosition.y > 1.0 ) ? fT : 0.0, 0.0 );" // always start at the view plane or further
 	"float fW = 0.5;" // Whittaker constant
 	// iterations
 	"vec3 xSolution = xNormalisedDirection * fT + xPosition;"
@@ -85,12 +85,10 @@ static const GLToy_String szFragmentShader =
 	"xSolution = xNormalisedDirection * fT + xPosition;"
 	"fT += fW * surface( xSolution );"
 	"xSolution = xNormalisedDirection * fT + xPosition;"
-	"fT += fW * surface( xSolution );"
-	"xSolution = xNormalisedDirection * fT + xPosition;"
-	"fT += fW * surface( xSolution );"
-	"xSolution = xNormalisedDirection * fT + xPosition;"
-	"fT += fW * surface( xSolution );"
-    "xSolution = xNormalisedDirection * fT + xPosition;"
+	//"fT += fW * surface( xSolution );"
+	//"xSolution = xNormalisedDirection * fT + xPosition;"
+	//"fT += fW * surface( xSolution );"
+	//"xSolution = xNormalisedDirection * fT + xPosition;"
 
     "if( fT < 0.0 )"
     "{"
