@@ -54,12 +54,18 @@ public:
 
     GLToy_String()
     : GLToy_Parent()
+#ifdef GLTOY_DEBUG
+    , dbg_szString( m_pxData )
+#endif
     {
         Append( 0 );
     }
 
     GLToy_String( const char* const szString )
     : GLToy_Parent()
+#ifdef GLTOY_DEBUG
+    , dbg_szString( m_pxData )
+#endif
     {
         for( u_int u = 0; szString[ u ]; ++u )
         {
@@ -70,6 +76,9 @@ public:
 
     GLToy_String( const u_char* const szString )
     : GLToy_Parent()
+#ifdef GLTOY_DEBUG
+    , dbg_szString( m_pxData )
+#endif
     {
         for( u_int u = 0; szString[ u ]; ++u )
         {
@@ -80,6 +89,9 @@ public:
 
     GLToy_String( const wchar_t* const wszString )
     : GLToy_Parent()
+#ifdef GLTOY_DEBUG
+    , dbg_szString( m_pxData )
+#endif
     {
         for( u_int u = 0; wszString[ u ]; ++u )
         {
@@ -90,6 +102,9 @@ public:
 
     GLToy_String( const GLToy_String& xString )
     : GLToy_Parent( xString )
+#ifdef GLTOY_DEBUG
+    , dbg_szString( m_pxData )
+#endif
     {
     }
 
@@ -501,6 +516,11 @@ protected:
             }
         }
     }
+
+#ifdef GLTOY_DEBUG
+    wchar_t*& dbg_szString;
+#endif
+
 };
 
 #endif
