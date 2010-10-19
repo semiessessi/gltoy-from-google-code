@@ -59,7 +59,7 @@ static const GLToy_String szFragmentShader =
 // the function we are finding the isosurface for
 "float surface( vec3 xPosition )"
 "{"
-	"vec4 xPlane = vec4( 0.0, 1.0, 0.0, -noise2d( xPosition.xz ) );"
+	"vec4 xPlane = vec4( 0.0, 1.0, 0.0, -1.0 + 4.0 * noise2d( 0.5 * xPosition.xz ) );"
     "return dot( xPlane, vec4( xPosition, 1.0 ) );"
 "}"
 
@@ -74,19 +74,21 @@ static const GLToy_String szFragmentShader =
 	// now iterate onto the noisy surface
 	// ax + by + cz - noise = 0
 	"fT = max( ( xPosition.y > 1.0 ) ? fT : 0.0, 0.0 );" // always start at the view plane or further
-	"float fW = 0.5;" // Whittaker constant
+	"float fW = 0.1;" // Whittaker constant
 	// iterations
 	"vec3 xSolution = xNormalisedDirection * fT + xPosition;"
 	"fT += fW * surface( xSolution );"
 	"xSolution = xNormalisedDirection * fT + xPosition;"
 	"fT += fW * surface( xSolution );"
 	"xSolution = xNormalisedDirection * fT + xPosition;"
+    "fW = 0.07;"
+	"fT += fW * surface( xSolution );"
+	"xSolution = xNormalisedDirection * fT + xPosition;"
+    "fW = 0.05;"
 	"fT += fW * surface( xSolution );"
 	"xSolution = xNormalisedDirection * fT + xPosition;"
 	"fT += fW * surface( xSolution );"
 	"xSolution = xNormalisedDirection * fT + xPosition;"
-	//"fT += fW * surface( xSolution );"
-	//"xSolution = xNormalisedDirection * fT + xPosition;"
 	//"fT += fW * surface( xSolution );"
 	//"xSolution = xNormalisedDirection * fT + xPosition;"
     //"fT += fW * surface( xSolution );"
@@ -102,10 +104,10 @@ static const GLToy_String szFragmentShader =
 	"float fXM = surface( xSolution - vec3( 0.01, 0.0, 0.0 ) );"
 	"float fZP = surface( xSolution + vec3( 0.0, 0.0, 0.01 ) );"
 	"float fZM = surface( xSolution - vec3( 0.0, 0.0, 0.01 ) );"
-	"vec3 xNormal = -normalize( vec3( fXP - fXM, 1.0, fZP - fZM ) );"
+	"vec3 xNormal = normalize( vec3( fXP - fXM, 1.0, fZP - fZM ) );"
     
-    "gl_FragDepth = 1.0;" //gl_DepthRange.diff / xSolution.z;
-    "float fLight = dot( xNormalisedDirection, xNormal );"
+    //"gl_FragDepth = 1.0;" //gl_DepthRange.diff / xSolution.z;
+    "float fLight = dot( -xNormalisedDirection, xNormal );"
     "vec4 xColour = vec4( fLight, fLight, fLight, 1.0 );"
     "gl_FragColor = xColour;"
 "}"
@@ -184,7 +186,7 @@ void JD1_DemoScene_NoiseTest::Update()
 {
     GLToy_Parent::Update();
 
-    GLToy_Camera::SetPosition( GLToy_Vector_3( 0.0f, 2.05f + GLToy_Maths::Sin( 0.2f * GLToy_Timer::GetTime() ), GLToy_Timer::GetTime() ) );
+    GLToy_Camera::SetPosition( GLToy_Vector_3( 0.0f, 1.7f + 0.5f * GLToy_Maths::Sin( 0.3f * GLToy_Timer::GetTime() ), 0.15f * GLToy_Timer::GetTime() ) );
     GLToy_Camera::SetOrientation( GLToy_Maths::IdentityMatrix3 );
 
 	//const float fTimer = GLToy_Maths::Wrap( GLToy_Timer::GetTime() * 0.03f );

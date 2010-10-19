@@ -79,9 +79,9 @@ static const GLToy_String szNoiseShader =
 	"xUV = xUV * 0.5;"
 	"xSample = texture2D( xNoiseTexture, xUV );"
 	"xNoise = mix( rotate( xNoise, xSample.x ), xSample.yz, fScale );"
-	"xUV = xUV * 0.5;"
-	"xSample = texture2D( xNoiseTexture, xUV );"
-	"xNoise = mix( rotate( xNoise, xSample.z ), xSample.wx, fScale );"
+	//"xUV = xUV * 0.5;"
+	//"xSample = texture2D( xNoiseTexture, xUV );"
+	//"xNoise = mix( rotate( xNoise, xSample.z ), xSample.wx, fScale );"
 	
     //"xUV = xUV * 0.5;"
 	//"xSample = texture2D( xNoiseTexture, xUV );"
