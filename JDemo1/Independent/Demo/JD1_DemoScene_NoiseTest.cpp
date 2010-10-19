@@ -56,24 +56,47 @@ static const GLToy_String szFragmentShader =
 "varying vec3 xPosition;"
 "uniform sampler2D xTexture;"
 
-// the function we are finding the isosurface for
-"float surface( vec3 xPosition )"
+//// the function we are finding the isosurface for
+//"float surface( vec3 xPosition )"
+//"{"
+//	"vec4 xPlane = vec4( 0.0, 1.0, 0.0, -1.0 + 4.0 * noise2d( 0.5 * xPosition.xz ) );"
+//    "return dot( xPlane, vec4( xPosition, 1.0 ) );"
+//"}"
+
+// distance field
+"float distancefield( vec3 xPos )"
 "{"
-	"vec4 xPlane = vec4( 0.0, 1.0, 0.0, -1.0 + 4.0 * noise2d( 0.5 * xPosition.xz ) );"
-    "return dot( xPlane, vec4( xPosition, 1.0 ) );"
+    "return xPos.y - 1.0 + 1.0 * noise2d( 0.5 * xPos.xz );"
 "}"
 
 "void main()"
-"{"
+"{" 
     // ax + by + cz + d = 0
     // t = -( d + aox + boy + coz ) / ( adx + bdy + cdz )
     "vec3 xNormalisedDirection = normalize( xDirection );"
     "vec4 xPlane = vec4( 0.0, 1.0, 0.0, -1.0 );"
     "float fT = -dot( xPlane, vec4( xPosition, 1.0 ) ) / ( dot( xNormalisedDirection, xPlane.xyz ) );"
+    "vec3 xSolution = xNormalisedDirection * fT + xPosition;"
+    "fT = max( ( xPosition.y > 1.0 ) ? fT : 0.0, 0.0 );" // always start at the view plane or further
 
+    "fT += distancefield( xSolution );"
+    "xSolution = xNormalisedDirection * fT + xPosition;"
+    "fT += distancefield( xSolution );"
+    "xSolution = xNormalisedDirection * fT + xPosition;"
+    "fT += distancefield( xSolution );"
+    "xSolution = xNormalisedDirection * fT + xPosition;"
+    "fT += distancefield( xSolution );"
+    "xSolution = xNormalisedDirection * fT + xPosition;"
+    "fT += distancefield( xSolution );"
+    "xSolution = xNormalisedDirection * fT + xPosition;"
+    "fT += distancefield( xSolution );"
+    "xSolution = xNormalisedDirection * fT + xPosition;"
+    "fT += distancefield( xSolution );"
+    "xSolution = xNormalisedDirection * fT + xPosition;"
+
+/*
 	// now iterate onto the noisy surface
 	// ax + by + cz - noise = 0
-	"fT = max( ( xPosition.y > 1.0 ) ? fT : 0.0, 0.0 );" // always start at the view plane or further
 	"float fW = 0.1;" // Whittaker constant
 	// iterations
 	"vec3 xSolution = xNormalisedDirection * fT + xPosition;"
@@ -93,17 +116,17 @@ static const GLToy_String szFragmentShader =
 	//"xSolution = xNormalisedDirection * fT + xPosition;"
     //"fT += fW * surface( xSolution );"
 	//"xSolution = xNormalisedDirection * fT + xPosition;"
-
+*/
     "if( fT < 0.0 )"
     "{"
         "discard;"
     "}"
 
 	// find approximate normal from finite differences (central difference to avoid lopsidedness)
-	"float fXP = surface( xSolution + vec3( 0.01, 0.0, 0.0 ) );"
-	"float fXM = surface( xSolution - vec3( 0.01, 0.0, 0.0 ) );"
-	"float fZP = surface( xSolution + vec3( 0.0, 0.0, 0.01 ) );"
-	"float fZM = surface( xSolution - vec3( 0.0, 0.0, 0.01 ) );"
+	"float fXP = distancefield( xSolution + vec3( 0.01, 0.0, 0.0 ) );"
+	"float fXM = distancefield( xSolution - vec3( 0.01, 0.0, 0.0 ) );"
+	"float fZP = distancefield( xSolution + vec3( 0.0, 0.0, 0.01 ) );"
+	"float fZM = distancefield( xSolution - vec3( 0.0, 0.0, 0.01 ) );"
 	"vec3 xNormal = normalize( vec3( fXP - fXM, 1.0, fZP - fZM ) );"
     
     //"gl_FragDepth = 1.0;" //gl_DepthRange.diff / xSolution.z;
