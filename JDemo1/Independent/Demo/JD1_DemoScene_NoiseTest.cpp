@@ -80,9 +80,9 @@ static const GLToy_String szFragmentShader =
     "vec3 xSolution = xNormalisedDirection * fT + xPosition;"
     "fT = max( ( xPosition.y > 1.0 ) ? fT : 0.0, 0.0 );" // always start at the view plane or further
 
-    "for( int i = 0; i < 12; ++i )" // increase this on a better card - something like... 30?
+    "for( int i = 0; i < 19; ++i )" // increase this on a better card - something like... 50?
     "{"
-        "xSolution += xNormalisedDirection * 1.05 * max( distancefield( xSolution ), 0.0 );"
+        "xSolution += xNormalisedDirection * max( distancefield( xSolution ), 0.0 );"
     "}"
 
 /*
@@ -113,15 +113,16 @@ static const GLToy_String szFragmentShader =
         "discard;"
     "}"
 
-	// find approximate normal from finite differences (central difference to avoid lopsidedness)
+	// find approximate normal from finite differences //(central difference to avoid lopsidedness)
 	"float fXP = distancefield( xSolution + vec3( 0.01, 0.0, 0.0 ) );"
 	"float fXM = distancefield( xSolution - vec3( 0.01, 0.0, 0.0 ) );"
 	"float fZP = distancefield( xSolution + vec3( 0.0, 0.0, 0.01 ) );"
 	"float fZM = distancefield( xSolution - vec3( 0.0, 0.0, 0.01 ) );"
-	"vec3 xNormal = normalize( vec3( fXP - fXM, 1.0, fZP - fZM ) );"
+	//"vec3 xNormal = normalize( vec3( fXP, 1.0, fZP ) );"
+    "vec3 xNormal = normalize( vec3( fXP - fXM, 1.0, fZP - fZM ) );"
     
     //"gl_FragDepth = 1.0;" //gl_DepthRange.diff / xSolution.z;
-    "float fLight = dot( -xNormalisedDirection, xNormal );"
+    "float fLight = max( dot( -xNormalisedDirection, xNormal ), 0.0 );"
     "vec4 xColour = vec4( fLight, fLight, fLight, 1.0 );"
     "gl_FragColor = xColour;"
 "}"
