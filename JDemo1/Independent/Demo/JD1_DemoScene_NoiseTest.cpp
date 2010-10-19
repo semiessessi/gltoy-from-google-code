@@ -66,7 +66,8 @@ static const GLToy_String szFragmentShader =
 // distance field
 "float distancefield( vec3 xPos )"
 "{"
-    "return xPos.y - 1.0 + 1.0 * noise2d( 0.5 * xPos.xz );"
+    //"return xPos.y - 1.0 + 1.0 * noise2d( 0.5 * xPos.xz );"
+    "return xPos.y - 1.0 + 1.0 * noise3d( 0.0625 * xPos );"
 "}"
 
 "void main()"
@@ -79,9 +80,9 @@ static const GLToy_String szFragmentShader =
     "vec3 xSolution = xNormalisedDirection * fT + xPosition;"
     "fT = max( ( xPosition.y > 1.0 ) ? fT : 0.0, 0.0 );" // always start at the view plane or further
 
-    "for( int i = 0; i < 7; ++i )" // increase this on a better card - something like... 30?
+    "for( int i = 0; i < 12; ++i )" // increase this on a better card - something like... 30?
     "{"
-        "xSolution += xNormalisedDirection * distancefield( xSolution );"
+        "xSolution += xNormalisedDirection * 1.05 * max( distancefield( xSolution ), 0.0 );"
     "}"
 
 /*
