@@ -1,0 +1,29 @@
+// Application.idl : type library source for Application.exe
+
+// This file will be processed by the MIDL compiler to produce the
+// type library (Application.tlb).
+
+[ uuid(448089DC-5A30-42EE-8B82-86B8348E98C4), version(1.0) ]
+library Application
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	//  Primary dispatch interface for CApplicationDoc
+	
+	[ uuid(F7CB4E4B-56B1-43EC-B7E3-C7181E0C406B) ]
+	dispinterface IApplication
+	{
+		properties:
+			
+		methods:
+	};
+
+	//  Class information for CApplicationDoc
+	
+	[ uuid(04E3E798-357E-4816-BB25-E0D495A21262) ]
+	coclass CApplicationDoc
+	{
+		[default] dispinterface IApplication;
+	};
+};
