@@ -55,9 +55,11 @@ static const GLToy_String szNoiseShader =
 "uniform sampler2D xNoiseTexture;"
 "vec2 rotate( vec2 xValue, float fAngle )"
 "{"
-	"vec2 xNormalised = xValue - vec2( 0.5, 0.5 );"
+    "vec3 xNormalised = vec3( xValue - vec2( 0.5, 0.5 ), 1.0 );"
 	"float fScaledAngle = 6.3 * fAngle;"
-	"return vec2( xNormalised.x * cos( fScaledAngle ) - xNormalised.y * sin( fScaledAngle ), xNormalised.x * sin( fScaledAngle ) + xNormalised.y * cos( fScaledAngle ) ) + vec2( 0.5, 0.5 );"
+    "float fSin = sin( fScaledAngle );"
+    "vec4 xOptimiser = vec4( cos( fScaledAngle ), fSin, -fSin, 0.5 );"
+    "return vec2( dot( xNormalised, xOptimiser.xzw ), dot( xNormalised, xOptimiser.yxw ) );"
 "}"
 // this can cause problems with the compiled shader length if too many octaves are done...
 "float noise2d( vec2 xPos )"

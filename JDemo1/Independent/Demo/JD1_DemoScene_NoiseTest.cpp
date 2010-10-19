@@ -79,20 +79,10 @@ static const GLToy_String szFragmentShader =
     "vec3 xSolution = xNormalisedDirection * fT + xPosition;"
     "fT = max( ( xPosition.y > 1.0 ) ? fT : 0.0, 0.0 );" // always start at the view plane or further
 
-    "fT += distancefield( xSolution );"
-    "xSolution = xNormalisedDirection * fT + xPosition;"
-    "fT += distancefield( xSolution );"
-    "xSolution = xNormalisedDirection * fT + xPosition;"
-    "fT += distancefield( xSolution );"
-    "xSolution = xNormalisedDirection * fT + xPosition;"
-    "fT += distancefield( xSolution );"
-    "xSolution = xNormalisedDirection * fT + xPosition;"
-    "fT += distancefield( xSolution );"
-    "xSolution = xNormalisedDirection * fT + xPosition;"
-    "fT += distancefield( xSolution );"
-    "xSolution = xNormalisedDirection * fT + xPosition;"
-    "fT += distancefield( xSolution );"
-    "xSolution = xNormalisedDirection * fT + xPosition;"
+    "for( int i = 0; i < 7; ++i )" // increase this on a better card - something like... 30?
+    "{"
+        "xSolution += xNormalisedDirection * distancefield( xSolution );"
+    "}"
 
 /*
 	// now iterate onto the noisy surface
