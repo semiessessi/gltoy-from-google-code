@@ -501,6 +501,9 @@
     <ClCompile Include="Independent\Render\GLToy_Texture_Procedural.cpp">
       <Filter>Independent\Render</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\File\GLToy_PTXFile.cpp">
+      <Filter>Independent\File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
@@ -901,6 +904,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Render\GLToy_Texture_Procedural.h">
       <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\GLToy_PTXFile.h">
+      <Filter>Independent\File</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

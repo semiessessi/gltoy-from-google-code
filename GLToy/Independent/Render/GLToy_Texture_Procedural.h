@@ -53,17 +53,43 @@ public:
     
     enum Instruction
     {
-        INSTRUCTION_FILL = 0,
-        INSTRUCTION_NOISE = 1,
-        INSTRUCTION_TILE = 2,
+        INSTRUCTION_FILL            = 0,
+        INSTRUCTION_NOISE           = 1,
+        INSTRUCTION_TILE            = 2,
+        INSTRUCTION_CIRCLE          = 3,
+        INSTRUCTION_FBMNOISE        = 4,
+        INSTRUCTION_SHAPE           = 5,
+        INSTRUCTION_UNUSED3         = 6,
+        INSTRUCTION_UNUSED4         = 7,
     };
 
     enum BlendMode
     {
-        BLEND_ALPHA = 0,
-        BLEND_MUL = 1,
-        BLEND_ADD = 2,
-        BLEND_SUB = 3,
+        BLEND_ALPHA                 = 0,
+        BLEND_MUL                   = 1,
+        BLEND_ADD                   = 2,
+        BLEND_SUB                   = 3,
+        BLEND_MAX                   = 4,
+        BLEND_MIN                   = 5,
+        BLEND_LUMINANCE_INTO_ALPHA  = 6,
+        BLEND_REPLACE               = 7,
+    };
+
+    enum ShapeFunction
+    {
+        SHAPE_COS_2PI               = 0,
+        SHAPE_SIN_2PI               = 1,
+        SHAPE_COS_4PI               = 2,
+        SHAPE_SIN_4PI               = 3,
+        SHAPE_COS_6PI               = 4,
+        SHAPE_SIN_6PI               = 5,
+        SHAPE_SQUARE                = 6,
+        SHAPE_SQUAREROOT            = 7,
+        SHAPE_ABS                   = 8,
+        SHAPE_HALF                  = 9,
+        SHAPE_DOUBLE                = 10,
+        SHAPE_CLIPBELOWHALF         = 11,
+        SHAPE_CLIPABOVEHALF         = 12,
     };
 
 private:
@@ -81,6 +107,7 @@ private:
         , m_eBlendMode( BLEND_ALPHA )
         , m_uParam1( 0 )
         , m_uParam2( 0 )
+        , m_uParam3( 0 )
         , m_uID( s_uNextID )
         {
             ++s_uNextID;
@@ -92,6 +119,7 @@ private:
         , m_eBlendMode( xLayerNode.m_eBlendMode )
         , m_uParam1( xLayerNode.m_uParam1 )
         , m_uParam2( xLayerNode.m_uParam2 )
+        , m_uParam3( xLayerNode.m_uParam3 )
         , m_uID( xLayerNode.m_uID )
         {
             if( xLayerNode.m_pxChildren )
@@ -110,36 +138,14 @@ private:
             return m_pxChildren == NULL;
         }
 
-        static LayerNode CreateFill( const u_int uRGBA )
-        {
-            LayerNode xReturnValue;
-            xReturnValue.m_uParam1 = uRGBA;
-            return xReturnValue;
-        }
+        static LayerNode CreateFill( const u_int uRGBA );
+        static LayerNode CreateNoise( const float fFrequency, const u_int uSeed );
+        static LayerNode CreateTile( const u_int uFrequency );
+        static LayerNode CreateCircle( const GLToy_Vector_2& xPosition, const float fRadius, const u_int uRGBA );
+        static LayerNode CreateFBMNoise( const float fFrequency, const u_int uSeed );
+        static LayerNode CreateShaping( const ShapeFunction m_eShapeFunction );
 
-        static LayerNode CreateNoise( const float fFrequency, const u_int uSeed )
-        {
-            LayerNode xReturnValue;
-            xReturnValue.m_eInstruction = INSTRUCTION_NOISE;
-            xReturnValue.m_uParam1 = *reinterpret_cast< const u_int* >( &fFrequency );
-            xReturnValue.m_uParam2 = uSeed;
-            return xReturnValue;
-        }
-
-        static LayerNode CreateTile( const u_int uFrequency )
-        {
-            LayerNode xReturnValue;
-            xReturnValue.m_eInstruction = INSTRUCTION_TILE;
-            xReturnValue.m_uParam1 = uFrequency;
-            return xReturnValue;
-        }
-
-        static LayerNode CreateGroup()
-        {
-            LayerNode xReturnValue;
-            xReturnValue.m_pxChildren = new GLToy_SmallSerialisableArray< LayerNode >();
-            return xReturnValue;
-        }
+        static LayerNode CreateGroup();
 
         GLToy_Array< LayerNode >* GetChildren()
         {
@@ -160,25 +166,13 @@ private:
         {
             switch( m_eInstruction )
             {
-                case INSTRUCTION_FILL:
-                {
-                    return "Fill";
-                }
-                
-                case INSTRUCTION_NOISE:
-                {
-                    return "Noise";
-                }
-
-                case INSTRUCTION_TILE:
-                {
-                    return "Tile";
-                }
-
-                default:
-                {
-                    return "Unknown";
-                }
+                case INSTRUCTION_FILL:      return "Fill";
+                case INSTRUCTION_NOISE:     return "Noise";
+                case INSTRUCTION_TILE:      return "Tile";
+                case INSTRUCTION_CIRCLE:    return "Circle";
+                case INSTRUCTION_FBMNOISE:  return "Fractal Brownian Motion Noise";
+                case INSTRUCTION_SHAPE:     return "Shaping";
+                default:                    return "Unknown";
             }
         }
 
@@ -192,8 +186,25 @@ private:
         GLToy_SmallSerialisableArray< LayerNode >* m_pxChildren;
         Instruction m_eInstruction;
         BlendMode m_eBlendMode;
-        u_int m_uParam1;
-        u_int m_uParam2;
+        
+        union
+        {
+            u_int m_uParam1;
+            float m_fParam1;
+        }
+        ;
+        union
+        {
+            u_int m_uParam2;
+            float m_fParam2;
+        };
+
+        union
+        {
+            u_int m_uParam3;
+            float m_fParam3;
+        };
+
         u_int m_uID;
 
         static u_int s_uNextID;
@@ -219,7 +230,31 @@ public:
 
     u_int AppendNoiseLayer( const float fFrequency = 32.0f, const u_int uSeed = 0 )
     {
-        m_xLayers.Append( LayerNode::CreateNoise( fFrequency , uSeed ) );
+        m_xLayers.Append( LayerNode::CreateNoise( fFrequency, uSeed ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendTileLayer( const u_int uTileFrequency )
+    {
+        m_xLayers.Append( LayerNode::CreateTile( uTileFrequency ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendCircleLayer( const GLToy_Vector_2& xCentre, const float fRadius, const u_int uRGBA )
+    {
+        m_xLayers.Append( LayerNode::CreateCircle( xCentre, fRadius, uRGBA ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendFBMNoiseLayer( const float fFrequency = 32.0f, const u_int uSeed = 0 )
+    {
+        m_xLayers.Append( LayerNode::CreateFBMNoise( fFrequency, uSeed ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendShapingLayer( const ShapeFunction eShapeFunction )
+    {
+        m_xLayers.Append( LayerNode::CreateShaping( eShapeFunction ) );
         return m_xLayers.End().GetID();
     }
 

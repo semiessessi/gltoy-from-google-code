@@ -53,7 +53,7 @@ u_int GLToy_Texture_Procedural::LayerNode::s_uNextID = 0;
 void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
     u_int uBlendMode;
-    xStream.ReadBits( uBlendMode, 2 );
+    xStream.ReadBits( uBlendMode, 3 );
     m_eBlendMode = static_cast< BlendMode >( uBlendMode );
 
     delete m_pxChildren;
@@ -74,7 +74,10 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
 
         switch( m_eInstruction ) // note the deliberate fall-through
         {
+            case INSTRUCTION_CIRCLE:
+                xStream >> m_uParam3;
             case INSTRUCTION_NOISE:
+            case INSTRUCTION_FBMNOISE:
                 xStream >> m_uParam2;
             default:
                 xStream >> m_uParam1;
@@ -84,7 +87,7 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
 
 void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
-    xStream.WriteBits( m_eBlendMode, 2 );
+    xStream.WriteBits( m_eBlendMode, 3 );
 
     xStream << ( m_pxChildren == NULL );
     if( m_pxChildren )
@@ -97,7 +100,10 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
 
         switch( m_eInstruction ) // note the deliberate fall-through
         {
+            case INSTRUCTION_CIRCLE:
+                xStream << m_uParam3;
             case INSTRUCTION_NOISE:
+            case INSTRUCTION_FBMNOISE:
                 xStream << m_uParam2;
             default:
                 xStream << m_uParam1;
@@ -140,7 +146,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                     {
                         const float fX = static_cast< float >( u ) / static_cast< float >( uWidth );
                         const float fY = static_cast< float >( v ) / static_cast< float >( uHeight );
-                        const float fNoise = GLToy_Noise::Cubic2D( fX, fY, *reinterpret_cast< float* >( &m_uParam1 ), 1.0f, static_cast< u_int >( *reinterpret_cast< float* >( &m_uParam1 ) ), m_uParam2 );
+                        const float fNoise = GLToy_Noise::Cubic2D( fX, fY, m_fParam1, 1.0f, static_cast< u_int >( m_fParam1 ), m_uParam2 );
                         puData[ v * uWidth + u ] = GLToy_Vector_4( fNoise, fNoise, fNoise, 1.0f ).GetRGBA();
                     }
                 }
@@ -149,7 +155,190 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
 
             case INSTRUCTION_TILE:
             {
-                // TODO: tile with some really good filtering...
+                // TODO: some filtering
+                // cubic isn't good enough for high frequencies, but would be a good start
+                // maybe constuct some mipmaps?
+                for( u_int v = 0; v < uHeight; ++v )
+                {
+                    for( u_int u = 0; u < uWidth; ++u )
+                    {
+                        const u_int s = ( u * m_uParam1 ) % uWidth;
+                        const u_int t = ( v * m_uParam1 ) % uHeight;
+                        const float fX = static_cast< float >( s ) / static_cast< float >( uWidth );
+                        const float fY = static_cast< float >( t ) / static_cast< float >( uHeight );
+                        puData[ v * uWidth + u ] = s_xRenderStack.Peek( 1 )[ t * uWidth + s ];
+                    }
+                }
+                break;
+                break;
+            }
+
+            case INSTRUCTION_CIRCLE:
+            {
+                // TODO: some filtering
+                // cubic isn't good enough for high frequencies, but would be a good start
+                // maybe constuct some mipmaps?
+                const float fCentreX = static_cast< float >( m_uParam1 & 0xFFFF ) / 65535.0f;
+                const float fCentreY = static_cast< float >( m_uParam1 >> 16 ) / 65535.0f;
+                const float fRadius = m_fParam2;
+                for( u_int v = 0; v < uHeight; ++v )
+                {
+                    for( u_int u = 0; u < uWidth; ++u )
+                    {
+                        const float fX = fCentreX - static_cast< float >( u ) / static_cast< float >( uWidth );
+                        const float fY = fCentreY - static_cast< float >( v ) / static_cast< float >( uHeight );
+                        if( fX * fX + fY * fY < fRadius * fRadius )
+                        {
+                            puData[ v * uWidth + u ] = m_uParam3;
+                        }
+                    }
+                }
+                break;
+            }
+
+            case INSTRUCTION_FBMNOISE:
+            {
+                for( u_int v = 0; v < uHeight; ++v )
+                {
+                    for( u_int u = 0; u < uWidth; ++u )
+                    {
+                        const float fX = static_cast< float >( u ) / static_cast< float >( uWidth );
+                        const float fY = static_cast< float >( v ) / static_cast< float >( uHeight );
+                        const float fNoise = GLToy_Noise::FractalCubic2D( fX, fY, m_fParam1, 1.0f, 0.5f, 10, true, m_uParam2 );
+                        puData[ v * uWidth + u ] = GLToy_Vector_4( fNoise, fNoise, fNoise, 1.0f ).GetRGBA();
+                    }
+                }
+                break;
+            }
+
+            case INSTRUCTION_SHAPE:
+            {
+                for( u_int u = 0; u < uWidth * uHeight; ++u )
+                {
+                    GLToy_Vector_4 xDest( puData[ u ] );
+                    GLToy_Vector_4 xSource( s_xRenderStack.Peek( 1 )[ u ] );
+                    
+                    switch( static_cast< ShapeFunction >( m_uParam1 ) )
+                    {
+                        case SHAPE_COS_2PI:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 2.0f * xSource[ 0 ] );
+                            xDest[ 1 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 2.0f * xSource[ 1 ] );
+                            xDest[ 2 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 2.0f * xSource[ 2 ] );
+                            xDest[ 3 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 2.0f * xSource[ 3 ] );
+                            break;
+                        }
+
+                        case SHAPE_SIN_2PI:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 2.0f * xSource[ 0 ] );
+                            xDest[ 1 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 2.0f * xSource[ 1 ] );
+                            xDest[ 2 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 2.0f * xSource[ 2 ] );
+                            xDest[ 3 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 2.0f * xSource[ 3 ] );
+                            break;
+                        }
+
+                        case SHAPE_COS_4PI:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 4.0f * xSource[ 0 ] );
+                            xDest[ 1 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 4.0f * xSource[ 1 ] );
+                            xDest[ 2 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 4.0f * xSource[ 2 ] );
+                            xDest[ 3 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 4.0f * xSource[ 3 ] );
+                            break;
+                        }
+
+                        case SHAPE_SIN_4PI:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 4.0f * xSource[ 0 ] );
+                            xDest[ 1 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 4.0f * xSource[ 1 ] );
+                            xDest[ 2 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 4.0f * xSource[ 2 ] );
+                            xDest[ 3 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 4.0f * xSource[ 3 ] );
+                            break;
+                        }
+
+                        case SHAPE_COS_6PI:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 6.0f * xSource[ 0 ] );
+                            xDest[ 1 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 6.0f * xSource[ 1 ] );
+                            xDest[ 2 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 6.0f * xSource[ 2 ] );
+                            xDest[ 3 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 6.0f * xSource[ 3 ] );
+                            break;
+                        }
+
+                        case SHAPE_SIN_6PI:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 6.0f * xSource[ 0 ] );
+                            xDest[ 1 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 6.0f * xSource[ 1 ] );
+                            xDest[ 2 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 6.0f * xSource[ 2 ] );
+                            xDest[ 3 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 6.0f * xSource[ 3 ] );
+                            break;
+                        }
+
+                        case SHAPE_SQUARE:
+                        {
+                            xDest[ 0 ] = xSource[ 0 ] * xSource[ 0 ];
+                            xDest[ 1 ] = xSource[ 1 ] * xSource[ 1 ];
+                            xDest[ 2 ] = xSource[ 2 ] * xSource[ 2 ];
+                            xDest[ 3 ] = xSource[ 3 ] * xSource[ 3 ];
+                            break;
+                        }
+
+                        case SHAPE_SQUAREROOT:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Sqrt( xSource[ 0 ] );
+                            xDest[ 1 ] = GLToy_Maths::Sqrt( xSource[ 1 ] );
+                            xDest[ 2 ] = GLToy_Maths::Sqrt( xSource[ 2 ] );
+                            xDest[ 3 ] = GLToy_Maths::Sqrt( xSource[ 3 ] );
+                            break;
+                        }
+
+                        case SHAPE_ABS:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Abs( xSource[ 0 ] );
+                            xDest[ 1 ] = GLToy_Maths::Abs( xSource[ 1 ] );
+                            xDest[ 2 ] = GLToy_Maths::Abs( xSource[ 2 ] );
+                            xDest[ 3 ] = GLToy_Maths::Abs( xSource[ 3 ] );
+                            break;
+                        }
+
+                        case SHAPE_HALF:
+                        {
+                            xDest = xSource * 0.5f;
+                            break;
+                        }
+
+                        case SHAPE_DOUBLE:
+                        {
+                            xDest = xSource * 2.0f;
+                            break;
+                        }
+
+                        case SHAPE_CLIPBELOWHALF:
+                        {
+                            xDest[ 0 ] = xSource[ 0 ] < 0.5f ? 0.0f : xSource[ 0 ];
+                            xDest[ 1 ] = xSource[ 1 ] < 0.5f ? 0.0f : xSource[ 1 ];
+                            xDest[ 2 ] = xSource[ 2 ] < 0.5f ? 0.0f : xSource[ 2 ];
+                            xDest[ 3 ] = xSource[ 3 ] < 0.5f ? 0.0f : xSource[ 3 ];
+                            break;
+                        }
+
+                        case SHAPE_CLIPABOVEHALF:
+                        {
+                            xDest[ 0 ] = xSource[ 0 ] > 0.5f ? 0.0f : xSource[ 0 ];
+                            xDest[ 1 ] = xSource[ 1 ] > 0.5f ? 0.0f : xSource[ 1 ];
+                            xDest[ 2 ] = xSource[ 2 ] > 0.5f ? 0.0f : xSource[ 2 ];
+                            xDest[ 3 ] = xSource[ 3 ] > 0.5f ? 0.0f : xSource[ 3 ];
+                            break;
+                        }
+
+                        default:
+                        {
+                            break;
+                        }
+                    }
+
+                    puData[ u ] = xDest.GetRGBA();
+                }
                 break;
             }
         }
@@ -168,7 +357,6 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                 const GLToy_Vector_4 xColour1( puData[ u ] );
                 const GLToy_Vector_4 xColour2( s_xRenderStack.Peek()[ u ] );
                 GLToy_Vector_4 xCombined = xColour1 * fAlpha + xColour2 * ( 1.0f - fAlpha );
-                xCombined[ 3 ] = 1.0f;
                 puData[ u ] = xCombined.GetRGBA();
             }
             break;
@@ -215,6 +403,58 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
             }
             break;
         }
+
+        case BLEND_MAX:
+        {
+            for( u_int u = 0; u < uWidth * uHeight; ++u )
+            {
+                const float fAlpha = static_cast< float >( puData[ u ] >> 24 ) / 255.0f;
+                const GLToy_Vector_4 xColour1( puData[ u ] );
+                const GLToy_Vector_4 xColour2( s_xRenderStack.Peek()[ u ] );
+                GLToy_Vector_4 xCombined = xColour2;
+                xCombined[ 0 ] = GLToy_Maths::Max( xCombined[ 0 ], xColour1[ 0 ] );
+                xCombined[ 1 ] = GLToy_Maths::Max( xCombined[ 1 ], xColour1[ 1 ] );
+                xCombined[ 2 ] = GLToy_Maths::Max( xCombined[ 2 ], xColour1[ 2 ] );
+                xCombined[ 3 ] = 1.0f;
+                puData[ u ] = xCombined.GetRGBA();
+            }
+            break;
+        }
+
+        case BLEND_MIN:
+        {
+            for( u_int u = 0; u < uWidth * uHeight; ++u )
+            {
+                const float fAlpha = static_cast< float >( puData[ u ] >> 24 ) / 255.0f;
+                const GLToy_Vector_4 xColour1( puData[ u ] );
+                const GLToy_Vector_4 xColour2( s_xRenderStack.Peek()[ u ] );
+                GLToy_Vector_4 xCombined = xColour2;
+                xCombined[ 0 ] = GLToy_Maths::Min( xCombined[ 0 ], xColour1[ 0 ] );
+                xCombined[ 1 ] = GLToy_Maths::Min( xCombined[ 1 ], xColour1[ 1 ] );
+                xCombined[ 2 ] = GLToy_Maths::Min( xCombined[ 2 ], xColour1[ 2 ] );
+                xCombined[ 3 ] = 1.0f;
+                puData[ u ] = xCombined.GetRGBA();
+            }
+            break;
+        }
+
+        case BLEND_LUMINANCE_INTO_ALPHA:
+        {
+            for( u_int u = 0; u < uWidth * uHeight; ++u )
+            {
+                const GLToy_Vector_4 xColour1( puData[ u ] );
+                const float fAlpha = ( xColour1[ 0 ] + xColour1[ 1 ] + xColour1[ 2 ] ) / 3.0f;
+                const GLToy_Vector_4 xColour2( s_xRenderStack.Peek()[ u ] );
+                const GLToy_Vector_4 xCombined = GLToy_Vector_4( xColour2[ 0 ], xColour2[ 1 ], xColour2[ 2 ], fAlpha );
+                puData[ u ] = xCombined.GetRGBA();
+            }
+            break;
+        }
+
+        case BLEND_REPLACE:
+        {
+            break;
+        }
     }
     
     // swap the data
@@ -252,4 +492,62 @@ void GLToy_Texture_Procedural::ReadFromBitStream( const GLToy_BitStream& xStream
 void GLToy_Texture_Procedural::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
     xStream << m_xLayers;
+}
+
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateFill( const u_int uRGBA )
+{
+    LayerNode xReturnValue;
+    xReturnValue.m_uParam1 = uRGBA;
+    return xReturnValue;
+}
+
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateNoise( const float fFrequency, const u_int uSeed )
+{
+    LayerNode xReturnValue;
+    xReturnValue.m_eInstruction = INSTRUCTION_NOISE;
+    xReturnValue.m_fParam1 = fFrequency;
+    xReturnValue.m_uParam2 = uSeed;
+    return xReturnValue;
+}
+
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateTile( const u_int uFrequency )
+{
+    LayerNode xReturnValue;
+    xReturnValue.m_eInstruction = INSTRUCTION_TILE;
+    xReturnValue.m_uParam1 = uFrequency;
+    return xReturnValue;
+}
+
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateCircle( const GLToy_Vector_2& xPosition, const float fRadius, const u_int uRGBA )
+{
+    LayerNode xReturnValue;
+    xReturnValue.m_eInstruction = INSTRUCTION_CIRCLE;
+    xReturnValue.m_uParam1 = static_cast< u_int >( GLToy_Maths::Clamp( xPosition[ 0 ] ) * 65535.0f ) | ( static_cast< u_int >( GLToy_Maths::Clamp( xPosition[ 1 ] ) * 65535.0f ) << 16 );
+    xReturnValue.m_fParam2 = fRadius;
+    xReturnValue.m_uParam3 = uRGBA;
+    return xReturnValue;
+}
+
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateFBMNoise( const float fFrequency, const u_int uSeed )
+{
+    LayerNode xReturnValue;
+    xReturnValue.m_eInstruction = INSTRUCTION_FBMNOISE;
+    xReturnValue.m_fParam1 = fFrequency;
+    xReturnValue.m_uParam2 = uSeed;
+    return xReturnValue;
+}
+
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateShaping( const ShapeFunction eShapeFunction )
+{
+    LayerNode xReturnValue;
+    xReturnValue.m_eInstruction = INSTRUCTION_SHAPE;
+    xReturnValue.m_uParam1 = static_cast< u_int >( eShapeFunction );
+    return xReturnValue;
+}
+
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateGroup()
+{
+    LayerNode xReturnValue;
+    xReturnValue.m_pxChildren = new GLToy_SmallSerialisableArray< LayerNode >();
+    return xReturnValue;
 }
