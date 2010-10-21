@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextureTool", "TextureTool\TextureTool.vcxproj", "{0173AE6E-1E58-49DE-8F79-A233FB5ACDC7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D102268C-2C78-4954-99A9-433EF8F9182F} = {D102268C-2C78-4954-99A9-433EF8F9182F}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextureToolHandlers", "TextureToolHandlers\TextureToolHandlers.vcxproj", "{1F055D42-DB51-42EC-85A1-C3ACA1DA2AB0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLToy", "GLToy\GLToy.vcxproj", "{D102268C-2C78-4954-99A9-433EF8F9182F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Final (Crinkler + No Havok)|Win32 = Final (Crinkler + No Havok)|Win32
+		Final (Demo)|Win32 = Final (Demo)|Win32
+		Final (No Havok)|Win32 = Final (No Havok)|Win32
+		Final|Win32 = Final|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0173AE6E-1E58-49DE-8F79-A233FB5ACDC7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0173AE6E-1E58-49DE-8F79-A233FB5ACDC7}.Debug|Win32.Build.0 = Debug|Win32
+		{0173AE6E-1E58-49DE-8F79-A233FB5ACDC7}.Final (Crinkler + No Havok)|Win32.ActiveCfg = Release|Win32
+		{0173AE6E-1E58-49DE-8F79-A233FB5ACDC7}.Final (Crinkler + No Havok)|Win32.Build.0 = Release|Win32
+		{0173AE6E-1E58-49DE-8F79-A233FB5ACDC7}.Final (Demo)|Win32.ActiveCfg = Release|Win32
+		{0173AE6E-1E58-49DE-8F79-A233FB5ACDC7}.Final (Demo)|Win32.Build.0 = Release|Win32
+		{0173AE6E-1E58-49DE-8F79-A233FB5ACDC7}.Final (No Havok)|Win32.ActiveCfg = Release|Win32
+		{0173AE6E-1E58-49DE-8F79-A233FB5ACDC7}.Final (No Havok)|Win32.Build.0 = Release|Win32
+		{0173AE6E-1E58-49DE-8F79-A233FB5ACDC7}.Final|Win32.ActiveCfg = Release|Win32
+		{0173AE6E-1E58-49DE-8F79-A233FB5ACDC7}.Final|Win32.Build.0 = Release|Win32
+		{0173AE6E-1E58-49DE-8F79-A233FB5ACDC7}.Release|Win32.ActiveCfg = Release|Win32
+		{0173AE6E-1E58-49DE-8F79-A233FB5ACDC7}.Release|Win32.Build.0 = Release|Win32
+		{1F055D42-DB51-42EC-85A1-C3ACA1DA2AB0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1F055D42-DB51-42EC-85A1-C3ACA1DA2AB0}.Final (Crinkler + No Havok)|Win32.ActiveCfg = Release|Win32
+		{1F055D42-DB51-42EC-85A1-C3ACA1DA2AB0}.Final (Crinkler + No Havok)|Win32.Build.0 = Release|Win32
+		{1F055D42-DB51-42EC-85A1-C3ACA1DA2AB0}.Final (Demo)|Win32.ActiveCfg = Release|Win32
+		{1F055D42-DB51-42EC-85A1-C3ACA1DA2AB0}.Final (Demo)|Win32.Build.0 = Release|Win32
+		{1F055D42-DB51-42EC-85A1-C3ACA1DA2AB0}.Final (No Havok)|Win32.ActiveCfg = Release|Win32
+		{1F055D42-DB51-42EC-85A1-C3ACA1DA2AB0}.Final (No Havok)|Win32.Build.0 = Release|Win32
+		{1F055D42-DB51-42EC-85A1-C3ACA1DA2AB0}.Final|Win32.ActiveCfg = Release|Win32
+		{1F055D42-DB51-42EC-85A1-C3ACA1DA2AB0}.Release|Win32.ActiveCfg = Release|Win32
+		{1F055D42-DB51-42EC-85A1-C3ACA1DA2AB0}.Release|Win32.Build.0 = Release|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Debug|Win32.Build.0 = Debug|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (Crinkler + No Havok)|Win32.ActiveCfg = Final (Crinkler + No Havok)|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (Crinkler + No Havok)|Win32.Build.0 = Final (Crinkler + No Havok)|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (Demo)|Win32.ActiveCfg = Final (Demo)|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (Demo)|Win32.Build.0 = Final (Demo)|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (No Havok)|Win32.ActiveCfg = Final (No Havok)|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (No Havok)|Win32.Build.0 = Final (No Havok)|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final|Win32.ActiveCfg = Final|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final|Win32.Build.0 = Final|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Release|Win32.ActiveCfg = Release|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,433 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resources\Graphics">
+      <UniqueIdentifier>{ffb1c2a7-302e-46a2-abc5-4824aebf724f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32">
+      <UniqueIdentifier>{43054817-809c-4ea8-aff0-ed5cf43fecb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\HTML Help Topics">
+      <UniqueIdentifier>{eaf3ee9a-1146-4b9b-a8c4-c84fd0e6e442}</UniqueIdentifier>
+      <Extensions>htm;html</Extensions>
+    </Filter>
+    <Filter Include="Resources\HTML Help Files">
+      <UniqueIdentifier>{547b1208-b932-416c-83ce-d09da087a8c5}</UniqueIdentifier>
+      <Extensions>hhp;hhc;hhk;gif;jpg</Extensions>
+    </Filter>
+    <Filter Include="Win32\Core">
+      <UniqueIdentifier>{ba97484b-68b3-4d66-a8d0-2640c937c51e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\View">
+      <UniqueIdentifier>{1da8a67f-0f16-4115-b2b5-6114a14e7e1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Document">
+      <UniqueIdentifier>{74ae3e0b-1512-405a-a798-2d6149976bbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\UI">
+      <UniqueIdentifier>{25afe2e7-efb0-44e4-8566-0a35a96c517c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="res\TextureTool.rc2">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="hlp\TextureTool.hhk">
+      <Filter>Resources\HTML Help Files</Filter>
+    </None>
+    <None Include="hlp\TextureTool.hhc">
+      <Filter>Resources\HTML Help Files</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_color.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_fileopen.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_filesave.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_find.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_font.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_newtypedlg.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_replace.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\afx_hidp_default.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\afx_hidw_dockbar_top.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\afx_hidw_status_bar.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\afx_hidw_toolbar.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hidr_doc1type.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_app_about.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_app_exit.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_context_help.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_edit_clear.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_edit_clear_all.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_edit_copy.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_edit_cut.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_edit_find.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_edit_paste.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_edit_redo.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_edit_repeat.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_edit_replace.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_edit_undo.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_file_close.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_file_mru_file1.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_file_new.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_file_open.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_file_save.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_file_save_as.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_file_send_mail.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_help_index.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_help_using.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_ht_caption.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_ht_nowhere.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_next_pane.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_prev_pane.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_sc_close.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_sc_maximize.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_sc_minimize.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_sc_move.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_sc_nextwindow.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_sc_prevwindow.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_sc_restore.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_sc_size.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_sc_tasklist.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_view_ruler.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_view_status_bar.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_view_toolbar.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_window_all.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_window_arrange.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_window_cascade.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_window_new.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_window_split.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_window_tile.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_window_tile_horz.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_window_tile_vert.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\main_index.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\menu_edit.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\menu_file.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\menu_help.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\menu_view.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\menu_window.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\scrollbars.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_print.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_printdlg.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_printsetup.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\afx_hidw_preview_bar.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_file_page_setup.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_file_print.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_file_print_preview.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\hid_file_print_setup.htm">
+      <Filter>Resources\HTML Help Topics</Filter>
+    </None>
+    <None Include="hlp\Images\Bullet.gif">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\TextureTool.ico">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\class_view.ico">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\class_view_hc.ico">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\classview.bmp">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\classview_hc.bmp">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\explorer.bmp">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\explorer_hc.bmp">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\file_view.ico">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\file_view_hc.ico">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\fileview.bmp">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\fileview_hc.bmp">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\menuimages.bmp">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\menuimages_hc.bmp">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\output_wnd.ico">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\output_wnd_hc.ico">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\properties.bmp">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\properties_hc.bmp">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\properties_wnd.ico">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\properties_wnd_hc.ico">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\sort.bmp">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\sort_hc.bmp">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\Toolbar.bmp">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="UserImages.bmp">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\Toolbar256.bmp">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="res\TextureToolDoc.ico">
+      <Filter>Resources\Graphics</Filter>
+    </None>
+    <None Include="TextureTool.reg">
+      <Filter>Resources</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Win32\UI\ViewTree.h">
+      <Filter>Win32\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\UI\ChildFrm.h">
+      <Filter>Win32\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\UI\ClassView.h">
+      <Filter>Win32\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\UI\MainFrm.h">
+      <Filter>Win32\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\UI\OutputWnd.h">
+      <Filter>Win32\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\UI\PropertiesWnd.h">
+      <Filter>Win32\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\View\TextureToolView.h">
+      <Filter>Win32\View</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Core\Resource.h">
+      <Filter>Win32\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Core\stdafx.h">
+      <Filter>Win32\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Core\targetver.h">
+      <Filter>Win32\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Core\TextureTool.h">
+      <Filter>Win32\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Document\TextureToolDoc.h">
+      <Filter>Win32\Document</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Win32\UI\ChildFrm.cpp">
+      <Filter>Win32\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\UI\ClassView.cpp">
+      <Filter>Win32\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\UI\MainFrm.cpp">
+      <Filter>Win32\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\UI\OutputWnd.cpp">
+      <Filter>Win32\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\UI\PropertiesWnd.cpp">
+      <Filter>Win32\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\UI\ViewTree.cpp">
+      <Filter>Win32\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\View\TextureToolView.cpp">
+      <Filter>Win32\View</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Core\stdafx.cpp">
+      <Filter>Win32\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Core\TextureTool.cpp">
+      <Filter>Win32\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Document\TextureToolDoc.cpp">
+      <Filter>Win32\Document</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="hlp\TextureTool.hhp">
+      <Filter>Resources\HTML Help Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="Win32\Core\TextureTool.idl">
+      <Filter>Win32\Core</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Win32\Core\TextureTool.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

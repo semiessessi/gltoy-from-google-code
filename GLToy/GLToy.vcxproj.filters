@@ -498,6 +498,9 @@
     <ClCompile Include="Independent\File\GLToy_TextFile.cpp">
       <Filter>Independent\File</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Render\GLToy_Texture_Procedural.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">

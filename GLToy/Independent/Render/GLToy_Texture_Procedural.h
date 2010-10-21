@@ -44,6 +44,14 @@ class GLToy_Texture_Procedural
     {
         INSTRUCTION_FILL = 0,
         INSTRUCTION_NOISE = 1,
+        INSTRUCTION_TILE = 2,
+    };
+
+    enum BlendMode
+    {
+        BLEND_ALPHA = 0,
+        BLEND_MUL = 1,
+        BLEND_ADD = 2,
     };
 
     class LayerNode
@@ -54,8 +62,11 @@ class GLToy_Texture_Procedural
         LayerNode()
         : m_pxChildren( NULL )
         , m_eInstruction( INSTRUCTION_FILL )
+        , m_eBlendMode( BLEND_ALPHA )
         , m_uParam1( 0 )
+        , m_uID( s_uNextID )
         {
+            ++s_uNextID;
         }
 
         ~LayerNode()
@@ -80,10 +91,31 @@ class GLToy_Texture_Procedural
             xReturnValue.m_uParam1 = *reinterpret_cast< const u_int* >( &fFrequency );
         }
 
+        static LayerNode CreateTile( const u_int uFrequency )
+        {
+            LayerNode xReturnValue;
+            xReturnValue.m_uParam1 = uFrequency;
+        }
+
         static LayerNode CreateGroup()
         {
             LayerNode xReturnValue;
             xReturnValue.m_pxChildren = new GLToy_Array< LayerNode >();
+        }
+
+        GLToy_Array< LayerNode >* GetChildren()
+        {
+            return m_pxChildren;
+        }
+
+        const GLToy_Array< LayerNode >* GetChildren() const
+        {
+            return m_pxChildren;
+        }
+
+        u_int GetID() const
+        {
+            return m_uID;
         }
 
         const char* GetInstructionName() const
@@ -99,6 +131,12 @@ class GLToy_Texture_Procedural
                 {
                     return "Noise";
                 }
+
+                case INSTRUCTION_TILE:
+                {
+                    return "Tile";
+                }
+
                 default:
                 {
                     return "Unknown";
@@ -110,19 +148,61 @@ class GLToy_Texture_Procedural
 
         GLToy_Array< LayerNode >* m_pxChildren;
         Instruction m_eInstruction;
+        BlendMode m_eBlendMode;
         u_int m_uParam1;
+        u_int m_uID;
+
+        static u_int s_uNextID;
 
     };
 
 public:
 
     GLToy_Texture_Procedural()
+    : m_xLayers()
     {
     }
 
     virtual ~GLToy_Texture_Procedural() {}
 
+    void AppendFillLayer( const u_int uRGBA = 0 )
+    {
+        m_xLayers.Append( LayerNode::CreateFill( uRGBA ) );
+    }
+
+    void AppendNoiseLayer( const float fFrequency = 32.0f )
+    {
+        m_xLayers.Append( LayerNode::CreateNoise( fFrequency ) );
+    }
+
 protected:
+
+    LayerNode* GetLayerNodeFromID( const u_int uID, GLToy_Array< LayerNode>* pxLayers = NULL )
+    {
+        if( !pxLayers )
+        {
+            pxLayers = &m_xLayers;
+        }
+
+        GLToy_Iterate( LayerNode, xIterator, pxLayers )
+        {
+            LayerNode& xLayerNode = xIterator.Current();
+            if( xLayerNode.GetID() == uID )
+            {
+                return &xLayerNode;
+            }
+            else if( !xLayerNode.IsLeaf() )
+            {
+                LayerNode* pxLayerNode = GetLayerNodeFromID( uID, xLayerNode.GetChildren() );
+                if( pxLayerNode )
+                {
+                    return pxLayerNode;
+                }
+            }
+        }
+
+        return NULL;
+    }
 
     GLToy_Array< LayerNode > m_xLayers;
 

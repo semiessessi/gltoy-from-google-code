@@ -1,0 +1,29 @@
+// TextureTool.idl : type library source for TextureTool.exe
+
+// This file will be processed by the MIDL compiler to produce the
+// type library (TextureTool.tlb).
+
+[ uuid(E76ED4C3-1660-4E3C-8CA3-A95DDE33C0F6), version(1.0) ]
+library TextureTool
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	//  Primary dispatch interface for CTextureToolDoc
+	
+	[ uuid(495A0F44-19FD-494D-A03F-0E28529B4ED1) ]
+	dispinterface ITextureTool
+	{
+		properties:
+			
+		methods:
+	};
+
+	//  Class information for CTextureToolDoc
+	
+	[ uuid(52F7D770-431D-4BB8-8491-A40B52FBC3BB) ]
+	coclass CTextureToolDoc
+	{
+		[default] dispinterface ITextureTool;
+	};
+};

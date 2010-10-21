@@ -1,0 +1,22 @@
+REGEDIT
+; This .REG file may be used by your SETUP program.
+;   If a SETUP program is not available, the entries below will be
+;   registered in your InitInstance automatically with a call to
+;   CWinApp::RegisterShellFileTypes and COleObjectFactory::UpdateRegistryAll.
+
+HKEY_CLASSES_ROOT\.ptx = TextureTool.Document
+HKEY_CLASSES_ROOT\TextureTool.Document\shell\open\command = TextureTool.EXE %1
+HKEY_CLASSES_ROOT\TextureTool.Document\shell\open\ddeexec = [open("%1")]
+HKEY_CLASSES_ROOT\TextureTool.Document\shell\open\ddeexec\application = TextureTool
+    ; note: the application is optional
+    ;  (it defaults to the app name in "command")
+
+HKEY_CLASSES_ROOT\TextureTool.Document = TextureTool.Document
+
+
+HKEY_CLASSES_ROOT\TextureTool.Document\CLSID = {52F7D770-431D-4BB8-8491-A40B52FBC3BB}
+
+HKEY_CLASSES_ROOT\CLSID\{52F7D770-431D-4BB8-8491-A40B52FBC3BB} = TextureTool.Document
+HKEY_CLASSES_ROOT\CLSID\{52F7D770-431D-4BB8-8491-A40B52FBC3BB}\ProgId = TextureTool.Document
+
+HKEY_CLASSES_ROOT\CLSID\{52F7D770-431D-4BB8-8491-A40B52FBC3BB}\LocalServer32 = TextureTool.EXE

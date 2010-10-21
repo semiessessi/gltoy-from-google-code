@@ -1,0 +1,52 @@
+// TextureToolHandlers.idl : IDL source for TextureToolHandlers
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (TextureToolHandlers.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(06ECB85D-2506-4A49-A1C9-9E7D8A9C14A6),
+	pointer_default(unique)
+]
+interface IPreview : IUnknown
+{
+};
+
+[
+	object,
+	uuid(4B44D4E9-5496-4B32-B12E-916F3217693E),
+	pointer_default(unique)
+]
+interface IThumbnail : IUnknown
+{
+};
+
+[
+	uuid(5F505CFB-D000-4540-BCB4-907CDA29A5D4),
+	version(1.0),
+]
+library TextureToolHandlersLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(DD30F1A5-E095-4558-AE42-115AA8E5802E)
+	]
+	coclass Preview
+	{
+		[default] interface IPreviewHandler;
+	};
+	[
+		uuid(D023ED4F-F1C4-43A1-BDB7-ADDCA4178E83)
+	]
+	coclass Thumbnail
+	{
+		[default] interface IThumbnailProvider;
+	};
+};
+
+import "shobjidl.idl";
+import "thumbcache.idl";

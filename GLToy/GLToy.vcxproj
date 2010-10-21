@@ -313,6 +313,7 @@
     <ClCompile Include="Independent\Maths\GLToy_Noise.cpp" />
     <ClCompile Include="Independent\Maths\GLToy_OrientedSpline.cpp" />
     <ClCompile Include="Independent\Render\GLToy_Raytrace_Fullscreen.cpp" />
+    <ClCompile Include="Independent\Render\GLToy_Texture_Procedural.cpp" />
     <ClCompile Include="Independent\Sound\GLToy_Sound.cpp" />
     <ClCompile Include="Independent\Sound\GLToy_Sound_System.cpp" />
     <ClCompile Include="Independent\Test\GLToy_Test_System.cpp" />
