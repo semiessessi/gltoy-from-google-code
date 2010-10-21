@@ -40,6 +40,7 @@ public:
     static void Shutdown();
 
     static void Set( void* const pxMemory, const u_int uBytes, const u_char ucValue );
+    static void SetDWords( void* const pxMemory, const u_int uDWords, const u_int uValue );
 
     static void MarkUninitialised( void* const pxMemory, const u_int uBytes ) { Set( pxMemory, uBytes, 0xCC ); }
     static void MarkDestroyed( void* const pxMemory, const u_int uBytes ) { Set( pxMemory, uBytes, 0xDD ); }

@@ -133,7 +133,7 @@ float GLToy_Noise::Quintic1D( const float fX, const float fFrequency, const floa
     return fScale * GLToy_Maths::QuinticNoiseInterpolate( PRNG( u1 ), PRNG( u2 ), fT - fU1 );
 }
 
-float GLToy_Noise::FractalCosine1D( const float fX, const float fFrequency, const float fScale, const float fFactor, const u_int uDepth )
+float GLToy_Noise::FractalCosine1D( const float fX, const float fFrequency, const float fScale, const float fFactor, const u_int uDepth, const bool bTileable, const u_int uSeed )
 {
     float fValue = 0.0f;
     const float fFrequencyChange = 1.0f / fFactor;
@@ -143,7 +143,7 @@ float GLToy_Noise::FractalCosine1D( const float fX, const float fFrequency, cons
     
     for( u_int u = 0; u < uDepth; ++u )
     {
-        fValue += fFractalScale * ( fValue + Cosine1D( fU, fFractalFrequency, fScale ) );
+        fValue += fFractalScale * ( fValue + Cosine1D( fU, fFractalFrequency, fScale, bTileable ? static_cast< u_int >( fFractalFrequency ) : 0 ) );
 
         fFractalFrequency *= fFrequencyChange;
         fFractalScale *= 0.5f;
@@ -152,7 +152,7 @@ float GLToy_Noise::FractalCosine1D( const float fX, const float fFrequency, cons
     return GLToy_Maths::Clamp( fValue, -fScale, fScale );
 }
 
-float GLToy_Noise::FractalCubic1D( const float fX, const float fFrequency, const float fScale, const float fFactor, const u_int uDepth )
+float GLToy_Noise::FractalCubic1D( const float fX, const float fFrequency, const float fScale, const float fFactor, const u_int uDepth, const bool bTileable, const u_int uSeed )
 {
     float fValue = 0.0f;
     const float fFrequencyChange = 1.0f / fFactor;
@@ -162,7 +162,7 @@ float GLToy_Noise::FractalCubic1D( const float fX, const float fFrequency, const
     
     for( u_int u = 0; u < uDepth; ++u )
     {
-        fValue += fFractalScale * ( fValue + Cubic1D( fU, fFractalFrequency, fScale ) );
+        fValue += fFractalScale * ( fValue + Cubic1D( fU, fFractalFrequency, fScale, bTileable ? static_cast< u_int >( fFractalFrequency ) : 0 ) );
 
         fFractalFrequency *= fFrequencyChange;
         fFractalScale *= 0.5f;
@@ -171,7 +171,7 @@ float GLToy_Noise::FractalCubic1D( const float fX, const float fFrequency, const
     return GLToy_Maths::Clamp( fValue, -fScale, fScale );
 }
 
-float GLToy_Noise::FractalCatmullRom1D( const float fX, const float fFrequency, const float fScale, const float fFactor, const u_int uDepth )
+float GLToy_Noise::FractalCatmullRom1D( const float fX, const float fFrequency, const float fScale, const float fFactor, const u_int uDepth, const bool bTileable, const u_int uSeed )
 {
     float fValue = 0.0f;
     const float fFrequencyChange = 1.0f / fFactor;
@@ -181,7 +181,7 @@ float GLToy_Noise::FractalCatmullRom1D( const float fX, const float fFrequency, 
     
     for( u_int u = 0; u < uDepth; ++u )
     {
-        fValue += fFractalScale * ( fValue + CatmullRom1D( fU, fFractalFrequency, fScale ) );
+        fValue += fFractalScale * ( fValue + CatmullRom1D( fU, fFractalFrequency, fScale, bTileable ? static_cast< u_int >( fFractalFrequency ) : 0 ) );
 
         fFractalFrequency *= fFrequencyChange;
         fFractalScale *= 0.5f;
@@ -345,7 +345,7 @@ float GLToy_Noise::Quintic2D( const float fX, const float fY, const float fFrequ
     return fScale * GLToy_Maths::QuinticNoiseInterpolate( fX1, fX2, fS - fV1 );
 }
 
-float GLToy_Noise::FractalCosine2D( const float fX, const float fY, const float fFrequency, const float fScale, const float fFactor, const u_int uDepth )
+float GLToy_Noise::FractalCosine2D( const float fX, const float fY, const float fFrequency, const float fScale, const float fFactor, const u_int uDepth, const bool bTileable, const u_int uSeed )
 {
     float fValue = 0.0f;
     const float fFrequencyChange = 1.0f / fFactor;
@@ -356,7 +356,7 @@ float GLToy_Noise::FractalCosine2D( const float fX, const float fY, const float 
     
     for( u_int u = 0; u < uDepth; ++u )
     {
-        fValue += fFractalScale * ( fValue + Cosine2D( fU, fV, fFractalFrequency, fScale ) );
+        fValue += fFractalScale * ( fValue + Cosine2D( fU, fV, fFractalFrequency, fScale, bTileable ? static_cast< u_int >( fFractalFrequency ) : 0, uSeed ) );
 
         fFractalFrequency *= fFrequencyChange;
         fFractalScale *= 0.5f;
@@ -365,7 +365,7 @@ float GLToy_Noise::FractalCosine2D( const float fX, const float fY, const float 
     return GLToy_Maths::Clamp( fValue, -fScale, fScale );
 }
 
-float GLToy_Noise::FractalCubic2D( const float fX, const float fY, const float fFrequency, const float fScale, const float fFactor, const u_int uDepth )
+float GLToy_Noise::FractalCubic2D( const float fX, const float fY, const float fFrequency, const float fScale, const float fFactor, const u_int uDepth, const bool bTileable, const u_int uSeed )
 {
     float fValue = 0.0f;
     const float fFrequencyChange = 1.0f / fFactor;
@@ -376,7 +376,7 @@ float GLToy_Noise::FractalCubic2D( const float fX, const float fY, const float f
     
     for( u_int u = 0; u < uDepth; ++u )
     {
-        fValue += fFractalScale * ( fValue + Cubic2D( fU, fV, fFractalFrequency, fScale ) );
+        fValue += fFractalScale * ( fValue + Cubic2D( fU, fV, fFractalFrequency, fScale, bTileable ? static_cast< u_int >( fFractalFrequency ) : 0, uSeed ) );
 
         fFractalFrequency *= fFrequencyChange;
         fFractalScale *= 0.5f;
@@ -385,7 +385,7 @@ float GLToy_Noise::FractalCubic2D( const float fX, const float fY, const float f
     return GLToy_Maths::Clamp( fValue, -fScale, fScale );
 }
 
-float GLToy_Noise::FractalCatmullRom2D( const float fX, const float fY, const float fFrequency, const float fScale, const float fFactor, const u_int uDepth )
+float GLToy_Noise::FractalCatmullRom2D( const float fX, const float fY, const float fFrequency, const float fScale, const float fFactor, const u_int uDepth, const bool bTileable, const u_int uSeed )
 {
     float fValue = 0.0f;
     const float fFrequencyChange = 1.0f / fFactor;
@@ -396,7 +396,7 @@ float GLToy_Noise::FractalCatmullRom2D( const float fX, const float fY, const fl
     
     for( u_int u = 0; u < uDepth; ++u )
     {
-        fValue += fFractalScale * ( fValue + CatmullRom2D( fU, fV, fFractalFrequency, fScale ) );
+        fValue += fFractalScale * ( fValue + CatmullRom2D( fU, fV, fFractalFrequency, fScale, bTileable ? static_cast< u_int >( fFractalFrequency ) : 0, uSeed ) );
 
         fFractalFrequency *= fFrequencyChange;
         fFractalScale *= 0.5f;

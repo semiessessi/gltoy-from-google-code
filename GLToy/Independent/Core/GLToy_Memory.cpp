@@ -133,6 +133,14 @@ void GLToy_Memory::Set( void* const pxMemory, const u_int uBytes, const u_char u
     }
 }
 
+void GLToy_Memory::SetDWords( void* const pxMemory, const u_int uDWords, const u_int uValue )
+{
+    for( u_int u = 0; u < uDWords; ++u )
+    {
+        reinterpret_cast< u_int* >( pxMemory )[ u ] = uValue;
+    }
+}
+
 #ifdef GLTOY_DEBUG
 void* GLToy_ForceCDecl operator new( u_int uSize, const char* szFile, const int iLine )
 {

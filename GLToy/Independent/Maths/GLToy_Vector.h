@@ -149,6 +149,7 @@ public:
     GLToy_Vector_4();
     GLToy_Vector_4( const GLToy_Vector_3& xVector, const float fW = 1.0f );
     GLToy_Vector_4( float fX, float fY, float fZ, float fW );
+    GLToy_Vector_4( const u_int uRGBA );
     GLToy_Vector_4( const GLToy_Vector_4& xVector );
 
     float& operator[] ( int i ) { return m_fComponents[ i ]; }
@@ -158,6 +159,12 @@ public:
     const float* GetFloatPointer() const { return m_fComponents; }
 
     bool operator ==( const GLToy_Vector_4& xVector ) const;
+
+    GLToy_Inline GLToy_Vector_4 operator +( const GLToy_Vector_4& xVector ) const { return GLToy_Vector_4( m_fComponents[ 0 ] + xVector[ 0 ], m_fComponents[ 1 ] + xVector[ 1 ], m_fComponents[ 2 ] + xVector[ 2 ], m_fComponents[ 3 ] + xVector[ 3 ] ); }
+    GLToy_Inline GLToy_Vector_4 operator -( const GLToy_Vector_4& xVector ) const { return GLToy_Vector_4( m_fComponents[ 0 ] - xVector[ 0 ], m_fComponents[ 1 ] - xVector[ 1 ], m_fComponents[ 2 ] - xVector[ 2 ], m_fComponents[ 3 ] - xVector[ 3 ] ); }
+    GLToy_Inline GLToy_Vector_4 operator *( const float fFloat ) const { return GLToy_Vector_4( m_fComponents[ 0 ] * fFloat, m_fComponents[ 1 ] * fFloat, m_fComponents[ 2 ] * fFloat, m_fComponents[ 3 ] * fFloat ); }
+
+    u_int GetRGBA() const;
 
 private:
     

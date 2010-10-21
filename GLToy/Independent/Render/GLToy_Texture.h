@@ -74,6 +74,9 @@ public:
     void Destroy();
     void Bind( const u_int uTextureUnit = 0 ) const;
 
+    u_int* GetRGBADataPointer() { return GLToy_DataParent::GetDataPointer(); }
+    const u_int* GetRGBADataPointer() const { return GLToy_DataParent::GetDataPointer(); }
+
 protected:
 
     GLToy_Texture( const GLToy_String& szName )

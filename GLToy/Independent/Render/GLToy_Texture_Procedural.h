@@ -33,13 +33,24 @@
 
 // GLToy
 #include <Core/Data Structures/GLToy_Array.h>
+#include <Core/Data Structures/GLToy_Stack.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F O R W A R D   D E C L A R A T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+class GLToy_String;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Texture_Procedural
+: public GLToy_Serialisable
 {
+
+public:
+    
     enum Instruction
     {
         INSTRUCTION_FILL = 0,
@@ -52,10 +63,15 @@ class GLToy_Texture_Procedural
         BLEND_ALPHA = 0,
         BLEND_MUL = 1,
         BLEND_ADD = 2,
+        BLEND_SUB = 3,
     };
 
+private:
+
     class LayerNode
+    : public GLToy_Serialisable
     {
+        friend class GLToy_Texture_Procedural;
 
     public:
 
@@ -64,9 +80,24 @@ class GLToy_Texture_Procedural
         , m_eInstruction( INSTRUCTION_FILL )
         , m_eBlendMode( BLEND_ALPHA )
         , m_uParam1( 0 )
+        , m_uParam2( 0 )
         , m_uID( s_uNextID )
         {
             ++s_uNextID;
+        }
+
+        LayerNode( const LayerNode& xLayerNode )
+        : m_pxChildren( NULL )
+        , m_eInstruction( xLayerNode.m_eInstruction )
+        , m_eBlendMode( xLayerNode.m_eBlendMode )
+        , m_uParam1( xLayerNode.m_uParam1 )
+        , m_uParam2( xLayerNode.m_uParam2 )
+        , m_uID( xLayerNode.m_uID )
+        {
+            if( xLayerNode.m_pxChildren )
+            {
+                m_pxChildren = new GLToy_SmallSerialisableArray< LayerNode >( *( xLayerNode.m_pxChildren ) );
+            }
         }
 
         ~LayerNode()
@@ -83,24 +114,29 @@ class GLToy_Texture_Procedural
         {
             LayerNode xReturnValue;
             xReturnValue.m_uParam1 = uRGBA;
+            return xReturnValue;
         }
 
-        static LayerNode CreateNoise( const float fFrequency )
+        static LayerNode CreateNoise( const float fFrequency, const u_int uSeed )
         {
             LayerNode xReturnValue;
             xReturnValue.m_uParam1 = *reinterpret_cast< const u_int* >( &fFrequency );
+            xReturnValue.m_uParam2 = uSeed;
+            return xReturnValue;
         }
 
         static LayerNode CreateTile( const u_int uFrequency )
         {
             LayerNode xReturnValue;
             xReturnValue.m_uParam1 = uFrequency;
+            return xReturnValue;
         }
 
         static LayerNode CreateGroup()
         {
             LayerNode xReturnValue;
-            xReturnValue.m_pxChildren = new GLToy_Array< LayerNode >();
+            xReturnValue.m_pxChildren = new GLToy_SmallSerialisableArray< LayerNode >();
+            return xReturnValue;
         }
 
         GLToy_Array< LayerNode >* GetChildren()
@@ -144,15 +180,23 @@ class GLToy_Texture_Procedural
             }
         }
 
+        virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
+        virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+
+        void Render( const u_int uWidth, const u_int uHeight );
+
     private:
 
-        GLToy_Array< LayerNode >* m_pxChildren;
+        GLToy_SmallSerialisableArray< LayerNode >* m_pxChildren;
         Instruction m_eInstruction;
         BlendMode m_eBlendMode;
         u_int m_uParam1;
+        u_int m_uParam2;
         u_int m_uID;
 
         static u_int s_uNextID;
+
+        static GLToy_Stack< u_int* > s_xRenderStack;
 
     };
 
@@ -170,10 +214,23 @@ public:
         m_xLayers.Append( LayerNode::CreateFill( uRGBA ) );
     }
 
-    void AppendNoiseLayer( const float fFrequency = 32.0f )
+    void AppendNoiseLayer( const float fFrequency = 32.0f, const u_int uSeed = 0 )
     {
-        m_xLayers.Append( LayerNode::CreateNoise( fFrequency ) );
+        m_xLayers.Append( LayerNode::CreateNoise( fFrequency , uSeed ) );
     }
+
+    void CreateTexture( const GLToy_String& szName, const u_int uWidth, const u_int uHeight );
+    void SetBlendMode( const u_int uID, const BlendMode eBlendMode )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_eBlendMode = eBlendMode;
+        }
+    }
+
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
 protected:
 
@@ -204,7 +261,7 @@ protected:
         return NULL;
     }
 
-    GLToy_Array< LayerNode > m_xLayers;
+    GLToy_SmallSerialisableArray< LayerNode > m_xLayers;
 
 };
 

@@ -270,6 +270,14 @@ GLToy_Vector_4::GLToy_Vector_4( float fX, float fY, float fZ, float fW )
     m_fComponents[ 3 ] = fW;
 }
 
+GLToy_Vector_4::GLToy_Vector_4( const u_int uRGBA )
+{
+    m_fComponents[ 0 ] = static_cast< float >( uRGBA & 0xFF ) / 255.0f;
+    m_fComponents[ 1 ] = static_cast< float >( ( uRGBA & 0xFF00 ) >> 8 ) / 255.0f;
+    m_fComponents[ 2 ] = static_cast< float >( ( uRGBA & 0xFF0000 ) >> 16 ) / 255.0f;
+    m_fComponents[ 3 ] = static_cast< float >( uRGBA >> 24 ) / 255.0f;
+}
+
 GLToy_Vector_4::GLToy_Vector_4( const GLToy_Vector_4& xVector )
 {
     m_fComponents[ 0 ] = xVector[ 0 ];
@@ -285,4 +293,12 @@ bool GLToy_Vector_4::operator ==( const GLToy_Vector_4& xVector ) const
         && ( m_fComponents[ 1 ] == xVector[ 1 ] )
         && ( m_fComponents[ 2 ] == xVector[ 2 ] )
         && ( m_fComponents[ 3 ] == xVector[ 3 ] );
+}
+
+u_int GLToy_Vector_4::GetRGBA() const
+{
+    return static_cast< u_int >( GLToy_Maths::Clamp( m_fComponents[ 0 ] * 255.0f, 0.0f, 255.0f ) )
+        | ( static_cast< u_int >( GLToy_Maths::Clamp( m_fComponents[ 1 ] * 255.0f, 0.0f, 255.0f ) ) << 8 )
+        | ( static_cast< u_int >( GLToy_Maths::Clamp( m_fComponents[ 2 ] * 255.0f, 0.0f, 255.0f ) ) << 16 )
+        | ( static_cast< u_int >( GLToy_Maths::Clamp( m_fComponents[ 3 ] * 255.0f, 0.0f, 255.0f ) ) << 24 );
 }

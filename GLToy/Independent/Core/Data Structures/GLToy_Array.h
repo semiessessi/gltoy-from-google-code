@@ -494,10 +494,10 @@ public:
 
     virtual ~GLToy_SerialisableArray()
     {
-        GLToy_Iterate( T, xIterator, this )
-        {
-            xIterator.Current().~T();
-        }
+        //GLToy_Iterate( T, xIterator, this )
+        //{
+        //    xIterator.Current().~T();
+        //}
     }
     
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
@@ -576,6 +576,70 @@ public:
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
     {
         xStream << GetCount();
+
+        GLToy_ConstIterate( T, xIterator, this )
+        {
+            xStream << xIterator.Current();
+        }
+    }
+};
+
+template < class T >
+class GLToy_SmallSerialisableArray
+: public GLToy_SerialisableArray< T >
+{
+
+    typedef GLToy_SerialisableArray< T > GLToy_Parent;
+
+public:
+
+    GLToy_SmallSerialisableArray()
+    : GLToy_Parent()
+    {
+    }
+    
+    GLToy_SmallSerialisableArray( const GLToy_Array< T >& xArray )
+    : GLToy_Parent( xArray )
+    {
+        CopyFrom( &xArray );
+        GLToy_Parent::m_uCount = xArray.m_uCount;
+    }
+    
+    GLToy_SmallSerialisableArray& operator =( const GLToy_DataStructure< T >& xDataStructure )
+    {
+        CopyFrom( &xDataStructure );
+        GLToy_Parent::m_uCount = xDataStructure.GetCount();
+
+        return *this;
+    }
+
+    virtual ~GLToy_SmallSerialisableArray()
+    {
+        //GLToy_Iterate( T, xIterator, this )
+        //{
+        //    xIterator.Current().~T();
+        //}
+    }
+    
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
+    {
+        Clear();
+
+        u_int uCount;
+        xStream.ReadBits( uCount, 6 );
+
+        for( u_int u = 0; u < uCount; ++u )
+        {
+            T xData;
+            xStream >> xData;
+            Append( xData );
+        }
+    }
+
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
+    {
+        GLToy_Assert( GetCount() < 64, "Not allowed more than 63 members in a GLToy_SmallSerialisableArray" );
+        xStream.WriteBits( GetCount(), 6 );
 
         GLToy_ConstIterate( T, xIterator, this )
         {

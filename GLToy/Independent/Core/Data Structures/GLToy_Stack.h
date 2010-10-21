@@ -77,15 +77,16 @@ public:
         return GLToy_Parent::m_pxData[ m_iStackPointer ];
     }
 
-    GLToy_Inline T& Peek()
+    GLToy_Inline T& Peek( const u_int uFromTop = 0 )
     {
-        return GLToy_Parent::m_pxData[ m_iStackPointer ];
+        return GLToy_Parent::m_pxData[ m_iStackPointer - uFromTop ];
     }
     
     GLToy_Inline T Pop()
     {
         T xReturnValue = GLToy_Parent::m_pxData[ m_iStackPointer ];
         GLToy_Parent::m_pxData[ m_iStackPointer ].~T();
+        --m_iStackPointer;
         return xReturnValue;
     }
     
