@@ -896,6 +896,9 @@
     <ClInclude Include="Independent\Maths\GLToy_AlignedVector.h">
       <Filter>Independent\Maths</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\Render\GLToy_Texture_Procedural.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\Default.vs">

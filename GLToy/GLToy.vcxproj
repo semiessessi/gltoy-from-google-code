@@ -513,6 +513,7 @@
     <ClInclude Include="Independent\Maths\GLToy_OrientedSpline.h" />
     <ClInclude Include="Independent\Maths\GLToy_Spline.h" />
     <ClInclude Include="Independent\Render\GLToy_Raytrace_Fullscreen.h" />
+    <ClInclude Include="Independent\Render\GLToy_Texture_Procedural.h" />
     <ClInclude Include="Independent\Render\GLToy_Texture_Renderable.h" />
     <ClInclude Include="Independent\Sound\GLToy_Sound.h" />
     <ClInclude Include="Independent\Sound\GLToy_Sound_Source.h" />

@@ -219,6 +219,11 @@ GLToy_Texture* GLToy_Texture_System::LookUpTextureNoExt( const GLToy_String& szN
         pxTexture = LookUpTexture( szName + ".pcx" );
     }
 
+    if( !pxTexture )
+    {
+        pxTexture = LookUpTexture( szName + ".ptx" );
+    }
+
     return pxTexture;
 }
 
