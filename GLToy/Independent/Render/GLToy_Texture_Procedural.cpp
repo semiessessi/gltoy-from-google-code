@@ -185,7 +185,6 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                 xCombined[ 0 ] *= xColour1[ 0 ];
                 xCombined[ 1 ] *= xColour1[ 1 ];
                 xCombined[ 2 ] *= xColour1[ 2 ];
-                xCombined[ 3 ] *= xColour1[ 3 ];
                 puData[ u ] = xCombined.GetRGBA();
             }
             break;
@@ -210,7 +209,8 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                 const float fAlpha = static_cast< float >( puData[ u ] >> 24 ) / 255.0f;
                 const GLToy_Vector_4 xColour1( puData[ u ] );
                 const GLToy_Vector_4 xColour2( s_xRenderStack.Peek()[ u ] );
-                const GLToy_Vector_4 xCombined = xColour2 - xColour1;
+                GLToy_Vector_4 xCombined = xColour2 - xColour1;
+                xCombined[ 3 ] = 1.0f;
                 puData[ u ] = xCombined.GetRGBA();
             }
             break;

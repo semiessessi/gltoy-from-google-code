@@ -120,6 +120,7 @@ private:
         static LayerNode CreateNoise( const float fFrequency, const u_int uSeed )
         {
             LayerNode xReturnValue;
+            xReturnValue.m_eInstruction = INSTRUCTION_NOISE;
             xReturnValue.m_uParam1 = *reinterpret_cast< const u_int* >( &fFrequency );
             xReturnValue.m_uParam2 = uSeed;
             return xReturnValue;
@@ -128,6 +129,7 @@ private:
         static LayerNode CreateTile( const u_int uFrequency )
         {
             LayerNode xReturnValue;
+            xReturnValue.m_eInstruction = INSTRUCTION_TILE;
             xReturnValue.m_uParam1 = uFrequency;
             return xReturnValue;
         }
@@ -209,14 +211,16 @@ public:
 
     virtual ~GLToy_Texture_Procedural() {}
 
-    void AppendFillLayer( const u_int uRGBA = 0 )
+    u_int AppendFillLayer( const u_int uRGBA = 0 )
     {
         m_xLayers.Append( LayerNode::CreateFill( uRGBA ) );
+        return m_xLayers.End().GetID();
     }
 
-    void AppendNoiseLayer( const float fFrequency = 32.0f, const u_int uSeed = 0 )
+    u_int AppendNoiseLayer( const float fFrequency = 32.0f, const u_int uSeed = 0 )
     {
         m_xLayers.Append( LayerNode::CreateNoise( fFrequency , uSeed ) );
+        return m_xLayers.End().GetID();
     }
 
     void CreateTexture( const GLToy_String& szName, const u_int uWidth, const u_int uHeight );
