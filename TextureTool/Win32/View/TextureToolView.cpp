@@ -138,7 +138,7 @@ void CTextureToolView::OnUpdate( CView* pSender, LPARAM lHint, CObject* pHint )
 	CLayerView* const pxLayerView = GetLayerView();
     if( pxLayerView )
     {
-	    const CTextureToolDoc* const pxDocument = GetDocument();
+	    CTextureToolDoc* const pxDocument = GetDocument();
 	    GLToy_Assert( pxDocument != NULL, "Failed to get document." );
 	    if( !pxDocument )
 	    {
