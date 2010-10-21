@@ -52,6 +52,7 @@ u_int GLToy_Texture_Procedural::LayerNode::s_uNextID = 0;
 
 void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
+    // 4-bits for blend mode and if we have children
     u_int uBlendMode;
     xStream.ReadBits( uBlendMode, 3 );
     m_eBlendMode = static_cast< BlendMode >( uBlendMode );
@@ -60,33 +61,63 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
 
     bool bLeaf;
     xStream >> bLeaf;
+
     if( !bLeaf )
     {
         m_pxChildren = new GLToy_SmallSerialisableArray< LayerNode >();
-        xStream >> m_pxChildren;
+        xStream >> m_pxChildren; // recurse...
     }
     else
     {
+        // in general each instruction is 3 + n*32 bits, where n is 0-3, except extensions which use an extra 8-bits
+        // some are optimised though
         u_int uInstruction;
         xStream.ReadBits( uInstruction, 3 );
         m_pxChildren = NULL;
         m_eInstruction = static_cast< Instruction >( uInstruction );
 
+        m_uParam1 = 0;
+
         switch( m_eInstruction ) // note the deliberate fall-through
         {
             case INSTRUCTION_CIRCLE:
                 xStream >> m_uParam3;
+            
             case INSTRUCTION_NOISE:
             case INSTRUCTION_FBMNOISE:
                 xStream >> m_uParam2;
+            
             default:
-                xStream >> m_uParam1;
+                xStream >> m_uParam1; // TODO: split out noise and compress uParam1 as a 24-bit float - or better a 16-bit fixed point.
+                break;
+
+            case INSTRUCTION_EXTENSION:
+                u_char ucFunction;
+                xStream >> ucFunction;
+                m_eExtensionFunction = static_cast< ExtensionFunction >( ucFunction );
+                break;
+
+            case INSTRUCTION_TILE:
+                // only let there be only up to 31x31 tiles - 5-bits
+                xStream.ReadBits( m_uParam1, 5 );
+                break;
+
+            case INSTRUCTION_SHAPE:
+                // only let there be a maximum of 64 shaping functions - 6-bits
+                xStream.ReadBits( m_uParam1, 6 );
+                break;
+
+            case INSTRUCTION_GRADIENT:
+                // only let there be only up to 16 types of gradient - 4-bits
+                xStream.ReadBits( m_uParam1, 4 );
+                break;
         };
     }
 }
 
 void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
+    // 4-bits for blend mode and if we have children
     xStream.WriteBits( m_eBlendMode, 3 );
 
     xStream << ( m_pxChildren == NULL );
@@ -96,17 +127,41 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
     }
     else
     {
+        // in general each instruction is 3 + n*32 bits, where n is 0-3, except extensions which use an extra 8-bits
+        // some are optimised though
         xStream.WriteBits( m_eInstruction, 3 );
 
         switch( m_eInstruction ) // note the deliberate fall-through
         {
             case INSTRUCTION_CIRCLE:
                 xStream << m_uParam3;
+
             case INSTRUCTION_NOISE:
             case INSTRUCTION_FBMNOISE:
                 xStream << m_uParam2;
+
             default:
-                xStream << m_uParam1;
+                xStream << m_uParam1; // TODO: split out noise and compress uParam1 as a 24-bit float - or better a 16-bit fixed point.
+                break;
+
+            case INSTRUCTION_EXTENSION:
+                xStream << static_cast< u_char >( m_eExtensionFunction );
+                break;
+
+            case INSTRUCTION_TILE:
+                // only let there be only up to 31x31 tiles - 5-bits
+                xStream.WriteBits( m_uParam1, 5 );
+                break;
+            
+            case INSTRUCTION_SHAPE:
+                // only let there be a maximum of 64 shaping functions - 6-bits
+                xStream.WriteBits( m_uParam1, 6 );
+                break;
+
+            case INSTRUCTION_GRADIENT:
+                // only let there be only up to 16 types of gradient - 4-bits
+                xStream.WriteBits( m_uParam1, 4 );
+                break;
         };
     }
 }
@@ -341,6 +396,123 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                 }
                 break;
             }
+
+            case INSTRUCTION_GRADIENT:
+            {
+                GradientStyle eStyle = static_cast< GradientStyle >( m_uParam1 );
+                for( u_int v = 0; v < uHeight; ++v )
+                {
+                    for( u_int u = 0; u < uWidth; ++u )
+                    {
+                        float fLuminance = 0.0f;
+                        switch( eStyle )
+                        {
+                            case GRADIENT_TOP:
+                            {
+                                fLuminance = 1.0f - static_cast< float >( v ) / static_cast< float >( uHeight );
+                                break;
+                            }
+
+                            case GRADIENT_BOTTOM:
+                            {
+                                fLuminance = static_cast< float >( v ) / static_cast< float >( uHeight );
+                                break;
+                            }
+
+                            case GRADIENT_RIGHT:
+                            {
+                                fLuminance = static_cast< float >( u ) / static_cast< float >( uWidth );
+                                break;
+                            }
+
+                            case GRADIENT_LEFT:
+                            {
+                                fLuminance = 1.0f - static_cast< float >( u ) / static_cast< float >( uWidth );
+                                break;
+                            }
+
+                            case GRADIENT_TOP_LEFT:
+                            {
+                                fLuminance = 1.0f - static_cast< float >( v ) / static_cast< float >( uHeight );
+                                fLuminance += 1.0f - static_cast< float >( u ) / static_cast< float >( uWidth );
+                                fLuminance *= 0.5f;
+                                break;
+                            }
+
+                            case GRADIENT_BOTTOM_LEFT:
+                            {
+                                fLuminance = static_cast< float >( v ) / static_cast< float >( uHeight );
+                                fLuminance += 1.0f - static_cast< float >( u ) / static_cast< float >( uWidth );
+                                fLuminance *= 0.5f;
+                                break;
+                            }
+
+                            case GRADIENT_TOP_RIGHT:
+                            {
+                                fLuminance = 1.0f - static_cast< float >( v ) / static_cast< float >( uHeight );
+                                fLuminance += static_cast< float >( u ) / static_cast< float >( uWidth );
+                                fLuminance *= 0.5f;
+                                break;
+                            }
+
+                            case GRADIENT_BOTTOM_RIGHT:
+                            {
+                                fLuminance = static_cast< float >( v ) / static_cast< float >( uHeight );
+                                fLuminance += static_cast< float >( u ) / static_cast< float >( uWidth );
+                                fLuminance *= 0.5f;
+                                break;
+                            }
+
+                            case GRADIENT_RADIAL_OUT:
+                            {
+                                const float fX = static_cast< float >( u << 2 ) / static_cast< float >( uWidth ) - 1.0f;
+                                const float fY = static_cast< float >( v << 2 ) / static_cast< float >( uHeight ) - 1.0f;
+                                fLuminance = GLToy_Maths::Sqrt( fX * fX + fY * fY );
+                                break;
+                            }
+
+                            case GRADIENT_RADIAL_IN:
+                            {
+                                const float fX = static_cast< float >( u << 2 ) / static_cast< float >( uWidth ) - 1.0f;
+                                const float fY = static_cast< float >( v << 2 ) / static_cast< float >( uHeight ) - 1.0f;
+                                fLuminance = 1.0f - GLToy_Maths::Sqrt( fX * fX + fY * fY );
+                                break;
+                            }
+
+                            case GRADIENT_SQUARE_OUT:
+                            {
+                                const float fX = static_cast< float >( u << 2 ) / static_cast< float >( uWidth ) - 1.0f;
+                                const float fY = static_cast< float >( v << 2 ) / static_cast< float >( uHeight ) - 1.0f;
+                                fLuminance = GLToy_Maths::Max( GLToy_Maths::Abs( fX ), GLToy_Maths::Abs( fY ) );
+                                break;
+                            }
+
+                            case GRADIENT_SQUARE_IN:
+                            {
+                                const float fX = static_cast< float >( u << 2 ) / static_cast< float >( uWidth ) - 1.0f;
+                                const float fY = static_cast< float >( v << 2 ) / static_cast< float >( uHeight ) - 1.0f;
+                                fLuminance = 1.0f - GLToy_Maths::Max( GLToy_Maths::Abs( fX ), GLToy_Maths::Abs( fY ) );
+                                break;
+                            }
+
+                            default:
+                            {
+                                break;
+                            }
+                        }
+
+                        GLToy_Vector_4 xOutput = GLToy_Vector_4( fLuminance, fLuminance, fLuminance, 1.0f );
+                        puData[ v * uWidth + u ] = xOutput.GetRGBA();
+                    }
+                }
+                break;
+            }
+
+            case INSTRUCTION_EXTENSION:
+            {
+                // TODO: implement extensions
+                break;
+            }
         }
     }
 
@@ -486,11 +658,38 @@ void GLToy_Texture_Procedural::CreateTexture( const GLToy_String& szName, const 
 
 void GLToy_Texture_Procedural::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
+    // 21-bit header - every bit counts - 16 for "twocc", 5 for version
+
+    char cHeader1, cHeader2;
+    xStream >> cHeader1;
+    xStream >> cHeader2;
+
+    if( cHeader1 != 'P' || cHeader2 != 'T' )
+    {
+        GLToy_Assert( cHeader1 == 'P' && cHeader2 == 'T', "Procedural texture header is invalid!" );
+        return;
+    }
+
+    u_int uVersion;
+    xStream.ReadBits( uVersion, 5 ); // 32 versions should be plenty - we can always hax if it goes over...
+
+    if( uVersion > uCURRENT_VERSION )
+    {
+        GLToy_Assert( uVersion <= uCURRENT_VERSION, "Trying to load unsupported version of procedural texture!" );
+        return;
+    }
+
     xStream >> m_xLayers;
 }
 
 void GLToy_Texture_Procedural::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
+    // 21-bit header - every bit counts - 16 for "twocc", 5 for version
+    xStream.WriteChar( 'P' );
+    xStream.WriteChar( 'T' );
+    xStream.WriteBits( uCURRENT_VERSION, 5 );
+
+    // actual data
     xStream << m_xLayers;
 }
 
@@ -542,6 +741,14 @@ GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateS
     LayerNode xReturnValue;
     xReturnValue.m_eInstruction = INSTRUCTION_SHAPE;
     xReturnValue.m_uParam1 = static_cast< u_int >( eShapeFunction );
+    return xReturnValue;
+}
+
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateGradient( const GradientStyle eGradientStyle )
+{
+    LayerNode xReturnValue;
+    xReturnValue.m_eInstruction = INSTRUCTION_GRADIENT;
+    xReturnValue.m_uParam1 = static_cast< u_int >( eGradientStyle );
     return xReturnValue;
 }
 

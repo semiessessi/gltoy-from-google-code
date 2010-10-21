@@ -59,8 +59,8 @@ public:
         INSTRUCTION_CIRCLE          = 3,
         INSTRUCTION_FBMNOISE        = 4,
         INSTRUCTION_SHAPE           = 5,
-        INSTRUCTION_UNUSED3         = 6,
-        INSTRUCTION_UNUSED4         = 7,
+        INSTRUCTION_GRADIENT        = 6,
+        INSTRUCTION_EXTENSION       = 7,
     };
 
     enum BlendMode
@@ -92,6 +92,49 @@ public:
         SHAPE_CLIPABOVEHALF         = 12,
     };
 
+    enum GradientStyle
+    {
+        GRADIENT_TOP                = 1,
+        GRADIENT_BOTTOM             = 2,
+        GRADIENT_LEFT               = 3,
+        GRADIENT_RIGHT              = 4,
+        GRADIENT_TOP_LEFT           = 5,
+        GRADIENT_BOTTOM_LEFT        = 6,
+        GRADIENT_TOP_RIGHT          = 7,
+        GRADIENT_BOTTOM_RIGHT       = 8,
+        GRADIENT_RADIAL_OUT         = 9,
+        GRADIENT_RADIAL_IN          = 10,
+        GRADIENT_SQUARE_OUT         = 11,
+        GRADIENT_SQUARE_IN          = 12,
+        GRADIENT_UNUSED1            = 13,
+        GRADIENT_UNUSED2            = 14,
+        GRADIENT_UNUSED3            = 15,
+    };
+
+    // extensions I'd like...
+    // - pen - described by splines, driven by user input in tool (requires some more GLToy_Vector_2 implementation I suspect)
+    // - luminance edge find for faking heightmap shading
+    // - general convolutions (say, up to 7x7 with compression for 2d applied twice, symmetrical and each size up from 3x3)
+    // - normal map type functionality
+    //   * half-spheres
+    //   * tubing
+    //   * ribbed surface
+    //   * bevels
+    // - borders
+    // - deformations
+    // - reflections
+    // - rotations
+    // - polygons
+    // - checkerboard
+    // - fancy tile patterns (and matching normal map patterns)
+    // - AVS style colour map
+    enum ExtensionFunction
+    {
+        EXTENSION_UNUSED            = 0,
+    };
+
+    static const u_int uCURRENT_VERSION = 0; // version 0 - added basic functionality
+
 private:
 
     class LayerNode
@@ -105,6 +148,7 @@ private:
         : m_pxChildren( NULL )
         , m_eInstruction( INSTRUCTION_FILL )
         , m_eBlendMode( BLEND_ALPHA )
+        , m_eExtensionFunction( EXTENSION_UNUSED )
         , m_uParam1( 0 )
         , m_uParam2( 0 )
         , m_uParam3( 0 )
@@ -117,6 +161,7 @@ private:
         : m_pxChildren( NULL )
         , m_eInstruction( xLayerNode.m_eInstruction )
         , m_eBlendMode( xLayerNode.m_eBlendMode )
+        , m_eExtensionFunction( xLayerNode.m_eExtensionFunction )
         , m_uParam1( xLayerNode.m_uParam1 )
         , m_uParam2( xLayerNode.m_uParam2 )
         , m_uParam3( xLayerNode.m_uParam3 )
@@ -144,6 +189,7 @@ private:
         static LayerNode CreateCircle( const GLToy_Vector_2& xPosition, const float fRadius, const u_int uRGBA );
         static LayerNode CreateFBMNoise( const float fFrequency, const u_int uSeed );
         static LayerNode CreateShaping( const ShapeFunction m_eShapeFunction );
+        static LayerNode CreateGradient( const GradientStyle m_eGradientStyle );
 
         static LayerNode CreateGroup();
 
@@ -186,6 +232,7 @@ private:
         GLToy_SmallSerialisableArray< LayerNode >* m_pxChildren;
         Instruction m_eInstruction;
         BlendMode m_eBlendMode;
+        ExtensionFunction m_eExtensionFunction;
         
         union
         {
@@ -255,6 +302,12 @@ public:
     u_int AppendShapingLayer( const ShapeFunction eShapeFunction )
     {
         m_xLayers.Append( LayerNode::CreateShaping( eShapeFunction ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendGradientLayer( const GradientStyle eGradientStyle )
+    {
+        m_xLayers.Append( LayerNode::CreateGradient( eGradientStyle ) );
         return m_xLayers.End().GetID();
     }
 
