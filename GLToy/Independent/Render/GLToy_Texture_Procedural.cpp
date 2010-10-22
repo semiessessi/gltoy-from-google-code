@@ -783,7 +783,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                 const GLToy_Vector_4 xColour1( puData[ u ] );
                 const GLToy_Vector_4 xColour2( s_xRenderStack.Peek()[ u ] );
                 GLToy_Vector_4 xCombined = xColour2 - xColour1;
-                xCombined[ 3 ] = 1.0f;
+                xCombined[ 3 ] = xColour2[ 3 ];
                 puData[ u ] = xCombined.GetRGBA();
             }
             break;
