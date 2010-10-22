@@ -324,6 +324,9 @@ public:
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
+    void ReadNoHeader( const char* const pcData, const u_int uLength );
+    void SaveToCPPHeader( const GLToy_String& szName );
+
 protected:
 
     LayerNode* GetLayerNodeFromID( const u_int uID, GLToy_Array< LayerNode>* pxLayers = NULL )

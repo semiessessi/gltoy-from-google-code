@@ -39,12 +39,78 @@
 #include <Demo/JD1_Demo_System.h>
 #include <Demo/JD1_DemoScene_NoiseTest.h>
 
+#include <Maths/GLToy_Maths.h>
+#include <Render/GLToy_Texture.h>
+#include <Render/GLToy_Texture_Procedural.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 bool JD1::Initialise()
 {
+    GLToy_Texture_Procedural xTest;
+
+    xTest.AppendFillLayer( 0xFFFF0000 );
+    
+    u_int uNoiseID = xTest.AppendFBMNoiseLayer( 8.0f );
+    xTest.SetBlendMode( uNoiseID, GLToy_Texture_Procedural::BLEND_LUMINANCE_INTO_ALPHA );
+    xTest.AppendShapingLayer( GLToy_Texture_Procedural::SHAPE_COS_6PI );
+
+    xTest.CreateTexture( "PTX_Test_1", 256, 256 );
+
+    xTest.SaveToCPPHeader( "PTX_Test_1" );
+    
+    GLToy_Texture* pxTexture = GLToy_Texture_System::FindTexture( GLToy_Hash_Constant( "PTX_Test_1" ) );
+    GLToy_Texture_System::SaveTextureTGA( "PTX_Test_1", pxTexture->GetRGBADataPointer(), 256, 256 );
+
+    GLToy_Texture_Procedural xTest2;
+
+    xTest2.AppendFillLayer( 0xFF3F7FFF );
+    
+    uNoiseID = xTest2.AppendFBMNoiseLayer( 2.0f );
+    xTest2.SetBlendMode( uNoiseID, GLToy_Texture_Procedural::BLEND_ADD );
+    uNoiseID = xTest2.AppendFBMNoiseLayer( 4.0f );
+    xTest2.SetBlendMode( uNoiseID, GLToy_Texture_Procedural::BLEND_SUB );
+    xTest2.AppendCircleLayer( GLToy_Vector_2( 0.3f, 0.2f ), 0.1f, 0xFFFFFF00 );
+    u_int uGradientID = xTest2.AppendGradientLayer( GLToy_Texture_Procedural::GRADIENT_RADIAL_IN );
+    xTest2.SetBlendMode( uGradientID, GLToy_Texture_Procedural::BLEND_LUMINANCE_INTO_ALPHA );
+
+    xTest2.CreateTexture( "PTX_Test_2", 256, 256 );
+
+    xTest2.SaveToCPPHeader( "PTX_Test_2" );
+    
+    pxTexture = GLToy_Texture_System::FindTexture( GLToy_Hash_Constant( "PTX_Test_2" ) );
+    GLToy_Texture_System::SaveTextureTGA( "PTX_Test_2", pxTexture->GetRGBADataPointer(), 256, 256 );
+
+    GLToy_Texture_Procedural xTest3;
+
+    xTest3.AppendFillLayer( 0xFF00FF00 );
+    
+    uGradientID = xTest3.AppendGradientLayer( GLToy_Texture_Procedural::GRADIENT_TOP );
+    xTest3.SetBlendMode( uGradientID, GLToy_Texture_Procedural::BLEND_MUL );
+
+    xTest3.CreateTexture( "PTX_Test_3", 256, 256 );
+
+    xTest3.SaveToCPPHeader( "PTX_Test_3" );
+
+    pxTexture = GLToy_Texture_System::FindTexture( GLToy_Hash_Constant( "PTX_Test_3" ) );
+    GLToy_Texture_System::SaveTextureTGA( "PTX_Test_3", pxTexture->GetRGBADataPointer(), 256, 256 );
+
+    GLToy_Texture_Procedural xTest4;
+
+    xTest4.AppendFillLayer( 0xFF3F3F3F );
+    
+    xTest4.AppendCircleLayer( GLToy_Vector_2( 0.5f, 0.5f ), 0.25f, 0xFFFFFFFF );
+    xTest4.AppendTileLayer( 4 );
+
+    xTest4.CreateTexture( "PTX_Test_4", 256, 256 );
+
+    xTest4.SaveToCPPHeader( "PTX_Test_4" );
+
+    pxTexture = GLToy_Texture_System::FindTexture( GLToy_Hash_Constant( "PTX_Test_4" ) );
+    GLToy_Texture_System::SaveTextureTGA( "PTX_Test_4", pxTexture->GetRGBADataPointer(), 256, 256 );
+
     GLToy::ChangeWindowTitle( "JDemo 1" );
 
     GLToy_InitialiserCall( JD1_Demo_System );

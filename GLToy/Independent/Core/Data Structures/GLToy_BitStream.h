@@ -148,6 +148,7 @@ public:
     const char* GetData() const { return m_pcData; }
     void ResetReadPosition() const { m_uReadPos = 0; }
     void SetReadByte( const u_int uByte ) const { m_uReadPos = uByte << 3; }
+    void SeekEnd() { m_uReadPos = m_uNumBytes << 3; m_uPosition = m_uReadPos; }
 
     void IgnoreNBytes( const u_int uN ) const { m_uReadPos += uN << 3; }
     bool HasNMoreBytes( const u_int uN ) { return ( m_uReadPos + ( uN << 3 ) ) <= m_uPosition; }
@@ -159,10 +160,25 @@ public:
 
     virtual bool IsFlat() const { return false; }
 
-    void SetFromByteArray( char* pcData, const u_int uByteCount )
+    void CopyFromByteArray( const char* const pcData, const u_int uByteCount )
     {
         delete m_pcData;
-        m_pcData = pcData;
+        m_pcData = new char[ uByteCount ];
+        for( u_int u = 0; u < uByteCount; ++u )
+        {
+            m_pcData[ u ] = pcData[ u ];
+        }
+
+        SetFromByteArray( m_pcData, uByteCount );
+    }
+
+    void SetFromByteArray( char* pcData, const u_int uByteCount )
+    {
+        if( pcData != m_pcData )
+        {
+            delete m_pcData;
+            m_pcData = pcData;
+        }
         m_uReadPos = 0;
         m_uNumBytes = uByteCount;
         m_uPosition = m_uNumBytes << 3;

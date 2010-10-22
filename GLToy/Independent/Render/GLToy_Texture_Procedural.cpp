@@ -34,6 +34,7 @@
 #include <Render/GLToy_Texture_Procedural.h>
 
 // GLToy
+#include <File/GLToy_File.h>
 #include <Maths/GLToy_Maths.h>
 #include <Maths/GLToy_Noise.h>
 #include <Render/GLToy_Texture.h>
@@ -465,32 +466,32 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
 
                             case GRADIENT_RADIAL_OUT:
                             {
-                                const float fX = static_cast< float >( u << 2 ) / static_cast< float >( uWidth ) - 1.0f;
-                                const float fY = static_cast< float >( v << 2 ) / static_cast< float >( uHeight ) - 1.0f;
+                                const float fX = static_cast< float >( u << 1 ) / static_cast< float >( uWidth ) - 1.0f;
+                                const float fY = static_cast< float >( v << 1 ) / static_cast< float >( uHeight ) - 1.0f;
                                 fLuminance = GLToy_Maths::Sqrt( fX * fX + fY * fY );
                                 break;
                             }
 
                             case GRADIENT_RADIAL_IN:
                             {
-                                const float fX = static_cast< float >( u << 2 ) / static_cast< float >( uWidth ) - 1.0f;
-                                const float fY = static_cast< float >( v << 2 ) / static_cast< float >( uHeight ) - 1.0f;
+                                const float fX = static_cast< float >( u << 1 ) / static_cast< float >( uWidth ) - 1.0f;
+                                const float fY = static_cast< float >( v << 1 ) / static_cast< float >( uHeight ) - 1.0f;
                                 fLuminance = 1.0f - GLToy_Maths::Sqrt( fX * fX + fY * fY );
                                 break;
                             }
 
                             case GRADIENT_SQUARE_OUT:
                             {
-                                const float fX = static_cast< float >( u << 2 ) / static_cast< float >( uWidth ) - 1.0f;
-                                const float fY = static_cast< float >( v << 2 ) / static_cast< float >( uHeight ) - 1.0f;
+                                const float fX = static_cast< float >( u << 1 ) / static_cast< float >( uWidth ) - 1.0f;
+                                const float fY = static_cast< float >( v << 1 ) / static_cast< float >( uHeight ) - 1.0f;
                                 fLuminance = GLToy_Maths::Max( GLToy_Maths::Abs( fX ), GLToy_Maths::Abs( fY ) );
                                 break;
                             }
 
                             case GRADIENT_SQUARE_IN:
                             {
-                                const float fX = static_cast< float >( u << 2 ) / static_cast< float >( uWidth ) - 1.0f;
-                                const float fY = static_cast< float >( v << 2 ) / static_cast< float >( uHeight ) - 1.0f;
+                                const float fX = static_cast< float >( u << 1 ) / static_cast< float >( uWidth ) - 1.0f;
+                                const float fY = static_cast< float >( v << 1 ) / static_cast< float >( uHeight ) - 1.0f;
                                 fLuminance = 1.0f - GLToy_Maths::Max( GLToy_Maths::Abs( fX ), GLToy_Maths::Abs( fY ) );
                                 break;
                             }
@@ -691,6 +692,44 @@ void GLToy_Texture_Procedural::WriteToBitStream( GLToy_BitStream& xStream ) cons
 
     // actual data
     xStream << m_xLayers;
+}
+
+void GLToy_Texture_Procedural::ReadNoHeader( const char* const pcData, const u_int uLength )
+{
+    // to create from constants - save 21-bits on header and assume its the latest version
+    GLToy_BitStream xStream;
+    xStream.CopyFromByteArray( pcData, uLength );
+    xStream.ResetReadPosition();
+    xStream >> m_xLayers;
+}
+
+void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName )
+{
+    GLToy_File xFile( szName + ".h" );
+
+    GLToy_BitStream xStream;
+    xStream << m_xLayers;
+
+    GLToy_String szData = GLToy_String() +
+        "#ifndef __PTX_" + szName + "_H_\r\n"
+        "#define __PTX_" + szName + "_H_\r\n"
+        "static const char acPTX_" + szName + "[] =\r\n"
+        "{\r\n";
+    for( u_int u = 0; u < xStream.GetBytesWritten(); ++u )
+    {
+        GLToy_String szByte;
+        szByte.SetToFormatString( "    0x%X,\r\n", reinterpret_cast< u_char* >( xStream.GetData() )[ u ] );
+        szData += szByte;
+    }
+    szData +=
+        "}\r\n"
+        "#endif\r\n";
+
+    char* szRaw = szData.CreateANSIString();
+
+    GLToy_BitStream xWriteStream;
+    xWriteStream.SetFromByteArray( szRaw, szData.GetCount() - 1 );
+    xFile.WriteFromBitStream( xWriteStream );
 }
 
 GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateFill( const u_int uRGBA )
