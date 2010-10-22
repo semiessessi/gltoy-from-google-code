@@ -53,62 +53,74 @@ public:
     
     enum Instruction
     {
-        INSTRUCTION_FILL            = 0,
-        INSTRUCTION_NOISE           = 1,
-        INSTRUCTION_TILE            = 2,
-        INSTRUCTION_CIRCLE          = 3,
-        INSTRUCTION_FBMNOISE        = 4,
-        INSTRUCTION_SHAPE           = 5,
-        INSTRUCTION_GRADIENT        = 6,
-        INSTRUCTION_EXTENSION       = 7,
+        INSTRUCTION_FILL                    = 0,
+        INSTRUCTION_NOISE                   = 1,
+        INSTRUCTION_TILE                    = 2,
+        INSTRUCTION_CIRCLE                  = 3,
+        INSTRUCTION_FBMNOISE                = 4,
+        INSTRUCTION_SHAPE                   = 5,
+        INSTRUCTION_GRADIENT                = 6,
+        INSTRUCTION_EXTENSION               = 7,
     };
 
     enum BlendMode
     {
-        BLEND_ALPHA                 = 0,
-        BLEND_MUL                   = 1,
-        BLEND_ADD                   = 2,
-        BLEND_SUB                   = 3,
-        BLEND_MAX                   = 4,
-        BLEND_MIN                   = 5,
-        BLEND_LUMINANCE_INTO_ALPHA  = 6,
-        BLEND_REPLACE               = 7,
+        BLEND_ALPHA                         = 0,
+        BLEND_MUL                           = 1,
+        BLEND_ADD                           = 2,
+        BLEND_SUB                           = 3,
+        BLEND_MAX                           = 4,
+        BLEND_MIN                           = 5,
+        BLEND_LUMINANCE_INTO_ALPHA          = 6,
+        BLEND_REPLACE                       = 7,
     };
 
     enum ShapeFunction
     {
-        SHAPE_COS_2PI               = 0,
-        SHAPE_SIN_2PI               = 1,
-        SHAPE_COS_4PI               = 2,
-        SHAPE_SIN_4PI               = 3,
-        SHAPE_COS_6PI               = 4,
-        SHAPE_SIN_6PI               = 5,
-        SHAPE_SQUARE                = 6,
-        SHAPE_SQUAREROOT            = 7,
-        SHAPE_ABS                   = 8,
-        SHAPE_HALF                  = 9,
-        SHAPE_DOUBLE                = 10,
-        SHAPE_CLIPBELOWHALF         = 11,
-        SHAPE_CLIPABOVEHALF         = 12,
+        SHAPE_COS_2PI                       = 0,
+        SHAPE_SIN_2PI                       = 1,
+        SHAPE_COS_4PI                       = 2,
+        SHAPE_SIN_4PI                       = 3,
+        SHAPE_COS_6PI                       = 4,
+        SHAPE_SIN_6PI                       = 5,
+        SHAPE_SQUARE                        = 6,
+        SHAPE_SQUAREROOT                    = 7,
+        SHAPE_ABS                           = 8,
+        SHAPE_HALF                          = 9,
+        SHAPE_DOUBLE                        = 10,
+        SHAPE_CLIPBELOWHALF                 = 11,
+        SHAPE_CLIPABOVEHALF                 = 12,
+        SHAPE_INVERT                        = 13,
+        SHAPE_MIN_50                        = 14,
+        SHAPE_MAX_50                        = 15,
+        SHAPE_MIN_25                        = 16,
+        SHAPE_MAX_25                        = 17,
+        SHAPE_MIN_75                        = 18,
+        SHAPE_MAX_75                        = 19,
+        SHAPE_MIN_10                        = 20,
+        SHAPE_MAX_10                        = 21,
+        SHAPE_MIN_90                        = 22,
+        SHAPE_MAX_90                        = 23,
+        SHAPE_INFINITE_MULTIPLIER           = 24, // 'just' another 40 to use up :)
     };
 
     enum GradientStyle
     {
-        GRADIENT_TOP                = 1,
-        GRADIENT_BOTTOM             = 2,
-        GRADIENT_LEFT               = 3,
-        GRADIENT_RIGHT              = 4,
-        GRADIENT_TOP_LEFT           = 5,
-        GRADIENT_BOTTOM_LEFT        = 6,
-        GRADIENT_TOP_RIGHT          = 7,
-        GRADIENT_BOTTOM_RIGHT       = 8,
-        GRADIENT_RADIAL_OUT         = 9,
-        GRADIENT_RADIAL_IN          = 10,
-        GRADIENT_SQUARE_OUT         = 11,
-        GRADIENT_SQUARE_IN          = 12,
-        GRADIENT_UNUSED1            = 13,
-        GRADIENT_UNUSED2            = 14,
-        GRADIENT_UNUSED3            = 15,
+        GRADIENT_TOP                        = 1,
+        GRADIENT_BOTTOM                     = 2,
+        GRADIENT_LEFT                       = 3,
+        GRADIENT_RIGHT                      = 4,
+        GRADIENT_TOP_LEFT                   = 5,
+        GRADIENT_BOTTOM_LEFT                = 6,
+        GRADIENT_TOP_RIGHT                  = 7,
+        GRADIENT_BOTTOM_RIGHT               = 8,
+        GRADIENT_RADIAL_OUT                 = 9,
+        GRADIENT_RADIAL_IN                  = 10,
+        GRADIENT_SQUARE_OUT                 = 11,
+        GRADIENT_SQUARE_IN                  = 12,
+        GRADIENT_UNUSED1                    = 13,
+        GRADIENT_UNUSED2                    = 14,
+        GRADIENT_UNUSED3                    = 15,
     };
 
     // extensions I'd like...
@@ -125,12 +137,15 @@ public:
     // - reflections
     // - rotations
     // - polygons
-    // - checkerboard
     // - fancy tile patterns (and matching normal map patterns)
     // - AVS style colour map
     enum ExtensionFunction
     {
-        EXTENSION_UNUSED            = 0,
+        EXTENSION_CHECKERBOARD              = 0,
+        EXTENSION_HORIZONTAL_STRIPE         = 1,
+        EXTENSION_VERTICAL_STRIPE           = 2,
+        EXTENSION_DIAGONAL_STRIPE_UPLEFT    = 3,
+        EXTENSION_DIAGONAL_STRIPE_DOWNLEFT  = 4,
     };
 
     static const u_int uCURRENT_VERSION = 0; // version 0 - added basic functionality
@@ -148,7 +163,7 @@ private:
         : m_pxChildren( NULL )
         , m_eInstruction( INSTRUCTION_FILL )
         , m_eBlendMode( BLEND_ALPHA )
-        , m_eExtensionFunction( EXTENSION_UNUSED )
+        , m_eExtensionFunction( EXTENSION_CHECKERBOARD )
         , m_uParam1( 0 )
         , m_uParam2( 0 )
         , m_uParam3( 0 )
@@ -188,8 +203,19 @@ private:
         static LayerNode CreateTile( const u_int uFrequency );
         static LayerNode CreateCircle( const GLToy_Vector_2& xPosition, const float fRadius, const u_int uRGBA );
         static LayerNode CreateFBMNoise( const float fFrequency, const u_int uSeed );
-        static LayerNode CreateShaping( const ShapeFunction m_eShapeFunction );
-        static LayerNode CreateGradient( const GradientStyle m_eGradientStyle );
+        static LayerNode CreateShaping( const ShapeFunction eShapeFunction );
+        static LayerNode CreateGradient( const GradientStyle eGradientStyle );
+        static LayerNode CreateExtension( const ExtensionFunction eExtensionFunction, const u_int uParam1 = 0, const u_int uParam2 = 0, const u_int uParam3 = 0 );
+        
+        static LayerNode CreateExtension( const ExtensionFunction eExtensionFunction, const float fParam1, const u_int uParam2 = 0, const u_int uParam3 = 0 )
+        {
+            CreateExtension( eExtensionFunction, *reinterpret_cast< const u_int* >( &fParam1 ), uParam2, uParam3 );
+        }
+
+        static LayerNode CreateExtension( const ExtensionFunction eExtensionFunction, const float fParam1, const float fParam2, const u_int uParam3 = 0 )
+        {
+            CreateExtension( eExtensionFunction, *reinterpret_cast< const u_int* >( &fParam1 ), *reinterpret_cast< const u_int* >( &fParam2 ), uParam3 );
+        }
 
         static LayerNode CreateGroup();
 
@@ -308,6 +334,36 @@ public:
     u_int AppendGradientLayer( const GradientStyle eGradientStyle )
     {
         m_xLayers.Append( LayerNode::CreateGradient( eGradientStyle ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendCheckerboardLayer()
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( EXTENSION_CHECKERBOARD ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendHorizontalStripeLayer()
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( EXTENSION_HORIZONTAL_STRIPE ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendVerticalStripeLayer()
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( EXTENSION_VERTICAL_STRIPE ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendDiagonalStripeUpLeftLayer()
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( EXTENSION_DIAGONAL_STRIPE_UPLEFT ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendDiagonalStripeDownLeftLayer()
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( EXTENSION_DIAGONAL_STRIPE_DOWNLEFT ) );
         return m_xLayers.End().GetID();
     }
 

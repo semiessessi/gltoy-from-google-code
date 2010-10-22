@@ -92,26 +92,41 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
                 xStream >> m_uParam1; // TODO: split out noise and compress uParam1 as a 24-bit float - or better a 16-bit fixed point.
                 break;
 
-            case INSTRUCTION_EXTENSION:
-                u_char ucFunction;
-                xStream >> ucFunction;
-                m_eExtensionFunction = static_cast< ExtensionFunction >( ucFunction );
-                break;
-
             case INSTRUCTION_TILE:
+            {
                 // only let there be only up to 31x31 tiles - 5-bits
                 xStream.ReadBits( m_uParam1, 5 );
                 break;
+            }
 
             case INSTRUCTION_SHAPE:
+            {
                 // only let there be a maximum of 64 shaping functions - 6-bits
                 xStream.ReadBits( m_uParam1, 6 );
                 break;
+            }
 
             case INSTRUCTION_GRADIENT:
+            {
                 // only let there be only up to 16 types of gradient - 4-bits
                 xStream.ReadBits( m_uParam1, 4 );
                 break;
+            }
+
+            case INSTRUCTION_EXTENSION:
+            {
+                u_char ucFunction;
+                xStream >> ucFunction;
+                m_eExtensionFunction = static_cast< ExtensionFunction >( ucFunction );
+                
+                //switch( m_eExtensionFunction )
+                //{
+                //    default:
+                //        break;
+                //}
+                
+                break;
+            }
         };
     }
 }
@@ -145,24 +160,39 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
                 xStream << m_uParam1; // TODO: split out noise and compress uParam1 as a 24-bit float - or better a 16-bit fixed point.
                 break;
 
-            case INSTRUCTION_EXTENSION:
-                xStream << static_cast< u_char >( m_eExtensionFunction );
-                break;
-
             case INSTRUCTION_TILE:
+            {
                 // only let there be only up to 31x31 tiles - 5-bits
                 xStream.WriteBits( m_uParam1, 5 );
                 break;
+            }
             
             case INSTRUCTION_SHAPE:
+            {
                 // only let there be a maximum of 64 shaping functions - 6-bits
                 xStream.WriteBits( m_uParam1, 6 );
                 break;
+            }
 
             case INSTRUCTION_GRADIENT:
+            {
                 // only let there be only up to 16 types of gradient - 4-bits
                 xStream.WriteBits( m_uParam1, 4 );
                 break;
+            }
+
+            case INSTRUCTION_EXTENSION:
+            {
+                xStream << static_cast< u_char >( m_eExtensionFunction );
+
+                //switch( m_eExtensionFunction )
+                //{
+                //    default:
+                //        break;
+                //}
+                
+                break;
+            }
         };
     }
 }
@@ -387,6 +417,114 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                             break;
                         }
 
+                        case SHAPE_INVERT:
+                        {
+                            xDest[ 0 ] = 1.0f - xSource[ 0 ];
+                            xDest[ 1 ] = 1.0f - xSource[ 1 ];
+                            xDest[ 2 ] = 1.0f - xSource[ 2 ];
+                            xDest[ 3 ] = 1.0f - xSource[ 3 ];
+                            break;
+                        }
+                        
+                        case SHAPE_MIN_50:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Min( xSource[ 0 ], 0.5f );
+                            xDest[ 1 ] = GLToy_Maths::Min( xSource[ 1 ], 0.5f );
+                            xDest[ 2 ] = GLToy_Maths::Min( xSource[ 2 ], 0.5f );
+                            xDest[ 3 ] = GLToy_Maths::Min( xSource[ 3 ], 0.5f );
+                            break;
+                        }
+
+                        case SHAPE_MAX_50:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Max( xSource[ 0 ], 0.5f );
+                            xDest[ 1 ] = GLToy_Maths::Max( xSource[ 1 ], 0.5f );
+                            xDest[ 2 ] = GLToy_Maths::Max( xSource[ 2 ], 0.5f );
+                            xDest[ 3 ] = GLToy_Maths::Max( xSource[ 3 ], 0.5f );
+                            break;
+                        }
+
+                        case SHAPE_MIN_25:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Min( xSource[ 0 ], 0.25f );
+                            xDest[ 1 ] = GLToy_Maths::Min( xSource[ 1 ], 0.25f );
+                            xDest[ 2 ] = GLToy_Maths::Min( xSource[ 2 ], 0.25f );
+                            xDest[ 3 ] = GLToy_Maths::Min( xSource[ 3 ], 0.25f );
+                            break;
+                        }
+
+                        case SHAPE_MAX_25:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Max( xSource[ 0 ], 0.25f );
+                            xDest[ 1 ] = GLToy_Maths::Max( xSource[ 1 ], 0.25f );
+                            xDest[ 2 ] = GLToy_Maths::Max( xSource[ 2 ], 0.25f );
+                            xDest[ 3 ] = GLToy_Maths::Max( xSource[ 3 ], 0.25f );
+                            break;
+                        }
+
+                        case SHAPE_MIN_75:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Min( xSource[ 0 ], 0.75f );
+                            xDest[ 1 ] = GLToy_Maths::Min( xSource[ 1 ], 0.75f );
+                            xDest[ 2 ] = GLToy_Maths::Min( xSource[ 2 ], 0.75f );
+                            xDest[ 3 ] = GLToy_Maths::Min( xSource[ 3 ], 0.75f );
+                            break;
+                        }
+
+                        case SHAPE_MAX_75:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Max( xSource[ 0 ], 0.75f );
+                            xDest[ 1 ] = GLToy_Maths::Max( xSource[ 1 ], 0.75f );
+                            xDest[ 2 ] = GLToy_Maths::Max( xSource[ 2 ], 0.75f );
+                            xDest[ 3 ] = GLToy_Maths::Max( xSource[ 3 ], 0.75f );
+                            break;
+                        }
+
+                        case SHAPE_MIN_10:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Min( xSource[ 0 ], 0.10f );
+                            xDest[ 1 ] = GLToy_Maths::Min( xSource[ 1 ], 0.10f );
+                            xDest[ 2 ] = GLToy_Maths::Min( xSource[ 2 ], 0.10f );
+                            xDest[ 3 ] = GLToy_Maths::Min( xSource[ 3 ], 0.10f );
+                            break;
+                        }
+
+                        case SHAPE_MAX_10:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Max( xSource[ 0 ], 0.10f );
+                            xDest[ 1 ] = GLToy_Maths::Max( xSource[ 1 ], 0.10f );
+                            xDest[ 2 ] = GLToy_Maths::Max( xSource[ 2 ], 0.10f );
+                            xDest[ 3 ] = GLToy_Maths::Max( xSource[ 3 ], 0.10f );
+                            break;
+                        }
+
+                        case SHAPE_MIN_90:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Min( xSource[ 0 ], 0.90f );
+                            xDest[ 1 ] = GLToy_Maths::Min( xSource[ 1 ], 0.90f );
+                            xDest[ 2 ] = GLToy_Maths::Min( xSource[ 2 ], 0.90f );
+                            xDest[ 3 ] = GLToy_Maths::Min( xSource[ 3 ], 0.90f );
+                            break;
+                        }
+
+                        case SHAPE_MAX_90:
+                        {
+                            xDest[ 0 ] = GLToy_Maths::Max( xSource[ 0 ], 0.90f );
+                            xDest[ 1 ] = GLToy_Maths::Max( xSource[ 1 ], 0.90f );
+                            xDest[ 2 ] = GLToy_Maths::Max( xSource[ 2 ], 0.90f );
+                            xDest[ 3 ] = GLToy_Maths::Max( xSource[ 3 ], 0.90f );
+                            break;
+                        }
+
+                        case SHAPE_INFINITE_MULTIPLIER:
+                        {
+                            xDest[ 0 ] = xSource[ 0 ] > 0.0f ? 1.0f : 0.0f;
+                            xDest[ 1 ] = xSource[ 1 ] > 0.0f ? 1.0f : 0.0f;
+                            xDest[ 2 ] = xSource[ 2 ] > 0.0f ? 1.0f : 0.0f;
+                            xDest[ 3 ] = xSource[ 3 ] > 0.0f ? 1.0f : 0.0f;
+                            break;
+                        }
+
                         default:
                         {
                             break;
@@ -512,6 +650,82 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
             case INSTRUCTION_EXTENSION:
             {
                 // TODO: implement extensions
+                switch( m_eExtensionFunction )
+                {
+                    case EXTENSION_CHECKERBOARD:
+                    {
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {
+                                const float fX = static_cast< float >( u << 1 ) / static_cast< float >( uWidth ) - 1.0f;
+                                const float fY = static_cast< float >( v << 1 ) / static_cast< float >( uHeight ) - 1.0f;
+                                puData[ v * uWidth + u ] = ( fX * fY >= 0.0f ) ? 0xFFFFFFFF : 0x00000000;
+                            }
+                        }
+                        break;
+                    }
+
+                    case EXTENSION_HORIZONTAL_STRIPE:
+                    {
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {
+                                const float fY = static_cast< float >( v << 1 ) / static_cast< float >( uHeight ) - 1.0f;
+                                puData[ v * uWidth + u ] = ( fY >= 0.0f ) ? 0xFFFFFFFF : 0x00000000;
+                            }
+                        }
+                        break;
+                    }
+
+                    case EXTENSION_VERTICAL_STRIPE:
+                    {
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {
+                                const float fX = static_cast< float >( u << 1 ) / static_cast< float >( uWidth ) - 1.0f;
+                                puData[ v * uWidth + u ] = ( fX >= 0.0f ) ? 0xFFFFFFFF : 0x00000000;
+                            }
+                        }
+                        break;
+                    }
+
+                    case EXTENSION_DIAGONAL_STRIPE_UPLEFT:
+                    {
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {
+                                const float fX = static_cast< float >( u << 1 ) / static_cast< float >( uWidth ) - 1.0f;
+                                const float fY = static_cast< float >( v << 1 ) / static_cast< float >( uHeight ) - 1.0f;
+                                puData[ v * uWidth + u ] =
+                                    ( fX + fY >= 0.0f )
+                                        ? ( fX + fY >= 1.0f ) ? 0xFFFFFFFF : 0x00000000
+                                        : ( fX + fY < -1.0f ) ? 0x00000000 : 0xFFFFFFFF;
+                            }
+                        }
+                        break;
+                    }
+
+                    case EXTENSION_DIAGONAL_STRIPE_DOWNLEFT:
+                    {
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {
+                                const float fX = static_cast< float >( u << 1 ) / static_cast< float >( uWidth ) - 1.0f;
+                                const float fY = static_cast< float >( v << 1 ) / static_cast< float >( uHeight ) - 1.0f;
+                                puData[ v * uWidth + u ] =
+                                    ( fX + fY < 0.0f )
+                                        ? ( fX + fY < 1.0f ) ? 0xFFFFFFFF : 0x00000000
+                                        : ( fX + fY >= -1.0f ) ? 0x00000000 : 0xFFFFFFFF;
+                            }
+                        }
+                        break;
+                    }
+                }
                 break;
             }
         }
@@ -788,6 +1002,17 @@ GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateG
     LayerNode xReturnValue;
     xReturnValue.m_eInstruction = INSTRUCTION_GRADIENT;
     xReturnValue.m_uParam1 = static_cast< u_int >( eGradientStyle );
+    return xReturnValue;
+}
+
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateExtension( const ExtensionFunction eExtensionFunction, const u_int uParam1, const u_int uParam2, const u_int uParam3 )
+{
+    LayerNode xReturnValue;
+    xReturnValue.m_eInstruction = INSTRUCTION_EXTENSION;
+    xReturnValue.m_eExtensionFunction = eExtensionFunction;
+    xReturnValue.m_uParam1 = uParam1;
+    xReturnValue.m_uParam2 = uParam2;
+    xReturnValue.m_uParam3 = uParam3;
     return xReturnValue;
 }
 
