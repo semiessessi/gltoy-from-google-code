@@ -54,7 +54,7 @@
 static const GLToy_String szFragmentShader =
 "varying vec3 xDirection;"
 "varying vec3 xPosition;"
-"uniform sampler2D xTexture;"
+//"uniform sampler2D xTexture;"
 
 //// the function we are finding the isosurface for
 //"float surface( vec3 xPosition )"
@@ -80,9 +80,9 @@ static const GLToy_String szFragmentShader =
     "vec3 xSolution = xNormalisedDirection * fT + xPosition;"
     "fT = max( ( xPosition.y > 1.0 ) ? fT : 0.0, 0.0 );" // always start at the view plane or further
 
-    "for( int i = 0; i < 19; ++i )" // increase this on a better card - something like... 50?
+    "for( int i = 0; i < 64; ++i )" // increase this on a better card - something like... 50?
     "{"
-        "xSolution += xNormalisedDirection * max( distancefield( xSolution ), 0.0 );"
+        "xSolution += xNormalisedDirection * 0.5 * max( distancefield( xSolution ), 0.0 );"
     "}"
 
 /*
@@ -122,9 +122,9 @@ static const GLToy_String szFragmentShader =
     "vec3 xNormal = normalize( vec3( fXP - fXM, 1.0, fZP - fZM ) );"
     
     //"gl_FragDepth = 1.0;" //gl_DepthRange.diff / xSolution.z;
-    "float fLight = max( dot( -xNormalisedDirection, xNormal ), 0.0 );"
+    "float fLight = max( 1.2 * dot( -xNormalisedDirection, xNormal ), 0.0 );"
     "vec4 xColour = vec4( fLight, fLight, fLight, 1.0 );"
-    "gl_FragColor = xColour;"
+    "gl_FragColor = xColour * noise2d( xSolution.xz );"
 "}"
 ;
 

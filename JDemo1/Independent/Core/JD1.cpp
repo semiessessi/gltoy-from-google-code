@@ -51,7 +51,7 @@ bool JD1::Initialise()
 {
     GLToy_Texture_Procedural xTest;
 
-    xTest.AppendFillLayer( 0xFFFF0000 );
+    xTest.AppendFillLayer( 0xFFFFFFFF );
     
     u_int uID = xTest.AppendDiagonalStripeUpLeftLayer();
     xTest.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_SUB );
