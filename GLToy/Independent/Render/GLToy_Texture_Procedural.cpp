@@ -45,7 +45,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 GLToy_Stack< u_int* > GLToy_Texture_Procedural::LayerNode::s_xRenderStack;
-u_int GLToy_Texture_Procedural::LayerNode::s_uNextID = 0;
+u_int GLToy_Texture_Procedural::LayerNode::s_uNextID = 1;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -262,10 +262,8 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
             case INSTRUCTION_CIRCLE:
             {
                 // TODO: some filtering
-                // cubic isn't good enough for high frequencies, but would be a good start
-                // maybe constuct some mipmaps?
-                const float fCentreX = static_cast< float >( m_uParam1 & 0xFFFF ) / 65535.0f;
-                const float fCentreY = static_cast< float >( m_uParam1 >> 16 ) / 65535.0f;
+                const float fCentreX = static_cast< float >( m_ausParam1[ 1 ] ) / 65535.0f;
+                const float fCentreY = static_cast< float >( m_ausParam1[ 0 ] ) / 65535.0f;
                 const float fRadius = m_fParam2;
                 for( u_int v = 0; v < uHeight; ++v )
                 {
@@ -927,6 +925,7 @@ void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName )
     GLToy_String szData = GLToy_String() +
         "#ifndef __PTX_" + szName + "_H_\r\n"
         "#define __PTX_" + szName + "_H_\r\n"
+        "\r\n"
         "static const char acPTX_" + szName + "[] =\r\n"
         "{\r\n";
     for( u_int u = 0; u < xStream.GetBytesWritten(); ++u )
@@ -937,6 +936,7 @@ void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName )
     }
     szData +=
         "}\r\n"
+        "\r\n"
         "#endif\r\n";
 
     char* szRaw = szData.CreateANSIString();
@@ -944,6 +944,112 @@ void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName )
     GLToy_BitStream xWriteStream;
     xWriteStream.SetFromByteArray( szRaw, szData.GetCount() - 1 );
     xFile.WriteFromBitStream( xWriteStream );
+}
+
+u_int GLToy_Texture_Procedural::MoveLayerAfter( const u_int uID, const u_int uAfterID )
+{
+    GLToy_Array< LayerNode >* pxArray = GetParentArrayFromID( uAfterID );
+
+    if( !pxArray )
+    {
+        return 0;
+    }
+
+    LayerNode* pxChild = GetLayerNodeFromID( uID );
+    if( !pxChild )
+    {
+        return 0;
+    }
+    
+    LayerNode xCopy( *pxChild );
+    xCopy.AssignNewID();
+    DeleteLayerNodeFromID( uID );
+
+    u_int uIndex = GetIndexInArrayFromID( uAfterID );
+    if( uAfterID == ( pxArray->GetCount() - 1 ) )
+    {
+        pxArray->Append( xCopy );
+    }
+    else
+    {
+        pxArray->InsertAt( uAfterID + 1, xCopy );
+    }
+
+    return xCopy.GetID();
+}
+
+u_int GLToy_Texture_Procedural::MoveLayerBefore( const u_int uID, const u_int uBeforeID )
+{
+    GLToy_Array< LayerNode >* pxArray = GetParentArrayFromID( uBeforeID );
+
+    if( !pxArray )
+    {
+        return 0;
+    }
+
+    LayerNode* pxChild = GetLayerNodeFromID( uID );
+    if( !pxChild )
+    {
+        return 0;
+    }
+    
+    LayerNode xCopy( *pxChild );
+    xCopy.AssignNewID();
+    DeleteLayerNodeFromID( uID );
+
+    u_int uIndex = GetIndexInArrayFromID( uBeforeID );
+
+    pxArray->InsertAt( uBeforeID, xCopy );
+
+    return xCopy.GetID();
+}
+
+u_int GLToy_Texture_Procedural::MoveLayerUnder( const u_int uID, const u_int uUnderID )
+{
+    LayerNode* pxParent = GetLayerNodeFromID( uUnderID );
+    if( !pxParent || !pxParent->IsLeaf() )
+    {
+        return 0;
+    }
+
+    LayerNode* pxChild = GetLayerNodeFromID( uID );
+    if( !pxChild )
+    {
+        return 0;
+    }
+
+    LayerNode xCopy( *pxChild );
+    xCopy.AssignNewID();
+    DeleteLayerNodeFromID( uID );
+
+    pxParent->GetChildren()->Append( xCopy );
+    return xCopy.GetID();
+}
+
+u_int GLToy_Texture_Procedural::MoveLayerToOwnGroup( const u_int uID )
+{
+    GLToy_Array< LayerNode >* pxArray = GetParentArrayFromID( uID );
+
+    if( !pxArray )
+    {
+        return 0;
+    }
+
+    LayerNode xLayerNode = LayerNode::CreateGroup();
+    pxArray->Append( xLayerNode );
+
+    LayerNode* pxChild = GetLayerNodeFromID( uID );
+    if( !pxChild )
+    {
+        return 0;
+    }
+    
+    LayerNode xCopy( *pxChild );
+    xCopy.AssignNewID();
+    DeleteLayerNodeFromID( uID );
+
+    xLayerNode.GetChildren()->Append( xCopy );
+    return xCopy.GetID();
 }
 
 GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateFill( const u_int uRGBA )
@@ -974,7 +1080,8 @@ GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateC
 {
     LayerNode xReturnValue;
     xReturnValue.m_eInstruction = INSTRUCTION_CIRCLE;
-    xReturnValue.m_uParam1 = static_cast< u_int >( GLToy_Maths::Clamp( xPosition[ 0 ] ) * 65535.0f ) | ( static_cast< u_int >( GLToy_Maths::Clamp( xPosition[ 1 ] ) * 65535.0f ) << 16 );
+    xReturnValue.m_ausParam1[ 0 ] = static_cast< u_short >( GLToy_Maths::Clamp( xPosition[ 0 ] ) * 65535.0f );
+    xReturnValue.m_ausParam1[ 1 ] = static_cast< u_short >( GLToy_Maths::Clamp( xPosition[ 1 ] ) * 65535.0f );
     xReturnValue.m_fParam2 = fRadius;
     xReturnValue.m_uParam3 = uRGBA;
     return xReturnValue;

@@ -198,6 +198,12 @@ private:
             return m_pxChildren == NULL;
         }
 
+        void AssignNewID()
+        {
+            m_uID = s_uNextID;
+            ++s_uNextID;
+        }
+
         static LayerNode CreateFill( const u_int uRGBA );
         static LayerNode CreateNoise( const float fFrequency, const u_int uSeed );
         static LayerNode CreateTile( const u_int uFrequency );
@@ -217,14 +223,30 @@ private:
             CreateExtension( eExtensionFunction, *reinterpret_cast< const u_int* >( &fParam1 ), *reinterpret_cast< const u_int* >( &fParam2 ), uParam3 );
         }
 
+        static LayerNode CreateExtension( const ExtensionFunction eExtensionFunction, const u_char ucParam1, const u_char ucParam2 = 0, const u_char ucParam3 = 0, const u_char ucParam4 = 0 )
+        {
+            union
+            {
+                u_int u;
+                u_char auc[4];
+            };
+
+            auc[ 0 ] = ucParam1;
+            auc[ 1 ] = ucParam2;
+            auc[ 2 ] = ucParam3;
+            auc[ 3 ] = ucParam4;
+
+            CreateExtension( eExtensionFunction, u );
+        }
+
         static LayerNode CreateGroup();
 
-        GLToy_Array< LayerNode >* GetChildren()
+        GLToy_SmallSerialisableArray< LayerNode >* GetChildren()
         {
             return m_pxChildren;
         }
 
-        const GLToy_Array< LayerNode >* GetChildren() const
+        const GLToy_SmallSerialisableArray< LayerNode >* GetChildren() const
         {
             return m_pxChildren;
         }
@@ -264,18 +286,24 @@ private:
         {
             u_int m_uParam1;
             float m_fParam1;
+            u_char m_aucParam1[ 4 ];
+            u_short m_ausParam1[ 2 ];
         }
         ;
         union
         {
             u_int m_uParam2;
             float m_fParam2;
+            u_char m_aucParam2[ 4 ];
+            u_short m_ausParam2[ 2 ];
         };
 
         union
         {
             u_int m_uParam3;
             float m_fParam3;
+            u_char m_aucParam3[ 4 ];
+            u_short m_ausParam3[ 2 ];
         };
 
         u_int m_uID;
@@ -367,6 +395,11 @@ public:
         return m_xLayers.End().GetID();
     }
 
+    u_int MoveLayerAfter( const u_int uID, const u_int uAfterID );
+    u_int MoveLayerBefore( const u_int uID, const u_int uBeforeID );
+    u_int MoveLayerUnder( const u_int uID, const u_int uUnderID );
+    u_int MoveLayerToOwnGroup( const u_int uID );
+
     void CreateTexture( const GLToy_String& szName, const u_int uWidth, const u_int uHeight );
     void SetBlendMode( const u_int uID, const BlendMode eBlendMode )
     {
@@ -385,7 +418,7 @@ public:
 
 protected:
 
-    LayerNode* GetLayerNodeFromID( const u_int uID, GLToy_Array< LayerNode>* pxLayers = NULL )
+    LayerNode* GetLayerNodeFromID( const u_int uID, GLToy_SmallSerialisableArray< LayerNode>* pxLayers = NULL )
     {
         if( !pxLayers )
         {
@@ -410,6 +443,88 @@ protected:
         }
 
         return NULL;
+    }
+
+    bool DeleteLayerNodeFromID( const u_int uID, GLToy_SmallSerialisableArray< LayerNode>* pxLayers = NULL )
+    {
+        if( !pxLayers )
+        {
+            pxLayers = &m_xLayers;
+        }
+
+        GLToy_Iterate( LayerNode, xIterator, pxLayers )
+        {
+            LayerNode& xLayerNode = xIterator.Current();
+            if( xLayerNode.GetID() == uID )
+            {
+                pxLayers->RemoveAt( xIterator.Index() );
+                return true;
+            }
+            else if( !xLayerNode.IsLeaf() )
+            {
+                bool bDeleted = DeleteLayerNodeFromID( uID, xLayerNode.GetChildren() );
+                if( bDeleted )
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    GLToy_SmallSerialisableArray< LayerNode >* GetParentArrayFromID( const u_int uID, GLToy_SmallSerialisableArray< LayerNode >* pxLayers = NULL )
+    {
+        if( !pxLayers )
+        {
+            pxLayers = &m_xLayers;
+        }
+
+        GLToy_Iterate( LayerNode, xIterator, pxLayers )
+        {
+            LayerNode& xLayerNode = xIterator.Current();
+            if( xLayerNode.GetID() == uID )
+            {
+                return pxLayers;
+            }
+            else if( !xLayerNode.IsLeaf() )
+            {
+                LayerNode* pxLayerNode = GetLayerNodeFromID( uID, xLayerNode.GetChildren() );
+                if( pxLayerNode )
+                {
+                    return xLayerNode.GetChildren();
+                }
+            }
+        }
+
+        return NULL;
+    }
+
+    u_int GetIndexInArrayFromID( const u_int uID, GLToy_SmallSerialisableArray< LayerNode >* pxLayers = NULL )
+    {
+        if( !pxLayers )
+        {
+            pxLayers = &m_xLayers;
+        }
+
+        GLToy_Iterate( LayerNode, xIterator, pxLayers )
+        {
+            LayerNode& xLayerNode = xIterator.Current();
+            if( xLayerNode.GetID() == uID )
+            {
+                return xIterator.Index();
+            }
+            else if( !xLayerNode.IsLeaf() )
+            {
+                const u_int uChildID = GetIndexInArrayFromID( uID, xLayerNode.GetChildren() );
+                if( uChildID != 0xFFFFFFFF )
+                {
+                    return uChildID;
+                }
+            }
+        }
+
+        return 0xFFFFFFFF;
     }
 
     GLToy_SmallSerialisableArray< LayerNode > m_xLayers;
