@@ -53,10 +53,8 @@ bool JD1::Initialise()
 
     xTest.AppendFillLayer( 0xFFFF0000 );
     
-    u_int uID = xTest.AppendCheckerboardLayer();
+    u_int uID = xTest.AppendDiagonalStripeUpLeftLayer();
     xTest.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_SUB );
-
-    xTest.AppendTileLayer( 4 );
 
     xTest.CreateTexture( "Test_1", 256, 256 );
 

@@ -717,8 +717,8 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                                 const float fY = static_cast< float >( v << 1 ) / static_cast< float >( uHeight ) - 1.0f;
                                 puData[ v * uWidth + u ] =
                                     ( fX + fY < 0.0f )
-                                        ? ( fX + fY < 1.0f ) ? 0xFFFFFFFF : 0x00000000
-                                        : ( fX + fY >= -1.0f ) ? 0x00000000 : 0xFFFFFFFF;
+                                        ? ( fX + fY >= -1.0f ) ? 0x00000000 : 0xFFFFFFFF
+                                        : ( fX + fY < 1.0f ) ? 0xFFFFFFFF : 0x00000000;
                             }
                         }
                         break;
