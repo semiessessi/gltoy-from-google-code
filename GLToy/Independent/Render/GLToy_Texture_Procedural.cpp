@@ -647,7 +647,6 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
 
             case INSTRUCTION_EXTENSION:
             {
-                // TODO: implement extensions
                 switch( m_eExtensionFunction )
                 {
                     case EXTENSION_CHECKERBOARD:

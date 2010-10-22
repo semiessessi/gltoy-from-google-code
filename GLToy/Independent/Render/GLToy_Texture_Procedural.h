@@ -127,17 +127,10 @@ public:
     // - pen - described by splines, driven by user input in tool (requires some more GLToy_Vector_2 implementation I suspect)
     // - luminance edge find for faking heightmap shading
     // - general convolutions (say, up to 7x7 with compression for 2d applied twice, symmetrical and each size up from 3x3)
-    // - normal map type functionality
-    //   * half-spheres
-    //   * tubing
-    //   * ribbed surface
-    //   * bevels
-    // - borders
     // - deformations
     // - reflections
     // - rotations
     // - polygons
-    // - fancy tile patterns (and matching normal map patterns)
     // - AVS style colour map
     enum ExtensionFunction
     {
@@ -146,6 +139,26 @@ public:
         EXTENSION_VERTICAL_STRIPE           = 2,
         EXTENSION_DIAGONAL_STRIPE_UPLEFT    = 3,
         EXTENSION_DIAGONAL_STRIPE_DOWNLEFT  = 4,
+
+        // some stuff for baked in highlights and normal maps
+        // EXTENSION_SET_HIGHLIGHT_DIRECTION
+        // EXTENSION_SET_HIGHLIGHT_COLOUR
+        // EXTENSION_HEIGHTMAP_HIGHLIGHT
+        // EXTENSION_HEIGHTMAP_NORMALS
+
+        // to cover things like bricks, floor tiles etc...
+        // EXTENSION_PATTERN
+        // EXTENSION_PATTERN_NORMALS
+
+        // normal mapping
+        // EXTENSION_NORMAL_MAP_HALFSPHERE
+        // EXTENSION_NORMAL_MAP_METALLUMPS
+        // EXTENSION_NORMAL_MAP_RIBBED
+
+        // bevels/borders
+        // EXTENSION_BORDER
+        // EXTENSION_BEVEL
+        // EXTENSION_BEVEL_NORMALS
     };
 
     static const u_int uCURRENT_VERSION = 0; // version 0 - added basic functionality
