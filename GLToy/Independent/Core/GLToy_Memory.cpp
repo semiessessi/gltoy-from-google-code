@@ -79,7 +79,9 @@ typedef GLToy_MemoryTreeBase< GLToy_MemoryRecord, void* > GLToy_MemoryTree;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef GLTOY_DEBUG
+#ifndef GLTOY_NO_MEMORY
 static GLToy_MemoryTree g_xMap;
+#endif
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +96,9 @@ bool GLToy_Memory::Initialise()
 void GLToy_Memory::Shutdown()
 {
 #ifdef GLTOY_DEBUG
+#ifndef GLTOY_NO_MEMORY
     g_xMap.Clear();
+#endif
 #endif
 }
 
@@ -144,20 +148,35 @@ void GLToy_Memory::SetDWords( void* const pxMemory, const u_int uDWords, const u
 #ifdef GLTOY_DEBUG
 void* GLToy_ForceCDecl operator new( u_int uSize, const char* szFile, const int iLine )
 {
+
+#ifndef GLTOY_NO_MEMORY
     GLToy_MemoryRecord xRecord = { uSize, GLToy_String( szFile ) + " @ line " + iLine };
+#endif
     void* const pxAllocation = GLToy_Memory::Platform_Allocate( uSize );
 
+#ifndef GLTOY_NO_MEMORY
     g_xMap.AddNode( xRecord, pxAllocation );
+#endif
 
     GLToy_Memory::MarkUninitialised( pxAllocation, uSize );
 
     return pxAllocation;
 }
 
+void* GLToy_ForceCDecl operator new[]( u_int uSize, const char* szFile, const int iLine )
+{
+    return ::operator new( uSize, szFile, iLine );
+}
+
 // in case exceptions get thrown... which they shouldn't - ever
-void operator delete( void* pxMemory, const char* szFile, const int iLine )
+void GLToy_ForceCDecl operator delete( void* pxMemory, const char* szFile, const int iLine )
 {
     delete pxMemory;
+}
+
+void GLToy_ForceCDecl operator delete[]( void* pxMemory, const char* szFile, const int iLine )
+{
+    ::operator delete( pxMemory, szFile, iLine );
 }
 #endif
 
@@ -170,6 +189,7 @@ void* GLToy_ForceCDecl operator new( u_int uSize )
 void GLToy_ForceCDecl operator delete( void* pxMemory )
 {
 #ifdef GLTOY_DEBUG
+#ifndef GLTOY_NO_MEMORY
     const GLToy_MemoryRecord* const pxRecord = g_xMap.FindData( pxMemory );
     if( pxRecord )
     {
@@ -177,8 +197,20 @@ void GLToy_ForceCDecl operator delete( void* pxMemory )
         g_xMap.Remove( pxMemory );
     }
 #endif
+#endif
 
     GLToy_Memory::Platform_Free( pxMemory );
 }
+
+void* GLToy_ForceCDecl operator new[]( u_int uSize )
+{
+	return ::operator new( uSize );
+}
+
+void GLToy_ForceCDecl operator delete[]( void* pxMemory )
+{
+	::operator delete( pxMemory );
+}
 #endif
+
 #include <Core/GLToy_Memory_DebugOn.h>

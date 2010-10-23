@@ -58,7 +58,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_NO_MEMORY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\GLToy\Independent;..\GLToy\Win32;Independent\;Win32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>Win32/Core/stdafx.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -372,6 +372,7 @@ echo.
 echo.
 </Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Making help file...</Message>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </CustomBuild>
     <None Include="ReadMe.txt" />
     <None Include="res\classview.bmp" />
@@ -410,7 +411,7 @@ echo.
     <ClInclude Include="Win32\Core\TextureTool.h" />
     <ClInclude Include="Win32\Document\TextureToolDoc.h" />
     <ClInclude Include="Win32\UI\ChildFrm.h" />
-    <ClInclude Include="Win32\UI\ClassView.h" />
+    <ClInclude Include="Win32\UI\LayerView.h" />
     <ClInclude Include="Win32\UI\MainFrm.h" />
     <ClInclude Include="Win32\UI\OutputWnd.h" />
     <ClInclude Include="Win32\UI\PropertiesWnd.h" />
@@ -422,7 +423,7 @@ echo.
     <ClCompile Include="Win32\Core\TextureTool.cpp" />
     <ClCompile Include="Win32\Document\TextureToolDoc.cpp" />
     <ClCompile Include="Win32\UI\ChildFrm.cpp" />
-    <ClCompile Include="Win32\UI\ClassView.cpp" />
+    <ClCompile Include="Win32\UI\LayerView.cpp" />
     <ClCompile Include="Win32\UI\MainFrm.cpp" />
     <ClCompile Include="Win32\UI\OutputWnd.cpp" />
     <ClCompile Include="Win32\UI\PropertiesWnd.cpp" />

@@ -30,7 +30,7 @@ protected:
 	CClassToolBar m_wndToolBar;
 	CViewTree m_wndClassView;
 	CImageList m_ClassViewImages;
-	UINT m_nCurrSort;
+	//UINT m_nCurrSort;
     CTextureToolDoc* m_pxCurrentDocument;
 
 // Overrides
@@ -41,16 +41,19 @@ protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
-	//afx_msg void OnClassAddMemberFunction();
-	//afx_msg void OnClassAddMemberVariable();
-	//afx_msg void OnClassDefinition();
-	//afx_msg void OnClassProperties();
-	afx_msg void OnNewLayer();
 	afx_msg void OnPaint();
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg LRESULT OnChangeActiveTab(WPARAM, LPARAM);
-	afx_msg void OnSort(UINT id);
-	afx_msg void OnUpdateSort(CCmdUI* pCmdUI);
+
+    afx_msg void OnGroup();
+    afx_msg void OnFlatColour();
+    afx_msg void OnNoiseLow();
+    afx_msg void OnNoiseHigh();
+    afx_msg void OnNoiseFractal();
+
+    void AddToTree( const u_int uID, HTREEITEM hParent );
+
+    CTextureToolDoc* GetDocument();
 
 	DECLARE_MESSAGE_MAP()
 };

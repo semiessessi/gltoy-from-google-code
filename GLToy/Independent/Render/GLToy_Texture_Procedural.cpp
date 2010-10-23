@@ -847,7 +847,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
     delete[] puOld;
 }
 
-void GLToy_Texture_Procedural::CreateTexture( const GLToy_String& szName, const u_int uWidth, const u_int uHeight )
+u_int* GLToy_Texture_Procedural::CreateRGBA( const u_int uWidth, const u_int uHeight )
 {
     u_int* puData = new u_int[ uWidth * uHeight ];
 
@@ -862,6 +862,13 @@ void GLToy_Texture_Procedural::CreateTexture( const GLToy_String& szName, const 
     }
 
     puData = LayerNode::s_xRenderStack.Pop();
+
+    return puData;
+}
+
+void GLToy_Texture_Procedural::CreateTexture( const GLToy_String& szName, const u_int uWidth, const u_int uHeight )
+{
+    u_int* const puData = CreateRGBA( uWidth, uHeight );
 
     GLToy_Texture_System::CreateTextureFromRGBAData( szName.GetHash(), puData, uWidth, uHeight );
 

@@ -52,6 +52,10 @@
     #define GLTOY_DEMO
 #endif
 
+#ifdef _NO_MEMORY
+    #define GLTOY_NO_MEMORY
+#endif
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // T Y P E D E F S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -149,6 +153,9 @@ class GLToy
 public:
 
     static int EntryPoint();
+    static void SilentEntryPoint(); // for libraries etc that need systems
+    static void SilentShutdown();
+
     static bool Resize( const int& iWidth, const int& iHeight );
     static void UpdateBuffers();
 
@@ -171,6 +178,8 @@ public:
 	// a bit hacky but very useful for small projects
 	static void SetGloballyQuitWithEscape( const bool bEscapeQuits = true ) { s_bEscapeQuits = bEscapeQuits; }
 	static bool GetGloballyQuitWithEscape() { return s_bEscapeQuits; }
+
+    static bool IsSilent() { return s_bSilent; }
 
 private:
 
@@ -205,6 +214,7 @@ private:
     static bool s_bQuitFlag;
     static bool s_bHasFocus;
 	static bool s_bEscapeQuits;
+    static bool s_bSilent;
 
 #ifdef WIN32
     friend unsigned int WndProc( unsigned int uWindowHandle, unsigned int uMessage,

@@ -4,7 +4,7 @@
 
 #include <Core/stdafx.h>
 #include <UI/MainFrm.h>
-#include <UI/ClassView.h>
+#include <UI/LayerView.h>
 #include <Core/Resource.h>
 #include <Core/TextureTool.h>
 
@@ -42,7 +42,6 @@ IMPLEMENT_SERIAL(CLayerViewMenuButton, CMFCToolBarMenuButton, 1)
 CLayerView::CLayerView()
 : m_pxCurrentDocument( NULL )
 {
-	m_nCurrSort = ID_SORTING_GROUPBYTYPE;
 }
 
 CLayerView::~CLayerView()
@@ -53,15 +52,15 @@ BEGIN_MESSAGE_MAP(CLayerView, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
-	//ON_COMMAND(ID_CLASS_ADD_MEMBER_FUNCTION, OnClassAddMemberFunction)
-	//ON_COMMAND(ID_CLASS_ADD_MEMBER_VARIABLE, OnClassAddMemberVariable)
-	//ON_COMMAND(ID_CLASS_DEFINITION, OnClassDefinition)
-	//ON_COMMAND(ID_CLASS_PROPERTIES, OnClassProperties)
-	ON_COMMAND(ID_NEW_LAYER, OnNewLayer)
+    ON_COMMAND( ID_ADDLAYER_GROUP, OnGroup )
+	ON_COMMAND( ID_ADDLAYER_FLATCOLOUR, OnFlatColour )
+    ON_COMMAND( ID_NOISE_LOWFREQUENCY, OnNoiseLow )
+    ON_COMMAND( ID_NOISE_HIGHFREQUENCY, OnNoiseHigh )
+    ON_COMMAND( ID_NOISE_FRACTAL, OnNoiseFractal )
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
-	ON_COMMAND_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnSort)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnUpdateSort)
+	//ON_COMMAND_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnSort)
+	//ON_UPDATE_COMMAND_UI_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnUpdateSort)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -85,8 +84,8 @@ int CLayerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	// Load images:
-	m_wndToolBar.Create(this, AFX_DEFAULT_TOOLBAR_STYLE, IDR_SORT);
-	m_wndToolBar.LoadToolBar(IDR_SORT, 0, 0, TRUE /* Is locked */);
+	m_wndToolBar.Create(this, AFX_DEFAULT_TOOLBAR_STYLE, IDR_LAYERVIEW);
+	m_wndToolBar.LoadToolBar(IDR_LAYERVIEW, 0, 0, TRUE /* Is locked */);
 
 	OnChangeVisualStyle();
 
@@ -98,19 +97,19 @@ int CLayerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// All commands will be routed via this control , not via the parent frame:
 	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
 
-	CMenu menuSort;
-	menuSort.LoadMenu(IDR_POPUP_SORT);
+    CMenu xMenu;
+	xMenu.LoadMenu( IDR_LAYERVIEW_MENU );
 
-	m_wndToolBar.ReplaceButton(ID_SORT_MENU, CLayerViewMenuButton(menuSort.GetSubMenu(0)->GetSafeHmenu()));
+	m_wndToolBar.ReplaceButton( ID_NEW_LAYER, CLayerViewMenuButton( xMenu.GetSubMenu( 0 )->GetSafeHmenu() ) );
 
-	CLayerViewMenuButton* pButton =  DYNAMIC_DOWNCAST(CLayerViewMenuButton, m_wndToolBar.GetButton(0));
+	CLayerViewMenuButton* pButton =  DYNAMIC_DOWNCAST( CLayerViewMenuButton, m_wndToolBar.GetButton( 0 ) );
 
-	if (pButton != NULL)
+	if( pButton != NULL )
 	{
 		pButton->m_bText = FALSE;
 		pButton->m_bImage = TRUE;
-		pButton->SetImage(GetCmdMgr()->GetCmdImage(m_nCurrSort));
-		pButton->SetMessageWnd(this);
+		pButton->SetImage( 4 ); // TODO: get the right image - its not that important though - make stuff work! :)
+		pButton->SetMessageWnd( this );
 	}
 
 	return 0;
@@ -128,6 +127,31 @@ void CLayerView::ClearLayerView()
     m_pxCurrentDocument = NULL;
 }
 
+void CLayerView::AddToTree( const u_int uID, HTREEITEM hParent )
+{
+    if( !m_pxCurrentDocument )
+    {
+        return;
+    }
+
+    GLToy_Texture_Procedural& xTexture = m_pxCurrentDocument->GetTexture();
+    for( u_int u = 0; u < xTexture.GetLayerCount( uID ); ++u )
+    {
+        const u_int uChildID = xTexture.GetLayerIDFromIndex( u, uID ); 
+        const bool bGroup = xTexture.GetLayerCount( uChildID ) > 0;
+        CString sLabel( xTexture.GetLayerName( uChildID ) );
+        HTREEITEM hLayer = m_wndClassView.InsertItem( sLabel, bGroup ? 2 : 1, bGroup ? 2 : 1, hParent );
+        m_wndClassView.SetItemData( hLayer, uChildID );
+
+        if( bGroup )
+        {
+            AddToTree( uChildID, hLayer );
+        }
+    }
+
+    m_wndClassView.Expand( hParent, TVE_EXPAND );
+}
+
 void CLayerView::InitialiseLayerView( CTextureToolDoc& xDocument )
 {
     ClearLayerView();
@@ -136,6 +160,9 @@ void CLayerView::InitialiseLayerView( CTextureToolDoc& xDocument )
 
 	HTREEITEM hRoot = m_wndClassView.InsertItem( xDocument.GetTitle(), 0, 0 );
 	m_wndClassView.SetItemState( hRoot, TVIS_BOLD, TVIS_BOLD );
+    m_wndClassView.SetItemData( hRoot, NULL );
+
+    AddToTree( 0, hRoot );
 
 	// just leaving this here so I don't have to think too hard about adding stuff to the tree...
 	/*
@@ -194,21 +221,29 @@ void CLayerView::OnContextMenu(CWnd* pWnd, CPoint point)
 		HTREEITEM hTreeItem = pWndTree->HitTest(ptTree, &flags);
 		if (hTreeItem != NULL)
 		{
-			pWndTree->SelectItem(hTreeItem);
+			pWndTree->SelectItem( hTreeItem );
+            const u_int uID = pWndTree->GetItemData( hTreeItem );
+
+            CPropertiesWnd* pxProperties = static_cast< CMainFrame* >( GetParentFrame() )->GetProperties();
+            if( pxProperties )
+            {
+                pxProperties->UpdateFromID( GetDocument(), uID );
+            }
+            // TODO: something about item specific menu items
 		}
 	}
 
 	pWndTree->SetFocus();
-	CMenu menu;
-	menu.LoadMenu(IDR_POPUP_SORT);
+    CMenu xMenu;
+    xMenu.LoadMenu( IDR_LAYERVIEW_MENU );
 
-	CMenu* pSumMenu = menu.GetSubMenu(0);
+	CMenu* pxSubMenu = xMenu.GetSubMenu( 0 );
 
 	if (AfxGetMainWnd()->IsKindOf(RUNTIME_CLASS(CMDIFrameWndEx)))
 	{
 		CMFCPopupMenu* pPopupMenu = new CMFCPopupMenu;
 
-		if (!pPopupMenu->Create(this, point.x, point.y, (HMENU)pSumMenu->m_hMenu, FALSE, TRUE))
+		if (!pPopupMenu->Create(this, point.x, point.y, (HMENU)pxSubMenu->m_hMenu, FALSE, TRUE))
 			return;
 
 		((CMDIFrameWndEx*)AfxGetMainWnd())->OnShowPopupMenu(pPopupMenu);
@@ -237,33 +272,88 @@ BOOL CLayerView::PreTranslateMessage(MSG* pMsg)
 	return CDockablePane::PreTranslateMessage(pMsg);
 }
 
-void CLayerView::OnSort(UINT id)
+CTextureToolDoc* CLayerView::GetDocument()
 {
-	if (m_nCurrSort == id)
-	{
-		return;
-	}
+    CWinApp* pxApplication = AfxGetApp();
+    if( !pxApplication )
+    {
+        return NULL;
+    }
 
-	m_nCurrSort = id;
+    POSITION xPosition = pxApplication->GetFirstDocTemplatePosition();
+    if( !xPosition )
+    {
+        return NULL;
+    }
 
-	CLayerViewMenuButton* pButton =  DYNAMIC_DOWNCAST(CLayerViewMenuButton, m_wndToolBar.GetButton(0));
+    CDocTemplate* pxTemplate = pxApplication->GetNextDocTemplate( xPosition );
+    if( !pxTemplate )
+    {
+        return NULL;
+    }
 
-	if (pButton != NULL)
-	{
-		pButton->SetImage(GetCmdMgr()->GetCmdImage(id));
-		m_wndToolBar.Invalidate();
-		m_wndToolBar.UpdateWindow();
-	}
+    xPosition = pxTemplate->GetFirstDocPosition();
+    if( !xPosition )
+    {
+        return NULL;
+    }
+
+    return static_cast< CTextureToolDoc* >( pxTemplate->GetNextDoc( xPosition ) );
 }
 
-void CLayerView::OnUpdateSort(CCmdUI* pCmdUI)
+void CLayerView::OnGroup()
 {
-	pCmdUI->SetCheck(pCmdUI->m_nID == m_nCurrSort);
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    pxDocument->AppendGroup();
 }
 
-void CLayerView::OnNewLayer()
+void CLayerView::OnFlatColour()
 {
-	AfxMessageBox(_T("New Layer..."));
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    pxDocument->AppendFlatColour();
+}
+
+void CLayerView::OnNoiseLow()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    pxDocument->AppendNoiseLow();
+}
+
+void CLayerView::OnNoiseHigh()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    pxDocument->AppendNoiseHigh();
+}
+
+void CLayerView::OnNoiseFractal()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    pxDocument->AppendNoiseFractal();
 }
 
 void CLayerView::OnPaint()
@@ -312,5 +402,5 @@ void CLayerView::OnChangeVisualStyle()
 	m_wndClassView.SetImageList(&m_ClassViewImages, TVSIL_NORMAL);
 
 	m_wndToolBar.CleanUpLockedImages();
-	m_wndToolBar.LoadBitmap(theApp.m_bHiColorIcons ? IDB_SORT_24 : IDR_SORT, 0, 0, TRUE /* Locked */);
+	m_wndToolBar.LoadBitmap(theApp.m_bHiColorIcons ? IDB_SORT_24 : IDR_LAYERVIEW, 0, 0, TRUE /* Locked */);
 }

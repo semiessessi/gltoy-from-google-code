@@ -122,6 +122,11 @@ void ( __stdcall* Platform_GLToy_Render::s_pfnSetAttribute4f )( u_int uAttribute
 
 bool Platform_GLToy_Render::Initialise()
 {
+    if( GLToy::IsSilent() )
+    {
+        return true;
+    }
+
     GLToy_DebugOutput( "\r\nPlatform_GLToy_Render::Initialise() - Initialising Graphics\r\n" );
 
     glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );

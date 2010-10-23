@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <UI/ClassView.h>
+#include <UI/LayerView.h>
 #include <UI/OutputWnd.h>
 #include <UI/PropertiesWnd.h>
 
@@ -27,6 +27,8 @@ public:
 
 	CLayerView* GetLayerView() { return &m_wndClassView; }
 	const CLayerView* GetLayerView() const { return &m_wndClassView; }
+    CPropertiesWnd* GetProperties() { return &m_wndProperties; }
+	const CPropertiesWnd* GetProperties() const { return &m_wndProperties; }
 
 // Implementation
 public:

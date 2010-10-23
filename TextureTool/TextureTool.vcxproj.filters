@@ -351,9 +351,6 @@
     <ClInclude Include="Win32\UI\ChildFrm.h">
       <Filter>Win32\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Win32\UI\ClassView.h">
-      <Filter>Win32\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Win32\UI\MainFrm.h">
       <Filter>Win32\UI</Filter>
     </ClInclude>
@@ -382,12 +379,12 @@
       <Filter>Win32\Document</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Win32\UI\LayerView.h">
+      <Filter>Win32\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\UI\ChildFrm.cpp">
-      <Filter>Win32\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32\UI\ClassView.cpp">
       <Filter>Win32\UI</Filter>
     </ClCompile>
     <ClCompile Include="Win32\UI\MainFrm.cpp">
@@ -413,6 +410,9 @@
     </ClCompile>
     <ClCompile Include="Win32\Document\TextureToolDoc.cpp">
       <Filter>Win32\Document</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\UI\LayerView.cpp">
+      <Filter>Win32\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

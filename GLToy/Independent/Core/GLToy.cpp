@@ -73,11 +73,24 @@ bool GLToy::s_bQuitFlag = false;
 bool GLToy::s_bHasFocus = false;
 bool GLToy::s_bEscapeQuits = true;
 
+bool GLToy::s_bSilent = false;
+
 static char szDebugMessageBuffer[ uDEBUGOUTPUT_MAX_LENGTH ];
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+void GLToy::SilentEntryPoint()
+{
+    s_bSilent = true;
+    Initialise();
+}
+
+void GLToy::SilentShutdown()
+{
+    Shutdown();
+}
 
 int GLToy::EntryPoint()
 {
@@ -148,7 +161,11 @@ bool GLToy::Initialise()
 
     GLToy_InitialiserCall( GLToy_Memory );
     GLToy_InitialiserCall( GLToy_Maths );
-    GLToy_InitialiserCall( GLToy_Input_System );
+    
+    if( !s_bSilent )
+    {
+        GLToy_InitialiserCall( GLToy_Input_System );
+    }
 
     if( !Platform_EarlyInitialise() )
     {
@@ -159,13 +176,19 @@ bool GLToy::Initialise()
     GLToy_InitialiserCall( GLToy_Console );
 
 #ifndef GLTOY_DEMO
-    GLToy_InitialiserCall( GLToy_UI_System );
+    if( !s_bSilent )
+    {
+        GLToy_InitialiserCall( GLToy_UI_System );
+    }
 #endif
 
     GLToy_InitialiserCall( GLToy_State_System );
 #ifndef GLTOY_DEMO
-    GLToy_InitialiserCall( GLToy_Physics_System );
-    GLToy_InitialiserCall( GLToy_Sound_System );
+    if( !s_bSilent )
+    {
+        GLToy_InitialiserCall( GLToy_Physics_System );
+        GLToy_InitialiserCall( GLToy_Sound_System );
+    }
 #endif
 
     if( !Platform_LateInitialise() )
@@ -220,14 +243,20 @@ void GLToy::Shutdown()
 #endif
 
 #ifndef GLTOY_DEMO
-    GLToy_Physics_System::Shutdown();
-    GLToy_Sound_System::Shutdown();
+    if( !s_bSilent )
+    {
+        GLToy_Physics_System::Shutdown();
+        GLToy_Sound_System::Shutdown();
+    }
 #endif
 
     GLToy_State_System::Shutdown();
 
 #ifndef GLTOY_DEMO
-    GLToy_UI_System::Shutdown();
+    if( !s_bSilent )
+    {
+        GLToy_UI_System::Shutdown();
+    }
 #endif
 
     GLToy_Console::Shutdown();

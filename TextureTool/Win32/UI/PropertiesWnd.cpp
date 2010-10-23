@@ -59,10 +59,6 @@ BEGIN_MESSAGE_MAP(CPropertiesWnd, CDockablePane)
 	ON_UPDATE_COMMAND_UI(ID_EXPAND_ALL, OnUpdateExpandAllProperties)
 	ON_COMMAND(ID_SORTPROPERTIES, OnSortProperties)
 	ON_UPDATE_COMMAND_UI(ID_SORTPROPERTIES, OnUpdateSortProperties)
-	ON_COMMAND(ID_PROPERTIES1, OnProperties1)
-	ON_UPDATE_COMMAND_UI(ID_PROPERTIES1, OnUpdateProperties1)
-	ON_COMMAND(ID_PROPERTIES2, OnProperties2)
-	ON_UPDATE_COMMAND_UI(ID_PROPERTIES2, OnUpdateProperties2)
 	ON_WM_SETFOCUS()
 	ON_WM_SETTINGCHANGE()
 END_MESSAGE_MAP()
@@ -88,6 +84,24 @@ void CPropertiesWnd::AdjustLayout()
 	m_wndObjectCombo.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), 200, SWP_NOACTIVATE | SWP_NOZORDER);
 	m_wndToolBar.SetWindowPos(NULL, rectClient.left, rectClient.top + cyCmb, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
 	m_wndPropList.SetWindowPos(NULL, rectClient.left, rectClient.top + cyCmb + cyTlb, rectClient.Width(), rectClient.Height() -(cyCmb+cyTlb), SWP_NOACTIVATE | SWP_NOZORDER);
+}
+
+void CPropertiesWnd::UpdateFromID( CTextureToolDoc* pxDocument, const u_int uID )
+{
+    int i = m_wndPropList.GetPropertyCount();
+    while( i > 0 )
+    {
+        --i;
+        CMFCPropertyGridProperty* pxProperty = m_wndPropList.GetProperty( i );
+        m_wndPropList.DeleteProperty( pxProperty );
+    }
+
+    if( uID == 0 )
+    {
+        return;
+    }
+
+    InitPropList( pxDocument, uID );
 }
 
 int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -117,7 +131,12 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // fail to create
 	}
 
-	InitPropList();
+    SetPropListFont();
+
+	m_wndPropList.EnableHeaderCtrl(FALSE);
+	m_wndPropList.EnableDescriptionArea();
+	m_wndPropList.SetVSDotNetLook();
+	m_wndPropList.MarkModifiedProperties();
 
 	m_wndToolBar.Create(this, AFX_DEFAULT_TOOLBAR_STYLE, IDR_PROPERTIES);
 	m_wndToolBar.LoadToolBar(IDR_PROPERTIES, 0, 0, TRUE /* Is locked */);
@@ -160,38 +179,71 @@ void CPropertiesWnd::OnUpdateSortProperties(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(m_wndPropList.IsAlphabeticMode());
 }
 
-void CPropertiesWnd::OnProperties1()
+void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID )
 {
-	// TODO: Add your command handler code here
-}
+    m_pxDocument = pxDocument;
+    m_uID = uID;
 
-void CPropertiesWnd::OnUpdateProperties1(CCmdUI* /*pCmdUI*/)
-{
-	// TODO: Add your command update UI handler code here
-}
+	CMFCPropertyGridProperty* pGroup = new CMFCPropertyGridProperty( _T( "Blending" ) );
 
-void CPropertiesWnd::OnProperties2()
-{
-	// TODO: Add your command handler code here
-}
+    const GLToy_Texture_Procedural::BlendMode eBlendMode = pxDocument->GetTexture().GetBlendMode( uID );
 
-void CPropertiesWnd::OnUpdateProperties2(CCmdUI* /*pCmdUI*/)
-{
-	// TODO: Add your command update UI handler code here
-}
+    CString sBlendModeLabel;
+    switch( eBlendMode )
+    {
+        default:
+        case GLToy_Texture_Procedural::BLEND_ALPHA:                     sBlendModeLabel = _T( "Alpha" ); break;
+        case GLToy_Texture_Procedural::BLEND_ADD:                       sBlendModeLabel = _T( "Additive" ); break;
+        case GLToy_Texture_Procedural::BLEND_SUB:                       sBlendModeLabel = _T( "Subtractive" ); break;
+        case GLToy_Texture_Procedural::BLEND_MUL:                       sBlendModeLabel = _T( "Multiply" ); break;
+        case GLToy_Texture_Procedural::BLEND_MAX:                       sBlendModeLabel = _T( "Maximum" ); break;
+        case GLToy_Texture_Procedural::BLEND_MIN:                       sBlendModeLabel = _T( "Minimum" ); break;
+        case GLToy_Texture_Procedural::BLEND_LUMINANCE_INTO_ALPHA:      sBlendModeLabel = _T( "Brightness to Alpha" ); break;
+        case GLToy_Texture_Procedural::BLEND_REPLACE:                   sBlendModeLabel = _T( "Replace" ); break;
+    }
 
-void CPropertiesWnd::InitPropList()
-{
-	SetPropListFont();
+    CMFCPropertyGridProperty* pProp =
+        new CMFCPropertyGridProperty(
+            _T( "Blend Mode" ),
+            sBlendModeLabel,
+            _T( "Specifies the blend mode to use for combining this layer into the texture" )
+        );
 
-	m_wndPropList.EnableHeaderCtrl(FALSE);
-	m_wndPropList.EnableDescriptionArea();
-	m_wndPropList.SetVSDotNetLook();
-	m_wndPropList.MarkModifiedProperties();
+    pProp->AddOption( _T( "Alpha" ) );
+    pProp->AddOption( _T( "Additive" ) );
+    pProp->AddOption( _T( "Subtractive" ) );
+    pProp->AddOption( _T( "Multiply" ) );
+    pProp->AddOption( _T( "Maximum" ) );
+    pProp->AddOption( _T( "Minimum" ) );
+    pProp->AddOption( _T( "Brightness to Alpha" ) );
+    pProp->AddOption( _T( "Replace" ) );
 
-	//CMFCPropertyGridProperty* pGroup1 = new CMFCPropertyGridProperty(_T("Appearance"));
+	pGroup->AddSubItem( pProp );
 
-	//pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("3D Look"), (_variant_t) false, _T("Specifies the window's font will be non-bold and controls will have a 3D border")));
+    m_wndPropList.AddProperty( pGroup );
+
+    const GLToy_Texture_Procedural::Instruction eInstruction = pxDocument->GetTexture().GetInstruction( uID );
+
+    switch( eInstruction )
+    {
+        case GLToy_Texture_Procedural::INSTRUCTION_FILL:
+        {
+            pGroup = new CMFCPropertyGridProperty( _T( "Fill Properties" ) );
+
+            CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty(_T( "Colour" ), NULL, NULL, _T( "Specifies the layer's colour"));
+            pColorProp->EnableOtherButton( _T( "Other..." ) );
+            pColorProp->EnableAutomaticButton( _T( "Default" ), NULL );
+            pGroup->AddSubItem( pColorProp );
+
+            m_wndPropList.AddProperty( pGroup );
+            break;
+        }
+
+        default:
+        {
+            break;
+        }
+    }
 
 	//CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty(_T("Border"), _T("Dialog Frame"), _T("One of: None, Thin, Resizable, or Dialog Frame"));
 	//pProp->AddOption(_T("None"));

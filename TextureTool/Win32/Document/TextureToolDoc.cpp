@@ -142,6 +142,43 @@ void CTextureToolDoc::SetSearchContent(const CString& value)
 
 #endif // SHARED_HANDLERS
 
+void CTextureToolDoc::AppendGroup()
+{
+    // TODO: show colour dialog
+    m_xTexture.AppendGroup();
+
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::AppendFlatColour()
+{
+    // TODO: show colour dialog
+    m_xTexture.AppendFillLayer();
+
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::AppendNoiseLow()
+{
+    m_xTexture.AppendNoiseLayer( 8.0f );
+
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::AppendNoiseHigh()
+{
+    m_xTexture.AppendNoiseLayer( 128.0f );
+
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::AppendNoiseFractal()
+{
+    m_xTexture.AppendFBMNoiseLayer( 4.0f );
+
+    UpdateAllViews( NULL );
+}
+
 // CTextureToolDoc diagnostics
 
 #ifdef _DEBUG

@@ -19,6 +19,15 @@ public:
 // Operations
 public:
 
+    GLToy_Texture_Procedural& GetTexture() { return m_xTexture; }
+    u_int* CreateTextureRGBA( const u_int uWidth, const u_int uHeight ) { return m_xTexture.CreateRGBA( uWidth, uHeight ); }
+
+    void AppendGroup();
+    void AppendFlatColour();
+    void AppendNoiseLow();
+    void AppendNoiseHigh();
+    void AppendNoiseFractal();
+
 // Overrides
 public:
 	virtual BOOL OnNewDocument();

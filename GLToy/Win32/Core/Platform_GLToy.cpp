@@ -140,6 +140,11 @@ LRESULT CALLBACK WndProc( HWND uWindowHandle, unsigned int uMessage,
 
 bool GLToy::Platform_EarlyInitialise()
 {
+    if( GLToy::IsSilent() )
+    {
+        return true;
+    }
+
     g_uInstance = GetModuleHandle( NULL );
 
     WNDCLASSA xWindowClass;
@@ -276,6 +281,11 @@ bool GLToy::Platform_EarlyInitialise()
 
 bool GLToy::Platform_LateInitialise()
 {
+    if( GLToy::IsSilent() )
+    {
+        return true;
+    }
+
     ShowWindow( g_uWindowHandle, SW_SHOW );
     SetForegroundWindow( g_uWindowHandle );
     SetFocus( g_uWindowHandle );
@@ -287,6 +297,11 @@ bool GLToy::Platform_LateInitialise()
 
 void GLToy::Platform_Shutdown()
 {
+    if( GLToy::IsSilent() )
+    {
+        return;
+    }
+
     if( s_bFullscreen )
     {
         ChangeDisplaySettings( 0, 0 );

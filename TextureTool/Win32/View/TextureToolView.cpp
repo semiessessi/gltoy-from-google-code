@@ -83,14 +83,37 @@ BOOL CTextureToolView::PreCreateWindow(CREATESTRUCT& cs)
 
 // CTextureToolView drawing
 
-void CTextureToolView::OnDraw(CDC* /*pDC*/)
+void CTextureToolView::OnDraw( CDC* pDC )
 {
-	CTextureToolDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	if (!pDoc)
+	CTextureToolDoc* pxDocument = GetDocument();
+	ASSERT_VALID( pxDocument );
+	if ( !pxDocument )
 		return;
 
 	// TODO: add draw code for native data here
+
+    CDC xDC;
+    xDC.CreateCompatibleDC( pDC );
+
+    CBitmap xBitmap;
+    xBitmap.CreateBitmap( 256, 256, 1, 32, pxDocument->CreateTextureRGBA( 256, 256 ) ); 
+
+	// Select the bitmap into the device context
+	CBitmap* pxPrevious = xDC.SelectObject( &xBitmap );
+
+	// Using the dimensions store in the BITMAP object,
+	// display the picture
+	pDC->BitBlt( 0, 0, 256, 256, &xDC, 0, 0, SRCCOPY );
+
+	// Get the dimensions of the new picture
+	//SIZE sizeTotal;
+	//sizeTotal.cx = 256;
+	//sizeTotal.cy = 256;
+	
+    // Change the scrolling area/dimensions of the view
+	//SetScrollSizes( MM_TEXT, sizeTotal );
+
+	pDC->SelectObject( pxPrevious );
 }
 
 
