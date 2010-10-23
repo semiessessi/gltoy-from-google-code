@@ -4,6 +4,10 @@
 
 #pragma once
 
+class CLayerView;
+class CPropertiesWnd;
+class CMainFrame;
+class CTextureToolDoc;
 
 class CTextureToolView : public CView
 {
@@ -30,6 +34,7 @@ protected:
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
 
     CLayerView* GetLayerView();
+    CPropertiesWnd* GetProperties();
     CMainFrame* GetMainFrame();
     CDocTemplate* GetDocTemplate();
 

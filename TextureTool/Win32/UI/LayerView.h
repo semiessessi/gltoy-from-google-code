@@ -26,6 +26,9 @@ public:
     void ClearLayerView();
 	void InitialiseLayerView( CTextureToolDoc& xDocument );
 
+    u_int GetSelectedID() const;
+    void SelectID( const u_int uID, const bool bSelectInTree = true );
+
 protected:
 	CClassToolBar m_wndToolBar;
 	CViewTree m_wndClassView;
@@ -36,6 +39,7 @@ protected:
 // Overrides
 public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+    void OnClick();
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

@@ -232,7 +232,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                     {
                         const float fX = static_cast< float >( u ) / static_cast< float >( uWidth );
                         const float fY = static_cast< float >( v ) / static_cast< float >( uHeight );
-                        const float fNoise = GLToy_Noise::Cubic2D( fX, fY, m_fParam1, 1.0f, static_cast< u_int >( m_fParam1 ), m_uParam2 );
+                        const float fNoise = 0.5f + 0.5f * GLToy_Noise::Cubic2D( fX, fY, m_fParam1, 1.0f, static_cast< u_int >( m_fParam1 ), m_uParam2 );
                         puData[ v * uWidth + u ] = GLToy_Vector_4( fNoise, fNoise, fNoise, 1.0f ).GetRGBA();
                     }
                 }
@@ -288,7 +288,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                     {
                         const float fX = static_cast< float >( u ) / static_cast< float >( uWidth );
                         const float fY = static_cast< float >( v ) / static_cast< float >( uHeight );
-                        const float fNoise = GLToy_Noise::FractalCubic2D( fX, fY, m_fParam1, 1.0f, 0.5f, 10, true, m_uParam2 );
+                        const float fNoise = 0.5f + 0.5f * GLToy_Noise::FractalCubic2D( fX, fY, m_fParam1, 1.0f, 0.5f, 10, true, m_uParam2 );
                         puData[ v * uWidth + u ] = GLToy_Vector_4( fNoise, fNoise, fNoise, 1.0f ).GetRGBA();
                     }
                 }
@@ -921,9 +921,9 @@ void GLToy_Texture_Procedural::ReadNoHeader( const char* const pcData, const u_i
     xStream >> m_xLayers;
 }
 
-void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName )
+void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName, const GLToy_String* pszFilename )
 {
-    GLToy_File xFile( szName + ".h" );
+    GLToy_File xFile( pszFilename ? *pszFilename : ( szName + ".h" ) );
 
     GLToy_BitStream xStream;
     xStream << m_xLayers;

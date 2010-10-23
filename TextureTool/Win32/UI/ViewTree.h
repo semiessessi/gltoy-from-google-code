@@ -13,6 +13,7 @@ public:
 // Overrides
 protected:
 	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+    afx_msg void OnLButtonUp( UINT nFlags, CPoint point );
 
 // Implementation
 public:

@@ -49,12 +49,14 @@ protected:
 	afx_msg void OnUpdateSortProperties(CCmdUI* pCmdUI);
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
+    afx_msg LRESULT OnPropertyChanged( WPARAM, LPARAM );
+    
+    virtual void OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const;
 
 	DECLARE_MESSAGE_MAP()
 
 	void InitPropList( CTextureToolDoc* pxDocument, const u_int uID = 0 );
 	void SetPropListFont();
-
 
      CTextureToolDoc* m_pxDocument;
      u_int m_uID;

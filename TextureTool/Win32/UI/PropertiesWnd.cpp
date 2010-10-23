@@ -35,11 +35,24 @@
 #include <UI/MainFrm.h>
 #include <UI/PropertiesWnd.h>
 
+#include <String/GLToy_String.h>
+
 #ifdef _DEBUG
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
 //#define new DEBUG_NEW
 #endif
+
+#define COLOUR_SWAP_ALPHA_SATURATE( xColour ) ( 0xFF000000 | ( xColour & 0xFF00 ) | ( ( xColour & 0xFF0000 ) >> 16 ) | ( ( xColour & 0xFF ) << 16 ) )
+#define COLOUR_SWAP_ALPHA_EMPTY( xColour ) ( ( xColour & 0xFF00 ) | ( ( xColour & 0xFF0000 ) >> 16 ) | ( ( xColour & 0xFF ) << 16 ) )
+
+enum Property
+{
+    PROP_BLENDMODE = 0,
+    PROP_COLOUR_1 = 1,
+    PROP_COLOUR_2 = 2,
+    PROP_COLOUR_3 = 3,
+};
 
 /////////////////////////////////////////////////////////////////////////////
 // CResourceViewBar
@@ -59,6 +72,7 @@ BEGIN_MESSAGE_MAP(CPropertiesWnd, CDockablePane)
 	ON_UPDATE_COMMAND_UI(ID_EXPAND_ALL, OnUpdateExpandAllProperties)
 	ON_COMMAND(ID_SORTPROPERTIES, OnSortProperties)
 	ON_UPDATE_COMMAND_UI(ID_SORTPROPERTIES, OnUpdateSortProperties)
+    ON_REGISTERED_MESSAGE(AFX_WM_PROPERTY_CHANGED , OnPropertyChanged)
 	ON_WM_SETFOCUS()
 	ON_WM_SETTINGCHANGE()
 END_MESSAGE_MAP()
@@ -88,20 +102,112 @@ void CPropertiesWnd::AdjustLayout()
 
 void CPropertiesWnd::UpdateFromID( CTextureToolDoc* pxDocument, const u_int uID )
 {
-    int i = m_wndPropList.GetPropertyCount();
-    while( i > 0 )
-    {
-        --i;
-        CMFCPropertyGridProperty* pxProperty = m_wndPropList.GetProperty( i );
-        m_wndPropList.DeleteProperty( pxProperty );
-    }
-
-    if( uID == 0 )
+    if( !m_pxDocument && !pxDocument )
     {
         return;
     }
 
+    m_wndPropList.RemoveAll();
+
+    if( uID == 0 )
+    {
+        m_pxDocument = pxDocument;
+        m_uID = 0;
+        return;
+    }
+
     InitPropList( pxDocument, uID );
+}
+
+LRESULT CPropertiesWnd::OnPropertyChanged( WPARAM wParam, LPARAM lParam )
+{
+    if( lParam == NULL )
+    {
+        return 0;
+    }
+
+    OnPropertyChanged( reinterpret_cast< CMFCPropertyGridProperty* >( lParam ) );
+    
+    return 0;
+}
+
+void CPropertiesWnd::OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const
+{
+    if( !m_pxDocument || ( m_uID == 0 ) )
+    {
+        return;
+    }
+
+    const Property eProperty = static_cast< Property >( pProp->GetData() );
+    switch( eProperty )
+    {
+        case PROP_BLENDMODE:
+        {
+            CString sBlendModeName( pProp->GetValue() );
+            struct BlendMap
+            {
+                CString m_sName;
+                GLToy_Texture_Procedural::BlendMode m_eBlendMode;
+            } xBlendMap[] =
+            {
+                { _T( "Alpha" ), GLToy_Texture_Procedural::BLEND_ALPHA },
+                { _T( "Additive" ), GLToy_Texture_Procedural::BLEND_ADD },
+                { _T( "Subtractive" ), GLToy_Texture_Procedural::BLEND_SUB },
+                { _T( "Multiply" ), GLToy_Texture_Procedural::BLEND_MUL },
+                { _T( "Maxmimum" ), GLToy_Texture_Procedural::BLEND_MAX },
+                { _T( "Minimum" ), GLToy_Texture_Procedural::BLEND_MIN },
+                { _T( "Brightness to Alpha" ), GLToy_Texture_Procedural::BLEND_LUMINANCE_INTO_ALPHA },
+                { _T( "Replace" ), GLToy_Texture_Procedural::BLEND_REPLACE },
+            };
+
+            for( u_int u = 0; u < sizeof( xBlendMap ) / sizeof( BlendMap ); ++u )
+            {
+                if( sBlendModeName == xBlendMap[ u ].m_sName )
+                {
+                    m_pxDocument->GetTexture().SetBlendMode( m_uID, xBlendMap[ u ].m_eBlendMode );
+                }
+            }
+            break;
+        }
+
+        case PROP_COLOUR_1:
+        {
+            CMFCPropertyGridColorProperty* pColourProp( static_cast< CMFCPropertyGridColorProperty* >( pProp ) );
+            const COLORREF xColour = pColourProp->GetColor();
+            const u_int uColour = COLOUR_SWAP_ALPHA_SATURATE( xColour );
+            m_pxDocument->GetTexture().SetParam1( m_uID, uColour );
+            break;
+        }
+
+        case PROP_COLOUR_2:
+        {
+            CMFCPropertyGridColorProperty* pColourProp( static_cast< CMFCPropertyGridColorProperty* >( pProp ) );
+            const COLORREF xColour = pColourProp->GetColor();
+            const u_int uColour = COLOUR_SWAP_ALPHA_SATURATE( xColour );
+            m_pxDocument->GetTexture().SetParam2( m_uID, uColour );
+            break;
+        }
+
+        case PROP_COLOUR_3:
+        {
+            CMFCPropertyGridColorProperty* pColourProp( static_cast< CMFCPropertyGridColorProperty* >( pProp ) );
+            const COLORREF xColour = pColourProp->GetColor();
+            const u_int uColour = COLOUR_SWAP_ALPHA_SATURATE( xColour );
+            m_pxDocument->GetTexture().SetParam3( m_uID, uColour );
+            break;
+        }
+
+        default:
+        {
+            return;
+        }
+    }
+
+    CMainFrame* const pxMainFrame = static_cast< CMainFrame* >( GetParentFrame() );
+    if( pxMainFrame )
+    {
+        pxMainFrame->PostMessage( WM_UPDATEVIEWS );
+    }
 }
 
 int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -184,6 +290,15 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
     m_pxDocument = pxDocument;
     m_uID = uID;
 
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    m_wndObjectCombo.DeleteString( 0 );
+    m_wndObjectCombo.AddString( GLToy_String( pxDocument->GetTexture().GetLayerName( uID ) ).GetDataPointer() );
+	m_wndObjectCombo.SetCurSel( 0 );
+
 	CMFCPropertyGridProperty* pGroup = new CMFCPropertyGridProperty( _T( "Blending" ) );
 
     const GLToy_Texture_Procedural::BlendMode eBlendMode = pxDocument->GetTexture().GetBlendMode( uID );
@@ -209,6 +324,7 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
             _T( "Specifies the blend mode to use for combining this layer into the texture" )
         );
 
+    pProp->SetData( PROP_BLENDMODE );
     pProp->AddOption( _T( "Alpha" ) );
     pProp->AddOption( _T( "Additive" ) );
     pProp->AddOption( _T( "Subtractive" ) );
@@ -230,9 +346,27 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
         {
             pGroup = new CMFCPropertyGridProperty( _T( "Fill Properties" ) );
 
-            CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty(_T( "Colour" ), NULL, NULL, _T( "Specifies the layer's colour"));
+            const COLORREF xColour = static_cast< const COLORREF >( pxDocument->GetTexture().GetParam1( uID ) );
+            CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty(_T( "Colour" ), COLOUR_SWAP_ALPHA_EMPTY( xColour ), NULL, _T( "Specifies the layer's colour"));
             pColorProp->EnableOtherButton( _T( "Other..." ) );
             pColorProp->EnableAutomaticButton( _T( "Default" ), NULL );
+            pColorProp->SetData( PROP_COLOUR_1 );
+            pGroup->AddSubItem( pColorProp );
+
+            m_wndPropList.AddProperty( pGroup );
+            break;
+        }
+
+        case GLToy_Texture_Procedural::INSTRUCTION_FBMNOISE:
+        case GLToy_Texture_Procedural::INSTRUCTION_NOISE:
+        {
+            pGroup = new CMFCPropertyGridProperty( _T( "Noise Properties" ) );
+
+            const COLORREF xColour = static_cast< const COLORREF >( pxDocument->GetTexture().GetParam1( uID ) );
+            CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty(_T( "Seed (Colour)" ), COLOUR_SWAP_ALPHA_EMPTY( xColour ), NULL, _T( "Specifies the layer's colour"));
+            pColorProp->EnableOtherButton( _T( "Other..." ) );
+            pColorProp->EnableAutomaticButton( _T( "Default" ), NULL );
+            pColorProp->SetData( PROP_COLOUR_2 );
             pGroup->AddSubItem( pColorProp );
 
             m_wndPropList.AddProperty( pGroup );

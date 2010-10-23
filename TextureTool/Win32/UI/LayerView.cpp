@@ -57,6 +57,8 @@ BEGIN_MESSAGE_MAP(CLayerView, CDockablePane)
     ON_COMMAND( ID_NOISE_LOWFREQUENCY, OnNoiseLow )
     ON_COMMAND( ID_NOISE_HIGHFREQUENCY, OnNoiseHigh )
     ON_COMMAND( ID_NOISE_FRACTAL, OnNoiseFractal )
+    //ON_NOTIFY( NM_CLICK, IDR_LAYERVIEW, OnClick )
+
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
 	//ON_COMMAND_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnSort)
@@ -224,11 +226,7 @@ void CLayerView::OnContextMenu(CWnd* pWnd, CPoint point)
 			pWndTree->SelectItem( hTreeItem );
             const u_int uID = pWndTree->GetItemData( hTreeItem );
 
-            CPropertiesWnd* pxProperties = static_cast< CMainFrame* >( GetParentFrame() )->GetProperties();
-            if( pxProperties )
-            {
-                pxProperties->UpdateFromID( GetDocument(), uID );
-            }
+            SelectID( uID, false );
             // TODO: something about item specific menu items
 		}
 	}
@@ -274,31 +272,13 @@ BOOL CLayerView::PreTranslateMessage(MSG* pMsg)
 
 CTextureToolDoc* CLayerView::GetDocument()
 {
-    CWinApp* pxApplication = AfxGetApp();
-    if( !pxApplication )
+    CFrameWnd* pxFrameWnd = reinterpret_cast< CFrameWnd* >( AfxGetMainWnd() );
+    if( !pxFrameWnd )
     {
         return NULL;
     }
 
-    POSITION xPosition = pxApplication->GetFirstDocTemplatePosition();
-    if( !xPosition )
-    {
-        return NULL;
-    }
-
-    CDocTemplate* pxTemplate = pxApplication->GetNextDocTemplate( xPosition );
-    if( !pxTemplate )
-    {
-        return NULL;
-    }
-
-    xPosition = pxTemplate->GetFirstDocPosition();
-    if( !xPosition )
-    {
-        return NULL;
-    }
-
-    return static_cast< CTextureToolDoc* >( pxTemplate->GetNextDoc( xPosition ) );
+    return static_cast< CTextureToolDoc* >( pxFrameWnd->GetActiveDocument() );
 }
 
 void CLayerView::OnGroup()
@@ -403,4 +383,84 @@ void CLayerView::OnChangeVisualStyle()
 
 	m_wndToolBar.CleanUpLockedImages();
 	m_wndToolBar.LoadBitmap(theApp.m_bHiColorIcons ? IDB_SORT_24 : IDR_LAYERVIEW, 0, 0, TRUE /* Locked */);
+}
+
+u_int CLayerView::GetSelectedID() const
+{
+    CTreeCtrl* pWndTree = (CTreeCtrl*)&m_wndClassView;
+	ASSERT_VALID(pWndTree);
+
+    if( ::IsWindow( pWndTree->m_hWnd ) )
+    {
+        HTREEITEM hItem = pWndTree->GetSelectedItem();
+        if( hItem == NULL )
+        {
+            return 0;
+        }
+
+        return pWndTree->GetItemData( hItem );
+    }
+
+    return 0;
+}
+
+void CLayerView::SelectID( const u_int uID, const bool bSelectInTree )
+{
+    CTreeCtrl* pWndTree = (CTreeCtrl*)&m_wndClassView;
+	ASSERT_VALID(pWndTree);
+
+    if( !::IsWindow( pWndTree->m_hWnd ) )
+    {
+        return;
+    }
+
+    if( bSelectInTree )
+    {
+        HTREEITEM hItem = pWndTree->GetRootItem();
+
+        while( hItem )
+        {
+            if( pWndTree->GetItemData( hItem ) == uID )
+            {
+                pWndTree->SelectItem( hItem );
+                break;
+            }
+            hItem = pWndTree->GetNextItem( hItem, TVGN_NEXTVISIBLE );
+        }
+    }
+
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+    
+    CMainFrame* pxMainFrame = static_cast< CMainFrame* >( GetParentFrame() );
+    if( !pxMainFrame )
+    {
+        return;
+    }
+
+    CPropertiesWnd* pxProperties = pxMainFrame->GetProperties();
+    if( !pxProperties )
+    {
+        return;
+    }
+
+    pxProperties->UpdateFromID( pxDocument, uID );
+}
+
+void CLayerView::OnClick()
+{
+    SelectID( GetSelectedID(), false );
+    
+    //const NM_TREEVIEW& xInfo = *reinterpret_cast< LPNM_TREEVIEW >( pxNM );
+
+    //if( xInfo.itemNew.hItem )
+    //{
+    //    CTreeCtrl* pWndTree = (CTreeCtrl*)&m_wndClassView;
+	   // ASSERT_VALID(pWndTree);    
+
+    //    SelectID( pWndTree->GetItemData( xInfo.itemNew.hItem ) );
+    //}
 }

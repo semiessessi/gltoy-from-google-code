@@ -467,11 +467,69 @@ public:
         }
     }
 
+    u_int GetParam1( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            return pxLayerNode->m_uParam1;
+        }
+
+        return 0;
+    }
+
+    u_int GetParam2( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            return pxLayerNode->m_uParam2;
+        }
+
+        return 0;
+    }
+
+    void SetParam1( const u_int uID, const u_int uValue )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_uParam1 = uValue;
+        }
+    }
+
+    void SetParam1( const u_int uID, const float fValue )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_fParam1 = fValue;
+        }
+    }
+
+    void SetParam2( const u_int uID, const u_int uValue )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_uParam2 = uValue;
+        }
+    }
+
+    void SetParam3( const u_int uID, const u_int uValue )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_uParam3 = uValue;
+        }
+    }
+
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
     void ReadNoHeader( const char* const pcData, const u_int uLength );
-    void SaveToCPPHeader( const GLToy_String& szName );
+    void SaveToCPPHeader( const GLToy_String& szName, const GLToy_String* pszFilename = NULL );
 
     u_int GetLayerCount( const u_int uParentID = 0 ) const
     {

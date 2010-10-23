@@ -29,6 +29,7 @@ BEGIN_MESSAGE_MAP(CTextureToolApp, CWinAppEx)
 	// Standard file based document commands
 	ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
+    ON_COMMAND(ID_EXPORT_C, &CTextureToolApp::OnExportCPP )
 	// Standard print setup command
 	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinAppEx::OnFilePrintSetup)
 END_MESSAGE_MAP()
@@ -251,6 +252,23 @@ void CTextureToolApp::OnAppAbout()
 	aboutDlg.DoModal();
 }
 
+void CTextureToolApp::OnExportCPP()
+{
+    CTextureToolDoc* pxDocument = GetCurrentDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const CString sFilter = _T( "C++ Header Files (*.h)|*.h|All Files (*.*)|*.*||" );
+    CFileDialog xDialog( FALSE, _T( ".h" ), pxDocument->GetTitle(), NULL, sFilter );
+
+    if( xDialog.DoModal() == IDOK )
+    {
+        pxDocument->ExportCPP( xDialog.GetFileName() );
+    }
+}
+
 // CTextureToolApp customization load/save methods
 
 void CTextureToolApp::PreLoadState()
@@ -271,6 +289,25 @@ void CTextureToolApp::LoadCustomState()
 
 void CTextureToolApp::SaveCustomState()
 {
+}
+
+CTextureToolDoc* CTextureToolApp::GetCurrentDocument()
+{
+    CDocument* pxDocument = NULL;
+
+    CWnd* pxMainWindow = GetMainWnd();
+    if( !pxMainWindow )
+    {
+        return NULL;
+    }
+
+    CFrameWnd* pxFrame = static_cast< CMDIFrameWnd* >( pxMainWindow )->MDIGetActive();
+    if( !pxFrame )
+    {
+        return NULL;
+    }
+
+    return static_cast< CTextureToolDoc* >( pxFrame->GetActiveDocument() );
 }
 
 // CTextureToolApp message handlers

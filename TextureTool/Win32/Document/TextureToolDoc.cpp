@@ -14,6 +14,8 @@
 
 #include <Document/TextureToolDoc.h>
 
+#include <String/GLToy_String.h>
+
 #include <propkey.h>
 
 #ifdef _DEBUG
@@ -49,7 +51,7 @@ CTextureToolDoc::CTextureToolDoc()
 : m_xTexture()
 {
 	// TODO: add one-time construction code here
-
+    //m_bAutoDelete = false;
 	EnableAutomation();
 
 	AfxOleLockApp();
@@ -80,11 +82,18 @@ void CTextureToolDoc::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())
 	{
-		// TODO: add storing code here
+        GLToy_BitStream xStream;
+        m_xTexture.WriteToBitStream( xStream );
+        ar.Write( xStream.GetData(), xStream.GetBytesWritten() );
 	}
 	else
 	{
-		// TODO: add loading code here
+        // TODO: 2k is enough?
+        GLToy_BitStream xStream;
+        char acData[ 2048 ];
+        ar.Read( acData, 2048 );
+        xStream.CopyFromByteArray( acData, 2048 );
+        m_xTexture.ReadFromBitStream( xStream );
 	}
 }
 
@@ -147,6 +156,7 @@ void CTextureToolDoc::AppendGroup()
     // TODO: show colour dialog
     m_xTexture.AppendGroup();
 
+    SetModifiedFlag();
     UpdateAllViews( NULL );
 }
 
@@ -155,6 +165,7 @@ void CTextureToolDoc::AppendFlatColour()
     // TODO: show colour dialog
     m_xTexture.AppendFillLayer();
 
+    SetModifiedFlag();
     UpdateAllViews( NULL );
 }
 
@@ -162,6 +173,7 @@ void CTextureToolDoc::AppendNoiseLow()
 {
     m_xTexture.AppendNoiseLayer( 8.0f );
 
+    SetModifiedFlag();
     UpdateAllViews( NULL );
 }
 
@@ -169,6 +181,7 @@ void CTextureToolDoc::AppendNoiseHigh()
 {
     m_xTexture.AppendNoiseLayer( 128.0f );
 
+    SetModifiedFlag();
     UpdateAllViews( NULL );
 }
 
@@ -176,7 +189,14 @@ void CTextureToolDoc::AppendNoiseFractal()
 {
     m_xTexture.AppendFBMNoiseLayer( 4.0f );
 
+    SetModifiedFlag();
     UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::ExportCPP( const CString& sFilename )
+{
+    GLToy_String szFilename( sFilename );
+    m_xTexture.SaveToCPPHeader( static_cast< LPCTSTR >( GetTitle() ), &szFilename );
 }
 
 // CTextureToolDoc diagnostics

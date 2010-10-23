@@ -25,6 +25,7 @@ public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL LoadFrame(UINT nIDResource, DWORD dwDefaultStyle = WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, CWnd* pParentWnd = NULL, CCreateContext* pContext = NULL);
 
+    CTextureToolDoc* GetActiveDocument();
 	CLayerView* GetLayerView() { return &m_wndClassView; }
 	const CLayerView* GetLayerView() const { return &m_wndClassView; }
     CPropertiesWnd* GetProperties() { return &m_wndProperties; }
@@ -56,6 +57,7 @@ protected:
 	afx_msg void OnApplicationLook(UINT id);
 	afx_msg void OnUpdateApplicationLook(CCmdUI* pCmdUI);
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
+    afx_msg LRESULT OnUpdateViews(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 
 	BOOL CreateDockingWindows();

@@ -61,6 +61,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
 	ON_WM_SETTINGCHANGE()
+    ON_MESSAGE( WM_UPDATEVIEWS, &CMainFrame::OnUpdateViews )
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -463,4 +464,31 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
 	CMDIFrameWndEx::OnSettingChange(uFlags, lpszSection);
 	m_wndOutput.UpdateFonts();
+}
+
+CTextureToolDoc* CMainFrame::GetActiveDocument()
+{
+    CWnd* pxMainWindow = AfxGetMainWnd();
+    if( !pxMainWindow )
+    {
+        return NULL;
+    }
+
+    CFrameWnd* pxFrame = static_cast< CMDIFrameWnd* >( pxMainWindow )->MDIGetActive();
+    if( !pxFrame )
+    {
+        return NULL;
+    }
+
+    return static_cast< CTextureToolDoc* >( pxFrame->GetActiveDocument() );
+}
+
+LRESULT CMainFrame::OnUpdateViews( WPARAM wParam, LPARAM lParam )
+{
+    CTextureToolDoc* pxDocument = GetActiveDocument();
+    if( pxDocument )
+    {
+        pxDocument->UpdateAllViews( NULL );
+    }
+    return 0;
 }

@@ -158,17 +158,19 @@ void CTextureToolView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 
 void CTextureToolView::OnUpdate( CView* pSender, LPARAM lHint, CObject* pHint )
 {
-	CLayerView* const pxLayerView = GetLayerView();
+    CTextureToolDoc* const pxDocument = GetDocument();
+	GLToy_Assert( pxDocument != NULL, "Failed to get document." );
+	if( !pxDocument )
+	{
+		return;
+	}
+
+    CLayerView* const pxLayerView = GetLayerView();
     if( pxLayerView )
     {
-	    CTextureToolDoc* const pxDocument = GetDocument();
-	    GLToy_Assert( pxDocument != NULL, "Failed to get document." );
-	    if( !pxDocument )
-	    {
-		    return;
-	    }
-
+        const u_int uID = pxLayerView->GetSelectedID();
 	    pxLayerView->InitialiseLayerView( *pxDocument );
+        pxLayerView->SelectID( uID );
     }
 
 	CView::OnUpdate( pSender, lHint, pHint );
@@ -198,6 +200,12 @@ void CTextureToolView::OnActivateView( BOOL bActivate, CView* pActivateView, CVi
             {
 	            pxLayerView->ClearLayerView();
             }
+
+            CPropertiesWnd* const pxProperties = GetProperties();
+            if( pxProperties )
+            {
+	            pxProperties->UpdateFromID( NULL );
+            }
         }
     }
 
@@ -215,6 +223,19 @@ CLayerView* CTextureToolView::GetLayerView()
 	}
 
 	return pxMainFrame->GetLayerView();
+}
+
+CPropertiesWnd* CTextureToolView::GetProperties()
+{
+	CMainFrame* const pxMainFrame = GetMainFrame();
+
+	GLToy_Assert( pxMainFrame != NULL, "Failed to get main frame." );
+	if( !pxMainFrame )
+	{
+		return NULL;
+	}
+
+	return pxMainFrame->GetProperties();
 }
 
 CMainFrame* CTextureToolView::GetMainFrame()

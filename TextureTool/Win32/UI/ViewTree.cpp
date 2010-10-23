@@ -1,6 +1,7 @@
 
 #include <Core/stdafx.h>
 #include <UI/ViewTree.h>
+#include <UI/LayerView.h>
 
 #ifdef _DEBUG
 //#define new DEBUG_NEW
@@ -20,6 +21,7 @@ CViewTree::~CViewTree()
 }
 
 BEGIN_MESSAGE_MAP(CViewTree, CTreeCtrl)
+    ON_WM_LBUTTONUP()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -38,4 +40,11 @@ BOOL CViewTree::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 	}
 
 	return bRes;
+}
+
+void CViewTree::OnLButtonUp( UINT nFlags, CPoint point )
+{
+    // only handles double-clicks :/
+    CTreeCtrl::OnLButtonUp( nFlags, point );
+    reinterpret_cast< CLayerView* >( GetParent() )->OnClick();
 }

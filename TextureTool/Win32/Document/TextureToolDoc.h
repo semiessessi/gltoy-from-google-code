@@ -6,6 +6,9 @@
 #pragma once
 
 #include <Render/GLToy_Texture_Procedural.h>
+#include <View/TextureToolView.h>
+
+#define WM_UPDATEVIEWS ( WM_USER + 1 )
 
 class CTextureToolDoc : public CDocument
 {
@@ -28,6 +31,8 @@ public:
     void AppendNoiseHigh();
     void AppendNoiseFractal();
 
+    void ExportCPP( const CString& sFilename );
+
 // Overrides
 public:
 	virtual BOOL OnNewDocument();
@@ -47,11 +52,14 @@ public:
 
 protected:
 
+    CTextureToolView* GetView() { POSITION xPosition = GetFirstViewPosition(); return static_cast< CTextureToolView* >( GetNextView( xPosition ) ); }
+
 	// the actual document structure is the GLToy class...
     GLToy_Texture_Procedural m_xTexture;
 
 // Generated message map functions
 protected:
+
 	DECLARE_MESSAGE_MAP()
 
 	// Generated OLE dispatch map functions

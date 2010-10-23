@@ -9,6 +9,7 @@
 
 #include "resource.h"       // main symbols
 
+class CTextureToolDoc;
 
 // CTextureToolApp:
 // See TextureTool.cpp for the implementation of this class
@@ -36,7 +37,13 @@ public:
 	virtual void SaveCustomState();
 
 	afx_msg void OnAppAbout();
+    afx_msg void OnExportCPP();
+
 	DECLARE_MESSAGE_MAP()
+
+private:
+
+    CTextureToolDoc* GetCurrentDocument();
 };
 
 extern CTextureToolApp theApp;
