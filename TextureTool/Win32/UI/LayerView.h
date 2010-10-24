@@ -73,5 +73,9 @@ public:
     afx_msg void OnShapingfunctionCosine2();
     afx_msg void OnShapingfunctionCosine4();
     afx_msg void OnShapingfunctionCosine6();
+    afx_msg void OnShapingfunctionInverse();
+    afx_msg void OnShapingfunctionAbsolutevalue();
+    afx_msg void OnShapingfunctionSquare();
+    afx_msg void OnShapingfunctionSquareroot();
 };
 

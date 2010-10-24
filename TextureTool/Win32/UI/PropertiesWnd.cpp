@@ -52,6 +52,8 @@ enum Property
     PROP_UINT_1 = 4,
     PROP_UINT_2 = 5,
     PROP_UINT_3 = 6,
+    PROP_SHAPEFUNCTION = 7,
+    PROP_GRADIENTSTYLE = 8,
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -224,6 +226,23 @@ void CPropertiesWnd::OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const
             break;
         }
 
+        case PROP_SHAPEFUNCTION:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            for( u_int u = 0; u < GLToy_Texture_Procedural::SHAPE_FUNCTION_LAST; ++u )
+            {
+                if( sValue == GLToy_Texture_Procedural::GetShapingFunctionName( static_cast< GLToy_Texture_Procedural::ShapeFunction >( u ) ) )
+                {
+                    m_pxDocument->GetTexture().SetParam1( m_uID, u );
+                    break;
+                }
+            }
+            
+            break;
+            break;
+        }
+
         default:
         {
             return;
@@ -254,9 +273,7 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // fail to create
 	}
 
-	//m_wndObjectCombo.AddString(_T("Application"));
-	//m_wndObjectCombo.AddString(_T("Properties Window"));
-	//m_wndObjectCombo.SetCurSel(0);
+    m_wndObjectCombo.EnableWindow( FALSE );
 
 	if (!m_wndPropList.Create(WS_VISIBLE | WS_CHILD, rectDummy, this, 2))
 	{
@@ -332,6 +349,8 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
     m_wndObjectCombo.AddString( GLToy_String( pcName ).GetDataPointer() );
 	m_wndObjectCombo.SetCurSel( 0 );
 
+    m_wndObjectCombo.EnableWindow( FALSE );
+
 	CMFCPropertyGridProperty* pGroup = new CMFCPropertyGridProperty( _T( "Blending" ) );
 
     const GLToy_Texture_Procedural::BlendMode eBlendMode = pxDocument->GetTexture().GetBlendMode( uID );
@@ -406,6 +425,32 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
             pColorProp->EnableAutomaticButton( _T( "Default" ), NULL );
             pColorProp->SetData( PROP_COLOUR_2 );
             pGroup->AddSubItem( pColorProp );
+
+            m_wndPropList.AddProperty( pGroup );
+            break;
+        }
+
+        case GLToy_Texture_Procedural::INSTRUCTION_SHAPE:
+        {
+            pGroup = new CMFCPropertyGridProperty( _T( "Shaping Function Properties" ) );
+            
+            CString sValue( pxDocument->GetTexture().GetShapingFunctionNameFromID( uID ) );
+            
+            CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Function" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the function" ) );
+            pProp->SetData( PROP_SHAPEFUNCTION );
+            for( u_int u = 0; u < GLToy_Texture_Procedural::SHAPE_FUNCTION_LAST; ++u )
+            {
+                pProp->AddOption(
+                    static_cast< LPCTSTR >(
+                        CString(
+                            GLToy_Texture_Procedural::GetShapingFunctionName(
+                                static_cast< GLToy_Texture_Procedural::ShapeFunction >( u )
+                            )
+                        )
+                    )
+                );
+            }
+            pGroup->AddSubItem( pProp );
 
             m_wndPropList.AddProperty( pGroup );
             break;

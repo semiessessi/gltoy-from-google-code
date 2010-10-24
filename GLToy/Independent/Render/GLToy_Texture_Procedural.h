@@ -264,7 +264,7 @@ private:
             union
             {
                 u_int u;
-                u_char auc[4];
+                u_char auc[ 4 ];
             };
 
             auc[ 0 ] = ucParam1;
@@ -608,6 +608,17 @@ public:
         }
 
         return pxLayerNode->GetInstructionName();
+    }
+
+    const char* GetShapingFunctionNameFromID( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( !pxLayerNode )
+        {
+            return NULL;
+        }
+
+        return GetShapingFunctionName( static_cast< ShapeFunction >( pxLayerNode->m_uParam1 ) );
     }
 
     void DeleteFromID( const u_int uID ) { DeleteLayerNodeFromID( uID ); }

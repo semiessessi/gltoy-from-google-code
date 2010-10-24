@@ -306,55 +306,55 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                     {
                         case SHAPE_COS_2PI:
                         {
-                            xDest[ 0 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 2.0f * xSource[ 0 ] );
-                            xDest[ 1 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 2.0f * xSource[ 1 ] );
-                            xDest[ 2 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 2.0f * xSource[ 2 ] );
-                            xDest[ 3 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 2.0f * xSource[ 3 ] );
+                            xDest[ 0 ] = 0.5f * GLToy_Maths::Cos( GLToy_Maths::Pi * 2.0f * xSource[ 0 ] ) + 0.5f;
+                            xDest[ 1 ] = 0.5f * GLToy_Maths::Cos( GLToy_Maths::Pi * 2.0f * xSource[ 1 ] ) + 0.5f;
+                            xDest[ 2 ] = 0.5f * GLToy_Maths::Cos( GLToy_Maths::Pi * 2.0f * xSource[ 2 ] ) + 0.5f;
+                            xDest[ 3 ] = 0.5f * GLToy_Maths::Cos( GLToy_Maths::Pi * 2.0f * xSource[ 3 ] ) + 0.5f;
                             break;
                         }
 
                         case SHAPE_SIN_2PI:
                         {
-                            xDest[ 0 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 2.0f * xSource[ 0 ] );
-                            xDest[ 1 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 2.0f * xSource[ 1 ] );
-                            xDest[ 2 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 2.0f * xSource[ 2 ] );
-                            xDest[ 3 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 2.0f * xSource[ 3 ] );
+                            xDest[ 0 ] = 0.5f * GLToy_Maths::Sin( GLToy_Maths::Pi * 2.0f * xSource[ 0 ] ) + 0.5f;
+                            xDest[ 1 ] = 0.5f * GLToy_Maths::Sin( GLToy_Maths::Pi * 2.0f * xSource[ 1 ] ) + 0.5f;
+                            xDest[ 2 ] = 0.5f * GLToy_Maths::Sin( GLToy_Maths::Pi * 2.0f * xSource[ 2 ] ) + 0.5f;
+                            xDest[ 3 ] = 0.5f * GLToy_Maths::Sin( GLToy_Maths::Pi * 2.0f * xSource[ 3 ] ) + 0.5f;
                             break;
                         }
 
                         case SHAPE_COS_4PI:
                         {
-                            xDest[ 0 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 4.0f * xSource[ 0 ] );
-                            xDest[ 1 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 4.0f * xSource[ 1 ] );
-                            xDest[ 2 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 4.0f * xSource[ 2 ] );
-                            xDest[ 3 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 4.0f * xSource[ 3 ] );
+                            xDest[ 0 ] = 0.5f * GLToy_Maths::Cos( GLToy_Maths::Pi * 4.0f * xSource[ 0 ] ) + 0.5f;
+                            xDest[ 1 ] = 0.5f * GLToy_Maths::Cos( GLToy_Maths::Pi * 4.0f * xSource[ 1 ] ) + 0.5f;
+                            xDest[ 2 ] = 0.5f * GLToy_Maths::Cos( GLToy_Maths::Pi * 4.0f * xSource[ 2 ] ) + 0.5f;
+                            xDest[ 3 ] = 0.5f * GLToy_Maths::Cos( GLToy_Maths::Pi * 4.0f * xSource[ 3 ] ) + 0.5f;
                             break;
                         }
 
                         case SHAPE_SIN_4PI:
                         {
-                            xDest[ 0 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 4.0f * xSource[ 0 ] );
-                            xDest[ 1 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 4.0f * xSource[ 1 ] );
-                            xDest[ 2 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 4.0f * xSource[ 2 ] );
-                            xDest[ 3 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 4.0f * xSource[ 3 ] );
+                            xDest[ 0 ] = 0.5f * GLToy_Maths::Sin( GLToy_Maths::Pi * 4.0f * xSource[ 0 ] ) + 0.5f;
+                            xDest[ 1 ] = 0.5f * GLToy_Maths::Sin( GLToy_Maths::Pi * 4.0f * xSource[ 1 ] ) + 0.5f;
+                            xDest[ 2 ] = 0.5f * GLToy_Maths::Sin( GLToy_Maths::Pi * 4.0f * xSource[ 2 ] ) + 0.5f;
+                            xDest[ 3 ] = 0.5f * GLToy_Maths::Sin( GLToy_Maths::Pi * 4.0f * xSource[ 3 ] ) + 0.5f;
                             break;
                         }
 
                         case SHAPE_COS_6PI:
                         {
-                            xDest[ 0 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 6.0f * xSource[ 0 ] );
-                            xDest[ 1 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 6.0f * xSource[ 1 ] );
-                            xDest[ 2 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 6.0f * xSource[ 2 ] );
-                            xDest[ 3 ] = GLToy_Maths::Cos( GLToy_Maths::Pi * 6.0f * xSource[ 3 ] );
+                            xDest[ 0 ] = 0.5f * GLToy_Maths::Cos( GLToy_Maths::Pi * 6.0f * xSource[ 0 ] ) + 0.5f;
+                            xDest[ 1 ] = 0.5f * GLToy_Maths::Cos( GLToy_Maths::Pi * 6.0f * xSource[ 1 ] ) + 0.5f;
+                            xDest[ 2 ] = 0.5f * GLToy_Maths::Cos( GLToy_Maths::Pi * 6.0f * xSource[ 2 ] ) + 0.5f;
+                            xDest[ 3 ] = 0.5f * GLToy_Maths::Cos( GLToy_Maths::Pi * 6.0f * xSource[ 3 ] ) + 0.5f;
                             break;
                         }
 
                         case SHAPE_SIN_6PI:
                         {
-                            xDest[ 0 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 6.0f * xSource[ 0 ] );
-                            xDest[ 1 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 6.0f * xSource[ 1 ] );
-                            xDest[ 2 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 6.0f * xSource[ 2 ] );
-                            xDest[ 3 ] = GLToy_Maths::Sin( GLToy_Maths::Pi * 6.0f * xSource[ 3 ] );
+                            xDest[ 0 ] = 0.5f * GLToy_Maths::Sin( GLToy_Maths::Pi * 6.0f * xSource[ 0 ] ) + 0.5f;
+                            xDest[ 1 ] = 0.5f * GLToy_Maths::Sin( GLToy_Maths::Pi * 6.0f * xSource[ 1 ] ) + 0.5f;
+                            xDest[ 2 ] = 0.5f * GLToy_Maths::Sin( GLToy_Maths::Pi * 6.0f * xSource[ 2 ] ) + 0.5f;
+                            xDest[ 3 ] = 0.5f * GLToy_Maths::Sin( GLToy_Maths::Pi * 6.0f * xSource[ 3 ] ) + 0.5f;
                             break;
                         }
 
@@ -378,10 +378,10 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
 
                         case SHAPE_ABS:
                         {
-                            xDest[ 0 ] = GLToy_Maths::Abs( xSource[ 0 ] );
-                            xDest[ 1 ] = GLToy_Maths::Abs( xSource[ 1 ] );
-                            xDest[ 2 ] = GLToy_Maths::Abs( xSource[ 2 ] );
-                            xDest[ 3 ] = GLToy_Maths::Abs( xSource[ 3 ] );
+                            xDest[ 0 ] = GLToy_Maths::Abs( 2.0f * xSource[ 0 ] - 1.0f );
+                            xDest[ 1 ] = GLToy_Maths::Abs( 2.0f * xSource[ 1 ] - 1.0f );
+                            xDest[ 2 ] = GLToy_Maths::Abs( 2.0f * xSource[ 2 ] - 1.0f );
+                            xDest[ 3 ] = GLToy_Maths::Abs( 2.0f * xSource[ 3 ] - 1.0f );
                             break;
                         }
 

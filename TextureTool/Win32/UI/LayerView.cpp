@@ -74,6 +74,10 @@ BEGIN_MESSAGE_MAP(CLayerView, CDockablePane)
     ON_COMMAND(ID_SHAPINGFUNCTION_COSINE2, &CLayerView::OnShapingfunctionCosine2)
     ON_COMMAND(ID_SHAPINGFUNCTION_COSINE4, &CLayerView::OnShapingfunctionCosine4)
     ON_COMMAND(ID_SHAPINGFUNCTION_COSINE6, &CLayerView::OnShapingfunctionCosine6)
+    ON_COMMAND(ID_SHAPINGFUNCTION_INVERSE, &CLayerView::OnShapingfunctionInverse)
+    ON_COMMAND(ID_SHAPINGFUNCTION_ABSOLUTEVALUE, &CLayerView::OnShapingfunctionAbsolutevalue)
+    ON_COMMAND(ID_SHAPINGFUNCTION_SQUARE, &CLayerView::OnShapingfunctionSquare)
+    ON_COMMAND(ID_SHAPINGFUNCTION_SQUAREROOT, &CLayerView::OnShapingfunctionSquareroot)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -712,4 +716,80 @@ void CLayerView::OnShapingfunctionCosine6()
     }
 
     pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_COS_6PI );
+}
+
+
+void CLayerView::OnShapingfunctionInverse()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_INVERT, uID );
+        return;
+    }
+
+    pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_INVERT );
+}
+
+
+void CLayerView::OnShapingfunctionAbsolutevalue()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_ABS, uID );
+        return;
+    }
+
+    pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_ABS );
+}
+
+
+void CLayerView::OnShapingfunctionSquare()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_SQUARE, uID );
+        return;
+    }
+
+    pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_SQUARE );
+}
+
+
+void CLayerView::OnShapingfunctionSquareroot()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_SQUAREROOT, uID );
+        return;
+    }
+
+    pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_SQUAREROOT );
 }
