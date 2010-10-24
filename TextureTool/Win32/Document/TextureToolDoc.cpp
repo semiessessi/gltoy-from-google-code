@@ -151,6 +151,20 @@ void CTextureToolDoc::SetSearchContent(const CString& value)
 
 #endif // SHARED_HANDLERS
 
+void CTextureToolDoc::MoveAfter( const u_int uID, const u_int uAfterID )
+{
+    m_xTexture.MoveLayerAfter( uID, uAfterID );
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::MoveUnder( const u_int uID, const u_int uParentID )
+{
+    m_xTexture.MoveLayerUnder( uID, uParentID );
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
 void CTextureToolDoc::AppendGroup( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendGroup();
@@ -207,6 +221,20 @@ void CTextureToolDoc::AppendNoiseHigh( const u_int uParentID )
 void CTextureToolDoc::AppendNoiseFractal( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendFBMNoiseLayer( 4.0f );
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::AppendGradient( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendGradientLayer( GLToy_Texture_Procedural::GRADIENT_TOP );
+    m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
 
     if( uParentID )
     {

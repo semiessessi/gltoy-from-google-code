@@ -40,6 +40,7 @@ protected:
 public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
     void OnClick();
+    void OnDragDrop( const u_int uDragID, const u_int uDropID );
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -77,5 +78,6 @@ public:
     afx_msg void OnShapingfunctionAbsolutevalue();
     afx_msg void OnShapingfunctionSquare();
     afx_msg void OnShapingfunctionSquareroot();
+    afx_msg void OnPatternGradient();
 };
 

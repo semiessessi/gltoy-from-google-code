@@ -226,6 +226,22 @@ void CPropertiesWnd::OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const
             break;
         }
 
+        case PROP_GRADIENTSTYLE:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            for( u_int u = 0; u < GLToy_Texture_Procedural::GRADIENT_LAST; ++u )
+            {
+                if( sValue == GLToy_Texture_Procedural::GetGradientName( static_cast< GLToy_Texture_Procedural::GradientStyle >( u ) ) )
+                {
+                    m_pxDocument->GetTexture().SetParam1( m_uID, u );
+                    break;
+                }
+            }
+            
+            break;
+        }
+
         case PROP_SHAPEFUNCTION:
         {
             CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
@@ -239,7 +255,6 @@ void CPropertiesWnd::OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const
                 }
             }
             
-            break;
             break;
         }
 
@@ -425,6 +440,32 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
             pColorProp->EnableAutomaticButton( _T( "Default" ), NULL );
             pColorProp->SetData( PROP_COLOUR_2 );
             pGroup->AddSubItem( pColorProp );
+
+            m_wndPropList.AddProperty( pGroup );
+            break;
+        }
+
+        case GLToy_Texture_Procedural::INSTRUCTION_GRADIENT:
+        {
+            pGroup = new CMFCPropertyGridProperty( _T( "Gradient Properties" ) );
+            
+            CString sValue( pxDocument->GetTexture().GetGradientNameFromID( uID ) );
+            
+            CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Style" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the style" ) );
+            pProp->SetData( PROP_GRADIENTSTYLE );
+            for( u_int u = 0; u < GLToy_Texture_Procedural::GRADIENT_LAST; ++u )
+            {
+                pProp->AddOption(
+                    static_cast< LPCTSTR >(
+                        CString(
+                            GLToy_Texture_Procedural::GetGradientName(
+                                static_cast< GLToy_Texture_Procedural::GradientStyle >( u )
+                            )
+                        )
+                    )
+                );
+            }
+            pGroup->AddSubItem( pProp );
 
             m_wndPropList.AddProperty( pGroup );
             break;

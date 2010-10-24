@@ -120,7 +120,7 @@ public:
         GRADIENT_RADIAL_IN                  = 10,
         GRADIENT_SQUARE_OUT                 = 11,
         GRADIENT_SQUARE_IN                  = 12,
-        GRADIENT_UNUSED1                    = 13,
+        GRADIENT_LAST                       = 13,
         GRADIENT_UNUSED2                    = 14,
         GRADIENT_UNUSED3                    = 15,
     };
@@ -136,11 +136,20 @@ public:
     // - AVS style colour map
     enum ExtensionFunction
     {
-        EXTENSION_CHECKERBOARD              = 0,
-        EXTENSION_HORIZONTAL_STRIPE         = 1,
-        EXTENSION_VERTICAL_STRIPE           = 2,
-        EXTENSION_DIAGONAL_STRIPE_UPLEFT    = 3,
-        EXTENSION_DIAGONAL_STRIPE_DOWNLEFT  = 4,
+        // simple patterns
+        EXTENSION_CHECKERBOARD                      = 0,
+        EXTENSION_HORIZONTAL_STRIPE                 = 1,
+        EXTENSION_VERTICAL_STRIPE                   = 2,
+        EXTENSION_DIAGONAL_STRIPE_UPLEFT            = 3,
+        EXTENSION_DIAGONAL_STRIPE_DOWNLEFT          = 4,
+
+        // to save repeating layers/groups
+        EXTENSION_REFERENCE                         = 5,
+
+        // bevels/borders
+        //EXTENSION_BORDER                            = 6,
+        //EXTENSION_BEVEL                             = 7,
+        //EXTENSION_BEVEL_NORMALS                     = 8,
 
         // some stuff for baked in highlights and normal maps
         // EXTENSION_SET_HIGHLIGHT_DIRECTION
@@ -156,11 +165,6 @@ public:
         // EXTENSION_NORMAL_MAP_HALFSPHERE
         // EXTENSION_NORMAL_MAP_METALLUMPS
         // EXTENSION_NORMAL_MAP_RIBBED
-
-        // bevels/borders
-        // EXTENSION_BORDER
-        // EXTENSION_BEVEL
-        // EXTENSION_BEVEL_NORMALS
     };
 
     static const u_int uCURRENT_VERSION = 0; // version 0 - added basic functionality
@@ -301,7 +305,7 @@ private:
 
             switch( m_eInstruction )
             {
-                case INSTRUCTION_FILL:                  return "Fill";
+                case INSTRUCTION_FILL:                  return "Flat Colour";
                 case INSTRUCTION_NOISE:                 return "Noise";
                 case INSTRUCTION_TILE:                  return "Tiling";
                 case INSTRUCTION_CIRCLE:                return "Circle";
@@ -317,6 +321,7 @@ private:
                         case EXTENSION_VERTICAL_STRIPE:             return "Vertical Stripe";
                         case EXTENSION_DIAGONAL_STRIPE_UPLEFT:      return "Diagonal Stripe (Up-Left)";
                         case EXTENSION_DIAGONAL_STRIPE_DOWNLEFT:    return "Diagonal Stripe (Down-Left)";
+                        case EXTENSION_REFERENCE:                   return "Reference";
                         default:                                    return "Unnamed Extension";
                     }
                 }
@@ -621,10 +626,23 @@ public:
         return GetShapingFunctionName( static_cast< ShapeFunction >( pxLayerNode->m_uParam1 ) );
     }
 
+    const char* GetGradientNameFromID( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( !pxLayerNode )
+        {
+            return NULL;
+        }
+
+        return GetGradientName( static_cast< GradientStyle >( pxLayerNode->m_uParam1 ) );
+    }
+
     void DeleteFromID( const u_int uID ) { DeleteLayerNodeFromID( uID ); }
     bool IsLeaf( const u_int uID ) { LayerNode* pxLayerNode = GetLayerNodeFromID( uID ); return pxLayerNode ? pxLayerNode->IsLeaf() : false; }
 
     static const char* GetShapingFunctionName( const ShapeFunction eFunction );
+    static const char* GetGradientName( const GradientStyle eStyle );
+
 protected:
 
     LayerNode* GetLayerNodeFromID( const u_int uID, GLToy_SmallSerialisableArray< LayerNode >* pxLayers = NULL )

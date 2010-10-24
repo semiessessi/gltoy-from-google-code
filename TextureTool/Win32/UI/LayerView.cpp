@@ -78,6 +78,7 @@ BEGIN_MESSAGE_MAP(CLayerView, CDockablePane)
     ON_COMMAND(ID_SHAPINGFUNCTION_ABSOLUTEVALUE, &CLayerView::OnShapingfunctionAbsolutevalue)
     ON_COMMAND(ID_SHAPINGFUNCTION_SQUARE, &CLayerView::OnShapingfunctionSquare)
     ON_COMMAND(ID_SHAPINGFUNCTION_SQUAREROOT, &CLayerView::OnShapingfunctionSquareroot)
+    ON_COMMAND(ID_PATTERN_GRADIENT, &CLayerView::OnPatternGradient)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -92,7 +93,7 @@ int CLayerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	rectDummy.SetRectEmpty();
 
 	// Create views:
-	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
+	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | TVS_SHOWSELALWAYS  | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
 
 	if (!m_wndClassView.Create(dwViewStyle, rectDummy, this, 2))
 	{
@@ -157,7 +158,7 @@ void CLayerView::AddToTree( const u_int uID, HTREEITEM hParent )
         const u_int uChildID = xTexture.GetLayerIDFromIndex( u, uID ); 
         const bool bGroup = CString( xTexture.GetLayerName( uChildID ) ) == _T( "Group" );
         CString sLabel( xTexture.GetLayerName( uChildID ) );
-        HTREEITEM hLayer = m_wndClassView.InsertItem( sLabel, bGroup ? 2 : 1, bGroup ? 2 : 1, hParent );
+        HTREEITEM hLayer = m_wndClassView.InsertItem( sLabel, bGroup ? 2 : 3, bGroup ? 2 : 3, hParent );
         m_wndClassView.SetItemData( hLayer, uChildID );
 
         if( bGroup )
@@ -175,7 +176,7 @@ void CLayerView::InitialiseLayerView( CTextureToolDoc& xDocument )
 
     m_pxCurrentDocument = &xDocument;
 
-	HTREEITEM hRoot = m_wndClassView.InsertItem( xDocument.GetTitle(), 0, 0 );
+	HTREEITEM hRoot = m_wndClassView.InsertItem( xDocument.GetTitle(), 1, 1 );
 	m_wndClassView.SetItemState( hRoot, TVIS_BOLD, TVIS_BOLD );
     m_wndClassView.SetItemData( hRoot, NULL );
 
@@ -792,4 +793,39 @@ void CLayerView::OnShapingfunctionSquareroot()
     }
 
     pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_SQUAREROOT );
+}
+
+void CLayerView::OnPatternGradient()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendGradient( uID );
+        return;
+    }
+
+    pxDocument->AppendGradient();
+}
+
+void CLayerView::OnDragDrop( const u_int uDragID, const u_int uDropID )
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    if( CString( pxDocument->GetTexture().GetLayerName( uDropID ) ) == _T( "Group" ) )
+    {
+        pxDocument->MoveUnder( uDragID, uDropID );
+        return;
+    }
+
+    pxDocument->MoveAfter( uDragID, uDropID );
 }

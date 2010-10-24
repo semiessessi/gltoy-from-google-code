@@ -960,6 +960,22 @@ void GLToy_Texture_Procedural::SaveToTGAFile( const GLToy_String& szFilename, co
 }
 u_int GLToy_Texture_Procedural::MoveLayerAfter( const u_int uID, const u_int uAfterID )
 {
+    if( uAfterID == 0 )
+    {
+        LayerNode* pxChild = GetLayerNodeFromID( uID );
+        if( !pxChild )
+        {
+            return 0;
+        }
+
+        LayerNode xCopy( *pxChild );
+        xCopy.AssignNewID();
+        DeleteLayerNodeFromID( uID );
+
+        m_xLayers.Append( xCopy );
+        return xCopy.GetID();
+    }
+
     GLToy_Array< LayerNode >* pxArray = GetParentArrayFromID( uAfterID );
 
     if( !pxArray )
@@ -977,14 +993,14 @@ u_int GLToy_Texture_Procedural::MoveLayerAfter( const u_int uID, const u_int uAf
     xCopy.AssignNewID();
     DeleteLayerNodeFromID( uID );
 
-    u_int uIndex = GetIndexInArrayFromID( uAfterID );
-    if( uAfterID == ( pxArray->GetCount() - 1 ) )
+    const u_int uIndex = GetIndexInArrayFromID( uAfterID );
+    if( uIndex == ( pxArray->GetCount() - 1 ) )
     {
         pxArray->Append( xCopy );
     }
     else
     {
-        pxArray->InsertAt( uAfterID + 1, xCopy );
+        pxArray->InsertAt( uIndex + 1, xCopy );
     }
 
     return xCopy.GetID();
@@ -1009,9 +1025,9 @@ u_int GLToy_Texture_Procedural::MoveLayerBefore( const u_int uID, const u_int uB
     xCopy.AssignNewID();
     DeleteLayerNodeFromID( uID );
 
-    u_int uIndex = GetIndexInArrayFromID( uBeforeID );
+    const u_int uIndex = GetIndexInArrayFromID( uBeforeID );
 
-    pxArray->InsertAt( uBeforeID, xCopy );
+    pxArray->InsertAt( uIndex, xCopy );
 
     return xCopy.GetID();
 }
@@ -1173,4 +1189,29 @@ const char* GLToy_Texture_Procedural::GetShapingFunctionName( const ShapeFunctio
         }
     }
     return "Unknown Shaping Function";
+}
+
+const char* GLToy_Texture_Procedural::GetGradientName( const GradientStyle eFunction )
+{
+    switch( eFunction )
+    {
+        case GRADIENT_TOP:              return "Top";
+        case GRADIENT_BOTTOM:           return "Bottom";
+        case GRADIENT_LEFT:             return "Left";
+        case GRADIENT_RIGHT:            return "Right";
+        case GRADIENT_TOP_LEFT:         return "Top Left";
+        case GRADIENT_BOTTOM_LEFT:      return "Bottom Left";
+        case GRADIENT_TOP_RIGHT:        return "Top Right";
+        case GRADIENT_BOTTOM_RIGHT:     return "Bottom Right";
+        case GRADIENT_RADIAL_OUT:       return "Radial Outwards";
+        case GRADIENT_RADIAL_IN:        return "Radial Inwards";
+        case GRADIENT_SQUARE_OUT:       return "Square Outwards";
+        case GRADIENT_SQUARE_IN:        return "Square Inwards";
+        default:
+        {
+            break;
+        }
+    }
+
+    return "Unknown Gradient";
 }
