@@ -102,6 +102,8 @@ public:
         SHAPE_MIN_90                        = 22,
         SHAPE_MAX_90                        = 23,
         SHAPE_INFINITE_MULTIPLIER           = 24, // 'just' another 40 to use up :)
+
+        SHAPE_FUNCTION_LAST
     };
 
     enum GradientStyle
@@ -310,8 +312,12 @@ private:
                 {
                     switch( m_eExtensionFunction )
                     {
-                        case EXTENSION_CHECKERBOARD:    return "Checkerboard";
-                        default:                        return "Unnamed Extension";
+                        case EXTENSION_CHECKERBOARD:                return "Checkerboard";
+                        case EXTENSION_HORIZONTAL_STRIPE:           return "Horizontal Stripe";
+                        case EXTENSION_VERTICAL_STRIPE:             return "Vertical Stripe";
+                        case EXTENSION_DIAGONAL_STRIPE_UPLEFT:      return "Diagonal Stripe (Up-Left)";
+                        case EXTENSION_DIAGONAL_STRIPE_DOWNLEFT:    return "Diagonal Stripe (Down-Left)";
+                        default:                                    return "Unnamed Extension";
                     }
                 }
                 default:                    return "Unknown Instruction";
@@ -605,7 +611,9 @@ public:
     }
 
     void DeleteFromID( const u_int uID ) { DeleteLayerNodeFromID( uID ); }
+    bool IsLeaf( const u_int uID ) { LayerNode* pxLayerNode = GetLayerNodeFromID( uID ); return pxLayerNode ? pxLayerNode->IsLeaf() : false; }
 
+    static const char* GetShapingFunctionName( const ShapeFunction eFunction );
 protected:
 
     LayerNode* GetLayerNodeFromID( const u_int uID, GLToy_SmallSerialisableArray< LayerNode >* pxLayers = NULL )

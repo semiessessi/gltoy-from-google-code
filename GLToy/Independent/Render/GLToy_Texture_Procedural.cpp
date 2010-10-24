@@ -1137,3 +1137,40 @@ GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateG
     xReturnValue.m_pxChildren = new GLToy_SmallSerialisableArray< LayerNode >();
     return xReturnValue;
 }
+
+const char* GLToy_Texture_Procedural::GetShapingFunctionName( const ShapeFunction eFunction )
+{
+    switch( eFunction )
+    {
+        case SHAPE_COS_2PI:                 return "Cosine 2pi x";
+        case SHAPE_SIN_2PI:                 return "Sine 2pi x";
+        case SHAPE_COS_4PI:                 return "Cosine 4pi x";
+        case SHAPE_SIN_4PI:                 return "Sine 4pi x";
+        case SHAPE_COS_6PI:                 return "Cosine 6pi x";
+        case SHAPE_SIN_6PI:                 return "Sine 6pi x";
+        case SHAPE_SQUARE:                  return "Square";
+        case SHAPE_SQUAREROOT:              return "Square Root";
+        case SHAPE_ABS:                     return "Absolute Value";
+        case SHAPE_HALF:                    return "Half";
+        case SHAPE_DOUBLE:                  return "Double";
+        case SHAPE_CLIPBELOWHALF:           return "Clip Below Half";
+        case SHAPE_CLIPABOVEHALF:           return "Clip Above Half";
+        case SHAPE_INVERT:                  return "Invert";
+        case SHAPE_MIN_50:                  return "Minimum 50%";
+        case SHAPE_MAX_50:                  return "Maximum 50%";
+        case SHAPE_MIN_25:                  return "Minimum 25%";
+        case SHAPE_MAX_25:                  return "Maximum 25%";
+        case SHAPE_MIN_75:                  return "Minimum 75%";
+        case SHAPE_MAX_75:                  return "Maximum 75%";
+        case SHAPE_MIN_10:                  return "Minimum 10%";
+        case SHAPE_MAX_10:                  return "Maximum 10%";
+        case SHAPE_MIN_90:                  return "Minimum 90%";
+        case SHAPE_MAX_90:                  return "Maximum 90%";
+        case SHAPE_INFINITE_MULTIPLIER:     return "Infinite Multiplier";
+        default:
+        {
+            break;
+        }
+    }
+    return "Unknown Shaping Function";
+}

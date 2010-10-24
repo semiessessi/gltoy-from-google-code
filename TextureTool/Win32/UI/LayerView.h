@@ -56,6 +56,10 @@ protected:
     afx_msg void OnNoiseFractal();
     afx_msg void OnTile();
     afx_msg void OnPatternCheckerboard();
+    afx_msg void OnPatternHorizontalStripe();
+    afx_msg void OnPatternVerticalStripe();
+    afx_msg void OnPatternDiagonalStripe1();
+    afx_msg void OnPatternDiagonalStripe2();
 
     afx_msg void OnDeleteLayer();
     afx_msg void OnPromoteLayer();
@@ -65,5 +69,9 @@ protected:
     CTextureToolDoc* GetDocument();
 
 	DECLARE_MESSAGE_MAP()
+public:
+    afx_msg void OnShapingfunctionCosine2();
+    afx_msg void OnShapingfunctionCosine4();
+    afx_msg void OnShapingfunctionCosine6();
 };
 

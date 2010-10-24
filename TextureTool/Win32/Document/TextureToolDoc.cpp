@@ -216,9 +216,9 @@ void CTextureToolDoc::AppendNoiseFractal( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendCheckerboard( const u_int uParentID )
+void CTextureToolDoc::AppendShaping( GLToy_Texture_Procedural::ShapeFunction eFunction, const u_int uParentID )
 {
-    const u_int uID = m_xTexture.AppendCheckerboardLayer();
+    const u_int uID = m_xTexture.AppendShapingLayer( eFunction );
 
     if( uParentID )
     {
@@ -232,6 +232,71 @@ void CTextureToolDoc::AppendCheckerboard( const u_int uParentID )
 void CTextureToolDoc::AppendTile( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendTileLayer( 2 );
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::AppendCheckerboard( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendCheckerboardLayer();
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::AppendStripeHorizontal( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendHorizontalStripeLayer();
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::AppendStripeVertical( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendVerticalStripeLayer();
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::AppendStripeDiagonal1( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendDiagonalStripeUpLeftLayer();
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::AppendStripeDiagonal2( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendDiagonalStripeDownLeftLayer();
 
     if( uParentID )
     {

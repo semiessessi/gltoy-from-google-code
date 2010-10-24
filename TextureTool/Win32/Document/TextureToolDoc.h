@@ -25,13 +25,18 @@ public:
     GLToy_Texture_Procedural& GetTexture() { return m_xTexture; }
     u_int* CreateTextureRGBA( const u_int uWidth, const u_int uHeight ) { return m_xTexture.CreateRGBA( uWidth, uHeight ); }
 
-    void AppendGroup( const u_int uParentId = 0 );
-    void AppendFlatColour( const u_int uParentId = 0 );
-    void AppendNoiseLow( const u_int uParentId = 0 );
-    void AppendNoiseHigh( const u_int uParentId = 0 );
-    void AppendNoiseFractal( const u_int uParentId = 0 );
-    void AppendTile( const u_int uParentId = 0 );
-    void AppendCheckerboard( const u_int uParentId = 0 );
+    void AppendGroup( const u_int uParentID = 0 );
+    void AppendFlatColour( const u_int uParentID = 0 );
+    void AppendNoiseLow( const u_int uParentID = 0 );
+    void AppendNoiseHigh( const u_int uParentID = 0 );
+    void AppendNoiseFractal( const u_int uParentID = 0 );
+    void AppendShaping( GLToy_Texture_Procedural::ShapeFunction eFunction, const u_int uParentID = 0 );
+    void AppendTile( const u_int uParentID = 0 );
+    void AppendCheckerboard( const u_int uParentID = 0 );
+    void AppendStripeHorizontal( const u_int uParentID = 0 );
+    void AppendStripeVertical( const u_int uParentID = 0 );
+    void AppendStripeDiagonal1( const u_int uParentID = 0 );
+    void AppendStripeDiagonal2( const u_int uParentID = 0 );
 
     void DeleteLayer( const u_int uID );
     void PromoteLayer( const u_int uID );

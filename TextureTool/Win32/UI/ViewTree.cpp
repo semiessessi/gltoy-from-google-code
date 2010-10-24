@@ -22,6 +22,7 @@ CViewTree::~CViewTree()
 
 BEGIN_MESSAGE_MAP(CViewTree, CTreeCtrl)
     ON_WM_LBUTTONUP()
+    ON_NOTIFY_REFLECT(TVN_SELCHANGED, &CViewTree::OnTvnSelchanged)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -47,4 +48,11 @@ void CViewTree::OnLButtonUp( UINT nFlags, CPoint point )
     // only handles double-clicks :/
     CTreeCtrl::OnLButtonUp( nFlags, point );
     reinterpret_cast< CLayerView* >( GetParent() )->OnClick();
+}
+
+void CViewTree::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
+{
+    LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
+    reinterpret_cast< CLayerView* >( GetParent() )->OnClick();
+    *pResult = 0;
 }

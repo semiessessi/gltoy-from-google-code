@@ -59,6 +59,10 @@ BEGIN_MESSAGE_MAP(CLayerView, CDockablePane)
     ON_COMMAND( ID_NOISE_FRACTAL, OnNoiseFractal )
     ON_COMMAND( ID_ADDLAYER_TILE, OnTile )
     ON_COMMAND( ID_PATTERNS_CHECKERBOARD, OnPatternCheckerboard )
+    ON_COMMAND( ID_PATTERNS_HORIZONTALSTRIPE, OnPatternHorizontalStripe )
+    ON_COMMAND( ID_PATTERNS_VERTICALSTRIPE, OnPatternVerticalStripe )
+    ON_COMMAND( ID_DIAGONALSTRIPE_BOTTOMLEFTTOTOPRIGHT, OnPatternDiagonalStripe1 )
+    ON_COMMAND( ID_DIAGONALSTRIPE_TOPLEFTTOBOTTOMRIGHT, OnPatternDiagonalStripe2 )
     ON_COMMAND( ID_DELETELAYER, OnDeleteLayer )
     ON_COMMAND( ID_PROMOTELAYER, OnPromoteLayer )
     //ON_NOTIFY( NM_CLICK, IDR_LAYERVIEW, OnClick )
@@ -67,6 +71,9 @@ BEGIN_MESSAGE_MAP(CLayerView, CDockablePane)
 	ON_WM_SETFOCUS()
 	//ON_COMMAND_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnSort)
 	//ON_UPDATE_COMMAND_UI_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnUpdateSort)
+    ON_COMMAND(ID_SHAPINGFUNCTION_COSINE2, &CLayerView::OnShapingfunctionCosine2)
+    ON_COMMAND(ID_SHAPINGFUNCTION_COSINE4, &CLayerView::OnShapingfunctionCosine4)
+    ON_COMMAND(ID_SHAPINGFUNCTION_COSINE6, &CLayerView::OnShapingfunctionCosine6)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -428,6 +435,78 @@ void CLayerView::OnPatternCheckerboard()
     pxDocument->AppendCheckerboard();
 }
 
+void CLayerView::OnPatternHorizontalStripe()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendStripeHorizontal( uID );
+        return;
+    }
+
+    pxDocument->AppendStripeHorizontal();
+}
+
+void CLayerView::OnPatternVerticalStripe()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendStripeVertical( uID );
+        return;
+    }
+
+    pxDocument->AppendStripeVertical();
+}
+
+void CLayerView::OnPatternDiagonalStripe1()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendStripeDiagonal1( uID );
+        return;
+    }
+
+    pxDocument->AppendStripeDiagonal1();
+}
+
+void CLayerView::OnPatternDiagonalStripe2()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendStripeDiagonal2( uID );
+        return;
+    }
+
+    pxDocument->AppendStripeDiagonal2();
+}
+
 void CLayerView::OnDeleteLayer()
 {
     CTextureToolDoc* pxDocument = GetDocument();
@@ -577,4 +656,60 @@ void CLayerView::OnClick()
 
     //    SelectID( pWndTree->GetItemData( xInfo.itemNew.hItem ) );
     //}
+}
+
+void CLayerView::OnShapingfunctionCosine2()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_COS_2PI, uID );
+        return;
+    }
+
+    pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_COS_2PI );
+}
+
+
+void CLayerView::OnShapingfunctionCosine4()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_COS_4PI, uID );
+        return;
+    }
+
+    pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_COS_4PI );
+}
+
+
+void CLayerView::OnShapingfunctionCosine6()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_COS_6PI, uID );
+        return;
+    }
+
+    pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_COS_6PI );
 }

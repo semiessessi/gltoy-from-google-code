@@ -371,6 +371,11 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
 
     m_wndPropList.AddProperty( pGroup );
 
+    if( !pxDocument->GetTexture().IsLeaf( uID ) )
+    {
+        return;
+    }
+
     const GLToy_Texture_Procedural::Instruction eInstruction = pxDocument->GetTexture().GetInstruction( uID );
 
     switch( eInstruction )
