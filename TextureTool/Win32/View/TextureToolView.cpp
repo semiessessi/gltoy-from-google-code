@@ -96,7 +96,12 @@ void CTextureToolView::OnDraw( CDC* pDC )
     xDC.CreateCompatibleDC( pDC );
 
     CBitmap xBitmap;
-    xBitmap.CreateBitmap( 256, 256, 1, 32, pxDocument->CreateTextureRGBA( 256, 256 ) ); 
+    u_int* puData = pxDocument->CreateTextureRGBA( 256, 256 );
+    for( u_int u = 0; u < 256*256; ++u )
+    {
+        puData[ u ] = COLOUR_SWAP( puData[ u ] );
+    }
+    xBitmap.CreateBitmap( 256, 256, 1, 32, puData ); 
 
 	// Select the bitmap into the device context
 	CBitmap* pxPrevious = xDC.SelectObject( &xBitmap );

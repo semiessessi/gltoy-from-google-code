@@ -151,52 +151,153 @@ void CTextureToolDoc::SetSearchContent(const CString& value)
 
 #endif // SHARED_HANDLERS
 
-void CTextureToolDoc::AppendGroup()
+void CTextureToolDoc::AppendGroup( const u_int uParentID )
 {
-    // TODO: show colour dialog
-    m_xTexture.AppendGroup();
+    const u_int uID = m_xTexture.AppendGroup();
+    
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
 
     SetModifiedFlag();
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendFlatColour()
+void CTextureToolDoc::AppendFlatColour( const u_int uParentID )
 {
-    // TODO: show colour dialog
-    m_xTexture.AppendFillLayer();
+    const u_int uID = m_xTexture.AppendFillLayer();
+    
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
 
     SetModifiedFlag();
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendNoiseLow()
+void CTextureToolDoc::AppendNoiseLow( const u_int uParentID )
 {
-    m_xTexture.AppendNoiseLayer( 8.0f );
+    const u_int uID = m_xTexture.AppendNoiseLayer( 8.0f );
+    
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
 
     SetModifiedFlag();
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendNoiseHigh()
+void CTextureToolDoc::AppendNoiseHigh( const u_int uParentID )
 {
-    m_xTexture.AppendNoiseLayer( 128.0f );
+    const u_int uID = m_xTexture.AppendNoiseLayer( 128.0f );
+    
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
 
     SetModifiedFlag();
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendNoiseFractal()
+void CTextureToolDoc::AppendNoiseFractal( const u_int uParentID )
 {
-    m_xTexture.AppendFBMNoiseLayer( 4.0f );
+    const u_int uID = m_xTexture.AppendFBMNoiseLayer( 4.0f );
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
 
     SetModifiedFlag();
     UpdateAllViews( NULL );
 }
 
+void CTextureToolDoc::AppendCheckerboard( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendCheckerboardLayer();
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::AppendTile( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendTileLayer( 2 );
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::DeleteLayer( const u_int uID )
+{
+    m_xTexture.DeleteFromID( uID );
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::PromoteLayer( const u_int uID )
+{
+    m_xTexture.MoveLayerToOwnGroup( uID );
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
 void CTextureToolDoc::ExportCPP( const CString& sFilename )
 {
     GLToy_String szFilename( sFilename );
     m_xTexture.SaveToCPPHeader( static_cast< LPCTSTR >( GetTitle() ), &szFilename );
+}
+
+void CTextureToolDoc::ExportJPG( const CString& sFilename )
+{
+    CImage xImage;
+    u_int* puData = CreateTextureRGBA( 256, 256 );
+    for( u_int u = 0; u < 256*256; ++u )
+    {
+        puData[ u ] = COLOUR_SWAP( puData[ u ] );
+    }
+    HBITMAP hBitmap = CreateBitmap( 256, 256, 1, 32, puData );
+    xImage.Attach( hBitmap, CImage::DIBOR_TOPDOWN );
+
+    xImage.Save( sFilename, Gdiplus::ImageFormatJPEG );
+
+    delete[] puData;
+}
+
+void CTextureToolDoc::ExportPNG( const CString& sFilename )
+{
+    CImage xImage;
+    u_int* puData = CreateTextureRGBA( 256, 256 );
+    for( u_int u = 0; u < 256*256; ++u )
+    {
+        puData[ u ] = COLOUR_SWAP( puData[ u ] );
+    }
+    HBITMAP hBitmap = CreateBitmap( 256, 256, 1, 32, puData );
+    xImage.Attach( hBitmap, CImage::DIBOR_TOPDOWN );
+
+    xImage.Save( sFilename, Gdiplus::ImageFormatPNG );
+
+    delete[] puData;
+}
+
+void CTextureToolDoc::ExportTGA( const CString& sFilename )
+{
+    m_xTexture.SaveToTGAFile( static_cast< LPCTSTR >( sFilename ) );
 }
 
 // CTextureToolDoc diagnostics

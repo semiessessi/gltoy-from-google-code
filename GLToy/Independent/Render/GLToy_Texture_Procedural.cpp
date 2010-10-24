@@ -952,6 +952,12 @@ void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName, cons
     xFile.WriteFromBitStream( xWriteStream );
 }
 
+void GLToy_Texture_Procedural::SaveToTGAFile( const GLToy_String& szFilename, const u_int uSize )
+{
+    u_int* puData = CreateRGBA( uSize, uSize );
+    GLToy_Texture_System::Platform_SaveTextureTGA( szFilename, puData, uSize, uSize );
+    delete[] puData;
+}
 u_int GLToy_Texture_Procedural::MoveLayerAfter( const u_int uID, const u_int uAfterID )
 {
     GLToy_Array< LayerNode >* pxArray = GetParentArrayFromID( uAfterID );
@@ -1012,12 +1018,6 @@ u_int GLToy_Texture_Procedural::MoveLayerBefore( const u_int uID, const u_int uB
 
 u_int GLToy_Texture_Procedural::MoveLayerUnder( const u_int uID, const u_int uUnderID )
 {
-    LayerNode* pxParent = GetLayerNodeFromID( uUnderID );
-    if( !pxParent || !pxParent->IsLeaf() )
-    {
-        return 0;
-    }
-
     LayerNode* pxChild = GetLayerNodeFromID( uID );
     if( !pxChild )
     {
@@ -1028,7 +1028,20 @@ u_int GLToy_Texture_Procedural::MoveLayerUnder( const u_int uID, const u_int uUn
     xCopy.AssignNewID();
     DeleteLayerNodeFromID( uID );
 
-    pxParent->GetChildren()->Append( xCopy );
+    LayerNode* pxParent = GetLayerNodeFromID( uUnderID );
+    if( !pxParent || pxParent->IsLeaf() )
+    {
+        return 0;
+    }
+
+    GLToy_Array< LayerNode >* pxChildren = pxParent->GetChildren();
+    if( !pxChildren )
+    {
+        return 0;
+    }
+
+    pxChildren->Append( xCopy );
+    
     return xCopy.GetID();
 }
 
@@ -1044,18 +1057,7 @@ u_int GLToy_Texture_Procedural::MoveLayerToOwnGroup( const u_int uID )
     LayerNode xLayerNode = LayerNode::CreateGroup();
     pxArray->Append( xLayerNode );
 
-    LayerNode* pxChild = GetLayerNodeFromID( uID );
-    if( !pxChild )
-    {
-        return 0;
-    }
-    
-    LayerNode xCopy( *pxChild );
-    xCopy.AssignNewID();
-    DeleteLayerNodeFromID( uID );
-
-    xLayerNode.GetChildren()->Append( xCopy );
-    return xCopy.GetID();
+    return MoveLayerUnder( uID, xLayerNode.GetID() );
 }
 
 GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateFill( const u_int uRGBA )

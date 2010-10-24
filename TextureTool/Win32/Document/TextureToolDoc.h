@@ -25,13 +25,21 @@ public:
     GLToy_Texture_Procedural& GetTexture() { return m_xTexture; }
     u_int* CreateTextureRGBA( const u_int uWidth, const u_int uHeight ) { return m_xTexture.CreateRGBA( uWidth, uHeight ); }
 
-    void AppendGroup();
-    void AppendFlatColour();
-    void AppendNoiseLow();
-    void AppendNoiseHigh();
-    void AppendNoiseFractal();
+    void AppendGroup( const u_int uParentId = 0 );
+    void AppendFlatColour( const u_int uParentId = 0 );
+    void AppendNoiseLow( const u_int uParentId = 0 );
+    void AppendNoiseHigh( const u_int uParentId = 0 );
+    void AppendNoiseFractal( const u_int uParentId = 0 );
+    void AppendTile( const u_int uParentId = 0 );
+    void AppendCheckerboard( const u_int uParentId = 0 );
+
+    void DeleteLayer( const u_int uID );
+    void PromoteLayer( const u_int uID );
 
     void ExportCPP( const CString& sFilename );
+    void ExportJPG( const CString& sFilename );
+    void ExportPNG( const CString& sFilename );
+    void ExportTGA( const CString& sFilename );
 
 // Overrides
 public:

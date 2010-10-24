@@ -54,6 +54,11 @@ protected:
     afx_msg void OnNoiseLow();
     afx_msg void OnNoiseHigh();
     afx_msg void OnNoiseFractal();
+    afx_msg void OnTile();
+    afx_msg void OnPatternCheckerboard();
+
+    afx_msg void OnDeleteLayer();
+    afx_msg void OnPromoteLayer();
 
     void AddToTree( const u_int uID, HTREEITEM hParent );
 

@@ -57,6 +57,10 @@ BEGIN_MESSAGE_MAP(CLayerView, CDockablePane)
     ON_COMMAND( ID_NOISE_LOWFREQUENCY, OnNoiseLow )
     ON_COMMAND( ID_NOISE_HIGHFREQUENCY, OnNoiseHigh )
     ON_COMMAND( ID_NOISE_FRACTAL, OnNoiseFractal )
+    ON_COMMAND( ID_ADDLAYER_TILE, OnTile )
+    ON_COMMAND( ID_PATTERNS_CHECKERBOARD, OnPatternCheckerboard )
+    ON_COMMAND( ID_DELETELAYER, OnDeleteLayer )
+    ON_COMMAND( ID_PROMOTELAYER, OnPromoteLayer )
     //ON_NOTIFY( NM_CLICK, IDR_LAYERVIEW, OnClick )
 
 	ON_WM_PAINT()
@@ -140,7 +144,7 @@ void CLayerView::AddToTree( const u_int uID, HTREEITEM hParent )
     for( u_int u = 0; u < xTexture.GetLayerCount( uID ); ++u )
     {
         const u_int uChildID = xTexture.GetLayerIDFromIndex( u, uID ); 
-        const bool bGroup = xTexture.GetLayerCount( uChildID ) > 0;
+        const bool bGroup = CString( xTexture.GetLayerName( uChildID ) ) == _T( "Group" );
         CString sLabel( xTexture.GetLayerName( uChildID ) );
         HTREEITEM hLayer = m_wndClassView.InsertItem( sLabel, bGroup ? 2 : 1, bGroup ? 2 : 1, hParent );
         m_wndClassView.SetItemData( hLayer, uChildID );
@@ -213,6 +217,7 @@ void CLayerView::OnContextMenu(CWnd* pWnd, CPoint point)
 		return;
 	}
 
+    u_int uID = 0;
 	if (point != CPoint(-1, -1))
 	{
 		// Select clicked item:
@@ -224,10 +229,9 @@ void CLayerView::OnContextMenu(CWnd* pWnd, CPoint point)
 		if (hTreeItem != NULL)
 		{
 			pWndTree->SelectItem( hTreeItem );
-            const u_int uID = pWndTree->GetItemData( hTreeItem );
+            uID = pWndTree->GetItemData( hTreeItem );
 
             SelectID( uID, false );
-            // TODO: something about item specific menu items
 		}
 	}
 
@@ -236,6 +240,23 @@ void CLayerView::OnContextMenu(CWnd* pWnd, CPoint point)
     xMenu.LoadMenu( IDR_LAYERVIEW_MENU );
 
 	CMenu* pxSubMenu = xMenu.GetSubMenu( 0 );
+
+    // TODO: something about item specific menu items
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( pxDocument && ( uID != 0 ) )
+    {
+        pxSubMenu->InsertMenu( 0, MF_BYPOSITION | MF_SEPARATOR );
+        if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+        {
+            // ...
+        }
+        else
+        {
+            pxSubMenu->InsertMenu( 0, MF_BYPOSITION, ID_PROMOTELAYER, _T( "Promote to group" ) );
+        }
+
+        pxSubMenu->InsertMenu( 0, MF_BYPOSITION, ID_DELETELAYER, _T( "Delete" ) );
+    }
 
 	if (AfxGetMainWnd()->IsKindOf(RUNTIME_CLASS(CMDIFrameWndEx)))
 	{
@@ -272,13 +293,13 @@ BOOL CLayerView::PreTranslateMessage(MSG* pMsg)
 
 CTextureToolDoc* CLayerView::GetDocument()
 {
-    CFrameWnd* pxFrameWnd = reinterpret_cast< CFrameWnd* >( AfxGetMainWnd() );
-    if( !pxFrameWnd )
+    CMainFrame* pxMainFrame = reinterpret_cast< CMainFrame* >( AfxGetMainWnd() );
+    if( !pxMainFrame )
     {
         return NULL;
     }
 
-    return static_cast< CTextureToolDoc* >( pxFrameWnd->GetActiveDocument() );
+    return pxMainFrame->GetCurrentDocument();
 }
 
 void CLayerView::OnGroup()
@@ -286,6 +307,13 @@ void CLayerView::OnGroup()
     CTextureToolDoc* pxDocument = GetDocument();
     if( !pxDocument )
     {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendGroup( uID );
         return;
     }
 
@@ -300,6 +328,13 @@ void CLayerView::OnFlatColour()
         return;
     }
 
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendFlatColour( uID );
+        return;
+    }
+
     pxDocument->AppendFlatColour();
 }
 
@@ -308,6 +343,13 @@ void CLayerView::OnNoiseLow()
     CTextureToolDoc* pxDocument = GetDocument();
     if( !pxDocument )
     {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendNoiseLow( uID );
         return;
     }
 
@@ -321,6 +363,13 @@ void CLayerView::OnNoiseHigh()
     {
         return;
     }
+    
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendNoiseHigh( uID );
+        return;
+    }
 
     pxDocument->AppendNoiseHigh();
 }
@@ -332,8 +381,73 @@ void CLayerView::OnNoiseFractal()
     {
         return;
     }
+    
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendNoiseFractal( uID );
+        return;
+    }
 
     pxDocument->AppendNoiseFractal();
+}
+
+void CLayerView::OnTile()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+    
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendTile( uID );
+        return;
+    }
+
+    pxDocument->AppendTile();
+}
+
+void CLayerView::OnPatternCheckerboard()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendCheckerboard( uID );
+        return;
+    }
+
+    pxDocument->AppendCheckerboard();
+}
+
+void CLayerView::OnDeleteLayer()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    pxDocument->DeleteLayer( GetSelectedID() );
+}
+
+void CLayerView::OnPromoteLayer()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    pxDocument->PromoteLayer( GetSelectedID() );
 }
 
 void CLayerView::OnPaint()

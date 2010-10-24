@@ -30,6 +30,9 @@ BEGIN_MESSAGE_MAP(CTextureToolApp, CWinAppEx)
 	ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
     ON_COMMAND(ID_EXPORT_C, &CTextureToolApp::OnExportCPP )
+    ON_COMMAND(ID_EXPORT_JPG, &CTextureToolApp::OnExportJPG )
+    ON_COMMAND(ID_EXPORT_PNG, &CTextureToolApp::OnExportPNG )
+    ON_COMMAND(ID_EXPORT_TGA, &CTextureToolApp::OnExportTGA )
 	// Standard print setup command
 	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinAppEx::OnFilePrintSetup)
 END_MESSAGE_MAP()
@@ -268,6 +271,59 @@ void CTextureToolApp::OnExportCPP()
         pxDocument->ExportCPP( xDialog.GetFileName() );
     }
 }
+
+void CTextureToolApp::OnExportJPG()
+{
+    CTextureToolDoc* pxDocument = GetCurrentDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const CString sFilter = _T( "JPEG Image Files (*.jpg)|*.jpg|All Files (*.*)|*.*||" );
+    CFileDialog xDialog( FALSE, _T( ".jpg" ), pxDocument->GetTitle(), NULL, sFilter );
+
+    if( xDialog.DoModal() == IDOK )
+    {
+        pxDocument->ExportJPG( xDialog.GetFileName() );
+    }
+}
+
+void CTextureToolApp::OnExportPNG()
+{
+    CTextureToolDoc* pxDocument = GetCurrentDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const CString sFilter = _T( "PNG Image Files (*.png)|*.png|All Files (*.*)|*.*||" );
+    CFileDialog xDialog( FALSE, _T( ".png" ), pxDocument->GetTitle(), NULL, sFilter );
+
+    if( xDialog.DoModal() == IDOK )
+    {
+        pxDocument->ExportPNG( xDialog.GetFileName() );
+    }
+}
+
+void CTextureToolApp::OnExportTGA()
+{
+    CTextureToolDoc* pxDocument = GetCurrentDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const CString sFilter = _T( "Targa Image Files (*.tga)|*.tga|All Files (*.*)|*.*||" );
+    CFileDialog xDialog( FALSE, _T( ".tga" ), pxDocument->GetTitle(), NULL, sFilter );
+
+    if( xDialog.DoModal() == IDOK )
+    {
+        pxDocument->ExportTGA( xDialog.GetFileName() );
+    }
+}
+
+
 
 // CTextureToolApp customization load/save methods
 

@@ -201,6 +201,27 @@ private:
             }
         }
 
+        LayerNode& operator =( const LayerNode& xLayerNode )
+        {
+            delete m_pxChildren;
+            m_pxChildren = NULL;
+
+            if( xLayerNode.m_pxChildren )
+            {
+                m_pxChildren = new GLToy_SmallSerialisableArray< LayerNode >( *( xLayerNode.m_pxChildren ) );
+            }
+
+            m_eInstruction = xLayerNode.m_eInstruction;
+            m_eBlendMode = xLayerNode.m_eBlendMode;
+            m_eExtensionFunction = xLayerNode.m_eExtensionFunction;
+            m_uParam1 = xLayerNode.m_uParam1;
+            m_uParam2 = xLayerNode.m_uParam2;
+            m_uParam3 = xLayerNode.m_uParam3;
+            m_uID = xLayerNode.m_uID;
+
+            return *this;
+        }
+
         ~LayerNode()
         {
             delete m_pxChildren;
@@ -280,10 +301,10 @@ private:
             {
                 case INSTRUCTION_FILL:                  return "Fill";
                 case INSTRUCTION_NOISE:                 return "Noise";
-                case INSTRUCTION_TILE:                  return "Tile";
+                case INSTRUCTION_TILE:                  return "Tiling";
                 case INSTRUCTION_CIRCLE:                return "Circle";
-                case INSTRUCTION_FBMNOISE:              return "Fractal Brownian Motion Noise";
-                case INSTRUCTION_SHAPE:                 return "Shaping";
+                case INSTRUCTION_FBMNOISE:              return "Fractal Noise";
+                case INSTRUCTION_SHAPE:                 return "Shaping Function";
                 case INSTRUCTION_GRADIENT:              return "Gradient";
                 case INSTRUCTION_EXTENSION:
                 {
@@ -530,6 +551,7 @@ public:
 
     void ReadNoHeader( const char* const pcData, const u_int uLength );
     void SaveToCPPHeader( const GLToy_String& szName, const GLToy_String* pszFilename = NULL );
+    void SaveToTGAFile( const GLToy_String& szFilename, const u_int uSize = 256 );
 
     u_int GetLayerCount( const u_int uParentID = 0 ) const
     {
@@ -581,6 +603,8 @@ public:
 
         return pxLayerNode->GetInstructionName();
     }
+
+    void DeleteFromID( const u_int uID ) { DeleteLayerNodeFromID( uID ); }
 
 protected:
 

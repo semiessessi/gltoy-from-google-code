@@ -78,5 +78,8 @@
 #endif
 #endif
 
+#define COLOUR_SWAP_ALPHA_SATURATE( xColour ) ( 0xFF000000 | ( xColour & 0xFF00 ) | ( ( xColour & 0xFF0000 ) >> 16 ) | ( ( xColour & 0xFF ) << 16 ) )
+#define COLOUR_SWAP_ALPHA_EMPTY( xColour ) ( ( xColour & 0xFF00 ) | ( ( xColour & 0xFF0000 ) >> 16 ) | ( ( xColour & 0xFF ) << 16 ) )
+#define COLOUR_SWAP( xColour ) ( ( xColour & 0xFF00FF00 ) | ( ( xColour & 0xFF0000 ) >> 16 ) | ( ( xColour & 0xFF ) << 16 ) )
 
 #endif

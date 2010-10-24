@@ -135,11 +135,7 @@ public:
     
     virtual void RemoveAt( const int iIndex, const u_int uAmount = 1 )
     {
-        u_int uActualAmount = uAmount;
-        if( uAmount > m_uCount )
-        {
-            uActualAmount = m_uCount;
-        }
+        const u_int uActualAmount = ( uAmount > m_uCount ) ? m_uCount : uAmount;
 
         m_uCount -= uActualAmount;
         for( u_int i = iIndex; i < m_uCount; ++i )

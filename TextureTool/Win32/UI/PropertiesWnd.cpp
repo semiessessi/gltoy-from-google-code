@@ -43,15 +43,15 @@ static char THIS_FILE[]=__FILE__;
 //#define new DEBUG_NEW
 #endif
 
-#define COLOUR_SWAP_ALPHA_SATURATE( xColour ) ( 0xFF000000 | ( xColour & 0xFF00 ) | ( ( xColour & 0xFF0000 ) >> 16 ) | ( ( xColour & 0xFF ) << 16 ) )
-#define COLOUR_SWAP_ALPHA_EMPTY( xColour ) ( ( xColour & 0xFF00 ) | ( ( xColour & 0xFF0000 ) >> 16 ) | ( ( xColour & 0xFF ) << 16 ) )
-
 enum Property
 {
     PROP_BLENDMODE = 0,
     PROP_COLOUR_1 = 1,
     PROP_COLOUR_2 = 2,
     PROP_COLOUR_3 = 3,
+    PROP_UINT_1 = 4,
+    PROP_UINT_2 = 5,
+    PROP_UINT_3 = 6,
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -154,7 +154,7 @@ void CPropertiesWnd::OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const
                 { _T( "Additive" ), GLToy_Texture_Procedural::BLEND_ADD },
                 { _T( "Subtractive" ), GLToy_Texture_Procedural::BLEND_SUB },
                 { _T( "Multiply" ), GLToy_Texture_Procedural::BLEND_MUL },
-                { _T( "Maxmimum" ), GLToy_Texture_Procedural::BLEND_MAX },
+                { _T( "Maximum" ), GLToy_Texture_Procedural::BLEND_MAX },
                 { _T( "Minimum" ), GLToy_Texture_Procedural::BLEND_MIN },
                 { _T( "Brightness to Alpha" ), GLToy_Texture_Procedural::BLEND_LUMINANCE_INTO_ALPHA },
                 { _T( "Replace" ), GLToy_Texture_Procedural::BLEND_REPLACE },
@@ -174,7 +174,7 @@ void CPropertiesWnd::OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const
         {
             CMFCPropertyGridColorProperty* pColourProp( static_cast< CMFCPropertyGridColorProperty* >( pProp ) );
             const COLORREF xColour = pColourProp->GetColor();
-            const u_int uColour = COLOUR_SWAP_ALPHA_SATURATE( xColour );
+            const u_int uColour = ( 0xFF000000 | xColour );
             m_pxDocument->GetTexture().SetParam1( m_uID, uColour );
             break;
         }
@@ -183,7 +183,7 @@ void CPropertiesWnd::OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const
         {
             CMFCPropertyGridColorProperty* pColourProp( static_cast< CMFCPropertyGridColorProperty* >( pProp ) );
             const COLORREF xColour = pColourProp->GetColor();
-            const u_int uColour = COLOUR_SWAP_ALPHA_SATURATE( xColour );
+            const u_int uColour = ( 0xFF000000 | xColour );
             m_pxDocument->GetTexture().SetParam2( m_uID, uColour );
             break;
         }
@@ -192,8 +192,35 @@ void CPropertiesWnd::OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const
         {
             CMFCPropertyGridColorProperty* pColourProp( static_cast< CMFCPropertyGridColorProperty* >( pProp ) );
             const COLORREF xColour = pColourProp->GetColor();
-            const u_int uColour = COLOUR_SWAP_ALPHA_SATURATE( xColour );
+            const u_int uColour = ( 0xFF000000 | xColour );
             m_pxDocument->GetTexture().SetParam3( m_uID, uColour );
+            break;
+        }
+
+        case PROP_UINT_1:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            const u_int uValue = GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractUnsignedInt();
+            m_pxDocument->GetTexture().SetParam1( m_uID, uValue );
+            break;
+        }
+
+        case PROP_UINT_2:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            const u_int uValue = GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractUnsignedInt();
+            m_pxDocument->GetTexture().SetParam2( m_uID, uValue );
+            break;
+        }
+
+        case PROP_UINT_3:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            const u_int uValue = GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractUnsignedInt();
+            m_pxDocument->GetTexture().SetParam3( m_uID, uValue );
             break;
         }
 
@@ -295,8 +322,14 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
         return;
     }
 
+    const char* pcName = pxDocument->GetTexture().GetLayerName( uID );
+    if( !pcName )
+    {
+        return;
+    }
+
     m_wndObjectCombo.DeleteString( 0 );
-    m_wndObjectCombo.AddString( GLToy_String( pxDocument->GetTexture().GetLayerName( uID ) ).GetDataPointer() );
+    m_wndObjectCombo.AddString( GLToy_String( pcName ).GetDataPointer() );
 	m_wndObjectCombo.SetCurSel( 0 );
 
 	CMFCPropertyGridProperty* pGroup = new CMFCPropertyGridProperty( _T( "Blending" ) );
@@ -347,7 +380,7 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
             pGroup = new CMFCPropertyGridProperty( _T( "Fill Properties" ) );
 
             const COLORREF xColour = static_cast< const COLORREF >( pxDocument->GetTexture().GetParam1( uID ) );
-            CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty(_T( "Colour" ), COLOUR_SWAP_ALPHA_EMPTY( xColour ), NULL, _T( "Specifies the layer's colour"));
+            CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty( _T( "Colour" ), ( xColour ), NULL, _T( "Specifies the layer's colour"));
             pColorProp->EnableOtherButton( _T( "Other..." ) );
             pColorProp->EnableAutomaticButton( _T( "Default" ), NULL );
             pColorProp->SetData( PROP_COLOUR_1 );
@@ -363,11 +396,24 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
             pGroup = new CMFCPropertyGridProperty( _T( "Noise Properties" ) );
 
             const COLORREF xColour = static_cast< const COLORREF >( pxDocument->GetTexture().GetParam1( uID ) );
-            CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty(_T( "Seed (Colour)" ), COLOUR_SWAP_ALPHA_EMPTY( xColour ), NULL, _T( "Specifies the layer's colour"));
+            CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty( _T( "Seed (Colour)" ), ( xColour ), NULL, _T( "Specifies the seed for the noise (each colour gives a different pattern)" ) );
             pColorProp->EnableOtherButton( _T( "Other..." ) );
             pColorProp->EnableAutomaticButton( _T( "Default" ), NULL );
             pColorProp->SetData( PROP_COLOUR_2 );
             pGroup->AddSubItem( pColorProp );
+
+            m_wndPropList.AddProperty( pGroup );
+            break;
+        }
+
+        case GLToy_Texture_Procedural::INSTRUCTION_TILE:
+        {
+            pGroup = new CMFCPropertyGridProperty( _T( "Tiling Properties" ) );
+            CString sValue;
+            sValue.Format( _T( "%u" ), pxDocument->GetTexture().GetParam1( uID ) );
+            CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Frequency" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the frequency of the tiling" ) );
+            pProp->SetData( PROP_UINT_1 );
+            pGroup->AddSubItem( pProp );
 
             m_wndPropList.AddProperty( pGroup );
             break;

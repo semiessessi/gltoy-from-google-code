@@ -25,7 +25,7 @@ public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL LoadFrame(UINT nIDResource, DWORD dwDefaultStyle = WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, CWnd* pParentWnd = NULL, CCreateContext* pContext = NULL);
 
-    CTextureToolDoc* GetActiveDocument();
+    CTextureToolDoc* GetCurrentDocument();
 	CLayerView* GetLayerView() { return &m_wndClassView; }
 	const CLayerView* GetLayerView() const { return &m_wndClassView; }
     CPropertiesWnd* GetProperties() { return &m_wndProperties; }

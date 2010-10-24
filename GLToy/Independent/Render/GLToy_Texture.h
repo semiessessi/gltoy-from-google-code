@@ -123,6 +123,8 @@ protected:
 class GLToy_Texture_System
 {
 
+    friend class GLToy_Texture_Procedural;
+
 public:
 
     static bool Initialise();

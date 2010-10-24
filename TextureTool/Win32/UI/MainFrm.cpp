@@ -466,7 +466,7 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 	m_wndOutput.UpdateFonts();
 }
 
-CTextureToolDoc* CMainFrame::GetActiveDocument()
+CTextureToolDoc* CMainFrame::GetCurrentDocument()
 {
     CWnd* pxMainWindow = AfxGetMainWnd();
     if( !pxMainWindow )
@@ -485,7 +485,7 @@ CTextureToolDoc* CMainFrame::GetActiveDocument()
 
 LRESULT CMainFrame::OnUpdateViews( WPARAM wParam, LPARAM lParam )
 {
-    CTextureToolDoc* pxDocument = GetActiveDocument();
+    CTextureToolDoc* pxDocument = GetCurrentDocument();
     if( pxDocument )
     {
         pxDocument->UpdateAllViews( NULL );

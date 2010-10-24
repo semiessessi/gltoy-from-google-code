@@ -38,6 +38,9 @@ public:
 
 	afx_msg void OnAppAbout();
     afx_msg void OnExportCPP();
+    afx_msg void OnExportJPG();
+    afx_msg void OnExportPNG();
+    afx_msg void OnExportTGA();
 
 	DECLARE_MESSAGE_MAP()
 
