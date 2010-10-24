@@ -34,6 +34,7 @@
 // GLToy
 #include <Core/Data Structures/GLToy_Array.h>
 #include <Core/Data Structures/GLToy_Stack.h>
+#include <Maths/GLToy_Vector.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
@@ -377,6 +378,8 @@ public:
 
     GLToy_Texture_Procedural()
     : m_xLayers()
+    , m_bWrap( true )
+    , m_xLight( 0.533f, 0.533f, 0.533f )
     {
     }
 
@@ -782,6 +785,9 @@ protected:
     }
 
     GLToy_SmallSerialisableArray< LayerNode > m_xLayers;
+
+    mutable bool m_bWrap;
+    mutable GLToy_Vector_3 m_xLight;
 
 };
 

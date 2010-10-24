@@ -849,6 +849,8 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
 
 u_int* GLToy_Texture_Procedural::CreateRGBA( const u_int uWidth, const u_int uHeight )
 {
+    m_bWrap = true;
+    m_xLight = GLToy_Vector_3( 0.533f, 0.533f, 0.533f );
     u_int* puData = new u_int[ uWidth * uHeight ];
 
     GLToy_Memory::Set( puData, uWidth * uHeight * 4, 0 );

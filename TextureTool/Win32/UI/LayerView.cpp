@@ -157,13 +157,19 @@ void CLayerView::AddToTree( const u_int uID, HTREEITEM hParent )
     {
         const u_int uChildID = xTexture.GetLayerIDFromIndex( u, uID ); 
         const bool bGroup = CString( xTexture.GetLayerName( uChildID ) ) == _T( "Group" );
+        const bool bReference = CString( xTexture.GetLayerName( uChildID ) ) == _T( "Reference" );
         CString sLabel( xTexture.GetLayerName( uChildID ) );
-        HTREEITEM hLayer = m_wndClassView.InsertItem( sLabel, bGroup ? 2 : 3, bGroup ? 2 : 3, hParent );
+        HTREEITEM hLayer = m_wndClassView.InsertItem( sLabel, bGroup ? 2 : ( bReference ? 5 : 3 ), bGroup ? 2 : ( bReference ? 5 : 3 ), hParent );
         m_wndClassView.SetItemData( hLayer, uChildID );
 
         if( bGroup )
         {
             AddToTree( uChildID, hLayer );
+        }
+
+        if( bReference )
+        {
+            // ...
         }
     }
 
@@ -651,16 +657,6 @@ void CLayerView::SelectID( const u_int uID, const bool bSelectInTree )
 void CLayerView::OnClick()
 {
     SelectID( GetSelectedID(), false );
-    
-    //const NM_TREEVIEW& xInfo = *reinterpret_cast< LPNM_TREEVIEW >( pxNM );
-
-    //if( xInfo.itemNew.hItem )
-    //{
-    //    CTreeCtrl* pWndTree = (CTreeCtrl*)&m_wndClassView;
-	   // ASSERT_VALID(pWndTree);    
-
-    //    SelectID( pWndTree->GetItemData( xInfo.itemNew.hItem ) );
-    //}
 }
 
 void CLayerView::OnShapingfunctionCosine2()
