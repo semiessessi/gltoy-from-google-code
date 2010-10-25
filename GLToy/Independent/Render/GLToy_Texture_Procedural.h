@@ -151,6 +151,11 @@ public:
         //EXTENSION_BORDER                            = 6,
         //EXTENSION_BEVEL                             = 7,
         //EXTENSION_BEVEL_NORMALS                     = 8,
+        //EXTENSION_RECTANGLE                         = 9,
+        //EXTENSION_BEVEL_RECTANGLE                   = 10,
+        //EXTENSION_BEVEL_NORMALS_RECTANGLE           = 11,
+
+        // EXTENSION_TEXTURE_MODE
 
         // some stuff for baked in highlights and normal maps
         // EXTENSION_SET_HIGHLIGHT_DIRECTION
@@ -232,6 +237,7 @@ private:
         ~LayerNode()
         {
             delete m_pxChildren;
+            m_pxChildren = NULL;
         }
 
         bool IsLeaf() const
@@ -371,6 +377,8 @@ private:
         static u_int s_uNextID;
 
         static GLToy_Stack< u_int* > s_xRenderStack;
+        static bool s_bWrap;
+        static GLToy_Vector_3 s_xLight;
 
     };
 
@@ -378,8 +386,6 @@ public:
 
     GLToy_Texture_Procedural()
     : m_xLayers()
-    , m_bWrap( true )
-    , m_xLight( 0.533f, 0.533f, 0.533f )
     {
     }
 
@@ -646,6 +652,14 @@ public:
     static const char* GetShapingFunctionName( const ShapeFunction eFunction );
     static const char* GetGradientName( const GradientStyle eStyle );
 
+    u_int GetPositionFromID( const u_int uID ) const;
+    u_int GetIDFromPosition( const u_int uPosition ) const;
+    u_int GetLastPosition() const;
+    void UpdateReferencesFromDelete( const u_int uDeletedPosition, const u_int uChildCount = 0 );
+    void UpdateReferencesFromInsert( const u_int uInsertedPosition, const u_int uChildCount = 0 );
+    void UpdateReferencesFromMove( const u_int uOldPosition, const u_int uNewPosition, const u_int uChildCount = 0 );
+    bool CircularReferenceCheck( const u_int uReferenceID ) const;
+
 protected:
 
     LayerNode* GetLayerNodeFromID( const u_int uID, GLToy_SmallSerialisableArray< LayerNode >* pxLayers = NULL )
@@ -714,7 +728,16 @@ protected:
             LayerNode& xLayerNode = xIterator.Current();
             if( xLayerNode.GetID() == uID )
             {
-                pxLayers->RemoveAt( xIterator.Index() );
+                if( xLayerNode.IsLeaf() )
+                {
+                    UpdateReferencesFromDelete( GetPositionFromID( xLayerNode.GetID() ) );
+                    pxLayers->RemoveAt( xIterator.Index() );
+                }
+                else
+                {
+                    UpdateReferencesFromDelete( GetPositionFromID( xLayerNode.GetID() ), GetTotalChildCount( xLayerNode.GetID() ) );
+                    pxLayers->RemoveAt( xIterator.Index() );
+                }
                 return true;
             }
             else if( !xLayerNode.IsLeaf() )
@@ -728,6 +751,33 @@ protected:
         }
 
         return false;
+    }
+
+    u_int GetParentIDFromID( const u_int uID, const GLToy_SmallSerialisableArray< LayerNode >* pxLayers = NULL, u_int uParentID = 0 ) const
+    {
+        if( !pxLayers )
+        {
+            pxLayers = &m_xLayers;
+        }
+
+        GLToy_ConstIterate( LayerNode, xIterator, pxLayers )
+        {
+            const LayerNode& xLayerNode = xIterator.Current();
+            if( xLayerNode.GetID() == uID )
+            {
+                return uParentID;
+            }
+            else if( !xLayerNode.IsLeaf() )
+            {
+                u_int uReturnID = GetParentIDFromID( uID, xLayerNode.GetChildren(), xLayerNode.GetID() );
+                if( uReturnID != 0 )
+                {
+                    return uReturnID;
+                }
+            }
+        }
+
+        return 0;
     }
 
     GLToy_SmallSerialisableArray< LayerNode >* GetParentArrayFromID( const u_int uID, GLToy_SmallSerialisableArray< LayerNode >* pxLayers = NULL )
@@ -757,16 +807,43 @@ protected:
         return NULL;
     }
 
-    u_int GetIndexInArrayFromID( const u_int uID, GLToy_SmallSerialisableArray< LayerNode >* pxLayers = NULL )
+    const GLToy_SmallSerialisableArray< LayerNode >* GetParentArrayFromID( const u_int uID, const GLToy_SmallSerialisableArray< LayerNode >* pxLayers = NULL ) const
     {
         if( !pxLayers )
         {
             pxLayers = &m_xLayers;
         }
 
-        GLToy_Iterate( LayerNode, xIterator, pxLayers )
+        GLToy_ConstIterate( LayerNode, xIterator, pxLayers )
         {
-            LayerNode& xLayerNode = xIterator.Current();
+            const LayerNode& xLayerNode = xIterator.Current();
+            if( xLayerNode.GetID() == uID )
+            {
+                return pxLayers;
+            }
+            else if( !xLayerNode.IsLeaf() )
+            {
+                const LayerNode* pxLayerNode = GetLayerNodeFromID( uID, xLayerNode.GetChildren() );
+                if( pxLayerNode )
+                {
+                    return xLayerNode.GetChildren();
+                }
+            }
+        }
+
+        return NULL;
+    }
+
+    u_int GetIndexInArrayFromID( const u_int uID, const GLToy_SmallSerialisableArray< LayerNode >* pxLayers = NULL ) const
+    {
+        if( !pxLayers )
+        {
+            pxLayers = &m_xLayers;
+        }
+
+        GLToy_ConstIterate( LayerNode, xIterator, pxLayers )
+        {
+            const LayerNode& xLayerNode = xIterator.Current();
             if( xLayerNode.GetID() == uID )
             {
                 return xIterator.Index();
@@ -784,10 +861,71 @@ protected:
         return 0xFFFFFFFF;
     }
 
-    GLToy_SmallSerialisableArray< LayerNode > m_xLayers;
+    LayerNode* GetFirstReferenceTo( const u_int uPosition, GLToy_SmallSerialisableArray< LayerNode >* pxLayers = NULL )
+    {
+        if( !pxLayers )
+        {
+            pxLayers = &m_xLayers;
+        }
 
-    mutable bool m_bWrap;
-    mutable GLToy_Vector_3 m_xLight;
+        GLToy_Iterate( LayerNode, xIterator, pxLayers )
+        {
+            LayerNode& xLayerNode = xIterator.Current();
+            if( ( xLayerNode.m_eInstruction == INSTRUCTION_EXTENSION ) 
+                && ( xLayerNode.m_eExtensionFunction == EXTENSION_REFERENCE )
+                && ( xLayerNode.m_uParam1 == uPosition ) )
+            {
+                return &xLayerNode;
+            }
+            else if( !xLayerNode.IsLeaf() )
+            {
+                LayerNode* pxLayerNode = GetFirstReferenceTo( uPosition, xLayerNode.GetChildren() );
+                if( pxLayerNode )
+                {
+                    return pxLayerNode;
+                }
+            }
+        }
+
+        return NULL;
+    }
+
+    u_int GetTotalChildCount( const u_int uID, const GLToy_SmallSerialisableArray< LayerNode >* pxLayers = NULL ) const
+    {
+        if( !pxLayers )
+        {
+            pxLayers = &m_xLayers;
+        }
+
+        u_int uCount = 0;
+        GLToy_ConstIterate( LayerNode, xIterator, pxLayers )
+        {
+            const LayerNode& xLayerNode = xIterator.Current();
+            if( xLayerNode.GetID() == uID )
+            {
+                if( xLayerNode.IsLeaf() )
+                {
+                    return 0;
+                }
+                else
+                {
+                    return GetTotalChildCount( uID, xLayerNode.GetChildren() );
+                }
+            }
+            else if( xLayerNode.IsLeaf() )
+            {
+                ++uCount;
+            }
+            else
+            {
+                uCount += 1 + GetTotalChildCount( uID, xLayerNode.GetChildren() );
+            }
+        }
+
+        return uCount;
+    }
+
+    GLToy_SmallSerialisableArray< LayerNode > m_xLayers;
 
 };
 

@@ -46,6 +46,8 @@
 
 GLToy_Stack< u_int* > GLToy_Texture_Procedural::LayerNode::s_xRenderStack;
 u_int GLToy_Texture_Procedural::LayerNode::s_uNextID = 1;
+bool GLToy_Texture_Procedural::LayerNode::s_bWrap = true;
+GLToy_Vector_3 GLToy_Texture_Procedural::LayerNode::s_xLight( 0.533f, 0.533f, 0.533f );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -119,11 +121,17 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
                 xStream >> ucFunction;
                 m_eExtensionFunction = static_cast< ExtensionFunction >( ucFunction );
                 
-                //switch( m_eExtensionFunction )
-                //{
-                //    default:
-                //        break;
-                //}
+                switch( m_eExtensionFunction )
+                {
+                    case EXTENSION_REFERENCE:
+                    {
+                        xStream.ReadBits( m_uParam1, 7 ); // only allow up to 128 layers...
+                        break;
+                    }
+
+                    default:
+                        break;
+                }
                 
                 break;
             }
@@ -185,11 +193,16 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
             {
                 xStream << static_cast< u_char >( m_eExtensionFunction );
 
-                //switch( m_eExtensionFunction )
-                //{
-                //    default:
-                //        break;
-                //}
+                switch( m_eExtensionFunction )
+                {
+                    case EXTENSION_REFERENCE:
+                    {
+                        xStream.WriteBits( m_uParam1, 7 ); // only allow up to 128 layers...
+                        break;
+                    }
+                    default:
+                        break;
+                }
                 
                 break;
             }
@@ -722,6 +735,14 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                         }
                         break;
                     }
+
+                    case EXTENSION_REFERENCE:
+                    {
+                        //LayerNode* pxLayerNode = 
+
+
+                        break;
+                    }
                 }
                 break;
             }
@@ -849,13 +870,14 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
 
 u_int* GLToy_Texture_Procedural::CreateRGBA( const u_int uWidth, const u_int uHeight )
 {
-    m_bWrap = true;
-    m_xLight = GLToy_Vector_3( 0.533f, 0.533f, 0.533f );
     u_int* puData = new u_int[ uWidth * uHeight ];
 
     GLToy_Memory::Set( puData, uWidth * uHeight * 4, 0 );
 
+    // initialise render state
     LayerNode::s_xRenderStack.Push( puData );
+    LayerNode::s_bWrap = true;
+    LayerNode::s_xLight = GLToy_Vector_3( 0.533f, 0.533f, 0.533f );
 
     // traverse the tree
     GLToy_Iterate( LayerNode, xIterator, &m_xLayers )
@@ -1005,6 +1027,9 @@ u_int GLToy_Texture_Procedural::MoveLayerAfter( const u_int uID, const u_int uAf
         pxArray->InsertAt( uIndex + 1, xCopy );
     }
 
+    const u_int uNewPosition = GetPositionFromID( xCopy.GetID() );
+    UpdateReferencesFromInsert( uNewPosition, GetTotalChildCount( xCopy.GetID() ) );
+
     return xCopy.GetID();
 }
 
@@ -1030,6 +1055,8 @@ u_int GLToy_Texture_Procedural::MoveLayerBefore( const u_int uID, const u_int uB
     const u_int uIndex = GetIndexInArrayFromID( uBeforeID );
 
     pxArray->InsertAt( uIndex, xCopy );
+    const u_int uNewPosition = GetPositionFromID( xCopy.GetID() );
+    UpdateReferencesFromInsert( uNewPosition, GetTotalChildCount( xCopy.GetID() ) );
 
     return xCopy.GetID();
 }
@@ -1059,6 +1086,9 @@ u_int GLToy_Texture_Procedural::MoveLayerUnder( const u_int uID, const u_int uUn
     }
 
     pxChildren->Append( xCopy );
+
+    const u_int uNewPosition = GetPositionFromID( xCopy.GetID() );
+    UpdateReferencesFromInsert( uNewPosition, GetTotalChildCount( xCopy.GetID() ) );
     
     return xCopy.GetID();
 }
@@ -1216,4 +1246,333 @@ const char* GLToy_Texture_Procedural::GetGradientName( const GradientStyle eFunc
     }
 
     return "Unknown Gradient";
+}
+
+u_int GLToy_Texture_Procedural::GetPositionFromID( const u_int uID ) const
+{
+    // iterate over by going down eagerly, then across
+    u_int uPosition = 1;
+    u_int uCursor = 0;
+    const GLToy_Array< LayerNode >* pxArray = &m_xLayers;
+    while( true )
+    {
+        const LayerNode& xCurrent = ( *pxArray )[ uCursor ];
+        if( xCurrent.GetID() == uID )
+        {
+            return uPosition;
+        }
+
+        ++uPosition;
+        // if we have children see if we can go down
+        if( !xCurrent.IsLeaf() )
+        {
+            if( xCurrent.GetChildren()->GetCount() > 0 )
+            {
+                pxArray = xCurrent.GetChildren();
+                uCursor = 0;
+                continue;
+            }
+        }
+        
+        // otherwise go right
+        if( pxArray->GetCount() && ( uCursor < ( pxArray->GetCount() - 1 ) ) )
+        {
+            ++uCursor;
+            continue;
+        }
+        
+        // otherwise, go up and right
+        bool bGoUp = true;
+        u_int uClimbID = xCurrent.GetID();
+        while( bGoUp )
+        {
+            const u_int uParentID = GetParentIDFromID( uClimbID );
+            pxArray = GetParentArrayFromID( uParentID );
+            if( !pxArray )
+            {
+                return 0; // must have reached the end
+            }
+
+            uCursor = GetIndexInArrayFromID( uParentID );
+            if( uCursor >= ( pxArray->GetCount() - 1 ) )
+            {
+                bGoUp = true;
+                uClimbID = uParentID;
+            }
+            else
+            {
+                ++uCursor;
+                break;
+            }
+
+            if( ( pxArray == &m_xLayers ) && bGoUp )
+            {
+                return 0; // done - can't find
+            }
+        }
+    }
+
+    return 0;
+}
+
+u_int GLToy_Texture_Procedural::GetIDFromPosition( const u_int uPosition ) const
+{
+    u_int uIteratorPosition = 1;
+    u_int uCursor = 0;
+    const GLToy_Array< LayerNode >* pxArray = &m_xLayers;
+    while( true )
+    {
+        const LayerNode& xCurrent = ( *pxArray )[ uCursor ];
+        if( uIteratorPosition == uPosition )
+        {
+            return xCurrent.GetID();
+        }
+
+        ++uIteratorPosition;
+        // if we have children see if we can go down
+        if( !xCurrent.IsLeaf() )
+        {
+            if( xCurrent.GetChildren()->GetCount() > 0 )
+            {
+                pxArray = xCurrent.GetChildren();
+                uCursor = 0;
+                continue;
+            }
+        }
+
+        // otherwise go right
+        if( pxArray->GetCount() && ( uCursor < ( pxArray->GetCount() - 1 ) ) )
+        {
+            ++uCursor;
+            continue;
+        }
+
+        // otherwise, go up and right
+        bool bGoUp = true;
+        u_int uClimbID = xCurrent.GetID();
+        while( bGoUp )
+        {
+            const u_int uParentID = GetParentIDFromID( uClimbID );
+            pxArray = GetParentArrayFromID( uParentID );
+            uCursor = GetIndexInArrayFromID( uParentID );
+            if( !pxArray )
+            {
+                return 0; // must have reached the end
+            }
+
+            if( uCursor >= ( pxArray->GetCount() - 1 ) )
+            {
+                bGoUp = true;
+                uClimbID = uParentID;
+            }
+            else
+            {
+                ++uCursor;
+                break;
+            }
+
+            if( ( pxArray == &m_xLayers ) && bGoUp )
+            {
+                return 0; // done - can't find
+            }
+        }
+    }
+
+    return 0;
+}
+
+u_int GLToy_Texture_Procedural::GetLastPosition() const
+{
+    u_int uIteratorPosition = 1;
+    u_int uCursor = 0;
+    const GLToy_Array< LayerNode >* pxArray = &m_xLayers;
+    while( true )
+    {
+        const LayerNode& xCurrent = ( *pxArray )[ uCursor ];
+
+        if( uCursor >= ( pxArray->GetCount() - 1 ) )
+        {
+            // pointing beyond the end of the array...
+        }
+
+        ++uIteratorPosition;
+
+        // if we have children see if we can go down
+        if( !xCurrent.IsLeaf() )
+        {
+            if( xCurrent.GetChildren()->GetCount() > 0 )
+            {
+                pxArray = xCurrent.GetChildren();
+                uCursor = 0;
+                continue;
+            }
+        }
+        
+        // otherwise go right
+        if( pxArray->GetCount() && ( uCursor < ( pxArray->GetCount() - 1 ) ) )
+        {
+            ++uCursor;
+            continue;
+        }
+        
+        // otherwise, go up and right
+        bool bGoUp = true;
+        u_int uClimbID = xCurrent.GetID();
+        while( bGoUp )
+        {
+            const u_int uParentID = GetParentIDFromID( uClimbID );
+            pxArray = GetParentArrayFromID( uParentID );
+            if( !pxArray ) // we must have reached the end
+            {
+                return --uIteratorPosition;
+            }
+
+            uCursor = GetIndexInArrayFromID( uParentID );
+            if( uCursor >= ( pxArray->GetCount() - 1 ) )
+            {
+                bGoUp = true;
+                uClimbID = uParentID;
+            }
+            else
+            {
+                ++uCursor;
+                break;
+            }
+
+            if( ( pxArray == &m_xLayers ) && bGoUp )
+            {
+                return --uIteratorPosition;
+            }
+        }
+    }
+
+    return 0;
+}
+
+void GLToy_Texture_Procedural::UpdateReferencesFromDelete( const u_int uDeletedPosition, const u_int uChildCount )
+{
+    // this is expected to be done /before/ delete actually happens
+    const u_int uLastPosition = GetLastPosition();
+    if( uDeletedPosition > uLastPosition )
+    {
+        return;
+    }
+
+    // if the deleted object was a group then we have to be careful to adjust accordingly
+    const u_int uAdjustAmount = uChildCount + 1;
+
+    // any references to our position or children should be set to refer to null...
+    for( u_int u = uDeletedPosition; u < ( uDeletedPosition + uAdjustAmount ); ++u )
+    {
+        LayerNode* pxReference = GetFirstReferenceTo( u );
+        while( pxReference )
+        {
+            pxReference->m_uParam1 = 0;
+            pxReference = GetFirstReferenceTo( u );
+        }
+    }
+
+    // everything after the deleted position needs to be corrected
+    const u_int uFirstModified = uDeletedPosition + uAdjustAmount;
+
+    for( u_int u = uFirstModified; u < ( uLastPosition + 1 ); ++u )
+    {
+        LayerNode* pxReference = GetFirstReferenceTo( u );
+        while( pxReference )
+        {
+            pxReference->m_uParam1 = u - uAdjustAmount;
+            pxReference = GetFirstReferenceTo( u );
+        }
+    }
+}
+
+void GLToy_Texture_Procedural::UpdateReferencesFromInsert( const u_int uInsertedPosition, const u_int uChildCount )
+{
+    // this is expected to be done /after/ insert actually happens
+    const u_int uLastPosition = GetLastPosition();
+    if( uInsertedPosition > uLastPosition )
+    {
+        return;
+    }
+    // everything after us needs to be incremented...
+
+    // if the inserted object is a group then we have to be careful to adjust accordingly
+    const u_int uAdjustAmount = uChildCount + 1;
+
+    // everything after the inserted position needs to be corrected
+    const u_int uFirstModified = uInsertedPosition + uAdjustAmount;
+
+    for( u_int u = uFirstModified; u < ( uLastPosition + 1 ); ++u )
+    {
+        LayerNode* pxReference = GetFirstReferenceTo( u );
+        while( pxReference )
+        {
+            pxReference->m_uParam1 = u + uAdjustAmount;
+            pxReference = GetFirstReferenceTo( u );
+        }
+    }
+}
+
+void GLToy_Texture_Procedural::UpdateReferencesFromMove( const u_int uOldPosition, const u_int uNewPosition, const u_int uChildCount )
+{
+    UpdateReferencesFromDelete( uOldPosition, uChildCount );
+    UpdateReferencesFromInsert( uNewPosition, uChildCount );
+}
+
+bool GLToy_Texture_Procedural::CircularReferenceCheck( const u_int uReferenceID ) const
+{
+    // is it even a valid ID?
+    const LayerNode* const pxLayerNode = GetLayerNodeFromID( uReferenceID );
+    if( !pxLayerNode )
+    {
+        return false; // no node, no circular reference...
+    }
+
+    // is it even an extension layer?
+    if( pxLayerNode->m_eInstruction != INSTRUCTION_EXTENSION )
+    {
+        return false; // only extensions can be references
+    }
+
+    // is it even a reference layer?
+    if( pxLayerNode->m_eExtensionFunction != EXTENSION_REFERENCE )
+    {
+        return false; // only references can cause circular references
+    }
+
+    const u_int uReferredToPosition = pxLayerNode->m_uParam1;
+
+    // does it even reference a valid position
+    if( uReferredToPosition == 0 )
+    {
+        // these might be left over from deletion... at any rate they reference nothing
+        return false;
+    }
+
+    const u_int uReferredToID = GetIDFromPosition( uReferredToPosition );
+    // does it even reference a valid ID
+    if( uReferredToID == 0 )
+    {
+        // this is a bad reference - shouldn't happen, and not likely to cause circular references...
+        return false;
+    }
+
+    // ... and not itself
+    if( uReferenceID == uReferredToID )
+    {
+        return true; // self-referencing is a circular reference
+    }
+
+    // does it reference any of its parents?
+    u_int uID = uReferenceID;
+    while( uID != 0 )
+    {
+        uID = GetParentIDFromID( uID );
+        if( uID == uReferredToID )
+        {
+            return true; // can't reference own parent - that makes a circular reference
+        }
+    }
+
+    return false;
 }

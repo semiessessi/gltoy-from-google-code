@@ -622,7 +622,7 @@ public:
         Clear();
 
         u_int uCount;
-        xStream.ReadBits( uCount, 6 );
+        xStream.ReadBits( uCount, 5 );
 
         for( u_int u = 0; u < uCount; ++u )
         {
@@ -634,8 +634,8 @@ public:
 
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
     {
-        GLToy_Assert( GetCount() < 64, "Not allowed more than 63 members in a GLToy_SmallSerialisableArray" );
-        xStream.WriteBits( GetCount(), 6 );
+        GLToy_Assert( GetCount() < 32, "Not allowed more than 31 members in a GLToy_SmallSerialisableArray" );
+        xStream.WriteBits( GetCount(), 5 );
 
         GLToy_ConstIterate( T, xIterator, this )
         {

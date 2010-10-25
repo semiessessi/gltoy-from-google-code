@@ -13,11 +13,14 @@ static char THIS_FILE[] = __FILE__;
 // CViewTree
 
 CViewTree::CViewTree()
+: m_pxDragImageList( NULL )
 {
 }
 
 CViewTree::~CViewTree()
 {
+    delete m_pxDragImageList;
+    m_pxDragImageList = NULL;
 }
 
 BEGIN_MESSAGE_MAP(CViewTree, CTreeCtrl)
@@ -58,6 +61,7 @@ void CViewTree::OnLButtonUp( UINT nFlags, CPoint point )
 		ReleaseCapture();
 
 		delete m_pxDragImageList;
+        m_pxDragImageList = NULL;
 
 		SelectDropTarget( NULL );
 
@@ -97,6 +101,7 @@ void CViewTree::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
 	m_xItemDrag = pNMTreeView->itemNew.hItem;
 	m_xItemDrop = NULL;
 
+    delete m_pxDragImageList;
 	m_pxDragImageList = CreateDragImage( m_xItemDrag );
 	if( !m_pxDragImageList )
     {
