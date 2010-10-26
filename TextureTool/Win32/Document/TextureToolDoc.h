@@ -42,6 +42,7 @@ public:
     void AppendStripeVertical( const u_int uParentID = 0 );
     void AppendStripeDiagonal1( const u_int uParentID = 0 );
     void AppendStripeDiagonal2( const u_int uParentID = 0 );
+    void AppendBorder( const u_int uParentID = 0 );
 
     void DeleteLayer( const u_int uID );
     void PromoteLayer( const u_int uID );

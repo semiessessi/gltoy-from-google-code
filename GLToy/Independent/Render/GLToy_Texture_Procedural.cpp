@@ -129,6 +129,12 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
                         break;
                     }
 
+                    case EXTENSION_BORDER:
+                    {
+                        xStream.ReadBits( m_uParam1, 12 ); // 4096 graduations is probably ample forever (assuming textures never get bigger than 4kx4k)
+                        break;
+                    }
+
                     default:
                         break;
                 }
@@ -200,6 +206,13 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
                         xStream.WriteBits( m_uParam1, 7 ); // only allow up to 128 layers...
                         break;
                     }
+
+                    case EXTENSION_BORDER:
+                    {
+                        xStream.WriteBits( m_uParam1, 12 ); // 4096 graduations is probably ample forever (assuming textures never get bigger than 4kx4k)
+                        break;
+                    }
+
                     default:
                         break;
                 }
@@ -744,6 +757,26 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                             if( pxLayerNode )
                             {
                                 pxLayerNode->Render( uWidth, uHeight );
+                            }
+                        }
+                        break;
+                    }
+
+                    case EXTENSION_BORDER:
+                    {
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {
+                                const float fX = static_cast< float >( u ) / static_cast< float >( uWidth );
+                                const float fY = static_cast< float >( v ) / static_cast< float >( uHeight );
+                                const float fMX = fX > 0.5f ? 1.0f - fX : fX;
+                                const float fMY = fY > 0.5f ? 1.0f - fY : fY;
+                                const float fAmount = static_cast< float >( m_uParam1 ) / 4095.0f;
+                                puData[ v * uWidth + u ] =
+                                    ( ( GLToy_Maths::Abs( fMX ) < fAmount ) || ( GLToy_Maths::Abs( fMY ) < fAmount ) )
+                                        ? 0xFFFFFFFF
+                                        : 0x00000000;
                             }
                         }
                         break;

@@ -57,6 +57,9 @@ enum Property
     PROP_FLOAT_1            = 9,
     PROP_FLOAT_2            = 10,
     PROP_FLOAT_3            = 11,
+
+    // i imagine it will get hairy from here... although i haven't used the u_chars yet 8-bits is typically inconvenient...
+    PROP_FIXED_12BIT_1      = 12,
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -285,6 +288,15 @@ void CPropertiesWnd::OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const
             const CString sValue = pProp->GetValue().bstrVal;
             const float fValue = GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractFloat();
             m_pxDocument->GetTexture().SetParam3( m_uID, fValue );
+            break;
+        }
+
+        case PROP_FIXED_12BIT_1:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            const float fValue = GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractFloat();
+            m_pxDocument->GetTexture().SetParam1( m_uID, static_cast< u_int >( fValue * 4095.0f ) );
             break;
         }
 
@@ -579,6 +591,21 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
                     m_wndPropList.AddProperty( pGroup );
                     break;
                 }
+
+                case GLToy_Texture_Procedural::EXTENSION_BORDER:
+                {
+                    pGroup = new CMFCPropertyGridProperty( _T( "Border Properties" ) );
+
+                    CString sValue;
+                    sValue.Format( _T( "%f" ), static_cast< float >( pxDocument->GetTexture().GetParam1( uID ) ) / 4095.0f );
+                    CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Width" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the width of the border" ) );
+                    pProp->SetData( PROP_FIXED_12BIT_1 );
+                    pGroup->AddSubItem( pProp );
+
+                    m_wndPropList.AddProperty( pGroup );
+                    break;
+                }
+
                 default:
                 {
                     break;
@@ -592,75 +619,6 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
             break;
         }
     }
-
-	//CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty(_T("Border"), _T("Dialog Frame"), _T("One of: None, Thin, Resizable, or Dialog Frame"));
-	//pProp->AddOption(_T("None"));
-	//pProp->AddOption(_T("Thin"));
-	//pProp->AddOption(_T("Resizable"));
-	//pProp->AddOption(_T("Dialog Frame"));
-	//pProp->AllowEdit(FALSE);
-
-	//pGroup1->AddSubItem(pProp);
-	//pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("Caption"), (_variant_t) _T("About"), _T("Specifies the text that will be displayed in the window's title bar")));
-
-	//m_wndPropList.AddProperty(pGroup1);
-
-	//CMFCPropertyGridProperty* pSize = new CMFCPropertyGridProperty(_T("Window Size"), 0, TRUE);
-
-	//pProp = new CMFCPropertyGridProperty(_T("Height"), (_variant_t) 250l, _T("Specifies the window's height"));
-	//pProp->EnableSpinControl(TRUE, 50, 300);
-	//pSize->AddSubItem(pProp);
-
-	//pProp = new CMFCPropertyGridProperty( _T("Width"), (_variant_t) 150l, _T("Specifies the window's width"));
-	//pProp->EnableSpinControl(TRUE, 50, 200);
-	//pSize->AddSubItem(pProp);
-
-	//m_wndPropList.AddProperty(pSize);
-
-	//CMFCPropertyGridProperty* pGroup2 = new CMFCPropertyGridProperty(_T("Font"));
-
-	//LOGFONT lf;
-	//CFont* font = CFont::FromHandle((HFONT) GetStockObject(DEFAULT_GUI_FONT));
-	//font->GetLogFont(&lf);
-
-	//lstrcpy(lf.lfFaceName, _T("Arial"));
-
-	//pGroup2->AddSubItem(new CMFCPropertyGridFontProperty(_T("Font"), lf, CF_EFFECTS | CF_SCREENFONTS, _T("Specifies the default font for the window")));
-	//pGroup2->AddSubItem(new CMFCPropertyGridProperty(_T("Use System Font"), (_variant_t) true, _T("Specifies that the window uses MS Shell Dlg font")));
-
-	//m_wndPropList.AddProperty(pGroup2);
-
-	//CMFCPropertyGridProperty* pGroup3 = new CMFCPropertyGridProperty(_T("Misc"));
-	//pProp = new CMFCPropertyGridProperty(_T("(Name)"), _T("Application"));
-	//pProp->Enable(FALSE);
-	//pGroup3->AddSubItem(pProp);
-
-	//CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty(_T("Window Color"), RGB(210, 192, 254), NULL, _T("Specifies the default window color"));
-	//pColorProp->EnableOtherButton(_T("Other..."));
-	//pColorProp->EnableAutomaticButton(_T("Default"), ::GetSysColor(COLOR_3DFACE));
-	//pGroup3->AddSubItem(pColorProp);
-
-	//static const TCHAR szFilter[] = _T("Icon Files(*.ico)|*.ico|All Files(*.*)|*.*||");
-	//pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("Icon"), TRUE, _T(""), _T("ico"), 0, szFilter, _T("Specifies the window icon")));
-
-	//pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("Folder"), _T("c:\\")));
-
-	//m_wndPropList.AddProperty(pGroup3);
-
-	//CMFCPropertyGridProperty* pGroup4 = new CMFCPropertyGridProperty(_T("Hierarchy"));
-
-	//CMFCPropertyGridProperty* pGroup41 = new CMFCPropertyGridProperty(_T("First sub-level"));
-	//pGroup4->AddSubItem(pGroup41);
-
-	//CMFCPropertyGridProperty* pGroup411 = new CMFCPropertyGridProperty(_T("Second sub-level"));
-	//pGroup41->AddSubItem(pGroup411);
-
-	//pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Item 1"), (_variant_t) _T("Value 1"), _T("This is a description")));
-	//pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Item 2"), (_variant_t) _T("Value 2"), _T("This is a description")));
-	//pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Item 3"), (_variant_t) _T("Value 3"), _T("This is a description")));
-
-	//pGroup4->Expand(FALSE);
-	//m_wndPropList.AddProperty(pGroup4);
 }
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)

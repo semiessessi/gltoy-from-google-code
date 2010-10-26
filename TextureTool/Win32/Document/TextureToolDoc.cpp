@@ -346,6 +346,19 @@ void CTextureToolDoc::AppendStripeDiagonal2( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
+void CTextureToolDoc::AppendBorder( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendBorder( 0.05f );
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
 void CTextureToolDoc::DeleteLayer( const u_int uID )
 {
     m_xTexture.DeleteFromID( uID );

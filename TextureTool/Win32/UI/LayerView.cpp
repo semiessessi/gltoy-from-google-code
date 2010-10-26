@@ -59,6 +59,7 @@ BEGIN_MESSAGE_MAP(CLayerView, CDockablePane)
     ON_COMMAND( ID_NOISE_FRACTAL, OnNoiseFractal )
     ON_COMMAND( ID_ADDLAYER_TILE, OnTile )
     ON_COMMAND( ID_PATTERNS_CHECKERBOARD, OnPatternCheckerboard )
+    ON_COMMAND( ID_PATTERN_BORDER, OnPatternBorder )
     ON_COMMAND( ID_PATTERNS_HORIZONTALSTRIPE, OnPatternHorizontalStripe )
     ON_COMMAND( ID_PATTERNS_VERTICALSTRIPE, OnPatternVerticalStripe )
     ON_COMMAND( ID_DIAGONALSTRIPE_BOTTOMLEFTTOTOPRIGHT, OnPatternDiagonalStripe1 )
@@ -536,6 +537,24 @@ void CLayerView::OnPatternDiagonalStripe2()
     }
 
     pxDocument->AppendStripeDiagonal2();
+}
+
+void CLayerView::OnPatternBorder()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendBorder( uID );
+        return;
+    }
+
+    pxDocument->AppendBorder();
 }
 
 void CLayerView::OnDeleteLayer()

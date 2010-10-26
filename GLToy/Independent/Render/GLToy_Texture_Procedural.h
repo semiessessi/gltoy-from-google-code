@@ -148,7 +148,7 @@ public:
         EXTENSION_REFERENCE                         = 5,
 
         // bevels/borders
-        //EXTENSION_BORDER                            = 6,
+        EXTENSION_BORDER                            = 6,
         //EXTENSION_BEVEL                             = 7,
         //EXTENSION_BEVEL_NORMALS                     = 8,
         //EXTENSION_RECTANGLE                         = 9,
@@ -319,27 +319,28 @@ private:
 
             switch( m_eInstruction )
             {
-                case INSTRUCTION_FILL:                  return "Flat Colour";
-                case INSTRUCTION_NOISE:                 return "Noise";
-                case INSTRUCTION_TILE:                  return "Tiling";
-                case INSTRUCTION_CIRCLE:                return "Circle";
-                case INSTRUCTION_FBMNOISE:              return "Fractal Noise";
-                case INSTRUCTION_SHAPE:                 return "Shaping Function";
-                case INSTRUCTION_GRADIENT:              return "Gradient";
+                case INSTRUCTION_FILL:                                  return "Flat Colour";
+                case INSTRUCTION_NOISE:                                 return "Noise";
+                case INSTRUCTION_TILE:                                  return "Tiling";
+                case INSTRUCTION_CIRCLE:                                return "Circle";
+                case INSTRUCTION_FBMNOISE:                              return "Fractal Noise";
+                case INSTRUCTION_SHAPE:                                 return "Shaping Function";
+                case INSTRUCTION_GRADIENT:                              return "Gradient";
                 case INSTRUCTION_EXTENSION:
                 {
                     switch( m_eExtensionFunction )
                     {
-                        case EXTENSION_CHECKERBOARD:                return "Checkerboard";
-                        case EXTENSION_HORIZONTAL_STRIPE:           return "Horizontal Stripe";
-                        case EXTENSION_VERTICAL_STRIPE:             return "Vertical Stripe";
-                        case EXTENSION_DIAGONAL_STRIPE_UPLEFT:      return "Diagonal Stripe (Up-Left)";
-                        case EXTENSION_DIAGONAL_STRIPE_DOWNLEFT:    return "Diagonal Stripe (Down-Left)";
-                        case EXTENSION_REFERENCE:                   return "Reference";
-                        default:                                    return "Unnamed Extension";
+                        case EXTENSION_CHECKERBOARD:                    return "Checkerboard";
+                        case EXTENSION_HORIZONTAL_STRIPE:               return "Horizontal Stripe";
+                        case EXTENSION_VERTICAL_STRIPE:                 return "Vertical Stripe";
+                        case EXTENSION_DIAGONAL_STRIPE_UPLEFT:          return "Diagonal Stripe (Up-Left)";
+                        case EXTENSION_DIAGONAL_STRIPE_DOWNLEFT:        return "Diagonal Stripe (Down-Left)";
+                        case EXTENSION_REFERENCE:                       return "Reference";
+                        case EXTENSION_BORDER:                          return "Border";
+                        default:                                        return "Unnamed Extension";
                     }
                 }
-                default:                    return "Unknown Instruction";
+                default:                                                return "Unknown Instruction";
             }
         }
 
@@ -474,6 +475,12 @@ public:
     u_int AppendDiagonalStripeDownLeftLayer()
     {
         m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_DIAGONAL_STRIPE_DOWNLEFT ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendBorder( const float fAmount )
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_BORDER, static_cast< u_int >( fAmount * 4095.0f ) ) );
         return m_xLayers.End().GetID();
     }
 
