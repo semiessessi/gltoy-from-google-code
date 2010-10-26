@@ -112,6 +112,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// prevent the menu bar from taking the focus on activation
 	CMFCPopupMenu::SetForceMenuFocus(FALSE);
 
+    // TODO: work out a way to disable this nicely by default - otherwise this will have to be uncommented. :)
+    //m_wndMenuBar.SetShowAllCommands();
+
 	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
 		!m_wndToolBar.LoadToolBar(theApp.m_bHiColorIcons ? IDR_MAINFRAME_256 : IDR_MAINFRAME))
 	{

@@ -299,6 +299,9 @@ void CLayerView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 		if (!pPopupMenu->Create(this, point.x, point.y, (HMENU)pxSubMenu->m_hMenu, FALSE, TRUE))
 			return;
+        
+        // annoyingly this doesn't recurse
+        pPopupMenu->ShowAllCommands();
 
 		((CMDIFrameWndEx*)AfxGetMainWnd())->OnShowPopupMenu(pPopupMenu);
 		UpdateDialogControls(this, FALSE);
