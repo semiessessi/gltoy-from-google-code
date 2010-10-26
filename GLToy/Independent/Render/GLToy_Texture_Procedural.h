@@ -544,6 +544,28 @@ public:
         return 0;
     }
 
+    float GetParam1f( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            return pxLayerNode->m_fParam1;
+        }
+
+        return 0.0f;
+    }
+
+    float GetParam2f( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            return pxLayerNode->m_fParam2;
+        }
+
+        return 0.0f;
+    }
+
     void SetParam1( const u_int uID, const u_int uValue )
     {
         LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
@@ -571,12 +593,30 @@ public:
         }
     }
 
+    void SetParam2( const u_int uID, const float fValue )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_fParam2 = fValue;
+        }
+    }
+
     void SetParam3( const u_int uID, const u_int uValue )
     {
         LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
         if( pxLayerNode )
         {
             pxLayerNode->m_uParam3 = uValue;
+        }
+    }
+
+    void SetParam3( const u_int uID, const float fValue )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_fParam3 = fValue;
         }
     }
 

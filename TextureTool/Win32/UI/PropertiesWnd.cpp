@@ -45,15 +45,18 @@ static char THIS_FILE[]=__FILE__;
 
 enum Property
 {
-    PROP_BLENDMODE = 0,
-    PROP_COLOUR_1 = 1,
-    PROP_COLOUR_2 = 2,
-    PROP_COLOUR_3 = 3,
-    PROP_UINT_1 = 4,
-    PROP_UINT_2 = 5,
-    PROP_UINT_3 = 6,
-    PROP_SHAPEFUNCTION = 7,
-    PROP_GRADIENTSTYLE = 8,
+    PROP_BLENDMODE          = 0,
+    PROP_COLOUR_1           = 1,
+    PROP_COLOUR_2           = 2,
+    PROP_COLOUR_3           = 3,
+    PROP_UINT_1             = 4,
+    PROP_UINT_2             = 5,
+    PROP_UINT_3             = 6,
+    PROP_SHAPEFUNCTION      = 7,
+    PROP_GRADIENTSTYLE      = 8,
+    PROP_FLOAT_1            = 9,
+    PROP_FLOAT_2            = 10,
+    PROP_FLOAT_3            = 11,
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -258,6 +261,33 @@ void CPropertiesWnd::OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const
             break;
         }
 
+        case PROP_FLOAT_1:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            const float fValue = GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractFloat();
+            m_pxDocument->GetTexture().SetParam1( m_uID, fValue );
+            break;
+        }
+
+        case PROP_FLOAT_2:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            const float fValue = GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractFloat();
+            m_pxDocument->GetTexture().SetParam2( m_uID, fValue );
+            break;
+        }
+
+        case PROP_FLOAT_3:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            const float fValue = GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractFloat();
+            m_pxDocument->GetTexture().SetParam3( m_uID, fValue );
+            break;
+        }
+
         default:
         {
             return;
@@ -366,7 +396,18 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
 
     m_wndObjectCombo.EnableWindow( FALSE );
 
-	CMFCPropertyGridProperty* pGroup = new CMFCPropertyGridProperty( _T( "Blending" ) );
+	CMFCPropertyGridProperty* pGroup = new CMFCPropertyGridProperty( _T( "Common Properties" ) );
+
+    CString sValue;
+    sValue.Format( _T( "%u" ), pxDocument->GetTexture().GetPositionFromID( uID ) );
+    CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Position" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the position in the tree" ) );
+    pProp->Enable( FALSE );
+    pGroup->AddSubItem( pProp );
+
+    sValue.Format( _T( "%X" ), uID );
+    pProp = new CMFCPropertyGridProperty( _T( "ID" ), static_cast< LPCTSTR >( sValue ), _T( "The ID of the layer" ) );
+    pProp->Enable( FALSE );
+    pGroup->AddSubItem( pProp );
 
     const GLToy_Texture_Procedural::BlendMode eBlendMode = pxDocument->GetTexture().GetBlendMode( uID );
 
@@ -384,7 +425,7 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
         case GLToy_Texture_Procedural::BLEND_REPLACE:                   sBlendModeLabel = _T( "Replace" ); break;
     }
 
-    CMFCPropertyGridProperty* pProp =
+    pProp =
         new CMFCPropertyGridProperty(
             _T( "Blend Mode" ),
             sBlendModeLabel,
@@ -401,7 +442,7 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
     pProp->AddOption( _T( "Brightness to Alpha" ) );
     pProp->AddOption( _T( "Replace" ) );
 
-	pGroup->AddSubItem( pProp );
+	pGroup->AddSubItem( pProp );    
 
     m_wndPropList.AddProperty( pGroup );
 
@@ -434,7 +475,13 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
         {
             pGroup = new CMFCPropertyGridProperty( _T( "Noise Properties" ) );
 
-            const COLORREF xColour = static_cast< const COLORREF >( 0xFFFFFF & pxDocument->GetTexture().GetParam1( uID ) );
+            CString sValue;
+            sValue.Format( _T( "%f" ), pxDocument->GetTexture().GetParam1f( uID ) );
+            CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Frequency" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the base frequency for the noise" ) );
+            pProp->SetData( PROP_FLOAT_1 );
+            pGroup->AddSubItem( pProp );
+
+            const COLORREF xColour = static_cast< const COLORREF >( 0xFFFFFF & pxDocument->GetTexture().GetParam2( uID ) );
             CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty( _T( "Seed (Colour)" ), ( xColour ), NULL, _T( "Specifies the seed for the noise (each colour gives a different pattern)" ) );
             pColorProp->EnableOtherButton( _T( "Other..." ) );
             pColorProp->EnableAutomaticButton( _T( "Default" ), NULL );
@@ -450,7 +497,6 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
             pGroup = new CMFCPropertyGridProperty( _T( "Gradient Properties" ) );
             
             CString sValue( pxDocument->GetTexture().GetGradientNameFromID( uID ) );
-            
             CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Style" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the style" ) );
             pProp->SetData( PROP_GRADIENTSTYLE );
             for( u_int u = 0; u < GLToy_Texture_Procedural::GRADIENT_LAST; ++u )
@@ -476,7 +522,6 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
             pGroup = new CMFCPropertyGridProperty( _T( "Shaping Function Properties" ) );
             
             CString sValue( pxDocument->GetTexture().GetShapingFunctionNameFromID( uID ) );
-            
             CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Function" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the function" ) );
             pProp->SetData( PROP_SHAPEFUNCTION );
             for( u_int u = 0; u < GLToy_Texture_Procedural::SHAPE_FUNCTION_LAST; ++u )
@@ -500,6 +545,7 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
         case GLToy_Texture_Procedural::INSTRUCTION_TILE:
         {
             pGroup = new CMFCPropertyGridProperty( _T( "Tiling Properties" ) );
+
             CString sValue;
             sValue.Format( _T( "%u" ), pxDocument->GetTexture().GetParam1( uID ) );
             CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Frequency" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the frequency of the tiling" ) );
@@ -517,9 +563,16 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
                 case GLToy_Texture_Procedural::EXTENSION_REFERENCE:
                 {
                     pGroup = new CMFCPropertyGridProperty( _T( "Reference Properties" ) );
+
                     CString sValue;
-                    sValue.Format( _T( "%u" ), pxDocument->GetTexture().GetParam1( uID ) );
-                    CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Referred Position" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the frequency of the tiling" ) );
+                    const u_int uPosition = pxDocument->GetTexture().GetParam1( uID );
+                    sValue.Format( _T( "%u" ), uPosition );
+                    CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Referred Position" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the position in the tree the reference points to" ) );
+                    pProp->Enable( FALSE );
+                    pGroup->AddSubItem( pProp );
+
+                    sValue.Format( _T( "%X" ), pxDocument->GetTexture().GetIDFromPosition( uPosition ) );
+                    pProp = new CMFCPropertyGridProperty( _T( "Referred Layer ID" ), static_cast< LPCTSTR >( sValue ), _T( "The ID of the referred layer" ) );
                     pProp->Enable( FALSE );
                     pGroup->AddSubItem( pProp );
 

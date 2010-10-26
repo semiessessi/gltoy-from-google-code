@@ -188,7 +188,7 @@ void CTextureToolDoc::AppendReference( const u_int uReferToID )
 
 void CTextureToolDoc::AppendFlatColour( const u_int uParentID )
 {
-    const u_int uID = m_xTexture.AppendFillLayer();
+    const u_int uID = m_xTexture.AppendFillLayer( 0xFF000000 );
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
 
     if( uParentID )
@@ -202,7 +202,7 @@ void CTextureToolDoc::AppendFlatColour( const u_int uParentID )
 
 void CTextureToolDoc::AppendNoiseLow( const u_int uParentID )
 {
-    const u_int uID = m_xTexture.AppendNoiseLayer( 8.0f );
+    const u_int uID = m_xTexture.AppendNoiseLayer( 8.0f, 0xFF000000 );
 
     if( uParentID )
     {
@@ -215,7 +215,7 @@ void CTextureToolDoc::AppendNoiseLow( const u_int uParentID )
 
 void CTextureToolDoc::AppendNoiseHigh( const u_int uParentID )
 {
-    const u_int uID = m_xTexture.AppendNoiseLayer( 128.0f );
+    const u_int uID = m_xTexture.AppendNoiseLayer( 128.0f, 0xFF000000 );
 
     if( uParentID )
     {
@@ -228,7 +228,7 @@ void CTextureToolDoc::AppendNoiseHigh( const u_int uParentID )
 
 void CTextureToolDoc::AppendNoiseFractal( const u_int uParentID )
 {
-    const u_int uID = m_xTexture.AppendFBMNoiseLayer( 4.0f );
+    const u_int uID = m_xTexture.AppendFBMNoiseLayer( 4.0f, 0xFF000000 );
 
     if( uParentID )
     {
