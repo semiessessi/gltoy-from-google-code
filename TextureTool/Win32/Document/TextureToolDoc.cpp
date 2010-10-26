@@ -178,6 +178,14 @@ void CTextureToolDoc::AppendGroup( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
+void CTextureToolDoc::AppendReference( const u_int uReferToID )
+{
+    m_xTexture.AppendReference( uReferToID );
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
 void CTextureToolDoc::AppendFlatColour( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendFillLayer();

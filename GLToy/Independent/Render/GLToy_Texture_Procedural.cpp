@@ -738,9 +738,14 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
 
                     case EXTENSION_REFERENCE:
                     {
-                        //LayerNode* pxLayerNode = 
-
-
+                        if( m_pxParentTexture )
+                        {
+                            LayerNode* pxLayerNode = m_pxParentTexture->GetLayerNodeFromID( m_pxParentTexture->GetIDFromPosition( m_uParam1 ) );
+                            if( pxLayerNode )
+                            {
+                                pxLayerNode->Render( uWidth, uHeight );
+                            }
+                        }
                         break;
                     }
                 }
@@ -1102,37 +1107,40 @@ u_int GLToy_Texture_Procedural::MoveLayerToOwnGroup( const u_int uID )
         return 0;
     }
 
-    LayerNode xLayerNode = LayerNode::CreateGroup();
+    LayerNode xLayerNode = LayerNode::CreateGroup( this );
     pxArray->Append( xLayerNode );
 
     return MoveLayerUnder( uID, xLayerNode.GetID() );
 }
 
-GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateFill( const u_int uRGBA )
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateFill( GLToy_Texture_Procedural* const pxParentTexture, const u_int uRGBA )
 {
     LayerNode xReturnValue;
     xReturnValue.m_uParam1 = uRGBA;
+    xReturnValue.SetParent( pxParentTexture );
     return xReturnValue;
 }
 
-GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateNoise( const float fFrequency, const u_int uSeed )
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateNoise( GLToy_Texture_Procedural* const pxParentTexture, const float fFrequency, const u_int uSeed )
 {
     LayerNode xReturnValue;
     xReturnValue.m_eInstruction = INSTRUCTION_NOISE;
     xReturnValue.m_fParam1 = fFrequency;
     xReturnValue.m_uParam2 = uSeed;
+    xReturnValue.SetParent( pxParentTexture );
     return xReturnValue;
 }
 
-GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateTile( const u_int uFrequency )
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateTile( GLToy_Texture_Procedural* const pxParentTexture, const u_int uFrequency )
 {
     LayerNode xReturnValue;
     xReturnValue.m_eInstruction = INSTRUCTION_TILE;
     xReturnValue.m_uParam1 = uFrequency;
+    xReturnValue.SetParent( pxParentTexture );
     return xReturnValue;
 }
 
-GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateCircle( const GLToy_Vector_2& xPosition, const float fRadius, const u_int uRGBA )
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateCircle( GLToy_Texture_Procedural* const pxParentTexture, const GLToy_Vector_2& xPosition, const float fRadius, const u_int uRGBA )
 {
     LayerNode xReturnValue;
     xReturnValue.m_eInstruction = INSTRUCTION_CIRCLE;
@@ -1140,35 +1148,39 @@ GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateC
     xReturnValue.m_ausParam1[ 1 ] = static_cast< u_short >( GLToy_Maths::Clamp( xPosition[ 1 ] ) * 65535.0f );
     xReturnValue.m_fParam2 = fRadius;
     xReturnValue.m_uParam3 = uRGBA;
+    xReturnValue.SetParent( pxParentTexture );
     return xReturnValue;
 }
 
-GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateFBMNoise( const float fFrequency, const u_int uSeed )
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateFBMNoise( GLToy_Texture_Procedural* const pxParentTexture, const float fFrequency, const u_int uSeed )
 {
     LayerNode xReturnValue;
     xReturnValue.m_eInstruction = INSTRUCTION_FBMNOISE;
     xReturnValue.m_fParam1 = fFrequency;
     xReturnValue.m_uParam2 = uSeed;
+    xReturnValue.SetParent( pxParentTexture );
     return xReturnValue;
 }
 
-GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateShaping( const ShapeFunction eShapeFunction )
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateShaping( GLToy_Texture_Procedural* const pxParentTexture, const ShapeFunction eShapeFunction )
 {
     LayerNode xReturnValue;
     xReturnValue.m_eInstruction = INSTRUCTION_SHAPE;
     xReturnValue.m_uParam1 = static_cast< u_int >( eShapeFunction );
+    xReturnValue.SetParent( pxParentTexture );
     return xReturnValue;
 }
 
-GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateGradient( const GradientStyle eGradientStyle )
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateGradient( GLToy_Texture_Procedural* const pxParentTexture, const GradientStyle eGradientStyle )
 {
     LayerNode xReturnValue;
     xReturnValue.m_eInstruction = INSTRUCTION_GRADIENT;
     xReturnValue.m_uParam1 = static_cast< u_int >( eGradientStyle );
+    xReturnValue.SetParent( pxParentTexture );
     return xReturnValue;
 }
 
-GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateExtension( const ExtensionFunction eExtensionFunction, const u_int uParam1, const u_int uParam2, const u_int uParam3 )
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateExtension( GLToy_Texture_Procedural* const pxParentTexture, const ExtensionFunction eExtensionFunction, const u_int uParam1, const u_int uParam2, const u_int uParam3 )
 {
     LayerNode xReturnValue;
     xReturnValue.m_eInstruction = INSTRUCTION_EXTENSION;
@@ -1176,13 +1188,15 @@ GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateE
     xReturnValue.m_uParam1 = uParam1;
     xReturnValue.m_uParam2 = uParam2;
     xReturnValue.m_uParam3 = uParam3;
+    xReturnValue.SetParent( pxParentTexture );
     return xReturnValue;
 }
 
-GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateGroup()
+GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateGroup( GLToy_Texture_Procedural* const pxParentTexture )
 {
     LayerNode xReturnValue;
     xReturnValue.m_pxChildren = new GLToy_SmallSerialisableArray< LayerNode >();
+    xReturnValue.SetParent( pxParentTexture );
     return xReturnValue;
 }
 
@@ -1250,6 +1264,11 @@ const char* GLToy_Texture_Procedural::GetGradientName( const GradientStyle eFunc
 
 u_int GLToy_Texture_Procedural::GetPositionFromID( const u_int uID ) const
 {
+    if( uID == 0 )
+    {
+        return 0;
+    }
+
     // iterate over by going down eagerly, then across
     u_int uPosition = 1;
     u_int uCursor = 0;

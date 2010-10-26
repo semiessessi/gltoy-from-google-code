@@ -29,6 +29,7 @@ public:
     void MoveUnder( const u_int uID, const u_int uParentID );
 
     void AppendGroup( const u_int uParentID = 0 );
+    void AppendReference( const u_int uReferToID = 0 );
     void AppendFlatColour( const u_int uParentID = 0 );
     void AppendNoiseLow( const u_int uParentID = 0 );
     void AppendNoiseHigh( const u_int uParentID = 0 );

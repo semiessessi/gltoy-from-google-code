@@ -171,6 +171,8 @@ public:
         // EXTENSION_NORMAL_MAP_HALFSPHERE
         // EXTENSION_NORMAL_MAP_METALLUMPS
         // EXTENSION_NORMAL_MAP_RIBBED
+
+        EXTENSION_BAD = 255,
     };
 
     static const u_int uCURRENT_VERSION = 0; // version 0 - added basic functionality
@@ -184,7 +186,7 @@ private:
 
     public:
 
-        LayerNode()
+        LayerNode( GLToy_Texture_Procedural* const pxParentTexture = NULL )
         : m_pxChildren( NULL )
         , m_eInstruction( INSTRUCTION_FILL )
         , m_eBlendMode( BLEND_ALPHA )
@@ -193,6 +195,7 @@ private:
         , m_uParam2( 0 )
         , m_uParam3( 0 )
         , m_uID( s_uNextID )
+        , m_pxParentTexture( pxParentTexture )
         {
             ++s_uNextID;
         }
@@ -206,6 +209,7 @@ private:
         , m_uParam2( xLayerNode.m_uParam2 )
         , m_uParam3( xLayerNode.m_uParam3 )
         , m_uID( xLayerNode.m_uID )
+        , m_pxParentTexture( xLayerNode.m_pxParentTexture )
         {
             if( xLayerNode.m_pxChildren )
             {
@@ -230,6 +234,7 @@ private:
             m_uParam2 = xLayerNode.m_uParam2;
             m_uParam3 = xLayerNode.m_uParam3;
             m_uID = xLayerNode.m_uID;
+            m_pxParentTexture = xLayerNode.m_pxParentTexture;
 
             return *this;
         }
@@ -251,26 +256,28 @@ private:
             ++s_uNextID;
         }
 
-        static LayerNode CreateFill( const u_int uRGBA );
-        static LayerNode CreateNoise( const float fFrequency, const u_int uSeed );
-        static LayerNode CreateTile( const u_int uFrequency );
-        static LayerNode CreateCircle( const GLToy_Vector_2& xPosition, const float fRadius, const u_int uRGBA );
-        static LayerNode CreateFBMNoise( const float fFrequency, const u_int uSeed );
-        static LayerNode CreateShaping( const ShapeFunction eShapeFunction );
-        static LayerNode CreateGradient( const GradientStyle eGradientStyle );
-        static LayerNode CreateExtension( const ExtensionFunction eExtensionFunction, const u_int uParam1 = 0, const u_int uParam2 = 0, const u_int uParam3 = 0 );
+        void SetParent( GLToy_Texture_Procedural* const pxParentTexture ) { m_pxParentTexture = pxParentTexture; }
+
+        static LayerNode CreateFill( GLToy_Texture_Procedural* const pxParentTexture, const u_int uRGBA );
+        static LayerNode CreateNoise( GLToy_Texture_Procedural* const pxParentTexture, const float fFrequency, const u_int uSeed );
+        static LayerNode CreateTile( GLToy_Texture_Procedural* const pxParentTexture, const u_int uFrequency );
+        static LayerNode CreateCircle( GLToy_Texture_Procedural* const pxParentTexture, const GLToy_Vector_2& xPosition, const float fRadius, const u_int uRGBA );
+        static LayerNode CreateFBMNoise( GLToy_Texture_Procedural* const pxParentTexture, const float fFrequency, const u_int uSeed );
+        static LayerNode CreateShaping( GLToy_Texture_Procedural* const pxParentTexture, const ShapeFunction eShapeFunction );
+        static LayerNode CreateGradient( GLToy_Texture_Procedural* const pxParentTexture, const GradientStyle eGradientStyle );
+        static LayerNode CreateExtension( GLToy_Texture_Procedural* const pxParentTexture, const ExtensionFunction eExtensionFunction, const u_int uParam1 = 0, const u_int uParam2 = 0, const u_int uParam3 = 0 );
         
-        static LayerNode CreateExtension( const ExtensionFunction eExtensionFunction, const float fParam1, const u_int uParam2 = 0, const u_int uParam3 = 0 )
+        static LayerNode CreateExtension( GLToy_Texture_Procedural* const pxParentTexture, const ExtensionFunction eExtensionFunction, const float fParam1, const u_int uParam2 = 0, const u_int uParam3 = 0 )
         {
-            CreateExtension( eExtensionFunction, *reinterpret_cast< const u_int* >( &fParam1 ), uParam2, uParam3 );
+            CreateExtension( pxParentTexture, eExtensionFunction, *reinterpret_cast< const u_int* >( &fParam1 ), uParam2, uParam3 );
         }
 
-        static LayerNode CreateExtension( const ExtensionFunction eExtensionFunction, const float fParam1, const float fParam2, const u_int uParam3 = 0 )
+        static LayerNode CreateExtension( GLToy_Texture_Procedural* const pxParentTexture, const ExtensionFunction eExtensionFunction, const float fParam1, const float fParam2, const u_int uParam3 = 0 )
         {
-            CreateExtension( eExtensionFunction, *reinterpret_cast< const u_int* >( &fParam1 ), *reinterpret_cast< const u_int* >( &fParam2 ), uParam3 );
+            CreateExtension( pxParentTexture, eExtensionFunction, *reinterpret_cast< const u_int* >( &fParam1 ), *reinterpret_cast< const u_int* >( &fParam2 ), uParam3 );
         }
 
-        static LayerNode CreateExtension( const ExtensionFunction eExtensionFunction, const u_char ucParam1, const u_char ucParam2 = 0, const u_char ucParam3 = 0, const u_char ucParam4 = 0 )
+        static LayerNode CreateExtension( GLToy_Texture_Procedural* const pxParentTexture, const ExtensionFunction eExtensionFunction, const u_char ucParam1, const u_char ucParam2 = 0, const u_char ucParam3 = 0, const u_char ucParam4 = 0 )
         {
             union
             {
@@ -283,10 +290,10 @@ private:
             auc[ 2 ] = ucParam3;
             auc[ 3 ] = ucParam4;
 
-            CreateExtension( eExtensionFunction, u );
+            CreateExtension( pxParentTexture, eExtensionFunction, u );
         }
 
-        static LayerNode CreateGroup();
+        static LayerNode CreateGroup( GLToy_Texture_Procedural* const pxParentTexture );
 
         GLToy_SmallSerialisableArray< LayerNode >* GetChildren()
         {
@@ -373,6 +380,7 @@ private:
         };
 
         u_int m_uID;
+        GLToy_Texture_Procedural* m_pxParentTexture;
 
         static u_int s_uNextID;
 
@@ -393,79 +401,85 @@ public:
 
     u_int AppendGroup()
     {
-        m_xLayers.Append( LayerNode::CreateGroup() );
+        m_xLayers.Append( LayerNode::CreateGroup( this ) );
         return m_xLayers.End().GetID();
     }
 
     u_int AppendFillLayer( const u_int uRGBA = 0 )
     {
-        m_xLayers.Append( LayerNode::CreateFill( uRGBA ) );
+        m_xLayers.Append( LayerNode::CreateFill( this, uRGBA ) );
         return m_xLayers.End().GetID();
     }
 
     u_int AppendNoiseLayer( const float fFrequency = 32.0f, const u_int uSeed = 0 )
     {
-        m_xLayers.Append( LayerNode::CreateNoise( fFrequency, uSeed ) );
+        m_xLayers.Append( LayerNode::CreateNoise( this, fFrequency, uSeed ) );
         return m_xLayers.End().GetID();
     }
 
     u_int AppendTileLayer( const u_int uTileFrequency )
     {
-        m_xLayers.Append( LayerNode::CreateTile( uTileFrequency ) );
+        m_xLayers.Append( LayerNode::CreateTile( this, uTileFrequency ) );
         return m_xLayers.End().GetID();
     }
 
     u_int AppendCircleLayer( const GLToy_Vector_2& xCentre, const float fRadius, const u_int uRGBA )
     {
-        m_xLayers.Append( LayerNode::CreateCircle( xCentre, fRadius, uRGBA ) );
+        m_xLayers.Append( LayerNode::CreateCircle( this, xCentre, fRadius, uRGBA ) );
         return m_xLayers.End().GetID();
     }
 
     u_int AppendFBMNoiseLayer( const float fFrequency = 32.0f, const u_int uSeed = 0 )
     {
-        m_xLayers.Append( LayerNode::CreateFBMNoise( fFrequency, uSeed ) );
+        m_xLayers.Append( LayerNode::CreateFBMNoise( this, fFrequency, uSeed ) );
         return m_xLayers.End().GetID();
     }
 
     u_int AppendShapingLayer( const ShapeFunction eShapeFunction )
     {
-        m_xLayers.Append( LayerNode::CreateShaping( eShapeFunction ) );
+        m_xLayers.Append( LayerNode::CreateShaping( this, eShapeFunction ) );
         return m_xLayers.End().GetID();
     }
 
     u_int AppendGradientLayer( const GradientStyle eGradientStyle )
     {
-        m_xLayers.Append( LayerNode::CreateGradient( eGradientStyle ) );
+        m_xLayers.Append( LayerNode::CreateGradient( this, eGradientStyle ) );
         return m_xLayers.End().GetID();
     }
 
     u_int AppendCheckerboardLayer()
     {
-        m_xLayers.Append( LayerNode::CreateExtension( EXTENSION_CHECKERBOARD ) );
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_CHECKERBOARD ) );
         return m_xLayers.End().GetID();
     }
 
     u_int AppendHorizontalStripeLayer()
     {
-        m_xLayers.Append( LayerNode::CreateExtension( EXTENSION_HORIZONTAL_STRIPE ) );
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_HORIZONTAL_STRIPE ) );
         return m_xLayers.End().GetID();
     }
 
     u_int AppendVerticalStripeLayer()
     {
-        m_xLayers.Append( LayerNode::CreateExtension( EXTENSION_VERTICAL_STRIPE ) );
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_VERTICAL_STRIPE ) );
         return m_xLayers.End().GetID();
     }
 
     u_int AppendDiagonalStripeUpLeftLayer()
     {
-        m_xLayers.Append( LayerNode::CreateExtension( EXTENSION_DIAGONAL_STRIPE_UPLEFT ) );
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_DIAGONAL_STRIPE_UPLEFT ) );
         return m_xLayers.End().GetID();
     }
 
     u_int AppendDiagonalStripeDownLeftLayer()
     {
-        m_xLayers.Append( LayerNode::CreateExtension( EXTENSION_DIAGONAL_STRIPE_DOWNLEFT ) );
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_DIAGONAL_STRIPE_DOWNLEFT ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendReference( const u_int uReferToID = 0 )
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_REFERENCE, GetPositionFromID( uReferToID ) ) );
         return m_xLayers.End().GetID();
     }
 
@@ -646,8 +660,9 @@ public:
         return GetGradientName( static_cast< GradientStyle >( pxLayerNode->m_uParam1 ) );
     }
 
+    ExtensionFunction GetExtension( const u_int uID ) const { const LayerNode* const pxLayerNode = GetLayerNodeFromID( uID ); return pxLayerNode ? pxLayerNode->m_eExtensionFunction : EXTENSION_BAD; }
     void DeleteFromID( const u_int uID ) { DeleteLayerNodeFromID( uID ); }
-    bool IsLeaf( const u_int uID ) { LayerNode* pxLayerNode = GetLayerNodeFromID( uID ); return pxLayerNode ? pxLayerNode->IsLeaf() : false; }
+    bool IsLeaf( const u_int uID ) const { const LayerNode* const pxLayerNode = GetLayerNodeFromID( uID ); return pxLayerNode ? pxLayerNode->IsLeaf() : false; }
 
     static const char* GetShapingFunctionName( const ShapeFunction eFunction );
     static const char* GetGradientName( const GradientStyle eStyle );

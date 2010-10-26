@@ -65,6 +65,7 @@ BEGIN_MESSAGE_MAP(CLayerView, CDockablePane)
     ON_COMMAND( ID_DIAGONALSTRIPE_TOPLEFTTOBOTTOMRIGHT, OnPatternDiagonalStripe2 )
     ON_COMMAND( ID_DELETELAYER, OnDeleteLayer )
     ON_COMMAND( ID_PROMOTELAYER, OnPromoteLayer )
+    ON_COMMAND( ID_CREATEREFERENCE, OnCreateReference )
     //ON_NOTIFY( NM_CLICK, IDR_LAYERVIEW, OnClick )
 
 	ON_WM_PAINT()
@@ -145,7 +146,7 @@ void CLayerView::ClearLayerView()
     m_pxCurrentDocument = NULL;
 }
 
-void CLayerView::AddToTree( const u_int uID, HTREEITEM hParent )
+void CLayerView::AddToTree( const u_int uID, HTREEITEM hParent, const bool bRef )
 {
     if( !m_pxCurrentDocument )
     {
@@ -153,23 +154,68 @@ void CLayerView::AddToTree( const u_int uID, HTREEITEM hParent )
     }
 
     GLToy_Texture_Procedural& xTexture = m_pxCurrentDocument->GetTexture();
+
+    if( bRef ) // if a reference we add a single node...
+    {
+        const u_int uChildID = xTexture.GetIDFromPosition( xTexture.GetParam1( uID ) ); 
+        const bool bGroup = CString( xTexture.GetLayerName( uChildID ) ) == _T( "Group" );
+        const bool bReference = CString( xTexture.GetLayerName( uChildID ) ) == _T( "Reference" );
+#ifndef GLTOY_FINAL
+        CString sLabel;
+        sLabel.Format( _T( "%S (ID:%X - Position:%d - Reference)" ), xTexture.GetLayerName( uChildID ), uChildID, xTexture.GetPositionFromID( uChildID ) );
+#else
+        CString sLabel( xTexture.GetLayerName( uChildID ) );
+#endif
+        HTREEITEM hLayer = m_wndClassView.InsertItem( sLabel, bGroup ? 2 : ( ( bRef || bReference ) ? 5 : 3 ), bGroup ? 2 : ( ( bRef || bReference ) ? 5 : 3 ), hParent );
+        m_wndClassView.SetItemData( hLayer, uChildID );
+
+        if( bGroup )
+        {
+            AddToTree( uChildID, hLayer, bRef );
+        }
+
+        if( bReference )
+        {
+            if( xTexture.CircularReferenceCheck( uChildID ) )
+            {
+                m_wndClassView.InsertItem( _T( "Circular reference check failed!" ), hLayer );
+            }
+            else
+            {
+                AddToTree( uChildID, hLayer, true );
+            }
+        }
+    }
+
     for( u_int u = 0; u < xTexture.GetLayerCount( uID ); ++u )
     {
         const u_int uChildID = xTexture.GetLayerIDFromIndex( u, uID ); 
         const bool bGroup = CString( xTexture.GetLayerName( uChildID ) ) == _T( "Group" );
         const bool bReference = CString( xTexture.GetLayerName( uChildID ) ) == _T( "Reference" );
+#ifndef GLTOY_FINAL
+        CString sLabel;
+        sLabel.Format( _T( "%S (ID:%X - Position:%d)" ), xTexture.GetLayerName( uChildID ), uChildID, xTexture.GetPositionFromID( uChildID ) );
+#else
         CString sLabel( xTexture.GetLayerName( uChildID ) );
-        HTREEITEM hLayer = m_wndClassView.InsertItem( sLabel, bGroup ? 2 : ( bReference ? 5 : 3 ), bGroup ? 2 : ( bReference ? 5 : 3 ), hParent );
+#endif
+        HTREEITEM hLayer = m_wndClassView.InsertItem( sLabel, bGroup ? 2 : ( ( bRef || bReference ) ? 5 : 3 ), bGroup ? 2 : ( ( bRef || bReference ) ? 5 : 3 ), hParent );
         m_wndClassView.SetItemData( hLayer, uChildID );
 
         if( bGroup )
         {
-            AddToTree( uChildID, hLayer );
+            AddToTree( uChildID, hLayer, bRef );
         }
 
         if( bReference )
         {
-            // ...
+            if( xTexture.CircularReferenceCheck( uChildID ) )
+            {
+                m_wndClassView.InsertItem( _T( "Circular reference check failed!" ), hLayer );
+            }
+            else
+            {
+                AddToTree( uChildID, hLayer, true );
+            }
         }
     }
 
@@ -263,6 +309,12 @@ void CLayerView::OnContextMenu(CWnd* pWnd, CPoint point)
     CTextureToolDoc* pxDocument = GetDocument();
     if( pxDocument && ( uID != 0 ) )
     {
+        if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) != _T( "Reference" ) )
+        {
+            // don't allow references of references...
+            pxSubMenu->InsertMenu( 0, MF_BYPOSITION, ID_CREATEREFERENCE, _T( "Create Reference" ) );
+        }
+
         pxSubMenu->InsertMenu( 0, MF_BYPOSITION | MF_SEPARATOR );
         if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
         {
@@ -538,6 +590,17 @@ void CLayerView::OnPromoteLayer()
     }
 
     pxDocument->PromoteLayer( GetSelectedID() );
+}
+
+void CLayerView::OnCreateReference()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    pxDocument->AppendReference( GetSelectedID() );
 }
 
 void CLayerView::OnPaint()

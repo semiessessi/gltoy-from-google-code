@@ -510,6 +510,30 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
             break;
         }
 
+        case GLToy_Texture_Procedural::INSTRUCTION_EXTENSION:
+        {
+            switch( pxDocument->GetTexture().GetExtension( uID ) )
+            {
+                case GLToy_Texture_Procedural::EXTENSION_REFERENCE:
+                {
+                    pGroup = new CMFCPropertyGridProperty( _T( "Reference Properties" ) );
+                    CString sValue;
+                    sValue.Format( _T( "%u" ), pxDocument->GetTexture().GetParam1( uID ) );
+                    CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Referred Position" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the frequency of the tiling" ) );
+                    pProp->Enable( FALSE );
+                    pGroup->AddSubItem( pProp );
+
+                    m_wndPropList.AddProperty( pGroup );
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+            }
+            break;
+        }
+
         default:
         {
             break;

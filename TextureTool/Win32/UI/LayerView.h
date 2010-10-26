@@ -64,8 +64,9 @@ protected:
 
     afx_msg void OnDeleteLayer();
     afx_msg void OnPromoteLayer();
+    afx_msg void OnCreateReference();
 
-    void AddToTree( const u_int uID, HTREEITEM hParent );
+    void AddToTree( const u_int uID, HTREEITEM hParent, const bool bRef = false );
 
     CTextureToolDoc* GetDocument();
 
