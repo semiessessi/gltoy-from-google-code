@@ -60,6 +60,7 @@ enum Property
 
     // i imagine it will get hairy from here... although i haven't used the u_chars yet 8-bits is typically inconvenient...
     PROP_FIXED_12BIT_1      = 12,
+    PROP_BOOL_1             = 13, // ie. PROP_UINT_1BIT_1
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -298,6 +299,13 @@ void CPropertiesWnd::OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const
             const float fValue = GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractFloat();
             m_pxDocument->GetTexture().SetParam1( m_uID, static_cast< u_int >( fValue * 4095.0f ) );
             break;
+        }
+
+        case PROP_BOOL_1:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            m_pxDocument->GetTexture().SetParam1( m_uID, ( sValue == _T( "True" ) ) ? 1u : 0u );
         }
 
         default:
@@ -606,6 +614,20 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
 
                     m_wndPropList.AddProperty( pGroup );
                     break;
+                }
+
+                case GLToy_Texture_Procedural::EXTENSION_TEXTURE_MODE:
+                {
+                    pGroup = new CMFCPropertyGridProperty( _T( "Texture Mode Properties" ) );
+
+                    CString sValue( ( pxDocument->GetTexture().GetParam1( uID ) == 0 ) ? _T( "False" ) : _T( "True" ) );
+                    CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Wrap" ), static_cast< LPCTSTR >( sValue ), _T( "Whether to wrap the texture at the edges, or not" ) );
+                    pProp->SetData( PROP_BOOL_1 );
+                    pProp->AddOption( _T( "False" ) );
+                    pProp->AddOption( _T( "True" ) );
+                    pGroup->AddSubItem( pProp );
+
+                    m_wndPropList.AddProperty( pGroup );
                 }
 
                 default:

@@ -37,6 +37,7 @@ public:
     void AppendGradient( const u_int uParentID = 0 );
     void AppendShaping( GLToy_Texture_Procedural::ShapeFunction eFunction, const u_int uParentID = 0 );
     void AppendTile( const u_int uParentID = 0 );
+
     void AppendCheckerboard( const u_int uParentID = 0 );
     void AppendStripeHorizontal( const u_int uParentID = 0 );
     void AppendStripeVertical( const u_int uParentID = 0 );
@@ -45,6 +46,9 @@ public:
     void AppendBorder( const u_int uParentID = 0 );
     void AppendBevel( const u_int uParentID = 0 );
     void AppendBevelNormals( const u_int uParentID = 0 );
+
+    void AppendClamp( const u_int uParentID = 0 );
+    void AppendWrap( const u_int uParentID = 0 );
 
     void DeleteLayer( const u_int uID );
     void PromoteLayer( const u_int uID );

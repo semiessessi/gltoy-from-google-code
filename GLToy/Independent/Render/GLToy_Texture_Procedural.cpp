@@ -155,6 +155,12 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
                         break;
                     }
 
+                    case EXTENSION_TEXTURE_MODE:
+                    {
+                        xStream.ReadBits( m_uParam1, 1 );
+                        break;
+                    }
+
                     default:
                         break;
                 }
@@ -232,6 +238,12 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
                     case EXTENSION_BEVEL_NORMALS:
                     {
                         xStream.WriteBits( m_uParam1, 12 ); // 4096 graduations is probably ample forever (assuming textures never get bigger than 4kx4k)
+                        break;
+                    }
+
+                    case EXTENSION_TEXTURE_MODE:
+                    {
+                        xStream.WriteBits( m_uParam1, 1 );
                         break;
                     }
 
@@ -892,6 +904,12 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                                 puData[ v * uWidth + u ] = uSlope;
                             }
                         }
+                        break;
+                    }
+
+                    case EXTENSION_TEXTURE_MODE:
+                    {
+                        s_bWrap = ( m_uParam1 != 0 );
                         break;
                     }
                 }

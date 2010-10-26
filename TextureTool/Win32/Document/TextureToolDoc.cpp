@@ -385,6 +385,32 @@ void CTextureToolDoc::AppendBevelNormals( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
+void CTextureToolDoc::AppendClamp( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendTextureClamp();
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::AppendWrap( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendTextureWrap();
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
 void CTextureToolDoc::DeleteLayer( const u_int uID )
 {
     m_xTexture.DeleteFromID( uID );

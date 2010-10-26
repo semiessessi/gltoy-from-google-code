@@ -65,6 +65,9 @@ protected:
     afx_msg void OnPatternBevel();
     afx_msg void OnPatternBevelNormals();
 
+    afx_msg void OnStateWrap();
+    afx_msg void OnStateClamp();
+
     afx_msg void OnDeleteLayer();
     afx_msg void OnPromoteLayer();
     afx_msg void OnCreateReference();

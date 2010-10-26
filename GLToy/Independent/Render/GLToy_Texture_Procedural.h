@@ -155,11 +155,11 @@ public:
         //EXTENSION_BEVEL_RECTANGLE                   = 10,
         //EXTENSION_BEVEL_NORMALS_RECTANGLE           = 11,
 
-        // EXTENSION_TEXTURE_MODE
+        // state
+        EXTENSION_TEXTURE_MODE                     = 12, // quite necessary for convolution, normals from heightmaps and loads of stuff to choose between wrap and clamp
+        // EXTENSION_SET_HIGHLIGHT_DIRECTION          = 13, // need this to generate highlights from normal maps
 
-        // some stuff for baked in highlights and normal maps
-        // EXTENSION_SET_HIGHLIGHT_DIRECTION
-        // EXTENSION_SET_HIGHLIGHT_COLOUR
+        // heightmap highlights and normal maps
         // EXTENSION_HEIGHTMAP_HIGHLIGHT
         // EXTENSION_HEIGHTMAP_NORMALS
 
@@ -339,6 +339,7 @@ private:
                         case EXTENSION_BORDER:                          return "Border";
                         case EXTENSION_BEVEL:                           return "Bevel";
                         case EXTENSION_BEVEL_NORMALS:                   return "Bevel (Normals)";
+                        case EXTENSION_TEXTURE_MODE:                    return "Set Texture Sampling Mode";
                         default:                                        return "Unnamed Extension";
                     }
                 }
@@ -495,6 +496,18 @@ public:
     u_int AppendBevelNormals( const float fAmount )
     {
         m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_BEVEL_NORMALS, static_cast< u_int >( fAmount * 4095.0f ) ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendTextureClamp()
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_TEXTURE_MODE, 0u ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendTextureWrap()
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_TEXTURE_MODE, 1u ) );
         return m_xLayers.End().GetID();
     }
 

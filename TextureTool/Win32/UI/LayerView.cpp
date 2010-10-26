@@ -66,6 +66,8 @@ BEGIN_MESSAGE_MAP(CLayerView, CDockablePane)
     ON_COMMAND( ID_PATTERNS_VERTICALSTRIPE, OnPatternVerticalStripe )
     ON_COMMAND( ID_DIAGONALSTRIPE_BOTTOMLEFTTOTOPRIGHT, OnPatternDiagonalStripe1 )
     ON_COMMAND( ID_DIAGONALSTRIPE_TOPLEFTTOBOTTOMRIGHT, OnPatternDiagonalStripe2 )
+    ON_COMMAND( ID_STATE_CLAMP, OnStateClamp )
+    ON_COMMAND( ID_STATE_WRAP, OnStateWrap )
     ON_COMMAND( ID_DELETELAYER, OnDeleteLayer )
     ON_COMMAND( ID_PROMOTELAYER, OnPromoteLayer )
     ON_COMMAND( ID_CREATEREFERENCE, OnCreateReference )
@@ -559,6 +561,24 @@ void CLayerView::OnPatternBorder()
     pxDocument->AppendBorder();
 }
 
+void CLayerView::OnPatternBevel()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendBevel( uID );
+        return;
+    }
+
+    pxDocument->AppendBevel();
+}
+
 void CLayerView::OnPatternBevelNormals()
 {
     CTextureToolDoc* pxDocument = GetDocument();
@@ -577,7 +597,7 @@ void CLayerView::OnPatternBevelNormals()
     pxDocument->AppendBevelNormals();
 }
 
-void CLayerView::OnPatternBevel()
+void CLayerView::OnStateClamp()
 {
     CTextureToolDoc* pxDocument = GetDocument();
     if( !pxDocument )
@@ -588,11 +608,29 @@ void CLayerView::OnPatternBevel()
     const u_int uID = GetSelectedID();
     if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
     {
-        pxDocument->AppendBevel( uID );
+        pxDocument->AppendClamp( uID );
         return;
     }
 
-    pxDocument->AppendBevel();
+    pxDocument->AppendClamp();
+}
+
+void CLayerView::OnStateWrap()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendWrap( uID );
+        return;
+    }
+
+    pxDocument->AppendWrap();
 }
 
 void CLayerView::OnDeleteLayer()
