@@ -418,7 +418,7 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
         {
             pGroup = new CMFCPropertyGridProperty( _T( "Fill Properties" ) );
 
-            const COLORREF xColour = static_cast< const COLORREF >( pxDocument->GetTexture().GetParam1( uID ) );
+            const COLORREF xColour = static_cast< const COLORREF >( 0xFFFFFF & pxDocument->GetTexture().GetParam1( uID ) );
             CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty( _T( "Colour" ), ( xColour ), NULL, _T( "Specifies the layer's colour"));
             pColorProp->EnableOtherButton( _T( "Other..." ) );
             pColorProp->EnableAutomaticButton( _T( "Default" ), NULL );
@@ -434,7 +434,7 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
         {
             pGroup = new CMFCPropertyGridProperty( _T( "Noise Properties" ) );
 
-            const COLORREF xColour = static_cast< const COLORREF >( pxDocument->GetTexture().GetParam1( uID ) );
+            const COLORREF xColour = static_cast< const COLORREF >( 0xFFFFFF & pxDocument->GetTexture().GetParam1( uID ) );
             CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty( _T( "Seed (Colour)" ), ( xColour ), NULL, _T( "Specifies the seed for the noise (each colour gives a different pattern)" ) );
             pColorProp->EnableOtherButton( _T( "Other..." ) );
             pColorProp->EnableAutomaticButton( _T( "Default" ), NULL );

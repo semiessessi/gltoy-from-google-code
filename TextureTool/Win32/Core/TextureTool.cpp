@@ -201,7 +201,8 @@ BOOL CTextureToolApp::InitInstance()
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 	// The main window has been initialized, so show and update it
-	pMainFrame->ShowWindow(SW_SHOWMAXIMIZED);
+	//pMainFrame->ShowWindow(SW_SHOWMAXIMIZED);
+    pMainFrame->ShowWindow(SW_SHOWNORMAL);
 	pMainFrame->UpdateWindow();
 
 	return TRUE;
