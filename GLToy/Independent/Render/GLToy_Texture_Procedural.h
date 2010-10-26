@@ -149,8 +149,8 @@ public:
 
         // bevels/borders
         EXTENSION_BORDER                            = 6,
-        //EXTENSION_BEVEL                             = 7,
-        //EXTENSION_BEVEL_NORMALS                     = 8,
+        EXTENSION_BEVEL                             = 7,
+        EXTENSION_BEVEL_NORMALS                     = 8,
         //EXTENSION_RECTANGLE                         = 9,
         //EXTENSION_BEVEL_RECTANGLE                   = 10,
         //EXTENSION_BEVEL_NORMALS_RECTANGLE           = 11,
@@ -337,6 +337,8 @@ private:
                         case EXTENSION_DIAGONAL_STRIPE_DOWNLEFT:        return "Diagonal Stripe (Down-Left)";
                         case EXTENSION_REFERENCE:                       return "Reference";
                         case EXTENSION_BORDER:                          return "Border";
+                        case EXTENSION_BEVEL:                           return "Bevel";
+                        case EXTENSION_BEVEL_NORMALS:                   return "Bevel (Normals)";
                         default:                                        return "Unnamed Extension";
                     }
                 }
@@ -481,6 +483,18 @@ public:
     u_int AppendBorder( const float fAmount )
     {
         m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_BORDER, static_cast< u_int >( fAmount * 4095.0f ) ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendBevel( const float fAmount )
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_BEVEL, static_cast< u_int >( fAmount * 4095.0f ) ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendBevelNormals( const float fAmount )
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_BEVEL_NORMALS, static_cast< u_int >( fAmount * 4095.0f ) ) );
         return m_xLayers.End().GetID();
     }
 

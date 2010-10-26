@@ -60,6 +60,8 @@ BEGIN_MESSAGE_MAP(CLayerView, CDockablePane)
     ON_COMMAND( ID_ADDLAYER_TILE, OnTile )
     ON_COMMAND( ID_PATTERNS_CHECKERBOARD, OnPatternCheckerboard )
     ON_COMMAND( ID_PATTERN_BORDER, OnPatternBorder )
+    ON_COMMAND( ID_PATTERN_BEVEL, OnPatternBevel )
+    ON_COMMAND( ID_PATTERN_BEVELNORMALS, OnPatternBevelNormals )
     ON_COMMAND( ID_PATTERNS_HORIZONTALSTRIPE, OnPatternHorizontalStripe )
     ON_COMMAND( ID_PATTERNS_VERTICALSTRIPE, OnPatternVerticalStripe )
     ON_COMMAND( ID_DIAGONALSTRIPE_BOTTOMLEFTTOTOPRIGHT, OnPatternDiagonalStripe1 )
@@ -555,6 +557,42 @@ void CLayerView::OnPatternBorder()
     }
 
     pxDocument->AppendBorder();
+}
+
+void CLayerView::OnPatternBevelNormals()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendBevelNormals( uID );
+        return;
+    }
+
+    pxDocument->AppendBevelNormals();
+}
+
+void CLayerView::OnPatternBevel()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendBevel( uID );
+        return;
+    }
+
+    pxDocument->AppendBevel();
 }
 
 void CLayerView::OnDeleteLayer()

@@ -41,6 +41,24 @@
 #include <String/GLToy_String.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// C O N S T A N T S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+// these values are pre-normalised...
+static const u_int uNORMAL_UP = 0xFFDADA00;
+static const u_int uNORMAL_DOWN = 0xFFDA2500;
+static const u_int uNORMAL_LEFT = 0xFFDA00DA;
+static const u_int uNORMAL_RIGHT = 0xFFDA0025;
+static const u_int uNORMAL_FLAT = 0xFFFF7F7F;
+
+// this looks anti-convention, but actually its just in tangent space...
+static const GLToy_Vector_3 xNORMAL_UP = GLToy_Vector_3( 0.0f, 0.707f, 0.707f );
+static const GLToy_Vector_3 xNORMAL_DOWN = GLToy_Vector_3( 0.0f, -0.707f, 0.707f );
+static const GLToy_Vector_3 xNORMAL_LEFT = GLToy_Vector_3( 0.707f, 0.0f, 0.707f );
+static const GLToy_Vector_3 xNORMAL_RIGHT = GLToy_Vector_3( -0.707f, 0.0f, 0.707f );
+static const GLToy_Vector_3 xNORMAL_FLAT = GLToy_Vector_3( 0.0f, 0.0f, 1.0f );
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -130,6 +148,8 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
                     }
 
                     case EXTENSION_BORDER:
+                    case EXTENSION_BEVEL:
+                    case EXTENSION_BEVEL_NORMALS:
                     {
                         xStream.ReadBits( m_uParam1, 12 ); // 4096 graduations is probably ample forever (assuming textures never get bigger than 4kx4k)
                         break;
@@ -208,6 +228,8 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
                     }
 
                     case EXTENSION_BORDER:
+                    case EXTENSION_BEVEL:
+                    case EXTENSION_BEVEL_NORMALS:
                     {
                         xStream.WriteBits( m_uParam1, 12 ); // 4096 graduations is probably ample forever (assuming textures never get bigger than 4kx4k)
                         break;
@@ -777,6 +799,97 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                                     ( ( GLToy_Maths::Abs( fMX ) < fAmount ) || ( GLToy_Maths::Abs( fMY ) < fAmount ) )
                                         ? 0xFFFFFFFF
                                         : 0x00000000;
+                            }
+                        }
+                        break;
+                    }
+
+                    case EXTENSION_BEVEL:
+                    {
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {
+                                const float fX = static_cast< float >( u ) / static_cast< float >( uWidth );
+                                const float fY = static_cast< float >( v ) / static_cast< float >( uHeight );
+                                const float fMX = fX > 0.5f ? 1.0f - fX : fX;
+                                const float fMY = fY > 0.5f ? 1.0f - fY : fY;
+                                const float fAmount = static_cast< float >( m_uParam1 ) / 4095.0f;
+                                
+                                GLToy_Vector_3 xSlope = xNORMAL_FLAT;
+                                if( ( GLToy_Maths::Abs( fMX ) < fAmount ) || ( GLToy_Maths::Abs( fMY ) < fAmount ) )
+                                {
+                                    if( fX + fY > 1.0f )
+                                    {
+                                        if( fX > fY )
+                                        {
+                                            xSlope = xNORMAL_RIGHT;
+                                        }
+                                        else
+                                        {
+                                            xSlope = xNORMAL_DOWN;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if( fX > fY )
+                                        {
+                                            xSlope = xNORMAL_UP;
+                                        }
+                                        else
+                                        {
+                                            xSlope = xNORMAL_LEFT;
+                                        }
+                                    }
+                                }
+
+                                const float fBrightness = xSlope * s_xLight;
+                                puData[ v * uWidth + u ] = GLToy_Vector_4( fBrightness, fBrightness, fBrightness, 1.0f ).GetRGBA();
+                            }
+                        }
+                        break;
+                    }
+                    
+                    case EXTENSION_BEVEL_NORMALS:
+                    {
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {
+                                const float fX = static_cast< float >( u ) / static_cast< float >( uWidth );
+                                const float fY = static_cast< float >( v ) / static_cast< float >( uHeight );
+                                const float fMX = fX > 0.5f ? 1.0f - fX : fX;
+                                const float fMY = fY > 0.5f ? 1.0f - fY : fY;
+                                const float fAmount = static_cast< float >( m_uParam1 ) / 4095.0f;
+                                
+                                u_int uSlope = uNORMAL_FLAT;
+                                if( ( GLToy_Maths::Abs( fMX ) < fAmount ) || ( GLToy_Maths::Abs( fMY ) < fAmount ) )
+                                {
+                                    if( fX + fY > 1.0f )
+                                    {
+                                        if( fX > fY )
+                                        {
+                                            uSlope = uNORMAL_RIGHT;
+                                        }
+                                        else
+                                        {
+                                            uSlope = uNORMAL_DOWN;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if( fX > fY )
+                                        {
+                                            uSlope = uNORMAL_UP;
+                                        }
+                                        else
+                                        {
+                                            uSlope = uNORMAL_LEFT;
+                                        }
+                                    }
+                                }
+
+                                puData[ v * uWidth + u ] = uSlope;
                             }
                         }
                         break;

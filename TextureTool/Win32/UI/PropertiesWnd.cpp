@@ -593,6 +593,8 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
                 }
 
                 case GLToy_Texture_Procedural::EXTENSION_BORDER:
+                case GLToy_Texture_Procedural::EXTENSION_BEVEL:
+                case GLToy_Texture_Procedural::EXTENSION_BEVEL_NORMALS:
                 {
                     pGroup = new CMFCPropertyGridProperty( _T( "Border Properties" ) );
 

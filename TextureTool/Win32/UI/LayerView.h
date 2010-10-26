@@ -62,6 +62,8 @@ protected:
     afx_msg void OnPatternDiagonalStripe1();
     afx_msg void OnPatternDiagonalStripe2();
     afx_msg void OnPatternBorder();
+    afx_msg void OnPatternBevel();
+    afx_msg void OnPatternBevelNormals();
 
     afx_msg void OnDeleteLayer();
     afx_msg void OnPromoteLayer();
