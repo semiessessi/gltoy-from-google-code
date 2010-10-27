@@ -927,10 +927,10 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                             for( u_int u = 0; u < uWidth; ++u )
                             {
                                 // use central difference method - it prevents bias in theory
-                                const float fBrightnessX1 = WrapAwareSample( u - 1, v, uWidth, uHeight, pxData ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
-                                const float fBrightnessX2 = WrapAwareSample( u + 1, v, uWidth, uHeight, pxData ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
-                                const float fBrightnessY1 = WrapAwareSample( u, v - 1, uWidth, uHeight, pxData ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
-                                const float fBrightnessY2 = WrapAwareSample( u, v + 1, uWidth, uHeight, pxData ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
+                                const float fBrightnessX1 = WrapAwareSample( u - 1, v, uWidth, uHeight, s_xRenderStack.Peek( 1 ) ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
+                                const float fBrightnessX2 = WrapAwareSample( u + 1, v, uWidth, uHeight, s_xRenderStack.Peek( 1 ) ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
+                                const float fBrightnessY1 = WrapAwareSample( u, v - 1, uWidth, uHeight, s_xRenderStack.Peek( 1 ) ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
+                                const float fBrightnessY2 = WrapAwareSample( u, v + 1, uWidth, uHeight, s_xRenderStack.Peek( 1 ) ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
 
                                 GLToy_Vector_3 xDifferences( ( fBrightnessX2 - fBrightnessX1 ) * 0.5f, ( fBrightnessY2 - fBrightnessY1 ) * 0.5f, 1.0f );
                                 xDifferences.Normalise();
