@@ -85,6 +85,7 @@ BEGIN_MESSAGE_MAP(CLayerView, CDockablePane)
     ON_COMMAND(ID_SHAPINGFUNCTION_SQUARE, &CLayerView::OnShapingfunctionSquare)
     ON_COMMAND(ID_SHAPINGFUNCTION_SQUAREROOT, &CLayerView::OnShapingfunctionSquareroot)
     ON_COMMAND(ID_PATTERN_GRADIENT, &CLayerView::OnPatternGradient)
+    ON_COMMAND(ID_HEIGHTMAPNORMALS, &CLayerView::OnHeightmapnormals)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -950,4 +951,23 @@ void CLayerView::OnDragDrop( const u_int uDragID, const u_int uDropID )
     }
 
     pxDocument->MoveAfter( uDragID, uDropID );
+}
+
+
+void CLayerView::OnHeightmapnormals()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendHeightmapToNormals( uID );
+        return;
+    }
+
+    pxDocument->AppendHeightmapToNormals();
 }

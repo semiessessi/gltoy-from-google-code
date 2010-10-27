@@ -382,7 +382,7 @@ public:
         return false;
     }
 
-	GLToy_Inline bool Contains( const GLToy_String& szString )
+	GLToy_Inline bool Contains( const GLToy_String& szString ) const
 	{
 		if( GetCount() < szString.GetCount() )
 		{

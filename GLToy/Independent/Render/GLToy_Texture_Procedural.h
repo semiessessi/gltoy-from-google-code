@@ -160,17 +160,16 @@ public:
         // EXTENSION_SET_HIGHLIGHT_DIRECTION          = 13, // need this to generate highlights from normal maps
 
         // heightmap highlights and normal maps
-        // EXTENSION_HEIGHTMAP_HIGHLIGHT
-        // EXTENSION_HEIGHTMAP_NORMALS
+        // EXTENSION_HEIGHTMAP_HIGHLIGHT              = 14,
+        EXTENSION_HEIGHTMAP_NORMALS                = 15,
 
         // to cover things like bricks, floor tiles etc...
-        // EXTENSION_PATTERN
-        // EXTENSION_PATTERN_NORMALS
+        // EXTENSION_PATTERN                          = 16,
+        // EXTENSION_PATTERN_NORMALS                  = 17,
+        // EXTENSION_PATTERN_HEIGHTMAP                = 18,
 
         // normal mapping
-        // EXTENSION_NORMAL_MAP_HALFSPHERE
-        // EXTENSION_NORMAL_MAP_METALLUMPS
-        // EXTENSION_NORMAL_MAP_RIBBED
+        // EXTENSION_NORMAL_MAP_HALFSPHERE            = 19,
 
         EXTENSION_BAD = 255,
     };
@@ -295,6 +294,8 @@ private:
 
         static LayerNode CreateGroup( GLToy_Texture_Procedural* const pxParentTexture );
 
+        static GLToy_Vector_4 WrapAwareSample( const u_int u, const u_int v, const u_int uWidth, const u_int uHeight, const GLToy_Vector_4* const pxBuffer  );
+
         GLToy_SmallSerialisableArray< LayerNode >* GetChildren()
         {
             return m_pxChildren;
@@ -340,6 +341,7 @@ private:
                         case EXTENSION_BEVEL:                           return "Bevel";
                         case EXTENSION_BEVEL_NORMALS:                   return "Bevel (Normals)";
                         case EXTENSION_TEXTURE_MODE:                    return "Set Texture Sampling Mode";
+                        case EXTENSION_HEIGHTMAP_NORMALS:               return "Convert Heightmap to Normals";
                         default:                                        return "Unnamed Extension";
                     }
                 }
@@ -508,6 +510,12 @@ public:
     u_int AppendTextureWrap()
     {
         m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_TEXTURE_MODE, 1u ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendHeightmapToNormals()
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_HEIGHTMAP_NORMALS ) );
         return m_xLayers.End().GetID();
     }
 

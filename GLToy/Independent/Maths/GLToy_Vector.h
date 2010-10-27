@@ -171,6 +171,14 @@ public:
     GLToy_Inline GLToy_Vector_4 operator -( const GLToy_Vector_4& xVector ) const { return GLToy_Vector_4( m_fComponents[ 0 ] - xVector[ 0 ], m_fComponents[ 1 ] - xVector[ 1 ], m_fComponents[ 2 ] - xVector[ 2 ], m_fComponents[ 3 ] - xVector[ 3 ] ); }
     GLToy_Inline GLToy_Vector_4 operator *( const float fFloat ) const { return GLToy_Vector_4( m_fComponents[ 0 ] * fFloat, m_fComponents[ 1 ] * fFloat, m_fComponents[ 2 ] * fFloat, m_fComponents[ 3 ] * fFloat ); }
 
+    GLToy_Inline float operator *( const GLToy_Vector_4& xVector ) const
+    {
+        return m_fComponents[ 0 ] * xVector[ 0 ]
+            + m_fComponents[ 1 ] * xVector[ 1 ]
+            + m_fComponents[ 2 ] * xVector[ 2 ]
+            + m_fComponents[ 3 ] * xVector[ 3 ];
+    }
+
     u_int GetRGBA() const;
 
 private:

@@ -72,9 +72,9 @@ public:
     static float Deg2Rad( const float fDegrees );
     static float Rad2Deg( const float fDegrees );
 
-    static GLToy_Inline float Clamp( const float fValue, const float fMin = 0.0f, const float fMax = 1.0f ) { return Min( fMax, Max( fValue, fMin ) ); }
     template< class T > static GLToy_ForceInline T Max( const T xValue1, const T xValue2 ) { return ( xValue1 > xValue2 ) ? xValue1 : xValue2; }
 	template< class T > static GLToy_ForceInline T Min( const T xValue1, const T xValue2 ) { return ( xValue1 < xValue2 ) ? xValue1 : xValue2; }
+    template< class T > static GLToy_ForceInline T Clamp( const T xValue, const T xMin = 0.0f, const T xMax = 1.0f ) { return Min( xMax, Max( xValue, xMin ) ); }
 
 	static GLToy_Inline float Wrap( const float fValue, const float fMin = 0.0f, const float fMax = 1.0f )
 	{

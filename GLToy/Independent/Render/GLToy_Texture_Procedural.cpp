@@ -918,6 +918,27 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                         s_bWrap = ( m_uParam1 != 0 );
                         break;
                     }
+
+                    case EXTENSION_HEIGHTMAP_NORMALS:
+                    {
+                        // take brightness as height - pretend alpha doesn't exist
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {
+                                // use central difference method - it prevents bias in theory
+                                const float fBrightnessX1 = WrapAwareSample( u - 1, v, uWidth, uHeight, pxData ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
+                                const float fBrightnessX2 = WrapAwareSample( u + 1, v, uWidth, uHeight, pxData ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
+                                const float fBrightnessY1 = WrapAwareSample( u, v - 1, uWidth, uHeight, pxData ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
+                                const float fBrightnessY2 = WrapAwareSample( u, v + 1, uWidth, uHeight, pxData ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
+
+                                GLToy_Vector_3 xDifferences( ( fBrightnessX2 - fBrightnessX1 ) * 0.5f, ( fBrightnessY2 - fBrightnessY1 ) * 0.5f, 1.0f );
+                                xDifferences.Normalise();
+                                pxData[ v * uWidth + u ] = GLToy_Vector_4( xDifferences * 0.5f + GLToy_Vector_3( 0.5f, 0.5f, 0.5f ), 1.0f );
+                            }
+                        }
+                        break;
+                    }
                 }
                 break;
             }
@@ -1197,16 +1218,26 @@ void GLToy_Texture_Procedural::ReadNoHeader( const char* const pcData, const u_i
 
 void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName, const GLToy_String* pszFilename )
 {
-    GLToy_File xFile( pszFilename ? *pszFilename : ( szName + ".h" ) );
+    GLToy_String szCleanName( "" );
+    // TODO: GLToy_String::Replace
+    for( u_int u = 0; u < szName.GetLength(); ++u )
+    {
+        if( szName[ u ] != '.' )
+        {
+            szCleanName += szName[ u ];
+        }
+    }
+
+    GLToy_File xFile( pszFilename ? *pszFilename : ( szCleanName + ".h" ) );
 
     GLToy_BitStream xStream;
     xStream << m_xLayers;
 
     GLToy_String szData = GLToy_String() +
-        "#ifndef __PTX_" + szName + "_H_\r\n"
-        "#define __PTX_" + szName + "_H_\r\n"
+        "#ifndef __PTX_" + szCleanName + "_H_\r\n"
+        "#define __PTX_" + szCleanName + "_H_\r\n"
         "\r\n"
-        "static const char acPTX_" + szName + "[] =\r\n"
+        "static const char acPTX_" + szCleanName + "[] =\r\n"
         "{\r\n";
     for( u_int u = 0; u < xStream.GetBytesWritten(); ++u )
     {
@@ -1215,7 +1246,7 @@ void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName, cons
         szData += szByte;
     }
     szData +=
-        "}\r\n"
+        "};\r\n"
         "\r\n"
         "#endif\r\n";
 
@@ -1840,4 +1871,11 @@ bool GLToy_Texture_Procedural::CircularReferenceCheck( const u_int uReferenceID 
     }
 
     return false;
+}
+
+GLToy_Vector_4 GLToy_Texture_Procedural::LayerNode::WrapAwareSample( const u_int u, const u_int v, const u_int uWidth, const u_int uHeight, const GLToy_Vector_4* const pxBuffer )
+{
+    const u_int s = s_bWrap ? ( u % uWidth ) : GLToy_Maths::Clamp( u, 0u, uWidth );
+    const u_int t = s_bWrap ? ( v % uHeight ) : GLToy_Maths::Clamp( v, 0u, uHeight );
+    return pxBuffer[ t * uWidth + s ];
 }
