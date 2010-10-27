@@ -67,7 +67,7 @@ static const GLToy_String szFragmentShader =
 "float distancefield( vec3 xPos )"
 "{"
     //"return xPos.y - 1.0 + 1.0 * noise2d( 0.5 * xPos.xz );"
-    "return xPos.y - 1.0 + 1.0 * noise3d( 0.0625 * xPos );"
+    "return xPos.y - 1.0 + 1.0 * noise3d( 0.1 * ( xPos + xPosition.zzz ) );"
 "}"
 
 "void main()"
@@ -80,35 +80,22 @@ static const GLToy_String szFragmentShader =
     "vec3 xSolution = xNormalisedDirection * fT + xPosition;"
     "fT = max( ( xPosition.y > 1.0 ) ? fT : 0.0, 0.0 );" // always start at the view plane or further
 
-    "for( int i = 0; i < 64; ++i )" // increase this on a better card - something like... 50?
+    "for( int i = 0; i < 64; ++i )"
     "{"
-        "xSolution += xNormalisedDirection * 0.5 * max( distancefield( xSolution ), 0.0 );"
+        "xSolution += xNormalisedDirection * 0.25 * max( distancefield( xSolution ), 0.0 );"
     "}"
 
-/*
-	// now iterate onto the noisy surface
-	// ax + by + cz - noise = 0
-	"float fW = 0.1;" // Whittaker constant
-	// iterations
-	"vec3 xSolution = xNormalisedDirection * fT + xPosition;"
-	"fT += fW * surface( xSolution );"
-	"xSolution = xNormalisedDirection * fT + xPosition;"
-	"fT += fW * surface( xSolution );"
-	"xSolution = xNormalisedDirection * fT + xPosition;"
-    "fW = 0.07;"
-	"fT += fW * surface( xSolution );"
-	"xSolution = xNormalisedDirection * fT + xPosition;"
-    "fW = 0.05;"
-	"fT += fW * surface( xSolution );"
-	"xSolution = xNormalisedDirection * fT + xPosition;"
-	"fT += fW * surface( xSolution );"
-	"xSolution = xNormalisedDirection * fT + xPosition;"
-	//"fT += fW * surface( xSolution );"
-	//"xSolution = xNormalisedDirection * fT + xPosition;"
-    //"fT += fW * surface( xSolution );"
-	//"xSolution = xNormalisedDirection * fT + xPosition;"
-*/
-    "if( fT < 0.0 )"
+    "if( xSolution.y > 1.0 )"
+    "{"
+        "discard;"
+    "}"
+
+    "if( xSolution.z < xPosition.z )"
+    "{"
+        "discard;"
+    "}"
+
+    "if( fT < 0.0 )" // this is probably not needed with the above two checks
     "{"
         "discard;"
     "}"
@@ -116,13 +103,15 @@ static const GLToy_String szFragmentShader =
 	// find approximate normal from finite differences //(central difference to avoid lopsidedness)
 	"float fXP = distancefield( xSolution + vec3( 0.01, 0.0, 0.0 ) );"
 	"float fXM = distancefield( xSolution - vec3( 0.01, 0.0, 0.0 ) );"
+    "float fYP = distancefield( xSolution + vec3( 0.0, 0.01, 0.0 ) );"
+	"float fYM = distancefield( xSolution - vec3( 0.0, 0.01, 0.0 ) );"
 	"float fZP = distancefield( xSolution + vec3( 0.0, 0.0, 0.01 ) );"
 	"float fZM = distancefield( xSolution - vec3( 0.0, 0.0, 0.01 ) );"
 	//"vec3 xNormal = normalize( vec3( fXP, 1.0, fZP ) );"
-    "vec3 xNormal = normalize( vec3( fXP - fXM, 1.0, fZP - fZM ) );"
+    "vec3 xNormal = normalize( vec3( fXP - fXM, fYP - fYM, fZP - fZM ) );"
     
     //"gl_FragDepth = 1.0;" //gl_DepthRange.diff / xSolution.z;
-    "float fLight = max( 1.2 * dot( -xNormalisedDirection, xNormal ), 0.0 );"
+    "float fLight = max( dot( -xNormalisedDirection, xNormal ), 0.0 );"
     "vec4 xColour = vec4( fLight, fLight, fLight, 1.0 );"
     "gl_FragColor = xColour * noise2d( xSolution.xz );"
 "}"
@@ -135,8 +124,6 @@ static const GLToy_String szVertexShader =
 "void main()"
 "{"
 	"xPosition = vec3( gl_Normal );"
-	// xDirection = gl_MultiTexCoord0.xyz * mat3( gl_ModelViewMatrix );
-    //"xDirection = gl_MultiTexCoord0.xyz * mat3( gl_ModelViewMatrix[ 0 ], gl_ModelViewMatrix[ 1 ], gl_ModelViewMatrix[ 2 ] );"
     "xDirection = gl_MultiTexCoord0.xyz * mat3( gl_ModelViewMatrix[ 0 ][ 0 ], gl_ModelViewMatrix[ 0 ][ 1 ], gl_ModelViewMatrix[ 0 ][ 2 ], gl_ModelViewMatrix[ 1 ][ 0 ], gl_ModelViewMatrix[ 1 ][ 1 ], gl_ModelViewMatrix[ 1 ][ 2 ], gl_ModelViewMatrix[ 2 ][ 0 ], gl_ModelViewMatrix[ 2 ][ 1 ], gl_ModelViewMatrix[ 2 ][ 2 ] );"
 	"gl_Position = gl_Vertex;"
 "}"
