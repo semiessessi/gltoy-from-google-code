@@ -435,7 +435,7 @@ void CTextureToolDoc::ExportCPP( const CString& sFilename )
 void CTextureToolDoc::ExportJPG( const CString& sFilename )
 {
     CImage xImage;
-    u_int* puData = CreateTextureRGBA( 256, 256 );
+    u_int* puData = CreateTextureRGBA_16xSS( 256, 256 );
     for( u_int u = 0; u < 256*256; ++u )
     {
         puData[ u ] = COLOUR_SWAP( puData[ u ] );
@@ -451,7 +451,7 @@ void CTextureToolDoc::ExportJPG( const CString& sFilename )
 void CTextureToolDoc::ExportPNG( const CString& sFilename )
 {
     CImage xImage;
-    u_int* puData = CreateTextureRGBA( 256, 256 );
+    u_int* puData = CreateTextureRGBA_16xSS( 256, 256 );
     for( u_int u = 0; u < 256*256; ++u )
     {
         puData[ u ] = COLOUR_SWAP( puData[ u ] );

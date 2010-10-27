@@ -1067,13 +1067,86 @@ u_int* GLToy_Texture_Procedural::CreateRGBA( const u_int uWidth, const u_int uHe
     return puData;
 }
 
+u_int* GLToy_Texture_Procedural::CreateRGBA_4xSS( const u_int uWidth, const u_int uHeight )
+{
+    const u_int uWidth2 = uWidth << 1;
+    const u_int uHeight2 = uHeight << 1;
+    u_int* const puData4 = CreateRGBA( uWidth2, uHeight2 );
+    u_int* const puData = CreateRGBA( uWidth, uHeight );
+
+    // 4x supersample the output
+    for( u_int v = 0; v < uHeight; ++v )
+    {
+        for( u_int u = 0; u < uWidth; ++u )
+        {
+            const u_int s = u << 1;
+            const u_int t = v << 1;
+            GLToy_Vector_4 xOutput;
+            xOutput = GLToy_Vector_4( puData4[ t * uWidth2 + s ] )
+                + GLToy_Vector_4( puData4[ t * uWidth2 + s + 1 ] )
+                + GLToy_Vector_4( puData4[ ( t + 1 ) * uWidth2 + s ] )
+                + GLToy_Vector_4( puData4[ ( t + 1 ) * uWidth2 + s + 1 ] );
+
+            xOutput *= 0.25f;
+
+            puData[ v * uWidth + u ] = xOutput.GetRGBA();
+        }
+    }
+
+    delete[] puData4;
+    return puData;
+}
+
+u_int* GLToy_Texture_Procedural::CreateRGBA_16xSS( const u_int uWidth, const u_int uHeight )
+{
+    const u_int uWidth4 = uWidth << 2;
+    const u_int uHeight4 = uHeight << 2;
+    u_int* const puData16 = CreateRGBA( uWidth4, uHeight4 );
+    u_int* const puData = CreateRGBA( uWidth, uHeight );
+
+    // 4x supersample the output
+    for( u_int v = 0; v < uHeight; ++v )
+    {
+        for( u_int u = 0; u < uWidth; ++u )
+        {
+            const u_int s = u << 2;
+            const u_int t = v << 2;
+            GLToy_Vector_4 xOutput;
+            xOutput = GLToy_Vector_4( puData16[ t * uWidth4 + s ] )
+                + GLToy_Vector_4( puData16[ t * uWidth4 + s + 1 ] )
+                + GLToy_Vector_4( puData16[ t * uWidth4 + s + 2 ] )
+                + GLToy_Vector_4( puData16[ t * uWidth4 + s + 3 ] )
+                + GLToy_Vector_4( puData16[ ( t + 1 ) * uWidth4 + s ] )
+                + GLToy_Vector_4( puData16[ ( t + 1 ) * uWidth4 + s + 1 ] )
+                + GLToy_Vector_4( puData16[ ( t + 1 ) * uWidth4 + s + 2 ] )
+                + GLToy_Vector_4( puData16[ ( t + 1 ) * uWidth4 + s + 3 ] )
+                + GLToy_Vector_4( puData16[ ( t + 2 ) * uWidth4 + s ] )
+                + GLToy_Vector_4( puData16[ ( t + 2 ) * uWidth4 + s + 1 ] )
+                + GLToy_Vector_4( puData16[ ( t + 2 ) * uWidth4 + s + 2 ] )
+                + GLToy_Vector_4( puData16[ ( t + 2 ) * uWidth4 + s + 3 ] )
+                + GLToy_Vector_4( puData16[ ( t + 3 ) * uWidth4 + s ] )
+                + GLToy_Vector_4( puData16[ ( t + 3 ) * uWidth4 + s + 1 ] )
+                + GLToy_Vector_4( puData16[ ( t + 3 ) * uWidth4 + s + 2 ] )
+                + GLToy_Vector_4( puData16[ ( t + 3 ) * uWidth4 + s + 3 ] );
+
+            xOutput *= 0.0625f;
+
+            puData[ v * uWidth + u ] = xOutput.GetRGBA();
+        }
+    }
+
+    delete[] puData16;
+    return puData;
+}
+
 void GLToy_Texture_Procedural::CreateTexture( const GLToy_String& szName, const u_int uWidth, const u_int uHeight )
 {
-    u_int* const pxData = CreateRGBA( uWidth, uHeight );
+    // TODO: once there are some actual textures see if 16x is acceptably fast
+    u_int* const puData = CreateRGBA_4xSS( uWidth, uHeight );
 
-    GLToy_Texture_System::CreateTextureFromRGBAData( szName.GetHash(), pxData, uWidth, uHeight );
+    GLToy_Texture_System::CreateTextureFromRGBAData( szName.GetHash(), puData, uWidth, uHeight );
 
-    delete[] pxData;
+    delete[] puData;
 }
 
 void GLToy_Texture_Procedural::ReadFromBitStream( const GLToy_BitStream& xStream )
@@ -1155,7 +1228,8 @@ void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName, cons
 
 void GLToy_Texture_Procedural::SaveToTGAFile( const GLToy_String& szFilename, const u_int uSize )
 {
-    u_int* puData = CreateRGBA( uSize, uSize );
+    // if we are saving, might as well use the absolute best quality possible...
+    u_int* puData = CreateRGBA_16xSS( uSize, uSize );
     GLToy_Texture_System::Platform_SaveTextureTGA( szFilename, puData, uSize, uSize );
     delete[] puData;
 }

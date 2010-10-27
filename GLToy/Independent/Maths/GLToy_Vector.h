@@ -39,6 +39,7 @@ class GLToy_Matrix_3;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Vector_2
+// TODO: Investigate the possibility of moving GLToy_Serialisable over to a templated type, like GLToy_Destroyable
 // : public GLToy_Serialisable - don't do this, its nicer if we can map this to float[ 2 ], which we can't if it needs a virtual function table pointer
 {
 
@@ -58,6 +59,9 @@ public:
 
     GLToy_Inline float* GetFloatPointer() { return m_fComponents; }
     GLToy_Inline const float* GetFloatPointer() const { return m_fComponents; }
+
+    GLToy_Inline GLToy_Vector_2& operator *=( const float fFloat ) { return *this = ( *this * fFloat ); }
+    GLToy_Inline GLToy_Vector_2& operator /=( const float fFloat ) { return operator *=( 1.0f / fFloat ); }
 
     GLToy_Inline GLToy_Vector_2 operator +( const GLToy_Vector_2& xVector ) const { return GLToy_Vector_2( m_fComponents[ 0 ] + xVector[ 0 ], m_fComponents[ 1 ] + xVector[ 1 ] ); }
     GLToy_Inline GLToy_Vector_2 operator -( const GLToy_Vector_2& xVector ) const { return GLToy_Vector_2( m_fComponents[ 0 ] - xVector[ 0 ], m_fComponents[ 1 ] - xVector[ 1 ] ); }
@@ -159,6 +163,9 @@ public:
     const float* GetFloatPointer() const { return m_fComponents; }
 
     bool operator ==( const GLToy_Vector_4& xVector ) const;
+
+    GLToy_Inline GLToy_Vector_4& operator *=( const float fFloat ) { return *this = ( *this * fFloat ); }
+    GLToy_Inline GLToy_Vector_4& operator /=( const float fFloat ) { return operator *=( 1.0f / fFloat ); }
 
     GLToy_Inline GLToy_Vector_4 operator +( const GLToy_Vector_4& xVector ) const { return GLToy_Vector_4( m_fComponents[ 0 ] + xVector[ 0 ], m_fComponents[ 1 ] + xVector[ 1 ], m_fComponents[ 2 ] + xVector[ 2 ], m_fComponents[ 3 ] + xVector[ 3 ] ); }
     GLToy_Inline GLToy_Vector_4 operator -( const GLToy_Vector_4& xVector ) const { return GLToy_Vector_4( m_fComponents[ 0 ] - xVector[ 0 ], m_fComponents[ 1 ] - xVector[ 1 ], m_fComponents[ 2 ] - xVector[ 2 ], m_fComponents[ 3 ] - xVector[ 3 ] ); }

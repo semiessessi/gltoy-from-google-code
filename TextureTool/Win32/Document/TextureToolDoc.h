@@ -24,6 +24,8 @@ public:
 
     GLToy_Texture_Procedural& GetTexture() { return m_xTexture; }
     u_int* CreateTextureRGBA( const u_int uWidth, const u_int uHeight ) { return m_xTexture.CreateRGBA( uWidth, uHeight ); }
+    u_int* CreateTextureRGBA_4xSS( const u_int uWidth, const u_int uHeight ) { return m_xTexture.CreateRGBA_4xSS( uWidth, uHeight ); }
+    u_int* CreateTextureRGBA_16xSS( const u_int uWidth, const u_int uHeight ) { return m_xTexture.CreateRGBA_16xSS( uWidth, uHeight ); }
 
     void MoveAfter( const u_int uID, const u_int uAfterID );
     void MoveUnder( const u_int uID, const u_int uParentID );
