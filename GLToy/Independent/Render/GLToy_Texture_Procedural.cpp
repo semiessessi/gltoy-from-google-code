@@ -62,7 +62,7 @@ static const GLToy_Vector_3 xNORMAL_FLAT = GLToy_Vector_3( 0.0f, 0.0f, 1.0f );
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Stack< u_int* > GLToy_Texture_Procedural::LayerNode::s_xRenderStack;
+GLToy_Stack< GLToy_Vector_4* > GLToy_Texture_Procedural::LayerNode::s_xRenderStack;
 u_int GLToy_Texture_Procedural::LayerNode::s_uNextID = 1;
 bool GLToy_Texture_Procedural::LayerNode::s_bWrap = true;
 GLToy_Vector_3 GLToy_Texture_Procedural::LayerNode::s_xLight( 0.533f, 0.533f, 0.533f );
@@ -259,11 +259,11 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
 
 void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_int uHeight )
 {
-    u_int* puData = new u_int[ uWidth * uHeight ];
+    GLToy_Vector_4* pxData = new GLToy_Vector_4[ uWidth * uHeight ];
 
-    GLToy_Memory::SetDWords( puData, uWidth * uHeight, 0 );
+    GLToy_Memory::SetDWords( pxData, 4 * uWidth * uHeight, 0 );
 
-    s_xRenderStack.Push( puData );
+    s_xRenderStack.Push( pxData );
 
     if( m_pxChildren )
     {
@@ -280,7 +280,14 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
             default:
             case INSTRUCTION_FILL:
             {
-                GLToy_Memory::SetDWords( puData, uWidth * uHeight, m_uParam1 );
+                // SE - 27/10/2010 - probably the only instruction which benefited from using 32-bit RGBA internally now has to do more work... :)
+                //GLToy_Memory::SetDWords( pxData, uWidth * uHeight, m_uParam1 );
+                
+                for( u_int u = 0; u < uWidth * uHeight; ++u )
+                {
+                    pxData[ u ] = GLToy_Vector_4( m_uParam1 );
+                }
+
                 break;
             }
 
@@ -293,7 +300,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                         const float fX = static_cast< float >( u ) / static_cast< float >( uWidth );
                         const float fY = static_cast< float >( v ) / static_cast< float >( uHeight );
                         const float fNoise = 0.5f + 0.5f * GLToy_Noise::Cubic2D( fX, fY, m_fParam1, 1.0f, static_cast< u_int >( m_fParam1 ), m_uParam2 );
-                        puData[ v * uWidth + u ] = GLToy_Vector_4( fNoise, fNoise, fNoise, 1.0f ).GetRGBA();
+                        pxData[ v * uWidth + u ] = GLToy_Vector_4( fNoise, fNoise, fNoise, 1.0f );
                     }
                 }
                 break;
@@ -312,7 +319,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                         const u_int t = ( v * m_uParam1 ) % uHeight;
                         const float fX = static_cast< float >( s ) / static_cast< float >( uWidth );
                         const float fY = static_cast< float >( t ) / static_cast< float >( uHeight );
-                        puData[ v * uWidth + u ] = s_xRenderStack.Peek( 1 )[ t * uWidth + s ];
+                        pxData[ v * uWidth + u ] = s_xRenderStack.Peek( 1 )[ t * uWidth + s ];
                     }
                 }
                 break;
@@ -333,7 +340,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                         const float fY = fCentreY - static_cast< float >( v ) / static_cast< float >( uHeight );
                         if( fX * fX + fY * fY < fRadius * fRadius )
                         {
-                            puData[ v * uWidth + u ] = m_uParam3;
+                            pxData[ v * uWidth + u ] = GLToy_Vector_4( m_uParam3 );
                         }
                     }
                 }
@@ -349,7 +356,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                         const float fX = static_cast< float >( u ) / static_cast< float >( uWidth );
                         const float fY = static_cast< float >( v ) / static_cast< float >( uHeight );
                         const float fNoise = 0.5f + 0.5f * GLToy_Noise::FractalCubic2D( fX, fY, m_fParam1, 1.0f, 0.5f, 10, true, m_uParam2 );
-                        puData[ v * uWidth + u ] = GLToy_Vector_4( fNoise, fNoise, fNoise, 1.0f ).GetRGBA();
+                        pxData[ v * uWidth + u ] = GLToy_Vector_4( fNoise, fNoise, fNoise, 1.0f );
                     }
                 }
                 break;
@@ -359,8 +366,8 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
             {
                 for( u_int u = 0; u < uWidth * uHeight; ++u )
                 {
-                    GLToy_Vector_4 xDest( puData[ u ] );
-                    GLToy_Vector_4 xSource( s_xRenderStack.Peek( 1 )[ u ] );
+                    GLToy_Vector_4& xDest = pxData[ u ];
+                    GLToy_Vector_4& xSource = s_xRenderStack.Peek( 1 )[ u ];
                     
                     switch( static_cast< ShapeFunction >( m_uParam1 ) )
                     {
@@ -589,7 +596,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                         }
                     }
 
-                    puData[ u ] = xDest.GetRGBA();
+                    //pxData[ u ] = xDest.GetRGBA();
                 }
                 break;
             }
@@ -698,8 +705,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                             }
                         }
 
-                        GLToy_Vector_4 xOutput = GLToy_Vector_4( fLuminance, fLuminance, fLuminance, 1.0f );
-                        puData[ v * uWidth + u ] = xOutput.GetRGBA();
+                        pxData[ v * uWidth + u ] = GLToy_Vector_4( fLuminance, fLuminance, fLuminance, 1.0f );
                     }
                 }
                 break;
@@ -717,7 +723,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                             {
                                 const float fX = static_cast< float >( u << 1 ) / static_cast< float >( uWidth ) - 1.0f;
                                 const float fY = static_cast< float >( v << 1 ) / static_cast< float >( uHeight ) - 1.0f;
-                                puData[ v * uWidth + u ] = ( fX * fY >= 0.0f ) ? 0xFFFFFFFF : 0x00000000;
+                                pxData[ v * uWidth + u ] = ( fX * fY >= 0.0f ) ? GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) : GLToy_Maths::ZeroVector4;
                             }
                         }
                         break;
@@ -730,7 +736,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                             for( u_int u = 0; u < uWidth; ++u )
                             {
                                 const float fY = static_cast< float >( v << 1 ) / static_cast< float >( uHeight ) - 1.0f;
-                                puData[ v * uWidth + u ] = ( fY >= 0.0f ) ? 0xFFFFFFFF : 0x00000000;
+                                pxData[ v * uWidth + u ] = ( fY >= 0.0f ) ? GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) : GLToy_Maths::ZeroVector4;
                             }
                         }
                         break;
@@ -743,7 +749,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                             for( u_int u = 0; u < uWidth; ++u )
                             {
                                 const float fX = static_cast< float >( u << 1 ) / static_cast< float >( uWidth ) - 1.0f;
-                                puData[ v * uWidth + u ] = ( fX >= 0.0f ) ? 0xFFFFFFFF : 0x00000000;
+                                pxData[ v * uWidth + u ] = ( fX >= 0.0f ) ? GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) : GLToy_Maths::ZeroVector4;
                             }
                         }
                         break;
@@ -757,10 +763,10 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                             {
                                 const float fX = static_cast< float >( u << 1 ) / static_cast< float >( uWidth ) - 1.0f;
                                 const float fY = static_cast< float >( v << 1 ) / static_cast< float >( uHeight ) - 1.0f;
-                                puData[ v * uWidth + u ] =
+                                pxData[ v * uWidth + u ] =
                                     ( fX + fY >= 0.0f )
-                                        ? ( fX + fY >= 1.0f ) ? 0xFFFFFFFF : 0x00000000
-                                        : ( fX + fY < -1.0f ) ? 0x00000000 : 0xFFFFFFFF;
+                                        ? ( fX + fY >= 1.0f ) ? GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) : GLToy_Maths::ZeroVector4
+                                        : ( fX + fY < -1.0f ) ? GLToy_Maths::ZeroVector4 : GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f );
                             }
                         }
                         break;
@@ -774,10 +780,10 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                             {
                                 const float fX = static_cast< float >( u << 1 ) / static_cast< float >( uWidth ) - 1.0f;
                                 const float fY = static_cast< float >( v << 1 ) / static_cast< float >( uHeight ) - 1.0f;
-                                puData[ v * uWidth + u ] =
+                                pxData[ v * uWidth + u ] =
                                     ( fX + fY < 0.0f )
-                                        ? ( fX + fY >= -1.0f ) ? 0x00000000 : 0xFFFFFFFF
-                                        : ( fX + fY < 1.0f ) ? 0xFFFFFFFF : 0x00000000;
+                                        ? ( fX + fY >= -1.0f ) ? GLToy_Maths::ZeroVector4 : GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f )
+                                        : ( fX + fY < 1.0f ) ? GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) : GLToy_Maths::ZeroVector4;
                             }
                         }
                         break;
@@ -807,10 +813,10 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                                 const float fMX = fX > 0.5f ? 1.0f - fX : fX;
                                 const float fMY = fY > 0.5f ? 1.0f - fY : fY;
                                 const float fAmount = static_cast< float >( m_uParam1 ) / 4095.0f;
-                                puData[ v * uWidth + u ] =
+                                pxData[ v * uWidth + u ] =
                                     ( ( GLToy_Maths::Abs( fMX ) < fAmount ) || ( GLToy_Maths::Abs( fMY ) < fAmount ) )
-                                        ? 0xFFFFFFFF
-                                        : 0x00000000;
+                                        ? GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f )
+                                        : GLToy_Maths::ZeroVector4;
                             }
                         }
                         break;
@@ -856,7 +862,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                                 }
 
                                 const float fBrightness = xSlope * s_xLight;
-                                puData[ v * uWidth + u ] = GLToy_Vector_4( fBrightness, fBrightness, fBrightness, 1.0f ).GetRGBA();
+                                pxData[ v * uWidth + u ] = GLToy_Vector_4( fBrightness, fBrightness, fBrightness, 1.0f );
                             }
                         }
                         break;
@@ -874,34 +880,34 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                                 const float fMY = fY > 0.5f ? 1.0f - fY : fY;
                                 const float fAmount = static_cast< float >( m_uParam1 ) / 4095.0f;
                                 
-                                u_int uSlope = uNORMAL_FLAT;
+                                GLToy_Vector_3 xSlope = xNORMAL_FLAT;
                                 if( ( GLToy_Maths::Abs( fMX ) < fAmount ) || ( GLToy_Maths::Abs( fMY ) < fAmount ) )
                                 {
                                     if( fX + fY > 1.0f )
                                     {
                                         if( fX > fY )
                                         {
-                                            uSlope = uNORMAL_RIGHT;
+                                            xSlope = xNORMAL_RIGHT;
                                         }
                                         else
                                         {
-                                            uSlope = uNORMAL_DOWN;
+                                            xSlope = xNORMAL_DOWN;
                                         }
                                     }
                                     else
                                     {
                                         if( fX > fY )
                                         {
-                                            uSlope = uNORMAL_UP;
+                                            xSlope = xNORMAL_UP;
                                         }
                                         else
                                         {
-                                            uSlope = uNORMAL_LEFT;
+                                            xSlope = xNORMAL_LEFT;
                                         }
                                     }
                                 }
 
-                                puData[ v * uWidth + u ] = uSlope;
+                                pxData[ v * uWidth + u ] = GLToy_Vector_4( xSlope * 0.5f + GLToy_Vector_3( 0.5f, 0.5f, 0.5f ), 1.0f );
                             }
                         }
                         break;
@@ -918,7 +924,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
         }
     }
 
-    puData = s_xRenderStack.Pop();
+    pxData = s_xRenderStack.Pop();
 
     switch( m_eBlendMode )
     {
@@ -927,11 +933,10 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
         {
             for( u_int u = 0; u < uWidth * uHeight; ++u )
             {
-                const float fAlpha = static_cast< float >( puData[ u ] >> 24 ) / 255.0f;
-                const GLToy_Vector_4 xColour1( puData[ u ] );
-                const GLToy_Vector_4 xColour2( s_xRenderStack.Peek()[ u ] );
-                GLToy_Vector_4 xCombined = xColour1 * fAlpha + xColour2 * ( 1.0f - fAlpha );
-                puData[ u ] = xCombined.GetRGBA();
+                const float& fAlpha = pxData[ u ][ 3 ];
+                const GLToy_Vector_4& xColour1 = pxData[ u ];
+                const GLToy_Vector_4& xColour2 = s_xRenderStack.Peek()[ u ];
+                pxData[ u ] = xColour1 * fAlpha + xColour2 * ( 1.0f - fAlpha );
             }
             break;
         }
@@ -940,14 +945,13 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
         {
             for( u_int u = 0; u < uWidth * uHeight; ++u )
             {
-                const float fAlpha = static_cast< float >( puData[ u ] >> 24 ) / 255.0f;
-                const GLToy_Vector_4 xColour1( puData[ u ] );
-                const GLToy_Vector_4 xColour2( s_xRenderStack.Peek()[ u ] );
+                const GLToy_Vector_4& xColour1 = pxData[ u ];
+                const GLToy_Vector_4& xColour2 = s_xRenderStack.Peek()[ u ];
                 GLToy_Vector_4 xCombined = xColour2;
                 xCombined[ 0 ] *= xColour1[ 0 ];
                 xCombined[ 1 ] *= xColour1[ 1 ];
                 xCombined[ 2 ] *= xColour1[ 2 ];
-                puData[ u ] = xCombined.GetRGBA();
+                pxData[ u ] = xCombined;
             }
             break;
         }
@@ -956,10 +960,10 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
         {
             for( u_int u = 0; u < uWidth * uHeight; ++u )
             {
-                const GLToy_Vector_4 xColour1( puData[ u ] );
-                const GLToy_Vector_4 xColour2( s_xRenderStack.Peek()[ u ] );
+                const GLToy_Vector_4& xColour1 = pxData[ u ];
+                const GLToy_Vector_4& xColour2 = s_xRenderStack.Peek()[ u ];
                 const GLToy_Vector_4 xCombined = xColour1 + xColour2;
-                puData[ u ] = xCombined.GetRGBA();
+                pxData[ u ] = xCombined;
             }
             break;
         }
@@ -968,12 +972,11 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
         {
             for( u_int u = 0; u < uWidth * uHeight; ++u )
             {
-                const float fAlpha = static_cast< float >( puData[ u ] >> 24 ) / 255.0f;
-                const GLToy_Vector_4 xColour1( puData[ u ] );
-                const GLToy_Vector_4 xColour2( s_xRenderStack.Peek()[ u ] );
+                const GLToy_Vector_4& xColour1 = pxData[ u ];
+                const GLToy_Vector_4& xColour2 = s_xRenderStack.Peek()[ u ];
                 GLToy_Vector_4 xCombined = xColour2 - xColour1;
                 xCombined[ 3 ] = xColour2[ 3 ];
-                puData[ u ] = xCombined.GetRGBA();
+                pxData[ u ] = xCombined;
             }
             break;
         }
@@ -982,15 +985,14 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
         {
             for( u_int u = 0; u < uWidth * uHeight; ++u )
             {
-                const float fAlpha = static_cast< float >( puData[ u ] >> 24 ) / 255.0f;
-                const GLToy_Vector_4 xColour1( puData[ u ] );
-                const GLToy_Vector_4 xColour2( s_xRenderStack.Peek()[ u ] );
+                const GLToy_Vector_4& xColour1 = pxData[ u ];
+                const GLToy_Vector_4& xColour2 = s_xRenderStack.Peek()[ u ];
                 GLToy_Vector_4 xCombined = xColour2;
                 xCombined[ 0 ] = GLToy_Maths::Max( xCombined[ 0 ], xColour1[ 0 ] );
                 xCombined[ 1 ] = GLToy_Maths::Max( xCombined[ 1 ], xColour1[ 1 ] );
                 xCombined[ 2 ] = GLToy_Maths::Max( xCombined[ 2 ], xColour1[ 2 ] );
                 xCombined[ 3 ] = 1.0f;
-                puData[ u ] = xCombined.GetRGBA();
+                pxData[ u ] = xCombined;
             }
             break;
         }
@@ -999,15 +1001,14 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
         {
             for( u_int u = 0; u < uWidth * uHeight; ++u )
             {
-                const float fAlpha = static_cast< float >( puData[ u ] >> 24 ) / 255.0f;
-                const GLToy_Vector_4 xColour1( puData[ u ] );
-                const GLToy_Vector_4 xColour2( s_xRenderStack.Peek()[ u ] );
+                const GLToy_Vector_4& xColour1 = pxData[ u ];
+                const GLToy_Vector_4& xColour2 = s_xRenderStack.Peek()[ u ];
                 GLToy_Vector_4 xCombined = xColour2;
                 xCombined[ 0 ] = GLToy_Maths::Min( xCombined[ 0 ], xColour1[ 0 ] );
                 xCombined[ 1 ] = GLToy_Maths::Min( xCombined[ 1 ], xColour1[ 1 ] );
                 xCombined[ 2 ] = GLToy_Maths::Min( xCombined[ 2 ], xColour1[ 2 ] );
                 xCombined[ 3 ] = 1.0f;
-                puData[ u ] = xCombined.GetRGBA();
+                pxData[ u ] = xCombined;
             }
             break;
         }
@@ -1016,11 +1017,10 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
         {
             for( u_int u = 0; u < uWidth * uHeight; ++u )
             {
-                const GLToy_Vector_4 xColour1( puData[ u ] );
+                const GLToy_Vector_4& xColour1 = pxData[ u ];
                 const float fAlpha = ( xColour1[ 0 ] + xColour1[ 1 ] + xColour1[ 2 ] ) / 3.0f;
-                const GLToy_Vector_4 xColour2( s_xRenderStack.Peek()[ u ] );
-                const GLToy_Vector_4 xCombined = GLToy_Vector_4( xColour2[ 0 ], xColour2[ 1 ], xColour2[ 2 ], fAlpha );
-                puData[ u ] = xCombined.GetRGBA();
+                const GLToy_Vector_4& xColour2 = s_xRenderStack.Peek()[ u ];
+                pxData[ u ] = GLToy_Vector_4( xColour2[ 0 ], xColour2[ 1 ], xColour2[ 2 ], fAlpha );
             }
             break;
         }
@@ -1032,19 +1032,19 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
     }
     
     // swap the data
-    u_int* puOld = s_xRenderStack.Peek();
-    s_xRenderStack.Peek() = puData;
-    delete[] puOld;
+    GLToy_Vector_4* pxOld = s_xRenderStack.Peek();
+    s_xRenderStack.Peek() = pxData;
+    delete[] pxOld;
 }
 
 u_int* GLToy_Texture_Procedural::CreateRGBA( const u_int uWidth, const u_int uHeight )
 {
-    u_int* puData = new u_int[ uWidth * uHeight ];
+    GLToy_Vector_4* pxData = new GLToy_Vector_4[ uWidth * uHeight ];
 
-    GLToy_Memory::Set( puData, uWidth * uHeight * 4, 0 );
+    GLToy_Memory::SetDWords( pxData, uWidth * uHeight * 4, 0 );
 
     // initialise render state
-    LayerNode::s_xRenderStack.Push( puData );
+    LayerNode::s_xRenderStack.Push( pxData );
     LayerNode::s_bWrap = true;
     LayerNode::s_xLight = GLToy_Vector_3( 0.533f, 0.533f, 0.533f );
 
@@ -1054,18 +1054,26 @@ u_int* GLToy_Texture_Procedural::CreateRGBA( const u_int uWidth, const u_int uHe
         xIterator.Current().Render( uWidth, uHeight );
     }
 
-    puData = LayerNode::s_xRenderStack.Pop();
+    pxData = LayerNode::s_xRenderStack.Pop();
+
+    u_int* puData = new u_int[ uWidth * uHeight ];
+    for( u_int u = 0; u < uWidth * uHeight; ++u )
+    {
+        puData[ u ] = pxData[ u ].GetRGBA();
+    }
+
+    delete[] pxData;
 
     return puData;
 }
 
 void GLToy_Texture_Procedural::CreateTexture( const GLToy_String& szName, const u_int uWidth, const u_int uHeight )
 {
-    u_int* const puData = CreateRGBA( uWidth, uHeight );
+    u_int* const pxData = CreateRGBA( uWidth, uHeight );
 
-    GLToy_Texture_System::CreateTextureFromRGBAData( szName.GetHash(), puData, uWidth, uHeight );
+    GLToy_Texture_System::CreateTextureFromRGBAData( szName.GetHash(), pxData, uWidth, uHeight );
 
-    delete[] puData;
+    delete[] pxData;
 }
 
 void GLToy_Texture_Procedural::ReadFromBitStream( const GLToy_BitStream& xStream )

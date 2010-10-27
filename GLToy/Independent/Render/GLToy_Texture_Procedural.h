@@ -388,7 +388,7 @@ private:
 
         static u_int s_uNextID;
 
-        static GLToy_Stack< u_int* > s_xRenderStack;
+        static GLToy_Stack< GLToy_Vector_4* > s_xRenderStack;
         static bool s_bWrap;
         static GLToy_Vector_3 s_xLight;
 
