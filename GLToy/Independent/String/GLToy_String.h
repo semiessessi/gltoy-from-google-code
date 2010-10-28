@@ -256,6 +256,27 @@ public:
         return uRet;
     }
 
+    GLToy_Inline u_int ExtractSignedInt( const u_int uPosition = 0 ) const
+    {
+        u_int uRet = 0;
+        u_int u = 0;
+        int iSign = 1;
+        if( m_pxData[ uPosition ] == L'-' )
+        {
+            iSign = -1;
+            ++u;
+        }
+
+        while( IsDigit( GLToy_Parent::m_pxData[ uPosition + u ] ) )
+        {
+            uRet *= 10;
+            uRet += ( GLToy_Parent::m_pxData[ uPosition + u ] - L'0' );
+            ++u;
+        }
+
+        return iSign * static_cast< int >( uRet );
+    }
+
     float ExtractFloat( const u_int uPosition = 0 ) const;
 
     GLToy_Inline GLToy_String RemoveFirstWord()

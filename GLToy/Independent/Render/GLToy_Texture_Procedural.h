@@ -376,7 +376,9 @@ private:
         {
             u_int m_uParam1;
             float m_fParam1;
+            int m_iParam1;
             u_char m_aucParam1[ 4 ];
+            char m_acParam1[ 4 ];
             u_short m_ausParam1[ 2 ];
         }
         ;
@@ -384,7 +386,9 @@ private:
         {
             u_int m_uParam2;
             float m_fParam2;
+            int m_iParam2;
             u_char m_aucParam2[ 4 ];
+            char m_acParam2[ 4 ];
             u_short m_ausParam2[ 2 ];
         };
 
@@ -392,7 +396,9 @@ private:
         {
             u_int m_uParam3;
             float m_fParam3;
+            int m_iParam3;
             u_char m_aucParam3[ 4 ];
+            char m_acParam3[ 4 ];
             u_short m_ausParam3[ 2 ];
         };
 
@@ -699,12 +705,67 @@ public:
         return 0;
     }
 
+    char GetParam2c0( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            return pxLayerNode->m_acParam2[ 0 ];
+        }
+
+        return 0;
+    }
+
+    char GetParam2c1( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            return pxLayerNode->m_acParam2[ 1 ];
+        }
+
+        return 0;
+    }
+
+    char GetParam2c2( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            return pxLayerNode->m_acParam2[ 2 ];
+        }
+
+        return 0;
+    }
+
+    char GetParam2c3( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            return pxLayerNode->m_acParam2[ 3 ];
+        }
+
+        return 0;
+    }
+
     u_int GetParam3( const u_int uID ) const
     {
         const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
         if( pxLayerNode )
         {
             return pxLayerNode->m_uParam3;
+        }
+
+        return 0;
+    }
+
+    int GetParam3i( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            return pxLayerNode->m_iParam3;
         }
 
         return 0;
@@ -782,12 +843,57 @@ public:
         }
     }
 
+    void SetParam2c0( const u_int uID, const char cValue )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_acParam2[ 0 ] = cValue;
+        }
+    }
+
+    void SetParam2c1( const u_int uID, const char cValue )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_acParam2[ 1 ] = cValue;
+        }
+    }
+
+    void SetParam2c2( const u_int uID, const char cValue )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_acParam2[ 2 ] = cValue;
+        }
+    }
+
+    void SetParam2c3( const u_int uID, const char cValue )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_acParam2[ 3 ] = cValue;
+        }
+    }
+
     void SetParam3( const u_int uID, const u_int uValue )
     {
         LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
         if( pxLayerNode )
         {
             pxLayerNode->m_uParam3 = uValue;
+        }
+    }
+
+    void SetParam3( const u_int uID, const int iValue )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_iParam3 = iValue;
         }
     }
 
