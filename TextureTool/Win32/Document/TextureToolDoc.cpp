@@ -385,19 +385,6 @@ void CTextureToolDoc::AppendBevelNormals( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendClamp( const u_int uParentID )
-{
-    const u_int uID = m_xTexture.AppendTextureClamp();
-
-    if( uParentID )
-    {
-        m_xTexture.MoveLayerUnder( uID, uParentID );
-    }
-
-    SetModifiedFlag();
-    UpdateAllViews( NULL );
-}
-
 void CTextureToolDoc::AppendHeightmapToHighlights( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendHeightmapToHighlights();
@@ -424,6 +411,19 @@ void CTextureToolDoc::AppendHeightmapToNormals( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
+void CTextureToolDoc::AppendClamp( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendTextureClamp();
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
 void CTextureToolDoc::AppendWrap( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendTextureWrap();
@@ -436,6 +436,58 @@ void CTextureToolDoc::AppendWrap( const u_int uParentID )
     SetModifiedFlag();
     UpdateAllViews( NULL );
 }
+
+void CTextureToolDoc::AppendAverageBlur3( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendSimpleConvolution( 1, 1 );
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::AppendAverageBlur5( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendSimpleConvolution( 1, 1, 1 );
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void CTextureToolDoc::AppendAverageBlur7( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendSimpleConvolution( 1, 1, 1, 1 );
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+} 
+
+void CTextureToolDoc::AppendAverageBlur9( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendSimpleConvolution( 1, 1, 1, 1, 1 );
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+} 
 
 void CTextureToolDoc::DeleteLayer( const u_int uID )
 {

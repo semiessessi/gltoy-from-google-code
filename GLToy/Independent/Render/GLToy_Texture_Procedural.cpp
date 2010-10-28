@@ -270,7 +270,16 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
 
                     case EXTENSION_CONVOLUTION_SIMPLE:
                     {
-                        xStream.WriteBits( m_uParam1, 2 ); // 0-3 represent 3x3, 5x5, 7x7, 9x9
+                        // make sure the values are correct.
+                        u_int uParam1 = 0;
+                        for( u_int u = 1; u < 4; ++u )
+                        {
+                            if( m_aucParam2[ u ] != 0 )
+                            {
+                                ++uParam1;
+                            }
+                        }
+                        xStream.WriteBits( uParam1, 2 ); // 0-3 represent 3x3, 5x5, 7x7, 9x9
                         xStream.WriteBits( m_uParam3, 4 ); // the centre value, I reckon 4 bits should be enough for each component...
                         // ...then the other values
                         for( u_int u = 0; u < ( m_uParam1 + 1 ); ++u )
@@ -998,6 +1007,72 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                                 pxData[ v * uWidth + u ] = GLToy_Vector_4( xDifferences * 0.5f + GLToy_Vector_3( 0.5f, 0.5f, 0.5f ), 1.0f );
                             }
                         }
+                        break;
+                    }
+
+                    case EXTENSION_CONVOLUTION_SIMPLE:
+                    {
+                        // TODO: some validation/edit correction function to do this instead...
+                        // make sure the values are correct.
+                        u_int uParam1 = 1;
+                        for( u_int u = 1; u < 4; ++u )
+                        {
+                            if( m_aucParam2[ u ] != 0 )
+                            {
+                                ++uParam1;
+                            }
+                        }
+                        // unpack data
+                        const u_int& uNumCoefficients = uParam1;
+                        const float afCoefficients[ 5 ] =
+                        {
+                            static_cast< float >( m_uParam3 ),
+                            static_cast< float >( m_aucParam2[ 0 ] ),
+                            static_cast< float >( m_aucParam2[ 1 ] ),
+                            static_cast< float >( m_aucParam2[ 2 ] ),
+                            static_cast< float >( m_aucParam2[ 3 ] )
+                        };
+                        const float fNormalisationFactor = 1.0f /
+                            ( afCoefficients[ 0 ]
+                            + afCoefficients[ 1 ] * 2.0f
+                            + afCoefficients[ 2 ] * 2.0f
+                            + afCoefficients[ 3 ] * 2.0f
+                            + afCoefficients[ 4 ] * 2.0f );
+                        GLToy_Vector_4* pxBufferData = new GLToy_Vector_4[ uWidth * uHeight ];
+                        // first do x...
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {
+                                GLToy_Vector_4& xRunningTotal = pxBufferData[ v * uWidth + u ];
+                                xRunningTotal = WrapAwareSample( u, v, uWidth, uHeight, s_xRenderStack.Peek( 1 ) ) * afCoefficients[ 0 ];
+                                for( u_int w = 0; w < uNumCoefficients; ++w )
+                                {
+                                    xRunningTotal += WrapAwareSample( static_cast< int >( u ) + static_cast< int >( w + 1 ), v, uWidth, uHeight, s_xRenderStack.Peek( 1 ) ) * afCoefficients[ w + 1 ];
+                                    xRunningTotal += WrapAwareSample( static_cast< int >( u ) - static_cast< int >( w + 1 ), v, uWidth, uHeight, s_xRenderStack.Peek( 1 ) ) * afCoefficients[ w + 1 ];
+                                }
+                                xRunningTotal *= fNormalisationFactor;
+                            }
+                        }
+
+                        // ...then do y
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {
+                                GLToy_Vector_4& xRunningTotal = pxData[ v * uWidth + u ];
+                                xRunningTotal = WrapAwareSample( u, v, uWidth, uHeight, pxBufferData ) * afCoefficients[ 0 ];
+                                for( u_int w = 0; w < uNumCoefficients; ++w )
+                                {
+                                    xRunningTotal += WrapAwareSample( u, static_cast< int >( v ) + static_cast< int >( w + 1 ), uWidth, uHeight, pxBufferData ) * afCoefficients[ w + 1 ];
+                                    xRunningTotal += WrapAwareSample( u, static_cast< int >( v ) - static_cast< int >( w + 1 ), uWidth, uHeight, pxBufferData ) * afCoefficients[ w + 1 ];
+                                }
+                                xRunningTotal *= fNormalisationFactor;
+                            }
+                        }
+
+                        delete[] pxBufferData;
+
                         break;
                     }
                 }
@@ -1934,9 +2009,9 @@ bool GLToy_Texture_Procedural::CircularReferenceCheck( const u_int uReferenceID 
     return false;
 }
 
-GLToy_Vector_4 GLToy_Texture_Procedural::LayerNode::WrapAwareSample( const u_int u, const u_int v, const u_int uWidth, const u_int uHeight, const GLToy_Vector_4* const pxBuffer )
+GLToy_Vector_4 GLToy_Texture_Procedural::LayerNode::WrapAwareSample( const int u, const int v, const u_int uWidth, const u_int uHeight, const GLToy_Vector_4* const pxBuffer )
 {
-    const u_int s = s_bWrap ? ( u % uWidth ) : GLToy_Maths::Clamp( u, 0u, uWidth );
-    const u_int t = s_bWrap ? ( v % uHeight ) : GLToy_Maths::Clamp( v, 0u, uHeight );
+    const u_int s = s_bWrap ? ( u % uWidth ) : GLToy_Maths::Clamp( static_cast< u_int >( u ), 0u, uWidth );
+    const u_int t = s_bWrap ? ( v % uHeight ) : GLToy_Maths::Clamp( static_cast< u_int >( v ), 0u, uHeight );
     return pxBuffer[ t * uWidth + s ];
 }

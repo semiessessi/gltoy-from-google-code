@@ -55,6 +55,11 @@ public:
     void AppendClamp( const u_int uParentID = 0 );
     void AppendWrap( const u_int uParentID = 0 );
 
+    void AppendAverageBlur3( const u_int uParentID = 0 );
+    void AppendAverageBlur5( const u_int uParentID = 0 );
+    void AppendAverageBlur7( const u_int uParentID = 0 );
+    void AppendAverageBlur9( const u_int uParentID = 0 );
+
     void DeleteLayer( const u_int uID );
     void PromoteLayer( const u_int uID );
 

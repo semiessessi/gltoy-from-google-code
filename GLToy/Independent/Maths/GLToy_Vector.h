@@ -164,6 +164,8 @@ public:
 
     bool operator ==( const GLToy_Vector_4& xVector ) const;
 
+    GLToy_Inline GLToy_Vector_4& operator +=( const GLToy_Vector_4& xVector ) { return *this = ( *this + xVector ); }
+    GLToy_Inline GLToy_Vector_4& operator -=( const GLToy_Vector_4& xVector ) { return *this = ( *this - xVector ); }
     GLToy_Inline GLToy_Vector_4& operator *=( const float fFloat ) { return *this = ( *this * fFloat ); }
     GLToy_Inline GLToy_Vector_4& operator /=( const float fFloat ) { return operator *=( 1.0f / fFloat ); }
 

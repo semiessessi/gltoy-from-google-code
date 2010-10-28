@@ -87,6 +87,10 @@ BEGIN_MESSAGE_MAP(CLayerView, CDockablePane)
     ON_COMMAND(ID_PATTERN_GRADIENT, &CLayerView::OnPatternGradient)
     ON_COMMAND(ID_HEIGHTMAPNORMALS, &CLayerView::OnHeightmapnormals)
     ON_COMMAND(ID_HEIGHTMAPHIGHLIGHTS, &CLayerView::OnHeightmaphighlights)
+    ON_COMMAND(ID_BLUR_AVERAGE3, &CLayerView::OnBlurAverage3)
+    ON_COMMAND(ID_BLUR_AVERAGE5, &CLayerView::OnBlurAverage5)
+    ON_COMMAND(ID_BLUR_AVERAGE7, &CLayerView::OnBlurAverage7)
+    ON_COMMAND(ID_BLUR_AVERAGE9, &CLayerView::OnBlurAverage9)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -990,4 +994,80 @@ void CLayerView::OnHeightmaphighlights()
     }
 
     pxDocument->AppendHeightmapToHighlights();
+}
+
+
+void CLayerView::OnBlurAverage3()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendAverageBlur3( uID );
+        return;
+    }
+
+    pxDocument->AppendAverageBlur3();
+}
+
+
+void CLayerView::OnBlurAverage5()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendAverageBlur5( uID );
+        return;
+    }
+
+    pxDocument->AppendAverageBlur5();
+}
+
+
+void CLayerView::OnBlurAverage7()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendAverageBlur7( uID );
+        return;
+    }
+
+    pxDocument->AppendAverageBlur7();
+}
+
+
+void CLayerView::OnBlurAverage9()
+{
+    CTextureToolDoc* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendAverageBlur9( uID );
+        return;
+    }
+
+    pxDocument->AppendAverageBlur9();
 }

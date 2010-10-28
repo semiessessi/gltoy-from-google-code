@@ -88,5 +88,9 @@ public:
     afx_msg void OnPatternGradient();
     afx_msg void OnHeightmapnormals();
     afx_msg void OnHeightmaphighlights();
+    afx_msg void OnBlurAverage3();
+    afx_msg void OnBlurAverage5();
+    afx_msg void OnBlurAverage7();
+    afx_msg void OnBlurAverage9();
 };
 

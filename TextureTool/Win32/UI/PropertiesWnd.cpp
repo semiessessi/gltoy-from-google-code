@@ -61,6 +61,12 @@ enum Property
     // i imagine it will get hairy from here... although i haven't used the u_chars yet 8-bits is typically inconvenient...
     PROP_FIXED_12BIT_1      = 12,
     PROP_BOOL_1             = 13, // ie. PROP_UINT_1BIT_1
+
+    // okay... so i used some pretty quickly
+    PROP_UCHAR_2_0          = 14,
+    PROP_UCHAR_2_1          = 15,
+    PROP_UCHAR_2_2          = 16,
+    PROP_UCHAR_2_3          = 17,
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -306,6 +312,42 @@ void CPropertiesWnd::OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const
             CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
             const CString sValue = pProp->GetValue().bstrVal;
             m_pxDocument->GetTexture().SetParam1( m_uID, ( sValue == _T( "True" ) ) ? 1u : 0u );
+        }
+
+        case PROP_UCHAR_2_0:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            const u_char uValue = static_cast< u_char >( GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractUnsignedInt() );
+            m_pxDocument->GetTexture().SetParam2uc0( m_uID, uValue );
+            break;
+        }
+
+        case PROP_UCHAR_2_1:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            const u_char uValue = static_cast< u_char >( GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractUnsignedInt() );
+            m_pxDocument->GetTexture().SetParam2uc1( m_uID, uValue );
+            break;
+        }
+
+        case PROP_UCHAR_2_2:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            const u_char uValue = static_cast< u_char >( GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractUnsignedInt() );
+            m_pxDocument->GetTexture().SetParam2uc2( m_uID, uValue );
+            break;
+        }
+
+        case PROP_UCHAR_2_3:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            const u_char uValue = static_cast< u_char >( GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractUnsignedInt() );
+            m_pxDocument->GetTexture().SetParam2uc3( m_uID, uValue );
+            break;
         }
 
         default:
@@ -628,6 +670,40 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
                     pGroup->AddSubItem( pProp );
 
                     m_wndPropList.AddProperty( pGroup );
+                }
+
+                case GLToy_Texture_Procedural::EXTENSION_CONVOLUTION_SIMPLE:
+                {
+                    pGroup = new CMFCPropertyGridProperty( _T( "Normalised Symmetric 1D Convolution Properties" ) );
+
+                    CString sValue;
+                    sValue.Format( _T( "%d" ), static_cast< int >( pxDocument->GetTexture().GetParam3( uID ) ) );
+                    CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Centre Value" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies a coefficient for the convolution filter - enter zero for it to be ignored" ) );
+                    pProp->SetData( PROP_UINT_3 );
+                    pGroup->AddSubItem( pProp );
+
+                    sValue.Format( _T( "%d" ), static_cast< int >( pxDocument->GetTexture().GetParam2uc0( uID ) ) );
+                    pProp = new CMFCPropertyGridProperty( _T( "Value 1" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies a coefficient for the convolution filter - enter zero for it to be ignored" ) );
+                    pProp->SetData( PROP_UCHAR_2_0 );
+                    pGroup->AddSubItem( pProp );
+
+                    sValue.Format( _T( "%d" ), static_cast< int >( pxDocument->GetTexture().GetParam2uc1( uID ) ) );
+                    pProp = new CMFCPropertyGridProperty( _T( "Value 2" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies a coefficient for the convolution filter - enter zero for it to be ignored" ) );
+                    pProp->SetData( PROP_UCHAR_2_1 );
+                    pGroup->AddSubItem( pProp );
+
+                    sValue.Format( _T( "%d" ), static_cast< int >( pxDocument->GetTexture().GetParam2uc2( uID ) ) );
+                    pProp = new CMFCPropertyGridProperty( _T( "Value 3" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies a coefficient, for the convolution filter - enter zero for it to be ignored" ) );
+                    pProp->SetData( PROP_UCHAR_2_2 );
+                    pGroup->AddSubItem( pProp );
+
+                    sValue.Format( _T( "%d" ), static_cast< int >( pxDocument->GetTexture().GetParam2uc3( uID ) ) );
+                    pProp = new CMFCPropertyGridProperty( _T( "Value 4" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies a coefficient for the convolution filter - enter zero for it to be ignored" ) );
+                    pProp->SetData( PROP_UCHAR_2_3 );
+                    pGroup->AddSubItem( pProp );
+
+                    m_wndPropList.AddProperty( pGroup );
+                    break;
                 }
 
                 default:

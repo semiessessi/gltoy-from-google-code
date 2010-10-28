@@ -303,8 +303,7 @@ private:
         }
 
         static LayerNode CreateGroup( GLToy_Texture_Procedural* const pxParentTexture );
-
-        static GLToy_Vector_4 WrapAwareSample( const u_int u, const u_int v, const u_int uWidth, const u_int uHeight, const GLToy_Vector_4* const pxBuffer  );
+        static GLToy_Vector_4 WrapAwareSample( const int u, const int v, const u_int uWidth, const u_int uHeight, const GLToy_Vector_4* const pxBuffer  );
 
         GLToy_SmallSerialisableArray< LayerNode >* GetChildren()
         {
@@ -656,6 +655,61 @@ public:
         return 0.0f;
     }
 
+    u_char GetParam2uc0( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            return pxLayerNode->m_aucParam2[ 0 ];
+        }
+
+        return 0;
+    }
+
+    u_char GetParam2uc1( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            return pxLayerNode->m_aucParam2[ 1 ];
+        }
+
+        return 0;
+    }
+
+    u_char GetParam2uc2( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            return pxLayerNode->m_aucParam2[ 2 ];
+        }
+
+        return 0;
+    }
+
+    u_char GetParam2uc3( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            return pxLayerNode->m_aucParam2[ 3 ];
+        }
+
+        return 0;
+    }
+
+    u_int GetParam3( const u_int uID ) const
+    {
+        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            return pxLayerNode->m_uParam3;
+        }
+
+        return 0;
+    }
+
     void SetParam1( const u_int uID, const u_int uValue )
     {
         LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
@@ -689,6 +743,42 @@ public:
         if( pxLayerNode )
         {
             pxLayerNode->m_fParam2 = fValue;
+        }
+    }
+
+    void SetParam2uc0( const u_int uID, const u_char ucValue )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_aucParam2[ 0 ] = ucValue;
+        }
+    }
+
+    void SetParam2uc1( const u_int uID, const u_char ucValue )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_aucParam2[ 1 ] = ucValue;
+        }
+    }
+
+    void SetParam2uc2( const u_int uID, const u_char ucValue )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_aucParam2[ 2 ] = ucValue;
+        }
+    }
+
+    void SetParam2uc3( const u_int uID, const u_char ucValue )
+    {
+        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
+        if( pxLayerNode )
+        {
+            pxLayerNode->m_aucParam2[ 3 ] = ucValue;
         }
     }
 
