@@ -542,30 +542,30 @@ public:
         return m_xLayers.End().GetID();
     }
 
-    u_int AppendSimpleConvolution( const u_char ucCentre, const u_char uc1 = 0, const u_char uc2 = 0, const u_char uc3 = 0, const u_char uc4 = 0 )
+    u_int AppendSimpleConvolution( const char cCentre, const char c1 = 0, const char c2 = 0, const char c3 = 0, const char c4 = 0 )
     {
         m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_CONVOLUTION_SIMPLE ) );
         // normally we don't do stuff like this here... but this seems best in this case
         LayerNode& xLayerNode = m_xLayers.End();
         xLayerNode.m_uParam1 = 3;
-        if( uc4 == 0 )
+        if( c4 == 0 )
         {
             --xLayerNode.m_uParam1;
-            if( uc3 == 0 ) 
+            if( c3 == 0 ) 
             {
                 --xLayerNode.m_uParam1;
-                if( uc2 == 0 ) 
+                if( c2 == 0 ) 
                 {
                     --xLayerNode.m_uParam1;
                 }
             }
         }
 
-        xLayerNode.m_uParam3 = ucCentre;
-        xLayerNode.m_aucParam2[ 0 ] = uc1;
-        xLayerNode.m_aucParam2[ 1 ] = uc2;
-        xLayerNode.m_aucParam2[ 2 ] = uc3;
-        xLayerNode.m_aucParam2[ 3 ] = uc4;
+        xLayerNode.m_iParam3 = cCentre;
+        xLayerNode.m_acParam2[ 0 ] = c1;
+        xLayerNode.m_acParam2[ 1 ] = c2;
+        xLayerNode.m_acParam2[ 2 ] = c3;
+        xLayerNode.m_acParam2[ 3 ] = c4;
 
         return xLayerNode.GetID();
     }

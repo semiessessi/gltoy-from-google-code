@@ -1017,7 +1017,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                         u_int uParam1 = 1;
                         for( u_int u = 1; u < 4; ++u )
                         {
-                            if( m_aucParam2[ u ] != 0 )
+                            if( m_acParam2[ u ] != 0 )
                             {
                                 ++uParam1;
                             }
@@ -1026,11 +1026,11 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                         const u_int& uNumCoefficients = uParam1;
                         const float afCoefficients[ 5 ] =
                         {
-                            static_cast< float >( m_uParam3 ),
-                            static_cast< float >( m_aucParam2[ 0 ] ),
-                            static_cast< float >( m_aucParam2[ 1 ] ),
-                            static_cast< float >( m_aucParam2[ 2 ] ),
-                            static_cast< float >( m_aucParam2[ 3 ] )
+                            static_cast< float >( m_iParam3 ),
+                            static_cast< float >( m_acParam2[ 0 ] ),
+                            static_cast< float >( m_acParam2[ 1 ] ),
+                            static_cast< float >( m_acParam2[ 2 ] ),
+                            static_cast< float >( m_acParam2[ 3 ] )
                         };
                         const float fNormalisationFactor = 1.0f /
                             ( afCoefficients[ 0 ]
