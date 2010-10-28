@@ -169,14 +169,21 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
 
                     case EXTENSION_CONVOLUTION_SIMPLE:
                     {
+                        bool bSign = false;
                         xStream.ReadBits( m_uParam1, 2 ); // 0-3 represent 3x3, 5x5, 7x7, 9x9
+                        xStream.ReadBool( bSign );
                         xStream.ReadBits( m_uParam3, 4 ); // the centre value, I reckon 4 bits should be enough for each component...
+                        if( bSign )
+                        {
+                            m_uParam3 |= 0xFFFFFFF0;
+                        }
                         // ...then the other values
                         for( u_int u = 0; u < ( m_uParam1 + 1 ); ++u )
                         {
                             u_int uParam = 0;
+                            xStream.ReadBool( bSign );
                             xStream.ReadBits( uParam, 4 );
-                            m_aucParam2[ u ] = static_cast< u_char >( uParam );
+                            m_aucParam2[ u ] = static_cast< u_char >( uParam ) | ( bSign ? 0xF0 : 0x00 );
                         }
                     }
 
@@ -280,11 +287,13 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
                             }
                         }
                         xStream.WriteBits( uParam1, 2 ); // 0-3 represent 3x3, 5x5, 7x7, 9x9
+                        xStream.WriteBool( m_iParam3 < 0 );
                         xStream.WriteBits( m_uParam3, 4 ); // the centre value, I reckon 4 bits should be enough for each component...
                         // ...then the other values
                         for( u_int u = 0; u < ( m_uParam1 + 1 ); ++u )
                         {
                             const u_int uParam = m_aucParam2[ u ];
+                            xStream.WriteBool( m_acParam2[ u ] < 0 );
                             xStream.WriteBits( uParam, 4 );
                         }
                     }
