@@ -398,6 +398,19 @@ void CTextureToolDoc::AppendClamp( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
+void CTextureToolDoc::AppendHeightmapToHighlights( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendHeightmapToHighlights();
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
 void CTextureToolDoc::AppendHeightmapToNormals( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendHeightmapToNormals();

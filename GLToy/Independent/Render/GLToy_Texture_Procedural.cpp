@@ -919,6 +919,31 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                         break;
                     }
 
+                    case EXTENSION_HEIGHTMAP_HIGHLIGHT:
+                    {
+                        // take brightness as height - pretend alpha doesn't exist
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {
+                                // use central difference method - it prevents bias in theory
+                                const float fBrightnessX1 = WrapAwareSample( u - 1, v, uWidth, uHeight, s_xRenderStack.Peek( 1 ) ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
+                                const float fBrightnessX2 = WrapAwareSample( u + 1, v, uWidth, uHeight, s_xRenderStack.Peek( 1 ) ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
+                                const float fBrightnessY1 = WrapAwareSample( u, v - 1, uWidth, uHeight, s_xRenderStack.Peek( 1 ) ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
+                                const float fBrightnessY2 = WrapAwareSample( u, v + 1, uWidth, uHeight, s_xRenderStack.Peek( 1 ) ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
+
+                                // this is important, otherwise the normals are shallower for larger textures (!)
+                                const float fScaleX = 0.001953125f * static_cast< float >( uWidth );
+                                const float fScaleY = 0.001953125f * static_cast< float >( uHeight );
+                                GLToy_Vector_3 xDifferences( ( fBrightnessX2 - fBrightnessX1 ) * fScaleX, ( fBrightnessY2 - fBrightnessY1 ) * fScaleY, 1.0f );
+                                xDifferences.Normalise();
+                                const float fBrightness = xDifferences * s_xLight;
+                                pxData[ v * uWidth + u ] = GLToy_Vector_4( fBrightness, fBrightness, fBrightness, 1.0f );
+                            }
+                        }
+                        break;
+                    }
+
                     case EXTENSION_HEIGHTMAP_NORMALS:
                     {
                         // take brightness as height - pretend alpha doesn't exist
@@ -932,7 +957,10 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                                 const float fBrightnessY1 = WrapAwareSample( u, v - 1, uWidth, uHeight, s_xRenderStack.Peek( 1 ) ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
                                 const float fBrightnessY2 = WrapAwareSample( u, v + 1, uWidth, uHeight, s_xRenderStack.Peek( 1 ) ) * GLToy_Vector_4( 0.333f, 0.333f, 0.333f, 0.0f );
 
-                                GLToy_Vector_3 xDifferences( ( fBrightnessX2 - fBrightnessX1 ) * 0.5f, ( fBrightnessY2 - fBrightnessY1 ) * 0.5f, 1.0f );
+                                // this is important, otherwise the normals are shallower for larger textures (!)
+                                const float fScaleX = 0.001953125f * static_cast< float >( uWidth );
+                                const float fScaleY = 0.001953125f * static_cast< float >( uHeight );
+                                GLToy_Vector_3 xDifferences( ( fBrightnessX2 - fBrightnessX1 ) * fScaleX, ( fBrightnessY2 - fBrightnessY1 ) * fScaleY, 1.0f );
                                 xDifferences.Normalise();
                                 pxData[ v * uWidth + u ] = GLToy_Vector_4( xDifferences * 0.5f + GLToy_Vector_3( 0.5f, 0.5f, 0.5f ), 1.0f );
                             }

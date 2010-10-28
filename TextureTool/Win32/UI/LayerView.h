@@ -87,5 +87,6 @@ public:
     afx_msg void OnShapingfunctionSquareroot();
     afx_msg void OnPatternGradient();
     afx_msg void OnHeightmapnormals();
+    afx_msg void OnHeightmaphighlights();
 };
 

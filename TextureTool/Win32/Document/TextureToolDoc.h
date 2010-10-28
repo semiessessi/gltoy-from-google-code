@@ -49,6 +49,7 @@ public:
     void AppendBevel( const u_int uParentID = 0 );
     void AppendBevelNormals( const u_int uParentID = 0 );
 
+    void AppendHeightmapToHighlights( const u_int uParentID = 0 );
     void AppendHeightmapToNormals( const u_int uParentID = 0 );
 
     void AppendClamp( const u_int uParentID = 0 );

@@ -160,7 +160,7 @@ public:
         // EXTENSION_SET_HIGHLIGHT_DIRECTION          = 13, // need this to generate highlights from normal maps
 
         // heightmap highlights and normal maps
-        // EXTENSION_HEIGHTMAP_HIGHLIGHT              = 14,
+        EXTENSION_HEIGHTMAP_HIGHLIGHT              = 14,
         EXTENSION_HEIGHTMAP_NORMALS                = 15,
 
         // to cover things like bricks, floor tiles etc...
@@ -341,6 +341,7 @@ private:
                         case EXTENSION_BEVEL:                           return "Bevel";
                         case EXTENSION_BEVEL_NORMALS:                   return "Bevel (Normals)";
                         case EXTENSION_TEXTURE_MODE:                    return "Set Texture Sampling Mode";
+                        case EXTENSION_HEIGHTMAP_HIGHLIGHT:             return "Convert Heightmap to Highlights";
                         case EXTENSION_HEIGHTMAP_NORMALS:               return "Convert Heightmap to Normals";
                         default:                                        return "Unnamed Extension";
                     }
@@ -510,6 +511,12 @@ public:
     u_int AppendTextureWrap()
     {
         m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_TEXTURE_MODE, 1u ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendHeightmapToHighlights()
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_HEIGHTMAP_HIGHLIGHT ) );
         return m_xLayers.End().GetID();
     }
 
