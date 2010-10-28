@@ -277,7 +277,6 @@ void CLayerView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 	CMenu* pxSubMenu = xMenu.GetSubMenu( 0 );
 
-    // TODO: something about item specific menu items
     CTextureToolDoc* pxDocument = GetDocument();
     if( pxDocument && ( uID != 0 ) )
     {
@@ -951,6 +950,7 @@ void CLayerView::OnDragDrop( const u_int uDragID, const u_int uDropID )
         return;
     }
 
+    // TODO: intelligently pick between before and after - after is probably the worst way in hindsight
     pxDocument->MoveAfter( uDragID, uDropID );
 }
 

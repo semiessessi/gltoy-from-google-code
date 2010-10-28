@@ -91,6 +91,7 @@ void CTextureToolView::OnDraw( CDC* pDC )
 		return;
 
 	// TODO: add draw code for native data here
+    // actually what its doing right now is basically stupid - should update a buffer on updates and draw from that...
 
     CDC xDC;
     xDC.CreateCompatibleDC( pDC );
@@ -134,18 +135,18 @@ void CTextureToolView::OnFilePrintPreview()
 
 BOOL CTextureToolView::OnPreparePrinting(CPrintInfo* pInfo)
 {
-	// default preparation
+	// no printing...
 	return DoPreparePrinting(pInfo);
 }
 
 void CTextureToolView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
-	// TODO: add extra initialization before printing
+	// no printing...
 }
 
 void CTextureToolView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
-	// TODO: add cleanup after printing
+	// no printing...
 }
 
 void CTextureToolView::OnRButtonUp(UINT /* nFlags */, CPoint point)

@@ -142,11 +142,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT));
 
-	// TODO: Delete these five lines if you don't want the toolbar and menubar to be dockable
-	m_wndMenuBar.EnableDocking(CBRS_ALIGN_ANY);
+	//m_wndMenuBar.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(&m_wndMenuBar);
+	//DockPane(&m_wndMenuBar);
 	DockPane(&m_wndToolBar);
 
 
@@ -222,6 +221,33 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	lstBasicCommands.AddTail(ID_SORTING_SORTBYTYPE);
 	lstBasicCommands.AddTail(ID_SORTING_SORTBYACCESS);
 	lstBasicCommands.AddTail(ID_SORTING_GROUPBYTYPE);
+
+    // ... and some we added
+
+    lstBasicCommands.AddTail( ID_NOISE_LOWFREQUENCY );
+    lstBasicCommands.AddTail( ID_NOISE_HIGHFREQUENCY );
+    lstBasicCommands.AddTail( ID_NOISE_FRACTAL );
+
+    lstBasicCommands.AddTail( ID_PATTERN_GRADIENT );
+    lstBasicCommands.AddTail( ID_PATTERNS_CHECKERBOARD );
+
+    lstBasicCommands.AddTail( ID_SHAPINGFUNCTION_COSINE2 );
+    lstBasicCommands.AddTail( ID_SHAPINGFUNCTION_COSINE4 );
+    lstBasicCommands.AddTail( ID_SHAPINGFUNCTION_INVERSE );
+    lstBasicCommands.AddTail( ID_SHAPINGFUNCTION_SQUARE );
+    lstBasicCommands.AddTail( ID_SHAPINGFUNCTION_SQUAREROOT );
+
+    lstBasicCommands.AddTail( ID_HEIGHTMAPNORMALS );
+    lstBasicCommands.AddTail( ID_HEIGHTMAPHIGHLIGHTS );
+
+    lstBasicCommands.AddTail( ID_STATE_WRAP );
+    lstBasicCommands.AddTail( ID_STATE_CLAMP );
+
+    lstBasicCommands.AddTail( ID_DIAGONALSTRIPE_TOPLEFTTOBOTTOMRIGHT );
+    lstBasicCommands.AddTail( ID_DIAGONALSTRIPE_BOTTOMLEFTTOTOPRIGHT );
+
+    lstBasicCommands.AddTail( ID_EXPORT_C );
+    lstBasicCommands.AddTail( ID_EXPORT_PNG );
 
 	CMFCToolBar::SetBasicCommands(lstBasicCommands);
 
