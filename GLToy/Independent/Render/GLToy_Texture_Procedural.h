@@ -170,6 +170,16 @@ public:
 
         // normal mapping
         // EXTENSION_NORMAL_MAP_HALFSPHERE            = 19,
+        // EXTENSION_NORMAL_MAP_HALFCYLINDER          = 20,
+        // EXTENSION_NORMAL_MAP_PYRAMID               = 21,
+        // EXTENSION_NORMAL_MAP_PRISM                 = 22,
+
+        // convolution and similar filters
+        EXTENSION_CONVOLUTION_SIMPLE               = 23,
+        // EXTENSION_CONVOLUTION_FULL                 = 24,
+        // EXTENSION_ENHANCE_EDGES                    = 25,
+        // EXTENSION_FIND_EDGES                       = 26,
+        // EXTENSION_SOFTEN_EDGES                     = 27,
 
         EXTENSION_BAD = 255,
     };
@@ -343,6 +353,7 @@ private:
                         case EXTENSION_TEXTURE_MODE:                    return "Set Texture Sampling Mode";
                         case EXTENSION_HEIGHTMAP_HIGHLIGHT:             return "Convert Heightmap to Highlights";
                         case EXTENSION_HEIGHTMAP_NORMALS:               return "Convert Heightmap to Normals";
+                        case EXTENSION_CONVOLUTION_SIMPLE:              return "Convolution (1D, symmetrical, normalised)";
                         default:                                        return "Unnamed Extension";
                     }
                 }
@@ -524,6 +535,34 @@ public:
     {
         m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_HEIGHTMAP_NORMALS ) );
         return m_xLayers.End().GetID();
+    }
+
+    u_int AppendSimpleConvolution( const u_char ucCentre, const u_char uc1 = 0, const u_char uc2 = 0, const u_char uc3 = 0, const u_char uc4 = 0 )
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_CONVOLUTION_SIMPLE ) );
+        // normally we don't do stuff like this here... but this seems best in this case
+        LayerNode& xLayerNode = m_xLayers.End();
+        xLayerNode.m_uParam1 = 3;
+        if( uc4 == 0 )
+        {
+            --xLayerNode.m_uParam1;
+            if( uc3 == 0 ) 
+            {
+                --xLayerNode.m_uParam1;
+                if( uc2 == 0 ) 
+                {
+                    --xLayerNode.m_uParam1;
+                }
+            }
+        }
+
+        xLayerNode.m_uParam3 = ucCentre;
+        xLayerNode.m_aucParam2[ 0 ] = uc1;
+        xLayerNode.m_aucParam2[ 1 ] = uc2;
+        xLayerNode.m_aucParam2[ 2 ] = uc3;
+        xLayerNode.m_aucParam2[ 3 ] = uc4;
+
+        return xLayerNode.GetID();
     }
 
     u_int AppendReference( const u_int uReferToID = 0 )

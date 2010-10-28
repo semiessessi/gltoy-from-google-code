@@ -73,6 +73,11 @@ GLToy_Vector_3 GLToy_Texture_Procedural::LayerNode::s_xLight( 0.533f, 0.533f, 0.
 
 void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
+    // this seems sensible...
+    m_uParam1 = 0;
+    m_uParam2 = 0;
+    m_uParam3 = 0;
+
     // 4-bits for blend mode and if we have children
     u_int uBlendMode;
     xStream.ReadBits( uBlendMode, 3 );
@@ -121,6 +126,7 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
 
             case INSTRUCTION_SHAPE:
             {
+                // TODO: this can almost certainly afford to lose some bits
                 // only let there be a maximum of 64 shaping functions - 6-bits
                 xStream.ReadBits( m_uParam1, 6 );
                 break;
@@ -161,8 +167,23 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
                         break;
                     }
 
+                    case EXTENSION_CONVOLUTION_SIMPLE:
+                    {
+                        xStream.ReadBits( m_uParam1, 2 ); // 0-3 represent 3x3, 5x5, 7x7, 9x9
+                        xStream.ReadBits( m_uParam3, 4 ); // the centre value, I reckon 4 bits should be enough for each component...
+                        // ...then the other values
+                        for( u_int u = 0; u < ( m_uParam1 + 1 ); ++u )
+                        {
+                            u_int uParam = 0;
+                            xStream.ReadBits( uParam, 4 );
+                            m_aucParam2[ u ] = static_cast< u_char >( uParam );
+                        }
+                    }
+
                     default:
+                    {
                         break;
+                    }
                 }
                 
                 break;
@@ -245,6 +266,18 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
                     {
                         xStream.WriteBits( m_uParam1, 1 );
                         break;
+                    }
+
+                    case EXTENSION_CONVOLUTION_SIMPLE:
+                    {
+                        xStream.WriteBits( m_uParam1, 2 ); // 0-3 represent 3x3, 5x5, 7x7, 9x9
+                        xStream.WriteBits( m_uParam3, 4 ); // the centre value, I reckon 4 bits should be enough for each component...
+                        // ...then the other values
+                        for( u_int u = 0; u < ( m_uParam1 + 1 ); ++u )
+                        {
+                            const u_int uParam = m_aucParam2[ u ];
+                            xStream.WriteBits( uParam, 4 );
+                        }
                     }
 
                     default:
