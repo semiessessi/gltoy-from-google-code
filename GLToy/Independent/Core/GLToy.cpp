@@ -75,7 +75,9 @@ bool GLToy::s_bEscapeQuits = true;
 
 bool GLToy::s_bSilent = false;
 
-static char szDebugMessageBuffer[ uDEBUGOUTPUT_MAX_LENGTH ];
+void ( *GLToy::s_pfnDebugOutputCallback )( const char* const szMessage ) = NULL;
+
+static char g_szDebugMessageBuffer[ uDEBUGOUTPUT_MAX_LENGTH ];
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -359,13 +361,18 @@ void GLToy::DebugOutput( const char* szFormatString, ... )
         // GLToy_Assert( iMessageLength < uDEBUGOUTPUT_MAX_LENGTH, "Debug ouput message too long (%d chars)! Truncating...", iMessageLength );
     }
 
-    vsnprintf( szDebugMessageBuffer, iMessageLength, szFormatString, xArgumentList );
+    vsnprintf( g_szDebugMessageBuffer, iMessageLength, szFormatString, xArgumentList );
 
     // we no longer need xArgumentList
     va_end( xArgumentList );
 
-    GLToy_Console::Print( szDebugMessageBuffer );
-    Platform_DebugOutput( szDebugMessageBuffer );
+    GLToy_Console::Print( g_szDebugMessageBuffer );
+    Platform_DebugOutput( g_szDebugMessageBuffer );
+
+    if( s_pfnDebugOutputCallback )
+    {
+        s_pfnDebugOutputCallback( g_szDebugMessageBuffer );
+    }
 #endif
 }
 

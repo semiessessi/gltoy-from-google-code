@@ -33,18 +33,22 @@ public:
 
 // Attributes
 protected:
-	CMFCTabCtrl	m_wndTabs;
+	CMFCTabCtrl	m_xTabs;
 
-	COutputList m_wndOutputBuild;
+	COutputList m_xOutput;
+    COutputList m_xDebug;
 
 protected:
-	void FillBuildWindow();
 
 	void AdjustHorzScroll(CListBox& wndListBox);
 
 // Implementation
 public:
 	virtual ~COutputWnd();
+
+    void DebugMessage( const CString& sMessage );
+    void OutputMessage( const CString& sMessage );
+    void ResetOutputMessages();
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

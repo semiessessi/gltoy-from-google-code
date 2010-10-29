@@ -65,7 +65,7 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	rectDummy.SetRectEmpty();
 
 	// Create tabs window:
-	if (!m_wndTabs.Create(CMFCTabCtrl::STYLE_FLAT, rectDummy, this, 1))
+	if (!m_xTabs.Create(CMFCTabCtrl::STYLE_3D_ROUNDED_SCROLL, rectDummy, this, 1))
 	{
 		TRACE0("Failed to create output tab window\n");
 		return -1;      // fail to create
@@ -74,11 +74,19 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// Create output panes:
 	const DWORD dwStyle = LBS_NOINTEGRALHEIGHT | WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL;
 
-	if ( !m_wndOutputBuild.Create( dwStyle, rectDummy, &m_wndTabs, 2 ) )
+	if ( !m_xOutput.Create( dwStyle, rectDummy, &m_xTabs, 2 ) )
 	{
 		TRACE0("Failed to create output windows\n");
 		return -1;      // fail to create
 	}
+
+#ifdef GLTOY_DEBUG
+    if ( !m_xDebug.Create( dwStyle, rectDummy, &m_xTabs, 2 ) )
+	{
+		TRACE0("Failed to create output windows\n");
+		return -1;      // fail to create
+	}
+#endif
 
 	UpdateFonts();
 
@@ -86,12 +94,12 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	BOOL bNameValid;
 
 	// Attach list windows to tab:
-	bNameValid = strTabName.LoadString(IDS_BUILD_TAB);
+	bNameValid = strTabName.LoadString(IDS_OUTPUT_TAB);
 	ASSERT(bNameValid);
-	m_wndTabs.AddTab(&m_wndOutputBuild, strTabName, (UINT)0);
-
-	// Fill output tab with some initial text
-	FillBuildWindow();
+	m_xTabs.AddTab(&m_xOutput, strTabName, (UINT)0);
+#ifdef GLTOY_DEBUG
+    m_xTabs.AddTab(&m_xDebug, CString( "Debug" ), (UINT)0);
+#endif
 
 	return 0;
 }
@@ -101,7 +109,7 @@ void COutputWnd::OnSize(UINT nType, int cx, int cy)
 	CDockablePane::OnSize(nType, cx, cy);
 
 	// Tab control should cover the whole client area:
-	m_wndTabs.SetWindowPos (NULL, -1, -1, cx, cy, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
+	m_xTabs.SetWindowPos (NULL, -1, -1, cx, cy, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
 void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
@@ -123,14 +131,30 @@ void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 	dc.SelectObject(pOldFont);
 }
 
-void COutputWnd::FillBuildWindow()
-{
-	m_wndOutputBuild.AddString( _T( "Ready." ) );
-}
-
 void COutputWnd::UpdateFonts()
 {
-	m_wndOutputBuild.SetFont( &afxGlobalData.fontRegular );
+	m_xOutput.SetFont( &afxGlobalData.fontRegular );
+}
+
+void COutputWnd::OutputMessage( const CString& sMessage )
+{
+    m_xOutput.AddString( sMessage );
+}
+
+void COutputWnd::DebugMessage( const CString& sMessage )
+{
+#ifdef GLTOY_DEBUG
+    m_xDebug.AddString( sMessage );
+#endif
+}
+
+void COutputWnd::ResetOutputMessages()
+{
+    int iCount = m_xOutput.GetCount();
+    for( int i = iCount - 1; i >= 0; --i )
+    {
+        m_xOutput.DeleteString( static_cast< u_int >( i ) );
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////

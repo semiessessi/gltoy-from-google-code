@@ -30,6 +30,8 @@ public:
 	const CLayerView* GetLayerView() const { return &m_wndClassView; }
     CPropertiesWnd* GetProperties() { return &m_wndProperties; }
 	const CPropertiesWnd* GetProperties() const { return &m_wndProperties; }
+    COutputWnd* GetOutput() { return &m_wndOutput; }
+	const COutputWnd* GetOutput() const { return &m_wndOutput; }
 
 // Implementation
 public:

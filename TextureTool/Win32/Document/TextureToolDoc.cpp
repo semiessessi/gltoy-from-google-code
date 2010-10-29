@@ -184,6 +184,8 @@ void CTextureToolDoc::AppendReference( const u_int uReferToID )
 
     SetModifiedFlag();
     UpdateAllViews( NULL );
+
+    TextureTool_OutputMessage( "Warning: References are still experimental, they occasionally crash, occasionally don't work after saving then loading and although circular references are prevented there is little user feedback about it." );
 }
 
 void CTextureToolDoc::AppendFlatColour( const u_int uParentID )
@@ -203,6 +205,7 @@ void CTextureToolDoc::AppendFlatColour( const u_int uParentID )
 void CTextureToolDoc::AppendNoiseLow( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendNoiseLayer( 8.0f, 0xFF000000 );
+    m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_ADD );
 
     if( uParentID )
     {
@@ -216,6 +219,7 @@ void CTextureToolDoc::AppendNoiseLow( const u_int uParentID )
 void CTextureToolDoc::AppendNoiseHigh( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendNoiseLayer( 128.0f, 0xFF000000 );
+    m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_ADD );
 
     if( uParentID )
     {
@@ -229,6 +233,7 @@ void CTextureToolDoc::AppendNoiseHigh( const u_int uParentID )
 void CTextureToolDoc::AppendNoiseFractal( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendFBMNoiseLayer( 4.0f, 0xFF000000 );
+    m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_ADD );
 
     if( uParentID )
     {
@@ -362,6 +367,7 @@ void CTextureToolDoc::AppendBorder( const u_int uParentID )
 void CTextureToolDoc::AppendBevel( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendBevel( 0.05f );
+    m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_MUL );
 
     if( uParentID )
     {
@@ -375,6 +381,7 @@ void CTextureToolDoc::AppendBevel( const u_int uParentID )
 void CTextureToolDoc::AppendBevelNormals( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendBevelNormals( 0.05f );
+    m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
 
     if( uParentID )
     {
@@ -388,6 +395,7 @@ void CTextureToolDoc::AppendBevelNormals( const u_int uParentID )
 void CTextureToolDoc::AppendHeightmapToHighlights( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendHeightmapToHighlights();
+    m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
 
     if( uParentID )
     {
@@ -401,6 +409,7 @@ void CTextureToolDoc::AppendHeightmapToHighlights( const u_int uParentID )
 void CTextureToolDoc::AppendHeightmapToNormals( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendHeightmapToNormals();
+    m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
 
     if( uParentID )
     {
@@ -440,6 +449,7 @@ void CTextureToolDoc::AppendWrap( const u_int uParentID )
 void CTextureToolDoc::AppendAverageBlur3( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendSimpleConvolution( 1, 1 );
+    m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
 
     if( uParentID )
     {
@@ -448,11 +458,14 @@ void CTextureToolDoc::AppendAverageBlur3( const u_int uParentID )
 
     SetModifiedFlag();
     UpdateAllViews( NULL );
+
+    TextureTool_OutputMessage( "Warning: Convolution layers are currently dependent on the size of the output texture, e.g. a wide blur on a 256x256 texture will look a lot thinner on the 1024x1024 version. This will be fixed in a future build." );
 }
 
 void CTextureToolDoc::AppendAverageBlur5( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendSimpleConvolution( 1, 1, 1 );
+    m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
 
     if( uParentID )
     {
@@ -461,11 +474,14 @@ void CTextureToolDoc::AppendAverageBlur5( const u_int uParentID )
 
     SetModifiedFlag();
     UpdateAllViews( NULL );
+
+    TextureTool_OutputMessage( "Warning: Convolution layers are currently dependent on the size of the output texture, e.g. a wide blur on a 256x256 texture will look a lot thinner on the 1024x1024 version. This will be fixed in a future build." );
 }
 
 void CTextureToolDoc::AppendAverageBlur7( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendSimpleConvolution( 1, 1, 1, 1 );
+    m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
 
     if( uParentID )
     {
@@ -474,11 +490,14 @@ void CTextureToolDoc::AppendAverageBlur7( const u_int uParentID )
 
     SetModifiedFlag();
     UpdateAllViews( NULL );
+
+    TextureTool_OutputMessage( "Warning: Convolution layers are currently dependent on the size of the output texture, e.g. a wide blur on a 256x256 texture will look a lot thinner on the 1024x1024 version. This will be fixed in a future build." );
 } 
 
 void CTextureToolDoc::AppendAverageBlur9( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendSimpleConvolution( 1, 1, 1, 1, 1 );
+    m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
 
     if( uParentID )
     {
@@ -487,6 +506,8 @@ void CTextureToolDoc::AppendAverageBlur9( const u_int uParentID )
 
     SetModifiedFlag();
     UpdateAllViews( NULL );
+
+    TextureTool_OutputMessage( "Warning: Convolution layers are currently dependent on the size of the output texture, e.g. a wide blur on a 256x256 texture will look a lot thinner on the 1024x1024 version. This will be fixed in a future build." );
 } 
 
 void CTextureToolDoc::DeleteLayer( const u_int uID )
@@ -516,7 +537,7 @@ void CTextureToolDoc::ExportJPG( const CString& sFilename )
     u_int* puData = CreateTextureRGBA_16xSS( 256, 256 );
     for( u_int u = 0; u < 256*256; ++u )
     {
-        puData[ u ] = COLOUR_SWAP( puData[ u ] );
+        puData[ u ] = TextureTool_SwapColour( puData[ u ] );
     }
     HBITMAP hBitmap = CreateBitmap( 256, 256, 1, 32, puData );
     xImage.Attach( hBitmap, CImage::DIBOR_TOPDOWN );
@@ -532,7 +553,7 @@ void CTextureToolDoc::ExportPNG( const CString& sFilename )
     u_int* puData = CreateTextureRGBA_16xSS( 256, 256 );
     for( u_int u = 0; u < 256*256; ++u )
     {
-        puData[ u ] = COLOUR_SWAP( puData[ u ] );
+        puData[ u ] = TextureTool_SwapColour( puData[ u ] );
     }
     HBITMAP hBitmap = CreateBitmap( 256, 256, 1, 32, puData );
     xImage.Attach( hBitmap, CImage::DIBOR_TOPDOWN );

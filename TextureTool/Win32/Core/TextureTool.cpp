@@ -201,6 +201,8 @@ BOOL CTextureToolApp::InitInstance()
     pMainFrame->ShowWindow(SW_SHOWNORMAL);
 	pMainFrame->UpdateWindow();
 
+    GLToy::RegisterDebugOutputCallback( DebugOutputCallback );
+
 	return TRUE;
 }
 
@@ -363,9 +365,43 @@ CTextureToolDoc* CTextureToolApp::GetCurrentDocument()
     return static_cast< CTextureToolDoc* >( pxFrame->GetActiveDocument() );
 }
 
+void CTextureToolApp::OutputMessage( const CString& sMessage )
+{
+    CMainFrame* pxMainWindow = static_cast< CMainFrame* >( AfxGetMainWnd() );
+    if( !pxMainWindow )
+    {
+        return;
+    }
+
+    COutputWnd* pxOutput = pxMainWindow->GetOutput();
+    if( !pxOutput )
+    {
+        return;
+    }
+
+    pxOutput->OutputMessage( sMessage );
+}
+
 // CTextureToolApp message handlers
 
 // GLToy interface
+
+void CTextureToolApp::DebugOutputCallback( const char* const szMessage )
+{
+    CMainFrame* pxMainWindow = static_cast< CMainFrame* >( AfxGetMainWnd() );
+    if( !pxMainWindow )
+    {
+        return;
+    }
+
+    COutputWnd* pxOutput = pxMainWindow->GetOutput();
+    if( !pxOutput )
+    {
+        return;
+    }
+
+    pxOutput->DebugMessage( CString( szMessage ) );
+}
 
 bool GLToy::Project_Initialise()
 {

@@ -100,7 +100,7 @@ void CTextureToolView::OnDraw( CDC* pDC )
     u_int* puData = pxDocument->CreateTextureRGBA( 256, 256 );
     for( u_int u = 0; u < 256*256; ++u )
     {
-        puData[ u ] = COLOUR_SWAP( puData[ u ] );
+        puData[ u ] = TextureTool_SwapColour( puData[ u ] );
     }
     xBitmap.CreateBitmap( 256, 256, 1, 32, puData ); 
 

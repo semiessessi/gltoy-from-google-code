@@ -181,6 +181,8 @@ public:
 
     static bool IsSilent() { return s_bSilent; }
 
+    static void RegisterDebugOutputCallback( void ( *pfnCallback )( const char* const szMessage ) ) { s_pfnDebugOutputCallback = pfnCallback; }
+
 private:
 
     static bool Initialise();
@@ -215,6 +217,8 @@ private:
     static bool s_bHasFocus;
 	static bool s_bEscapeQuits;
     static bool s_bSilent;
+
+    static void ( *s_pfnDebugOutputCallback )( const char* const szMessage );
 
 #ifdef WIN32
     friend unsigned int WndProc( unsigned int uWindowHandle, unsigned int uMessage,
