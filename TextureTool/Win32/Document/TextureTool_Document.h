@@ -64,9 +64,9 @@ public:
     void PromoteLayer( const u_int uID );
 
     void ExportCPP( const CString& sFilename );
-    void ExportJPG( const CString& sFilename );
-    void ExportPNG( const CString& sFilename );
-    void ExportTGA( const CString& sFilename );
+    void ExportJPG( const CString& sFilename, const u_int uWidth = 256, const u_int uHeight = 256, const u_int uSamples = 1 );
+    void ExportPNG( const CString& sFilename, const u_int uWidth = 256, const u_int uHeight = 256, const u_int uSamples = 1 );
+    void ExportTGA( const CString& sFilename, const u_int uWidth = 256, const u_int uHeight = 256, const u_int uSamples = 1 );
 
 // Overrides
 public:

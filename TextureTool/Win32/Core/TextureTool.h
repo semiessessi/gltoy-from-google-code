@@ -81,9 +81,9 @@ public:
 
 	afx_msg void OnAppAbout();
     afx_msg void OnExportCPP();
-    afx_msg void OnExportJPG();
-    afx_msg void OnExportPNG();
-    afx_msg void OnExportTGA();
+    afx_msg void OnExportJPG( const u_int uWidth = 256, const u_int uHeight = 256, const u_int uSamples = 1 );
+    afx_msg void OnExportPNG( const u_int uWidth = 256, const u_int uHeight = 256, const u_int uSamples = 1 );
+    afx_msg void OnExportTGA( const u_int uWidth = 256, const u_int uHeight = 256, const u_int uSamples = 1 );
 
     static void OutputMessage( const CString& sMessage );
 

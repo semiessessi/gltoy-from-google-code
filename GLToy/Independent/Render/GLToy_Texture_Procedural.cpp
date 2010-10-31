@@ -330,10 +330,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
         {
             default:
             case INSTRUCTION_FILL:
-            {
-                // SE - 27/10/2010 - probably the only instruction which benefited from using 32-bit RGBA internally now has to do more work... :)
-                //GLToy_Memory::SetDWords( pxData, uWidth * uHeight, m_uParam1 );
-                
+            {                
                 for( u_int u = 0; u < uWidth * uHeight; ++u )
                 {
                     pxData[ u ] = GLToy_Vector_4( m_uParam1 );
@@ -1238,7 +1235,7 @@ u_int* GLToy_Texture_Procedural::CreateRGBA_4xSS( const u_int uWidth, const u_in
     const u_int uWidth2 = uWidth << 1;
     const u_int uHeight2 = uHeight << 1;
     u_int* const puData4 = CreateRGBA( uWidth2, uHeight2 );
-    u_int* const puData = CreateRGBA( uWidth, uHeight );
+    u_int* const puData = new u_int[ uWidth * uHeight ];
 
     // 4x supersample the output
     for( u_int v = 0; v < uHeight; ++v )
@@ -1268,7 +1265,7 @@ u_int* GLToy_Texture_Procedural::CreateRGBA_16xSS( const u_int uWidth, const u_i
     const u_int uWidth4 = uWidth << 2;
     const u_int uHeight4 = uHeight << 2;
     u_int* const puData16 = CreateRGBA( uWidth4, uHeight4 );
-    u_int* const puData = CreateRGBA( uWidth, uHeight );
+    u_int* const puData = new u_int[ uWidth * uHeight ];
 
     // 4x supersample the output
     for( u_int v = 0; v < uHeight; ++v )
@@ -1402,11 +1399,32 @@ void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName, cons
     xFile.WriteFromBitStream( xWriteStream );
 }
 
-void GLToy_Texture_Procedural::SaveToTGAFile( const GLToy_String& szFilename, const u_int uSize )
+void GLToy_Texture_Procedural::SaveToTGAFile( const GLToy_String& szFilename, const u_int uWidth, const u_int uHeight, const u_int uSamples )
 {
     // if we are saving, might as well use the absolute best quality possible...
-    u_int* puData = CreateRGBA( uSize, uSize );
-    GLToy_Texture_System::Platform_SaveTextureTGA( szFilename, puData, uSize, uSize );
+    u_int* puData = NULL;
+    switch( uSamples )
+    {
+        case 16:
+        {
+            puData = CreateRGBA_16xSS( uWidth, uHeight );
+            break;
+        }
+
+        case 4:
+        {
+            puData = CreateRGBA_4xSS( uWidth, uHeight );
+            break;
+        }
+
+        default:
+        {
+            puData = CreateRGBA( uWidth, uHeight );
+            break;
+        }
+    }
+
+    GLToy_Texture_System::Platform_SaveTextureTGA( szFilename, puData, uWidth, uHeight );
     delete[] puData;
 }
 u_int GLToy_Texture_Procedural::MoveLayerAfter( const u_int uID, const u_int uAfterID )

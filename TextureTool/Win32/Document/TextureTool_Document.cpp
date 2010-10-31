@@ -531,15 +531,37 @@ void TextureTool_Document::ExportCPP( const CString& sFilename )
     m_xTexture.SaveToCPPHeader( static_cast< LPCTSTR >( GetTitle() ), &szFilename );
 }
 
-void TextureTool_Document::ExportJPG( const CString& sFilename )
+void TextureTool_Document::ExportJPG( const CString& sFilename, const u_int uWidth, const u_int uHeight, const u_int uSamples )
 {
     CImage xImage;
-    u_int* puData = CreateTextureRGBA( 256, 256 );
-    for( u_int u = 0; u < 256*256; ++u )
+    u_int* puData = NULL;
+    switch( uSamples )
+    {
+        case 16:
+        {
+            puData = CreateTextureRGBA_16xSS( uWidth, uHeight );
+            break;
+        }
+
+        case 4:
+        {
+            puData = CreateTextureRGBA_4xSS( uWidth, uHeight );
+            break;
+        }
+
+        default:
+        {
+            puData = CreateTextureRGBA( uWidth, uHeight );
+            break;
+        }
+    }
+
+    for( u_int u = 0; u < uWidth * uHeight; ++u )
     {
         puData[ u ] = TextureTool_SwapColour( puData[ u ] );
     }
-    HBITMAP hBitmap = CreateBitmap( 256, 256, 1, 32, puData );
+
+    HBITMAP hBitmap = CreateBitmap( uWidth, uHeight, 1, 32, puData );
     xImage.Attach( hBitmap, CImage::DIBOR_TOPDOWN );
 
     xImage.Save( sFilename, Gdiplus::ImageFormatJPEG );
@@ -547,15 +569,37 @@ void TextureTool_Document::ExportJPG( const CString& sFilename )
     delete[] puData;
 }
 
-void TextureTool_Document::ExportPNG( const CString& sFilename )
+void TextureTool_Document::ExportPNG( const CString& sFilename, const u_int uWidth, const u_int uHeight, const u_int uSamples )
 {
     CImage xImage;
-    u_int* puData = CreateTextureRGBA( 256, 256 );
-    for( u_int u = 0; u < 256*256; ++u )
+    u_int* puData = NULL;
+    switch( uSamples )
+    {
+        case 16:
+        {
+            puData = CreateTextureRGBA_16xSS( uWidth, uHeight );
+            break;
+        }
+
+        case 4:
+        {
+            puData = CreateTextureRGBA_4xSS( uWidth, uHeight );
+            break;
+        }
+
+        default:
+        {
+            puData = CreateTextureRGBA( uWidth, uHeight );
+            break;
+        }
+    }
+
+    for( u_int u = 0; u < uWidth * uHeight; ++u )
     {
         puData[ u ] = TextureTool_SwapColour( puData[ u ] );
     }
-    HBITMAP hBitmap = CreateBitmap( 256, 256, 1, 32, puData );
+
+    HBITMAP hBitmap = CreateBitmap( uWidth, uHeight, 1, 32, puData );
     xImage.Attach( hBitmap, CImage::DIBOR_TOPDOWN );
 
     xImage.Save( sFilename, Gdiplus::ImageFormatPNG );
@@ -563,9 +607,9 @@ void TextureTool_Document::ExportPNG( const CString& sFilename )
     delete[] puData;
 }
 
-void TextureTool_Document::ExportTGA( const CString& sFilename )
+void TextureTool_Document::ExportTGA( const CString& sFilename, const u_int uWidth, const u_int uHeight, const u_int uSamples )
 {
-    m_xTexture.SaveToTGAFile( static_cast< LPCTSTR >( sFilename ) );
+    m_xTexture.SaveToTGAFile( static_cast< LPCTSTR >( sFilename ), uWidth, uHeight, uSamples );
 }
 
 // TextureTool_Document diagnostics

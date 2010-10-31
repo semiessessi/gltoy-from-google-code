@@ -911,7 +911,7 @@ public:
 
     void ReadNoHeader( const char* const pcData, const u_int uLength );
     void SaveToCPPHeader( const GLToy_String& szName, const GLToy_String* pszFilename = NULL );
-    void SaveToTGAFile( const GLToy_String& szFilename, const u_int uSize = 256 );
+    void SaveToTGAFile( const GLToy_String& szFilename, const u_int uWidth = 256, const u_int uHeight = 256, const u_int uSamples = 1 );
 
     u_int GetLayerCount( const u_int uParentID = 0 ) const
     {

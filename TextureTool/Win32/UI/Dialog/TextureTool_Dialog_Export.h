@@ -59,10 +59,32 @@ public:
 
     virtual BOOL OnInitDialog();
     
-    u_int GetHeight() const;
-    u_int GetWidth() const;
+    u_int GetHeight() const
+    {
+        switch( m_iSize )
+        {
+            default:
+            case 0:     return 256;
+            case 1:     return 512;
+            case 2:     return 1024;
+            case 3:     return 2048;
+            case 4:     return 4096;
+        }
+    }
 
-    u_int GetSamples() const;
+    u_int GetWidth() const { return GetHeight(); }
+
+    u_int GetSamples() const
+    {
+        switch( m_iSampling )
+        {
+            default:
+            case 0:     return 1;
+            case 1:     return 4;
+            case 2:     return 16;
+            case 3:     return 64;
+        }
+    }
 
     bool WantsJPEG() const { return m_iImageFormat == 0; }
     bool WantsPNG() const { return m_iImageFormat == 1; }

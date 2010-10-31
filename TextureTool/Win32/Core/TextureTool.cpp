@@ -270,7 +270,7 @@ void TextureTool::OnExportCPP()
     }
 }
 
-void TextureTool::OnExportJPG()
+void TextureTool::OnExportJPG( const u_int uWidth, const u_int uHeight, const u_int uSamples )
 {
     TextureTool_Document* pxDocument = GetCurrentDocument();
     if( !pxDocument )
@@ -283,11 +283,11 @@ void TextureTool::OnExportJPG()
 
     if( xDialog.DoModal() == IDOK )
     {
-        pxDocument->ExportJPG( xDialog.GetFileName() );
+        pxDocument->ExportJPG( xDialog.GetFileName(), uWidth, uHeight, uSamples );
     }
 }
 
-void TextureTool::OnExportPNG()
+void TextureTool::OnExportPNG( const u_int uWidth, const u_int uHeight, const u_int uSamples )
 {
     TextureTool_Document* pxDocument = GetCurrentDocument();
     if( !pxDocument )
@@ -300,11 +300,11 @@ void TextureTool::OnExportPNG()
 
     if( xDialog.DoModal() == IDOK )
     {
-        pxDocument->ExportPNG( xDialog.GetFileName() );
+        pxDocument->ExportPNG( xDialog.GetFileName(), uWidth, uHeight, uSamples );
     }
 }
 
-void TextureTool::OnExportTGA()
+void TextureTool::OnExportTGA( const u_int uWidth, const u_int uHeight, const u_int uSamples )
 {
     TextureTool_Document* pxDocument = GetCurrentDocument();
     if( !pxDocument )
@@ -317,7 +317,7 @@ void TextureTool::OnExportTGA()
 
     if( xDialog.DoModal() == IDOK )
     {
-        pxDocument->ExportTGA( xDialog.GetFileName() );
+        pxDocument->ExportTGA( xDialog.GetFileName(), uWidth, uHeight, uSamples );
     }
 }
 
@@ -330,17 +330,18 @@ void TextureTool::OnExportImage()
         return;
     }
 
+    // TODO: some kind of progress dialog for larger exports
     if( xDialog.WantsJPEG() )
     {
-        OnExportJPG();
+        OnExportJPG( xDialog.GetWidth(), xDialog.GetHeight(), xDialog.GetSamples() );
     }
     else if( xDialog.WantsPNG() )
     {
-        OnExportPNG();
+        OnExportPNG( xDialog.GetWidth(), xDialog.GetHeight(), xDialog.GetSamples() );
     }
     else if( xDialog.WantsTGA() )
     {
-        OnExportTGA();
+        OnExportTGA( xDialog.GetWidth(), xDialog.GetHeight(), xDialog.GetSamples() );
     }
 }
 

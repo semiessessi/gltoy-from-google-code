@@ -34,10 +34,10 @@
     <ClCompile Include="TextureToolHandlers_i.c">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\TextureTool\Win32\Document\TextureToolDoc.cpp">
+    <ClCompile Include="..\TextureTool\Win32\Document\TextureTool_Document.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\TextureTool\Win32\View\TextureToolView.cpp">
+    <ClCompile Include="..\TextureTool\Win32\View\TextureTool_View.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -61,12 +61,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ThumbnailHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\TextureTool\TextureToolDoc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\TextureTool\TextureToolView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextureToolHandlers_i.h">

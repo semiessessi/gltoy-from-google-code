@@ -6,7 +6,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0555 */
-/* at Sun Oct 31 00:40:36 2010
+/* at Sun Oct 31 03:26:28 2010
  */
 /* Compiler settings for Win32\Core\TextureTool.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 7.00.0555 
