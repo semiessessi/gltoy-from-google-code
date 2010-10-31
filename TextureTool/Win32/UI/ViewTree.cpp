@@ -10,30 +10,30 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// CViewTree
+// TextureTool_ViewTree
 
-CViewTree::CViewTree()
+TextureTool_ViewTree::TextureTool_ViewTree()
 : m_pxDragImageList( NULL )
 {
 }
 
-CViewTree::~CViewTree()
+TextureTool_ViewTree::~TextureTool_ViewTree()
 {
     delete m_pxDragImageList;
     m_pxDragImageList = NULL;
 }
 
-BEGIN_MESSAGE_MAP(CViewTree, CTreeCtrl)
+BEGIN_MESSAGE_MAP(TextureTool_ViewTree, CTreeCtrl)
     ON_WM_LBUTTONUP()
-    ON_NOTIFY_REFLECT(TVN_SELCHANGED, &CViewTree::OnTvnSelchanged)
-    ON_NOTIFY_REFLECT(TVN_BEGINDRAG, &CViewTree::OnTvnBegindrag)
+    ON_NOTIFY_REFLECT(TVN_SELCHANGED, &TextureTool_ViewTree::OnTvnSelchanged)
+    ON_NOTIFY_REFLECT(TVN_BEGINDRAG, &TextureTool_ViewTree::OnTvnBegindrag)
     ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CViewTree message handlers
+// TextureTool_ViewTree message handlers
 
-BOOL CViewTree::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
+BOOL TextureTool_ViewTree::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 {
 	BOOL bRes = CTreeCtrl::OnNotify(wParam, lParam, pResult);
 
@@ -48,7 +48,7 @@ BOOL CViewTree::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 	return bRes;
 }
 
-void CViewTree::OnLButtonUp( UINT nFlags, CPoint point )
+void TextureTool_ViewTree::OnLButtonUp( UINT nFlags, CPoint point )
 {
     // only handles double-clicks I think... :/
     CTreeCtrl::OnLButtonUp( nFlags, point );
@@ -79,21 +79,21 @@ void CViewTree::OnLButtonUp( UINT nFlags, CPoint point )
             }
 		}
 
-		reinterpret_cast< CLayerView* >( GetParent() )->OnDragDrop( GetItemData( m_xItemDrag ), GetItemData( m_xItemDrop ) );
+		reinterpret_cast< TextureTool_LayerView* >( GetParent() )->OnDragDrop( GetItemData( m_xItemDrag ), GetItemData( m_xItemDrop ) );
 	}
 
-    reinterpret_cast< CLayerView* >( GetParent() )->OnClick();
+    reinterpret_cast< TextureTool_LayerView* >( GetParent() )->OnClick();
 }
 
-void CViewTree::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
+void TextureTool_ViewTree::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
 {
     LPNMTREEVIEW pNMTreeView = reinterpret_cast< LPNMTREEVIEW >( pNMHDR );
-    reinterpret_cast< CLayerView* >( GetParent() )->OnClick();
+    reinterpret_cast< TextureTool_LayerView* >( GetParent() )->OnClick();
     *pResult = 0;
 }
 
 
-void CViewTree::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
+void TextureTool_ViewTree::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
 {
     LPNMTREEVIEW pNMTreeView = reinterpret_cast< LPNMTREEVIEW >( pNMHDR );
 	*pResult = 0;
@@ -117,7 +117,7 @@ void CViewTree::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
 }
 
 
-void CViewTree::OnMouseMove(UINT nFlags, CPoint point)
+void TextureTool_ViewTree::OnMouseMove(UINT nFlags, CPoint point)
 {
 	if( m_bDragDrop )
 	{

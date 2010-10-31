@@ -1,46 +1,76 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
+//
+// ©Copyright 2010 Semi Essessi
+//
+/////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+//
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// TextureTool.cpp : Defines the class behaviors for the application.
-//
-
 #include <Core/stdafx.h>
+
+// MFC
 #include "afxwinappex.h"
 #include "afxdialogex.h"
-#include <Core/TextureTool.h>
-#include <UI/MainFrm.h>
 
-#include <UI/ChildFrm.h>
-#include <Document/TextureToolDoc.h>
-#include <View/TextureToolView.h>
-
+// GLToy
 #include <Render/GLToy_Render.h>
+
+// TextureTool
+#include <Core/TextureTool.h>
+#include <Document/TextureTool_Document.h>
+#include <UI/ChildFrm.h>
+#include <UI/MainFrm.h>
+#include <UI/Dialog/TextureTool_Dialog_About.h>
+#include <UI/Dialog/TextureTool_Dialog_Export.h>
+#include <View/TextureTool_View.h>
 
 #ifdef _DEBUG
 //#define new DEBUG_NEW
 #endif
 
 
-// CTextureToolApp
+// TextureTool
 
-BEGIN_MESSAGE_MAP(CTextureToolApp, CWinAppEx)
-	ON_COMMAND(ID_APP_ABOUT, &CTextureToolApp::OnAppAbout)
+BEGIN_MESSAGE_MAP(TextureTool, CWinAppEx)
+	ON_COMMAND(ID_APP_ABOUT, &TextureTool::OnAppAbout)
 	// Standard file based document commands
 	ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
-    ON_COMMAND(ID_EXPORT_C, &CTextureToolApp::OnExportCPP )
-    ON_COMMAND(ID_EXPORT_JPG, &CTextureToolApp::OnExportJPG )
-    ON_COMMAND(ID_EXPORT_PNG, &CTextureToolApp::OnExportPNG )
-    ON_COMMAND(ID_EXPORT_TGA, &CTextureToolApp::OnExportTGA )
+    ON_COMMAND(ID_EXPORT_C, &TextureTool::OnExportCPP )
+    //ON_COMMAND(ID_EXPORT_JPG, &TextureTool::OnExportJPG )
+    //ON_COMMAND(ID_EXPORT_PNG, &TextureTool::OnExportPNG )
+    //ON_COMMAND(ID_EXPORT_TGA, &TextureTool::OnExportTGA )
 	// Standard print setup command
 	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinAppEx::OnFilePrintSetup)
+    ON_COMMAND(ID_EXPORT_IMAGE, &TextureTool::OnExportImage)
 END_MESSAGE_MAP()
 
 
-// CTextureToolApp construction
+// TextureTool construction
 
-CTextureToolApp::CTextureToolApp()
+TextureTool::TextureTool()
 {
 	EnableHtmlHelp();
 
@@ -61,9 +91,9 @@ CTextureToolApp::CTextureToolApp()
 	// Place all significant initialization in InitInstance
 }
 
-// The one and only CTextureToolApp object
+// The one and only TextureTool object
 
-CTextureToolApp theApp;
+TextureTool theApp;
 // This identifier was generated to be statistically unique for your app
 // You may change it if you prefer to choose a specific identifier
 
@@ -76,9 +106,9 @@ const WORD _wVerMajor = 1;
 const WORD _wVerMinor = 0;
 
 
-// CTextureToolApp initialization
+// TextureTool initialization
 
-BOOL CTextureToolApp::InitInstance()
+BOOL TextureTool::InitInstance()
 {
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
@@ -130,9 +160,9 @@ BOOL CTextureToolApp::InitInstance()
 	//  serve as the connection between documents, frame windows and views
 	CMultiDocTemplate* pDocTemplate;
 	pDocTemplate = new CMultiDocTemplate(IDR_TEXTURETYPE,
-		RUNTIME_CLASS(CTextureToolDoc),
-		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
-		RUNTIME_CLASS(CTextureToolView));
+		RUNTIME_CLASS(TextureTool_Document),
+		RUNTIME_CLASS(TextureTool_Frame_Child), // custom MDI child frame
+		RUNTIME_CLASS(TextureTool_View));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);
@@ -148,7 +178,7 @@ BOOL CTextureToolApp::InitInstance()
 		//  to the /Embedding or /Automation on the command line
 
 	// create main MDI Frame window
-	CMainFrame* pMainFrame = new CMainFrame;
+	TextureTool_Frame_Main* pMainFrame = new TextureTool_Frame_Main;
 	if (!pMainFrame || !pMainFrame->LoadFrame(IDR_MAINFRAME))
 	{
 		delete pMainFrame;
@@ -206,7 +236,7 @@ BOOL CTextureToolApp::InitInstance()
 	return TRUE;
 }
 
-int CTextureToolApp::ExitInstance()
+int TextureTool::ExitInstance()
 {
 	//TODO: handle additional resources you may have added
 	AfxOleTerm(FALSE);
@@ -214,49 +244,18 @@ int CTextureToolApp::ExitInstance()
 	return CWinAppEx::ExitInstance();
 }
 
-// CTextureToolApp message handlers
-
-
-// CAboutDlg dialog used for App About
-
-class CAboutDlg : public CDialogEx
-{
-public:
-	CAboutDlg();
-
-// Dialog Data
-	enum { IDD = IDD_ABOUTBOX };
-
-protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-
-// Implementation
-protected:
-	DECLARE_MESSAGE_MAP()
-};
-
-CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
-{
-}
-
-void CAboutDlg::DoDataExchange(CDataExchange* pDX)
-{
-	CDialogEx::DoDataExchange(pDX);
-}
-
-BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
-END_MESSAGE_MAP()
+// TextureTool message handlers
 
 // App command to run the dialog
-void CTextureToolApp::OnAppAbout()
+void TextureTool::OnAppAbout()
 {
-	CAboutDlg aboutDlg;
+	TextureTool_Dialog_About aboutDlg;
 	aboutDlg.DoModal();
 }
 
-void CTextureToolApp::OnExportCPP()
+void TextureTool::OnExportCPP()
 {
-    CTextureToolDoc* pxDocument = GetCurrentDocument();
+    TextureTool_Document* pxDocument = GetCurrentDocument();
     if( !pxDocument )
     {
         return;
@@ -271,9 +270,9 @@ void CTextureToolApp::OnExportCPP()
     }
 }
 
-void CTextureToolApp::OnExportJPG()
+void TextureTool::OnExportJPG()
 {
-    CTextureToolDoc* pxDocument = GetCurrentDocument();
+    TextureTool_Document* pxDocument = GetCurrentDocument();
     if( !pxDocument )
     {
         return;
@@ -288,9 +287,9 @@ void CTextureToolApp::OnExportJPG()
     }
 }
 
-void CTextureToolApp::OnExportPNG()
+void TextureTool::OnExportPNG()
 {
-    CTextureToolDoc* pxDocument = GetCurrentDocument();
+    TextureTool_Document* pxDocument = GetCurrentDocument();
     if( !pxDocument )
     {
         return;
@@ -305,9 +304,9 @@ void CTextureToolApp::OnExportPNG()
     }
 }
 
-void CTextureToolApp::OnExportTGA()
+void TextureTool::OnExportTGA()
 {
-    CTextureToolDoc* pxDocument = GetCurrentDocument();
+    TextureTool_Document* pxDocument = GetCurrentDocument();
     if( !pxDocument )
     {
         return;
@@ -322,11 +321,32 @@ void CTextureToolApp::OnExportTGA()
     }
 }
 
+void TextureTool::OnExportImage()
+{
+    TextureTool_Dialog_Export xDialog;
 
+    if( xDialog.DoModal() != IDOK )
+    {
+        return;
+    }
 
-// CTextureToolApp customization load/save methods
+    if( xDialog.WantsJPEG() )
+    {
+        OnExportJPG();
+    }
+    else if( xDialog.WantsPNG() )
+    {
+        OnExportPNG();
+    }
+    else if( xDialog.WantsTGA() )
+    {
+        OnExportTGA();
+    }
+}
 
-void CTextureToolApp::PreLoadState()
+// TextureTool customization load/save methods
+
+void TextureTool::PreLoadState()
 {
 	BOOL bNameValid;
 	CString strName;
@@ -338,15 +358,15 @@ void CTextureToolApp::PreLoadState()
 	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EXPLORER);
 }
 
-void CTextureToolApp::LoadCustomState()
+void TextureTool::LoadCustomState()
 {
 }
 
-void CTextureToolApp::SaveCustomState()
+void TextureTool::SaveCustomState()
 {
 }
 
-CTextureToolDoc* CTextureToolApp::GetCurrentDocument()
+TextureTool_Document* TextureTool::GetCurrentDocument()
 {
     CDocument* pxDocument = NULL;
 
@@ -362,18 +382,18 @@ CTextureToolDoc* CTextureToolApp::GetCurrentDocument()
         return NULL;
     }
 
-    return static_cast< CTextureToolDoc* >( pxFrame->GetActiveDocument() );
+    return static_cast< TextureTool_Document* >( pxFrame->GetActiveDocument() );
 }
 
-void CTextureToolApp::OutputMessage( const CString& sMessage )
+void TextureTool::OutputMessage( const CString& sMessage )
 {
-    CMainFrame* pxMainWindow = static_cast< CMainFrame* >( AfxGetMainWnd() );
+    TextureTool_Frame_Main* pxMainWindow = static_cast< TextureTool_Frame_Main* >( AfxGetMainWnd() );
     if( !pxMainWindow )
     {
         return;
     }
 
-    COutputWnd* pxOutput = pxMainWindow->GetOutput();
+    TextureTool_OutputWindow* pxOutput = pxMainWindow->GetOutput();
     if( !pxOutput )
     {
         return;
@@ -382,19 +402,17 @@ void CTextureToolApp::OutputMessage( const CString& sMessage )
     pxOutput->OutputMessage( sMessage );
 }
 
-// CTextureToolApp message handlers
-
 // GLToy interface
 
-void CTextureToolApp::DebugOutputCallback( const char* const szMessage )
+void TextureTool::DebugOutputCallback( const char* const szMessage )
 {
-    CMainFrame* pxMainWindow = static_cast< CMainFrame* >( AfxGetMainWnd() );
+    TextureTool_Frame_Main* pxMainWindow = static_cast< TextureTool_Frame_Main* >( AfxGetMainWnd() );
     if( !pxMainWindow )
     {
         return;
     }
 
-    COutputWnd* pxOutput = pxMainWindow->GetOutput();
+    TextureTool_OutputWindow* pxOutput = pxMainWindow->GetOutput();
     if( !pxOutput )
     {
         return;

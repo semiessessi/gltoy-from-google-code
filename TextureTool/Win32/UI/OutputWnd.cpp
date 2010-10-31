@@ -43,20 +43,20 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // COutputBar
 
-COutputWnd::COutputWnd()
+TextureTool_OutputWindow::TextureTool_OutputWindow()
 {
 }
 
-COutputWnd::~COutputWnd()
+TextureTool_OutputWindow::~TextureTool_OutputWindow()
 {
 }
 
-BEGIN_MESSAGE_MAP(COutputWnd, CDockablePane)
+BEGIN_MESSAGE_MAP(TextureTool_OutputWindow, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
-int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
+int TextureTool_OutputWindow::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CDockablePane::OnCreate(lpCreateStruct) == -1)
 		return -1;
@@ -104,7 +104,7 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-void COutputWnd::OnSize(UINT nType, int cx, int cy)
+void TextureTool_OutputWindow::OnSize(UINT nType, int cx, int cy)
 {
 	CDockablePane::OnSize(nType, cx, cy);
 
@@ -112,7 +112,7 @@ void COutputWnd::OnSize(UINT nType, int cx, int cy)
 	m_xTabs.SetWindowPos (NULL, -1, -1, cx, cy, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
-void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
+void TextureTool_OutputWindow::AdjustHorzScroll(CListBox& wndListBox)
 {
 	CClientDC dc(this);
 	CFont* pOldFont = dc.SelectObject(&afxGlobalData.fontRegular);
@@ -131,24 +131,24 @@ void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 	dc.SelectObject(pOldFont);
 }
 
-void COutputWnd::UpdateFonts()
+void TextureTool_OutputWindow::UpdateFonts()
 {
 	m_xOutput.SetFont( &afxGlobalData.fontRegular );
 }
 
-void COutputWnd::OutputMessage( const CString& sMessage )
+void TextureTool_OutputWindow::OutputMessage( const CString& sMessage )
 {
     m_xOutput.AddString( sMessage );
 }
 
-void COutputWnd::DebugMessage( const CString& sMessage )
+void TextureTool_OutputWindow::DebugMessage( const CString& sMessage )
 {
 #ifdef GLTOY_DEBUG
     m_xDebug.AddString( sMessage );
 #endif
 }
 
-void COutputWnd::ResetOutputMessages()
+void TextureTool_OutputWindow::ResetOutputMessages()
 {
     int iCount = m_xOutput.GetCount();
     for( int i = iCount - 1; i >= 0; --i )
@@ -158,17 +158,17 @@ void COutputWnd::ResetOutputMessages()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// COutputList1
+// TextureTool_OutputList1
 
-COutputList::COutputList()
+TextureTool_OutputList::TextureTool_OutputList()
 {
 }
 
-COutputList::~COutputList()
+TextureTool_OutputList::~TextureTool_OutputList()
 {
 }
 
-BEGIN_MESSAGE_MAP(COutputList, CListBox)
+BEGIN_MESSAGE_MAP(TextureTool_OutputList, CListBox)
 	ON_WM_CONTEXTMENU()
 	ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
 	ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
@@ -176,9 +176,9 @@ BEGIN_MESSAGE_MAP(COutputList, CListBox)
 	ON_WM_WINDOWPOSCHANGING()
 END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
-// COutputList message handlers
+// TextureTool_OutputList message handlers
 
-void COutputList::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
+void TextureTool_OutputList::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 {
 	CMenu menu;
 	menu.LoadMenu(IDR_OUTPUT_POPUP);
@@ -199,17 +199,17 @@ void COutputList::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 	SetFocus();
 }
 
-void COutputList::OnEditCopy()
+void TextureTool_OutputList::OnEditCopy()
 {
 	MessageBox(_T("Copy output"));
 }
 
-void COutputList::OnEditClear()
+void TextureTool_OutputList::OnEditClear()
 {
 	MessageBox(_T("Clear output"));
 }
 
-void COutputList::OnViewOutput()
+void TextureTool_OutputList::OnViewOutput()
 {
 	CDockablePane* pParentBar = DYNAMIC_DOWNCAST(CDockablePane, GetOwner());
 	CMDIFrameWndEx* pMainFrame = DYNAMIC_DOWNCAST(CMDIFrameWndEx, GetTopLevelFrame());

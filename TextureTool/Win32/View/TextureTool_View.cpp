@@ -28,9 +28,6 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// TextureToolView.cpp : implementation of the CTextureToolView class
-//
-
 #include <Core/stdafx.h>
 // SHARED_HANDLERS can be defined in an ATL project implementing preview, thumbnail
 // and search filter handlers and allows sharing of document code with that project.
@@ -38,42 +35,42 @@
 #include <Core/TextureTool.h>
 #endif
 
-#include <Document/TextureToolDoc.h>
+#include <Document/TextureTool_Document.h>
 #include <UI/MainFrm.h>
-#include <View/TextureToolView.h>
+#include <View/TextureTool_View.h>
 
 #ifdef _DEBUG
 //#define new DEBUG_NEW
 #endif
 
 
-// CTextureToolView
+// TextureTool_View
 
-IMPLEMENT_DYNCREATE(CTextureToolView, CView)
+IMPLEMENT_DYNCREATE(TextureTool_View, CView)
 
-BEGIN_MESSAGE_MAP(CTextureToolView, CView)
+BEGIN_MESSAGE_MAP(TextureTool_View, CView)
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CTextureToolView::OnFilePrintPreview)
+	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &TextureTool_View::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
     ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
-// CTextureToolView construction/destruction
+// TextureTool_View construction/destruction
 
-CTextureToolView::CTextureToolView()
+TextureTool_View::TextureTool_View()
 {
 	// TODO: add construction code here
 
 }
 
-CTextureToolView::~CTextureToolView()
+TextureTool_View::~TextureTool_View()
 {
 }
 
-BOOL CTextureToolView::PreCreateWindow(CREATESTRUCT& cs)
+BOOL TextureTool_View::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
@@ -81,11 +78,11 @@ BOOL CTextureToolView::PreCreateWindow(CREATESTRUCT& cs)
 	return CView::PreCreateWindow(cs);
 }
 
-// CTextureToolView drawing
+// TextureTool_View drawing
 
-void CTextureToolView::OnDraw( CDC* pDC )
+void TextureTool_View::OnDraw( CDC* pDC )
 {
-	CTextureToolDoc* pxDocument = GetDocument();
+	TextureTool_Document* pxDocument = GetDocument();
 	ASSERT_VALID( pxDocument );
 	if ( !pxDocument )
 		return;
@@ -123,55 +120,55 @@ void CTextureToolView::OnDraw( CDC* pDC )
 }
 
 
-// CTextureToolView printing
+// TextureTool_View printing
 
 
-void CTextureToolView::OnFilePrintPreview()
+void TextureTool_View::OnFilePrintPreview()
 {
 #ifndef SHARED_HANDLERS
 	AFXPrintPreview(this);
 #endif
 }
 
-BOOL CTextureToolView::OnPreparePrinting(CPrintInfo* pInfo)
+BOOL TextureTool_View::OnPreparePrinting(CPrintInfo* pInfo)
 {
 	// no printing...
 	return DoPreparePrinting(pInfo);
 }
 
-void CTextureToolView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+void TextureTool_View::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
 	// no printing...
 }
 
-void CTextureToolView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+void TextureTool_View::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
 	// no printing...
 }
 
-void CTextureToolView::OnRButtonUp(UINT /* nFlags */, CPoint point)
+void TextureTool_View::OnRButtonUp(UINT /* nFlags */, CPoint point)
 {
 	ClientToScreen(&point);
 	OnContextMenu(this, point);
 }
 
-void CTextureToolView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
+void TextureTool_View::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 {
 #ifndef SHARED_HANDLERS
 	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EDIT, point.x, point.y, this, TRUE);
 #endif
 }
 
-void CTextureToolView::OnUpdate( CView* pSender, LPARAM lHint, CObject* pHint )
+void TextureTool_View::OnUpdate( CView* pSender, LPARAM lHint, CObject* pHint )
 {
-    CTextureToolDoc* const pxDocument = GetDocument();
+    TextureTool_Document* const pxDocument = GetDocument();
 	GLToy_Assert( pxDocument != NULL, "Failed to get document." );
 	if( !pxDocument )
 	{
 		return;
 	}
 
-    CLayerView* const pxLayerView = GetLayerView();
+    TextureTool_LayerView* const pxLayerView = GetLayerView();
     if( pxLayerView )
     {
         const u_int uID = pxLayerView->GetSelectedID();
@@ -182,7 +179,7 @@ void CTextureToolView::OnUpdate( CView* pSender, LPARAM lHint, CObject* pHint )
 	CView::OnUpdate( pSender, lHint, pHint );
 }
 
-void CTextureToolView::OnActivateView( BOOL bActivate, CView* pActivateView, CView* pDeactiveView )
+void TextureTool_View::OnActivateView( BOOL bActivate, CView* pActivateView, CView* pDeactiveView )
 {
 	if( bActivate )
 	{
@@ -201,13 +198,13 @@ void CTextureToolView::OnActivateView( BOOL bActivate, CView* pActivateView, CVi
         pxDocTemplate->GetNextDoc( xPos );
         if( xPos == NULL )
         {
-	        CLayerView* const pxLayerView = GetLayerView();
+	        TextureTool_LayerView* const pxLayerView = GetLayerView();
             if( pxLayerView )
             {
 	            pxLayerView->ClearLayerView();
             }
 
-            CPropertiesWnd* const pxProperties = GetProperties();
+            TextureTool_PropertiesWindow* const pxProperties = GetProperties();
             if( pxProperties )
             {
 	            pxProperties->UpdateFromID( NULL );
@@ -218,9 +215,9 @@ void CTextureToolView::OnActivateView( BOOL bActivate, CView* pActivateView, CVi
 	CView::OnActivateView( bActivate, pActivateView, pDeactiveView );
 }
 
-CLayerView* CTextureToolView::GetLayerView()
+TextureTool_LayerView* TextureTool_View::GetLayerView()
 {
-	CMainFrame* const pxMainFrame = GetMainFrame();
+	TextureTool_Frame_Main* const pxMainFrame = GetMainFrame();
 
 	GLToy_Assert( pxMainFrame != NULL, "Failed to get main frame." );
 	if( !pxMainFrame )
@@ -231,9 +228,9 @@ CLayerView* CTextureToolView::GetLayerView()
 	return pxMainFrame->GetLayerView();
 }
 
-CPropertiesWnd* CTextureToolView::GetProperties()
+TextureTool_PropertiesWindow* TextureTool_View::GetProperties()
 {
-	CMainFrame* const pxMainFrame = GetMainFrame();
+	TextureTool_Frame_Main* const pxMainFrame = GetMainFrame();
 
 	GLToy_Assert( pxMainFrame != NULL, "Failed to get main frame." );
 	if( !pxMainFrame )
@@ -244,7 +241,7 @@ CPropertiesWnd* CTextureToolView::GetProperties()
 	return pxMainFrame->GetProperties();
 }
 
-CMainFrame* CTextureToolView::GetMainFrame()
+TextureTool_Frame_Main* TextureTool_View::GetMainFrame()
 {
     const CFrameWnd* const pxParentFrame = GetParentFrame();
 	
@@ -254,10 +251,10 @@ CMainFrame* CTextureToolView::GetMainFrame()
 		return NULL;
 	}
 
-	return static_cast< CMainFrame* >( pxParentFrame->GetParentFrame() );
+	return static_cast< TextureTool_Frame_Main* >( pxParentFrame->GetParentFrame() );
 }
 
-CDocTemplate* CTextureToolView::GetDocTemplate()
+CDocTemplate* TextureTool_View::GetDocTemplate()
 {
     const CDocument* const pxDocument = GetDocument();
 	
@@ -270,25 +267,25 @@ CDocTemplate* CTextureToolView::GetDocTemplate()
 	return pxDocument->GetDocTemplate();
 }
 
-// CTextureToolView diagnostics
+// TextureTool_View diagnostics
 
 #ifdef _DEBUG
-void CTextureToolView::AssertValid() const
+void TextureTool_View::AssertValid() const
 {
 	CView::AssertValid();
 }
 
-void CTextureToolView::Dump(CDumpContext& dc) const
+void TextureTool_View::Dump(CDumpContext& dc) const
 {
 	CView::Dump(dc);
 }
 
-CTextureToolDoc* CTextureToolView::GetDocument() const // non-debug version is inline
+TextureTool_Document* TextureTool_View::GetDocument() const // non-debug version is inline
 {
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CTextureToolDoc)));
-	return (CTextureToolDoc*)m_pDocument;
+	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(TextureTool_Document)));
+	return (TextureTool_Document*)m_pDocument;
 }
 #endif //_DEBUG
 
 
-// CTextureToolView message handlers
+// TextureTool_View message handlers

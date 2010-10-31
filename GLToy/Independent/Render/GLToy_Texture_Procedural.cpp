@@ -1405,7 +1405,7 @@ void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName, cons
 void GLToy_Texture_Procedural::SaveToTGAFile( const GLToy_String& szFilename, const u_int uSize )
 {
     // if we are saving, might as well use the absolute best quality possible...
-    u_int* puData = CreateRGBA_16xSS( uSize, uSize );
+    u_int* puData = CreateRGBA( uSize, uSize );
     GLToy_Texture_System::Platform_SaveTextureTGA( szFilename, puData, uSize, uSize );
     delete[] puData;
 }

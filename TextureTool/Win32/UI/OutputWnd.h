@@ -2,17 +2,17 @@
 #pragma once
 
 /////////////////////////////////////////////////////////////////////////////
-// COutputList window
+// TextureTool_OutputList window
 
-class COutputList : public CListBox
+class TextureTool_OutputList : public CListBox
 {
 // Construction
 public:
-	COutputList();
+	TextureTool_OutputList();
 
 // Implementation
 public:
-	virtual ~COutputList();
+	virtual ~TextureTool_OutputList();
 
 protected:
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
@@ -23,11 +23,11 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
-class COutputWnd : public CDockablePane
+class TextureTool_OutputWindow : public CDockablePane
 {
 // Construction
 public:
-	COutputWnd();
+	TextureTool_OutputWindow();
 
 	void UpdateFonts();
 
@@ -35,8 +35,8 @@ public:
 protected:
 	CMFCTabCtrl	m_xTabs;
 
-	COutputList m_xOutput;
-    COutputList m_xDebug;
+	TextureTool_OutputList m_xOutput;
+    TextureTool_OutputList m_xDebug;
 
 protected:
 
@@ -44,7 +44,7 @@ protected:
 
 // Implementation
 public:
-	virtual ~COutputWnd();
+	virtual ~TextureTool_OutputWindow();
 
     void DebugMessage( const CString& sMessage );
     void OutputMessage( const CString& sMessage );

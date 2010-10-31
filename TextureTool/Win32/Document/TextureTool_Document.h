@@ -1,20 +1,20 @@
 
-// TextureToolDoc.h : interface of the CTextureToolDoc class
+// TextureTool_Document.h : interface of the TextureTool_Document class
 //
 
 
 #pragma once
 
 #include <Render/GLToy_Texture_Procedural.h>
-#include <View/TextureToolView.h>
+#include <View/TextureTool_View.h>
 
 #define WM_UPDATEVIEWS ( WM_USER + 1 )
 
-class CTextureToolDoc : public CDocument
+class TextureTool_Document : public CDocument
 {
 protected: // create from serialization only
-	CTextureToolDoc();
-	DECLARE_DYNCREATE(CTextureToolDoc)
+	TextureTool_Document();
+	DECLARE_DYNCREATE(TextureTool_Document)
 
 // Attributes
 public:
@@ -79,7 +79,7 @@ public:
 
 // Implementation
 public:
-	virtual ~CTextureToolDoc();
+	virtual ~TextureTool_Document();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -87,7 +87,7 @@ public:
 
 protected:
 
-    CTextureToolView* GetView() { POSITION xPosition = GetFirstViewPosition(); return static_cast< CTextureToolView* >( GetNextView( xPosition ) ); }
+    TextureTool_View* GetView() { POSITION xPosition = GetFirstViewPosition(); return static_cast< TextureTool_View* >( GetNextView( xPosition ) ); }
 
 	// the actual document structure is the GLToy class...
     GLToy_Texture_Procedural m_xTexture;

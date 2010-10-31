@@ -1,14 +1,14 @@
 
-// ChildFrm.h : interface of the CChildFrame class
+// ChildFrm.h : interface of the TextureTool_Frame_Child class
 //
 
 #pragma once
 
-class CChildFrame : public CMDIChildWndEx
+class TextureTool_Frame_Child : public CMDIChildWndEx
 {
-	DECLARE_DYNCREATE(CChildFrame)
+	DECLARE_DYNCREATE(TextureTool_Frame_Child)
 public:
-	CChildFrame();
+	TextureTool_Frame_Child();
 
 // Attributes
 protected:
@@ -25,7 +25,7 @@ public:
 
 // Implementation
 public:
-	virtual ~CChildFrame();
+	virtual ~TextureTool_Frame_Child();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;

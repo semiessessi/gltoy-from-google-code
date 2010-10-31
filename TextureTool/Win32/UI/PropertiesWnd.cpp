@@ -79,15 +79,15 @@ enum Property
 /////////////////////////////////////////////////////////////////////////////
 // CResourceViewBar
 
-CPropertiesWnd::CPropertiesWnd()
+TextureTool_PropertiesWindow::TextureTool_PropertiesWindow()
 {
 }
 
-CPropertiesWnd::~CPropertiesWnd()
+TextureTool_PropertiesWindow::~TextureTool_PropertiesWindow()
 {
 }
 
-BEGIN_MESSAGE_MAP(CPropertiesWnd, CDockablePane)
+BEGIN_MESSAGE_MAP(TextureTool_PropertiesWindow, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_COMMAND(ID_EXPAND_ALL, OnExpandAllProperties)
@@ -102,7 +102,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CResourceViewBar message handlers
 
-void CPropertiesWnd::AdjustLayout()
+void TextureTool_PropertiesWindow::AdjustLayout()
 {
 	if (GetSafeHwnd() == NULL)
 	{
@@ -122,7 +122,7 @@ void CPropertiesWnd::AdjustLayout()
 	m_wndPropList.SetWindowPos(NULL, rectClient.left, rectClient.top + cyCmb + cyTlb, rectClient.Width(), rectClient.Height() -(cyCmb+cyTlb), SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
-void CPropertiesWnd::UpdateFromID( CTextureToolDoc* pxDocument, const u_int uID )
+void TextureTool_PropertiesWindow::UpdateFromID( TextureTool_Document* pxDocument, const u_int uID )
 {
     if( !m_pxDocument && !pxDocument )
     {
@@ -141,7 +141,7 @@ void CPropertiesWnd::UpdateFromID( CTextureToolDoc* pxDocument, const u_int uID 
     InitPropList( pxDocument, uID );
 }
 
-LRESULT CPropertiesWnd::OnPropertyChanged( WPARAM wParam, LPARAM lParam )
+LRESULT TextureTool_PropertiesWindow::OnPropertyChanged( WPARAM wParam, LPARAM lParam )
 {
     if( lParam == NULL )
     {
@@ -153,7 +153,7 @@ LRESULT CPropertiesWnd::OnPropertyChanged( WPARAM wParam, LPARAM lParam )
     return 0;
 }
 
-void CPropertiesWnd::OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const
+void TextureTool_PropertiesWindow::OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const
 {
     if( !m_pxDocument || ( m_uID == 0 ) )
     {
@@ -426,14 +426,14 @@ void CPropertiesWnd::OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const
         }
     }
 
-    CMainFrame* const pxMainFrame = static_cast< CMainFrame* >( GetParentFrame() );
+    TextureTool_Frame_Main* const pxMainFrame = static_cast< TextureTool_Frame_Main* >( GetParentFrame() );
     if( pxMainFrame )
     {
         pxMainFrame->PostMessage( WM_UPDATEVIEWS );
     }
 }
 
-int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
+int TextureTool_PropertiesWindow::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CDockablePane::OnCreate(lpCreateStruct) == -1)
 		return -1;
@@ -481,32 +481,32 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-void CPropertiesWnd::OnSize(UINT nType, int cx, int cy)
+void TextureTool_PropertiesWindow::OnSize(UINT nType, int cx, int cy)
 {
 	CDockablePane::OnSize(nType, cx, cy);
 	AdjustLayout();
 }
 
-void CPropertiesWnd::OnExpandAllProperties()
+void TextureTool_PropertiesWindow::OnExpandAllProperties()
 {
 	m_wndPropList.ExpandAll();
 }
 
-void CPropertiesWnd::OnUpdateExpandAllProperties(CCmdUI* /* pCmdUI */)
+void TextureTool_PropertiesWindow::OnUpdateExpandAllProperties(CCmdUI* /* pCmdUI */)
 {
 }
 
-void CPropertiesWnd::OnSortProperties()
+void TextureTool_PropertiesWindow::OnSortProperties()
 {
 	m_wndPropList.SetAlphabeticMode(!m_wndPropList.IsAlphabeticMode());
 }
 
-void CPropertiesWnd::OnUpdateSortProperties(CCmdUI* pCmdUI)
+void TextureTool_PropertiesWindow::OnUpdateSortProperties(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_wndPropList.IsAlphabeticMode());
 }
 
-void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID )
+void TextureTool_PropertiesWindow::InitPropList(  TextureTool_Document* pxDocument, const u_int uID )
 {
     m_pxDocument = pxDocument;
     m_uID = uID;
@@ -791,19 +791,19 @@ void CPropertiesWnd::InitPropList(  CTextureToolDoc* pxDocument, const u_int uID
     }
 }
 
-void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
+void TextureTool_PropertiesWindow::OnSetFocus(CWnd* pOldWnd)
 {
 	CDockablePane::OnSetFocus(pOldWnd);
 	m_wndPropList.SetFocus();
 }
 
-void CPropertiesWnd::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
+void TextureTool_PropertiesWindow::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
 	CDockablePane::OnSettingChange(uFlags, lpszSection);
 	SetPropListFont();
 }
 
-void CPropertiesWnd::SetPropListFont()
+void TextureTool_PropertiesWindow::SetPropListFont()
 {
 	::DeleteObject(m_fntPropList.Detach());
 

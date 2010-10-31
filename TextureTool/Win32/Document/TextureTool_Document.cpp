@@ -2,7 +2,7 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// TextureToolDoc.cpp : implementation of the CTextureToolDoc class
+// TextureTool_Document.cpp : implementation of the TextureTool_Document class
 //
 
 #include <Core/stdafx.h>
@@ -12,7 +12,7 @@
 #include <Core/TextureTool.h>
 #endif
 
-#include <Document/TextureToolDoc.h>
+#include <Document/TextureTool_Document.h>
 
 #include <String/GLToy_String.h>
 
@@ -22,14 +22,14 @@
 //#define new DEBUG_NEW
 #endif
 
-// CTextureToolDoc
+// TextureTool_Document
 
-IMPLEMENT_DYNCREATE(CTextureToolDoc, CDocument)
+IMPLEMENT_DYNCREATE(TextureTool_Document, CDocument)
 
-BEGIN_MESSAGE_MAP(CTextureToolDoc, CDocument)
+BEGIN_MESSAGE_MAP(TextureTool_Document, CDocument)
 END_MESSAGE_MAP()
 
-BEGIN_DISPATCH_MAP(CTextureToolDoc, CDocument)
+BEGIN_DISPATCH_MAP(TextureTool_Document, CDocument)
 END_DISPATCH_MAP()
 
 // Note: we add support for IID_ITextureTool to support typesafe binding
@@ -40,14 +40,14 @@ END_DISPATCH_MAP()
 static const IID IID_ITextureTool =
 { 0x495A0F44, 0x19FD, 0x494D, { 0xA0, 0x3F, 0xE, 0x28, 0x52, 0x9B, 0x4E, 0xD1 } };
 
-BEGIN_INTERFACE_MAP(CTextureToolDoc, CDocument)
-	INTERFACE_PART(CTextureToolDoc, IID_ITextureTool, Dispatch)
+BEGIN_INTERFACE_MAP(TextureTool_Document, CDocument)
+	INTERFACE_PART(TextureTool_Document, IID_ITextureTool, Dispatch)
 END_INTERFACE_MAP()
 
 
-// CTextureToolDoc construction/destruction
+// TextureTool_Document construction/destruction
 
-CTextureToolDoc::CTextureToolDoc()
+TextureTool_Document::TextureTool_Document()
 : m_xTexture()
 {
 	// TODO: add one-time construction code here
@@ -57,12 +57,12 @@ CTextureToolDoc::CTextureToolDoc()
 	AfxOleLockApp();
 }
 
-CTextureToolDoc::~CTextureToolDoc()
+TextureTool_Document::~TextureTool_Document()
 {
 	AfxOleUnlockApp();
 }
 
-BOOL CTextureToolDoc::OnNewDocument()
+BOOL TextureTool_Document::OnNewDocument()
 {
 	if (!CDocument::OnNewDocument())
 		return FALSE;
@@ -76,9 +76,9 @@ BOOL CTextureToolDoc::OnNewDocument()
 
 
 
-// CTextureToolDoc serialization
+// TextureTool_Document serialization
 
-void CTextureToolDoc::Serialize(CArchive& ar)
+void TextureTool_Document::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())
 	{
@@ -100,7 +100,7 @@ void CTextureToolDoc::Serialize(CArchive& ar)
 #ifdef SHARED_HANDLERS
 
 // Support for thumbnails
-void CTextureToolDoc::OnDrawThumbnail(CDC& dc, LPRECT lprcBounds)
+void TextureTool_Document::OnDrawThumbnail(CDC& dc, LPRECT lprcBounds)
 {
 	// Modify this code to draw the document's data
 	dc.FillSolidRect(lprcBounds, RGB(255, 255, 255));
@@ -121,7 +121,7 @@ void CTextureToolDoc::OnDrawThumbnail(CDC& dc, LPRECT lprcBounds)
 }
 
 // Support for Search Handlers
-void CTextureToolDoc::InitializeSearchContent()
+void TextureTool_Document::InitializeSearchContent()
 {
 	CString strSearchContent;
 	// Set search contents from document's data. 
@@ -131,7 +131,7 @@ void CTextureToolDoc::InitializeSearchContent()
 	SetSearchContent(strSearchContent);
 }
 
-void CTextureToolDoc::SetSearchContent(const CString& value)
+void TextureTool_Document::SetSearchContent(const CString& value)
 {
 	if (value.IsEmpty())
 	{
@@ -151,21 +151,21 @@ void CTextureToolDoc::SetSearchContent(const CString& value)
 
 #endif // SHARED_HANDLERS
 
-void CTextureToolDoc::MoveAfter( const u_int uID, const u_int uAfterID )
+void TextureTool_Document::MoveAfter( const u_int uID, const u_int uAfterID )
 {
     m_xTexture.MoveLayerAfter( uID, uAfterID );
     SetModifiedFlag();
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::MoveUnder( const u_int uID, const u_int uParentID )
+void TextureTool_Document::MoveUnder( const u_int uID, const u_int uParentID )
 {
     m_xTexture.MoveLayerUnder( uID, uParentID );
     SetModifiedFlag();
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendGroup( const u_int uParentID )
+void TextureTool_Document::AppendGroup( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendGroup();
     
@@ -178,7 +178,7 @@ void CTextureToolDoc::AppendGroup( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendReference( const u_int uReferToID )
+void TextureTool_Document::AppendReference( const u_int uReferToID )
 {
     m_xTexture.AppendReference( uReferToID );
 
@@ -188,7 +188,7 @@ void CTextureToolDoc::AppendReference( const u_int uReferToID )
     TextureTool_OutputMessage( "Warning: References are still experimental, they occasionally crash, occasionally don't work after saving then loading and although circular references are prevented there is little user feedback about it." );
 }
 
-void CTextureToolDoc::AppendFlatColour( const u_int uParentID )
+void TextureTool_Document::AppendFlatColour( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendFillLayer( 0xFF000000 );
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
@@ -202,7 +202,7 @@ void CTextureToolDoc::AppendFlatColour( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendNoiseLow( const u_int uParentID )
+void TextureTool_Document::AppendNoiseLow( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendNoiseLayer( 8.0f, 0xFF000000 );
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_ADD );
@@ -216,7 +216,7 @@ void CTextureToolDoc::AppendNoiseLow( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendNoiseHigh( const u_int uParentID )
+void TextureTool_Document::AppendNoiseHigh( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendNoiseLayer( 128.0f, 0xFF000000 );
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_ADD );
@@ -230,7 +230,7 @@ void CTextureToolDoc::AppendNoiseHigh( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendNoiseFractal( const u_int uParentID )
+void TextureTool_Document::AppendNoiseFractal( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendFBMNoiseLayer( 4.0f, 0xFF000000 );
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_ADD );
@@ -244,7 +244,7 @@ void CTextureToolDoc::AppendNoiseFractal( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendGradient( const u_int uParentID )
+void TextureTool_Document::AppendGradient( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendGradientLayer( GLToy_Texture_Procedural::GRADIENT_TOP );
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
@@ -258,7 +258,7 @@ void CTextureToolDoc::AppendGradient( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendShaping( GLToy_Texture_Procedural::ShapeFunction eFunction, const u_int uParentID )
+void TextureTool_Document::AppendShaping( GLToy_Texture_Procedural::ShapeFunction eFunction, const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendShapingLayer( eFunction );
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
@@ -272,7 +272,7 @@ void CTextureToolDoc::AppendShaping( GLToy_Texture_Procedural::ShapeFunction eFu
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendTile( const u_int uParentID )
+void TextureTool_Document::AppendTile( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendTileLayer( 2 );
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
@@ -286,7 +286,7 @@ void CTextureToolDoc::AppendTile( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendCheckerboard( const u_int uParentID )
+void TextureTool_Document::AppendCheckerboard( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendCheckerboardLayer();
 
@@ -299,7 +299,7 @@ void CTextureToolDoc::AppendCheckerboard( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendStripeHorizontal( const u_int uParentID )
+void TextureTool_Document::AppendStripeHorizontal( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendHorizontalStripeLayer();
 
@@ -312,7 +312,7 @@ void CTextureToolDoc::AppendStripeHorizontal( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendStripeVertical( const u_int uParentID )
+void TextureTool_Document::AppendStripeVertical( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendVerticalStripeLayer();
 
@@ -325,7 +325,7 @@ void CTextureToolDoc::AppendStripeVertical( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendStripeDiagonal1( const u_int uParentID )
+void TextureTool_Document::AppendStripeDiagonal1( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendDiagonalStripeUpLeftLayer();
 
@@ -338,7 +338,7 @@ void CTextureToolDoc::AppendStripeDiagonal1( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendStripeDiagonal2( const u_int uParentID )
+void TextureTool_Document::AppendStripeDiagonal2( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendDiagonalStripeDownLeftLayer();
 
@@ -351,7 +351,7 @@ void CTextureToolDoc::AppendStripeDiagonal2( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendBorder( const u_int uParentID )
+void TextureTool_Document::AppendBorder( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendBorder( 0.05f );
 
@@ -364,7 +364,7 @@ void CTextureToolDoc::AppendBorder( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendBevel( const u_int uParentID )
+void TextureTool_Document::AppendBevel( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendBevel( 0.05f );
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_MUL );
@@ -378,7 +378,7 @@ void CTextureToolDoc::AppendBevel( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendBevelNormals( const u_int uParentID )
+void TextureTool_Document::AppendBevelNormals( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendBevelNormals( 0.05f );
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
@@ -392,7 +392,7 @@ void CTextureToolDoc::AppendBevelNormals( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendHeightmapToHighlights( const u_int uParentID )
+void TextureTool_Document::AppendHeightmapToHighlights( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendHeightmapToHighlights();
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
@@ -406,7 +406,7 @@ void CTextureToolDoc::AppendHeightmapToHighlights( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendHeightmapToNormals( const u_int uParentID )
+void TextureTool_Document::AppendHeightmapToNormals( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendHeightmapToNormals();
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
@@ -420,7 +420,7 @@ void CTextureToolDoc::AppendHeightmapToNormals( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendClamp( const u_int uParentID )
+void TextureTool_Document::AppendClamp( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendTextureClamp();
 
@@ -433,7 +433,7 @@ void CTextureToolDoc::AppendClamp( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendWrap( const u_int uParentID )
+void TextureTool_Document::AppendWrap( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendTextureWrap();
 
@@ -446,7 +446,7 @@ void CTextureToolDoc::AppendWrap( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::AppendAverageBlur3( const u_int uParentID )
+void TextureTool_Document::AppendAverageBlur3( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendSimpleConvolution( 1, 1 );
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
@@ -462,7 +462,7 @@ void CTextureToolDoc::AppendAverageBlur3( const u_int uParentID )
     TextureTool_OutputMessage( "Warning: Convolution layers are currently dependent on the size of the output texture, e.g. a wide blur on a 256x256 texture will look a lot thinner on the 1024x1024 version. This will be fixed in a future build." );
 }
 
-void CTextureToolDoc::AppendAverageBlur5( const u_int uParentID )
+void TextureTool_Document::AppendAverageBlur5( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendSimpleConvolution( 1, 1, 1 );
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
@@ -478,7 +478,7 @@ void CTextureToolDoc::AppendAverageBlur5( const u_int uParentID )
     TextureTool_OutputMessage( "Warning: Convolution layers are currently dependent on the size of the output texture, e.g. a wide blur on a 256x256 texture will look a lot thinner on the 1024x1024 version. This will be fixed in a future build." );
 }
 
-void CTextureToolDoc::AppendAverageBlur7( const u_int uParentID )
+void TextureTool_Document::AppendAverageBlur7( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendSimpleConvolution( 1, 1, 1, 1 );
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
@@ -494,7 +494,7 @@ void CTextureToolDoc::AppendAverageBlur7( const u_int uParentID )
     TextureTool_OutputMessage( "Warning: Convolution layers are currently dependent on the size of the output texture, e.g. a wide blur on a 256x256 texture will look a lot thinner on the 1024x1024 version. This will be fixed in a future build." );
 } 
 
-void CTextureToolDoc::AppendAverageBlur9( const u_int uParentID )
+void TextureTool_Document::AppendAverageBlur9( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendSimpleConvolution( 1, 1, 1, 1, 1 );
     m_xTexture.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_REPLACE );
@@ -510,7 +510,7 @@ void CTextureToolDoc::AppendAverageBlur9( const u_int uParentID )
     TextureTool_OutputMessage( "Warning: Convolution layers are currently dependent on the size of the output texture, e.g. a wide blur on a 256x256 texture will look a lot thinner on the 1024x1024 version. This will be fixed in a future build." );
 } 
 
-void CTextureToolDoc::DeleteLayer( const u_int uID )
+void TextureTool_Document::DeleteLayer( const u_int uID )
 {
     m_xTexture.DeleteFromID( uID );
 
@@ -518,23 +518,23 @@ void CTextureToolDoc::DeleteLayer( const u_int uID )
     UpdateAllViews( NULL );
 }
 
-void CTextureToolDoc::PromoteLayer( const u_int uID )
+void TextureTool_Document::PromoteLayer( const u_int uID )
 {
     m_xTexture.MoveLayerToOwnGroup( uID );
 
     SetModifiedFlag();
     UpdateAllViews( NULL );
 }
-void CTextureToolDoc::ExportCPP( const CString& sFilename )
+void TextureTool_Document::ExportCPP( const CString& sFilename )
 {
     GLToy_String szFilename( sFilename );
     m_xTexture.SaveToCPPHeader( static_cast< LPCTSTR >( GetTitle() ), &szFilename );
 }
 
-void CTextureToolDoc::ExportJPG( const CString& sFilename )
+void TextureTool_Document::ExportJPG( const CString& sFilename )
 {
     CImage xImage;
-    u_int* puData = CreateTextureRGBA_16xSS( 256, 256 );
+    u_int* puData = CreateTextureRGBA( 256, 256 );
     for( u_int u = 0; u < 256*256; ++u )
     {
         puData[ u ] = TextureTool_SwapColour( puData[ u ] );
@@ -547,10 +547,10 @@ void CTextureToolDoc::ExportJPG( const CString& sFilename )
     delete[] puData;
 }
 
-void CTextureToolDoc::ExportPNG( const CString& sFilename )
+void TextureTool_Document::ExportPNG( const CString& sFilename )
 {
     CImage xImage;
-    u_int* puData = CreateTextureRGBA_16xSS( 256, 256 );
+    u_int* puData = CreateTextureRGBA( 256, 256 );
     for( u_int u = 0; u < 256*256; ++u )
     {
         puData[ u ] = TextureTool_SwapColour( puData[ u ] );
@@ -563,24 +563,24 @@ void CTextureToolDoc::ExportPNG( const CString& sFilename )
     delete[] puData;
 }
 
-void CTextureToolDoc::ExportTGA( const CString& sFilename )
+void TextureTool_Document::ExportTGA( const CString& sFilename )
 {
     m_xTexture.SaveToTGAFile( static_cast< LPCTSTR >( sFilename ) );
 }
 
-// CTextureToolDoc diagnostics
+// TextureTool_Document diagnostics
 
 #ifdef _DEBUG
-void CTextureToolDoc::AssertValid() const
+void TextureTool_Document::AssertValid() const
 {
 	CDocument::AssertValid();
 }
 
-void CTextureToolDoc::Dump(CDumpContext& dc) const
+void TextureTool_Document::Dump(CDumpContext& dc) const
 {
 	CDocument::Dump(dc);
 }
 #endif //_DEBUG
 
 
-// CTextureToolDoc commands
+// TextureTool_Document commands

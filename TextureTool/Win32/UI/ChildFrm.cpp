@@ -2,7 +2,7 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// ChildFrm.cpp : implementation of the CChildFrame class
+// ChildFrm.cpp : implementation of the TextureTool_Frame_Child class
 //
 
 #include <Core/stdafx.h>
@@ -14,25 +14,25 @@
 //#define new DEBUG_NEW
 #endif
 
-// CChildFrame
+// TextureTool_Frame_Child
 
-IMPLEMENT_DYNCREATE(CChildFrame, CMDIChildWndEx)
+IMPLEMENT_DYNCREATE(TextureTool_Frame_Child, CMDIChildWndEx)
 
-BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWndEx)
+BEGIN_MESSAGE_MAP(TextureTool_Frame_Child, CMDIChildWndEx)
 END_MESSAGE_MAP()
 
-// CChildFrame construction/destruction
+// TextureTool_Frame_Child construction/destruction
 
-CChildFrame::CChildFrame()
+TextureTool_Frame_Child::TextureTool_Frame_Child()
 {
 	// TODO: add member initialization code here
 }
 
-CChildFrame::~CChildFrame()
+TextureTool_Frame_Child::~TextureTool_Frame_Child()
 {
 }
 
-BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/, CCreateContext* pContext)
+BOOL TextureTool_Frame_Child::OnCreateClient(LPCREATESTRUCT /*lpcs*/, CCreateContext* pContext)
 {
 	return m_wndSplitter.Create(this,
 		2, 2,			// TODO: adjust the number of rows, columns
@@ -40,7 +40,7 @@ BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/, CCreateContext* pConte
 		pContext);
 }
 
-BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
+BOOL TextureTool_Frame_Child::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying the CREATESTRUCT cs
 	if( !CMDIChildWndEx::PreCreateWindow(cs) )
@@ -49,18 +49,18 @@ BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 	return TRUE;
 }
 
-// CChildFrame diagnostics
+// TextureTool_Frame_Child diagnostics
 
 #ifdef _DEBUG
-void CChildFrame::AssertValid() const
+void TextureTool_Frame_Child::AssertValid() const
 {
 	CMDIChildWndEx::AssertValid();
 }
 
-void CChildFrame::Dump(CDumpContext& dc) const
+void TextureTool_Frame_Child::Dump(CDumpContext& dc) const
 {
 	CMDIChildWndEx::Dump(dc);
 }
 #endif //_DEBUG
 
-// CChildFrame message handlers
+// TextureTool_Frame_Child message handlers

@@ -8,14 +8,14 @@
 #include <Core/Resource.h>
 #include <Core/TextureTool.h>
 
-class CLayerViewMenuButton : public CMFCToolBarMenuButton
+class TextureTool_LayerViewMenuButton : public CMFCToolBarMenuButton
 {
-	friend class CLayerView;
+	friend class TextureTool_LayerView;
 
-	DECLARE_SERIAL(CLayerViewMenuButton)
+	DECLARE_SERIAL(TextureTool_LayerViewMenuButton)
 
 public:
-	CLayerViewMenuButton(HMENU hMenu = NULL) : CMFCToolBarMenuButton((UINT)-1, hMenu, -1)
+	TextureTool_LayerViewMenuButton(HMENU hMenu = NULL) : CMFCToolBarMenuButton((UINT)-1, hMenu, -1)
 	{
 	}
 
@@ -33,22 +33,22 @@ public:
 	}
 };
 
-IMPLEMENT_SERIAL(CLayerViewMenuButton, CMFCToolBarMenuButton, 1)
+IMPLEMENT_SERIAL(TextureTool_LayerViewMenuButton, CMFCToolBarMenuButton, 1)
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CLayerView::CLayerView()
+TextureTool_LayerView::TextureTool_LayerView()
 : m_pxCurrentDocument( NULL )
 {
 }
 
-CLayerView::~CLayerView()
+TextureTool_LayerView::~TextureTool_LayerView()
 {
 }
 
-BEGIN_MESSAGE_MAP(CLayerView, CDockablePane)
+BEGIN_MESSAGE_MAP(TextureTool_LayerView, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
@@ -77,26 +77,26 @@ BEGIN_MESSAGE_MAP(CLayerView, CDockablePane)
 	ON_WM_SETFOCUS()
 	//ON_COMMAND_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnSort)
 	//ON_UPDATE_COMMAND_UI_RANGE(ID_SORTING_GROUPBYTYPE, ID_SORTING_SORTBYACCESS, OnUpdateSort)
-    ON_COMMAND(ID_SHAPINGFUNCTION_COSINE2, &CLayerView::OnShapingfunctionCosine2)
-    ON_COMMAND(ID_SHAPINGFUNCTION_COSINE4, &CLayerView::OnShapingfunctionCosine4)
-    ON_COMMAND(ID_SHAPINGFUNCTION_COSINE6, &CLayerView::OnShapingfunctionCosine6)
-    ON_COMMAND(ID_SHAPINGFUNCTION_INVERSE, &CLayerView::OnShapingfunctionInverse)
-    ON_COMMAND(ID_SHAPINGFUNCTION_ABSOLUTEVALUE, &CLayerView::OnShapingfunctionAbsolutevalue)
-    ON_COMMAND(ID_SHAPINGFUNCTION_SQUARE, &CLayerView::OnShapingfunctionSquare)
-    ON_COMMAND(ID_SHAPINGFUNCTION_SQUAREROOT, &CLayerView::OnShapingfunctionSquareroot)
-    ON_COMMAND(ID_PATTERN_GRADIENT, &CLayerView::OnPatternGradient)
-    ON_COMMAND(ID_HEIGHTMAPNORMALS, &CLayerView::OnHeightmapnormals)
-    ON_COMMAND(ID_HEIGHTMAPHIGHLIGHTS, &CLayerView::OnHeightmaphighlights)
-    ON_COMMAND(ID_BLUR_AVERAGE3, &CLayerView::OnBlurAverage3)
-    ON_COMMAND(ID_BLUR_AVERAGE5, &CLayerView::OnBlurAverage5)
-    ON_COMMAND(ID_BLUR_AVERAGE7, &CLayerView::OnBlurAverage7)
-    ON_COMMAND(ID_BLUR_AVERAGE9, &CLayerView::OnBlurAverage9)
+    ON_COMMAND(ID_SHAPINGFUNCTION_COSINE2, &TextureTool_LayerView::OnShapingfunctionCosine2)
+    ON_COMMAND(ID_SHAPINGFUNCTION_COSINE4, &TextureTool_LayerView::OnShapingfunctionCosine4)
+    ON_COMMAND(ID_SHAPINGFUNCTION_COSINE6, &TextureTool_LayerView::OnShapingfunctionCosine6)
+    ON_COMMAND(ID_SHAPINGFUNCTION_INVERSE, &TextureTool_LayerView::OnShapingfunctionInverse)
+    ON_COMMAND(ID_SHAPINGFUNCTION_ABSOLUTEVALUE, &TextureTool_LayerView::OnShapingfunctionAbsolutevalue)
+    ON_COMMAND(ID_SHAPINGFUNCTION_SQUARE, &TextureTool_LayerView::OnShapingfunctionSquare)
+    ON_COMMAND(ID_SHAPINGFUNCTION_SQUAREROOT, &TextureTool_LayerView::OnShapingfunctionSquareroot)
+    ON_COMMAND(ID_PATTERN_GRADIENT, &TextureTool_LayerView::OnPatternGradient)
+    ON_COMMAND(ID_HEIGHTMAPNORMALS, &TextureTool_LayerView::OnHeightmapnormals)
+    ON_COMMAND(ID_HEIGHTMAPHIGHLIGHTS, &TextureTool_LayerView::OnHeightmaphighlights)
+    ON_COMMAND(ID_BLUR_AVERAGE3, &TextureTool_LayerView::OnBlurAverage3)
+    ON_COMMAND(ID_BLUR_AVERAGE5, &TextureTool_LayerView::OnBlurAverage5)
+    ON_COMMAND(ID_BLUR_AVERAGE7, &TextureTool_LayerView::OnBlurAverage7)
+    ON_COMMAND(ID_BLUR_AVERAGE9, &TextureTool_LayerView::OnBlurAverage9)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CLayerView message handlers
+// TextureTool_LayerView message handlers
 
-int CLayerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+int TextureTool_LayerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CDockablePane::OnCreate(lpCreateStruct) == -1)
 		return -1;
@@ -130,9 +130,9 @@ int CLayerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
     CMenu xMenu;
 	xMenu.LoadMenu( IDR_LAYERVIEW_MENU );
 
-	m_wndToolBar.ReplaceButton( ID_NEW_LAYER, CLayerViewMenuButton( xMenu.GetSubMenu( 0 )->GetSafeHmenu() ) );
+	m_wndToolBar.ReplaceButton( ID_NEW_LAYER, TextureTool_LayerViewMenuButton( xMenu.GetSubMenu( 0 )->GetSafeHmenu() ) );
 
-	CLayerViewMenuButton* pButton =  DYNAMIC_DOWNCAST( CLayerViewMenuButton, m_wndToolBar.GetButton( 0 ) );
+	TextureTool_LayerViewMenuButton* pButton =  DYNAMIC_DOWNCAST( TextureTool_LayerViewMenuButton, m_wndToolBar.GetButton( 0 ) );
 
 	if( pButton != NULL )
 	{
@@ -145,19 +145,19 @@ int CLayerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-void CLayerView::OnSize(UINT nType, int cx, int cy)
+void TextureTool_LayerView::OnSize(UINT nType, int cx, int cy)
 {
 	CDockablePane::OnSize(nType, cx, cy);
 	AdjustLayout();
 }
 
-void CLayerView::ClearLayerView()
+void TextureTool_LayerView::ClearLayerView()
 {
     m_wndClassView.DeleteAllItems();
     m_pxCurrentDocument = NULL;
 }
 
-void CLayerView::AddToTree( const u_int uID, HTREEITEM hParent, const bool bRef )
+void TextureTool_LayerView::AddToTree( const u_int uID, HTREEITEM hParent, const bool bRef )
 {
     if( !m_pxCurrentDocument )
     {
@@ -233,7 +233,7 @@ void CLayerView::AddToTree( const u_int uID, HTREEITEM hParent, const bool bRef 
     m_wndClassView.Expand( hParent, TVE_EXPAND );
 }
 
-void CLayerView::InitialiseLayerView( CTextureToolDoc& xDocument )
+void TextureTool_LayerView::InitialiseLayerView( TextureTool_Document& xDocument )
 {
     ClearLayerView();
 
@@ -246,7 +246,7 @@ void CLayerView::InitialiseLayerView( CTextureToolDoc& xDocument )
     AddToTree( 0, hRoot );
 }
 
-void CLayerView::OnContextMenu(CWnd* pWnd, CPoint point)
+void TextureTool_LayerView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
 	CTreeCtrl* pWndTree = (CTreeCtrl*)&m_wndClassView;
 	ASSERT_VALID(pWndTree);
@@ -281,7 +281,7 @@ void CLayerView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 	CMenu* pxSubMenu = xMenu.GetSubMenu( 0 );
 
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( pxDocument && ( uID != 0 ) )
     {
         if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) != _T( "Reference" ) )
@@ -318,7 +318,7 @@ void CLayerView::OnContextMenu(CWnd* pWnd, CPoint point)
 	}
 }
 
-void CLayerView::AdjustLayout()
+void TextureTool_LayerView::AdjustLayout()
 {
 	if (GetSafeHwnd() == NULL)
 	{
@@ -334,14 +334,14 @@ void CLayerView::AdjustLayout()
 	m_wndClassView.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + cyTlb + 1, rectClient.Width() - 2, rectClient.Height() - cyTlb - 2, SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
-BOOL CLayerView::PreTranslateMessage(MSG* pMsg)
+BOOL TextureTool_LayerView::PreTranslateMessage(MSG* pMsg)
 {
 	return CDockablePane::PreTranslateMessage(pMsg);
 }
 
-CTextureToolDoc* CLayerView::GetDocument()
+TextureTool_Document* TextureTool_LayerView::GetDocument()
 {
-    CMainFrame* pxMainFrame = reinterpret_cast< CMainFrame* >( AfxGetMainWnd() );
+    TextureTool_Frame_Main* pxMainFrame = reinterpret_cast< TextureTool_Frame_Main* >( AfxGetMainWnd() );
     if( !pxMainFrame )
     {
         return NULL;
@@ -350,9 +350,9 @@ CTextureToolDoc* CLayerView::GetDocument()
     return pxMainFrame->GetCurrentDocument();
 }
 
-void CLayerView::OnGroup()
+void TextureTool_LayerView::OnGroup()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -368,9 +368,9 @@ void CLayerView::OnGroup()
     pxDocument->AppendGroup();
 }
 
-void CLayerView::OnFlatColour()
+void TextureTool_LayerView::OnFlatColour()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -386,9 +386,9 @@ void CLayerView::OnFlatColour()
     pxDocument->AppendFlatColour();
 }
 
-void CLayerView::OnNoiseLow()
+void TextureTool_LayerView::OnNoiseLow()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -404,9 +404,9 @@ void CLayerView::OnNoiseLow()
     pxDocument->AppendNoiseLow();
 }
 
-void CLayerView::OnNoiseHigh()
+void TextureTool_LayerView::OnNoiseHigh()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -422,9 +422,9 @@ void CLayerView::OnNoiseHigh()
     pxDocument->AppendNoiseHigh();
 }
 
-void CLayerView::OnNoiseFractal()
+void TextureTool_LayerView::OnNoiseFractal()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -440,9 +440,9 @@ void CLayerView::OnNoiseFractal()
     pxDocument->AppendNoiseFractal();
 }
 
-void CLayerView::OnTile()
+void TextureTool_LayerView::OnTile()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -458,9 +458,9 @@ void CLayerView::OnTile()
     pxDocument->AppendTile();
 }
 
-void CLayerView::OnPatternCheckerboard()
+void TextureTool_LayerView::OnPatternCheckerboard()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -476,9 +476,9 @@ void CLayerView::OnPatternCheckerboard()
     pxDocument->AppendCheckerboard();
 }
 
-void CLayerView::OnPatternHorizontalStripe()
+void TextureTool_LayerView::OnPatternHorizontalStripe()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -494,9 +494,9 @@ void CLayerView::OnPatternHorizontalStripe()
     pxDocument->AppendStripeHorizontal();
 }
 
-void CLayerView::OnPatternVerticalStripe()
+void TextureTool_LayerView::OnPatternVerticalStripe()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -512,9 +512,9 @@ void CLayerView::OnPatternVerticalStripe()
     pxDocument->AppendStripeVertical();
 }
 
-void CLayerView::OnPatternDiagonalStripe1()
+void TextureTool_LayerView::OnPatternDiagonalStripe1()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -530,9 +530,9 @@ void CLayerView::OnPatternDiagonalStripe1()
     pxDocument->AppendStripeDiagonal1();
 }
 
-void CLayerView::OnPatternDiagonalStripe2()
+void TextureTool_LayerView::OnPatternDiagonalStripe2()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -548,9 +548,9 @@ void CLayerView::OnPatternDiagonalStripe2()
     pxDocument->AppendStripeDiagonal2();
 }
 
-void CLayerView::OnPatternBorder()
+void TextureTool_LayerView::OnPatternBorder()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -566,9 +566,9 @@ void CLayerView::OnPatternBorder()
     pxDocument->AppendBorder();
 }
 
-void CLayerView::OnPatternBevel()
+void TextureTool_LayerView::OnPatternBevel()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -584,9 +584,9 @@ void CLayerView::OnPatternBevel()
     pxDocument->AppendBevel();
 }
 
-void CLayerView::OnPatternBevelNormals()
+void TextureTool_LayerView::OnPatternBevelNormals()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -602,9 +602,9 @@ void CLayerView::OnPatternBevelNormals()
     pxDocument->AppendBevelNormals();
 }
 
-void CLayerView::OnStateClamp()
+void TextureTool_LayerView::OnStateClamp()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -620,9 +620,9 @@ void CLayerView::OnStateClamp()
     pxDocument->AppendClamp();
 }
 
-void CLayerView::OnStateWrap()
+void TextureTool_LayerView::OnStateWrap()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -638,9 +638,9 @@ void CLayerView::OnStateWrap()
     pxDocument->AppendWrap();
 }
 
-void CLayerView::OnDeleteLayer()
+void TextureTool_LayerView::OnDeleteLayer()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -649,9 +649,9 @@ void CLayerView::OnDeleteLayer()
     pxDocument->DeleteLayer( GetSelectedID() );
 }
 
-void CLayerView::OnPromoteLayer()
+void TextureTool_LayerView::OnPromoteLayer()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -660,9 +660,9 @@ void CLayerView::OnPromoteLayer()
     pxDocument->PromoteLayer( GetSelectedID() );
 }
 
-void CLayerView::OnCreateReference()
+void TextureTool_LayerView::OnCreateReference()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -671,7 +671,7 @@ void CLayerView::OnCreateReference()
     pxDocument->AppendReference( GetSelectedID() );
 }
 
-void CLayerView::OnPaint()
+void TextureTool_LayerView::OnPaint()
 {
 	CPaintDC dc(this); // device context for painting
 
@@ -683,14 +683,14 @@ void CLayerView::OnPaint()
 	dc.Draw3dRect(rectTree, ::GetSysColor(COLOR_3DSHADOW), ::GetSysColor(COLOR_3DSHADOW));
 }
 
-void CLayerView::OnSetFocus(CWnd* pOldWnd)
+void TextureTool_LayerView::OnSetFocus(CWnd* pOldWnd)
 {
 	CDockablePane::OnSetFocus(pOldWnd);
 
 	m_wndClassView.SetFocus();
 }
 
-void CLayerView::OnChangeVisualStyle()
+void TextureTool_LayerView::OnChangeVisualStyle()
 {
 	m_ClassViewImages.DeleteImageList();
 
@@ -720,7 +720,7 @@ void CLayerView::OnChangeVisualStyle()
 	m_wndToolBar.LoadBitmap(theApp.m_bHiColorIcons ? IDB_SORT_24 : IDR_LAYERVIEW, 0, 0, TRUE /* Locked */);
 }
 
-u_int CLayerView::GetSelectedID() const
+u_int TextureTool_LayerView::GetSelectedID() const
 {
     CTreeCtrl* pWndTree = (CTreeCtrl*)&m_wndClassView;
 	ASSERT_VALID(pWndTree);
@@ -739,7 +739,7 @@ u_int CLayerView::GetSelectedID() const
     return 0;
 }
 
-void CLayerView::SelectID( const u_int uID, const bool bSelectInTree )
+void TextureTool_LayerView::SelectID( const u_int uID, const bool bSelectInTree )
 {
     CTreeCtrl* pWndTree = (CTreeCtrl*)&m_wndClassView;
 	ASSERT_VALID(pWndTree);
@@ -764,19 +764,19 @@ void CLayerView::SelectID( const u_int uID, const bool bSelectInTree )
         }
     }
 
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
     }
     
-    CMainFrame* pxMainFrame = static_cast< CMainFrame* >( GetParentFrame() );
+    TextureTool_Frame_Main* pxMainFrame = static_cast< TextureTool_Frame_Main* >( GetParentFrame() );
     if( !pxMainFrame )
     {
         return;
     }
 
-    CPropertiesWnd* pxProperties = pxMainFrame->GetProperties();
+    TextureTool_PropertiesWindow* pxProperties = pxMainFrame->GetProperties();
     if( !pxProperties )
     {
         return;
@@ -785,14 +785,14 @@ void CLayerView::SelectID( const u_int uID, const bool bSelectInTree )
     pxProperties->UpdateFromID( pxDocument, uID );
 }
 
-void CLayerView::OnClick()
+void TextureTool_LayerView::OnClick()
 {
     SelectID( GetSelectedID(), false );
 }
 
-void CLayerView::OnShapingfunctionCosine2()
+void TextureTool_LayerView::OnShapingfunctionCosine2()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -809,9 +809,9 @@ void CLayerView::OnShapingfunctionCosine2()
 }
 
 
-void CLayerView::OnShapingfunctionCosine4()
+void TextureTool_LayerView::OnShapingfunctionCosine4()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -828,9 +828,9 @@ void CLayerView::OnShapingfunctionCosine4()
 }
 
 
-void CLayerView::OnShapingfunctionCosine6()
+void TextureTool_LayerView::OnShapingfunctionCosine6()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -847,9 +847,9 @@ void CLayerView::OnShapingfunctionCosine6()
 }
 
 
-void CLayerView::OnShapingfunctionInverse()
+void TextureTool_LayerView::OnShapingfunctionInverse()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -866,9 +866,9 @@ void CLayerView::OnShapingfunctionInverse()
 }
 
 
-void CLayerView::OnShapingfunctionAbsolutevalue()
+void TextureTool_LayerView::OnShapingfunctionAbsolutevalue()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -885,9 +885,9 @@ void CLayerView::OnShapingfunctionAbsolutevalue()
 }
 
 
-void CLayerView::OnShapingfunctionSquare()
+void TextureTool_LayerView::OnShapingfunctionSquare()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -904,9 +904,9 @@ void CLayerView::OnShapingfunctionSquare()
 }
 
 
-void CLayerView::OnShapingfunctionSquareroot()
+void TextureTool_LayerView::OnShapingfunctionSquareroot()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -922,9 +922,9 @@ void CLayerView::OnShapingfunctionSquareroot()
     pxDocument->AppendShaping( GLToy_Texture_Procedural::SHAPE_SQUAREROOT );
 }
 
-void CLayerView::OnPatternGradient()
+void TextureTool_LayerView::OnPatternGradient()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -940,9 +940,9 @@ void CLayerView::OnPatternGradient()
     pxDocument->AppendGradient();
 }
 
-void CLayerView::OnDragDrop( const u_int uDragID, const u_int uDropID )
+void TextureTool_LayerView::OnDragDrop( const u_int uDragID, const u_int uDropID )
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -959,9 +959,9 @@ void CLayerView::OnDragDrop( const u_int uDragID, const u_int uDropID )
 }
 
 
-void CLayerView::OnHeightmapnormals()
+void TextureTool_LayerView::OnHeightmapnormals()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -978,9 +978,9 @@ void CLayerView::OnHeightmapnormals()
 }
 
 
-void CLayerView::OnHeightmaphighlights()
+void TextureTool_LayerView::OnHeightmaphighlights()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -997,9 +997,9 @@ void CLayerView::OnHeightmaphighlights()
 }
 
 
-void CLayerView::OnBlurAverage3()
+void TextureTool_LayerView::OnBlurAverage3()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -1016,9 +1016,9 @@ void CLayerView::OnBlurAverage3()
 }
 
 
-void CLayerView::OnBlurAverage5()
+void TextureTool_LayerView::OnBlurAverage5()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -1035,9 +1035,9 @@ void CLayerView::OnBlurAverage5()
 }
 
 
-void CLayerView::OnBlurAverage7()
+void TextureTool_LayerView::OnBlurAverage7()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;
@@ -1054,9 +1054,9 @@ void CLayerView::OnBlurAverage7()
 }
 
 
-void CLayerView::OnBlurAverage9()
+void TextureTool_LayerView::OnBlurAverage9()
 {
-    CTextureToolDoc* pxDocument = GetDocument();
+    TextureTool_Document* pxDocument = GetDocument();
     if( !pxDocument )
     {
         return;

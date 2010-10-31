@@ -83,10 +83,10 @@ ChildFrm.h, ChildFrm.cpp
 
 The application wizard creates one document type and one view:
 
-TextureToolDoc.h, TextureToolDoc.cpp - the document
-    These files contain your CTextureToolDoc class.  Edit these files to
+TextureTool_Document.h, TextureTool_Document.cpp - the document
+    These files contain your CTextureTool_Document class.  Edit these files to
     add your special document data and to implement file saving and loading
-    (via CTextureToolDoc::Serialize).
+    (via CTextureTool_Document::Serialize).
     The Document will have the following strings:
         File extension:      ptx
         File type ID:        TextureTool.Document
@@ -96,13 +96,13 @@ TextureToolDoc.h, TextureToolDoc.cpp - the document
         File new short name: Texture
         File type long name: TextureTool.Document
 
-TextureToolView.h, TextureToolView.cpp - the view of the document
-    These files contain your CTextureToolView class.
-    CTextureToolView objects are used to view CTextureToolDoc objects.
+TextureTool_View.h, TextureTool_View.cpp - the view of the document
+    These files contain your CTextureTool_View class.
+    CTextureTool_View objects are used to view CTextureTool_Document objects.
 
-res\TextureToolDoc.ico
+res\TextureTool_Document.ico
     This is an icon file, which is used as the icon for MDI child windows
-    for the CTextureToolDoc class.  This icon is included by the main
+    for the CTextureTool_Document class.  This icon is included by the main
     resource file TextureTool.rc.
 
 

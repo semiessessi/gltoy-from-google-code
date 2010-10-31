@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0555 */
-/* at Fri Oct 29 13:04:51 2010
+/* at Sun Oct 31 00:40:36 2010
  */
 /* Compiler settings for Win32\Core\TextureTool.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 7.00.0555 
@@ -47,16 +47,16 @@ typedef interface ITextureTool ITextureTool;
 #endif 	/* __ITextureTool_FWD_DEFINED__ */
 
 
-#ifndef __CTextureToolDoc_FWD_DEFINED__
-#define __CTextureToolDoc_FWD_DEFINED__
+#ifndef __TextureTool_Document_FWD_DEFINED__
+#define __TextureTool_Document_FWD_DEFINED__
 
 #ifdef __cplusplus
-typedef class CTextureToolDoc CTextureToolDoc;
+typedef class TextureTool_Document TextureTool_Document;
 #else
-typedef struct CTextureToolDoc CTextureToolDoc;
+typedef struct TextureTool_Document TextureTool_Document;
 #endif /* __cplusplus */
 
-#endif 	/* __CTextureToolDoc_FWD_DEFINED__ */
+#endif 	/* __TextureTool_Document_FWD_DEFINED__ */
 
 
 #ifdef __cplusplus
@@ -181,12 +181,12 @@ EXTERN_C const IID DIID_ITextureTool;
 #endif 	/* __ITextureTool_DISPINTERFACE_DEFINED__ */
 
 
-EXTERN_C const CLSID CLSID_CTextureToolDoc;
+EXTERN_C const CLSID CLSID_TextureTool_Document;
 
 #ifdef __cplusplus
 
 class DECLSPEC_UUID("52F7D770-431D-4BB8-8491-A40B52FBC3BB")
-CTextureToolDoc;
+TextureTool_Document;
 #endif
 #endif /* __TextureTool_LIBRARY_DEFINED__ */
 

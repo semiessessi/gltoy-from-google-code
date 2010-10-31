@@ -46,22 +46,22 @@
 #define TextureTool_SwapColour( xColour ) ( ( xColour & 0xFF00FF00 ) | ( ( xColour & 0xFF0000 ) >> 16 ) | ( ( xColour & 0xFF ) << 16 ) )
 
 // work around the crappyness of CString with the awesomeness of GLToy_String...
-#define TextureTool_OutputMessage( sMessage ) CTextureToolApp::OutputMessage( CString( GLToy_String( sMessage ).GetDataPointer() ) )
+#define TextureTool_OutputMessage( sMessage ) TextureTool::OutputMessage( CString( GLToy_String( sMessage ).GetDataPointer() ) )
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class CTextureToolDoc;
+class TextureTool_Document;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class CTextureToolApp : public CWinAppEx
+class TextureTool : public CWinAppEx
 {
 public:
-	CTextureToolApp();
+	TextureTool();
 
 
 // Overrides
@@ -93,9 +93,11 @@ public:
 
 private:
 
-    CTextureToolDoc* GetCurrentDocument();
+    TextureTool_Document* GetCurrentDocument();
+public:
+    afx_msg void OnExportImage();
 };
 
-extern CTextureToolApp theApp;
+extern TextureTool theApp;
 
 #endif

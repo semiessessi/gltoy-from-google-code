@@ -1,5 +1,5 @@
 
-// MainFrm.h : interface of the CMainFrame class
+// MainFrm.h : interface of the TextureTool_Frame_Main class
 //
 
 #pragma once
@@ -8,11 +8,11 @@
 #include <UI/OutputWnd.h>
 #include <UI/PropertiesWnd.h>
 
-class CMainFrame : public CMDIFrameWndEx
+class TextureTool_Frame_Main : public CMDIFrameWndEx
 {
-	DECLARE_DYNAMIC(CMainFrame)
+	DECLARE_DYNAMIC(TextureTool_Frame_Main)
 public:
-	CMainFrame();
+	TextureTool_Frame_Main();
 
 // Attributes
 public:
@@ -25,17 +25,17 @@ public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL LoadFrame(UINT nIDResource, DWORD dwDefaultStyle = WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, CWnd* pParentWnd = NULL, CCreateContext* pContext = NULL);
 
-    CTextureToolDoc* GetCurrentDocument();
-	CLayerView* GetLayerView() { return &m_wndClassView; }
-	const CLayerView* GetLayerView() const { return &m_wndClassView; }
-    CPropertiesWnd* GetProperties() { return &m_wndProperties; }
-	const CPropertiesWnd* GetProperties() const { return &m_wndProperties; }
-    COutputWnd* GetOutput() { return &m_wndOutput; }
-	const COutputWnd* GetOutput() const { return &m_wndOutput; }
+    TextureTool_Document* GetCurrentDocument();
+	TextureTool_LayerView* GetLayerView() { return &m_wndClassView; }
+	const TextureTool_LayerView* GetLayerView() const { return &m_wndClassView; }
+    TextureTool_PropertiesWindow* GetProperties() { return &m_wndProperties; }
+	const TextureTool_PropertiesWindow* GetProperties() const { return &m_wndProperties; }
+    TextureTool_OutputWindow* GetOutput() { return &m_wndOutput; }
+	const TextureTool_OutputWindow* GetOutput() const { return &m_wndOutput; }
 
 // Implementation
 public:
-	virtual ~CMainFrame();
+	virtual ~TextureTool_Frame_Main();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -46,9 +46,9 @@ protected:  // control bar embedded members
 	CMFCToolBar       m_wndToolBar;
 	CMFCStatusBar     m_wndStatusBar;
 	CMFCToolBarImages m_UserImages;
-	CLayerView        m_wndClassView;
-	COutputWnd        m_wndOutput;
-	CPropertiesWnd    m_wndProperties;
+	TextureTool_LayerView        m_wndClassView;
+	TextureTool_OutputWindow        m_wndOutput;
+	TextureTool_PropertiesWindow    m_wndProperties;
 
 // Generated message map functions
 protected:

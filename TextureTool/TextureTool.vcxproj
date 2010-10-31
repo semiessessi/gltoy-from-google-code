@@ -490,14 +490,16 @@ echo.
     <ClInclude Include="Win32\Core\stdafx.h" />
     <ClInclude Include="Win32\Core\targetver.h" />
     <ClInclude Include="Win32\Core\TextureTool.h" />
-    <ClInclude Include="Win32\Document\TextureToolDoc.h" />
+    <ClInclude Include="Win32\Document\TextureTool_Document.h" />
     <ClInclude Include="Win32\UI\ChildFrm.h" />
+    <ClInclude Include="Win32\UI\Dialog\TextureTool_Dialog_About.h" />
+    <ClInclude Include="Win32\UI\Dialog\TextureTool_Dialog_Export.h" />
     <ClInclude Include="Win32\UI\LayerView.h" />
     <ClInclude Include="Win32\UI\MainFrm.h" />
     <ClInclude Include="Win32\UI\OutputWnd.h" />
     <ClInclude Include="Win32\UI\PropertiesWnd.h" />
     <ClInclude Include="Win32\UI\ViewTree.h" />
-    <ClInclude Include="Win32\View\TextureToolView.h" />
+    <ClInclude Include="Win32\View\TextureTool_View.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\stdafx.cpp">
@@ -506,14 +508,16 @@ echo.
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Win32\Core\TextureTool.cpp" />
-    <ClCompile Include="Win32\Document\TextureToolDoc.cpp" />
+    <ClCompile Include="Win32\Document\TextureTool_Document.cpp" />
     <ClCompile Include="Win32\UI\ChildFrm.cpp" />
+    <ClCompile Include="Win32\UI\Dialog\TextureTool_Dialog_About.cpp" />
+    <ClCompile Include="Win32\UI\Dialog\TextureTool_Dialog_Export.cpp" />
     <ClCompile Include="Win32\UI\LayerView.cpp" />
     <ClCompile Include="Win32\UI\MainFrm.cpp" />
     <ClCompile Include="Win32\UI\OutputWnd.cpp" />
     <ClCompile Include="Win32\UI\PropertiesWnd.cpp" />
     <ClCompile Include="Win32\UI\ViewTree.cpp" />
-    <ClCompile Include="Win32\View\TextureToolView.cpp" />
+    <ClCompile Include="Win32\View\TextureTool_View.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Win32\Core\TextureTool.idl" />

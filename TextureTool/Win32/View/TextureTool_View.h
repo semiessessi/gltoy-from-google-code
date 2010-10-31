@@ -1,23 +1,23 @@
 
-// TextureToolView.h : interface of the CTextureToolView class
+// TextureTool_View.h : interface of the TextureTool_View class
 //
 
 #pragma once
 
-class CLayerView;
-class CPropertiesWnd;
-class CMainFrame;
-class CTextureToolDoc;
+class TextureTool_LayerView;
+class TextureTool_PropertiesWindow;
+class TextureTool_Frame_Main;
+class TextureTool_Document;
 
-class CTextureToolView : public CView
+class TextureTool_View : public CView
 {
 protected: // create from serialization only
-	CTextureToolView();
-	DECLARE_DYNCREATE(CTextureToolView)
+	TextureTool_View();
+	DECLARE_DYNCREATE(TextureTool_View)
 
 // Attributes
 public:
-	CTextureToolDoc* GetDocument() const;
+	TextureTool_Document* GetDocument() const;
 
 // Operations
 public:
@@ -33,14 +33,14 @@ protected:
 	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
 
-    CLayerView* GetLayerView();
-    CPropertiesWnd* GetProperties();
-    CMainFrame* GetMainFrame();
+    TextureTool_LayerView* GetLayerView();
+    TextureTool_PropertiesWindow* GetProperties();
+    TextureTool_Frame_Main* GetMainFrame();
     CDocTemplate* GetDocTemplate();
 
 // Implementation
 public:
-	virtual ~CTextureToolView();
+	virtual ~TextureTool_View();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -56,8 +56,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
-#ifndef _DEBUG  // debug version in TextureToolView.cpp
-inline CTextureToolDoc* CTextureToolView::GetDocument() const
-   { return reinterpret_cast<CTextureToolDoc*>(m_pDocument); }
+#ifndef _DEBUG  // debug version in TextureTool_View.cpp
+inline TextureTool_Document* TextureTool_View::GetDocument() const
+   { return reinterpret_cast<TextureTool_Document*>(m_pDocument); }
 #endif
 

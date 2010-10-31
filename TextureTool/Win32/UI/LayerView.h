@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include <Document/TextureToolDoc.h>
+#include <Document/TextureTool_Document.h>
 #include <UI/ViewTree.h>
 
-class CClassToolBar : public CMFCToolBar
+class TextureTool_LayerToolBar : public CMFCToolBar
 {
 	virtual void OnUpdateCmdUI(CFrameWnd* /*pTarget*/, BOOL bDisableIfNoHndler)
 	{
@@ -14,27 +14,27 @@ class CClassToolBar : public CMFCToolBar
 	virtual BOOL AllowShowOnList() const { return FALSE; }
 };
 
-class CLayerView : public CDockablePane
+class TextureTool_LayerView : public CDockablePane
 {
 public:
-	CLayerView();
-	virtual ~CLayerView();
+	TextureTool_LayerView();
+	virtual ~TextureTool_LayerView();
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
 
     void ClearLayerView();
-	void InitialiseLayerView( CTextureToolDoc& xDocument );
+	void InitialiseLayerView( TextureTool_Document& xDocument );
 
     u_int GetSelectedID() const;
     void SelectID( const u_int uID, const bool bSelectInTree = true );
 
 protected:
-	CClassToolBar m_wndToolBar;
-	CViewTree m_wndClassView;
+	TextureTool_LayerToolBar m_wndToolBar;
+	TextureTool_ViewTree m_wndClassView;
 	CImageList m_ClassViewImages;
 	//UINT m_nCurrSort;
-    CTextureToolDoc* m_pxCurrentDocument;
+    TextureTool_Document* m_pxCurrentDocument;
 
 // Overrides
 public:
@@ -74,7 +74,7 @@ protected:
 
     void AddToTree( const u_int uID, HTREEITEM hParent, const bool bRef = false );
 
-    CTextureToolDoc* GetDocument();
+    TextureTool_Document* GetDocument();
 
 	DECLARE_MESSAGE_MAP()
 public:

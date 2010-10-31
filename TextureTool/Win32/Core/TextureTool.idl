@@ -9,7 +9,7 @@ library TextureTool
 	importlib("stdole32.tlb");
 	importlib("stdole2.tlb");
 
-	//  Primary dispatch interface for CTextureToolDoc
+	//  Primary dispatch interface for TextureTool_Document
 	
 	[ uuid(495A0F44-19FD-494D-A03F-0E28529B4ED1) ]
 	dispinterface ITextureTool
@@ -19,10 +19,10 @@ library TextureTool
 		methods:
 	};
 
-	//  Class information for CTextureToolDoc
+	//  Class information for TextureTool_Document
 	
 	[ uuid(52F7D770-431D-4BB8-8491-A40B52FBC3BB) ]
-	coclass CTextureToolDoc
+	coclass TextureTool_Document
 	{
 		[default] dispinterface ITextureTool;
 	};

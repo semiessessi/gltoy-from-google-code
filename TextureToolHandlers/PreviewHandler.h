@@ -6,8 +6,8 @@
 #include <atlhandler.h>
 #include <atlhandlerimpl.h>
 #include <afxext.h>
-#include "..\TextureTool\Win32\Document\TextureToolDoc.h"
-#include "..\TextureTool\Win32\View\TextureToolView.h"
+#include "..\TextureTool\Win32\Document\TextureTool_Document.h"
+#include "..\TextureTool\Win32\View\TextureTool_View.h"
 #include "TextureToolHandlers_i.h"
 
 using namespace ATL;
@@ -56,7 +56,7 @@ protected:
 		return pPreviewCtrl;
 	}
 
-	DECLARE_DOCUMENT(CTextureToolDoc)
+	DECLARE_DOCUMENT(TextureTool_Document)
 
 public:
 	virtual HRESULT InitializeDocumentPreview(HWND hWndParent, RECT* prc)
@@ -72,7 +72,7 @@ public:
 		ASSERT_VALID(pCtrl);
 
 		CCreateContext ctx;
-		ctx.m_pNewViewClass = RUNTIME_CLASS(CTextureToolView);
+		ctx.m_pNewViewClass = RUNTIME_CLASS(TextureTool_View);
 
 		m_pDocument = CreateDocument();
 
@@ -83,7 +83,7 @@ public:
 		}
 
 		m_pDocument->AddRef();
-		ctx.m_pCurrentDoc = DYNAMIC_DOWNCAST(CTextureToolDoc, (CObject*) m_pDocument->GetContainer());
+		ctx.m_pCurrentDoc = DYNAMIC_DOWNCAST(TextureTool_Document, (CObject*) m_pDocument->GetContainer());
 
 		if (!pCtrl->Create(hWndParent, prc, &ctx))
 		{

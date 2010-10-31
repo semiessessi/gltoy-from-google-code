@@ -5,7 +5,7 @@
 
 #include <atlhandler.h>
 #include <atlhandlerimpl.h>
-#include "..\TextureTool\Win32\Document\TextureToolDoc.h"
+#include "..\TextureTool\Win32\Document\TextureTool_Document.h"
 #include "TextureToolHandlers_i.h"
 
 using namespace ATL;
@@ -60,7 +60,7 @@ protected:
 		return S_OK;
 	}
 
-	DECLARE_DOCUMENT(CTextureToolDoc)
+	DECLARE_DOCUMENT(TextureTool_Document)
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(Thumbnail), CThumbnailHandler)

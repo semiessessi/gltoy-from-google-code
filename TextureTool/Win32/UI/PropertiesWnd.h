@@ -1,7 +1,7 @@
 
 #pragma once
 
-class CPropertiesToolBar : public CMFCToolBar
+class TextureTool_PropertiesToolBar : public CMFCToolBar
 {
 public:
 	virtual void OnUpdateCmdUI(CFrameWnd* /*pTarget*/, BOOL bDisableIfNoHndler)
@@ -12,15 +12,15 @@ public:
 	virtual BOOL AllowShowOnList() const { return FALSE; }
 };
 
-class CPropertiesWnd : public CDockablePane
+class TextureTool_PropertiesWindow : public CDockablePane
 {
 // Construction
 public:
-	CPropertiesWnd();
+	TextureTool_PropertiesWindow();
 
 	void AdjustLayout();
 
-    void UpdateFromID( CTextureToolDoc* pxDocument, const u_int uID = 0 );
+    void UpdateFromID( TextureTool_Document* pxDocument, const u_int uID = 0 );
 
 // Attributes
 public:
@@ -33,12 +33,12 @@ public:
 protected:
 	CFont m_fntPropList;
 	CComboBox m_wndObjectCombo;
-	CPropertiesToolBar m_wndToolBar;
+	TextureTool_PropertiesToolBar m_wndToolBar;
 	CMFCPropertyGridCtrl m_wndPropList;
 
 // Implementation
 public:
-	virtual ~CPropertiesWnd();
+	virtual ~TextureTool_PropertiesWindow();
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -55,10 +55,10 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 
-	void InitPropList( CTextureToolDoc* pxDocument, const u_int uID = 0 );
+	void InitPropList( TextureTool_Document* pxDocument, const u_int uID = 0 );
 	void SetPropListFont();
 
-     CTextureToolDoc* m_pxDocument;
+     TextureTool_Document* m_pxDocument;
      u_int m_uID;
 };
 

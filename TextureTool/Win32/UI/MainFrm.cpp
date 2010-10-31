@@ -28,7 +28,7 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// MainFrm.cpp : implementation of the CMainFrame class
+// MainFrm.cpp : implementation of the TextureTool_Frame_Main class
 //
 
 #include <Core/stdafx.h>
@@ -40,28 +40,28 @@
 //#define new DEBUG_NEW
 #endif
 
-// CMainFrame
+// TextureTool_Frame_Main
 
-IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWndEx)
+IMPLEMENT_DYNAMIC(TextureTool_Frame_Main, CMDIFrameWndEx)
 
 const int  iMaxUserToolbars = 10;
 const UINT uiFirstUserToolBarId = AFX_IDW_CONTROLBAR_FIRST + 40;
 const UINT uiLastUserToolBarId = uiFirstUserToolBarId + iMaxUserToolbars - 1;
 
-BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
+BEGIN_MESSAGE_MAP(TextureTool_Frame_Main, CMDIFrameWndEx)
 	ON_WM_CREATE()
 	// Global help commands
 	ON_COMMAND(ID_HELP_FINDER, &CMDIFrameWndEx::OnHelpFinder)
 	ON_COMMAND(ID_HELP, &CMDIFrameWndEx::OnHelp)
 	ON_COMMAND(ID_CONTEXT_HELP, &CMDIFrameWndEx::OnContextHelp)
 	ON_COMMAND(ID_DEFAULT_HELP, &CMDIFrameWndEx::OnHelpFinder)
-	ON_COMMAND(ID_WINDOW_MANAGER, &CMainFrame::OnWindowManager)
-	ON_COMMAND(ID_VIEW_CUSTOMIZE, &CMainFrame::OnViewCustomize)
-	ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
-	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
+	ON_COMMAND(ID_WINDOW_MANAGER, &TextureTool_Frame_Main::OnWindowManager)
+	ON_COMMAND(ID_VIEW_CUSTOMIZE, &TextureTool_Frame_Main::OnViewCustomize)
+	ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &TextureTool_Frame_Main::OnToolbarCreateNew)
+	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &TextureTool_Frame_Main::OnApplicationLook)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &TextureTool_Frame_Main::OnUpdateApplicationLook)
 	ON_WM_SETTINGCHANGE()
-    ON_MESSAGE( WM_UPDATEVIEWS, &CMainFrame::OnUpdateViews )
+    ON_MESSAGE( WM_UPDATEVIEWS, &TextureTool_Frame_Main::OnUpdateViews )
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -72,19 +72,19 @@ static UINT indicators[] =
 	ID_INDICATOR_SCRL,
 };
 
-// CMainFrame construction/destruction
+// TextureTool_Frame_Main construction/destruction
 
-CMainFrame::CMainFrame()
+TextureTool_Frame_Main::TextureTool_Frame_Main()
 {
 	// TODO: add member initialization code here
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_VS_2008);
 }
 
-CMainFrame::~CMainFrame()
+TextureTool_Frame_Main::~TextureTool_Frame_Main()
 {
 }
 
-int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
+int TextureTool_Frame_Main::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CMDIFrameWndEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
@@ -258,7 +258,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
+BOOL TextureTool_Frame_Main::PreCreateWindow(CREATESTRUCT& cs)
 {
 	if( !CMDIFrameWndEx::PreCreateWindow(cs) )
 		return FALSE;
@@ -271,7 +271,7 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	return TRUE;
 }
 
-BOOL CMainFrame::CreateDockingWindows()
+BOOL TextureTool_Frame_Main::CreateDockingWindows()
 {
 	BOOL bNameValid;
 
@@ -319,7 +319,7 @@ BOOL CMainFrame::CreateDockingWindows()
 	return TRUE;
 }
 
-void CMainFrame::SetDockingWindowIcons(BOOL bHiColorIcons)
+void TextureTool_Frame_Main::SetDockingWindowIcons(BOOL bHiColorIcons)
 {
 	//HICON hFileViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_FILE_VIEW_HC : IDI_FILE_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
 	//m_wndFileView.SetIcon(hFileViewIcon, FALSE);
@@ -336,36 +336,36 @@ void CMainFrame::SetDockingWindowIcons(BOOL bHiColorIcons)
 	UpdateMDITabbedBarsIcons();
 }
 
-// CMainFrame diagnostics
+// TextureTool_Frame_Main diagnostics
 
 #ifdef _DEBUG
-void CMainFrame::AssertValid() const
+void TextureTool_Frame_Main::AssertValid() const
 {
 	CMDIFrameWndEx::AssertValid();
 }
 
-void CMainFrame::Dump(CDumpContext& dc) const
+void TextureTool_Frame_Main::Dump(CDumpContext& dc) const
 {
 	CMDIFrameWndEx::Dump(dc);
 }
 #endif //_DEBUG
 
 
-// CMainFrame message handlers
+// TextureTool_Frame_Main message handlers
 
-void CMainFrame::OnWindowManager()
+void TextureTool_Frame_Main::OnWindowManager()
 {
 	ShowWindowsDialog();
 }
 
-void CMainFrame::OnViewCustomize()
+void TextureTool_Frame_Main::OnViewCustomize()
 {
 	CMFCToolBarsCustomizeDialog* pDlgCust = new CMFCToolBarsCustomizeDialog(this, TRUE /* scan menus */);
 	pDlgCust->EnableUserDefinedToolbars();
 	pDlgCust->Create();
 }
 
-LRESULT CMainFrame::OnToolbarCreateNew(WPARAM wp,LPARAM lp)
+LRESULT TextureTool_Frame_Main::OnToolbarCreateNew(WPARAM wp,LPARAM lp)
 {
 	LRESULT lres = CMDIFrameWndEx::OnToolbarCreateNew(wp,lp);
 	if (lres == 0)
@@ -385,7 +385,7 @@ LRESULT CMainFrame::OnToolbarCreateNew(WPARAM wp,LPARAM lp)
 	return lres;
 }
 
-void CMainFrame::OnApplicationLook(UINT id)
+void TextureTool_Frame_Main::OnApplicationLook(UINT id)
 {
 	CWaitCursor wait;
 
@@ -455,12 +455,12 @@ void CMainFrame::OnApplicationLook(UINT id)
 	theApp.WriteInt(_T("ApplicationLook"), theApp.m_nAppLook);
 }
 
-void CMainFrame::OnUpdateApplicationLook(CCmdUI* pCmdUI)
+void TextureTool_Frame_Main::OnUpdateApplicationLook(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetRadio(theApp.m_nAppLook == pCmdUI->m_nID);
 }
 
-BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParentWnd, CCreateContext* pContext) 
+BOOL TextureTool_Frame_Main::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParentWnd, CCreateContext* pContext) 
 {
 	// base class does the real work
 
@@ -489,13 +489,13 @@ BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParent
 }
 
 
-void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
+void TextureTool_Frame_Main::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
 	CMDIFrameWndEx::OnSettingChange(uFlags, lpszSection);
 	m_wndOutput.UpdateFonts();
 }
 
-CTextureToolDoc* CMainFrame::GetCurrentDocument()
+TextureTool_Document* TextureTool_Frame_Main::GetCurrentDocument()
 {
     CWnd* pxMainWindow = AfxGetMainWnd();
     if( !pxMainWindow )
@@ -509,12 +509,12 @@ CTextureToolDoc* CMainFrame::GetCurrentDocument()
         return NULL;
     }
 
-    return static_cast< CTextureToolDoc* >( pxFrame->GetActiveDocument() );
+    return static_cast< TextureTool_Document* >( pxFrame->GetActiveDocument() );
 }
 
-LRESULT CMainFrame::OnUpdateViews( WPARAM wParam, LPARAM lParam )
+LRESULT TextureTool_Frame_Main::OnUpdateViews( WPARAM wParam, LPARAM lParam )
 {
-    CTextureToolDoc* pxDocument = GetCurrentDocument();
+    TextureTool_Document* pxDocument = GetCurrentDocument();
     if( pxDocument )
     {
         pxDocument->UpdateAllViews( NULL );

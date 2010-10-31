@@ -2,13 +2,13 @@
 #pragma once
 
 /////////////////////////////////////////////////////////////////////////////
-// CViewTree window
+// TextureTool_ViewTree window
 
-class CViewTree : public CTreeCtrl
+class TextureTool_ViewTree : public CTreeCtrl
 {
 // Construction
 public:
-	CViewTree();
+	TextureTool_ViewTree();
 
 // Overrides
 protected:
@@ -17,7 +17,7 @@ protected:
 
 // Implementation
 public:
-	virtual ~CViewTree();
+	virtual ~TextureTool_ViewTree();
 
 protected:
 	DECLARE_MESSAGE_MAP()
