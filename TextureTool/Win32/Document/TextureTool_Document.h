@@ -55,6 +55,8 @@ public:
     void AppendClamp( const u_int uParentID = 0 );
     void AppendWrap( const u_int uParentID = 0 );
 
+    void AppendPattern( GLToy_Texture_Procedural::PatternStyle eStyle, const u_int uParentID = 0 );
+
     void AppendAverageBlur3( const u_int uParentID = 0 );
     void AppendAverageBlur5( const u_int uParentID = 0 );
     void AppendAverageBlur7( const u_int uParentID = 0 );

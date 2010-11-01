@@ -27,6 +27,8 @@
 #ifndef __GLTOY_TEXTURE_PROCEDURAL_H_
 #define __GLTOY_TEXTURE_PROCEDURAL_H_
 
+// TODO: sort out this header - its huge
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,6 +111,7 @@ public:
 
     enum GradientStyle
     {
+        GRADIENT_UNUSED1                    = 0,
         GRADIENT_TOP                        = 1,
         GRADIENT_BOTTOM                     = 2,
         GRADIENT_LEFT                       = 3,
@@ -122,8 +125,16 @@ public:
         GRADIENT_SQUARE_OUT                 = 11,
         GRADIENT_SQUARE_IN                  = 12,
         GRADIENT_LAST                       = 13,
-        GRADIENT_UNUSED2                    = 14,
-        GRADIENT_UNUSED3                    = 15,
+        GRADIENT_UNUSED2                    = 13,
+        GRADIENT_UNUSED3                    = 14,
+        GRADIENT_UNUSED4                    = 15,
+    };
+
+    enum PatternStyle
+    {
+        PATTERN_DEFAULT_BRICK               = 0,
+
+        PATTERN_LAST
     };
 
     // extensions I'd like...
@@ -164,15 +175,12 @@ public:
         EXTENSION_HEIGHTMAP_NORMALS                = 15,
 
         // to cover things like bricks, floor tiles etc...
-        // EXTENSION_PATTERN                          = 16,
+        EXTENSION_PATTERN                          = 16,
         // EXTENSION_PATTERN_NORMALS                  = 17,
         // EXTENSION_PATTERN_HEIGHTMAP                = 18,
-
-        // normal mapping
-        // EXTENSION_NORMAL_MAP_HALFSPHERE            = 19,
-        // EXTENSION_NORMAL_MAP_HALFCYLINDER          = 20,
-        // EXTENSION_NORMAL_MAP_PYRAMID               = 21,
-        // EXTENSION_NORMAL_MAP_PRISM                 = 22,
+        // EXTENSION_PATTERN_BRICK                    = 19,
+        // EXTENSION_PATTERN_BRICK_NORMALS            = 20,
+        // EXTENSION_PATTERN_BRICK_HEIGHTMAP          = 21,
 
         // convolution and similar filters
         EXTENSION_CONVOLUTION_SIMPLE               = 23,
@@ -180,6 +188,12 @@ public:
         // EXTENSION_ENHANCE_EDGES                    = 25,
         // EXTENSION_FIND_EDGES                       = 26,
         // EXTENSION_SOFTEN_EDGES                     = 27,
+        
+        // normal mapping
+        // EXTENSION_NORMAL_MAP_HALFSPHERE            = 28,
+        // EXTENSION_NORMAL_MAP_HALFCYLINDER          = 29,
+        // EXTENSION_NORMAL_MAP_PYRAMID               = 30,
+        // EXTENSION_NORMAL_MAP_PRISM                 = 31,
 
         EXTENSION_BAD = 255,
     };
@@ -352,6 +366,7 @@ private:
                         case EXTENSION_TEXTURE_MODE:                    return "Set Texture Sampling Mode";
                         case EXTENSION_HEIGHTMAP_HIGHLIGHT:             return "Convert Heightmap to Highlights";
                         case EXTENSION_HEIGHTMAP_NORMALS:               return "Convert Heightmap to Normals";
+                        case EXTENSION_PATTERN:                         return "Pattern";
                         case EXTENSION_CONVOLUTION_SIMPLE:              return "Convolution (1D, symmetrical, normalised)";
                         default:                                        return "Unnamed Extension";
                     }
@@ -539,6 +554,12 @@ public:
     u_int AppendHeightmapToNormals()
     {
         m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_HEIGHTMAP_NORMALS ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendPatternLayer( const PatternStyle eStyle )
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_PATTERN, static_cast< u_int >( eStyle ) ) );
         return m_xLayers.End().GetID();
     }
 
@@ -992,6 +1013,7 @@ public:
 
     static const char* GetShapingFunctionName( const ShapeFunction eFunction );
     static const char* GetGradientName( const GradientStyle eStyle );
+    static const char* GetPatternName( const PatternStyle eStyle );
 
     u_int GetPositionFromID( const u_int uID ) const;
     u_int GetIDFromPosition( const u_int uPosition ) const;

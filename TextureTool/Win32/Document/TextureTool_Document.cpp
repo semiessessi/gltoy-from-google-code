@@ -508,7 +508,20 @@ void TextureTool_Document::AppendAverageBlur9( const u_int uParentID )
     UpdateAllViews( NULL );
 
     TextureTool_OutputMessage( "Warning: Convolution layers are currently dependent on the size of the output texture, e.g. a wide blur on a 256x256 texture will look a lot thinner on the 1024x1024 version. This will be fixed in a future build." );
-} 
+}
+
+void TextureTool_Document::AppendPattern( GLToy_Texture_Procedural::PatternStyle eStyle, const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendPatternLayer( eStyle );
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
 
 void TextureTool_Document::DeleteLayer( const u_int uID )
 {

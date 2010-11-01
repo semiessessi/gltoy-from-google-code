@@ -92,5 +92,6 @@ public:
     afx_msg void OnBlurAverage5();
     afx_msg void OnBlurAverage7();
     afx_msg void OnBlurAverage9();
+    afx_msg void OnBricksDefault();
 };
 

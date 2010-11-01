@@ -91,6 +91,7 @@ BEGIN_MESSAGE_MAP(TextureTool_LayerView, CDockablePane)
     ON_COMMAND(ID_BLUR_AVERAGE5, &TextureTool_LayerView::OnBlurAverage5)
     ON_COMMAND(ID_BLUR_AVERAGE7, &TextureTool_LayerView::OnBlurAverage7)
     ON_COMMAND(ID_BLUR_AVERAGE9, &TextureTool_LayerView::OnBlurAverage9)
+    ON_COMMAND(ID_BRICKS_DEFAULT, &TextureTool_LayerView::OnBricksDefault)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1070,4 +1071,23 @@ void TextureTool_LayerView::OnBlurAverage9()
     }
 
     pxDocument->AppendAverageBlur9();
+}
+
+
+void TextureTool_LayerView::OnBricksDefault()
+{
+    TextureTool_Document* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendPattern( GLToy_Texture_Procedural::PATTERN_DEFAULT_BRICK, uID );
+        return;
+    }
+
+    pxDocument->AppendPattern( GLToy_Texture_Procedural::PATTERN_DEFAULT_BRICK );
 }

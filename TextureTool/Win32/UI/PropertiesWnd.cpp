@@ -74,6 +74,8 @@ enum Property
     PROP_SINT_1             = 22,
     PROP_SINT_2             = 23,
     PROP_SINT_3             = 24,
+
+    PROP_PATTERNSTYLE       = 25,
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -250,7 +252,8 @@ void TextureTool_PropertiesWindow::OnPropertyChanged( CMFCPropertyGridProperty* 
         {
             CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
             const CString sValue = pProp->GetValue().bstrVal;
-            for( u_int u = 0; u < GLToy_Texture_Procedural::GRADIENT_LAST; ++u )
+            // TODO: don't forget that i stupidly used 1 for the first gradient...
+            for( u_int u = 1; u < GLToy_Texture_Procedural::GRADIENT_LAST; ++u )
             {
                 if( sValue == GLToy_Texture_Procedural::GetGradientName( static_cast< GLToy_Texture_Procedural::GradientStyle >( u ) ) )
                 {
@@ -417,6 +420,22 @@ void TextureTool_PropertiesWindow::OnPropertyChanged( CMFCPropertyGridProperty* 
             const CString sValue = pProp->GetValue().bstrVal;
             const u_int uValue = GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractSignedInt();
             m_pxDocument->GetTexture().SetParam3( m_uID, uValue );
+            break;
+        }
+
+        case PROP_PATTERNSTYLE:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            for( u_int u = 0; u < GLToy_Texture_Procedural::PATTERN_LAST; ++u )
+            {
+                if( sValue == GLToy_Texture_Procedural::GetPatternName( static_cast< GLToy_Texture_Procedural::PatternStyle >( u ) ) )
+                {
+                    m_pxDocument->GetTexture().SetParam1( m_uID, u );
+                    break;
+                }
+            }
+            
             break;
         }
 
@@ -631,7 +650,8 @@ void TextureTool_PropertiesWindow::InitPropList(  TextureTool_Document* pxDocume
             CString sValue( pxDocument->GetTexture().GetGradientNameFromID( uID ) );
             CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Style" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the style" ) );
             pProp->SetData( PROP_GRADIENTSTYLE );
-            for( u_int u = 0; u < GLToy_Texture_Procedural::GRADIENT_LAST; ++u )
+            // TODO: don't forget that I foolishly used 1 for the first gradient
+            for( u_int u = 1; u < GLToy_Texture_Procedural::GRADIENT_LAST; ++u )
             {
                 pProp->AddOption(
                     static_cast< LPCTSTR >(
@@ -740,6 +760,31 @@ void TextureTool_PropertiesWindow::InitPropList(  TextureTool_Document* pxDocume
                     pGroup->AddSubItem( pProp );
 
                     m_wndPropList.AddProperty( pGroup );
+                }
+
+                case GLToy_Texture_Procedural::EXTENSION_PATTERN:
+                {
+                    pGroup = new CMFCPropertyGridProperty( _T( "Pattern Properties" ) );
+            
+                    CString sValue( pxDocument->GetTexture().GetGradientNameFromID( uID ) );
+                    CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Style" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the style" ) );
+                    pProp->SetData( PROP_PATTERNSTYLE );
+                    for( u_int u = 0; u < GLToy_Texture_Procedural::PATTERN_LAST; ++u )
+                    {
+                        pProp->AddOption(
+                            static_cast< LPCTSTR >(
+                                CString(
+                                    GLToy_Texture_Procedural::GetPatternName(
+                                        static_cast< GLToy_Texture_Procedural::PatternStyle >( u )
+                                    )
+                                )
+                            )
+                        );
+                    }
+                    pGroup->AddSubItem( pProp );
+
+                    m_wndPropList.AddProperty( pGroup );
+                    break;
                 }
 
                 case GLToy_Texture_Procedural::EXTENSION_CONVOLUTION_SIMPLE:

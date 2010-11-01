@@ -24,6 +24,8 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// TODO: sort out this file - its huge and repeats absolutely tons of code
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,6 +169,12 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
                         break;
                     }
 
+                    case EXTENSION_PATTERN:
+                    {
+                        xStream.ReadBits( m_uParam1, 6 ); // 64 patterns should be enough
+                        break;
+                    }
+
                     case EXTENSION_CONVOLUTION_SIMPLE:
                     {
                         bool bSign = false;
@@ -272,6 +280,12 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
                     case EXTENSION_TEXTURE_MODE:
                     {
                         xStream.WriteBits( m_uParam1, 1 );
+                        break;
+                    }
+                                        
+                    case EXTENSION_PATTERN:
+                    {
+                        xStream.WriteBits( m_uParam1, 6 ); // 64 patterns should be enough
                         break;
                     }
 
@@ -1081,6 +1095,50 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
 
                         break;
                     }
+
+                    // because this is a horribly complicated case, do it last
+                    case EXTENSION_PATTERN:
+                    {
+                        const PatternStyle eStyle = static_cast< PatternStyle >( m_uParam1 );
+                        switch( eStyle )
+                        {
+                            case PATTERN_DEFAULT_BRICK:
+                            {
+                                // this should help generalise this elsewhere when copy-pasted...
+                                const float fBrickProportion = 0.95f;
+                                const float fRowOffset = 0.5f;
+                                for( u_int v = 0; v < uHeight; ++v )
+                                {
+                                    for( u_int u = 0; u < uWidth; ++u )
+                                    {
+                                        // start with blank, then fill in the brick areas
+                                        pxData[ v * uWidth + u ] = GLToy_Vector_4( 0.0f, 0.0f, 0.0f, 0.0f );
+                                        
+                                        const float fX = static_cast< float >( u ) / static_cast< float >( uWidth );
+                                        const float fY = static_cast< float >( v ) / static_cast< float >( uHeight );
+
+                                        // the complete brick is quite easy...
+                                        if( ( fX < fBrickProportion ) && ( fY < ( fBrickProportion - 0.5f ) ) && ( fY <= 0.5f ) )
+                                        {
+                                            pxData[ v * uWidth + u ] = GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f );
+                                        }
+                                        // ...actually, so are the two halves on the bottom
+                                        if( ( GLToy_Maths::Wrap( fX + fRowOffset ) < fBrickProportion ) && ( fY < fBrickProportion ) && ( fY > 0.5f ) )
+                                        {
+                                            pxData[ v * uWidth + u ] = GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f );
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+
+                            default:
+                            {
+                                break;
+                            }
+                        }
+                        break;
+                    }
                 }
                 break;
             }
@@ -1677,9 +1735,9 @@ const char* GLToy_Texture_Procedural::GetShapingFunctionName( const ShapeFunctio
     return "Unknown Shaping Function";
 }
 
-const char* GLToy_Texture_Procedural::GetGradientName( const GradientStyle eFunction )
+const char* GLToy_Texture_Procedural::GetGradientName( const GradientStyle eStyle )
 {
-    switch( eFunction )
+    switch( eStyle )
     {
         case GRADIENT_TOP:              return "Top";
         case GRADIENT_BOTTOM:           return "Bottom";
@@ -1700,6 +1758,20 @@ const char* GLToy_Texture_Procedural::GetGradientName( const GradientStyle eFunc
     }
 
     return "Unknown Gradient";
+}
+
+const char* GLToy_Texture_Procedural::GetPatternName( const PatternStyle eStyle )
+{
+    switch( eStyle )
+    {
+        case PATTERN_DEFAULT_BRICK:     return "Brick";
+        default:
+        {
+            break;
+        }
+    }
+
+    return "Unknown Pattern";
 }
 
 u_int GLToy_Texture_Procedural::GetPositionFromID( const u_int uID ) const
