@@ -77,7 +77,9 @@ static UINT indicators[] =
 TextureTool_Frame_Main::TextureTool_Frame_Main()
 {
 	// TODO: add member initialization code here
-	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_VS_2008);
+    const u_int uVersion = ::GetVersion();
+    const u_int uMajorVersion = LOBYTE( LOWORD( uVersion ) );
+	theApp.m_nAppLook = theApp.GetInt( _T("ApplicationLook"), uMajorVersion >= 7 ? ID_VIEW_APPLOOK_WINDOWS_7 : ID_VIEW_APPLOOK_VS_2008 );
 }
 
 TextureTool_Frame_Main::~TextureTool_Frame_Main()
@@ -111,9 +113,6 @@ int TextureTool_Frame_Main::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// prevent the menu bar from taking the focus on activation
 	CMFCPopupMenu::SetForceMenuFocus(FALSE);
-
-    // TODO: work out a way to disable this nicely by default - otherwise this will have to be uncommented. :)
-    //m_wndMenuBar.SetShowAllCommands();
 
 	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
 		!m_wndToolBar.LoadToolBar(theApp.m_bHiColorIcons ? IDR_MAINFRAME_256 : IDR_MAINFRAME))
@@ -166,10 +165,6 @@ int TextureTool_Frame_Main::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_wndClassView.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndClassView);
-	
-	// to save thinking if we want more tabs...
-	//CDockablePane* pTabbedBar = NULL;
-	//m_wndClassView.AttachToTabWnd(&m_wndFileView, DM_SHOW, TRUE, &pTabbedBar);
 
 	m_wndOutput.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndOutput);
@@ -229,25 +224,36 @@ int TextureTool_Frame_Main::OnCreate(LPCREATESTRUCT lpCreateStruct)
     lstBasicCommands.AddTail( ID_NOISE_FRACTAL );
 
     lstBasicCommands.AddTail( ID_PATTERN_GRADIENT );
+    lstBasicCommands.AddTail( ID_PATTERN_BORDER );
+    lstBasicCommands.AddTail( ID_PATTERN_BEVEL );
     lstBasicCommands.AddTail( ID_PATTERNS_CHECKERBOARD );
 
     lstBasicCommands.AddTail( ID_SHAPINGFUNCTION_COSINE2 );
     lstBasicCommands.AddTail( ID_SHAPINGFUNCTION_COSINE4 );
+    lstBasicCommands.AddTail( ID_SHAPINGFUNCTION_COSINE6 );
     lstBasicCommands.AddTail( ID_SHAPINGFUNCTION_INVERSE );
     lstBasicCommands.AddTail( ID_SHAPINGFUNCTION_SQUARE );
     lstBasicCommands.AddTail( ID_SHAPINGFUNCTION_SQUAREROOT );
+    lstBasicCommands.AddTail( ID_SHAPINGFUNCTION_ABSOLUTEVALUE );
 
     lstBasicCommands.AddTail( ID_HEIGHTMAPNORMALS );
     lstBasicCommands.AddTail( ID_HEIGHTMAPHIGHLIGHTS );
 
     lstBasicCommands.AddTail( ID_STATE_WRAP );
     lstBasicCommands.AddTail( ID_STATE_CLAMP );
+    lstBasicCommands.AddTail( ID_STATE_LIGHT );
 
     lstBasicCommands.AddTail( ID_DIAGONALSTRIPE_TOPLEFTTOBOTTOMRIGHT );
     lstBasicCommands.AddTail( ID_DIAGONALSTRIPE_BOTTOMLEFTTOTOPRIGHT );
 
+    lstBasicCommands.AddTail( ID_BRICKS_DEFAULT );
+
     lstBasicCommands.AddTail( ID_EXPORT_C );
-    lstBasicCommands.AddTail( ID_EXPORT_PNG );
+    lstBasicCommands.AddTail( ID_EXPORT_IMAGE );
+
+    lstBasicCommands.AddTail( ID_TOOLS_OPTIMISETREE );
+
+    lstBasicCommands.AddTail( ID_HELP_FINDER );
 
 	CMFCToolBar::SetBasicCommands(lstBasicCommands);
 
@@ -285,16 +291,6 @@ BOOL TextureTool_Frame_Main::CreateDockingWindows()
 		return FALSE; // failed to create
 	}
 
-	//// Create file view
-	//CString strFileView;
-	//bNameValid = strFileView.LoadString(IDS_FILE_VIEW);
-	//ASSERT(bNameValid);
-	//if (!m_wndFileView.Create(strFileView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_FILEVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
-	//{
-	//	TRACE0("Failed to create File View window\n");
-	//	return FALSE; // failed to create
-	//}
-
 	// Create output window
 	CString strOutputWnd;
 	bNameValid = strOutputWnd.LoadString(IDS_OUTPUT_WND);
@@ -321,9 +317,6 @@ BOOL TextureTool_Frame_Main::CreateDockingWindows()
 
 void TextureTool_Frame_Main::SetDockingWindowIcons(BOOL bHiColorIcons)
 {
-	//HICON hFileViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_FILE_VIEW_HC : IDI_FILE_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
-	//m_wndFileView.SetIcon(hFileViewIcon, FALSE);
-
 	HICON hClassViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_CLASS_VIEW_HC : IDI_CLASS_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
 	m_wndClassView.SetIcon(hClassViewIcon, FALSE);
 
