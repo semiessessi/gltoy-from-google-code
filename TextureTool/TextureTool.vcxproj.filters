@@ -348,21 +348,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Win32\UI\ViewTree.h">
-      <Filter>Win32\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Win32\UI\ChildFrm.h">
-      <Filter>Win32\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Win32\UI\MainFrm.h">
-      <Filter>Win32\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Win32\UI\OutputWnd.h">
-      <Filter>Win32\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Win32\UI\PropertiesWnd.h">
-      <Filter>Win32\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Win32\Core\Resource.h">
       <Filter>Win32\Core</Filter>
     </ClInclude>
@@ -376,9 +361,6 @@
       <Filter>Win32\Core</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Win32\UI\LayerView.h">
-      <Filter>Win32\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Win32\View\TextureTool_View.h">
       <Filter>Win32\View</Filter>
     </ClInclude>
@@ -391,31 +373,31 @@
     <ClInclude Include="Win32\UI\Dialog\TextureTool_Dialog_Export.h">
       <Filter>Win32\UI\Dialog</Filter>
     </ClInclude>
+    <ClInclude Include="Win32\UI\TextureTool_ViewTree.h">
+      <Filter>Win32\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\UI\TextureTool_Frame_Child.h">
+      <Filter>Win32\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\UI\TextureTool_Frame_Main.h">
+      <Filter>Win32\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\UI\TextureTool_LayerView.h">
+      <Filter>Win32\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\UI\TextureTool_OutputWindow.h">
+      <Filter>Win32\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\UI\TextureTool_PropertiesWindow.h">
+      <Filter>Win32\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Win32\UI\ChildFrm.cpp">
-      <Filter>Win32\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32\UI\MainFrm.cpp">
-      <Filter>Win32\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32\UI\OutputWnd.cpp">
-      <Filter>Win32\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32\UI\PropertiesWnd.cpp">
-      <Filter>Win32\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32\UI\ViewTree.cpp">
-      <Filter>Win32\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Win32\Core\stdafx.cpp">
       <Filter>Win32\Core</Filter>
     </ClCompile>
     <ClCompile Include="Win32\Core\TextureTool.cpp">
       <Filter>Win32\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32\UI\LayerView.cpp">
-      <Filter>Win32\UI</Filter>
     </ClCompile>
     <ClCompile Include="Win32\View\TextureTool_View.cpp">
       <Filter>Win32\View</Filter>
@@ -428,6 +410,24 @@
     </ClCompile>
     <ClCompile Include="Win32\UI\Dialog\TextureTool_Dialog_Export.cpp">
       <Filter>Win32\UI\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\UI\TextureTool_Frame_Child.cpp">
+      <Filter>Win32\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\UI\TextureTool_Frame_Main.cpp">
+      <Filter>Win32\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\UI\TextureTool_LayerView.cpp">
+      <Filter>Win32\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\UI\TextureTool_OutputWindow.cpp">
+      <Filter>Win32\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\UI\TextureTool_PropertiesWindow.cpp">
+      <Filter>Win32\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\UI\TextureTool_ViewTree.cpp">
+      <Filter>Win32\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

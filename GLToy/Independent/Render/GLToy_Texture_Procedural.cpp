@@ -1432,6 +1432,10 @@ u_int* GLToy_Texture_Procedural::CreateRGBA_16xSS( const u_int uWidth, const u_i
 void GLToy_Texture_Procedural::CreateTexture( const GLToy_String& szName, const u_int uWidth, const u_int uHeight )
 {
     // TODO: once there are some actual textures see if 16x is acceptably fast
+    // SE - 03/11/2010 - nope definately nowhere near fast enough to always use 16x
+    // all the allocation/deallocation is a serious concern and the layer operations
+    // themselves are pretty slow - aligned vectors might help that but part of the
+    // problem is that these are intrinsically slow operations
     u_int* const puData = CreateRGBA_4xSS( uWidth, uHeight );
 
     GLToy_Texture_System::CreateTextureFromRGBAData( szName.GetHash(), puData, uWidth, uHeight );

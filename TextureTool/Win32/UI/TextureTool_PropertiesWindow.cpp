@@ -32,8 +32,8 @@
 
 #include <Core/Resource.h>
 #include <Core/TextureTool.h>
-#include <UI/MainFrm.h>
-#include <UI/PropertiesWnd.h>
+#include <UI/TextureTool_Frame_Main.h>
+#include <UI/TextureTool_PropertiesWindow.h>
 
 #include <String/GLToy_String.h>
 

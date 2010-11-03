@@ -1,7 +1,7 @@
 
 #include <Core/stdafx.h>
-#include <UI/ViewTree.h>
-#include <UI/LayerView.h>
+#include <UI/TextureTool_ViewTree.h>
+#include <UI/TextureTool_LayerView.h>
 
 #ifdef _DEBUG
 //#define new DEBUG_NEW

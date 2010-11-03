@@ -40,8 +40,8 @@
 // TextureTool
 #include <Core/TextureTool.h>
 #include <Document/TextureTool_Document.h>
-#include <UI/ChildFrm.h>
-#include <UI/MainFrm.h>
+#include <UI/TextureTool_Frame_Child.h>
+#include <UI/TextureTool_Frame_Main.h>
 #include <UI/Dialog/TextureTool_Dialog_About.h>
 #include <UI/Dialog/TextureTool_Dialog_Export.h>
 #include <View/TextureTool_View.h>
@@ -354,9 +354,9 @@ void TextureTool::PreLoadState()
 	bNameValid = strName.LoadString(IDS_EDIT_MENU);
 	ASSERT(bNameValid);
 	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EDIT);
-	bNameValid = strName.LoadString(IDS_EXPLORER);
-	ASSERT(bNameValid);
-	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EXPLORER);
+	//bNameValid = strName.LoadString(IDS_EXPLORER);
+	//ASSERT(bNameValid);
+	//GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EXPLORER);
 }
 
 void TextureTool::LoadCustomState()

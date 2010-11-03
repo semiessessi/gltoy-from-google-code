@@ -2,7 +2,7 @@
 #pragma once
 
 #include <Document/TextureTool_Document.h>
-#include <UI/ViewTree.h>
+#include <UI/TextureTool_ViewTree.h>
 
 class TextureTool_LayerToolBar : public CMFCToolBar
 {

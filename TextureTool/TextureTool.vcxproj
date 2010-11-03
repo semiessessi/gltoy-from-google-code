@@ -491,14 +491,14 @@ echo.
     <ClInclude Include="Win32\Core\targetver.h" />
     <ClInclude Include="Win32\Core\TextureTool.h" />
     <ClInclude Include="Win32\Document\TextureTool_Document.h" />
-    <ClInclude Include="Win32\UI\ChildFrm.h" />
     <ClInclude Include="Win32\UI\Dialog\TextureTool_Dialog_About.h" />
     <ClInclude Include="Win32\UI\Dialog\TextureTool_Dialog_Export.h" />
-    <ClInclude Include="Win32\UI\LayerView.h" />
-    <ClInclude Include="Win32\UI\MainFrm.h" />
-    <ClInclude Include="Win32\UI\OutputWnd.h" />
-    <ClInclude Include="Win32\UI\PropertiesWnd.h" />
-    <ClInclude Include="Win32\UI\ViewTree.h" />
+    <ClInclude Include="Win32\UI\TextureTool_Frame_Child.h" />
+    <ClInclude Include="Win32\UI\TextureTool_Frame_Main.h" />
+    <ClInclude Include="Win32\UI\TextureTool_LayerView.h" />
+    <ClInclude Include="Win32\UI\TextureTool_OutputWindow.h" />
+    <ClInclude Include="Win32\UI\TextureTool_PropertiesWindow.h" />
+    <ClInclude Include="Win32\UI\TextureTool_ViewTree.h" />
     <ClInclude Include="Win32\View\TextureTool_View.h" />
   </ItemGroup>
   <ItemGroup>
@@ -509,14 +509,14 @@ echo.
     </ClCompile>
     <ClCompile Include="Win32\Core\TextureTool.cpp" />
     <ClCompile Include="Win32\Document\TextureTool_Document.cpp" />
-    <ClCompile Include="Win32\UI\ChildFrm.cpp" />
     <ClCompile Include="Win32\UI\Dialog\TextureTool_Dialog_About.cpp" />
     <ClCompile Include="Win32\UI\Dialog\TextureTool_Dialog_Export.cpp" />
-    <ClCompile Include="Win32\UI\LayerView.cpp" />
-    <ClCompile Include="Win32\UI\MainFrm.cpp" />
-    <ClCompile Include="Win32\UI\OutputWnd.cpp" />
-    <ClCompile Include="Win32\UI\PropertiesWnd.cpp" />
-    <ClCompile Include="Win32\UI\ViewTree.cpp" />
+    <ClCompile Include="Win32\UI\TextureTool_Frame_Child.cpp" />
+    <ClCompile Include="Win32\UI\TextureTool_Frame_Main.cpp" />
+    <ClCompile Include="Win32\UI\TextureTool_LayerView.cpp" />
+    <ClCompile Include="Win32\UI\TextureTool_OutputWindow.cpp" />
+    <ClCompile Include="Win32\UI\TextureTool_PropertiesWindow.cpp" />
+    <ClCompile Include="Win32\UI\TextureTool_ViewTree.cpp" />
     <ClCompile Include="Win32\View\TextureTool_View.cpp" />
   </ItemGroup>
   <ItemGroup>

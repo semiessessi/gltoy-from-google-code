@@ -31,8 +31,8 @@
 #include <Core/stdafx.h>
 
 #include <Core/Resource.h>
-#include <UI/MainFrm.h>
-#include <UI/OutputWnd.h>
+#include <UI/TextureTool_Frame_Main.h>
+#include <UI/TextureTool_OutputWindow.h>
 
 #ifdef _DEBUG
 //#define new DEBUG_NEW
@@ -150,11 +150,7 @@ void TextureTool_OutputWindow::DebugMessage( const CString& sMessage )
 
 void TextureTool_OutputWindow::ResetOutputMessages()
 {
-    int iCount = m_xOutput.GetCount();
-    for( int i = iCount - 1; i >= 0; --i )
-    {
-        m_xOutput.DeleteString( static_cast< u_int >( i ) );
-    }
+    m_xOutput.OnEditClear();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -206,7 +202,11 @@ void TextureTool_OutputList::OnEditCopy()
 
 void TextureTool_OutputList::OnEditClear()
 {
-	MessageBox(_T("Clear output"));
+    const int iCount = GetCount();
+    for( int i = iCount - 1; i >= 0; --i )
+    {
+        DeleteString( static_cast< u_int >( i ) );
+    }
 }
 
 void TextureTool_OutputList::OnViewOutput()

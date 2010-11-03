@@ -36,7 +36,7 @@
 #endif
 
 #include <Document/TextureTool_Document.h>
-#include <UI/MainFrm.h>
+#include <UI/TextureTool_Frame_Main.h>
 #include <View/TextureTool_View.h>
 
 #ifdef _DEBUG

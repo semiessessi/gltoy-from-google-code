@@ -8,7 +8,7 @@
 #include <Core/stdafx.h>
 #include <Core/TextureTool.h>
 
-#include <UI/ChildFrm.h>
+#include <UI/TextureTool_Frame_Child.h>
 
 #ifdef _DEBUG
 //#define new DEBUG_NEW

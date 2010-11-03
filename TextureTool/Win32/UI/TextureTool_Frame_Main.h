@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include <UI/LayerView.h>
-#include <UI/OutputWnd.h>
-#include <UI/PropertiesWnd.h>
+#include <UI/TextureTool_LayerView.h>
+#include <UI/TextureTool_OutputWindow.h>
+#include <UI/TextureTool_PropertiesWindow.h>
 
 class TextureTool_Frame_Main : public CMDIFrameWndEx
 {
@@ -42,11 +42,11 @@ public:
 #endif
 
 protected:  // control bar embedded members
-	CMFCMenuBar       m_wndMenuBar;
-	CMFCToolBar       m_wndToolBar;
-	CMFCStatusBar     m_wndStatusBar;
-	CMFCToolBarImages m_UserImages;
-	TextureTool_LayerView        m_wndClassView;
+	CMFCMenuBar                     m_wndMenuBar;
+	CMFCToolBar                     m_wndToolBar;
+	CMFCStatusBar                   m_wndStatusBar;
+	CMFCToolBarImages               m_UserImages;
+	TextureTool_LayerView           m_wndClassView;
 	TextureTool_OutputWindow        m_wndOutput;
 	TextureTool_PropertiesWindow    m_wndProperties;
 

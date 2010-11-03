@@ -34,7 +34,7 @@
 #include <Core/stdafx.h>
 #include <Core/TextureTool.h>
 
-#include <UI/MainFrm.h>
+#include <UI/TextureTool_Frame_Main.h>
 
 #ifdef _DEBUG
 //#define new DEBUG_NEW

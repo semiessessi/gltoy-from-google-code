@@ -3,8 +3,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <Core/stdafx.h>
-#include <UI/MainFrm.h>
-#include <UI/LayerView.h>
+#include <UI/TextureTool_Frame_Main.h>
+#include <UI/TextureTool_LayerView.h>
 #include <Core/Resource.h>
 #include <Core/TextureTool.h>
 
