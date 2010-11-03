@@ -523,6 +523,45 @@ void TextureTool_Document::AppendPattern( GLToy_Texture_Procedural::PatternStyle
     UpdateAllViews( NULL );
 }
 
+void TextureTool_Document::AppendRotation90( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendRotation( 90.0f );
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void TextureTool_Document::AppendRotation180( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendRotation( 180.0f );
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void TextureTool_Document::AppendRotation270( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendRotation( 270.0f );
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
 void TextureTool_Document::DeleteLayer( const u_int uID )
 {
     m_xTexture.DeleteFromID( uID );

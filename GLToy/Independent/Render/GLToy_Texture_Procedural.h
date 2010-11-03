@@ -182,6 +182,8 @@ public:
         // EXTENSION_PATTERN_BRICK_NORMALS            = 20,
         // EXTENSION_PATTERN_BRICK_HEIGHTMAP          = 21,
 
+        EXTENSION_ROTATE                           = 22,
+
         // convolution and similar filters
         EXTENSION_CONVOLUTION_SIMPLE               = 23,
         // EXTENSION_CONVOLUTION_FULL                 = 24,
@@ -195,7 +197,7 @@ public:
         // EXTENSION_NORMAL_MAP_PYRAMID               = 30,
         // EXTENSION_NORMAL_MAP_PRISM                 = 31,
 
-        EXTENSION_BAD = 255,
+        EXTENSION_BAD = 255, // actualy hoping this can be crushed down to 0-63, which will save 2-bits per extension function, which quickly adds up to bytes off the whole tree...
     };
 
     static const u_int uCURRENT_VERSION = 0; // version 0 - added basic functionality
@@ -318,6 +320,7 @@ private:
 
         static LayerNode CreateGroup( GLToy_Texture_Procedural* const pxParentTexture );
         static GLToy_Vector_4 WrapAwareSample( const int u, const int v, const u_int uWidth, const u_int uHeight, const GLToy_Vector_4* const pxBuffer  );
+        static GLToy_Vector_4 WrapAwareSampleFiltered( const float fX, const float fY, const u_int uWidth, const u_int uHeight, const GLToy_Vector_4* const pxBuffer  );
 
         GLToy_SmallSerialisableArray< LayerNode >* GetChildren()
         {
@@ -367,6 +370,7 @@ private:
                         case EXTENSION_HEIGHTMAP_HIGHLIGHT:             return "Convert Heightmap to Highlights";
                         case EXTENSION_HEIGHTMAP_NORMALS:               return "Convert Heightmap to Normals";
                         case EXTENSION_PATTERN:                         return "Pattern";
+                        case EXTENSION_ROTATE:                          return "Rotation";
                         case EXTENSION_CONVOLUTION_SIMPLE:              return "Convolution (1D, symmetrical, normalised)";
                         default:                                        return "Unnamed Extension";
                     }
@@ -560,6 +564,14 @@ public:
     u_int AppendPatternLayer( const PatternStyle eStyle )
     {
         m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_PATTERN, static_cast< u_int >( eStyle ) ) );
+        return m_xLayers.End().GetID();
+    }
+
+    u_int AppendRotation( const float fAngle )
+    {
+        // 0..1 for whole circle, but forget the exact 1 because its the same as zero (hence 64, not 63)
+        const u_int uAngle = static_cast< u_int >( 64.0f * fAngle / 360.0f ) & 0x3F; // bithax: mod 64
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_ROTATE, uAngle ) );
         return m_xLayers.End().GetID();
     }
 

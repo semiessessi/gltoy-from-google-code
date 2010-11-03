@@ -92,6 +92,9 @@ BEGIN_MESSAGE_MAP(TextureTool_LayerView, CDockablePane)
     ON_COMMAND(ID_BLUR_AVERAGE7, &TextureTool_LayerView::OnBlurAverage7)
     ON_COMMAND(ID_BLUR_AVERAGE9, &TextureTool_LayerView::OnBlurAverage9)
     ON_COMMAND(ID_BRICKS_DEFAULT, &TextureTool_LayerView::OnBricksDefault)
+    ON_COMMAND(ID_ROTATIONS_90, &TextureTool_LayerView::OnRotations90)
+    ON_COMMAND(ID_ROTATIONS_180, &TextureTool_LayerView::OnRotations180)
+    ON_COMMAND(ID_ROTATIONS_270, &TextureTool_LayerView::OnRotations270)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1090,4 +1093,61 @@ void TextureTool_LayerView::OnBricksDefault()
     }
 
     pxDocument->AppendPattern( GLToy_Texture_Procedural::PATTERN_DEFAULT_BRICK );
+}
+
+
+void TextureTool_LayerView::OnRotations90()
+{
+    TextureTool_Document* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendRotation90( uID );
+        return;
+    }
+
+    pxDocument->AppendRotation90();
+}
+
+
+void TextureTool_LayerView::OnRotations180()
+{
+    TextureTool_Document* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendRotation180( uID );
+        return;
+    }
+
+    pxDocument->AppendRotation180();
+}
+
+
+void TextureTool_LayerView::OnRotations270()
+{
+    TextureTool_Document* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendRotation270( uID );
+        return;
+    }
+
+    pxDocument->AppendRotation270();
 }

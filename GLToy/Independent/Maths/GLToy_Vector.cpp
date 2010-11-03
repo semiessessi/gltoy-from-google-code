@@ -132,6 +132,13 @@ GLToy_Vector_3::GLToy_Vector_3( const GLToy_Vector_3& xVector )
     m_fComponents[ 2 ] = xVector[ 2 ];
 }
 
+GLToy_Vector_3::GLToy_Vector_3( const GLToy_Vector_2& xVector, const float fZ )
+{
+    m_fComponents[ 0 ] = xVector[ 0 ];
+    m_fComponents[ 1 ] = xVector[ 1 ];
+    m_fComponents[ 2 ] = fZ;
+}
+
 void GLToy_Vector_3::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
     xStream >> m_fComponents[ 0 ];

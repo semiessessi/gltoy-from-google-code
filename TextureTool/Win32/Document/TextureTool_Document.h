@@ -57,6 +57,10 @@ public:
 
     void AppendPattern( GLToy_Texture_Procedural::PatternStyle eStyle, const u_int uParentID = 0 );
 
+    void AppendRotation90( const u_int uParentID = 0 );
+    void AppendRotation180( const u_int uParentID = 0 );
+    void AppendRotation270( const u_int uParentID = 0 );
+
     void AppendAverageBlur3( const u_int uParentID = 0 );
     void AppendAverageBlur5( const u_int uParentID = 0 );
     void AppendAverageBlur7( const u_int uParentID = 0 );

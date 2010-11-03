@@ -66,7 +66,7 @@ public:
     GLToy_Inline GLToy_Vector_2 operator +( const GLToy_Vector_2& xVector ) const { return GLToy_Vector_2( m_fComponents[ 0 ] + xVector[ 0 ], m_fComponents[ 1 ] + xVector[ 1 ] ); }
     GLToy_Inline GLToy_Vector_2 operator -( const GLToy_Vector_2& xVector ) const { return GLToy_Vector_2( m_fComponents[ 0 ] - xVector[ 0 ], m_fComponents[ 1 ] - xVector[ 1 ] ); }
     GLToy_Vector_2 operator *( const float fFloat ) const;
-	friend GLToy_Vector_2 operator *( const float fFloat, const GLToy_Vector_2& xVector ) { return xVector * fFloat; }
+	GLToy_ForceInline friend GLToy_Vector_2 operator *( const float fFloat, const GLToy_Vector_2& xVector ) { return xVector * fFloat; }
     GLToy_Vector_2 operator /( const float fFloat ) const;
 
     bool operator ==( const GLToy_Vector_2& xVector ) const;
@@ -88,6 +88,7 @@ public:
     GLToy_Vector_3();
     GLToy_Vector_3( float fX, float fY, float fZ );
     GLToy_Vector_3( const GLToy_Vector_3& xVector );
+    GLToy_Vector_3( const GLToy_Vector_2& xVector, const float fZ = 1.0f );
 
     void ReadFromBitStream( const GLToy_BitStream& xStream );
     void WriteToBitStream( GLToy_BitStream& xStream ) const;
@@ -110,7 +111,7 @@ public:
     GLToy_Vector_3 operator +( const GLToy_Vector_3& xVector ) const;
     GLToy_Vector_3 operator -( const GLToy_Vector_3& xVector ) const;
     GLToy_Vector_3 operator *( const float fFloat ) const;
-	friend GLToy_Vector_3 operator *( const float fFloat, const GLToy_Vector_3& xVector ) { return xVector * fFloat; }
+	GLToy_ForceInline friend GLToy_Vector_3 operator *( const float fFloat, const GLToy_Vector_3& xVector ) { return xVector * fFloat; }
     GLToy_Vector_3 operator *( const GLToy_Matrix_3& xMatrix ) const;
     GLToy_Vector_3 operator /( const float fFloat ) const { return operator *( 1.0f / fFloat ); }
 
@@ -180,6 +181,8 @@ public:
             + m_fComponents[ 2 ] * xVector[ 2 ]
             + m_fComponents[ 3 ] * xVector[ 3 ];
     }
+
+    GLToy_ForceInline friend GLToy_Vector_4 operator *( const float fFloat, const GLToy_Vector_4& xVector ) { return xVector * fFloat; }
 
     u_int GetRGBA() const;
 

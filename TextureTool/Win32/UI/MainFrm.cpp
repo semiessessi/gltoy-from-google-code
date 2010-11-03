@@ -248,6 +248,10 @@ int TextureTool_Frame_Main::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     lstBasicCommands.AddTail( ID_BRICKS_DEFAULT );
 
+    lstBasicCommands.AddTail( ID_ROTATIONS_90 );
+    lstBasicCommands.AddTail( ID_ROTATIONS_180 );
+    lstBasicCommands.AddTail( ID_ROTATIONS_270 );
+
     lstBasicCommands.AddTail( ID_EXPORT_C );
     lstBasicCommands.AddTail( ID_EXPORT_IMAGE );
 

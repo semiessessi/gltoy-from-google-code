@@ -93,5 +93,8 @@ public:
     afx_msg void OnBlurAverage7();
     afx_msg void OnBlurAverage9();
     afx_msg void OnBricksDefault();
+    afx_msg void OnRotations90();
+    afx_msg void OnRotations180();
+    afx_msg void OnRotations270();
 };
 

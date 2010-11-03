@@ -76,6 +76,8 @@ enum Property
     PROP_SINT_3             = 24,
 
     PROP_PATTERNSTYLE       = 25,
+
+    PROP_FIXED_6BIT_ANGLE_1 = 26,
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -439,6 +441,15 @@ void TextureTool_PropertiesWindow::OnPropertyChanged( CMFCPropertyGridProperty* 
             break;
         }
 
+        case PROP_FIXED_6BIT_ANGLE_1:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            const float fValue = GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractFloat();
+            m_pxDocument->GetTexture().SetParam1( m_uID, static_cast< u_int >( ( fValue / 360.0f ) * 64.0f ) );
+            break;
+        }
+
         default:
         {
             return;
@@ -781,6 +792,20 @@ void TextureTool_PropertiesWindow::InitPropList(  TextureTool_Document* pxDocume
                             )
                         );
                     }
+                    pGroup->AddSubItem( pProp );
+
+                    m_wndPropList.AddProperty( pGroup );
+                    break;
+                }
+
+                case GLToy_Texture_Procedural::EXTENSION_ROTATE:
+                {
+                    pGroup = new CMFCPropertyGridProperty( _T( "Rotation Properties" ) );
+
+                    CString sValue;
+                    sValue.Format( _T( "%f" ), static_cast< float >( 360.0f * pxDocument->GetTexture().GetParam1( uID ) ) / 64.0f );
+                    CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Angle" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the angle of rotation in degrees" ) );
+                    pProp->SetData( PROP_FIXED_6BIT_ANGLE_1 );
                     pGroup->AddSubItem( pProp );
 
                     m_wndPropList.AddProperty( pGroup );

@@ -175,6 +175,12 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
                         break;
                     }
 
+                    case EXTENSION_ROTATE:
+                    {
+                        xStream.ReadBits( m_uParam1, 6 ); // 64 rotations should be enough
+                        break;
+                    }
+
                     case EXTENSION_CONVOLUTION_SIMPLE:
                     {
                         bool bSign = false;
@@ -286,6 +292,12 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
                     case EXTENSION_PATTERN:
                     {
                         xStream.WriteBits( m_uParam1, 6 ); // 64 patterns should be enough
+                        break;
+                    }
+
+                    case EXTENSION_ROTATE:
+                    {
+                        xStream.WriteBits( m_uParam1, 6 ); // 64 rotations should be enough
                         break;
                     }
 
@@ -1030,6 +1042,30 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                         break;
                     }
 
+                    case EXTENSION_ROTATE:
+                    {
+                        // note - this rotation should preserve tiling, so we need to sneak a scaling in there as well...
+                        const float fAngle = static_cast< float >( m_uParam1 / 64.0f ) * 2.0f * GLToy_Maths::Pi;
+                        // fsincos might be nice here... but a tiny optimisation at best
+                        const float fCos = GLToy_Maths::Cos( fAngle );
+                        const float fSin = GLToy_Maths::Sin( fAngle );
+                        const float fScale = fCos + fSin;
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {           
+                                const GLToy_Vector_2 xScaledPosition(
+                                    fScale * static_cast< float >( u ) / static_cast< float >( uWidth ),
+                                    fScale * static_cast< float >( v ) / static_cast< float >( uHeight )
+                                );
+
+                                const GLToy_Vector_2 xRotated( GLToy_Maths::Rotate_2D_FromCosSin( xScaledPosition, fCos, fSin ) );
+                                pxData[ v * uWidth + u ] = WrapAwareSampleFiltered( xRotated[ 0 ], xRotated[ 1 ], uWidth, uHeight, s_xRenderStack.Peek( 1 ) );
+                            }
+                        }
+                        break;
+                    }
+
                     case EXTENSION_CONVOLUTION_SIMPLE:
                     {
                         // TODO: some validation/edit correction function to do this instead...
@@ -1459,7 +1495,6 @@ void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName, cons
 
 void GLToy_Texture_Procedural::SaveToTGAFile( const GLToy_String& szFilename, const u_int uWidth, const u_int uHeight, const u_int uSamples )
 {
-    // if we are saving, might as well use the absolute best quality possible...
     u_int* puData = NULL;
     switch( uSamples )
     {
@@ -2113,4 +2148,44 @@ GLToy_Vector_4 GLToy_Texture_Procedural::LayerNode::WrapAwareSample( const int u
     const u_int s = s_bWrap ? ( u % uWidth ) : GLToy_Maths::Clamp( static_cast< u_int >( u ), 0u, uWidth );
     const u_int t = s_bWrap ? ( v % uHeight ) : GLToy_Maths::Clamp( static_cast< u_int >( v ), 0u, uHeight );
     return pxBuffer[ t * uWidth + s ];
+}
+
+GLToy_Vector_4 GLToy_Texture_Procedural::LayerNode::WrapAwareSampleFiltered( const float fX, const float fY, const u_int uWidth, const u_int uHeight, const GLToy_Vector_4* const pxBuffer )
+{
+    // TODO: something better... cubic is good, but I suspect its not good enough for the general case
+    // (what happens if the sampling frequency is 0.125x the texture width or height?)
+
+    const float fT = fX * static_cast< float >( uWidth );
+    u_int u1 = static_cast< u_int >( GLToy_Maths::Floor( fT ) ) - 1;
+    u_int u2 = u1 + 1;
+	u_int u3 = u2 + 1;
+    u_int u4 = u3 + 1;
+    
+    const float fS = fY * static_cast< float >( uHeight );
+    u_int v1 = static_cast< u_int >( GLToy_Maths::Floor( fS ) ) - 1;
+    u_int v2 = v1 + 1;
+	u_int v3 = v2 + 1;
+    u_int v4 = v3 + 1;
+
+	const float fU2 = static_cast< float >( u2 );
+	const float fV2 = static_cast< float >( v2 );
+
+    if( s_bWrap )
+    {
+        u1 = GLToy_Maths::Wrap( u1, 0, uWidth );
+        u2 = GLToy_Maths::Wrap( u2, 0, uWidth );
+        u3 = GLToy_Maths::Wrap( u3, 0, uWidth );
+        u4 = GLToy_Maths::Wrap( u4, 0, uWidth );
+        v1 = GLToy_Maths::Wrap( v1, 0, uHeight );
+        v2 = GLToy_Maths::Wrap( v2, 0, uHeight );
+        v3 = GLToy_Maths::Wrap( v3, 0, uHeight );
+        v4 = GLToy_Maths::Wrap( v4, 0, uHeight );
+    }
+
+    const GLToy_Vector_4 xX1 = GLToy_Maths::CatmullRomInterpolate( pxBuffer[ v1 * uWidth + u1 ], pxBuffer[ v1 * uWidth + u2 ], pxBuffer[ v1 * uWidth + u3 ], pxBuffer[ v1 * uWidth + u4 ], fT - fU2 );
+    const GLToy_Vector_4 xX2 = GLToy_Maths::CatmullRomInterpolate( pxBuffer[ v2 * uWidth + u1 ], pxBuffer[ v2 * uWidth + u2 ], pxBuffer[ v2 * uWidth + u3 ], pxBuffer[ v2 * uWidth + u4 ], fT - fU2 );
+	const GLToy_Vector_4 xX3 = GLToy_Maths::CatmullRomInterpolate( pxBuffer[ v3 * uWidth + u1 ], pxBuffer[ v3 * uWidth + u2 ], pxBuffer[ v3 * uWidth + u3 ], pxBuffer[ v3 * uWidth + u4 ], fT - fU2 );
+	const GLToy_Vector_4 xX4 = GLToy_Maths::CatmullRomInterpolate( pxBuffer[ v4 * uWidth + u1 ], pxBuffer[ v4 * uWidth + u2 ], pxBuffer[ v4 * uWidth + u3 ], pxBuffer[ v4 * uWidth + u4 ], fT - fU2 );
+
+    return GLToy_Maths::CatmullRomInterpolate( xX1, xX2, xX3, xX4, fS - fV2 );
 }
