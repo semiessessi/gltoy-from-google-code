@@ -98,6 +98,8 @@ BEGIN_MESSAGE_MAP(TextureTool_LayerView, CDockablePane)
     ON_COMMAND(ID_ROTATIONS_UNTILED90, &TextureTool_LayerView::OnRotationsUntiled90)
     ON_COMMAND(ID_ROTATIONS_UNTILED180, &TextureTool_LayerView::OnRotationsUntiled180)
     ON_COMMAND(ID_ROTATIONS_UNTILED270, &TextureTool_LayerView::OnRotationsUntiled270)
+    ON_COMMAND(ID_SCALING_2X, &TextureTool_LayerView::OnScaling2x)
+    ON_COMMAND(ID_SCALING_0, &TextureTool_LayerView::OnScaling0)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1210,4 +1212,42 @@ void TextureTool_LayerView::OnRotationsUntiled270()
     }
 
     pxDocument->AppendUntiledRotation270();
+}
+
+
+void TextureTool_LayerView::OnScaling2x()
+{
+    TextureTool_Document* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendScale2( uID );
+        return;
+    }
+
+    pxDocument->AppendScale2();
+}
+
+
+void TextureTool_LayerView::OnScaling0()
+{
+    TextureTool_Document* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendScaleHalf( uID );
+        return;
+    }
+
+    pxDocument->AppendScaleHalf();
 }

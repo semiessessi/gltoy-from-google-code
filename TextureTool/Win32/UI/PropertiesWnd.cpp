@@ -813,6 +813,20 @@ void TextureTool_PropertiesWindow::InitPropList(  TextureTool_Document* pxDocume
                     break;
                 }
 
+                case GLToy_Texture_Procedural::EXTENSION_SCALE:
+                {
+                    pGroup = new CMFCPropertyGridProperty( _T( "Scaling Properties" ) );
+
+                    CString sValue;
+                    sValue.Format( _T( "%f" ), static_cast< float >( pxDocument->GetTexture().GetParam1( uID ) ) / 64.0f );
+                    CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Factor" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the scale factor" ) );
+                    pProp->SetData( PROP_FIXED_12BIT_1 );
+                    pGroup->AddSubItem( pProp );
+
+                    m_wndPropList.AddProperty( pGroup );
+                    break;
+                }
+
                 case GLToy_Texture_Procedural::EXTENSION_CONVOLUTION_SIMPLE:
                 {
                     pGroup = new CMFCPropertyGridProperty( _T( "Normalised Symmetric 1D Convolution Properties" ) );

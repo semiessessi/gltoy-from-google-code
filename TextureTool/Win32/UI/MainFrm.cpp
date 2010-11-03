@@ -257,6 +257,8 @@ int TextureTool_Frame_Main::OnCreate(LPCREATESTRUCT lpCreateStruct)
     lstBasicCommands.AddTail( ID_ROTATIONS_UNTILED90 );
     lstBasicCommands.AddTail( ID_ROTATIONS_UNTILED180 );
     lstBasicCommands.AddTail( ID_ROTATIONS_UNTILED270 );
+    lstBasicCommands.AddTail( ID_SCALING_2X );
+    lstBasicCommands.AddTail( ID_SCALING_0 );
 
     lstBasicCommands.AddTail( ID_EXPORT_C );
     lstBasicCommands.AddTail( ID_EXPORT_IMAGE );

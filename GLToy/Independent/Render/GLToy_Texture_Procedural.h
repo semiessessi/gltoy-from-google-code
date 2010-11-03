@@ -197,7 +197,7 @@ public:
         // EXTENSION_NORMAL_MAP_PRISM                 = 31,
 
         // EXTENSION_TRANSLATE                        = 32,
-        // EXTENSION_SCALE                            = 33,
+        EXTENSION_SCALE                            = 33,
         EXTENSION_ROTATE_VANILLA                   = 34,
 
         EXTENSION_BAD = 255, // actualy hoping this can be crushed down to 0-63, which will save 2-bits per extension function, which quickly adds up to bytes off the whole tree...
@@ -375,6 +375,7 @@ private:
                         case EXTENSION_PATTERN:                         return "Pattern";
                         case EXTENSION_ROTATE:                          return "Rotation (Tiling)";
                         case EXTENSION_CONVOLUTION_SIMPLE:              return "Convolution (1D, symmetrical, normalised)";
+                        case EXTENSION_SCALE:                           return "Scaling";
                         case EXTENSION_ROTATE_VANILLA:                  return "Rotation (Non-tiling)";
                         default:                                        return "Unnamed Extension";
                     }
@@ -605,6 +606,13 @@ public:
         xLayerNode.m_acParam2[ 3 ] = c4;
 
         return xLayerNode.GetID();
+    }
+
+    u_int AppendScale( const float fScaleFactor )
+    {
+        const u_int uScale = static_cast< u_int >( 64.0f * fScaleFactor ) & 0xFFF; // bithax: mod 4096
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_SCALE, uScale ) );
+        return m_xLayers.End().GetID();
     }
 
     u_int AppendUntiledRotation( const float fAngle )

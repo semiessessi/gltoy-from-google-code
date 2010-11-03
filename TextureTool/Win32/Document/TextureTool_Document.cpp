@@ -562,6 +562,32 @@ void TextureTool_Document::AppendRotation270( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
+void TextureTool_Document::AppendScale2( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendScale( 2.0f );
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
+void TextureTool_Document::AppendScaleHalf( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendScale( 0.5f );
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
 void TextureTool_Document::AppendUntiledRotation90( const u_int uParentID )
 {
     const u_int uID = m_xTexture.AppendUntiledRotation( 90.0f );

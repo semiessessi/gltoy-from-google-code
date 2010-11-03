@@ -158,6 +158,7 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
                     case EXTENSION_BORDER:
                     case EXTENSION_BEVEL:
                     case EXTENSION_BEVEL_NORMALS:
+                    case EXTENSION_SCALE: // reuse this size for scaling - this gives us from 1/64x up to 63x
                     {
                         xStream.ReadBits( m_uParam1, 12 ); // 4096 graduations is probably ample forever (assuming textures never get bigger than 4kx4k)
                         break;
@@ -274,6 +275,7 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
                     case EXTENSION_BORDER:
                     case EXTENSION_BEVEL:
                     case EXTENSION_BEVEL_NORMALS:
+                    case EXTENSION_SCALE: // reuse this size for scaling - this gives us from 1/64x up to 64x
                     {
                         xStream.WriteBits( m_uParam1, 12 ); // 4096 graduations is probably ample forever (assuming textures never get bigger than 4kx4k)
                         break;
@@ -1120,6 +1122,24 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
 
                         delete[] pxBufferData;
 
+                        break;
+                    }
+
+                    case EXTENSION_SCALE:
+                    {
+                        const float fScale = 64.0f / static_cast< float >( m_uParam1 ); // 1 / the value we store as the scale factor...
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {           
+                                const GLToy_Vector_2 xScaledPosition(
+                                    fScale * static_cast< float >( u ) / static_cast< float >( uWidth ),
+                                    fScale * static_cast< float >( v ) / static_cast< float >( uHeight )
+                                );
+
+                                pxData[ v * uWidth + u ] = WrapAwareSampleFiltered( xScaledPosition[ 0 ], xScaledPosition[ 1 ], uWidth, uHeight, s_xRenderStack.Peek( 1 ) );
+                            }
+                        }
                         break;
                     }
 
