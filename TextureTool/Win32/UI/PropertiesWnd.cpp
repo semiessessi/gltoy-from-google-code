@@ -799,6 +799,7 @@ void TextureTool_PropertiesWindow::InitPropList(  TextureTool_Document* pxDocume
                 }
 
                 case GLToy_Texture_Procedural::EXTENSION_ROTATE:
+                case GLToy_Texture_Procedural::EXTENSION_ROTATE_VANILLA:
                 {
                     pGroup = new CMFCPropertyGridProperty( _T( "Rotation Properties" ) );
 

@@ -169,15 +169,11 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
                         break;
                     }
 
-                    case EXTENSION_PATTERN:
+                    case EXTENSION_PATTERN: // 64 patterns should be enough
+                    case EXTENSION_ROTATE: // 64 rotations should be enough
+                    case EXTENSION_ROTATE_VANILLA:
                     {
-                        xStream.ReadBits( m_uParam1, 6 ); // 64 patterns should be enough
-                        break;
-                    }
-
-                    case EXTENSION_ROTATE:
-                    {
-                        xStream.ReadBits( m_uParam1, 6 ); // 64 rotations should be enough
+                        xStream.ReadBits( m_uParam1, 6 );
                         break;
                     }
 
@@ -289,15 +285,11 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
                         break;
                     }
                                         
-                    case EXTENSION_PATTERN:
+                    case EXTENSION_PATTERN: // 64 patterns should be enough
+                    case EXTENSION_ROTATE: // 64 rotations should be enough
+                    case EXTENSION_ROTATE_VANILLA:
                     {
-                        xStream.WriteBits( m_uParam1, 6 ); // 64 patterns should be enough
-                        break;
-                    }
-
-                    case EXTENSION_ROTATE:
-                    {
-                        xStream.WriteBits( m_uParam1, 6 ); // 64 rotations should be enough
+                        xStream.WriteBits( m_uParam1, 6 );
                         break;
                     }
 
@@ -1128,6 +1120,28 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
 
                         delete[] pxBufferData;
 
+                        break;
+                    }
+
+                    case EXTENSION_ROTATE_VANILLA:
+                    {
+                        const float fAngle = static_cast< float >( m_uParam1 / 64.0f ) * 2.0f * GLToy_Maths::Pi;
+                        // fsincos might be nice here... but a tiny optimisation at best
+                        const float fCos = GLToy_Maths::Cos( fAngle );
+                        const float fSin = GLToy_Maths::Sin( fAngle );
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {           
+                                const GLToy_Vector_2 xScaledPosition(
+                                    static_cast< float >( u ) / static_cast< float >( uWidth ),
+                                    static_cast< float >( v ) / static_cast< float >( uHeight )
+                                );
+
+                                const GLToy_Vector_2 xRotated( GLToy_Maths::Rotate_2D_FromCosSin( xScaledPosition, fCos, fSin ) );
+                                pxData[ v * uWidth + u ] = WrapAwareSampleFiltered( xRotated[ 0 ], xRotated[ 1 ], uWidth, uHeight, s_xRenderStack.Peek( 1 ) );
+                            }
+                        }
                         break;
                     }
 

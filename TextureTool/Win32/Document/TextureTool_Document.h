@@ -66,6 +66,10 @@ public:
     void AppendAverageBlur7( const u_int uParentID = 0 );
     void AppendAverageBlur9( const u_int uParentID = 0 );
 
+    void AppendUntiledRotation90( const u_int uParentID = 0 );
+    void AppendUntiledRotation180( const u_int uParentID = 0 );
+    void AppendUntiledRotation270( const u_int uParentID = 0 );
+
     void DeleteLayer( const u_int uID );
     void PromoteLayer( const u_int uID );
 

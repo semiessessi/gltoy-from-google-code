@@ -226,6 +226,9 @@ int TextureTool_Frame_Main::OnCreate(LPCREATESTRUCT lpCreateStruct)
     lstBasicCommands.AddTail( ID_PATTERN_GRADIENT );
     lstBasicCommands.AddTail( ID_PATTERN_BORDER );
     lstBasicCommands.AddTail( ID_PATTERN_BEVEL );
+    lstBasicCommands.AddTail( ID_PATTERN_BEVELNORMALS );
+    lstBasicCommands.AddTail( ID_PATTERNS_HORIZONTALSTRIPE );
+    lstBasicCommands.AddTail( ID_PATTERNS_VERTICALSTRIPE );
     lstBasicCommands.AddTail( ID_PATTERNS_CHECKERBOARD );
 
     lstBasicCommands.AddTail( ID_SHAPINGFUNCTION_COSINE2 );
@@ -251,6 +254,9 @@ int TextureTool_Frame_Main::OnCreate(LPCREATESTRUCT lpCreateStruct)
     lstBasicCommands.AddTail( ID_ROTATIONS_90 );
     lstBasicCommands.AddTail( ID_ROTATIONS_180 );
     lstBasicCommands.AddTail( ID_ROTATIONS_270 );
+    lstBasicCommands.AddTail( ID_ROTATIONS_UNTILED90 );
+    lstBasicCommands.AddTail( ID_ROTATIONS_UNTILED180 );
+    lstBasicCommands.AddTail( ID_ROTATIONS_UNTILED270 );
 
     lstBasicCommands.AddTail( ID_EXPORT_C );
     lstBasicCommands.AddTail( ID_EXPORT_IMAGE );

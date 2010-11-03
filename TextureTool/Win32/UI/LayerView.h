@@ -96,5 +96,8 @@ public:
     afx_msg void OnRotations90();
     afx_msg void OnRotations180();
     afx_msg void OnRotations270();
+    afx_msg void OnRotationsUntiled90();
+    afx_msg void OnRotationsUntiled180();
+    afx_msg void OnRotationsUntiled270();
 };
 

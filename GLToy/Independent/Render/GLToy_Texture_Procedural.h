@@ -143,7 +143,6 @@ public:
     // - general convolutions (say, up to 7x7 with compression for 2d applied twice, symmetrical and each size up from 3x3)
     // - deformations
     // - reflections
-    // - rotations
     // - polygons
     // - AVS style colour map
     enum ExtensionFunction
@@ -196,6 +195,10 @@ public:
         // EXTENSION_NORMAL_MAP_HALFCYLINDER          = 29,
         // EXTENSION_NORMAL_MAP_PYRAMID               = 30,
         // EXTENSION_NORMAL_MAP_PRISM                 = 31,
+
+        // EXTENSION_TRANSLATE                        = 32,
+        // EXTENSION_SCALE                            = 33,
+        EXTENSION_ROTATE_VANILLA                   = 34,
 
         EXTENSION_BAD = 255, // actualy hoping this can be crushed down to 0-63, which will save 2-bits per extension function, which quickly adds up to bytes off the whole tree...
     };
@@ -370,8 +373,9 @@ private:
                         case EXTENSION_HEIGHTMAP_HIGHLIGHT:             return "Convert Heightmap to Highlights";
                         case EXTENSION_HEIGHTMAP_NORMALS:               return "Convert Heightmap to Normals";
                         case EXTENSION_PATTERN:                         return "Pattern";
-                        case EXTENSION_ROTATE:                          return "Rotation";
+                        case EXTENSION_ROTATE:                          return "Rotation (Tiling)";
                         case EXTENSION_CONVOLUTION_SIMPLE:              return "Convolution (1D, symmetrical, normalised)";
+                        case EXTENSION_ROTATE_VANILLA:                  return "Rotation (Non-tiling)";
                         default:                                        return "Unnamed Extension";
                     }
                 }
@@ -601,6 +605,14 @@ public:
         xLayerNode.m_acParam2[ 3 ] = c4;
 
         return xLayerNode.GetID();
+    }
+
+    u_int AppendUntiledRotation( const float fAngle )
+    {
+        // 0..1 for whole circle, but forget the exact 1 because its the same as zero (hence 64, not 63)
+        const u_int uAngle = static_cast< u_int >( 64.0f * fAngle / 360.0f ) & 0x3F; // bithax: mod 64
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_ROTATE_VANILLA, uAngle ) );
+        return m_xLayers.End().GetID();
     }
 
     u_int AppendReference( const u_int uReferToID = 0 )

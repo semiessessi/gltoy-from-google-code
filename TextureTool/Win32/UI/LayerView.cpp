@@ -95,6 +95,9 @@ BEGIN_MESSAGE_MAP(TextureTool_LayerView, CDockablePane)
     ON_COMMAND(ID_ROTATIONS_90, &TextureTool_LayerView::OnRotations90)
     ON_COMMAND(ID_ROTATIONS_180, &TextureTool_LayerView::OnRotations180)
     ON_COMMAND(ID_ROTATIONS_270, &TextureTool_LayerView::OnRotations270)
+    ON_COMMAND(ID_ROTATIONS_UNTILED90, &TextureTool_LayerView::OnRotationsUntiled90)
+    ON_COMMAND(ID_ROTATIONS_UNTILED180, &TextureTool_LayerView::OnRotationsUntiled180)
+    ON_COMMAND(ID_ROTATIONS_UNTILED270, &TextureTool_LayerView::OnRotationsUntiled270)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1150,4 +1153,61 @@ void TextureTool_LayerView::OnRotations270()
     }
 
     pxDocument->AppendRotation270();
+}
+
+
+void TextureTool_LayerView::OnRotationsUntiled90()
+{
+    TextureTool_Document* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendUntiledRotation90( uID );
+        return;
+    }
+
+    pxDocument->AppendUntiledRotation90();
+}
+
+
+void TextureTool_LayerView::OnRotationsUntiled180()
+{
+    TextureTool_Document* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendUntiledRotation180( uID );
+        return;
+    }
+
+    pxDocument->AppendUntiledRotation180();
+}
+
+
+void TextureTool_LayerView::OnRotationsUntiled270()
+{
+    TextureTool_Document* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendUntiledRotation270( uID );
+        return;
+    }
+
+    pxDocument->AppendUntiledRotation270();
 }
