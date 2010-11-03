@@ -383,20 +383,19 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
             case INSTRUCTION_TILE:
             {
                 // TODO: some filtering
-                // cubic isn't good enough for high frequencies, but would be a good start
                 // maybe constuct some mipmaps?
+                const bool bOldWrap = s_bWrap;
+                s_bWrap = true; // force it for this...
                 for( u_int v = 0; v < uHeight; ++v )
                 {
                     for( u_int u = 0; u < uWidth; ++u )
                     {
-                        const u_int s = ( u * m_uParam1 ) % uWidth;
-                        const u_int t = ( v * m_uParam1 ) % uHeight;
-                        const float fX = static_cast< float >( s ) / static_cast< float >( uWidth );
-                        const float fY = static_cast< float >( t ) / static_cast< float >( uHeight );
-                        pxData[ v * uWidth + u ] = s_xRenderStack.Peek( 1 )[ t * uWidth + s ];
+                        const float fX = static_cast< float >( u * m_uParam1 ) / static_cast< float >( uWidth );
+                        const float fY = static_cast< float >( v * m_uParam1 ) / static_cast< float >( uHeight );
+                        pxData[ v * uWidth + u ] = WrapAwareSampleFiltered( fX, fY, uWidth, uHeight, s_xRenderStack.Peek( 1 ) );
                     }
                 }
-                break;
+                s_bWrap = bOldWrap;
                 break;
             }
 
@@ -2172,14 +2171,14 @@ GLToy_Vector_4 GLToy_Texture_Procedural::LayerNode::WrapAwareSampleFiltered( con
 
     if( s_bWrap )
     {
-        u1 = GLToy_Maths::Wrap( u1, 0, uWidth );
-        u2 = GLToy_Maths::Wrap( u2, 0, uWidth );
-        u3 = GLToy_Maths::Wrap( u3, 0, uWidth );
-        u4 = GLToy_Maths::Wrap( u4, 0, uWidth );
-        v1 = GLToy_Maths::Wrap( v1, 0, uHeight );
-        v2 = GLToy_Maths::Wrap( v2, 0, uHeight );
-        v3 = GLToy_Maths::Wrap( v3, 0, uHeight );
-        v4 = GLToy_Maths::Wrap( v4, 0, uHeight );
+        u1 = GLToy_Maths::Wrap( u1, 0u, uWidth );
+        u2 = GLToy_Maths::Wrap( u2, 0u, uWidth );
+        u3 = GLToy_Maths::Wrap( u3, 0u, uWidth );
+        u4 = GLToy_Maths::Wrap( u4, 0u, uWidth );
+        v1 = GLToy_Maths::Wrap( v1, 0u, uHeight );
+        v2 = GLToy_Maths::Wrap( v2, 0u, uHeight );
+        v3 = GLToy_Maths::Wrap( v3, 0u, uHeight );
+        v4 = GLToy_Maths::Wrap( v4, 0u, uHeight );
     }
 
     const GLToy_Vector_4 xX1 = GLToy_Maths::CatmullRomInterpolate( pxBuffer[ v1 * uWidth + u1 ], pxBuffer[ v1 * uWidth + u2 ], pxBuffer[ v1 * uWidth + u3 ], pxBuffer[ v1 * uWidth + u4 ], fT - fU2 );
