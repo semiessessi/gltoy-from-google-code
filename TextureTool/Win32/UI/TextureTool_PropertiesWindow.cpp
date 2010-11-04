@@ -30,11 +30,15 @@
 
 #include <Core/stdafx.h>
 
+// TextureTool
 #include <Core/Resource.h>
 #include <Core/TextureTool.h>
 #include <UI/TextureTool_Frame_Main.h>
 #include <UI/TextureTool_PropertiesWindow.h>
 
+// GLToy
+#include <Compression/GLToy_Compression.h>
+#include <Maths/GLToy_Maths.h>
 #include <String/GLToy_String.h>
 
 #ifdef _DEBUG
@@ -49,9 +53,9 @@ enum Property
     PROP_COLOUR_1           = 1,
     PROP_COLOUR_2           = 2,
     PROP_COLOUR_3           = 3,
-    PROP_u_int_1             = 4,
-    PROP_u_int_2             = 5,
-    PROP_u_int_3             = 6,
+    PROP_UINT_1             = 4,
+    PROP_UINT_2             = 5,
+    PROP_UINT_3             = 6,
     PROP_SHAPEFUNCTION      = 7,
     PROP_GRADIENTSTYLE      = 8,
     PROP_FLOAT_1            = 9,
@@ -60,7 +64,7 @@ enum Property
 
     // i imagine it will get hairy from here... although i haven't used the u_chars yet 8-bits is typically inconvenient...
     PROP_FIXED_12BIT_1      = 12,
-    PROP_BOOL_1             = 13, // ie. PROP_u_int_1BIT_1
+    PROP_BOOL_1             = 13, // ie. PROP_UINT_1BIT_1
 
     // okay... so i used some pretty quickly
     PROP_UCHAR_2_0          = 14,
@@ -78,6 +82,12 @@ enum Property
     PROP_PATTERNSTYLE       = 25,
 
     PROP_FIXED_6BIT_ANGLE_1 = 26,
+
+    PROP_COLOUR_24BIT_1     = 27,
+    PROP_COLOUR_24BIT_2     = 28,
+    PROP_COLOUR_24BIT_3     = 29,
+
+    PROP_UINT_6BIT_3        = 30,
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -223,7 +233,7 @@ void TextureTool_PropertiesWindow::OnPropertyChanged( CMFCPropertyGridProperty* 
             break;
         }
 
-        case PROP_u_int_1:
+        case PROP_UINT_1:
         {
             CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
             const CString sValue = pProp->GetValue().bstrVal;
@@ -232,7 +242,7 @@ void TextureTool_PropertiesWindow::OnPropertyChanged( CMFCPropertyGridProperty* 
             break;
         }
 
-        case PROP_u_int_2:
+        case PROP_UINT_2:
         {
             CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
             const CString sValue = pProp->GetValue().bstrVal;
@@ -241,7 +251,7 @@ void TextureTool_PropertiesWindow::OnPropertyChanged( CMFCPropertyGridProperty* 
             break;
         }
 
-        case PROP_u_int_3:
+        case PROP_UINT_3:
         {
             CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
             const CString sValue = pProp->GetValue().bstrVal;
@@ -450,6 +460,43 @@ void TextureTool_PropertiesWindow::OnPropertyChanged( CMFCPropertyGridProperty* 
             break;
         }
 
+
+        case PROP_COLOUR_24BIT_1:
+        {
+            CMFCPropertyGridColorProperty* pColourProp( static_cast< CMFCPropertyGridColorProperty* >( pProp ) );
+            const COLORREF xColour = pColourProp->GetColor();
+            const u_int uColour = GLToy_Decompress::RGBA_24Bits( GLToy_Compress::RGBA_24Bits( 0xFF000000 | xColour ) );
+            m_pxDocument->GetTexture().SetParam1( m_uID, uColour );
+            break;
+        }
+
+        case PROP_COLOUR_24BIT_2:
+        {
+            CMFCPropertyGridColorProperty* pColourProp( static_cast< CMFCPropertyGridColorProperty* >( pProp ) );
+            const COLORREF xColour = pColourProp->GetColor();
+            const u_int uColour = GLToy_Decompress::RGBA_24Bits( GLToy_Compress::RGBA_24Bits( 0xFF000000 | xColour ) );
+            m_pxDocument->GetTexture().SetParam2( m_uID, uColour );
+            break;
+        }
+
+        case PROP_COLOUR_24BIT_3:
+        {
+            CMFCPropertyGridColorProperty* pColourProp( static_cast< CMFCPropertyGridColorProperty* >( pProp ) );
+            const COLORREF xColour = pColourProp->GetColor();
+            const u_int uColour = GLToy_Decompress::RGBA_24Bits( GLToy_Compress::RGBA_24Bits( 0xFF000000 | xColour ) );
+            m_pxDocument->GetTexture().SetParam3( m_uID, uColour );
+            break;
+        }
+
+        case PROP_UINT_6BIT_3:
+        {
+            CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
+            const CString sValue = pProp->GetValue().bstrVal;
+            const u_int uValue = GLToy_Maths::Clamp( GLToy_String( static_cast< LPCTSTR >( sValue ) ).ExtractUnsignedInt(), 0u, 63u );
+            m_pxDocument->GetTexture().SetParam3( m_uID, uValue );
+            break;
+        }
+
         default:
         {
             return;
@@ -647,7 +694,7 @@ void TextureTool_PropertiesWindow::InitPropList(  TextureTool_Document* pxDocume
             CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty( _T( "Seed (Colour)" ), ( xColour ), NULL, _T( "Specifies the seed for the noise (each colour gives a different pattern)" ) );
             pColorProp->EnableOtherButton( _T( "Other..." ) );
             pColorProp->EnableAutomaticButton( _T( "Default" ), NULL );
-            pColorProp->SetData( PROP_COLOUR_2 );
+            pColorProp->SetData( PROP_COLOUR_24BIT_2 );
             pGroup->AddSubItem( pColorProp );
 
             m_wndPropList.AddProperty( pGroup );
@@ -712,7 +759,7 @@ void TextureTool_PropertiesWindow::InitPropList(  TextureTool_Document* pxDocume
             CString sValue;
             sValue.Format( _T( "%u" ), pxDocument->GetTexture().GetParam1( uID ) );
             CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Frequency" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the frequency of the tiling" ) );
-            pProp->SetData( PROP_u_int_1 );
+            pProp->SetData( PROP_UINT_1 );
             pGroup->AddSubItem( pProp );
 
             m_wndPropList.AddProperty( pGroup );
@@ -855,6 +902,32 @@ void TextureTool_PropertiesWindow::InitPropList(  TextureTool_Document* pxDocume
                     sValue.Format( _T( "%d" ), static_cast< int >( pxDocument->GetTexture().GetParam2c3( uID ) ) );
                     pProp = new CMFCPropertyGridProperty( _T( "Value 4" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies a coefficient for the convolution filter - enter zero for it to be ignored" ) );
                     pProp->SetData( PROP_SCHAR_2_3 );
+                    pGroup->AddSubItem( pProp );
+
+                    m_wndPropList.AddProperty( pGroup );
+                    break;
+                }
+
+                case GLToy_Texture_Procedural::EXTENSION_NOISE_DEFORM:
+                {
+                    pGroup = new CMFCPropertyGridProperty( _T( "Noise Deform Properties" ) );
+
+                    CString sValue;
+                    sValue.Format( _T( "%f" ), pxDocument->GetTexture().GetParam1f( uID ) );
+                    CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Frequency" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the base frequency for the noise" ) );
+                    pProp->SetData( PROP_FLOAT_1 );
+                    pGroup->AddSubItem( pProp );
+
+                    const COLORREF xColour = static_cast< const COLORREF >( 0xFFFFFF & pxDocument->GetTexture().GetParam2( uID ) );
+                    CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty( _T( "Seed (Colour)" ), ( xColour ), NULL, _T( "Specifies the seed for the noise (each colour gives a different pattern)" ) );
+                    pColorProp->EnableOtherButton( _T( "Other..." ) );
+                    pColorProp->EnableAutomaticButton( _T( "Default" ), NULL );
+                    pColorProp->SetData( PROP_COLOUR_24BIT_2 );
+                    pGroup->AddSubItem( pColorProp );
+
+                    sValue.Format( _T( "%d" ), pxDocument->GetTexture().GetParam3( uID ) );
+                    pProp = new CMFCPropertyGridProperty( _T( "Deformation Scale" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the amount of deformation" ) );
+                    pProp->SetData( PROP_UINT_6BIT_3 );
                     pGroup->AddSubItem( pProp );
 
                     m_wndPropList.AddProperty( pGroup );

@@ -166,41 +166,42 @@ public:
         //EXTENSION_BEVEL_NORMALS_RECTANGLE           = 11,
 
         // state
-        EXTENSION_TEXTURE_MODE                     = 12, // quite necessary for convolution, normals from heightmaps and loads of stuff to choose between wrap and clamp
-        // EXTENSION_SET_HIGHLIGHT_DIRECTION          = 13, // need this to generate highlights from normal maps
+        EXTENSION_TEXTURE_MODE                      = 12, // quite necessary for convolution, normals from heightmaps and loads of stuff to choose between wrap and clamp
+        // EXTENSION_SET_HIGHLIGHT_DIRECTION           = 13, // need this to generate highlights from normal maps
 
         // heightmap highlights and normal maps
-        EXTENSION_HEIGHTMAP_HIGHLIGHT              = 14,
-        EXTENSION_HEIGHTMAP_NORMALS                = 15,
+        EXTENSION_HEIGHTMAP_HIGHLIGHT               = 14,
+        EXTENSION_HEIGHTMAP_NORMALS                 = 15,
 
         // to cover things like bricks, floor tiles etc...
-        EXTENSION_PATTERN                          = 16,
-        // EXTENSION_PATTERN_NORMALS                  = 17,
-        // EXTENSION_PATTERN_HEIGHTMAP                = 18,
-        // EXTENSION_PATTERN_BRICK                    = 19,
-        // EXTENSION_PATTERN_BRICK_NORMALS            = 20,
-        // EXTENSION_PATTERN_BRICK_HEIGHTMAP          = 21,
+        EXTENSION_PATTERN                           = 16,
+        // EXTENSION_PATTERN_NORMALS                   = 17,
+        // EXTENSION_PATTERN_HEIGHTMAP                 = 18,
+        // EXTENSION_PATTERN_BRICK                     = 19,
+        // EXTENSION_PATTERN_BRICK_NORMALS             = 20,
+        // EXTENSION_PATTERN_BRICK_HEIGHTMAP           = 21,
 
-        EXTENSION_ROTATE                           = 22,
+        EXTENSION_ROTATE                            = 22,
 
         // convolution and similar filters
-        EXTENSION_CONVOLUTION_SIMPLE               = 23,
-        // EXTENSION_CONVOLUTION_FULL                 = 24,
-        // EXTENSION_ENHANCE_EDGES                    = 25,
-        // EXTENSION_FIND_EDGES                       = 26,
-        // EXTENSION_SOFTEN_EDGES                     = 27,
+        EXTENSION_CONVOLUTION_SIMPLE                = 23,
+        // EXTENSION_CONVOLUTION_FULL                  = 24,
+        // EXTENSION_ENHANCE_EDGES                     = 25,
+        // EXTENSION_FIND_EDGES                        = 26,
+        // EXTENSION_SOFTEN_EDGES                      = 27,
         
         // normal mapping
-        // EXTENSION_NORMAL_MAP_HALFSPHERE            = 28,
-        // EXTENSION_NORMAL_MAP_HALFCYLINDER          = 29,
-        // EXTENSION_NORMAL_MAP_PYRAMID               = 30,
-        // EXTENSION_NORMAL_MAP_PRISM                 = 31,
+        // EXTENSION_NORMAL_MAP_HALFSPHERE             = 28,
+        // EXTENSION_NORMAL_MAP_HALFCYLINDER           = 29,
+        // EXTENSION_NORMAL_MAP_PYRAMID                = 30,
+        // EXTENSION_NORMAL_MAP_PRISM                  = 31,
 
-        // EXTENSION_TRANSLATE                        = 32,
-        EXTENSION_SCALE                            = 33,
-        EXTENSION_ROTATE_VANILLA                   = 34,
+        // EXTENSION_TRANSLATE                         = 32,
+        EXTENSION_SCALE                             = 33,
+        EXTENSION_ROTATE_VANILLA                    = 34,
+        EXTENSION_NOISE_DEFORM                      = 35,
 
-        EXTENSION_BAD = 255, // actualy hoping this can be crushed down to 0-63, which will save 2-bits per extension function, which quickly adds up to bytes off the whole tree...
+        EXTENSION_BAD = 63,
     };
 
     static const u_int uCURRENT_VERSION = 0; // version 0 - added basic functionality
@@ -377,6 +378,7 @@ private:
                         case EXTENSION_CONVOLUTION_SIMPLE:              return "Convolution (1D, symmetrical, normalised)";
                         case EXTENSION_SCALE:                           return "Scaling";
                         case EXTENSION_ROTATE_VANILLA:                  return "Rotation (Non-tiling)";
+                        case EXTENSION_NOISE_DEFORM:                    return "Noisy Deformation";
                         default:                                        return "Unnamed Extension";
                     }
                 }
@@ -621,6 +623,14 @@ public:
         const u_int uAngle = static_cast< u_int >( 64.0f * fAngle / 360.0f ) & 0x3F; // bithax: mod 64
         m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_ROTATE_VANILLA, uAngle ) );
         return m_xLayers.End().GetID();
+    }
+
+    u_int AppendNoiseDeform( const float fFrequency = 32.0f, const u_int uSeed = 0 )
+    {
+        m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_NOISE_DEFORM, *reinterpret_cast< const u_int* >( &fFrequency ), uSeed ) );
+        LayerNode& xLayerNode = m_xLayers.End();
+        xLayerNode.m_uParam3 = 4;
+        return xLayerNode.GetID();
     }
 
     u_int AppendReference( const u_int uReferToID = 0 )

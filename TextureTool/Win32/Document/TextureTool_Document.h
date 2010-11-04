@@ -73,6 +73,8 @@ public:
     void AppendUntiledRotation180( const u_int uParentID = 0 );
     void AppendUntiledRotation270( const u_int uParentID = 0 );
 
+    void AppendNoiseDeform( const u_int uParentID = 0 );
+
     void DeleteLayer( const u_int uID );
     void PromoteLayer( const u_int uID );
 

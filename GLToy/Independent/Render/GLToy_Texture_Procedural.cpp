@@ -36,6 +36,7 @@
 #include <Render/GLToy_Texture_Procedural.h>
 
 // GLToy
+#include <Compression/GLToy_Compression.h>
 #include <File/GLToy_File.h>
 #include <Maths/GLToy_Maths.h>
 #include <Maths/GLToy_Noise.h>
@@ -97,7 +98,7 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
     }
     else
     {
-        // in general each instruction is 3 + n*32 bits, where n is 0-3, except extensions which use an extra 8-bits
+        // in general each instruction is 3 + n*32 bits, where n is 0-3, except extensions which use an extra 6-bits
         // some are optimised though
         u_int uInstruction;
         xStream.ReadBits( uInstruction, 3 );
@@ -106,18 +107,31 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
 
         m_uParam1 = 0;
 
-        switch( m_eInstruction ) // note the deliberate fall-through
+        switch( m_eInstruction )
         {
+            default:
+            {
+                xStream >> m_uParam1;
+                break;
+            }
+
             case INSTRUCTION_CIRCLE:
+            {
                 xStream >> m_uParam3;
+                xStream >> m_uParam2;
+                xStream >> m_uParam1;
+                break;
+            }
             
             case INSTRUCTION_NOISE:
             case INSTRUCTION_FBMNOISE:
-                xStream >> m_uParam2;
-            
-            default:
-                xStream >> m_uParam1; // TODO: split out noise and compress uParam1 as a 24-bit float - or better a 16-bit fixed point.
+            {
+                xStream.ReadBits( m_uParam2, 24 );
+                m_uParam2 = GLToy_Decompress::RGBA_24Bits( m_uParam2 );
+                xStream.ReadBits( m_uParam1, 12 );
+                m_fParam1 = GLToy_Decompress::Float_FixedBits( m_uParam1, 12, 1.0f, 4096.0f );
                 break;
+            }
 
             case INSTRUCTION_TILE:
             {
@@ -143,9 +157,9 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
 
             case INSTRUCTION_EXTENSION:
             {
-                u_char ucFunction;
-                xStream >> ucFunction;
-                m_eExtensionFunction = static_cast< ExtensionFunction >( ucFunction );
+                u_int uFunction;
+                xStream.ReadBits( uFunction, 6 );
+                m_eExtensionFunction = static_cast< ExtensionFunction >( uFunction );
                 
                 switch( m_eExtensionFunction )
                 {
@@ -178,6 +192,16 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
                         break;
                     }
 
+                    case EXTENSION_NOISE_DEFORM:
+                    {
+                        xStream.ReadBits( m_uParam3, 6 ); // 64 different scales of deformation should be ample
+                        xStream.ReadBits( m_uParam2, 24 );
+                        m_uParam2 = GLToy_Decompress::RGBA_24Bits( m_uParam2 );
+                        xStream.ReadBits( m_uParam1, 12 );
+                        m_fParam1 = GLToy_Decompress::Float_FixedBits( m_uParam1, 12, 1.0f, 4096.0f );
+                        break;
+                    }
+
                     case EXTENSION_CONVOLUTION_SIMPLE:
                     {
                         bool bSign = false;
@@ -196,6 +220,8 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
                             xStream.ReadBits( uParam, 4 );
                             m_aucParam2[ u ] = static_cast< u_char >( uParam ) | ( bSign ? 0xF0 : 0x00 );
                         }
+
+                        break;
                     }
 
                     default:
@@ -222,22 +248,33 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
     }
     else
     {
-        // in general each instruction is 3 + n*32 bits, where n is 0-3, except extensions which use an extra 8-bits
+        // in general each instruction is 3 + n*32 bits, where n is 0-3, except extensions which use an extra 6-bits
         // some are optimised though
         xStream.WriteBits( m_eInstruction, 3 );
 
-        switch( m_eInstruction ) // note the deliberate fall-through
+        switch( m_eInstruction )
         {
+            default:
+            {
+                xStream << m_uParam1;
+                break;
+            }
+
             case INSTRUCTION_CIRCLE:
+            {
                 xStream << m_uParam3;
+                xStream << m_uParam2;
+                xStream << m_uParam1;
+                break;
+            }
 
             case INSTRUCTION_NOISE:
             case INSTRUCTION_FBMNOISE:
-                xStream << m_uParam2;
-
-            default:
-                xStream << m_uParam1; // TODO: split out noise and compress uParam1 as a 24-bit float - or better a 16-bit fixed point.
+            {
+                xStream.WriteBits( GLToy_Compress::RGBA_24Bits( m_uParam2 ), 24 );
+                xStream.WriteBits( GLToy_Compress::Float_FixedBits( m_fParam1, 12, 1.0f, 4096.0f ), 12 );
                 break;
+            }
 
             case INSTRUCTION_TILE:
             {
@@ -262,7 +299,7 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
 
             case INSTRUCTION_EXTENSION:
             {
-                xStream << static_cast< u_char >( m_eExtensionFunction );
+                xStream.WriteBits( static_cast< u_int >( m_eExtensionFunction ), 6 );
 
                 switch( m_eExtensionFunction )
                 {
@@ -295,6 +332,14 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
                         break;
                     }
 
+                    case EXTENSION_NOISE_DEFORM:
+                    {
+                        xStream.WriteBits( m_uParam3, 6 ); // 64 different scales of deformation should be ample
+                        xStream.WriteBits( GLToy_Compress::RGBA_24Bits( m_uParam2 ), 24 );
+                        xStream.WriteBits( GLToy_Compress::Float_FixedBits( m_fParam1, 12, 1.0f, 4096.0f ), 12 );
+                        break;
+                    }
+
                     case EXTENSION_CONVOLUTION_SIMPLE:
                     {
                         // make sure the values are correct.
@@ -316,6 +361,8 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
                             xStream.WriteBool( m_acParam2[ u ] < 0 );
                             xStream.WriteBits( uParam, 4 );
                         }
+
+                        break;
                     }
 
                     default:
@@ -1167,6 +1214,28 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                         break;
                     }
 
+                    case EXTENSION_NOISE_DEFORM:
+                    {
+                        const float fScale = static_cast< float >( m_uParam3 ) / 256.0f;
+                        for( u_int v = 0; v < uHeight; ++v )
+                        {
+                            for( u_int u = 0; u < uWidth; ++u )
+                            {
+                                // TODO: scale the deformations... ?
+                                const float fX = static_cast< float >( u ) / static_cast< float >( uWidth );
+                                const float fY = static_cast< float >( v ) / static_cast< float >( uHeight );
+                                const GLToy_Vector_2 xPosition =
+                                    GLToy_Vector_2( fX, fY )
+                                    + fScale * GLToy_Vector_2(
+                                        GLToy_Noise::Cubic2D( fX, fY, m_fParam1, 1.0f, static_cast< u_int >( m_fParam1 ), m_uParam2 ),
+                                        GLToy_Noise::Cubic2D( fX, fY, m_fParam1, 1.0f, static_cast< u_int >( m_fParam1 ), m_uParam2 ^ 0x0F33F101 )
+                                    );
+                                pxData[ v * uWidth + u ] = WrapAwareSampleFiltered( xPosition[ 0 ], xPosition[ 1 ], uWidth, uHeight, s_xRenderStack.Peek( 1 ) );
+                            }
+                        }
+                        break;
+                    }
+
                     // because this is a horribly complicated case, do it last
                     case EXTENSION_PATTERN:
                     {
@@ -1513,11 +1582,12 @@ void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName, cons
         "#define __PTX_" + szCleanName + "_H_\r\n"
         "\r\n"
         "static const char acPTX_" + szCleanName + "[] =\r\n"
-        "{\r\n";
+        "{\r\n"
+        "    ";
     for( u_int u = 0; u < xStream.GetBytesWritten(); ++u )
     {
         GLToy_String szByte;
-        szByte.SetToFormatString( "    0x%X,\r\n", reinterpret_cast< u_char* >( xStream.GetData() )[ u ] );
+        szByte.SetToFormatString( "0x%X, ", reinterpret_cast< u_char* >( xStream.GetData() )[ u ] );
         szData += szByte;
     }
     szData +=
@@ -2184,8 +2254,8 @@ bool GLToy_Texture_Procedural::CircularReferenceCheck( const u_int uReferenceID 
 
 GLToy_Vector_4 GLToy_Texture_Procedural::LayerNode::WrapAwareSample( const int u, const int v, const u_int uWidth, const u_int uHeight, const GLToy_Vector_4* const pxBuffer )
 {
-    const u_int s = s_bWrap ? ( u % uWidth - 1 ) : GLToy_Maths::Clamp( static_cast< u_int >( u ), 0u, uWidth - 1 );
-    const u_int t = s_bWrap ? ( v % uHeight - 1 ) : GLToy_Maths::Clamp( static_cast< u_int >( v ), 0u, uHeight - 1 );
+    const u_int s = s_bWrap ? ( u % uWidth ) : GLToy_Maths::Clamp( static_cast< u_int >( u ), 0u, uWidth - 1 );
+    const u_int t = s_bWrap ? ( v % uHeight ) : GLToy_Maths::Clamp( static_cast< u_int >( v ), 0u, uHeight - 1 );
     return pxBuffer[ t * uWidth + s ];
 }
 

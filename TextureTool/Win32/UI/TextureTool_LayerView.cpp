@@ -100,6 +100,7 @@ BEGIN_MESSAGE_MAP(TextureTool_LayerView, CDockablePane)
     ON_COMMAND(ID_ROTATIONS_UNTILED270, &TextureTool_LayerView::OnRotationsUntiled270)
     ON_COMMAND(ID_SCALING_2X, &TextureTool_LayerView::OnScaling2x)
     ON_COMMAND(ID_SCALING_0, &TextureTool_LayerView::OnScaling0)
+    ON_COMMAND(ID_DEFORMATION_NOISY, &TextureTool_LayerView::OnDeformationNoisy)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1250,4 +1251,23 @@ void TextureTool_LayerView::OnScaling0()
     }
 
     pxDocument->AppendScaleHalf();
+}
+
+
+void TextureTool_LayerView::OnDeformationNoisy()
+{
+    TextureTool_Document* pxDocument = GetDocument();
+    if( !pxDocument )
+    {
+        return;
+    }
+
+    const u_int uID = GetSelectedID();
+    if( CString( pxDocument->GetTexture().GetLayerName( uID ) ) == _T( "Group" ) )
+    {
+        pxDocument->AppendNoiseDeform( uID );
+        return;
+    }
+
+    pxDocument->AppendNoiseDeform();
 }

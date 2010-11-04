@@ -101,5 +101,6 @@ public:
     afx_msg void OnRotationsUntiled270();
     afx_msg void OnScaling2x();
     afx_msg void OnScaling0();
+    afx_msg void OnDeformationNoisy();
 };
 

@@ -627,6 +627,19 @@ void TextureTool_Document::AppendUntiledRotation270( const u_int uParentID )
     UpdateAllViews( NULL );
 }
 
+void TextureTool_Document::AppendNoiseDeform( const u_int uParentID )
+{
+    const u_int uID = m_xTexture.AppendNoiseDeform();
+
+    if( uParentID )
+    {
+        m_xTexture.MoveLayerUnder( uID, uParentID );
+    }
+
+    SetModifiedFlag();
+    UpdateAllViews( NULL );
+}
+
 void TextureTool_Document::DeleteLayer( const u_int uID )
 {
     m_xTexture.DeleteFromID( uID );

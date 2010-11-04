@@ -224,6 +224,13 @@ u_int GLToy_Compress::Float_3Bytes( const float fFloat )
     return uReturnValue;
 }
 
+u_int GLToy_Compress::Float_FixedBits( const float fFloat, const u_int uNumBits, const float fMin, const float fMax )
+{
+    const float fNormalised = ( fFloat - fMin ) / ( fMax - fMin );
+    const float fScale = static_cast< float >( ( 1 << uNumBits ) - 1 );
+    return static_cast< u_int >( fNormalised * fScale );
+}
+
 GLToy_5Bytes GLToy_Compress::Vector_5Bytes( const GLToy_Vector_3& xVector )
 {
     const float fMag = xVector.Magnitude();
@@ -270,6 +277,23 @@ u_int GLToy_Compress::OrthonormalMatrix_4Bytes( const GLToy_Matrix_3& xMatrix )
     return static_cast< u_int >( UnitVector_2Bytes( xMatrix[ 0 ] ) ) | ( static_cast< u_int >( UnitVector_2Bytes( xMatrix[ 1 ] ) ) << 16 );
 }
 
+u_int GLToy_Compress::RGBA_28Bits( const u_int uRGBA )
+{
+    // bithax: basically shift each component by 1 bit and then move each across to fill the zeros left
+    const u_int u1 = uRGBA >> 1;
+    const u_int u2 = ( u1 & 0x7F ) | ( ( u1 >> 1 ) & ~0x7F );
+    const u_int u3 = ( u2 & 0x3FFF ) | ( ( u2 >> 1 ) & ~0x3FFF );
+    return ( u3 & 0x1FFFFF ) | ( ( u3 >> 1 ) & ~0x1FFFFF );
+}
+
+u_int GLToy_Compress::RGBA_24Bits( const u_int uRGBA )
+{
+    // bithax: basically shift each component by 2 bits and then move each across to fill the zeros left
+    const u_int u1 = uRGBA >> 2;
+    const u_int u2 = ( u1 & 0x3F ) | ( ( u1 >> 2 ) & ~0x3F );
+    const u_int u3 = ( u2 & 0xFFF ) | ( ( u2 >> 2 ) & ~0xFFF );
+    return ( u3 & 0x3FFFF ) | ( ( u3 >> 2 ) & ~0x3FFFF );
+}
 
 float GLToy_Decompress::Float_3Bytes( const u_int uInt )
 {
@@ -284,6 +308,12 @@ float GLToy_Decompress::Float_3Bytes( const u_int uInt )
     uReturnValue |= ( uInt & 0x1FFFF ) << 6;
 
     return *reinterpret_cast< float * >( &uReturnValue );
+}
+
+float GLToy_Decompress::Float_FixedBits( const u_int uInt, const u_int uNumBits, const float fMin, const float fMax )
+{
+    const float fScale = static_cast< float >( ( 1 << uNumBits ) - 1 );
+    return fMin + ( fMax - fMin ) * static_cast< float >( uInt ) / fScale;
 }
 
 GLToy_Vector_3 GLToy_Decompress::Vector_5Bytes( const GLToy_5Bytes& u5Bytes )
@@ -329,4 +359,22 @@ GLToy_Matrix_3 GLToy_Decompress::OrthonormalMatrix_4Bytes( const u_int uInt )
     xZ.Normalise();
     xY = xZ.Cross( xX );
     return GLToy_Matrix_3( xX, xY, xZ );
+}
+
+u_int GLToy_Decompress::RGBA_28Bits( const u_int uCompressed )
+{
+    // bithax: basically shift each component by 1 bit and then move each across towards their final positions
+    const u_int u1 = uCompressed << 1;
+    const u_int u2 = ( u1 & 0xFF ) | ( ( u1 << 1 ) & ~0xFF );
+    const u_int u3 = ( u2 & 0xFFFF ) | ( ( u2 << 1 ) & ~0xFFFF );
+    return ( u3 & 0xFFFFFF ) | ( ( u3 << 1 ) & ~0xFFFFFF );
+}
+
+u_int GLToy_Decompress::RGBA_24Bits( const u_int uCompressed )
+{
+    // bithax: basically shift each component by 1 bit and then move each across towards their final positions
+    const u_int u1 = uCompressed << 2;
+    const u_int u2 = ( u1 & 0xFF ) | ( ( u1 << 2 ) & ~0xFF );
+    const u_int u3 = ( u2 & 0xFFFF ) | ( ( u2 << 2 ) & ~0xFFFF );
+    return ( u3 & 0xFFFFFF ) | ( ( u3 << 2 ) & ~0xFFFFFF );
 }
