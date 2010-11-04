@@ -705,294 +705,82 @@ public:
         }
     }
 
-    u_int GetParam1( const u_int uID ) const
-    {
-        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            return pxLayerNode->m_uParam1;
-        }
+    // macros are evil, but significantly less evil than 1000s lines of header
+#define Getter( xName, xType, xMember ) GLToy_Inline xType xName( const u_int uID ) const { const LayerNode* const pxLayerNode = GetLayerNodeFromID( uID ); if( pxLayerNode ) { return pxLayerNode->xMember; } return static_cast< xType >( 0 ); }
 
-        return 0;
-    }
+    Getter( GetParam1, u_int, m_uParam1 )
+    Getter( GetParam2, u_int, m_uParam2 )
+    Getter( GetParam3, u_int, m_uParam3 )
+    Getter( GetParam1i, int, m_iParam1 )
+    Getter( GetParam2i, int, m_iParam2 )
+    Getter( GetParam3i, int, m_iParam3 )
+    Getter( GetParam1f, float, m_fParam1 )
+    Getter( GetParam2f, float, m_fParam2 )
+    Getter( GetParam3f, float, m_fParam3 )
+    Getter( GetParam1uc0, u_char, m_aucParam1[ 0 ] )
+    Getter( GetParam1uc1, u_char, m_aucParam1[ 1 ] )
+    Getter( GetParam1uc2, u_char, m_aucParam1[ 2 ] )
+    Getter( GetParam1uc3, u_char, m_aucParam1[ 3 ] )
+    Getter( GetParam2uc0, u_char, m_aucParam2[ 0 ] )
+    Getter( GetParam2uc1, u_char, m_aucParam2[ 1 ] )
+    Getter( GetParam2uc2, u_char, m_aucParam2[ 2 ] )
+    Getter( GetParam2uc3, u_char, m_aucParam2[ 3 ] )
+    Getter( GetParam3uc0, u_char, m_aucParam3[ 0 ] )
+    Getter( GetParam3uc1, u_char, m_aucParam3[ 1 ] )
+    Getter( GetParam3uc2, u_char, m_aucParam3[ 2 ] )
+    Getter( GetParam3uc3, u_char, m_aucParam3[ 3 ] )
+    Getter( GetParam1c0, char, m_acParam1[ 0 ] )
+    Getter( GetParam1c1, char, m_acParam1[ 1 ] )
+    Getter( GetParam1c2, char, m_acParam1[ 2 ] )
+    Getter( GetParam1c3, char, m_acParam1[ 3 ] )
+    Getter( GetParam2c0, char, m_acParam2[ 0 ] )
+    Getter( GetParam2c1, char, m_acParam2[ 1 ] )
+    Getter( GetParam2c2, char, m_acParam2[ 2 ] )
+    Getter( GetParam2c3, char, m_acParam2[ 3 ] )
+    Getter( GetParam3c0, char, m_acParam3[ 0 ] )
+    Getter( GetParam3c1, char, m_acParam3[ 1 ] )
+    Getter( GetParam3c2, char, m_acParam3[ 2 ] )
+    Getter( GetParam3c3, char, m_acParam3[ 3 ] )
 
-    u_int GetParam2( const u_int uID ) const
-    {
-        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            return pxLayerNode->m_uParam2;
-        }
+#undef Getter
 
-        return 0;
-    }
+#define Setter( xName, xType, xMember ) GLToy_Inline void xName( const u_int uID, const xType xValue ) { LayerNode* const pxLayerNode = GetLayerNodeFromID( uID ); if( pxLayerNode ) { pxLayerNode->xMember = xValue; } }
+    
+    Setter( SetParam1, u_int, m_uParam1 )
+    Setter( SetParam2, u_int, m_uParam2 )
+    Setter( SetParam3, u_int, m_uParam3 )
+    Setter( SetParam1, int, m_iParam1 )
+    Setter( SetParam2, int, m_iParam2 )
+    Setter( SetParam3, int, m_iParam3 )
+    Setter( SetParam1, float, m_fParam1 )
+    Setter( SetParam2, float, m_fParam2 )
+    Setter( SetParam3, float, m_fParam3 )
+    Setter( SetParam1uc0, u_char, m_aucParam1[ 0 ] )
+    Setter( SetParam1uc1, u_char, m_aucParam1[ 1 ] )
+    Setter( SetParam1uc2, u_char, m_aucParam1[ 2 ] )
+    Setter( SetParam1uc3, u_char, m_aucParam1[ 3 ] )
+    Setter( SetParam2uc0, u_char, m_aucParam2[ 0 ] )
+    Setter( SetParam2uc1, u_char, m_aucParam2[ 1 ] )
+    Setter( SetParam2uc2, u_char, m_aucParam2[ 2 ] )
+    Setter( SetParam2uc3, u_char, m_aucParam2[ 3 ] )
+    Setter( SetParam3uc0, u_char, m_aucParam3[ 0 ] )
+    Setter( SetParam3uc1, u_char, m_aucParam3[ 1 ] )
+    Setter( SetParam3uc2, u_char, m_aucParam3[ 2 ] )
+    Setter( SetParam3uc3, u_char, m_aucParam3[ 3 ] )
+    Setter( SetParam1c0, char, m_acParam1[ 0 ] )
+    Setter( SetParam1c1, char, m_acParam1[ 1 ] )
+    Setter( SetParam1c2, char, m_acParam1[ 2 ] )
+    Setter( SetParam1c3, char, m_acParam1[ 3 ] )
+    Setter( SetParam2c0, char, m_acParam2[ 0 ] )
+    Setter( SetParam2c1, char, m_acParam2[ 1 ] )
+    Setter( SetParam2c2, char, m_acParam2[ 2 ] )
+    Setter( SetParam2c3, char, m_acParam2[ 3 ] )
+    Setter( SetParam3c0, char, m_acParam3[ 0 ] )
+    Setter( SetParam3c1, char, m_acParam3[ 1 ] )
+    Setter( SetParam3c2, char, m_acParam3[ 2 ] )
+    Setter( SetParam3c3, char, m_acParam3[ 3 ] )
 
-    float GetParam1f( const u_int uID ) const
-    {
-        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            return pxLayerNode->m_fParam1;
-        }
-
-        return 0.0f;
-    }
-
-    float GetParam2f( const u_int uID ) const
-    {
-        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            return pxLayerNode->m_fParam2;
-        }
-
-        return 0.0f;
-    }
-
-    u_char GetParam2uc0( const u_int uID ) const
-    {
-        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            return pxLayerNode->m_aucParam2[ 0 ];
-        }
-
-        return 0;
-    }
-
-    u_char GetParam2uc1( const u_int uID ) const
-    {
-        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            return pxLayerNode->m_aucParam2[ 1 ];
-        }
-
-        return 0;
-    }
-
-    u_char GetParam2uc2( const u_int uID ) const
-    {
-        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            return pxLayerNode->m_aucParam2[ 2 ];
-        }
-
-        return 0;
-    }
-
-    u_char GetParam2uc3( const u_int uID ) const
-    {
-        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            return pxLayerNode->m_aucParam2[ 3 ];
-        }
-
-        return 0;
-    }
-
-    char GetParam2c0( const u_int uID ) const
-    {
-        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            return pxLayerNode->m_acParam2[ 0 ];
-        }
-
-        return 0;
-    }
-
-    char GetParam2c1( const u_int uID ) const
-    {
-        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            return pxLayerNode->m_acParam2[ 1 ];
-        }
-
-        return 0;
-    }
-
-    char GetParam2c2( const u_int uID ) const
-    {
-        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            return pxLayerNode->m_acParam2[ 2 ];
-        }
-
-        return 0;
-    }
-
-    char GetParam2c3( const u_int uID ) const
-    {
-        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            return pxLayerNode->m_acParam2[ 3 ];
-        }
-
-        return 0;
-    }
-
-    u_int GetParam3( const u_int uID ) const
-    {
-        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            return pxLayerNode->m_uParam3;
-        }
-
-        return 0;
-    }
-
-    int GetParam3i( const u_int uID ) const
-    {
-        const LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            return pxLayerNode->m_iParam3;
-        }
-
-        return 0;
-    }
-
-    void SetParam1( const u_int uID, const u_int uValue )
-    {
-        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            pxLayerNode->m_uParam1 = uValue;
-        }
-    }
-
-    void SetParam1( const u_int uID, const float fValue )
-    {
-        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            pxLayerNode->m_fParam1 = fValue;
-        }
-    }
-
-    void SetParam2( const u_int uID, const u_int uValue )
-    {
-        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            pxLayerNode->m_uParam2 = uValue;
-        }
-    }
-
-    void SetParam2( const u_int uID, const float fValue )
-    {
-        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            pxLayerNode->m_fParam2 = fValue;
-        }
-    }
-
-    void SetParam2uc0( const u_int uID, const u_char ucValue )
-    {
-        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            pxLayerNode->m_aucParam2[ 0 ] = ucValue;
-        }
-    }
-
-    void SetParam2uc1( const u_int uID, const u_char ucValue )
-    {
-        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            pxLayerNode->m_aucParam2[ 1 ] = ucValue;
-        }
-    }
-
-    void SetParam2uc2( const u_int uID, const u_char ucValue )
-    {
-        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            pxLayerNode->m_aucParam2[ 2 ] = ucValue;
-        }
-    }
-
-    void SetParam2uc3( const u_int uID, const u_char ucValue )
-    {
-        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            pxLayerNode->m_aucParam2[ 3 ] = ucValue;
-        }
-    }
-
-    void SetParam2c0( const u_int uID, const char cValue )
-    {
-        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            pxLayerNode->m_acParam2[ 0 ] = cValue;
-        }
-    }
-
-    void SetParam2c1( const u_int uID, const char cValue )
-    {
-        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            pxLayerNode->m_acParam2[ 1 ] = cValue;
-        }
-    }
-
-    void SetParam2c2( const u_int uID, const char cValue )
-    {
-        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            pxLayerNode->m_acParam2[ 2 ] = cValue;
-        }
-    }
-
-    void SetParam2c3( const u_int uID, const char cValue )
-    {
-        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            pxLayerNode->m_acParam2[ 3 ] = cValue;
-        }
-    }
-
-    void SetParam3( const u_int uID, const u_int uValue )
-    {
-        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            pxLayerNode->m_uParam3 = uValue;
-        }
-    }
-
-    void SetParam3( const u_int uID, const int iValue )
-    {
-        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            pxLayerNode->m_iParam3 = iValue;
-        }
-    }
-
-    void SetParam3( const u_int uID, const float fValue )
-    {
-        LayerNode* pxLayerNode = GetLayerNodeFromID( uID );
-        if( pxLayerNode )
-        {
-            pxLayerNode->m_fParam3 = fValue;
-        }
-    }
+#undef Setter
 
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
@@ -1092,6 +880,7 @@ public:
 
 protected:
 
+    // TODO: tidy these nasties up
     LayerNode* GetLayerNodeFromID( const u_int uID, GLToy_SmallSerialisableArray< LayerNode >* pxLayers = NULL )
     {
         if( !pxLayers )
