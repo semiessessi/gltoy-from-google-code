@@ -96,15 +96,15 @@ int TextureTool_OutputWindow::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// Attach list windows to tab:
 	bNameValid = strTabName.LoadString(IDS_OUTPUT_TAB);
 	ASSERT(bNameValid);
-	m_xTabs.AddTab(&m_xOutput, strTabName, (UINT)0);
+	m_xTabs.AddTab(&m_xOutput, strTabName, (u_int)0);
 #ifdef GLTOY_DEBUG
-    m_xTabs.AddTab(&m_xDebug, CString( "Debug" ), (UINT)0);
+    m_xTabs.AddTab(&m_xDebug, CString( "Debug" ), (u_int)0);
 #endif
 
 	return 0;
 }
 
-void TextureTool_OutputWindow::OnSize(UINT nType, int cx, int cy)
+void TextureTool_OutputWindow::OnSize(u_int nType, int cx, int cy)
 {
 	CDockablePane::OnSize(nType, cx, cy);
 

@@ -58,22 +58,22 @@ class TextureTool_Document;
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class TextureTool : public CWinAppEx
+class TextureTool
+: public CWinAppEx
 {
+
 public:
+
 	TextureTool();
 
+    u_int GetAppLook() const { return m_uAppLook; }
+    bool UseHighColorIcons() const { return m_bHiColorIcons != FALSE; }
 
-// Overrides
-public:
+    void SetAppLook( const u_int uLook ) { m_uAppLook = uLook; }
+    void SetUseHighColorIcons( const bool bUse ) { m_bHiColorIcons = bUse ? TRUE : FALSE; }
+
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
-
-// Implementation
-	COleTemplateServer m_server;
-		// Server object for document creation
-	UINT  m_nAppLook;
-	BOOL  m_bHiColorIcons;
 
 	virtual void PreLoadState();
 	virtual void LoadCustomState();
@@ -84,9 +84,9 @@ public:
     afx_msg void OnExportJPG( const u_int uWidth = 256, const u_int uHeight = 256, const u_int uSamples = 1 );
     afx_msg void OnExportPNG( const u_int uWidth = 256, const u_int uHeight = 256, const u_int uSamples = 1 );
     afx_msg void OnExportTGA( const u_int uWidth = 256, const u_int uHeight = 256, const u_int uSamples = 1 );
+    afx_msg void OnExportImage();
 
     static void OutputMessage( const CString& sMessage );
-
     static void DebugOutputCallback( const char* const szMessage );
 
 	DECLARE_MESSAGE_MAP()
@@ -94,10 +94,13 @@ public:
 private:
 
     TextureTool_Document* GetCurrentDocument();
-public:
-    afx_msg void OnExportImage();
+
+    COleTemplateServer m_server;
+	u_int  m_uAppLook;
+	BOOL  m_bHiColorIcons;
+
 };
 
-extern TextureTool theApp;
+extern TextureTool g_xApp;
 
 #endif

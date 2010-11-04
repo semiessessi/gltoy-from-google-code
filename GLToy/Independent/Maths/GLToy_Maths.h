@@ -95,6 +95,13 @@ public:
         return uMin + ( ( uValue - uMin ) % ( uMax - uMin ) );
     }
 
+    //static GLToy_Inline int Wrap( const int iValue, const int iMin = 0, const int iMax = 1 )
+    //{
+    //    GLToy_Assert( iMax > iMin, "Minimum is greater than maximum!" );
+    //    const int iMod = ( ( iValue - iMin ) % ( iMax - iMin ) );
+    //    return iMin + ( ( iMod > 0 ) ? iMod : ( iMax - iMin - iMod ) );
+    //}
+
 	template < class T >
 	static GLToy_Inline T Lerp( const T& xValue1, const T& xValue2, const float fAmount )
 	{

@@ -42,13 +42,13 @@ public:
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnSize(u_int nType, int cx, int cy);
 	afx_msg void OnExpandAllProperties();
 	afx_msg void OnUpdateExpandAllProperties(CCmdUI* pCmdUI);
 	afx_msg void OnSortProperties();
 	afx_msg void OnUpdateSortProperties(CCmdUI* pCmdUI);
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
-	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
+	afx_msg void OnSettingChange(u_int uFlags, LPCTSTR lpszSection);
     afx_msg LRESULT OnPropertyChanged( WPARAM, LPARAM );
     
     virtual void OnPropertyChanged( CMFCPropertyGridProperty* pProp ) const;

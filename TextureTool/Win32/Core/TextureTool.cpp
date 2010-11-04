@@ -93,7 +93,7 @@ TextureTool::TextureTool()
 
 // The one and only TextureTool object
 
-TextureTool theApp;
+TextureTool g_xApp;
 // This identifier was generated to be statistically unique for your app
 // You may change it if you prefer to choose a specific identifier
 
@@ -153,7 +153,7 @@ BOOL TextureTool::InitInstance()
 	InitTooltipManager();
 	CMFCToolTipInfo ttParams;
 	ttParams.m_bVislManagerTheme = TRUE;
-	theApp.GetTooltipManager()->SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
+	g_xApp.GetTooltipManager()->SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
 		RUNTIME_CLASS(CMFCToolTipCtrl), &ttParams);
 
 	// Register the application's document templates.  Document templates

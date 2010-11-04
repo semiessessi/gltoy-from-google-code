@@ -45,8 +45,8 @@
 IMPLEMENT_DYNAMIC(TextureTool_Frame_Main, CMDIFrameWndEx)
 
 const int  iMaxUserToolbars = 10;
-const UINT uiFirstUserToolBarId = AFX_IDW_CONTROLBAR_FIRST + 40;
-const UINT uiLastUserToolBarId = uiFirstUserToolBarId + iMaxUserToolbars - 1;
+const u_int uiFirstUserToolBarId = AFX_IDW_CONTROLBAR_FIRST + 40;
+const u_int uiLastUserToolBarId = uiFirstUserToolBarId + iMaxUserToolbars - 1;
 
 BEGIN_MESSAGE_MAP(TextureTool_Frame_Main, CMDIFrameWndEx)
 	ON_WM_CREATE()
@@ -64,7 +64,7 @@ BEGIN_MESSAGE_MAP(TextureTool_Frame_Main, CMDIFrameWndEx)
     ON_MESSAGE( WM_UPDATEVIEWS, &TextureTool_Frame_Main::OnUpdateViews )
 END_MESSAGE_MAP()
 
-static UINT indicators[] =
+static u_int indicators[] =
 {
 	ID_SEPARATOR,           // status line indicator
 	ID_INDICATOR_CAPS,
@@ -79,7 +79,7 @@ TextureTool_Frame_Main::TextureTool_Frame_Main()
 	// TODO: add member initialization code here
     const u_int uVersion = ::GetVersion();
     const u_int uMajorVersion = LOBYTE( LOWORD( uVersion ) );
-	theApp.m_nAppLook = theApp.GetInt( _T("ApplicationLook"), uMajorVersion >= 7 ? ID_VIEW_APPLOOK_WINDOWS_7 : ID_VIEW_APPLOOK_VS_2008 );
+	g_xApp.SetAppLook( g_xApp.GetInt( _T( "ApplicationLook" ), uMajorVersion >= 7 ? ID_VIEW_APPLOOK_WINDOWS_7 : ID_VIEW_APPLOOK_VS_2008 ) );
 }
 
 TextureTool_Frame_Main::~TextureTool_Frame_Main()
@@ -93,7 +93,7 @@ int TextureTool_Frame_Main::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	BOOL bNameValid;
 	// set the visual manager and style based on persisted value
-	OnApplicationLook(theApp.m_nAppLook);
+	OnApplicationLook( g_xApp.GetAppLook() );
 
 	CMDITabInfo mdiTabParams;
 	mdiTabParams.m_style = CMFCTabCtrl::STYLE_3D_ROUNDED_SCROLL;//::STYLE_3D_ONENOTE; // other styles available...
@@ -114,8 +114,8 @@ int TextureTool_Frame_Main::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// prevent the menu bar from taking the focus on activation
 	CMFCPopupMenu::SetForceMenuFocus(FALSE);
 
-	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
-		!m_wndToolBar.LoadToolBar(theApp.m_bHiColorIcons ? IDR_MAINFRAME_256 : IDR_MAINFRAME))
+	if( !m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
+		!m_wndToolBar.LoadToolBar( g_xApp.UseHighColorIcons() ? IDR_MAINFRAME_256 : IDR_MAINFRAME ) )
 	{
 		TRACE0("Failed to create toolbar\n");
 		return -1;      // fail to create
@@ -139,7 +139,7 @@ int TextureTool_Frame_Main::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create status bar\n");
 		return -1;      // fail to create
 	}
-	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT));
+	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(u_int));
 
 	//m_wndMenuBar.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
@@ -154,7 +154,7 @@ int TextureTool_Frame_Main::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	EnableAutoHidePanes(CBRS_ALIGN_ANY);
 
 	// Load menu item image (not placed on any standard toolbars):
-	CMFCToolBar::AddToolBarForImageCollection(IDR_MENU_IMAGES, theApp.m_bHiColorIcons ? IDB_MENU_IMAGES_24 : 0);
+	CMFCToolBar::AddToolBarForImageCollection( IDR_MENU_IMAGES, g_xApp.UseHighColorIcons() ? IDB_MENU_IMAGES_24 : 0 );
 
 	// create docking windows
 	if (!CreateDockingWindows())
@@ -192,7 +192,7 @@ int TextureTool_Frame_Main::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// enable menu personalization (most-recently used commands)
 	// TODO: define your own basic commands, ensuring that each pulldown menu has at least one basic command.
-	CList<UINT, UINT> lstBasicCommands;
+	CList<u_int, u_int> lstBasicCommands;
 
 	lstBasicCommands.AddTail(ID_FILE_NEW);
 	lstBasicCommands.AddTail(ID_FILE_OPEN);
@@ -323,7 +323,7 @@ BOOL TextureTool_Frame_Main::CreateDockingWindows()
 		return FALSE; // failed to create
 	}
 
-	SetDockingWindowIcons(theApp.m_bHiColorIcons);
+	SetDockingWindowIcons( g_xApp.UseHighColorIcons() );
 	return TRUE;
 }
 
@@ -390,13 +390,13 @@ LRESULT TextureTool_Frame_Main::OnToolbarCreateNew(WPARAM wp,LPARAM lp)
 	return lres;
 }
 
-void TextureTool_Frame_Main::OnApplicationLook(UINT id)
+void TextureTool_Frame_Main::OnApplicationLook( u_int uLook )
 {
 	CWaitCursor wait;
 
-	theApp.m_nAppLook = id;
+	g_xApp.SetAppLook( uLook );
 
-	switch (theApp.m_nAppLook)
+	switch( g_xApp.GetAppLook() )
 	{
 	case ID_VIEW_APPLOOK_WIN_2000:
 		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManager));
@@ -432,7 +432,7 @@ void TextureTool_Frame_Main::OnApplicationLook(UINT id)
 		break;
 
 	default:
-		switch (theApp.m_nAppLook)
+		switch( g_xApp.GetAppLook() )
 		{
 		case ID_VIEW_APPLOOK_OFF_2007_BLUE:
 			CMFCVisualManagerOffice2007::SetStyle(CMFCVisualManagerOffice2007::Office2007_LunaBlue);
@@ -457,19 +457,19 @@ void TextureTool_Frame_Main::OnApplicationLook(UINT id)
 
 	RedrawWindow(NULL, NULL, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME | RDW_ERASE);
 
-	theApp.WriteInt(_T("ApplicationLook"), theApp.m_nAppLook);
+	g_xApp.WriteInt( _T( "ApplicationLook" ), g_xApp.GetAppLook() );
 }
 
 void TextureTool_Frame_Main::OnUpdateApplicationLook(CCmdUI* pCmdUI)
 {
-	pCmdUI->SetRadio(theApp.m_nAppLook == pCmdUI->m_nID);
+	pCmdUI->SetRadio( g_xApp.GetAppLook() == pCmdUI->m_nID );
 }
 
-BOOL TextureTool_Frame_Main::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParentWnd, CCreateContext* pContext) 
+BOOL TextureTool_Frame_Main::LoadFrame( u_int nIDResource, DWORD dwDefaultStyle, CWnd* pParentWnd, CCreateContext* pContext ) 
 {
 	// base class does the real work
 
-	if (!CMDIFrameWndEx::LoadFrame(nIDResource, dwDefaultStyle, pParentWnd, pContext))
+	if( !CMDIFrameWndEx::LoadFrame( nIDResource, dwDefaultStyle, pParentWnd, pContext ) )
 	{
 		return FALSE;
 	}
@@ -494,7 +494,7 @@ BOOL TextureTool_Frame_Main::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, C
 }
 
 
-void TextureTool_Frame_Main::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
+void TextureTool_Frame_Main::OnSettingChange(u_int uFlags, LPCTSTR lpszSection)
 {
 	CMDIFrameWndEx::OnSettingChange(uFlags, lpszSection);
 	m_wndOutput.UpdateFonts();

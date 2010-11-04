@@ -50,8 +50,8 @@ float GLToy_Noise::Linear1D( const float fX, const float fFrequency, const float
 	
 	if( uWrap )
     {
-        u1 = GLToy_Maths::Wrap( u1, 0, uWrap );
-        u2 = GLToy_Maths::Wrap( u2, 0, uWrap );
+        u1 = GLToy_Maths::Wrap( u1, 0u, uWrap );
+        u2 = GLToy_Maths::Wrap( u2, 0u, uWrap );
     }
     
     return fScale * GLToy_Maths::Lerp( PRNG( u1 ), PRNG( u2 ), fT - fU1 );
@@ -67,8 +67,8 @@ float GLToy_Noise::Cosine1D( const float fX, const float fFrequency, const float
 
     if( uWrap )
     {
-        u1 = GLToy_Maths::Wrap( u1, 0, uWrap );
-        u2 = GLToy_Maths::Wrap( u2, 0, uWrap );
+        u1 = GLToy_Maths::Wrap( u1, 0u, uWrap );
+        u2 = GLToy_Maths::Wrap( u2, 0u, uWrap );
     }
 
     return fScale * GLToy_Maths::CosineInterpolate( PRNG( u1 ), PRNG( u2 ), fT - fU1 );
@@ -86,10 +86,10 @@ float GLToy_Noise::Cubic1D( const float fX, const float fFrequency, const float 
 
     if( uWrap )
     {
-        u1 = GLToy_Maths::Wrap( u1, 0, uWrap );
-        u2 = GLToy_Maths::Wrap( u2, 0, uWrap );
-        u3 = GLToy_Maths::Wrap( u3, 0, uWrap );
-        u4 = GLToy_Maths::Wrap( u4, 0, uWrap );
+        u1 = GLToy_Maths::Wrap( u1, 0u, uWrap );
+        u2 = GLToy_Maths::Wrap( u2, 0u, uWrap );
+        u3 = GLToy_Maths::Wrap( u3, 0u, uWrap );
+        u4 = GLToy_Maths::Wrap( u4, 0u, uWrap );
     }
 
     return fScale * GLToy_Maths::CubicInterpolate( PRNG( u1 ), PRNG( u2 ), PRNG( u3 ), PRNG( u4 ), fT - fU2 );
@@ -107,10 +107,10 @@ float GLToy_Noise::CatmullRom1D( const float fX, const float fFrequency, const f
 
     if( uWrap )
     {
-        u1 = GLToy_Maths::Wrap( u1, 0, uWrap );
-        u2 = GLToy_Maths::Wrap( u2, 0, uWrap );
-        u3 = GLToy_Maths::Wrap( u3, 0, uWrap );
-        u4 = GLToy_Maths::Wrap( u4, 0, uWrap );
+        u1 = GLToy_Maths::Wrap( u1, 0u, uWrap );
+        u2 = GLToy_Maths::Wrap( u2, 0u, uWrap );
+        u3 = GLToy_Maths::Wrap( u3, 0u, uWrap );
+        u4 = GLToy_Maths::Wrap( u4, 0u, uWrap );
     }
 
     return fScale * GLToy_Maths::CatmullRomInterpolate( PRNG( u1 ), PRNG( u2 ), PRNG( u3 ), PRNG( u4 ), fT - fU2 );
@@ -126,8 +126,8 @@ float GLToy_Noise::Quintic1D( const float fX, const float fFrequency, const floa
 	
 	if( uWrap )
     {
-        u1 = GLToy_Maths::Wrap( u1, 0, uWrap );
-        u2 = GLToy_Maths::Wrap( u2, 0, uWrap );
+        u1 = GLToy_Maths::Wrap( u1, 0u, uWrap );
+        u2 = GLToy_Maths::Wrap( u2, 0u, uWrap );
     }
     
     return fScale * GLToy_Maths::QuinticNoiseInterpolate( PRNG( u1 ), PRNG( u2 ), fT - fU1 );
@@ -205,10 +205,10 @@ float GLToy_Noise::Linear2D( const float fX, const float fY, const float fFreque
 
     if( uWrap )
     {
-        u1 = GLToy_Maths::Wrap( u1, 0, uWrap );
-        u2 = GLToy_Maths::Wrap( u2, 0, uWrap );
-        v1 = GLToy_Maths::Wrap( v1, 0, uWrap );
-        v2 = GLToy_Maths::Wrap( v2, 0, uWrap );
+        u1 = GLToy_Maths::Wrap( u1, 0u, uWrap );
+        u2 = GLToy_Maths::Wrap( u2, 0u, uWrap );
+        v1 = GLToy_Maths::Wrap( v1, 0u, uWrap );
+        v2 = GLToy_Maths::Wrap( v2, 0u, uWrap );
     }
 
     const float fX1 = GLToy_Maths::Lerp( PRNG( u1 ^ uSeed, v1 ^ uSeed ), PRNG( u2 ^ uSeed, v1 ^ uSeed ), fT - fU1 );
@@ -232,10 +232,10 @@ float GLToy_Noise::Cosine2D( const float fX, const float fY, const float fFreque
 
     if( uWrap )
     {
-        u1 = GLToy_Maths::Wrap( u1, 0, uWrap );
-        u2 = GLToy_Maths::Wrap( u2, 0, uWrap );
-        v1 = GLToy_Maths::Wrap( v1, 0, uWrap );
-        v2 = GLToy_Maths::Wrap( v2, 0, uWrap );
+        u1 = GLToy_Maths::Wrap( u1, 0u, uWrap );
+        u2 = GLToy_Maths::Wrap( u2, 0u, uWrap );
+        v1 = GLToy_Maths::Wrap( v1, 0u, uWrap );
+        v2 = GLToy_Maths::Wrap( v2, 0u, uWrap );
     }
 
     const float fX1 = GLToy_Maths::CosineInterpolate( PRNG( u1 ^ uSeed, v1 ^ uSeed ), PRNG( u2 ^ uSeed, v1 ^ uSeed ), fT - fU1 );
@@ -263,14 +263,14 @@ float GLToy_Noise::Cubic2D( const float fX, const float fY, const float fFrequen
 
     if( uWrap )
     {
-        u1 = GLToy_Maths::Wrap( u1, 0, uWrap );
-        u2 = GLToy_Maths::Wrap( u2, 0, uWrap );
-        u3 = GLToy_Maths::Wrap( u3, 0, uWrap );
-        u4 = GLToy_Maths::Wrap( u4, 0, uWrap );
-        v1 = GLToy_Maths::Wrap( v1, 0, uWrap );
-        v2 = GLToy_Maths::Wrap( v2, 0, uWrap );
-        v3 = GLToy_Maths::Wrap( v3, 0, uWrap );
-        v4 = GLToy_Maths::Wrap( v4, 0, uWrap );
+        u1 = GLToy_Maths::Wrap( u1, 0u, uWrap );
+        u2 = GLToy_Maths::Wrap( u2, 0u, uWrap );
+        u3 = GLToy_Maths::Wrap( u3, 0u, uWrap );
+        u4 = GLToy_Maths::Wrap( u4, 0u, uWrap );
+        v1 = GLToy_Maths::Wrap( v1, 0u, uWrap );
+        v2 = GLToy_Maths::Wrap( v2, 0u, uWrap );
+        v3 = GLToy_Maths::Wrap( v3, 0u, uWrap );
+        v4 = GLToy_Maths::Wrap( v4, 0u, uWrap );
     }
 
     const float fX1 = GLToy_Maths::CubicInterpolate( PRNG( u1 ^ uSeed, v1 ^ uSeed ), PRNG( u2 ^ uSeed, v1 ^ uSeed ), PRNG( u3 ^ uSeed, v1 ^ uSeed ), PRNG( u4 ^ uSeed, v1 ^ uSeed ), fT - fU2 );
@@ -300,14 +300,14 @@ float GLToy_Noise::CatmullRom2D( const float fX, const float fY, const float fFr
 
     if( uWrap )
     {
-        u1 = GLToy_Maths::Wrap( u1, 0, uWrap );
-        u2 = GLToy_Maths::Wrap( u2, 0, uWrap );
-        u3 = GLToy_Maths::Wrap( u3, 0, uWrap );
-        u4 = GLToy_Maths::Wrap( u4, 0, uWrap );
-        v1 = GLToy_Maths::Wrap( v1, 0, uWrap );
-        v2 = GLToy_Maths::Wrap( v2, 0, uWrap );
-        v3 = GLToy_Maths::Wrap( v3, 0, uWrap );
-        v4 = GLToy_Maths::Wrap( v4, 0, uWrap );
+        u1 = GLToy_Maths::Wrap( u1, 0u, uWrap );
+        u2 = GLToy_Maths::Wrap( u2, 0u, uWrap );
+        u3 = GLToy_Maths::Wrap( u3, 0u, uWrap );
+        u4 = GLToy_Maths::Wrap( u4, 0u, uWrap );
+        v1 = GLToy_Maths::Wrap( v1, 0u, uWrap );
+        v2 = GLToy_Maths::Wrap( v2, 0u, uWrap );
+        v3 = GLToy_Maths::Wrap( v3, 0u, uWrap );
+        v4 = GLToy_Maths::Wrap( v4, 0u, uWrap );
     }
 
     const float fX1 = GLToy_Maths::CatmullRomInterpolate( PRNG( u1 ^ uSeed, v1 ^ uSeed ), PRNG( u2 ^ uSeed, v1 ^ uSeed ), PRNG( u3 ^ uSeed, v1 ^ uSeed ), PRNG( u4 ^ uSeed, v1 ^ uSeed ), fT - fU2 );
@@ -333,10 +333,10 @@ float GLToy_Noise::Quintic2D( const float fX, const float fY, const float fFrequ
 
     if( uWrap )
     {
-        u1 = GLToy_Maths::Wrap( u1, 0, uWrap );
-        u2 = GLToy_Maths::Wrap( u2, 0, uWrap );
-        v1 = GLToy_Maths::Wrap( v1, 0, uWrap );
-        v2 = GLToy_Maths::Wrap( v2, 0, uWrap );
+        u1 = GLToy_Maths::Wrap( u1, 0u, uWrap );
+        u2 = GLToy_Maths::Wrap( u2, 0u, uWrap );
+        v1 = GLToy_Maths::Wrap( v1, 0u, uWrap );
+        v2 = GLToy_Maths::Wrap( v2, 0u, uWrap );
     }
 
     const float fX1 = GLToy_Maths::QuinticNoiseInterpolate( PRNG( u1 ^ uSeed, v1 ^ uSeed ), PRNG( u2 ^ uSeed, v1 ^ uSeed ), fT - fU1 );

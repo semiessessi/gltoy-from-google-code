@@ -15,7 +15,7 @@ class TextureTool_LayerViewMenuButton : public CMFCToolBarMenuButton
 	DECLARE_SERIAL(TextureTool_LayerViewMenuButton)
 
 public:
-	TextureTool_LayerViewMenuButton(HMENU hMenu = NULL) : CMFCToolBarMenuButton((UINT)-1, hMenu, -1)
+	TextureTool_LayerViewMenuButton(HMENU hMenu = NULL) : CMFCToolBarMenuButton((u_int)-1, hMenu, -1)
 	{
 	}
 
@@ -154,7 +154,7 @@ int TextureTool_LayerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-void TextureTool_LayerView::OnSize(UINT nType, int cx, int cy)
+void TextureTool_LayerView::OnSize(u_int nType, int cx, int cy)
 {
 	CDockablePane::OnSize(nType, cx, cy);
 	AdjustLayout();
@@ -273,7 +273,7 @@ void TextureTool_LayerView::OnContextMenu(CWnd* pWnd, CPoint point)
 		CPoint ptTree = point;
 		pWndTree->ScreenToClient(&ptTree);
 
-		UINT flags = 0;
+		u_int flags = 0;
 		HTREEITEM hTreeItem = pWndTree->HitTest(ptTree, &flags);
 		if (hTreeItem != NULL)
 		{
@@ -703,7 +703,7 @@ void TextureTool_LayerView::OnChangeVisualStyle()
 {
 	m_ClassViewImages.DeleteImageList();
 
-	UINT uiBmpId = theApp.m_bHiColorIcons ? IDB_CLASS_VIEW_24 : IDB_CLASS_VIEW;
+	u_int uiBmpId = g_xApp.UseHighColorIcons() ? IDB_CLASS_VIEW_24 : IDB_CLASS_VIEW;
 
 	CBitmap bmp;
 	if (!bmp.LoadBitmap(uiBmpId))
@@ -716,9 +716,9 @@ void TextureTool_LayerView::OnChangeVisualStyle()
 	BITMAP bmpObj;
 	bmp.GetBitmap(&bmpObj);
 
-	UINT nFlags = ILC_MASK;
+	u_int nFlags = ILC_MASK;
 
-	nFlags |= (theApp.m_bHiColorIcons) ? ILC_COLOR24 : ILC_COLOR4;
+	nFlags |= ( g_xApp.UseHighColorIcons() ) ? ILC_COLOR24 : ILC_COLOR4;
 
 	m_ClassViewImages.Create(16, bmpObj.bmHeight, nFlags, 0, 0);
 	m_ClassViewImages.Add(&bmp, RGB(255, 0, 0));
@@ -726,7 +726,7 @@ void TextureTool_LayerView::OnChangeVisualStyle()
 	m_wndClassView.SetImageList(&m_ClassViewImages, TVSIL_NORMAL);
 
 	m_wndToolBar.CleanUpLockedImages();
-	m_wndToolBar.LoadBitmap(theApp.m_bHiColorIcons ? IDB_SORT_24 : IDR_LAYERVIEW, 0, 0, TRUE /* Locked */);
+	m_wndToolBar.LoadBitmap( g_xApp.UseHighColorIcons() ? IDB_SORT_24 : IDR_LAYERVIEW, 0, 0, TRUE /* Locked */ );
 }
 
 u_int TextureTool_LayerView::GetSelectedID() const

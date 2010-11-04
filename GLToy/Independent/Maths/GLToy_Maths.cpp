@@ -150,7 +150,7 @@ float GLToy_Maths::Pow( const float fValue, const float fPower )
 GLToy_Vector_2 GLToy_Maths::Rotate_2D( const GLToy_Vector_2& xVector, const float fAngle )
 {
     const float fCos = GLToy_Maths::Cos( fAngle );
-    const float fSin = GLToy_Maths::Cos( fAngle );
+    const float fSin = GLToy_Maths::Sin( fAngle );
     return GLToy_Vector_2( fCos * xVector[ 0 ] - fSin * xVector[ 1 ], fSin * xVector[ 0 ] + fCos * xVector[ 1 ] );
 }
 

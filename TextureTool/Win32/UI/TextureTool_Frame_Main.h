@@ -23,7 +23,7 @@ public:
 // Overrides
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	virtual BOOL LoadFrame(UINT nIDResource, DWORD dwDefaultStyle = WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, CWnd* pParentWnd = NULL, CCreateContext* pContext = NULL);
+	virtual BOOL LoadFrame(u_int nIDResource, DWORD dwDefaultStyle = WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, CWnd* pParentWnd = NULL, CCreateContext* pContext = NULL);
 
     TextureTool_Document* GetCurrentDocument();
 	TextureTool_LayerView* GetLayerView() { return &m_wndClassView; }
@@ -56,9 +56,9 @@ protected:
 	afx_msg void OnWindowManager();
 	afx_msg void OnViewCustomize();
 	afx_msg LRESULT OnToolbarCreateNew(WPARAM wp, LPARAM lp);
-	afx_msg void OnApplicationLook(UINT id);
+	afx_msg void OnApplicationLook(u_int id);
 	afx_msg void OnUpdateApplicationLook(CCmdUI* pCmdUI);
-	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
+	afx_msg void OnSettingChange(u_int uFlags, LPCTSTR lpszSection);
     afx_msg LRESULT OnUpdateViews(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 

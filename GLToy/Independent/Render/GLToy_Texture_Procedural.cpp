@@ -1047,12 +1047,13 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                         {
                             for( u_int u = 0; u < uWidth; ++u )
                             {           
-                                const GLToy_Vector_2 xScaledPosition(
-                                    fScale * static_cast< float >( u ) / static_cast< float >( uWidth ),
-                                    fScale * static_cast< float >( v ) / static_cast< float >( uHeight )
-                                );
+                                const GLToy_Vector_2 xScaledPosition =
+                                    GLToy_Vector_2(
+                                        fScale * static_cast< float >( u ) / static_cast< float >( uWidth ),
+                                        fScale * static_cast< float >( v ) / static_cast< float >( uHeight )
+                                    ) - GLToy_Vector_2( 0.5f, 0.5f );
 
-                                const GLToy_Vector_2 xRotated( GLToy_Maths::Rotate_2D_FromCosSin( xScaledPosition, fCos, fSin ) );
+                                const GLToy_Vector_2 xRotated( GLToy_Maths::Rotate_2D_FromCosSin( xScaledPosition, fCos, fSin ) + GLToy_Vector_2( 0.5f, 0.5f ) );
                                 pxData[ v * uWidth + u ] = WrapAwareSampleFiltered( xRotated[ 0 ], xRotated[ 1 ], uWidth, uHeight, s_xRenderStack.Peek( 1 ) );
                             }
                         }
@@ -1153,12 +1154,13 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
                         {
                             for( u_int u = 0; u < uWidth; ++u )
                             {           
-                                const GLToy_Vector_2 xScaledPosition(
-                                    static_cast< float >( u ) / static_cast< float >( uWidth ),
-                                    static_cast< float >( v ) / static_cast< float >( uHeight )
-                                );
+                                const GLToy_Vector_2 xScaledPosition =
+                                    GLToy_Vector_2(
+                                        static_cast< float >( u ) / static_cast< float >( uWidth ),
+                                        static_cast< float >( v ) / static_cast< float >( uHeight )
+                                    ) - GLToy_Vector_2( 0.5f, 0.5f );
 
-                                const GLToy_Vector_2 xRotated( GLToy_Maths::Rotate_2D_FromCosSin( xScaledPosition, fCos, fSin ) );
+                                const GLToy_Vector_2 xRotated( GLToy_Maths::Rotate_2D_FromCosSin( xScaledPosition, fCos, fSin ) + GLToy_Vector_2( 0.5f, 0.5f ) );
                                 pxData[ v * uWidth + u ] = WrapAwareSampleFiltered( xRotated[ 0 ], xRotated[ 1 ], uWidth, uHeight, s_xRenderStack.Peek( 1 ) );
                             }
                         }
@@ -2182,8 +2184,8 @@ bool GLToy_Texture_Procedural::CircularReferenceCheck( const u_int uReferenceID 
 
 GLToy_Vector_4 GLToy_Texture_Procedural::LayerNode::WrapAwareSample( const int u, const int v, const u_int uWidth, const u_int uHeight, const GLToy_Vector_4* const pxBuffer )
 {
-    const u_int s = s_bWrap ? ( u % uWidth ) : GLToy_Maths::Clamp( static_cast< u_int >( u ), 0u, uWidth );
-    const u_int t = s_bWrap ? ( v % uHeight ) : GLToy_Maths::Clamp( static_cast< u_int >( v ), 0u, uHeight );
+    const u_int s = s_bWrap ? ( u % uWidth - 1 ) : GLToy_Maths::Clamp( static_cast< u_int >( u ), 0u, uWidth - 1 );
+    const u_int t = s_bWrap ? ( v % uHeight - 1 ) : GLToy_Maths::Clamp( static_cast< u_int >( v ), 0u, uHeight - 1 );
     return pxBuffer[ t * uWidth + s ];
 }
 
@@ -2193,31 +2195,28 @@ GLToy_Vector_4 GLToy_Texture_Procedural::LayerNode::WrapAwareSampleFiltered( con
     // (what happens if the sampling frequency is 0.125x the texture width or height?)
 
     const float fT = fX * static_cast< float >( uWidth );
-    u_int u1 = static_cast< u_int >( GLToy_Maths::Floor( fT ) ) - 1;
-    u_int u2 = u1 + 1;
-	u_int u3 = u2 + 1;
-    u_int u4 = u3 + 1;
+    int u1 = static_cast< u_int >( GLToy_Maths::Floor( fT ) ) - 1;
+    int u2 = u1 + 1;
+	int u3 = u2 + 1;
+    int u4 = u3 + 1;
     
     const float fS = fY * static_cast< float >( uHeight );
-    u_int v1 = static_cast< u_int >( GLToy_Maths::Floor( fS ) ) - 1;
-    u_int v2 = v1 + 1;
-	u_int v3 = v2 + 1;
-    u_int v4 = v3 + 1;
+    int v1 = static_cast< u_int >( GLToy_Maths::Floor( fS ) ) - 1;
+    int v2 = v1 + 1;
+	int v3 = v2 + 1;
+    int v4 = v3 + 1;
 
 	const float fU2 = static_cast< float >( u2 );
 	const float fV2 = static_cast< float >( v2 );
 
-    if( s_bWrap )
-    {
-        u1 = GLToy_Maths::Wrap( u1, 0u, uWidth );
-        u2 = GLToy_Maths::Wrap( u2, 0u, uWidth );
-        u3 = GLToy_Maths::Wrap( u3, 0u, uWidth );
-        u4 = GLToy_Maths::Wrap( u4, 0u, uWidth );
-        v1 = GLToy_Maths::Wrap( v1, 0u, uHeight );
-        v2 = GLToy_Maths::Wrap( v2, 0u, uHeight );
-        v3 = GLToy_Maths::Wrap( v3, 0u, uHeight );
-        v4 = GLToy_Maths::Wrap( v4, 0u, uHeight );
-    }
+    u1 = s_bWrap ? ( u1 % uWidth ) : GLToy_Maths::Clamp( static_cast< u_int >( u1 ), 0u, uWidth - 1 );
+    u2 = s_bWrap ? ( u2 % uWidth ) : GLToy_Maths::Clamp( static_cast< u_int >( u2 ), 0u, uWidth - 1 );
+    u3 = s_bWrap ? ( u3 % uWidth ) : GLToy_Maths::Clamp( static_cast< u_int >( u3 ), 0u, uWidth - 1 );
+    u4 = s_bWrap ? ( u4 % uWidth ) : GLToy_Maths::Clamp( static_cast< u_int >( u4 ), 0u, uWidth - 1 );
+    v1 = s_bWrap ? ( v1 % uHeight ) : GLToy_Maths::Clamp( static_cast< u_int >( v1 ), 0u, uHeight - 1 );
+    v2 = s_bWrap ? ( v2 % uHeight ) : GLToy_Maths::Clamp( static_cast< u_int >( v2 ), 0u, uHeight - 1 );
+    v3 = s_bWrap ? ( v3 % uHeight ) : GLToy_Maths::Clamp( static_cast< u_int >( v3 ), 0u, uHeight - 1 );
+    v4 = s_bWrap ? ( v4 % uHeight ) : GLToy_Maths::Clamp( static_cast< u_int >( v4 ), 0u, uHeight - 1 );
 
     const GLToy_Vector_4 xX1 = GLToy_Maths::CatmullRomInterpolate( pxBuffer[ v1 * uWidth + u1 ], pxBuffer[ v1 * uWidth + u2 ], pxBuffer[ v1 * uWidth + u3 ], pxBuffer[ v1 * uWidth + u4 ], fT - fU2 );
     const GLToy_Vector_4 xX2 = GLToy_Maths::CatmullRomInterpolate( pxBuffer[ v2 * uWidth + u1 ], pxBuffer[ v2 * uWidth + u2 ], pxBuffer[ v2 * uWidth + u3 ], pxBuffer[ v2 * uWidth + u4 ], fT - fU2 );

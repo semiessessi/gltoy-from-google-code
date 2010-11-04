@@ -48,7 +48,7 @@ BOOL TextureTool_ViewTree::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResu
 	return bRes;
 }
 
-void TextureTool_ViewTree::OnLButtonUp( UINT nFlags, CPoint point )
+void TextureTool_ViewTree::OnLButtonUp( u_int nFlags, CPoint point )
 {
     // only handles double-clicks I think... :/
     CTreeCtrl::OnLButtonUp( nFlags, point );
@@ -117,7 +117,7 @@ void TextureTool_ViewTree::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
 }
 
 
-void TextureTool_ViewTree::OnMouseMove(UINT nFlags, CPoint point)
+void TextureTool_ViewTree::OnMouseMove(u_int nFlags, CPoint point)
 {
 	if( m_bDragDrop )
 	{

@@ -33,7 +33,7 @@ protected:
 	TextureTool_LayerToolBar m_wndToolBar;
 	TextureTool_ViewTree m_wndClassView;
 	CImageList m_ClassViewImages;
-	//UINT m_nCurrSort;
+	//u_int m_nCurrSort;
     TextureTool_Document* m_pxCurrentDocument;
 
 // Overrides
@@ -44,7 +44,7 @@ public:
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnSize(u_int nType, int cx, int cy);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	afx_msg void OnPaint();
 	afx_msg void OnSetFocus(CWnd* pOldWnd);

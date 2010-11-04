@@ -146,7 +146,7 @@ void TextureTool_View::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 	// no printing...
 }
 
-void TextureTool_View::OnRButtonUp(UINT /* nFlags */, CPoint point)
+void TextureTool_View::OnRButtonUp(u_int /* nFlags */, CPoint point)
 {
 	ClientToScreen(&point);
 	OnContextMenu(this, point);
@@ -155,7 +155,7 @@ void TextureTool_View::OnRButtonUp(UINT /* nFlags */, CPoint point)
 void TextureTool_View::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 {
 #ifndef SHARED_HANDLERS
-	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EDIT, point.x, point.y, this, TRUE);
+	g_xApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EDIT, point.x, point.y, this, TRUE);
 #endif
 }
 

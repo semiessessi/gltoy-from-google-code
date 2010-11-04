@@ -49,9 +49,9 @@ enum Property
     PROP_COLOUR_1           = 1,
     PROP_COLOUR_2           = 2,
     PROP_COLOUR_3           = 3,
-    PROP_UINT_1             = 4,
-    PROP_UINT_2             = 5,
-    PROP_UINT_3             = 6,
+    PROP_u_int_1             = 4,
+    PROP_u_int_2             = 5,
+    PROP_u_int_3             = 6,
     PROP_SHAPEFUNCTION      = 7,
     PROP_GRADIENTSTYLE      = 8,
     PROP_FLOAT_1            = 9,
@@ -60,7 +60,7 @@ enum Property
 
     // i imagine it will get hairy from here... although i haven't used the u_chars yet 8-bits is typically inconvenient...
     PROP_FIXED_12BIT_1      = 12,
-    PROP_BOOL_1             = 13, // ie. PROP_UINT_1BIT_1
+    PROP_BOOL_1             = 13, // ie. PROP_u_int_1BIT_1
 
     // okay... so i used some pretty quickly
     PROP_UCHAR_2_0          = 14,
@@ -223,7 +223,7 @@ void TextureTool_PropertiesWindow::OnPropertyChanged( CMFCPropertyGridProperty* 
             break;
         }
 
-        case PROP_UINT_1:
+        case PROP_u_int_1:
         {
             CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
             const CString sValue = pProp->GetValue().bstrVal;
@@ -232,7 +232,7 @@ void TextureTool_PropertiesWindow::OnPropertyChanged( CMFCPropertyGridProperty* 
             break;
         }
 
-        case PROP_UINT_2:
+        case PROP_u_int_2:
         {
             CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
             const CString sValue = pProp->GetValue().bstrVal;
@@ -241,7 +241,7 @@ void TextureTool_PropertiesWindow::OnPropertyChanged( CMFCPropertyGridProperty* 
             break;
         }
 
-        case PROP_UINT_3:
+        case PROP_u_int_3:
         {
             CMFCPropertyGridProperty* pProp( static_cast< CMFCPropertyGridProperty* >( pProp ) );
             const CString sValue = pProp->GetValue().bstrVal;
@@ -498,7 +498,7 @@ int TextureTool_PropertiesWindow::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.Create(this, AFX_DEFAULT_TOOLBAR_STYLE, IDR_PROPERTIES);
 	m_wndToolBar.LoadToolBar(IDR_PROPERTIES, 0, 0, TRUE /* Is locked */);
 	m_wndToolBar.CleanUpLockedImages();
-	m_wndToolBar.LoadBitmap(theApp.m_bHiColorIcons ? IDB_PROPERTIES_HC : IDR_PROPERTIES, 0, 0, TRUE /* Locked */);
+	m_wndToolBar.LoadBitmap( g_xApp.UseHighColorIcons() ? IDB_PROPERTIES_HC : IDR_PROPERTIES, 0, 0, TRUE /* Locked */ );
 
 	m_wndToolBar.SetPaneStyle(m_wndToolBar.GetPaneStyle() | CBRS_TOOLTIPS | CBRS_FLYBY);
 	m_wndToolBar.SetPaneStyle(m_wndToolBar.GetPaneStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC | CBRS_BORDER_TOP | CBRS_BORDER_BOTTOM | CBRS_BORDER_LEFT | CBRS_BORDER_RIGHT));
@@ -511,7 +511,7 @@ int TextureTool_PropertiesWindow::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-void TextureTool_PropertiesWindow::OnSize(UINT nType, int cx, int cy)
+void TextureTool_PropertiesWindow::OnSize(u_int nType, int cx, int cy)
 {
 	CDockablePane::OnSize(nType, cx, cy);
 	AdjustLayout();
@@ -712,7 +712,7 @@ void TextureTool_PropertiesWindow::InitPropList(  TextureTool_Document* pxDocume
             CString sValue;
             sValue.Format( _T( "%u" ), pxDocument->GetTexture().GetParam1( uID ) );
             CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty( _T( "Frequency" ), static_cast< LPCTSTR >( sValue ), _T( "Specifies the frequency of the tiling" ) );
-            pProp->SetData( PROP_UINT_1 );
+            pProp->SetData( PROP_u_int_1 );
             pGroup->AddSubItem( pProp );
 
             m_wndPropList.AddProperty( pGroup );
@@ -882,7 +882,7 @@ void TextureTool_PropertiesWindow::OnSetFocus(CWnd* pOldWnd)
 	m_wndPropList.SetFocus();
 }
 
-void TextureTool_PropertiesWindow::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
+void TextureTool_PropertiesWindow::OnSettingChange(u_int uFlags, LPCTSTR lpszSection)
 {
 	CDockablePane::OnSettingChange(uFlags, lpszSection);
 	SetPropListFont();
