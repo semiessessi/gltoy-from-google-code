@@ -181,6 +181,7 @@ public:
         // EXTENSION_PATTERN_BRICK_NORMALS             = 20,
         // EXTENSION_PATTERN_BRICK_HEIGHTMAP           = 21,
 
+        // just filling in a gap with a transform...
         EXTENSION_ROTATE                            = 22,
 
         // convolution and similar filters
@@ -196,10 +197,34 @@ public:
         // EXTENSION_NORMAL_MAP_PYRAMID                = 30,
         // EXTENSION_NORMAL_MAP_PRISM                  = 31,
 
+        // transforms
         // EXTENSION_TRANSLATE                         = 32,
         EXTENSION_SCALE                             = 33,
         EXTENSION_ROTATE_VANILLA                    = 34,
         EXTENSION_NOISE_DEFORM                      = 35,
+
+        // Voronoi "cellular" pattern
+        // EXTENSION_VORONOI_PATTERN                   = 36,
+        
+        // AVS style colour map
+        // EXTENSION_COLOUR_MAP                        = 37,
+
+        // typical primitives
+        // EXTENSION_LINE_STRIP                        = 38,
+        // EXTENSION_POLYGON                           = 39,
+        // EXTENSION_SPLINE                            = 40,
+        // EXTENSION_SPLINE_POLYGON                    = 41,
+
+        // fill areas with patterns
+        // EXTENSION_PATTERN_RECTANGLE                 = 42,
+        // EXTENSION_PATTERN_RECTANGLE_NORMALS         = 43,
+        // EXTENSION_PATTERN_RECTANGLE_HEIGHTMAP       = 44,
+        // EXTENSION_PATTERN_THICK_SPLINE              = 45,
+        // EXTENSION_PATTERN_THICK_SPLINE_NORMALS      = 46,
+        // EXTENSION_PATTERN_THICK_SPLINE_HEIGHTMAP    = 47,
+        // EXTENSION_PATTERN_ELLIPSE                   = 48,
+        // EXTENSION_PATTERN_ELLIPSE_NORMALS           = 49,
+        // EXTENSION_PATTERN_ELLIPSE_HEIGHTMAP         = 50,
 
         EXTENSION_BAD = 63,
     };
