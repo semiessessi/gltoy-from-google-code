@@ -312,6 +312,7 @@ private:
 
         void SetParent( GLToy_Texture_Procedural* const pxParentTexture ) { m_pxParentTexture = pxParentTexture; }
 
+#ifndef GLTOY_DEMO
         static LayerNode CreateFill( GLToy_Texture_Procedural* const pxParentTexture, const u_int uRGBA );
         static LayerNode CreateNoise( GLToy_Texture_Procedural* const pxParentTexture, const float fFrequency, const u_int uSeed );
         static LayerNode CreateTile( GLToy_Texture_Procedural* const pxParentTexture, const u_int uFrequency );
@@ -348,6 +349,8 @@ private:
         }
 
         static LayerNode CreateGroup( GLToy_Texture_Procedural* const pxParentTexture );
+#endif
+
         static GLToy_Vector_4 WrapAwareSample( const int u, const int v, const u_int uWidth, const u_int uHeight, const GLToy_Vector_4* const pxBuffer  );
         static GLToy_Vector_4 WrapAwareSampleFiltered( const float fX, const float fY, const u_int uWidth, const u_int uHeight, const GLToy_Vector_4* const pxBuffer  );
 
@@ -368,6 +371,7 @@ private:
 
         const char* GetInstructionName() const
         {
+#ifndef GLTOY_DEMO
             if( GetChildren() )
             {
                 return "Group";
@@ -409,6 +413,9 @@ private:
                 }
                 default:                                                return "Unknown Instruction";
             }
+#else
+                return 0;
+#endif
         }
 
         virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
@@ -473,6 +480,7 @@ public:
 
     virtual ~GLToy_Texture_Procedural() {}
 
+#ifndef GLTOY_DEMO
     u_int AppendGroup()
     {
         m_xLayers.Append( LayerNode::CreateGroup( this ) );
@@ -663,6 +671,7 @@ public:
         m_xLayers.Append( LayerNode::CreateExtension( this, EXTENSION_REFERENCE, GetPositionFromID( uReferToID ) ) );
         return m_xLayers.End().GetID();
     }
+#endif
 
     u_int MoveLayerAfter( const u_int uID, const u_int uAfterID );
     u_int MoveLayerBefore( const u_int uID, const u_int uBeforeID );

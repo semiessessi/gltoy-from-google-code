@@ -238,6 +238,7 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
 
 void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
+#ifndef GLTOY_DEMO
     // 4-bits for blend mode and if we have children
     xStream.WriteBits( m_eBlendMode, 3 );
 
@@ -373,6 +374,7 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
             }
         };
     }
+#endif
 }
 
 void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_int uHeight )
@@ -1542,6 +1544,7 @@ void GLToy_Texture_Procedural::ReadFromBitStream( const GLToy_BitStream& xStream
 
 void GLToy_Texture_Procedural::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
+#ifndef GLTOY_DEMO
     // 21-bit header - every bit counts - 16 for "twocc", 5 for version
     xStream.WriteChar( 'P' );
     xStream.WriteChar( 'T' );
@@ -1549,6 +1552,7 @@ void GLToy_Texture_Procedural::WriteToBitStream( GLToy_BitStream& xStream ) cons
 
     // actual data
     xStream << m_xLayers;
+#endif
 }
 
 void GLToy_Texture_Procedural::ReadNoHeader( const char* const pcData, const u_int uLength )
@@ -1562,6 +1566,7 @@ void GLToy_Texture_Procedural::ReadNoHeader( const char* const pcData, const u_i
 
 void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName, const GLToy_String* pszFilename )
 {
+#ifndef GLTOY_DEMO
     GLToy_String szCleanName( "" );
     // TODO: GLToy_String::Replace
     for( u_int u = 0; u < szName.GetLength(); ++u )
@@ -1600,10 +1605,12 @@ void GLToy_Texture_Procedural::SaveToCPPHeader( const GLToy_String& szName, cons
     GLToy_BitStream xWriteStream;
     xWriteStream.SetFromByteArray( szRaw, szData.GetCount() - 1 );
     xFile.WriteFromBitStream( xWriteStream );
+#endif
 }
 
 void GLToy_Texture_Procedural::SaveToTGAFile( const GLToy_String& szFilename, const u_int uWidth, const u_int uHeight, const u_int uSamples )
 {
+#ifndef GLTOY_DEMO
     u_int* puData = NULL;
     switch( uSamples )
     {
@@ -1628,9 +1635,12 @@ void GLToy_Texture_Procedural::SaveToTGAFile( const GLToy_String& szFilename, co
 
     GLToy_Texture_System::Platform_SaveTextureTGA( szFilename, puData, uWidth, uHeight );
     delete[] puData;
+#endif
 }
+
 u_int GLToy_Texture_Procedural::MoveLayerAfter( const u_int uID, const u_int uAfterID )
 {
+#ifndef GLTOY_DEMO
     if( uAfterID == 0 )
     {
         LayerNode* pxChild = GetLayerNodeFromID( uID );
@@ -1678,10 +1688,14 @@ u_int GLToy_Texture_Procedural::MoveLayerAfter( const u_int uID, const u_int uAf
     UpdateReferencesFromInsert( uNewPosition, GetTotalChildCount( xCopy.GetID() ) );
 
     return xCopy.GetID();
+#else
+    return 0;
+#endif
 }
 
 u_int GLToy_Texture_Procedural::MoveLayerBefore( const u_int uID, const u_int uBeforeID )
 {
+#ifndef GLTOY_DEMO
     GLToy_Array< LayerNode >* pxArray = GetParentArrayFromID( uBeforeID );
 
     if( !pxArray )
@@ -1706,10 +1720,14 @@ u_int GLToy_Texture_Procedural::MoveLayerBefore( const u_int uID, const u_int uB
     UpdateReferencesFromInsert( uNewPosition, GetTotalChildCount( xCopy.GetID() ) );
 
     return xCopy.GetID();
+#else
+    return 0;
+#endif
 }
 
 u_int GLToy_Texture_Procedural::MoveLayerUnder( const u_int uID, const u_int uUnderID )
 {
+#ifndef GLTOY_DEMO
     LayerNode* pxChild = GetLayerNodeFromID( uID );
     if( !pxChild )
     {
@@ -1738,10 +1756,14 @@ u_int GLToy_Texture_Procedural::MoveLayerUnder( const u_int uID, const u_int uUn
     UpdateReferencesFromInsert( uNewPosition, GetTotalChildCount( xCopy.GetID() ) );
     
     return xCopy.GetID();
+#else
+    return 0;
+#endif
 }
 
 u_int GLToy_Texture_Procedural::MoveLayerToOwnGroup( const u_int uID )
 {
+#ifndef GLTOY_DEMO
     GLToy_Array< LayerNode >* pxArray = GetParentArrayFromID( uID );
 
     if( !pxArray )
@@ -1753,8 +1775,12 @@ u_int GLToy_Texture_Procedural::MoveLayerToOwnGroup( const u_int uID )
     pxArray->Append( xLayerNode );
 
     return MoveLayerUnder( uID, xLayerNode.GetID() );
+#else
+    return 0;
+#endif
 }
 
+#ifndef GLTOY_DEMO
 GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateFill( GLToy_Texture_Procedural* const pxParentTexture, const u_int uRGBA )
 {
     LayerNode xReturnValue;
@@ -1841,9 +1867,11 @@ GLToy_Texture_Procedural::LayerNode GLToy_Texture_Procedural::LayerNode::CreateG
     xReturnValue.SetParent( pxParentTexture );
     return xReturnValue;
 }
+#endif
 
 const char* GLToy_Texture_Procedural::GetShapingFunctionName( const ShapeFunction eFunction )
 {
+#ifndef GLTOY_DEMO
     switch( eFunction )
     {
         case SHAPE_COS_2PI:                 return "Cosine 2pi x";
@@ -1876,11 +1904,16 @@ const char* GLToy_Texture_Procedural::GetShapingFunctionName( const ShapeFunctio
             break;
         }
     }
+
     return "Unknown Shaping Function";
+#else
+    return 0;
+#endif
 }
 
 const char* GLToy_Texture_Procedural::GetGradientName( const GradientStyle eStyle )
 {
+#ifndef GLTOY_DEMO
     switch( eStyle )
     {
         case GRADIENT_TOP:              return "Top";
@@ -1902,10 +1935,14 @@ const char* GLToy_Texture_Procedural::GetGradientName( const GradientStyle eStyl
     }
 
     return "Unknown Gradient";
+#else
+    return 0;
+#endif
 }
 
 const char* GLToy_Texture_Procedural::GetPatternName( const PatternStyle eStyle )
 {
+#ifndef GLTOY_DEMO
     switch( eStyle )
     {
         case PATTERN_DEFAULT_BRICK:     return "Brick";
@@ -1916,6 +1953,9 @@ const char* GLToy_Texture_Procedural::GetPatternName( const PatternStyle eStyle 
     }
 
     return "Unknown Pattern";
+#else
+    return 0;
+#endif
 }
 
 u_int GLToy_Texture_Procedural::GetPositionFromID( const u_int uID ) const

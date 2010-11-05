@@ -49,66 +49,6 @@
 
 bool JD1::Initialise()
 {
-    GLToy_Texture_Procedural xTest;
-
-    xTest.AppendFillLayer( 0xFFFFFFFF );
-    
-    u_int uID = xTest.AppendDiagonalStripeUpLeftLayer();
-    xTest.SetBlendMode( uID, GLToy_Texture_Procedural::BLEND_SUB );
-
-    xTest.CreateTexture( "Test_1", 256, 256 );
-
-    xTest.SaveToCPPHeader( "Test_1" );
-    
-    GLToy_Texture* pxTexture = GLToy_Texture_System::FindTexture( GLToy_Hash_Constant( "Test_1" ) );
-    GLToy_Texture_System::SaveTextureTGA( "Test_1", pxTexture->GetRGBADataPointer(), 256, 256 );
-
-    //GLToy_Texture_Procedural xTest2;
-
-    //xTest2.AppendFillLayer( 0xFF3F7FFF );
-    //
-    //u_int uNoiseID = xTest2.AppendFBMNoiseLayer( 2.0f );
-    //xTest2.SetBlendMode( uNoiseID, GLToy_Texture_Procedural::BLEND_ADD );
-    //uNoiseID = xTest2.AppendFBMNoiseLayer( 4.0f );
-    //xTest2.SetBlendMode( uNoiseID, GLToy_Texture_Procedural::BLEND_SUB );
-    //u_int uGradientID = xTest2.AppendGradientLayer( GLToy_Texture_Procedural::GRADIENT_RADIAL_IN );
-    //xTest2.SetBlendMode( uGradientID, GLToy_Texture_Procedural::BLEND_LUMINANCE_INTO_ALPHA );
-
-    //xTest2.CreateTexture( "Test_2", 256, 256 );
-
-    //xTest2.SaveToCPPHeader( "Test_2" );
-    //
-    //pxTexture = GLToy_Texture_System::FindTexture( GLToy_Hash_Constant( "Test_2" ) );
-    //GLToy_Texture_System::SaveTextureTGA( "Test_2", pxTexture->GetRGBADataPointer(), 256, 256 );
-
-    //GLToy_Texture_Procedural xTest3;
-
-    //xTest3.AppendFillLayer( 0xFF00FF00 );
-    //
-    //uGradientID = xTest3.AppendGradientLayer( GLToy_Texture_Procedural::GRADIENT_TOP );
-    //xTest3.SetBlendMode( uGradientID, GLToy_Texture_Procedural::BLEND_MUL );
-
-    //xTest3.CreateTexture( "Test_3", 256, 256 );
-
-    //xTest3.SaveToCPPHeader( "Test_3" );
-
-    //pxTexture = GLToy_Texture_System::FindTexture( GLToy_Hash_Constant( "Test_3" ) );
-    //GLToy_Texture_System::SaveTextureTGA( "Test_3", pxTexture->GetRGBADataPointer(), 256, 256 );
-
-    //GLToy_Texture_Procedural xTest4;
-
-    //xTest4.AppendFillLayer( 0xFF3F3F3F );
-    //
-    //xTest4.AppendCircleLayer( GLToy_Vector_2( 0.5f, 0.5f ), 0.25f, 0xFFFFFFFF );
-    //xTest4.AppendTileLayer( 4 );
-
-    //xTest4.CreateTexture( "Test_4", 256, 256 );
-
-    //xTest4.SaveToCPPHeader( "Test_4" );
-
-    //pxTexture = GLToy_Texture_System::FindTexture( GLToy_Hash_Constant( "Test_4" ) );
-    //GLToy_Texture_System::SaveTextureTGA( "Test_4", pxTexture->GetRGBADataPointer(), 256, 256 );
-
     GLToy::ChangeWindowTitle( "JDemo 1" );
 
     GLToy_InitialiserCall( JD1_Demo_System );
