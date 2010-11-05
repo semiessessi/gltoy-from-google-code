@@ -40,8 +40,6 @@
 #include <Demo/JD1_DemoScene_NoiseTest.h>
 
 #include <Maths/GLToy_Maths.h>
-#include <Render/GLToy_Texture.h>
-#include <Render/GLToy_Texture_Procedural.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
