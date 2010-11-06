@@ -181,7 +181,7 @@ void GLToy_Environment_System::SaveEnvironmentFile( const GLToy_String& szName )
 void GLToy_Environment_System::CreateTestEnvironment()
 {
     GLToy_Entity_System::DestroyEntities();
-    SwitchEnvironment( new GLToy_Environment_Plane( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "generic/grid1.png" ) );
+    SwitchEnvironment( new GLToy_Environment_Plane( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "generic/grid1.ptx" ) );
 }
 
 GLToy_Environment* GLToy_Environment_System::CreateEnvironmentFromType( const GLToy_EnvironmentType eType )
@@ -190,7 +190,7 @@ GLToy_Environment* GLToy_Environment_System::CreateEnvironmentFromType( const GL
 
     switch( eType )
     {
-        case ENV_PLANE:         pxNewEnv = new GLToy_Environment_Plane( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "generic/grid1.png" ); break;
+        case ENV_PLANE:         pxNewEnv = new GLToy_Environment_Plane( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "generic/grid1.ptx" ); break;
         case ENV_LIGHTMAPPED:   pxNewEnv = new GLToy_Environment_Lightmapped(); break;
 
         default:

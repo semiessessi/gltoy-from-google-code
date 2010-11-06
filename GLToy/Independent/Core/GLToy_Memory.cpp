@@ -40,49 +40,51 @@
 
 #include <Core/GLToy_Memory_DebugOff.h>
 
+// SE - 06/11/2010 - remove all the debug memory tree - although its fine for small projects etc its a bit dangerous and has a nasty habit
+// of being enormously slow when deletions are being made - particularly when using "real world" data instead of little tests...
 // tree hacks...
-#ifdef GLTOY_DEBUG
-    #define GLToy_BinaryTree GLToy_MemoryTreeBase
-    #define GLToy_BinaryTreeNode GLToy_MemoryTreeNode
-
-    #ifdef __GLTOY_BINARYTREE_H_
-        #undef __GLTOY_BINARYTREE_H_
-        #define __GLTOY_BINARYTREE_H_RESTORE
-    #endif
-
-    #include <Core/Data Structures/GLToy_BinaryTree.h>
-
-    #ifdef __GLTOY_BINARYTREE_H_RESTORE
-        #define __GLTOY_BINARYTREE_H_
-    #endif
-
-    #undef GLToy_BinaryTree
-    #undef GLToy_BinaryTreeNode
-#endif
+//#ifdef GLTOY_DEBUG
+//    #define GLToy_BinaryTree GLToy_MemoryTreeBase
+//    #define GLToy_BinaryTreeNode GLToy_MemoryTreeNode
+//
+//    #ifdef __GLTOY_BINARYTREE_H_
+//        #undef __GLTOY_BINARYTREE_H_
+//        #define __GLTOY_BINARYTREE_H_RESTORE
+//    #endif
+//
+//    #include <Core/Data Structures/GLToy_BinaryTree.h>
+//
+//    #ifdef __GLTOY_BINARYTREE_H_RESTORE
+//        #define __GLTOY_BINARYTREE_H_
+//    #endif
+//
+//    #undef GLToy_BinaryTree
+//    #undef GLToy_BinaryTreeNode
+//#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef GLTOY_DEBUG
-struct GLToy_MemoryRecord
-{
-    u_int m_uSize;
-    GLToy_String m_szLocator;
-};
-
-typedef GLToy_MemoryTreeBase< GLToy_MemoryRecord, void* > GLToy_MemoryTree;
-#endif
+//#ifdef GLTOY_DEBUG
+//struct GLToy_MemoryRecord
+//{
+//    u_int m_uSize;
+//    GLToy_String m_szLocator;
+//};
+//
+//typedef GLToy_MemoryTreeBase< GLToy_MemoryRecord, void* > GLToy_MemoryTree;
+//#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef GLTOY_DEBUG
-#ifndef GLTOY_NO_MEMORY
-static GLToy_MemoryTree g_xMap;
-#endif
-#endif
+//#ifdef GLTOY_DEBUG
+//#ifndef GLTOY_NO_MEMORY
+//static GLToy_MemoryTree g_xMap;
+//#endif
+//#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -95,11 +97,11 @@ bool GLToy_Memory::Initialise()
 
 void GLToy_Memory::Shutdown()
 {
-#ifdef GLTOY_DEBUG
-#ifndef GLTOY_NO_MEMORY
-    g_xMap.Clear();
-#endif
-#endif
+//#ifdef GLTOY_DEBUG
+//#ifndef GLTOY_NO_MEMORY
+//    g_xMap.Clear();
+//#endif
+//#endif
 }
 
 void GLToy_Memory::Set( void* const pxMemory, const u_int uBytes, const u_char ucValue )
@@ -149,14 +151,14 @@ void GLToy_Memory::SetDWords( void* const pxMemory, const u_int uDWords, const u
 void* GLToy_ForceCDecl operator new( u_int uSize, const char* szFile, const int iLine )
 {
 
-#ifndef GLTOY_NO_MEMORY
-    GLToy_MemoryRecord xRecord = { uSize, GLToy_String( szFile ) + " @ line " + iLine };
-#endif
+//#ifndef GLTOY_NO_MEMORY
+//    GLToy_MemoryRecord xRecord = { uSize, GLToy_String( szFile ) + " @ line " + iLine };
+//#endif
     void* const pxAllocation = GLToy_Memory::Platform_Allocate( uSize );
 
-#ifndef GLTOY_NO_MEMORY
-    g_xMap.AddNode( xRecord, pxAllocation );
-#endif
+//#ifndef GLTOY_NO_MEMORY
+//    g_xMap.AddNode( xRecord, pxAllocation );
+//#endif
 
     GLToy_Memory::MarkUninitialised( pxAllocation, uSize );
 
@@ -188,16 +190,17 @@ void* GLToy_ForceCDecl operator new( u_int uSize )
 
 void GLToy_ForceCDecl operator delete( void* pxMemory )
 {
-#ifdef GLTOY_DEBUG
-#ifndef GLTOY_NO_MEMORY
-    const GLToy_MemoryRecord* const pxRecord = g_xMap.FindData( pxMemory );
-    if( pxRecord )
-    {
-        GLToy_Memory::MarkDestroyed( pxMemory, pxRecord->m_uSize );
-        g_xMap.Remove( pxMemory );
-    }
-#endif
-#endif
+    // SE - 06/11/2010 - this is unreasonably slow with real world data (big ol' BSP tree for one)
+//#ifdef GLTOY_DEBUG
+//#ifndef GLTOY_NO_MEMORY
+//    const GLToy_MemoryRecord* const pxRecord = g_xMap.FindData( pxMemory );
+//    if( pxRecord )
+//    {
+//        GLToy_Memory::MarkDestroyed( pxMemory, pxRecord->m_uSize );
+//        g_xMap.Remove( pxMemory );
+//    }
+//#endif
+//#endif
 
     GLToy_Memory::Platform_Free( pxMemory );
 }

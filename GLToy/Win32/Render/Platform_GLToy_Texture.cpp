@@ -115,6 +115,12 @@ void GLToy_Texture::Platform_LoadFromFile()
 
     delete[] szANSIPath;
 
+    if( !pucData )
+    {
+        // TODO: handle this better...
+        return;
+    }
+
     // specifiying STBI_rgb_alpha should force output to always be RGBA
     Resize( m_uWidth * m_uHeight );
     GLToy_PointerArray< u_int > xData( reinterpret_cast< u_int* >( pucData ), m_uWidth * m_uHeight );

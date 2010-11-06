@@ -345,14 +345,14 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
                     {
                         // make sure the values are correct.
                         u_int uParam1 = 0;
-                        for( u_int u = 1; u < 4; ++u )
+                        for( u_int u = 0; u < 4; ++u )
                         {
                             if( m_aucParam2[ u ] != 0 )
                             {
                                 ++uParam1;
                             }
                         }
-                        xStream.WriteBits( uParam1, 2 ); // 0-3 represent 3x3, 5x5, 7x7, 9x9
+                        xStream.WriteBits( uParam1 - 1, 2 ); // 0-3 represent 3x3, 5x5, 7x7, 9x9
                         xStream.WriteBool( m_iParam3 < 0 );
                         xStream.WriteBits( m_uParam3, 4 ); // the centre value, I reckon 4 bits should be enough for each component...
                         // ...then the other values
