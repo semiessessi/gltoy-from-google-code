@@ -39,6 +39,8 @@ Section ""
     WriteRegStr HKLM "${UninstallKey}" "QuietUninstallString" "$\"$INSTDIR\uninstall.exe$\" /S"
     WriteRegStr HKLM "${UninstallKey}" "Install Location" $INSTDIR
     WriteRegDWORD HKLM "${UninstallKey}" "EstimatedSize" 300000 ;about 300Kb - the vc redist is pretty much the whole size of this installer :/
+    
+    ExecWait "$INSTDIR\TextureTool.exe /register"
 
 SectionEnd
 
