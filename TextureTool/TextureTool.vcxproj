@@ -481,6 +481,7 @@ echo.
     <None Include="res\TextureTool.rc2" />
     <None Include="res\TextureToolDoc.ico" />
     <None Include="res\Toolbar.bmp" />
+    <None Include="res\toolbar1.bmp" />
     <None Include="res\Toolbar256.bmp" />
     <None Include="TextureTool.reg" />
     <None Include="UserImages.bmp" />

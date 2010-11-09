@@ -346,6 +346,9 @@
     <None Include="TextureTool.reg">
       <Filter>Resources</Filter>
     </None>
+    <None Include="res\toolbar1.bmp">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Resource.h">

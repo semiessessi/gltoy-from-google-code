@@ -109,7 +109,7 @@ int TextureTool_Frame_Main::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // fail to create
 	}
 
-	m_wndMenuBar.SetPaneStyle(m_wndMenuBar.GetPaneStyle() | CBRS_SIZE_DYNAMIC | CBRS_TOOLTIPS | CBRS_FLYBY);
+	m_wndMenuBar.SetPaneStyle(m_wndMenuBar.GetPaneStyle() | CBRS_SIZE_DYNAMIC | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_TOP );
 
 	// prevent the menu bar from taking the focus on activation
 	CMFCPopupMenu::SetForceMenuFocus(FALSE);
@@ -141,10 +141,10 @@ int TextureTool_Frame_Main::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(u_int));
 
-	//m_wndMenuBar.EnableDocking(CBRS_ALIGN_ANY);
-	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
+	m_wndMenuBar.EnableDocking( CBRS_ALIGN_TOP );
+	m_wndToolBar.EnableDocking( CBRS_ALIGN_ANY );
 	EnableDocking(CBRS_ALIGN_ANY);
-	//DockPane(&m_wndMenuBar);
+	DockPane(&m_wndMenuBar);
 	DockPane(&m_wndToolBar);
 
 

@@ -19,6 +19,7 @@ Section ""
 
     SetOutPath $INSTDIR
     File ..\..\Data\TextureTool.exe
+    File ..\..\Data\TextureTool.chm
     File ..\..\Data\mit.license.txt
 
     ; VC 2010 run-time installer (necessary for MFC)
@@ -51,6 +52,7 @@ Section "Uninstall"
     RMDir "$SMPROGRAMS\GLToy\Texture Tool"
 
     Delete $INSTDIR\TextureTool.exe
+    Delete $INSTDIR\TextureTool.chm
     Delete $INSTDIR\mit.license.txt
     Delete $INSTDIR\uninstall.exe
     RMDir $INSTDIR
