@@ -410,6 +410,7 @@
     </None>
     <None Include="hlp\scrollbars.htm">
       <DeploymentContent>true</DeploymentContent>
+      <SubType>Designer</SubType>
     </None>
     <None Include="hlp\TextureTool.hhc" />
     <None Include="hlp\TextureTool.hhk" />
