@@ -132,9 +132,24 @@ void GLToy_Maths::Platform_Update()
     Platform_GLToy_Maths::Update();
 }
 
+float GLToy_Maths::ASin( const float fValue )
+{
+    return asin( fValue );
+}
+
 float GLToy_Maths::ACos( const float fValue )
 {
     return acos( fValue );
+}
+
+float GLToy_Maths::ATan( const float fValue )
+{
+    return atan( fValue );
+}
+
+float GLToy_Maths::ATan( const float fY, const float fX )
+{
+    return atan2( fY, fX );
 }
 
 float GLToy_Maths::Abs( const float fValue )

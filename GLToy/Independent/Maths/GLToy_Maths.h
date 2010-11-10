@@ -150,8 +150,15 @@ public:
 
     static GLToy_ForceInline float Sin( const float fValue ) { return Platform_GLToy_Maths::Sin( fValue ); }
     static GLToy_ForceInline float Cos( const float fValue ) { return Platform_GLToy_Maths::Cos( fValue ); }
+    static GLToy_ForceInline float Tan( const float fValue ) { return Platform_GLToy_Maths::Tan( fValue ); }
+    static GLToy_ForceInline float Cot( const float fValue ) { return Platform_GLToy_Maths::Tan( fValue + 0.785398163f ); }
+    static GLToy_ForceInline float Sec( const float fValue ) { return 1.0f / Platform_GLToy_Maths::Cos( fValue ); }
+    static GLToy_ForceInline float Csc( const float fValue ) { return 1.0f / Platform_GLToy_Maths::Sin( fValue ); }
 
+    static float ASin( const float fValue );
     static float ACos( const float fValue );
+    static float ATan( const float fValue );
+    static float ATan( const float fY, const float fX );
 
     static float Abs( const float fValue );
 	static GLToy_ForceInline float InvSqrt( const float fValue ) { return 1.0f / Sqrt( fValue ); } // shocking I know...

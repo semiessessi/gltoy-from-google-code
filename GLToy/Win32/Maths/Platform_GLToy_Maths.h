@@ -60,6 +60,16 @@ public:
 		}
 	}
 
+	static GLToy_ForceInline float Tan( const float fValue )
+	{
+		__asm
+		{
+			fld [ fValue ]
+			fptan
+            fstp st( 0 )
+		}
+	}
+
     static GLToy_ForceInline float Sqrt( const float fValue )
 	{
 		__asm
