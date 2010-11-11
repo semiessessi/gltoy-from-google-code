@@ -62,7 +62,7 @@ void SRC_Entity_Robot::Render() const
 void SRC_Entity_Robot::SpawnRobot_Console()
 {
     static u_int ls_uID = 0;
-    GLToy_Entity* const pxRobot = GLToy_Entity_System::CreateEntity( ( GLToy_String( "Robot" ) + ls_uID ).GetHash(), SRC_ENTITY_ROBOT );
+    GLToy_Entity* const pxRobot = GLToy_Entity_System::CreateEntity( ( GLToy_String( "Robot " ) + ls_uID ).GetHash(), SRC_ENTITY_ROBOT );
 
     pxRobot->SetPosition( GLToy_Camera::GetPosition() );
 

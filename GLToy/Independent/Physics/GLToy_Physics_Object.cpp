@@ -65,7 +65,7 @@ void GLToy_Physics_Object::SetVelocity( const GLToy_Vector_3& xVelocity )
 {
 }
 
-GLToy_OBB GLToy_Physics_Object::GetOBB()
+GLToy_OBB GLToy_Physics_Object::GetOBB() const
 {
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS

@@ -31,6 +31,15 @@
     <Filter Include="Independent\Entity\Robot">
       <UniqueIdentifier>{eb543673-1144-4b25-94b6-9513f04a6be6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Entity\Object">
+      <UniqueIdentifier>{be852f62-2128-4639-b6d3-b526e24e7ddf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity\Object\Fixed">
+      <UniqueIdentifier>{6c032a62-520a-40b4-9c5c-b4949bfb2ae6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity\Object\Moveable">
+      <UniqueIdentifier>{a33a5e86-b3a4-48a4-84bd-f3c3e5bd621b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_SRC.cpp">
@@ -60,6 +69,18 @@
     <ClCompile Include="Independent\Environment\SRC_Environment.cpp">
       <Filter>Independent\Environment</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Entity\Object\SRC_Entity_Object.cpp">
+      <Filter>Independent\Entity\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\Object\Fixed\SRC_Entity_Fixed.cpp">
+      <Filter>Independent\Entity\Object\Fixed</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable.cpp">
+      <Filter>Independent\Entity\Object\Moveable</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable_Cube.cpp">
+      <Filter>Independent\Entity\Object\Moveable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_SRC.h">
@@ -82,6 +103,18 @@
     </ClInclude>
     <ClInclude Include="Independent\Environment\SRC_Environment.h">
       <Filter>Independent\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Object\SRC_Entity_Object.h">
+      <Filter>Independent\Entity\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Object\Fixed\SRC_Entity_Fixed.h">
+      <Filter>Independent\Entity\Object\Fixed</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable.h">
+      <Filter>Independent\Entity\Object\Moveable</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable_Cube.h">
+      <Filter>Independent\Entity\Object\Moveable</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

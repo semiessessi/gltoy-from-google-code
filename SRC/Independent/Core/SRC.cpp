@@ -61,6 +61,10 @@ bool SRC::Initialise()
     GLToy_Console::RegisterCommand( "spawnrobot", SRC_Entity_Robot::SpawnRobot_Console );
 	GLToy_Console::RegisterCommand( "worldtest", SRC::CreateTestEnvironment );
 
+    GLToy_Console::RegisterCommand( "spawncube", SRC_Console_SpawnCube );
+
+	GLToy_Environment* pxEnvironment = GLToy_Environment_System::CreateEnvironmentFromType( uSRC_ENVIRONMENT_TYPE );
+	GLToy_Environment_System::SetCurrentEnvironment( pxEnvironment );
     return true;
 }
 

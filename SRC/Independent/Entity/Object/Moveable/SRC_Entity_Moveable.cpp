@@ -28,47 +28,16 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/SRC.h>
+#include <Core/GLToy.h>
 
 // This file's header
-#include <Entity/SRC_EntityTypes.h>
-
-// GLToy
-#include <Entity/GLToy_Entity.h>
-#include <Entity/GLToy_Entity_System.h>
-#include <Render/GLToy_Camera.h>
-
-// SRC
-#include <Entity/Object/Moveable/SRC_Entity_Moveable_Cube.h>
-#include <Entity/Robot/SRC_Entity_Robot.h>
+#include <Entity/Object/Moveable/SRC_Entity_Moveable.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Entity* SRC_CreateEntity( const GLToy_Hash uHash, const u_int uType )
+SRC_Entity_Moveable::SRC_Entity_Moveable( const GLToy_Hash uHash, const u_int uType )
+: GLToy_Parent( uHash, uType )
 {
-    switch( uType )
-    {
-        case SRC_ENTITY_ROBOT:              return new SRC_Entity_Robot( uHash, uType );
-        case SRC_ENTITY_MOVEABLE_CUBE:      return new SRC_Entity_Moveable_Cube( uHash, uType );
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return NULL;
-}
-
-void SRC_Console_SpawnCube()
-{
-    static u_int ls_uID = 0;
-
-    SRC_Entity_Moveable_Cube* pxCube = static_cast< SRC_Entity_Moveable_Cube* >( GLToy_Entity_System::CreateEntity( ( GLToy_String( "Cube " ) + ls_uID ).GetHash(), SRC_ENTITY_MOVEABLE_CUBE ) );
-
-    pxCube->Spawn( GLToy_AABB( GLToy_Camera::GetPosition(), 8.0f, 8.0f, 8.0f ) + GLToy_Camera::GetDirection() * 32.0f, GLToy_Camera::GetDirection() * 50.0f );
-
-    ++ls_uID;
 }
