@@ -142,10 +142,6 @@ bool GLToy_Texture_System::Initialise()
     {
         GLToy_String szName = xIterator.Current();
         szName.RemoveAt( 0, 9 ); // remove "textures/"
-        
-        // this got annoying...
-        // GLToy_DebugOutput( "   - Found texture \"%S\".\r\n", szName.GetWideString() );
-
         s_xTextures.AddNode( GLToy_Texture( szName ), szName.GetHash() );
     }
 
@@ -153,12 +149,7 @@ bool GLToy_Texture_System::Initialise()
 
     GLToy_ConstIterate( GLToy_String, xIterator, &xPTXPaths )
     {
-        GLToy_String szName = xIterator.Current();
-
-        // this got annoying...
-        // GLToy_DebugOutput( "   - Found procedural texture \"%S\".\r\n", szName.GetWideString() );
-        
-        GLToy_PTXFile( szName ).LoadTexture();
+        GLToy_PTXFile( xIterator.Current() ).LoadTexture();
     }
 
     return true;
@@ -179,7 +170,8 @@ void GLToy_Texture_System::Shutdown()
         {
             pxTexture->Unload();
         },
-		xFunctor );
+		xFunctor
+    );
 
     s_xTextures.Traverse( xFunctor );
 
