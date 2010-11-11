@@ -22,6 +22,9 @@
     <Filter Include="X11\Core">
       <UniqueIdentifier>{64029202-2c16-4f22-a44a-b8f57c2154c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Environment">
+      <UniqueIdentifier>{de0b00be-7c84-4829-8184-61f16a6406c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_SRC.cpp">
@@ -42,6 +45,12 @@
     <ClCompile Include="X11\Core\Platform_SRC.cpp">
       <Filter>X11\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Core\Environment\SRC_Environment.cpp">
+      <Filter>Independent\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\Environment\SRC_Map.cpp">
+      <Filter>Independent\Environment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_SRC.h">
@@ -55,6 +64,12 @@
     </ClInclude>
     <ClInclude Include="X11\Core\Platform_SRC.h">
       <Filter>X11\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Environment\SRC_Environment.h">
+      <Filter>Independent\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Environment\SRC_Map.h">
+      <Filter>Independent\Environment</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

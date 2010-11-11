@@ -145,6 +145,8 @@ upx.exe $(TargetPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Independent\Core\Environment\SRC_Environment.cpp" />
+    <ClCompile Include="Independent\Core\Environment\SRC_Map.cpp" />
     <ClCompile Include="X11\Core\Platform_SRC.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -157,6 +159,8 @@ upx.exe $(TargetPath)</Command>
     <ClCompile Include="Independent\Core\Project_GLToy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Independent\Core\Environment\SRC_Environment.h" />
+    <ClInclude Include="Independent\Core\Environment\SRC_Map.h" />
     <ClInclude Include="X11\Core\Platform_SRC.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
