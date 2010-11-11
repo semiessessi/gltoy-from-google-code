@@ -12,7 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{451F6CAD-AF6B-479E-9321-C4DAE0F40260}</ProjectGuid>
-    <RootNamespace>Empty</RootNamespace>
+    <RootNamespace>SRC</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -95,24 +95,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="X11\Core\Platform_Empty.cpp">
+    <ClCompile Include="X11\Core\Platform_SRC.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Win32\Core\Platform_Empty.cpp" />
-    <ClCompile Include="Independent\Render\Empty_Render.cpp" />
+    <ClCompile Include="Win32\Core\Platform_SRC.cpp" />
+    <ClCompile Include="Independent\Render\SRC_Render.cpp" />
     <ClCompile Include="Independent\Render\Project_GLToy_Render.cpp" />
-    <ClCompile Include="Independent\Core\Empty.cpp" />
+    <ClCompile Include="Independent\Core\SRC.cpp" />
     <ClCompile Include="Independent\Core\Project_GLToy.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="X11\Core\Platform_Empty.h">
+    <ClInclude Include="X11\Core\Platform_SRC.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Win32\Core\Platform_Empty.h" />
-    <ClInclude Include="Independent\Render\Empty_Render.h" />
-    <ClInclude Include="Independent\Core\Empty.h" />
+    <ClInclude Include="Win32\Core\Platform_SRC.h" />
+    <ClInclude Include="Independent\Render\SRC_Render.h" />
+    <ClInclude Include="Independent\Core\SRC.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GLToy\GLToy.vcxproj">

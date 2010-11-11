@@ -24,36 +24,36 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Win32\Core\Platform_Empty.cpp">
+    <ClCompile Include="Win32\Core\Platform_SRC.cpp">
       <Filter>Win32\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Independent\Render\Empty_Render.cpp">
+    <ClCompile Include="Independent\Render\SRC_Render.cpp">
       <Filter>Independent\Render</Filter>
     </ClCompile>
     <ClCompile Include="Independent\Render\Project_GLToy_Render.cpp">
       <Filter>Independent\Render</Filter>
     </ClCompile>
-    <ClCompile Include="Independent\Core\Empty.cpp">
+    <ClCompile Include="Independent\Core\SRC.cpp">
       <Filter>Independent\Core</Filter>
     </ClCompile>
     <ClCompile Include="Independent\Core\Project_GLToy.cpp">
       <Filter>Independent\Core</Filter>
     </ClCompile>
-    <ClCompile Include="X11\Core\Platform_Empty.cpp">
+    <ClCompile Include="X11\Core\Platform_SRC.cpp">
       <Filter>X11\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Win32\Core\Platform_Empty.h">
+    <ClInclude Include="Win32\Core\Platform_SRC.h">
       <Filter>Win32\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Render\Empty_Render.h">
+    <ClInclude Include="Independent\Render\SRC_Render.h">
       <Filter>Independent\Render</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Core\Empty.h">
+    <ClInclude Include="Independent\Core\SRC.h">
       <Filter>Independent\Core</Filter>
     </ClInclude>
-    <ClInclude Include="X11\Core\Platform_Empty.h">
+    <ClInclude Include="X11\Core\Platform_SRC.h">
       <Filter>X11\Core</Filter>
     </ClInclude>
   </ItemGroup>

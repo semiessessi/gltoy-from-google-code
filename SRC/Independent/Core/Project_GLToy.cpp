@@ -29,23 +29,26 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // This file's header
-#include <Core/Empty.h>
+#include <Core/GLToy.h>
+
+// SRC
+#include <Core/SRC.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Empty::Initialise()
+bool GLToy::Project_Initialise()
 {
-    GLToy::ChangeWindowTitle( "Empty GLToy Project" );
-
-    return true;
+    return SRC::Initialise();
 }
 
-void Empty::Shutdown()
+void GLToy::Project_Shutdown()
 {
+    SRC::Shutdown();
 }
 
-void Empty::Update()
+void GLToy::Project_Update()
 {
+    SRC::Update();
 }
