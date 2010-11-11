@@ -148,7 +148,6 @@ upx.exe $(TargetPath)</Command>
     <ClCompile Include="Independent\Entity\Robot\SRC_Entity_Robot.cpp" />
     <ClCompile Include="Independent\Entity\SRC_EntityTypes.cpp" />
     <ClCompile Include="Independent\Environment\SRC_Environment.cpp" />
-    <ClCompile Include="Independent\Environment\SRC_Map.cpp" />
     <ClCompile Include="X11\Core\Platform_SRC.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -164,7 +163,6 @@ upx.exe $(TargetPath)</Command>
     <ClInclude Include="Independent\Entity\Robot\SRC_Entity_Robot.h" />
     <ClInclude Include="Independent\Entity\SRC_EntityTypes.h" />
     <ClInclude Include="Independent\Environment\SRC_Environment.h" />
-    <ClInclude Include="Independent\Environment\SRC_Map.h" />
     <ClInclude Include="X11\Core\Platform_SRC.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

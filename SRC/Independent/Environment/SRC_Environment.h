@@ -15,6 +15,23 @@ class GLToy_Plane;
 
 static const u_int uSRC_ENVIRONMENT_TYPE = 0xDEADBEEF;
 
+
+class SRC_Map_Block
+{
+	// These are the blocks which make up a level
+
+	public:
+
+		SRC_Map_Block();
+		~SRC_Map_Block();
+
+		void SetHeight( int iHeight );
+
+	private:
+
+		int m_iHeight;
+};
+
 class SRC_Environment : public GLToy_Environment_Plane
 {
 	typedef GLToy_Environment_Plane GLToy_Parent;
@@ -33,10 +50,18 @@ class SRC_Environment : public GLToy_Environment_Plane
 
 		virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
 		virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+		
+		virtual bool Load( GLToy_Hash xName );
 
 		virtual u_int GetType() const;
 
 		float Trace( const GLToy_Ray& xRay, const float fLimitingDistance ) const;
+
+	private:
+
+		SRC_Map_Block* m_pxBlocks;
+
+		GLToy_String m_xFilename;
 };
 
 GLToy_Environment* SRC_CreateEnvironment( const u_int uType );

@@ -60,9 +60,6 @@
     <ClCompile Include="Independent\Environment\SRC_Environment.cpp">
       <Filter>Independent\Environment</Filter>
     </ClCompile>
-    <ClCompile Include="Independent\Environment\SRC_Map.cpp">
-      <Filter>Independent\Environment</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_SRC.h">
@@ -84,9 +81,6 @@
       <Filter>Independent\Entity\Robot</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Environment\SRC_Environment.h">
-      <Filter>Independent\Environment</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Environment\SRC_Map.h">
       <Filter>Independent\Environment</Filter>
     </ClInclude>
   </ItemGroup>

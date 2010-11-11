@@ -7,13 +7,33 @@
 
 #include "Maths/GLToy_Plane.h"
 
+// ________________________________ SRC_Map_Block __________________________________
+
+SRC_Map_Block::SRC_Map_Block()
+: m_iHeight( 0 )
+{
+}
+
+SRC_Map_Block::~SRC_Map_Block()
+{
+}
+
+void SRC_Map_Block::SetHeight( int iHeight )
+{
+	m_iHeight = iHeight;
+}
+
+// ________________________________ SRC_Environment __________________________________
+
 SRC_Environment::SRC_Environment( const GLToy_Plane& xPlane, const GLToy_String& szTextureName )
 : GLToy_Environment_Plane( xPlane, szTextureName ) 
+, m_pxBlocks( 0 )
 {
 }
 
 SRC_Environment::~SRC_Environment()
 {
+	delete []m_pxBlocks;
 }
 
 void SRC_Environment::Initialise()
@@ -70,4 +90,9 @@ GLToy_Environment* SRC_CreateEnvironment( const u_int uType )
     }
 
     return NULL;
+}
+
+bool SRC_Environment::Load( GLToy_Hash xName )
+{
+	return false;
 }
