@@ -7,7 +7,7 @@
 
 #include "Maths/GLToy_Plane.h"
 
-SRC_Environment( const GLToy_Plane& xPlane, const GLToy_String& szTextureName )
+SRC_Environment::SRC_Environment( const GLToy_Plane& xPlane, const GLToy_String& szTextureName )
 : GLToy_Environment_Plane( xPlane, szTextureName ) 
 {
 }
@@ -57,5 +57,5 @@ float SRC_Environment::Trace( const GLToy_Ray& xRay, const float fLimitingDistan
 	// TODO: Cut a square out of a plane and make it the correct dimensions for the map blocks
 	// also, make this use the depth buffer if it does not already
 
-	GLToy_Parent::Trace(xRay, fLimitingDistance);
+	return GLToy_Parent::Trace(xRay, fLimitingDistance);
 }

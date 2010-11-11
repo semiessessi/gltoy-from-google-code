@@ -17,8 +17,7 @@ class SRC_Environment : public GLToy_Environment_Plane
 
 	public:
 
-		SRC_Environment( const GLToy_Plane& xPlane, const GLToy_String& szTextureName )
-			: GLToy_Environment_Plane( xPlane, szTextureName ) {}
+		SRC_Environment( const GLToy_Plane& xPlane, const GLToy_String& szTextureName );
 		~SRC_Environment();
 
 		void Initialise();
