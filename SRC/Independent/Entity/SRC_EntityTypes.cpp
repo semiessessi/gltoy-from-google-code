@@ -28,36 +28,32 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// This file's header
 #include <Core/SRC.h>
 
+// This file's header
+#include <Entity/SRC_EntityTypes.h>
+
 // GLToy
-#include <Core/Console/GLToy_Console.h>
-#include <Entity/GLToy_Entity_System.h>
+#include <Entity/GLToy_Entity.h>
 
 // SRC
-#include <Entity/SRC_EntityTypes.h>
 #include <Entity/Robot/SRC_Entity_Robot.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool SRC::Initialise()
+GLToy_Entity* SRC_CreateEntity( const GLToy_Hash uHash, const u_int uType )
 {
-    GLToy::ChangeWindowTitle( "Super Robo Cross" );
+    switch( uType )
+    {
+        case SRC_ENTITY_ROBOT:      return new SRC_Entity_Robot( uHash, uType );
 
-    GLToy_Entity_System::SetProjectEntityCreateCallback( SRC_CreateEntity );
+        default:
+        {
+            break;
+        }
+    }
 
-    GLToy_Console::RegisterCommand( "spawnrobot", SRC_Entity_Robot::SpawnRobot_Console );
-
-    return true;
-}
-
-void SRC::Shutdown()
-{
-}
-
-void SRC::Update()
-{
+    return NULL;
 }

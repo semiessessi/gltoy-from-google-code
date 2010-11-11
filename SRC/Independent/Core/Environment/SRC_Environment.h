@@ -9,6 +9,8 @@
 // Dear Semi, the word Environment is very long to type, I do not enjoy having to type it a lot
 // in future please use a nice short word like 'World' or 'Scene', thank you - Tom
 
+// Dear Tom - Ctrl-Tab is your friend but point taken - world/scene would probably be a lot clearer
+
 class GLToy_Plane;
 
 class SRC_Environment : public GLToy_Environment_Plane

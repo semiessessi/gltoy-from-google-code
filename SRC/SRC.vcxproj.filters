@@ -25,6 +25,12 @@
     <Filter Include="Independent\Environment">
       <UniqueIdentifier>{de0b00be-7c84-4829-8184-61f16a6406c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Entity">
+      <UniqueIdentifier>{a879ccc6-5514-47fd-bf2b-7470e94332ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity\Robot">
+      <UniqueIdentifier>{eb543673-1144-4b25-94b6-9513f04a6be6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_SRC.cpp">
@@ -51,6 +57,12 @@
     <ClCompile Include="Independent\Core\Environment\SRC_Map.cpp">
       <Filter>Independent\Environment</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Entity\SRC_EntityTypes.cpp">
+      <Filter>Independent\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\Robot\SRC_Entity_Robot.cpp">
+      <Filter>Independent\Entity\Robot</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_SRC.h">
@@ -70,6 +82,12 @@
     </ClInclude>
     <ClInclude Include="Independent\Core\Environment\SRC_Map.h">
       <Filter>Independent\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\SRC_EntityTypes.h">
+      <Filter>Independent\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Robot\SRC_Entity_Robot.h">
+      <Filter>Independent\Entity\Robot</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

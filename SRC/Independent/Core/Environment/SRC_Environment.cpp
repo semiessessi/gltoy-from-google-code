@@ -39,6 +39,8 @@ void SRC_Environment::Shutdown()
 int SRC_Environment::GetType() const
 {
 	// huh? return a 'type', the enumeration for which is in engine code o_O
+    // SE - 11/11/10 - see FPSToy_EntityTypes, I'll rework the engine code and sort this out...
+    // I did try to point this out on the wiki discussion...
 	return 0xDeadBeef;
 }
 
@@ -57,5 +59,8 @@ float SRC_Environment::Trace( const GLToy_Ray& xRay, const float fLimitingDistan
 	// TODO: Cut a square out of a plane and make it the correct dimensions for the map blocks
 	// also, make this use the depth buffer if it does not already
 
-	return GLToy_Parent::Trace(xRay, fLimitingDistance);
+    // SE - 11/11/10 - just to make clear this is the trace function as in Quake, rather than raytraced rendering
+    // at the moment its not that important - although it would be good to have for the editor etc. to trace the mouse to a point
+
+	return GLToy_Parent::Trace( xRay, fLimitingDistance );
 }
