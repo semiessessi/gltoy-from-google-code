@@ -45,6 +45,12 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+void SRC::CreateTestEnvironment()
+{
+    GLToy_Entity_System::DestroyEntities();
+    GLToy_Environment_System::SwitchEnvironment( GLToy_Environment_System::CreateEnvironmentFromType( uSRC_ENVIRONMENT_TYPE ) );
+}
+
 bool SRC::Initialise()
 {
     GLToy::ChangeWindowTitle( "Super Robo Cross" );
@@ -53,9 +59,7 @@ bool SRC::Initialise()
     GLToy_Environment_System::SetProjectCreateCallback( SRC_CreateEnvironment );
 
     GLToy_Console::RegisterCommand( "spawnrobot", SRC_Entity_Robot::SpawnRobot_Console );
-
-	GLToy_Environment* pxEnvironment = GLToy_Environment_System::CreateEnvironmentFromType( uSRC_ENVIRONMENT_TYPE );
-	GLToy_Environment_System::SetCurrentEnvironment( pxEnvironment );
+	GLToy_Console::RegisterCommand( "worldtest", SRC::CreateTestEnvironment );
 
     return true;
 }

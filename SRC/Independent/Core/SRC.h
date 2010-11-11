@@ -42,13 +42,16 @@
 class SRC
 {
 
-public:
+	public:
 
-    static bool Initialise();
-    static void Shutdown();
+		static bool Initialise();
+		static void Shutdown();
 
-    static void Update();
+		static void Update();
 
+	private:
+
+		static void CreateTestEnvironment();
 };
 
 #endif
