@@ -65,9 +65,9 @@ void GLToy_Environment_HeightField::Update()
 {
 }
 
-int GLToy_Environment_HeightField::GetType() const
+u_int GLToy_Environment_HeightField::GetType() const
 {
-    return static_cast< int >( ENV_HEIGHTFIELD );
+    return ENV_HEIGHTFIELD;
 }
 
 float GLToy_Environment_HeightField::Trace( const GLToy_Ray& xRay, const float fLimitingDistance ) const

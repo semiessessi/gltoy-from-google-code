@@ -57,7 +57,7 @@ bool GLToy_Environment_System::s_bRenderLightmap = true;
 bool GLToy_Environment_System::s_bRenderLightmapOnly = false;
 bool GLToy_Environment_System::s_bBSPQuadRes = true;
 bool GLToy_Environment_System::s_bDebugRender = false;
-
+GLToy_Environment* ( *GLToy_Environment_System::s_pfnProject_CreateFromType )( const u_int ) = NULL;
 GLToy_HashTree< GLToy_EnvironmentFile* > GLToy_Environment_System::s_xEnvironments;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -184,19 +184,28 @@ void GLToy_Environment_System::CreateTestEnvironment()
     SwitchEnvironment( new GLToy_Environment_Plane( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "generic/grid1.ptx" ) );
 }
 
-GLToy_Environment* GLToy_Environment_System::CreateEnvironmentFromType( const GLToy_EnvironmentType eType )
+GLToy_Environment* GLToy_Environment_System::CreateEnvironmentFromType( const u_int uType )
 {
     GLToy_Environment* pxNewEnv = NULL;
 
-    switch( eType )
+    if( s_pfnProject_CreateFromType )
     {
-        case ENV_PLANE:         pxNewEnv = new GLToy_Environment_Plane( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "generic/grid1.ptx" ); break;
-        case ENV_LIGHTMAPPED:   pxNewEnv = new GLToy_Environment_Lightmapped(); break;
+        pxNewEnv = s_pfnProject_CreateFromType( uType );
+    }
 
-        default:
+    if( !pxNewEnv )
+    {
+        const GLToy_EnvironmentType eType = static_cast< GLToy_EnvironmentType >( uType );
+        switch( eType )
         {
-            GLToy_Assert( false, "Unrecognised environment type: %u", eType );
-            break;
+            case ENV_PLANE:         pxNewEnv = new GLToy_Environment_Plane( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "generic/grid1.ptx" ); break;
+            case ENV_LIGHTMAPPED:   pxNewEnv = new GLToy_Environment_Lightmapped(); break;
+
+            default:
+            {
+                GLToy_Assert( false, "Unrecognised environment type: %u", eType );
+                break;
+            }
         }
     }
 

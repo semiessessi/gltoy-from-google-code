@@ -85,9 +85,9 @@ void GLToy_Environment_Plane::Update()
 {
 }
 
-int GLToy_Environment_Plane::GetType() const
+u_int GLToy_Environment_Plane::GetType() const
 {
-    return static_cast< int >( ENV_PLANE );
+    return ENV_PLANE;
 }
 
 float GLToy_Environment_Plane::Trace( const GLToy_Ray& xRay, const float fLimitingDistance ) const

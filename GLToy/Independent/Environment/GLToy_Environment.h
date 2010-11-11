@@ -74,7 +74,7 @@ public:
     virtual void Initialise() = 0;
     virtual void Shutdown() = 0;
 
-    virtual int GetType() const = 0;
+    virtual u_int GetType() const = 0;
 
     virtual void Render() const;
     virtual void Update();

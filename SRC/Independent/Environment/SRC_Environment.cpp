@@ -26,7 +26,7 @@ void SRC_Environment::Update()
 	GLToy_Parent::Update();
 }
 
-void SRC_Environment::Render()
+void SRC_Environment::Render() const
 {
 	GLToy_Parent::Render();
 }
@@ -36,12 +36,9 @@ void SRC_Environment::Shutdown()
 	GLToy_Parent::Shutdown();
 }
 
-int SRC_Environment::GetType() const
+u_int SRC_Environment::GetType() const
 {
-	// huh? return a 'type', the enumeration for which is in engine code o_O
-    // SE - 11/11/10 - see FPSToy_EntityTypes, I'll rework the engine code and sort this out...
-    // I did try to point this out on the wiki discussion...
-	return 0xDeadBeef;
+	return uSRC_ENVIRONMENT_TYPE;
 }
 
 void SRC_Environment::ReadFromBitStream( const GLToy_BitStream& xStream )
@@ -63,4 +60,14 @@ float SRC_Environment::Trace( const GLToy_Ray& xRay, const float fLimitingDistan
     // at the moment its not that important - although it would be good to have for the editor etc. to trace the mouse to a point
 
 	return GLToy_Parent::Trace( xRay, fLimitingDistance );
+}
+
+GLToy_Environment* SRC_CreateEnvironment( const u_int uType )
+{
+    if( uType == uSRC_ENVIRONMENT_TYPE )
+    {
+        return new SRC_Environment( GLToy_Plane( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ), 0.0f ), "Generic/Grid1.ptx" );
+    }
+
+    return NULL;
 }

@@ -34,10 +34,12 @@
 // GLToy
 #include <Core/Console/GLToy_Console.h>
 #include <Entity/GLToy_Entity_System.h>
+#include <Environment/GLToy_Environment_System.h>
 
 // SRC
 #include <Entity/SRC_EntityTypes.h>
 #include <Entity/Robot/SRC_Entity_Robot.h>
+#include <Environment/SRC_Environment.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -48,6 +50,7 @@ bool SRC::Initialise()
     GLToy::ChangeWindowTitle( "Super Robo Cross" );
 
     GLToy_Entity_System::SetProjectEntityCreateCallback( SRC_CreateEntity );
+    GLToy_Environment_System::SetProjectCreateCallback( SRC_CreateEnvironment );
 
     GLToy_Console::RegisterCommand( "spawnrobot", SRC_Entity_Robot::SpawnRobot_Console );
 

@@ -62,7 +62,7 @@ public:
     virtual void Render() const;
     virtual void Update();
 
-    virtual int GetType() const;
+    virtual u_int GetType() const;
 
     virtual float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f ) const;
 

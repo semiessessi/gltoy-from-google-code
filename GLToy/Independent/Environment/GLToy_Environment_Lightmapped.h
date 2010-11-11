@@ -271,7 +271,7 @@ public:
 
     virtual void Render2D() const;
 
-    virtual int GetType() const;
+    virtual u_int GetType() const;
 
     virtual float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f ) const;
 

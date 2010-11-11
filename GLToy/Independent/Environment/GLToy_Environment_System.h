@@ -69,7 +69,7 @@ public:
     static void SaveEnvironmentFile( const GLToy_String& szName );
 
     static void CreateTestEnvironment();
-    static GLToy_Environment* CreateEnvironmentFromType( const GLToy_EnvironmentType eType );
+    static GLToy_Environment* CreateEnvironmentFromType( const u_int uType );
 
     static const GLToy_Environment* GetCurrentEnvironment() { return s_pxCurrentEnvironment; }
     static void SetRender( const bool bRender ) { s_bRender = bRender; };
@@ -87,7 +87,11 @@ public:
     static bool IsBSPQuadRes() { return s_bBSPQuadRes; }
     static bool IsDebugRender() { return s_bDebugRender; }
 
+    static void SetProjectCreateCallback( GLToy_Environment* ( *pfnCreateFromType )( const u_int ) ) { s_pfnProject_CreateFromType = pfnCreateFromType; }
+
 private:
+
+    static GLToy_Environment* ( *s_pfnProject_CreateFromType )( const u_int );
 
     static bool s_bRender;
     static bool s_bRenderLightmap;
@@ -95,6 +99,7 @@ private:
     static bool s_bBSPQuadRes;
     static bool s_bDebugRender;
     static GLToy_Environment* s_pxCurrentEnvironment;
+
 #ifdef GLTOY_PLATFORM_WIN32
 	__declspec( align( 4 ) )
 #endif

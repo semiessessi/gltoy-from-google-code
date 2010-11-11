@@ -265,7 +265,7 @@ void GLToy_Environment_Lightmapped::Render2D() const
     }
 }
 
-int GLToy_Environment_Lightmapped::GetType() const
+u_int GLToy_Environment_Lightmapped::GetType() const
 {
     return ENV_LIGHTMAPPED;
 }
