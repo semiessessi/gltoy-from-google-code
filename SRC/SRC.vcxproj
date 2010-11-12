@@ -149,6 +149,8 @@ upx.exe $(TargetPath) --best</Command>
     <ClCompile Include="Independent\Entity\Object\Fixed\SRC_Entity_Fixed_Cube.cpp" />
     <ClCompile Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable.cpp" />
     <ClCompile Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable_Cube.cpp" />
+    <ClCompile Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable_Plank.cpp" />
+    <ClCompile Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable_Square.cpp" />
     <ClCompile Include="Independent\Entity\Object\SRC_Entity_Object.cpp" />
     <ClCompile Include="Independent\Entity\Robot\SRC_Entity_Robot.cpp" />
     <ClCompile Include="Independent\Entity\SRC_EntityTypes.cpp" />
@@ -169,6 +171,8 @@ upx.exe $(TargetPath) --best</Command>
     <ClInclude Include="Independent\Entity\Object\Fixed\SRC_Entity_Fixed_Cube.h" />
     <ClInclude Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable.h" />
     <ClInclude Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable_Cube.h" />
+    <ClInclude Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable_Plank.h" />
+    <ClInclude Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable_Square.h" />
     <ClInclude Include="Independent\Entity\Object\SRC_Entity_Object.h" />
     <ClInclude Include="Independent\Entity\Robot\SRC_Entity_Robot.h" />
     <ClInclude Include="Independent\Entity\SRC_EntityTypes.h" />

@@ -31,7 +31,7 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <Entity/Object/Moveable/SRC_Entity_Moveable_Cube.h>
+#include <Entity/Object/Moveable/SRC_Entity_Moveable_Square.h>
 
 // GLToy
 #include <Render/GLToy_Render.h>
@@ -45,17 +45,17 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-SRC_Entity_Moveable_Cube::SRC_Entity_Moveable_Cube( const GLToy_Hash uHash, const u_int uType )
+SRC_Entity_Moveable_Square::SRC_Entity_Moveable_Square( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
 {
 }
 
-void SRC_Entity_Moveable_Cube::Spawn( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity )
+void SRC_Entity_Moveable_Square::Spawn( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity )
 {
-    SetPhysicsObject( GLToy_Physics_System::CreatePhysicsBox( GetHash(), GLToy_AABB( xPosition, 8.0f, 8.0f, 8.0f ), xVelocity ) );
+    SetPhysicsObject( GLToy_Physics_System::CreatePhysicsBox( GetHash(), GLToy_AABB( xPosition, 12.0f, 12.0f, 0.5f ), xVelocity ) );
 }
 
-void SRC_Entity_Moveable_Cube::Render() const
+void SRC_Entity_Moveable_Square::Render() const
 {
     const GLToy_Physics_Object* const pxPhysicsObject = GetPhysicsObject();
     if( pxPhysicsObject )

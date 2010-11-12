@@ -50,9 +50,9 @@ SRC_Entity_Fixed_Cube::SRC_Entity_Fixed_Cube( const GLToy_Hash uHash, const u_in
 {
 }
 
-void SRC_Entity_Fixed_Cube::Spawn( const GLToy_AABB& xBB )
+void SRC_Entity_Fixed_Cube::Spawn( const GLToy_Vector_3& xPosition )
 {
-    SetPhysicsObject( GLToy_Physics_System::CreateFixedBox( GetHash(), xBB ) );
+    SetPhysicsObject( GLToy_Physics_System::CreateFixedBox( GetHash(), GLToy_AABB( xPosition, 8.0f, 8.0f, 8.0f ) ) );
 }
 
 void SRC_Entity_Fixed_Cube::Render() const

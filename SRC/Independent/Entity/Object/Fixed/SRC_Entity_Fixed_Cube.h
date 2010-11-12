@@ -49,7 +49,7 @@ public:
     SRC_Entity_Fixed_Cube( const GLToy_Hash uHash, const u_int uType );
     virtual ~SRC_Entity_Fixed_Cube() {}
 
-    void Spawn( const GLToy_AABB& xBB );
+    void Spawn( const GLToy_Vector_3& xPosition );
 
     virtual void Render() const;
 

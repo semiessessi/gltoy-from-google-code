@@ -49,7 +49,7 @@ public:
     SRC_Entity_Moveable_Cube( const GLToy_Hash uHash, const u_int uType );
     virtual ~SRC_Entity_Moveable_Cube() {}
 
-    void Spawn( const GLToy_AABB& xBB, const GLToy_Vector_3& xVelocity );
+    void Spawn( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity );
 
     virtual void Render() const;
 

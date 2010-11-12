@@ -24,42 +24,35 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __SRC_ENTITYTYPES_H_
-#define __SRC_ENTITYTYPES_H_
+#ifndef __SRC_ENTITY_MOVEABLE_PLANK_H_
+#define __SRC_ENTITY_MOVEABLE_PLANK_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// GLToy
-#include <Core/GLToy_Hash.h>
+// Parents
+#include <Entity/Object/Moveable/SRC_Entity_Moveable.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-enum SRC_EntityType
+class SRC_Entity_Moveable_Plank
+: public SRC_Entity_Moveable
 {
-    SRC_ENTITY_ROBOT,
 
-    SRC_ENTITY_MOVEABLE_CUBE,
-    SRC_ENTITY_MOVEABLE_PLANK,
-    SRC_ENTITY_MOVEABLE_SQUARE,
+    typedef SRC_Entity_Moveable GLToy_Parent;
 
-    SRC_ENTITY_FIXED_CUBE,
+public:
 
-    NUM_PHYSICS_ENTITY_TYPES
+    SRC_Entity_Moveable_Plank( const GLToy_Hash uHash, const u_int uType );
+    virtual ~SRC_Entity_Moveable_Plank() {}
+
+    void Spawn( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity );
+
+    virtual void Render() const;
+
 };
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-class GLToy_Entity* SRC_CreateEntity( const GLToy_Hash uHash, const u_int uType );
-
-void SRC_Console_SpawnCube();
-void SRC_Console_SpawnPlank();
-void SRC_Console_SpawnSquare();
-void SRC_Console_SpawnFixedCube();
 
 #endif
