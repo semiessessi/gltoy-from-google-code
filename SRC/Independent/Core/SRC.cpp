@@ -59,6 +59,8 @@ bool SRC::Initialise()
     GLToy_Environment_System::SetProjectCreateCallback( SRC_CreateEnvironment );
 
     GLToy_Console::RegisterCommand( "spawn.cube", SRC_Console_SpawnCube );
+    GLToy_Console::RegisterCommand( "spawn.plank", SRC_Console_SpawnPlank );
+    GLToy_Console::RegisterCommand( "spawn.square", SRC_Console_SpawnSquare );
     GLToy_Console::RegisterCommand( "spawn.fixedcube", SRC_Console_SpawnFixedCube );
     GLToy_Console::RegisterCommand( "spawn.robot", SRC_Entity_Robot::SpawnRobot_Console );
 	GLToy_Console::RegisterCommand( "worldtest", SRC::CreateTestEnvironment );
