@@ -79,9 +79,9 @@ bool GLToy_Entity_System::Initialise()
     GLToy_Console::RegisterCommand( "load.ents", LoadEntityFile );
     GLToy_Console::RegisterCommand( "save.ents", SaveEntityFile );
 
-    GLToy_Console::RegisterCommand( "spawnanim", SpawnAnim_Console );
-    GLToy_Console::RegisterCommand( "spawnmodel", SpawnModel_Console );
-    GLToy_Console::RegisterCommand( "spawnsprite", SpawnSprite_Console );
+    GLToy_Console::RegisterCommand( "spawn.anim", SpawnAnim_Console );
+    GLToy_Console::RegisterCommand( "spawn.model", SpawnModel_Console );
+    GLToy_Console::RegisterCommand( "spawn.sprite", SpawnSprite_Console );
 
     return true;
 }

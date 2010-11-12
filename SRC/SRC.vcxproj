@@ -141,11 +141,12 @@
     </Link>
     <PostBuildEvent>
       <Command>cd $(SolutionDir)
-upx.exe $(TargetPath)</Command>
+upx.exe $(TargetPath) --best</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Independent\Entity\Object\Fixed\SRC_Entity_Fixed.cpp" />
+    <ClCompile Include="Independent\Entity\Object\Fixed\SRC_Entity_Fixed_Cube.cpp" />
     <ClCompile Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable.cpp" />
     <ClCompile Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable_Cube.cpp" />
     <ClCompile Include="Independent\Entity\Object\SRC_Entity_Object.cpp" />
@@ -165,6 +166,7 @@ upx.exe $(TargetPath)</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Independent\Entity\Object\Fixed\SRC_Entity_Fixed.h" />
+    <ClInclude Include="Independent\Entity\Object\Fixed\SRC_Entity_Fixed_Cube.h" />
     <ClInclude Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable.h" />
     <ClInclude Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable_Cube.h" />
     <ClInclude Include="Independent\Entity\Object\SRC_Entity_Object.h" />

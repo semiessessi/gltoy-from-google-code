@@ -81,6 +81,9 @@
     <ClCompile Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable_Cube.cpp">
       <Filter>Independent\Entity\Object\Moveable</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Entity\Object\Fixed\SRC_Entity_Fixed_Cube.cpp">
+      <Filter>Independent\Entity\Object\Fixed</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_SRC.h">
@@ -115,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable_Cube.h">
       <Filter>Independent\Entity\Object\Moveable</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Object\Fixed\SRC_Entity_Fixed_Cube.h">
+      <Filter>Independent\Entity\Object\Fixed</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

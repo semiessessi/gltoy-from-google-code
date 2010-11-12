@@ -717,6 +717,55 @@ GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsSphere( const GLToy_Has
     return NULL;
 }
 
+GLToy_Physics_Object* GLToy_Physics_System::CreateFixedBox( const GLToy_Hash uHash, const GLToy_AABB& xAABB )
+{
+
+    GLToy_Physics_Object* pxPhysicsObject = new GLToy_Physics_Object( uHash );
+    s_xPhysicsObjects.AddNode( pxPhysicsObject, uHash );
+
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+
+    const GLToy_Vector_3 xExtents = xAABB.GetExtents() * fHAVOK_SCALE;
+    hkVector4 xHKExtents = hkVector4( xExtents[ 0 ], xExtents[ 1 ], xExtents[ 2 ] );
+    hkpBoxShape* pxBox = new hkpBoxShape( xHKExtents, 0 );
+    
+    hkpRigidBodyCinfo xRigidBodyInfo;
+
+    xRigidBodyInfo.m_motionType = hkpMotion::MOTION_FIXED;
+    xRigidBodyInfo.m_shape = pxBox;
+    xRigidBodyInfo.m_position = hkVector4( xAABB.GetPosition()[ 0 ] * fHAVOK_SCALE , xAABB.GetPosition()[ 1 ] * fHAVOK_SCALE, xAABB.GetPosition()[ 2 ] * fHAVOK_SCALE );
+
+    xRigidBodyInfo.m_mass = 10.0f;
+    hkpMassProperties xMassProperties;
+    hkpInertiaTensorComputer::computeBoxVolumeMassProperties( xHKExtents, xRigidBodyInfo.m_mass, xMassProperties );
+    xRigidBodyInfo.m_inertiaTensor = xMassProperties.m_inertiaTensor;
+
+    hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
+
+    g_pxHavokWorld->lock();
+    GLToy_Havok_MarkForWrite();
+    g_pxHavokWorld->addEntity( pxRigidBody );
+    pxRigidBody->setQualityType( HK_COLLIDABLE_QUALITY_FIXED );
+    pxRigidBody->setLinearVelocity( hkVector4( 0.0f, 0.0f, 0.0f ) );
+    pxRigidBody->setUserData( uHash );
+    pxRigidBody->addContactListener( new GLToy_Havok_PhysicsCollisionListener( pxRigidBody ) );
+    GLToy_Havok_UnmarkForWrite();
+    g_pxHavokWorld->unlock();
+
+    pxPhysicsObject->SetHavokRigidBodyPointer( pxRigidBody );
+
+    pxRigidBody->removeReference();
+    pxBox->removeReference();
+
+#else
+
+    GLToy_Assert( false, "Physics boxes require GLTOY_USE_HAVOK_PHYSICS for now..." );
+
+#endif
+
+    return pxPhysicsObject;
+}
+
 void GLToy_Physics_System::DestroyPhysicsObject( const GLToy_Hash uHash )
 {
     GLToy_Physics_Object* pxObject = FindPhysicsObject( uHash );

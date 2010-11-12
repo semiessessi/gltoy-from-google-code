@@ -88,6 +88,9 @@ public:
     static GLToy_Physics_Object* CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_OBB& xOBB, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
     static GLToy_Physics_Object* CreatePhysicsParticle( const GLToy_Hash uHash, const float fRadius = 32.0f, const GLToy_Vector_3& xPosition = GLToy_Maths::ZeroVector3, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
     static GLToy_Physics_Object* CreatePhysicsSphere( const GLToy_Hash uHash, const float fRadius = 32.0f, const GLToy_Vector_3& xPosition = GLToy_Maths::ZeroVector3, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
+    
+    static GLToy_Physics_Object* CreateFixedBox( const GLToy_Hash uHash, const GLToy_AABB& xAABB );
+    
     static void DestroyPhysicsObject( const GLToy_Hash uHash );
 
     static void ResetCollisions();

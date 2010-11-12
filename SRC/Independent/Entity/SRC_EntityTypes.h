@@ -44,6 +44,8 @@ enum SRC_EntityType
 
     SRC_ENTITY_MOVEABLE_CUBE,
 
+    SRC_ENTITY_FIXED_CUBE,
+
     NUM_PHYSICS_ENTITY_TYPES
 };
 
@@ -54,5 +56,6 @@ enum SRC_EntityType
 class GLToy_Entity* SRC_CreateEntity( const GLToy_Hash uHash, const u_int uType );
 
 void SRC_Console_SpawnCube();
+void SRC_Console_SpawnFixedCube();
 
 #endif

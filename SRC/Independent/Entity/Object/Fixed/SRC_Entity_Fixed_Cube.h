@@ -24,54 +24,35 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __SRC_ENTITY_FIXED_CUBE_H_
+#define __SRC_ENTITY_FIXED_CUBE_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// This file's header
-#include <Core/SRC.h>
-
-// GLToy
-#include <Core/Console/GLToy_Console.h>
-#include <Entity/GLToy_Entity_System.h>
-#include <Environment/GLToy_Environment_System.h>
-
-// SRC
-#include <Entity/SRC_EntityTypes.h>
-#include <Entity/Robot/SRC_Entity_Robot.h>
-#include <Environment/SRC_Environment.h>
+// Parents
+#include <Entity/Object/Fixed/SRC_Entity_Fixed.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void SRC::CreateTestEnvironment()
+class SRC_Entity_Fixed_Cube
+: public SRC_Entity_Fixed
 {
-    GLToy_Entity_System::DestroyEntities();
-    GLToy_Environment_System::SwitchEnvironment( GLToy_Environment_System::CreateEnvironmentFromType( uSRC_ENVIRONMENT_TYPE ) );
-}
 
-bool SRC::Initialise()
-{
-    GLToy::ChangeWindowTitle( "Super Robo Cross" );
+    typedef SRC_Entity_Fixed GLToy_Parent;
 
-    GLToy_Entity_System::SetProjectEntityCreateCallback( SRC_CreateEntity );
-    GLToy_Environment_System::SetProjectCreateCallback( SRC_CreateEnvironment );
+public:
 
-    GLToy_Console::RegisterCommand( "spawn.cube", SRC_Console_SpawnCube );
-    GLToy_Console::RegisterCommand( "spawn.fixedcube", SRC_Console_SpawnFixedCube );
-    GLToy_Console::RegisterCommand( "spawn.robot", SRC_Entity_Robot::SpawnRobot_Console );
-	GLToy_Console::RegisterCommand( "worldtest", SRC::CreateTestEnvironment );
+    SRC_Entity_Fixed_Cube( const GLToy_Hash uHash, const u_int uType );
+    virtual ~SRC_Entity_Fixed_Cube() {}
 
-	GLToy_Environment* pxEnvironment = GLToy_Environment_System::CreateEnvironmentFromType( uSRC_ENVIRONMENT_TYPE );
-	GLToy_Environment_System::SetCurrentEnvironment( pxEnvironment );
-    return true;
-}
+    void Spawn( const GLToy_AABB& xBB );
 
-void SRC::Shutdown()
-{
-}
+    virtual void Render() const;
 
-void SRC::Update()
-{
-}
+};
+
+#endif
