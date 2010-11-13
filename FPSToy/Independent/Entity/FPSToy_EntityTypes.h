@@ -33,6 +33,7 @@
 
 // GLToy
 #include <Core/GLToy_Hash.h>
+#include <Entity/GLToy_EntityTypes.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -40,9 +41,9 @@
 
 enum FPSToy_EntityType
 {
-    FPSTOY_ENTITY_PROJECTILE,
+    FPSTOY_ENTITY_PROJECTILE = ENTITY_FIRST_PROJECT_TYPE,
 
-    NUM_PHYSICS_ENTITY_TYPES
+    NUM_FPSTOY_ENTITY_TYPES
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////

@@ -33,6 +33,7 @@
 
 // GLToy
 #include <Core/GLToy_Hash.h>
+#include <Entity/GLToy_EntityTypes.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -40,7 +41,7 @@
 
 enum SRC_EntityType
 {
-    SRC_ENTITY_ROBOT,
+    SRC_ENTITY_ROBOT = ENTITY_FIRST_PROJECT_TYPE,
 
     SRC_ENTITY_GOAL,
 
