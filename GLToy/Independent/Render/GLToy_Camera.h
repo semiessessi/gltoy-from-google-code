@@ -51,7 +51,8 @@ public:
     static void LookAt( const GLToy_Vector_3& xPosition );
     static void Reset();
 
-    static const GLToy_Vector_3& GetPosition() { return s_xPosition; }
+    // a bit of a nasty hack for overcam
+    static const GLToy_Vector_3 GetPosition() { return s_bOverCam ? s_xPosition - s_xDirection * s_fOverCamHeight : s_xPosition; }
     static const GLToy_Vector_3& GetDirection() { return s_xDirection; }
     static const GLToy_Vector_3& GetUp() { return s_xUp; }
     static const GLToy_Vector_3 GetRight() { return s_xUp.Cross( s_xDirection ); }
@@ -92,6 +93,7 @@ private:
     static bool s_bControllerCam;
     static bool s_bOverCam;
 
+    static float s_fOverCamHeight;
 };
 
 #endif

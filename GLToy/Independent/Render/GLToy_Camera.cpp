@@ -48,7 +48,8 @@
 static const float fCAMERA_SPEED = 128.0f;
 static const float fCAMERA_ROTATION_SPEED = 2.0f;
 static const float fCAMERA_MOUSE_SCALE = 1.0f / 100.0f;
-static const float fCAMERA_OVERCAM_HEIGHT = 256.0f;
+static const float fCAMERA_OVERCAMHEIGHT_MIN = 32.0f;
+static const float fCAMERA_OVERCAMHEIGHT_MAX = 512.0f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -65,6 +66,7 @@ bool GLToy_Camera::s_bFlyCam = true;
 bool GLToy_Camera::s_bLockedCam = false;
 bool GLToy_Camera::s_bControllerCam = false;
 bool GLToy_Camera::s_bOverCam = false;
+float GLToy_Camera::s_fOverCamHeight = 256.0f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -104,10 +106,20 @@ void GLToy_Camera::Update()
         s_fRX = GLToy_Maths::Clamp( s_fRX, -( GLToy_Maths::Pi * 0.5f ), GLToy_Maths::Pi * 0.5f );
     }
 
-    // TODO: spinning the camera is crap, it should spin the camera and move it along an arc
-    // alternatively use completely different transform logic for the over cam
     if( s_bOverCam && GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetAltKey() ) )
     {
+        if( GLToy_Input_System::IsKeyDown( 'W' )
+            || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetUpKey() ) )
+        {
+            s_fOverCamHeight = GLToy_Maths::Max( s_fOverCamHeight - GLToy_Timer::GetFrameTime() * fCAMERA_SPEED, fCAMERA_OVERCAMHEIGHT_MIN );
+        }
+
+        if( GLToy_Input_System::IsKeyDown( 'S' )
+            || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetDownKey() ) )
+        {
+            s_fOverCamHeight = GLToy_Maths::Min( s_fOverCamHeight + GLToy_Timer::GetFrameTime() * fCAMERA_SPEED, fCAMERA_OVERCAMHEIGHT_MAX );
+        }
+
         if( GLToy_Input_System::IsKeyDown( 'A' )
             || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() ) )
         {
@@ -164,6 +176,12 @@ void GLToy_Camera::Update()
             s_xPosition = s_xPosition + xRight * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
         }
     }
+
+    if( s_bOverCam )
+    {
+        s_xDirection = GLToy_Maths::Rotate_AxisAngle( s_xDirection, GetRight(), GLToy_Maths::Pi * 0.25f );
+        s_xUp = GLToy_Maths::Rotate_AxisAngle( s_xUp, GetRight(), GLToy_Maths::Pi * 0.25f );
+    }
 }
 
 void GLToy_Camera::ApplyTransforms()
@@ -178,7 +196,14 @@ void GLToy_Camera::ApplyTransforms()
     xOrientation[ 2 ] = -xOrientation[ 2 ]; // silly OpenGL specific twiddling
     GLToy_Render::Transform( xOrientation );
 
-    GLToy_Render::Translate( -s_xPosition );
+    if( s_bOverCam )
+    {
+        GLToy_Render::Translate( s_xDirection * s_fOverCamHeight - s_xPosition );
+    }
+    else
+    {
+        GLToy_Render::Translate( -s_xPosition );
+    }
 }
 
 void GLToy_Camera::LookAt( const GLToy_Vector_3& xPosition )
@@ -250,7 +275,7 @@ void GLToy_Camera::SetOverCamEnabled( const bool bEnabled )
         GLToy_Console::Print( GLToy_String( "overcam is set to " ) + ( bEnabled ? "true" : "false" ) );
         if( bEnabled )
         {
-            s_xPosition[ 1 ] = fCAMERA_OVERCAM_HEIGHT;
+            s_xPosition[ 1 ] = 0.0f;
             s_bFlyCam = false;
             s_bControllerCam = false;
         }
