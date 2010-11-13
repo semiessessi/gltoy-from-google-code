@@ -108,7 +108,97 @@ bool GLToy_Ray::IntersectsWithAABB( const GLToy_AABB& xAABB, GLToy_Vector_3* con
         }
     }
 
-    return false;
+    // now do the actual intersection - 
+    // for each axis we only need to intersect against a single plane - the one facing opposite to the ray direction (back face culling)
+    GLToy_Vector_3 axIntersections[ 3 ];
+    
+    const GLToy_Vector_3 axNormalsMax[ 3 ] =
+    {
+        GLToy_Vector_3( 1.0f, 0.0f, 0.0f ),
+        GLToy_Vector_3( 0.0f, 1.0f, 0.0f ),
+        GLToy_Vector_3( 0.0f, 0.0f, 1.0f ),
+    };
+
+    bool abHit[ 3 ] =
+    {
+        false,
+        false,
+        false,
+    };
+
+    const u_int aauIndexHelper[ 3 ][ 2 ] =
+    {
+        { 1, 2 },
+        { 2, 0 },
+        { 0, 1 }
+    };
+
+    for( u_int u = 0; u < 3; ++u )
+    {
+        if( m_xDirection[ u ] > 0.0f )
+        {
+            abHit[ u ] = IntersectsWithPlane( GLToy_Plane( -axNormalsMax[ u ], xMin[ u ] ), &( axIntersections[ u ] ) );
+        }
+        else
+        {
+            abHit[ u ] = IntersectsWithPlane( GLToy_Plane( axNormalsMax[ u ], xMax[ u ] ), &( axIntersections[ u ] ) );
+        }
+
+        // check the intersection point is actually within bounds and decide if we hit accordingly
+        for( u_int v = 0; v < 3; ++v )
+        {
+            const u_int uIndex1 = aauIndexHelper[ u ][ 0 ];
+            const u_int uIndex2 = aauIndexHelper[ u ][ 1 ];
+            if( axIntersections[ u ][ uIndex1 ] < xMin[ uIndex1 ] )
+            {
+                abHit[ u ] = false;
+            }
+
+            if( axIntersections[ u ][ uIndex1 ] > xMax[ uIndex1 ] )
+            {
+                abHit[ u ] = false;
+            }
+
+            if( axIntersections[ u ][ uIndex2 ] < xMin[ uIndex2 ] )
+            {
+                abHit[ u ] = false;
+            }
+
+            if( axIntersections[ u ][ uIndex2 ] > xMax[ uIndex2 ] )
+            {
+                abHit[ u ] = false;
+            }
+        }
+    }
+
+    const bool bHit = abHit[ 0 ] || abHit[ 1 ] || abHit[ 2 ];
+    if( !bHit )
+    {
+        return false;
+    }
+
+    // now we can early out if we don't care about the exact hit point...
+    if( !pxPosition )
+    {
+        return true;
+    }
+
+    // ...otherwise only one point should actually be on the AABB surface, so iterate over what we have
+    // and set the intersection position and normal accordingly
+    for( u_int u = 0; u < 3; ++u )
+    {
+        if( abHit[ u ] )
+        {
+            *pxPosition = axIntersections[ u ];
+            if( pxNormal )
+            {
+                *pxNormal = ( m_xDirection[ u ] > 0.0f ) ? -axNormalsMax[ u ] : axNormalsMax[ u ];
+            }
+            break;
+        }
+    }
+
+    return true;
 }
 
 bool GLToy_Ray::IntersectsWithSphere( const GLToy_Sphere& xSphere, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const
