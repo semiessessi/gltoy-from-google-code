@@ -62,11 +62,11 @@ bool GLToy_State_System::Initialise()
     s_xStates.Clear();
 
 #ifndef GLTOY_DEMO
-    RegisterState( new GLToy_State_EditorFrontEnd(), GLToy_Hash_Constant( "EditorFrontEnd" ) );
-    RegisterState( new GLToy_State_Editor(), GLToy_Hash_Constant( "Editor" ) );
-	RegisterState( new GLToy_State_Splash(), GLToy_Hash_Constant( "Splash" ) );
+    RegisterState( new GLToy_State_EditorFrontEnd() );
+    RegisterState( new GLToy_State_Editor() );
+	RegisterState( new GLToy_State_Splash() );
 #endif
-    RegisterState( new GLToy_State_FixedCamera(), GLToy_Hash_Constant( "FixedCamera" ) );
+    RegisterState( new GLToy_State_FixedCamera() );
 
     GLToy_Console::RegisterCommand( "changestate", ChangeState_Console );
 
@@ -119,15 +119,21 @@ void GLToy_State_System::RegisterState( GLToy_State* const pxState, const GLToy_
         return;
     }
 
+    GLToy_Hash uHash = uStateHash;
+    if( uStateHash == uGLTOY_BAD_HASH )
+    {
+        uHash = pxState->GetName().GetHash();
+    }
+
     // make sure to stomp any existing state
-    const GLToy_State* const* const ppxState = s_xStates.FindData( uStateHash );
+    const GLToy_State* const* const ppxState = s_xStates.FindData( uHash );
     if( ppxState && *ppxState )
     {
-        s_xStates.Remove( uStateHash );
+        s_xStates.Remove( uHash );
         delete *ppxState; // nothing like deleting with a triple const'ed double pointer to make you question some of the logic involved with C++ :)
     }
 
-    s_xStates.AddNode( pxState, uStateHash );
+    s_xStates.AddNode( pxState, uHash );
 }
 
 bool GLToy_State_System::ChangeState( const GLToy_Hash uStateHash )

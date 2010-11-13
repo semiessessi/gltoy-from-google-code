@@ -49,8 +49,6 @@ class SRC
 
 		static void Update();
 
-	private:
-
 		static void CreateTestEnvironment();
 };
 

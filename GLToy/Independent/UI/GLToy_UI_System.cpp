@@ -39,6 +39,7 @@
 #include <Core/GLToy_UpdateFunctor.h>
 #include <Input/GLToy_Input.h>
 #include <Maths/GLToy_Maths.h>
+#include <Render/Font/GLToy_Font.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_RenderFunctor.h>
 #include <Render/GLToy_Render.h>
@@ -79,6 +80,13 @@ bool GLToy_UI_System::s_bOldFpsCam = false;
 bool GLToy_UI_System::Initialise()
 {
     GLToy_Texture_System::CreateTexture( "Widgets/Pointer.png" );
+
+    GLToy_Font* pxFont = GLToy_Font_System::FindFont( GLToy_Hash_Constant( "FrontEnd" ) );
+    if( pxFont )
+    {
+        pxFont->Initialise();
+    }
+
     return true;
 }
 

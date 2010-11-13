@@ -43,6 +43,9 @@
     <Filter Include="Independent\Entity\Goal">
       <UniqueIdentifier>{f414ed83-abf1-4162-af68-dafc4b18046b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Core\State">
+      <UniqueIdentifier>{301b691f-b6e9-4461-b36a-45a83d19579c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_SRC.cpp">
@@ -96,6 +99,12 @@
     <ClCompile Include="Independent\Entity\Goal\SRC_Entity_Goal.cpp">
       <Filter>Independent\Entity\Goal</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Core\State\SRC_State_Game.cpp">
+      <Filter>Independent\Core\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\State\SRC_State_MainMenu.cpp">
+      <Filter>Independent\Core\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_SRC.h">
@@ -142,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="Independent\Entity\Goal\SRC_Entity_Goal.h">
       <Filter>Independent\Entity\Goal</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\State\SRC_State_Game.h">
+      <Filter>Independent\Core\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\State\SRC_State_MainMenu.h">
+      <Filter>Independent\Core\State</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
