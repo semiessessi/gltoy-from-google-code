@@ -53,6 +53,8 @@ u_int GLToy_Input_System::s_uRightKeyCode = 0;
 u_int GLToy_Input_System::s_uPageUpKeyCode = 0;
 u_int GLToy_Input_System::s_uPageDownKeyCode = 0;
 u_int GLToy_Input_System::s_uSpaceKeyCode = 0;
+u_int GLToy_Input_System::s_uCtrlKeyCode = 0;
+u_int GLToy_Input_System::s_uAltKeyCode = 0;
 
 float GLToy_Input_System::s_fMouseDeltaX = 0.0f;
 float GLToy_Input_System::s_fMouseDeltaY = 0.0f;

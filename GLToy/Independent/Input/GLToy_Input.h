@@ -110,6 +110,8 @@ public:
     static GLToy_Inline u_int GetPageUpKey() { return s_uPageUpKeyCode; }
     static GLToy_Inline u_int GetPageDownKey() { return s_uPageDownKeyCode; }
     static GLToy_Inline u_int GetSpaceKey() { return s_uSpaceKeyCode; }
+    static GLToy_Inline u_int GetCtrlKey() { return s_uCtrlKeyCode; }
+    static GLToy_Inline u_int GetAltKey() { return s_uAltKeyCode; }
 
 private:
 
@@ -131,6 +133,8 @@ private:
     static u_int s_uPageUpKeyCode;
     static u_int s_uPageDownKeyCode;
     static u_int s_uSpaceKeyCode;
+    static u_int s_uCtrlKeyCode;
+    static u_int s_uAltKeyCode;
     
     static float s_fMouseDeltaX;
     static float s_fMouseDeltaY;

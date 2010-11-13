@@ -41,9 +41,6 @@
 #include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Render.h>
 
-// C/C++
-#include <math.h>
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +48,7 @@
 static const float fCAMERA_SPEED = 128.0f;
 static const float fCAMERA_ROTATION_SPEED = 2.0f;
 static const float fCAMERA_MOUSE_SCALE = 1.0f / 100.0f;
+static const float fCAMERA_OVERCAM_HEIGHT = 256.0f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -66,6 +64,7 @@ GLToy_Matrix_3 GLToy_Camera::s_xInverseOrientation;
 bool GLToy_Camera::s_bFlyCam = true;
 bool GLToy_Camera::s_bLockedCam = false;
 bool GLToy_Camera::s_bControllerCam = false;
+bool GLToy_Camera::s_bOverCam = false;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -75,6 +74,7 @@ bool GLToy_Camera::Initialise()
 {
     GLToy_Console::RegisterCommand( "fpscam", SetControllerCamEnabled );
     GLToy_Console::RegisterCommand( "flycam", SetFlyCamEnabled );
+    GLToy_Console::RegisterCommand( "overcam", SetOverCamEnabled );
     return true;
 }
 
@@ -104,35 +104,62 @@ void GLToy_Camera::Update()
         s_fRX = GLToy_Maths::Clamp( s_fRX, -( GLToy_Maths::Pi * 0.5f ), GLToy_Maths::Pi * 0.5f );
     }
 
+    // TODO: spinning the camera is crap, it should spin the camera and move it along an arc
+    // alternatively use completely different transform logic for the over cam
+    if( s_bOverCam && GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetAltKey() ) )
+    {
+        if( GLToy_Input_System::IsKeyDown( 'A' )
+            || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() ) )
+        {
+            s_fRY -= GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
+        }
+
+        if( GLToy_Input_System::IsKeyDown( 'D' )
+            || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetRightKey() ) )
+        {
+            s_fRY += GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
+        }
+    }
+
     // ... then calculate basis from the orientation
-    const float fSRX = sin( s_fRX );
-    const float fCRX = cos( s_fRX );
-    const float fSRY = sin( s_fRY );
-    const float fCRY = cos( s_fRY );
+    const float fSRX = GLToy_Maths::Sin( s_fRX );
+    const float fCRX = GLToy_Maths::Cos( s_fRX );
+    const float fSRY = GLToy_Maths::Sin( s_fRY );
+    const float fCRY = GLToy_Maths::Cos( s_fRY );
     s_xDirection = GLToy_Vector_3( fCRX * fSRY, -fSRX, fCRX * fCRY );
     s_xUp = GLToy_Vector_3( fSRX * fSRY, fCRX, fSRX * fCRY );
-    if( s_bFlyCam )
+    if( s_bFlyCam || ( s_bOverCam && !GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetAltKey() ) ) )
     {
         const GLToy_Vector_3 xRight = GetRight();
+        GLToy_Vector_3 xDirection = s_xDirection;
+
+        if( s_bOverCam )
+        {
+            xDirection[ 1 ] = 0.0f;
+            xDirection.Normalise();
+        }
 
         if( GLToy_Input_System::IsKeyDown( 'W' )
             || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetUpKey() ) )
         {
-            s_xPosition = s_xPosition + s_xDirection * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
+            s_xPosition = s_xPosition + xDirection * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
         }
 
         if( GLToy_Input_System::IsKeyDown( 'S' )
             || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetDownKey() ) )
         {
-            s_xPosition = s_xPosition - s_xDirection * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
+            GLToy_Vector_3 xDirection = s_xDirection;
+            s_xPosition = s_xPosition - xDirection * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
         }
 
-        if( GLToy_Input_System::IsKeyDown( 'A' ) )
+        if( GLToy_Input_System::IsKeyDown( 'A' )
+            || ( s_bOverCam && GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() ) ) )
         {
             s_xPosition = s_xPosition - xRight * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
         }
 
-        if( GLToy_Input_System::IsKeyDown( 'D' ) )
+        if( GLToy_Input_System::IsKeyDown( 'D' )
+            || ( s_bOverCam && GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetRightKey() ) ) )
         {
             s_xPosition = s_xPosition + xRight * GLToy_Timer::GetFrameTime() * fCAMERA_SPEED;
         }
@@ -178,6 +205,7 @@ void GLToy_Camera::SetLocked( const bool bLocked )
         GLToy_Physics_System::SetDefaultControllerActive( false );
         s_bFlyCam = false;
         s_bControllerCam = false;
+        s_bOverCam = false;
     }
 }
 
@@ -192,6 +220,7 @@ void GLToy_Camera::SetControllerCamEnabled( const bool bEnabled )
         {
             GLToy_Physics_System::SetDefaultControllerActive( true, GetPosition() );
             s_bFlyCam = false;
+            s_bOverCam = false;
         }
     }
 }
@@ -206,6 +235,23 @@ void GLToy_Camera::SetFlyCamEnabled( const bool bEnabled )
         if( bEnabled )
         {
             GLToy_Physics_System::SetDefaultControllerActive( false );
+            s_bControllerCam = false;
+            s_bOverCam = false;
+        }
+    }
+}
+
+void GLToy_Camera::SetOverCamEnabled( const bool bEnabled )
+{
+    if( !s_bLockedCam )
+    {
+        s_bOverCam = bEnabled;
+        // pretend this is a console variable
+        GLToy_Console::Print( GLToy_String( "overcam is set to " ) + ( bEnabled ? "true" : "false" ) );
+        if( bEnabled )
+        {
+            s_xPosition[ 1 ] = fCAMERA_OVERCAM_HEIGHT;
+            s_bFlyCam = false;
             s_bControllerCam = false;
         }
     }

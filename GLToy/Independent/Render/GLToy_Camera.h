@@ -66,9 +66,11 @@ public:
     static void SetLocked( const bool bLocked = true );
     static void SetFlyCamEnabled( const bool bEnabled = true );
     static void SetControllerCamEnabled( const bool bEnabled = true );
+    static void SetOverCamEnabled( const bool bEnabled = true );
 
     static bool IsFlyCamEnabled() { return s_bFlyCam; }
     static bool IsControllerCamEnabled() { return s_bControllerCam; }
+    static bool IsOverCamEnabled() { return s_bOverCam; }
 
     static GLToy_Vector_2 WorldSpaceToScreenSpace( const GLToy_Vector_3& xWorldPosition );
     static bool IsPointOnScreen( const GLToy_Vector_2& xPoint );
@@ -88,6 +90,7 @@ private:
     static bool s_bLockedCam;
     static bool s_bFlyCam;
     static bool s_bControllerCam;
+    static bool s_bOverCam;
 
 };
 
