@@ -34,6 +34,9 @@
 // Parent
 #include <Entity/GLToy_Entity.h>
 
+// GLToy
+#include <Core/Data Structures/GLToy_Array.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,9 +54,13 @@ public:
 
     virtual void Render() const;
 
+    static const GLToy_Array< SRC_Entity_Robot* >& GetRobotList() { return s_xInstanceList; }
+
     static void SpawnRobot_Console();
 
-protected:
+private:
+
+    static GLToy_Array< SRC_Entity_Robot* > s_xInstanceList;
 
 };
 

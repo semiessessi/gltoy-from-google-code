@@ -40,6 +40,9 @@
     <Filter Include="Independent\Entity\Object\Moveable">
       <UniqueIdentifier>{a33a5e86-b3a4-48a4-84bd-f3c3e5bd621b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Entity\Goal">
+      <UniqueIdentifier>{f414ed83-abf1-4162-af68-dafc4b18046b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_SRC.cpp">
@@ -90,6 +93,9 @@
     <ClCompile Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable_Plank.cpp">
       <Filter>Independent\Entity\Object\Moveable</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Entity\Goal\SRC_Entity_Goal.cpp">
+      <Filter>Independent\Entity\Goal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_SRC.h">
@@ -133,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Entity\Object\Moveable\SRC_Entity_Moveable_Plank.h">
       <Filter>Independent\Entity\Object\Moveable</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Goal\SRC_Entity_Goal.h">
+      <Filter>Independent\Entity\Goal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -229,6 +229,24 @@ public:
         Clear();
     }
 
+    void RemoveByValue( const T& xValue )
+    {
+        int iIndex = -1;
+        GLToy_ConstIterate( T, xIterator, this )
+        {
+            if( xIterator.Current() == xValue )
+            {
+                iIndex = xIterator.Index();
+            }
+        }
+
+        //GLToy_Assert( iIndex >= 0, "Could not find item to remove from array!" );
+        if( iIndex >= 0 )
+        {
+            RemoveAt( iIndex );
+        }
+    }
+
 protected:
 
     u_int m_uCount;

@@ -39,6 +39,7 @@
 #include <Render/GLToy_Camera.h>
 
 // SRC
+#include <Entity/Goal/SRC_Entity_Goal.h>
 #include <Entity/Object/Fixed/SRC_Entity_Fixed_Cube.h>
 #include <Entity/Object/Moveable/SRC_Entity_Moveable_Cube.h>
 #include <Entity/Object/Moveable/SRC_Entity_Moveable_Plank.h>
@@ -54,6 +55,7 @@ GLToy_Entity* SRC_CreateEntity( const GLToy_Hash uHash, const u_int uType )
     switch( uType )
     {
         case SRC_ENTITY_ROBOT:              return new SRC_Entity_Robot( uHash, uType );
+        case SRC_ENTITY_GOAL:               return new SRC_Entity_Goal( uHash, uType );
         case SRC_ENTITY_MOVEABLE_CUBE:      return new SRC_Entity_Moveable_Cube( uHash, uType );
         case SRC_ENTITY_MOVEABLE_PLANK:     return new SRC_Entity_Moveable_Plank( uHash, uType );
         case SRC_ENTITY_MOVEABLE_SQUARE:    return new SRC_Entity_Moveable_Square( uHash, uType );
