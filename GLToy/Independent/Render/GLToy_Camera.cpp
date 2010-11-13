@@ -195,15 +195,8 @@ void GLToy_Camera::ApplyTransforms()
     // TODO - re-work platform look at code to avoid gluLookAt and hide this too.
     xOrientation[ 2 ] = -xOrientation[ 2 ]; // silly OpenGL specific twiddling
     GLToy_Render::Transform( xOrientation );
-
-    if( s_bOverCam )
-    {
-        GLToy_Render::Translate( s_xDirection * s_fOverCamHeight - s_xPosition );
-    }
-    else
-    {
-        GLToy_Render::Translate( -s_xPosition );
-    }
+    
+    GLToy_Render::Translate( -GetPosition() );
 }
 
 void GLToy_Camera::LookAt( const GLToy_Vector_3& xPosition )
