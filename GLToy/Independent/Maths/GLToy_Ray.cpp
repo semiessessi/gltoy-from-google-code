@@ -73,7 +73,6 @@ bool GLToy_Ray::IntersectsWithPlane( const GLToy_Plane& xPlane, float* const pfP
     return bHit;
 }
 
-// TODO - finish
 bool GLToy_Ray::IntersectsWithAABB( const GLToy_AABB& xAABB, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const
 {
     if( xAABB.IsInside( m_xPosition ) )
@@ -135,13 +134,14 @@ bool GLToy_Ray::IntersectsWithAABB( const GLToy_AABB& xAABB, GLToy_Vector_3* con
 
     for( u_int u = 0; u < 3; ++u )
     {
+        float fParameter;
         if( m_xDirection[ u ] > 0.0f )
         {
-            abHit[ u ] = IntersectsWithPlane( GLToy_Plane( -axNormalsMax[ u ], xMin[ u ] ), &( axIntersections[ u ] ) );
+            abHit[ u ] = IntersectsWithPlane( GLToy_Plane( -axNormalsMax[ u ], xMin[ u ] ), &fParameter, &( axIntersections[ u ] ) );
         }
         else
         {
-            abHit[ u ] = IntersectsWithPlane( GLToy_Plane( axNormalsMax[ u ], xMax[ u ] ), &( axIntersections[ u ] ) );
+            abHit[ u ] = IntersectsWithPlane( GLToy_Plane( axNormalsMax[ u ], xMax[ u ] ), &fParameter, &( axIntersections[ u ] ) );
         }
 
         // check the intersection point is actually within bounds and decide if we hit accordingly
@@ -201,6 +201,7 @@ bool GLToy_Ray::IntersectsWithAABB( const GLToy_AABB& xAABB, GLToy_Vector_3* con
     return true;
 }
 
+// TODO: Use that almost purely vector formulation I came up with when messing with demo shaders
 bool GLToy_Ray::IntersectsWithSphere( const GLToy_Sphere& xSphere, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const
 {
     if( xSphere.IsInside( m_xPosition ) )
@@ -247,6 +248,7 @@ bool GLToy_Ray::IntersectsWithSphere( const GLToy_Sphere& xSphere, GLToy_Vector_
     return false;
 }
 
+// TODO: implement this
 bool GLToy_Ray::IntersectsWithOBB( const GLToy_OBB& xOBB, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const
 {
     return false;
