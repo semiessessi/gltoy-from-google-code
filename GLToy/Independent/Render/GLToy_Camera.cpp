@@ -80,8 +80,6 @@ bool GLToy_Camera::Initialise()
     return true;
 }
 
-// TODO - find a better home for the fly-cam code
-
 void GLToy_Camera::Update()
 {
     s_xOrientation = GLToy_Matrix_3( GetRight(), s_xUp, s_xDirection );
@@ -192,7 +190,6 @@ void GLToy_Camera::ApplyTransforms()
 
     GLToy_Matrix_3 xOrientation = GetOrientation();
     xOrientation.Orthonormalise();
-    // TODO - re-work platform look at code to avoid gluLookAt and hide this too.
     xOrientation[ 2 ] = -xOrientation[ 2 ]; // silly OpenGL specific twiddling
     GLToy_Render::Transform( xOrientation );
     
