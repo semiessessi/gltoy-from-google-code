@@ -103,7 +103,7 @@ public:
         return m_xBoundingBox.IntersectsWithAABB( xAABB );
     }
 
-protected:
+//protected:
 
     GLToy_AABB m_xBoundingBox;
 

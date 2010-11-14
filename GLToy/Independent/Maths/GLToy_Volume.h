@@ -183,7 +183,7 @@ public:
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
-    GLToy_Inline const GLToy_Vector_3& GetMax() const { return m_xPointMax; }
+	GLToy_Inline const GLToy_Vector_3& GetMax() const { return m_xPointMax; }
     GLToy_Inline const GLToy_Vector_3& GetMin() const { return m_xPointMin; }
     GLToy_Inline GLToy_Vector_3 GetExtents() const { return m_xPointMax - m_xPointMin; }
     GLToy_Inline GLToy_Vector_3 GetHalfExtents() const { return m_xPosition - m_xPointMin; }
@@ -200,7 +200,7 @@ public:
         return GLToy_AABB( m_xPointMax - xVector, m_xPointMin - xVector );
     }
 
-protected:
+//protected:
 
     GLToy_Vector_3 m_xPointMax;
     GLToy_Vector_3 m_xPointMin;

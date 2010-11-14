@@ -4,8 +4,7 @@
 #ifndef _SRC_ENVIRONMENT_
 #define _SRC_ENVIRONMENT_
 
-#include "Environment/GLToy_Environment_Plane.h"
-
+#include "Environment/GLToy_Environment.h"
 #include "Maths/GLToy_Vector.h"
 
 // Dear Semi, the word Environment is very long to type, I do not enjoy having to type it a lot
@@ -42,17 +41,16 @@ class SRC_Map_Block
 	private:
 
 		bool m_bActive;
-		GLToy_Vector_3 m_xMax;
-		GLToy_Vector_3 m_xMin;
+		GLToy_Bounded_AABB m_xAABB;
 };
 
-class SRC_Environment : public GLToy_Environment_Plane
+class SRC_Environment : public GLToy_Environment
 {
-	typedef GLToy_Environment_Plane GLToy_Parent;
+	typedef GLToy_Environment GLToy_Parent;
 
 	public:
 
-		SRC_Environment( const GLToy_Plane& xPlane, const GLToy_String& szTextureName );
+		SRC_Environment();
 		~SRC_Environment();
 
 		virtual void Initialise();
