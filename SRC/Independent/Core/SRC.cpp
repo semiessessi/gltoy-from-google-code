@@ -16,6 +16,7 @@
 #include <Core/State/GLToy_State_System.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment_System.h>
+#include "Render/GLToy_Camera.h"
 
 // SRC
 #include <Core/State/SRC_State_Game.h>
@@ -27,6 +28,12 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+static void HACK_FixCamera()
+{
+	GLToy_Camera::SetPosition( GLToy_Vector_3( 0.0f, 10.0f, 10.0f ) );
+	GLToy_Camera::LookAt( GLToy_Vector_3() );
+}
 
 void SRC::CreateTestEnvironment()
 {
@@ -53,6 +60,9 @@ bool SRC::Initialise()
     GLToy_Console::RegisterCommand( "spawn.fixedcube", SRC_Console_SpawnFixedCube );
     GLToy_Console::RegisterCommand( "spawn.robot", SRC_Entity_Robot::SpawnRobot_Console );
 	GLToy_Console::RegisterCommand( "worldtest", SRC::CreateTestEnvironment );
+	GLToy_Console::RegisterCommand( "fixcamera", HACK_FixCamera );
+
+
 
     return true;
 }

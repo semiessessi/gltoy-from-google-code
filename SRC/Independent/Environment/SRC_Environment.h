@@ -6,6 +6,8 @@
 
 #include "Environment/GLToy_Environment_Plane.h"
 
+#include "Maths/GLToy_Vector.h"
+
 // Dear Semi, the word Environment is very long to type, I do not enjoy having to type it a lot
 // in future please use a nice short word like 'World' or 'Scene', thank you - Tom
 
@@ -15,6 +17,11 @@ class GLToy_Plane;
 
 static const u_int uSRC_ENVIRONMENT_TYPE = 0xDEADBEEF;
 
+static const u_int uSRC_ENV_BLOCKS = 16;  // Blocks in map ( length and breadth )
+// static const u_int uSRC_ENV_BLOCK_SIZE = 16;
+
+static const float fSRC_ENV_VERY_LOW = -50.0f;
+static const float fSRC_ENV_MIN_BLOCK_HEIGHT = -10.0f;
 
 class SRC_Map_Block
 {
@@ -25,11 +32,18 @@ class SRC_Map_Block
 		SRC_Map_Block();
 		~SRC_Map_Block();
 
-		void SetHeight( int iHeight );
+		void Update();
+		void Render() const;
+
+		void SetHeight( float fHeight );
+		void SetActive( bool bActive );
+		void SetPosition( GLToy_Vector_2 xPosition );
 
 	private:
 
-		int m_iHeight;
+		bool m_bActive;
+		GLToy_Vector_3 m_xMax;
+		GLToy_Vector_3 m_xMin;
 };
 
 class SRC_Environment : public GLToy_Environment_Plane
@@ -51,7 +65,7 @@ class SRC_Environment : public GLToy_Environment_Plane
 		virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
 		virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 		
-		virtual bool Load( GLToy_Hash xName );
+		virtual bool Load( const GLToy_String& xName );
 
 		virtual u_int GetType() const;
 
@@ -59,7 +73,11 @@ class SRC_Environment : public GLToy_Environment_Plane
 
 	private:
 
-		SRC_Map_Block* m_pxBlocks;
+		void CreateEnv();
+		void ClearEnv();
+		SRC_Map_Block* GetBlock( int iX, int iY );
+		
+		SRC_Map_Block** m_pxBlocks; // TODO: Use propper data structure
 
 		GLToy_String m_xFilename;
 };
