@@ -200,6 +200,8 @@ public:
         return GLToy_AABB( m_xPointMax - xVector, m_xPointMin - xVector );
     }
 
+	GLToy_Plane GetPlane( int iIndex ) const;
+
 //protected:
 
     GLToy_Vector_3 m_xPointMax;

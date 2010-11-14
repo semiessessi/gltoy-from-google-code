@@ -140,6 +140,70 @@ bool GLToy_AABB::IntersectsWithAABB( const GLToy_AABB& xAABB ) const
         || ( xAABB.m_xPointMin[ 2 ] > m_xPointMax[ 2 ] ) );
 }
 
+GLToy_Plane GLToy_AABB::GetPlane( int iIndex ) const
+{
+	GLToy_Vector_3 xNormal;
+	float fDistance = 0.0f;
+
+	switch( iIndex )
+	{
+		case 0:
+		{
+			// Y = 1
+			xNormal = GLToy_Vector_3( 0.0f, 1.0f, 0.0f );
+			fDistance = m_xPointMax[1];
+		}
+		break;
+
+		case 1:
+		{
+			// X = -1
+			xNormal = GLToy_Vector_3( -1.0f, 0.0f, 0.0f );
+			fDistance = m_xPointMin[0];
+		}
+		break;
+
+		case 2:
+		{
+			// Z = 1
+			xNormal = GLToy_Vector_3( 0.0f, 0.0f, 1.0f );
+			fDistance = m_xPointMax[2];
+		}
+		break;
+
+		case 3:
+		{
+			// X = 1
+			xNormal = GLToy_Vector_3( 1.0f, 0.0f, 0.0f );
+			fDistance = m_xPointMax[0];
+		}
+		break;
+
+		case 4:
+		{
+			// Z = -1
+			xNormal = GLToy_Vector_3( 0.0f, 0.0f, -1.0f );
+			fDistance = m_xPointMin[2];
+		}
+		break;
+
+		case 5:
+		{
+			// Y = -1
+			xNormal = GLToy_Vector_3( 0.0f, -1.0f, 0.0f );
+			fDistance = m_xPointMin[1];
+		}
+		break;
+
+		default:
+		{
+			GLToy_Assert( false, "Invalid index" );
+		}
+	}
+
+	return GLToy_Plane( xNormal, fDistance );
+}
+
 bool GLToy_Sphere::IntersectsWithAABB( const GLToy_AABB& xAABB ) const
 {
     // TODO

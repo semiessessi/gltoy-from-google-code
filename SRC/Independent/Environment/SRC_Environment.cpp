@@ -8,6 +8,8 @@
 #include "Core/GLToy_Timer.h"
 #include "Maths/GLToy_Plane.h"
 #include "Physics/GLToy_Physics_System.h"
+#include "Physics/GLToy_Physics_Object.h"
+#include "Render/GLToy_Camera.h"
 #include "Render/GLToy_Render.h"
 #include "Render/GLToy_Texture.h"
 
@@ -17,6 +19,7 @@
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 // base
 #include <Common/Base/hkBase.h>
+#include <Common/Internal/ConvexHull/hkGeometryUtility.h>
 /*#include <Common/Base/System/Error/hkDefaultError.h>
 #include <Common/Base/System/hkBaseSystem.h>
 #include <Common/Base/Memory/System/Util/hkMemoryInitUtil.h>
@@ -24,11 +27,12 @@
 #include <Common/Base/Memory/Allocator/Malloc/hkMallocAllocator.h>
 #include <Common/Base/Thread/Job/ThreadPool/Cpu/hkCpuJobThreadPool.h>
 #include <Common/Base/Thread/JobQueue/hkJobQueue.h>
-#include <Common/Internal/ConvexHull/hkGeometryUtility.h>*/
+*/
 
 // physics
 
 #include <Physics/Collide/Shape/Convex/Box/hkpBoxShape.h>
+#include <Physics/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesShape.h>
 #include <Physics/Collide/Shape/Compound/Collection/List/hkpListShape.h>
 #include <Physics/Collide/Shape/Compound/Tree/MOPP/hkpMoppBvTreeShape.h>
 #include <Physics/Collide/Shape/Compound/Tree/MOPP/hkpMoppUtility.h>
@@ -40,7 +44,7 @@
 
 
 
-#include <Physics/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesShape.h>
+
 #include <Physics/Collide/Shape/Convex/Triangle/hkpTriangleShape.h>
 #include <Physics/Collide/Shape/Convex/Sphere/hkpSphereShape.h>
 #include <Physics/Collide/Shape/HeightField/Plane/hkpPlaneShape.h>
@@ -274,7 +278,7 @@ void SRC_Environment::CreatePhysics()
 	GLToy_Assert( m_pxBlocks != 0, "Blocks pointer should be set" );
 
 	GLToy_Physics_System::DestroyPhysicsObject( xSRC_ENV_PHYSICS_HASH );
-	GLToy_Physics_System::CreatePhysicsObject( xSRC_ENV_PHYSICS_HASH );
+	GLToy_Physics_Object* pxObject = GLToy_Physics_System::CreatePhysicsObject( xSRC_ENV_PHYSICS_HASH );
 
 	#ifdef GLTOY_USE_HAVOK_PHYSICS
 
@@ -294,11 +298,32 @@ void SRC_Environment::CreatePhysics()
 			continue;
 		}
 		
-		const GLToy_Vector_3 xExtents = pxBlock->GetAABB()->m_xBoundingBox.GetExtents() * fHAVOK_SCALE;
-		hkVector4 xHKExtents = hkVector4( xExtents[ 0 ], xExtents[ 1 ], xExtents[ 2 ] );
-		hkpBoxShape* pxBox = new hkpBoxShape( xHKExtents, 0 );
+        hkArray< hkVector4 > xPlanes;
+        hkArray< hkVector4 > xVertices;
+        xPlanes.reserve( 6 );
+        for( u_int v = 0; v < 6; ++v )
+        {
+            xPlanes.pushBack( hkVector4(
+                ( pxBlock->GetAABB()->m_xBoundingBox.GetPlane( v ).GetNormal()[ 0 ] ),
+                ( pxBlock->GetAABB()->m_xBoundingBox.GetPlane( v ).GetNormal()[ 1 ] ),
+                ( pxBlock->GetAABB()->m_xBoundingBox.GetPlane( v ).GetNormal()[ 2 ] ),
+                ( pxBlock->GetAABB()->m_xBoundingBox.GetPlane( v ).GetDistance() * fHAVOK_SCALE ) ) );
+        }
 
-        xShapeArray.pushBack( pxBox );
+		
+        hkGeometryUtility::createVerticesFromPlaneEquations( xPlanes, xVertices );
+
+        if( xVertices.getSize() == 0 )
+        {
+            continue;
+        }
+
+        hkStridedVertices xStridedVertices;
+        xStridedVertices.m_numVertices = xVertices.getSize();
+        xStridedVertices.m_striding = sizeof( hkVector4 );
+        xStridedVertices.m_vertices = &( xVertices[ 0 ]( 0 ) );
+
+        xShapeArray.pushBack( new hkpConvexVerticesShape( xStridedVertices, xPlanes ) );
 	}
 
     hkpListShape* pxShapeList = new hkpListShape( &( xShapeArray[ 0 ] ), xShapeArray.getSize() );
@@ -317,6 +342,7 @@ void SRC_Environment::CreatePhysics()
     xRigidBodyInfo.m_position = hkVector4( 0.0f, 0.0f, 0.0f, 0.0f );
 
     hkpRigidBody* pxRigidBody = new hkpRigidBody( xRigidBodyInfo );
+	pxObject->SetHavokRigidBodyPointer( pxRigidBody );
 
 	hkpWorld* pxWorld = GLToy_Physics_System::GetHavokWorld();
 
@@ -376,6 +402,9 @@ void SRC_Environment::Render() const
 	{
 		m_pxBlocks[iBlock]->Render();
 	}
+
+	GLToy_Physics_Object* pxPhys = GLToy_Physics_System::FindPhysicsObject( xSRC_ENV_PHYSICS_HASH );
+	pxPhys->GetOBB().Render();
 
 	GLToy_Render::EnableDepthWrites();
 }
