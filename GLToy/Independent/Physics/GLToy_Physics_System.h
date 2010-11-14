@@ -79,11 +79,11 @@ public:
     static const GLToy_Physics_Controller& GetDefaultController() { return s_xDefaultController; }
     static void SetDefaultControllerActive( const bool bActive, const GLToy_Vector_3& xPosition = GLToy_Maths::ZeroVector3 );
     static void SetDefaultControllerPosition( const GLToy_Vector_3& xVector );
-
+	
     static GLToy_Physics_Object* FindPhysicsObject( const GLToy_Hash uHash );
 
-    static GLToy_Physics_Object* CreateControlledCapsule( const GLToy_Hash uHash, const GLToy_Vector_3& xOrigin );
-
+	static GLToy_Physics_Object* CreatePhysicsObject( const GLToy_Hash uHash );
+	static GLToy_Physics_Object* CreateControlledCapsule( const GLToy_Hash uHash, const GLToy_Vector_3& xOrigin );
     static GLToy_Physics_Object* CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane& xPlane );
     static GLToy_Physics_Object* CreatePhysicsEnvironment( const GLToy_Hash uHash, const GLToy_Environment_Lightmapped& xEnvironment );
     static GLToy_Physics_Object* CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_AABB& xAABB, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
@@ -92,7 +92,10 @@ public:
     static GLToy_Physics_Object* CreatePhysicsSphere( const GLToy_Hash uHash, const float fRadius = 32.0f, const GLToy_Vector_3& xPosition = GLToy_Maths::ZeroVector3, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
     
     static GLToy_Physics_Object* CreateFixedBox( const GLToy_Hash uHash, const GLToy_AABB& xAABB );
-    
+	#ifdef GLTOY_USE_HAVOK_PHYSICS
+	static void CreateCollisionListener( class hkpRigidBody* pxRigidBody );
+	#endif
+
     static void DestroyPhysicsObject( const GLToy_Hash uHash );
 
     static void ResetCollisions();

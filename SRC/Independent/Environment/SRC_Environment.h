@@ -5,19 +5,13 @@
 #define _SRC_ENVIRONMENT_
 
 #include "Environment/GLToy_Environment.h"
-#include "Maths/GLToy_Vector.h"
-
-// Dear Semi, the word Environment is very long to type, I do not enjoy having to type it a lot
-// in future please use a nice short word like 'World' or 'Scene', thank you - Tom
-
-// Dear Tom - Ctrl-Space (not Tab :P) is your friend but point taken - world/scene would probably be a lot clearer
 
 class GLToy_Plane;
 
 static const u_int uSRC_ENVIRONMENT_TYPE = 0xDEADBEEF;
+static const GLToy_Hash xSRC_ENV_PHYSICS_HASH = GLToy_GetHash( "SRC_Env" );
 
 static const u_int uSRC_ENV_BLOCKS = 16;  // Blocks in map ( length and breadth )
-// static const u_int uSRC_ENV_BLOCK_SIZE = 16;
 
 static const float fSRC_ENV_VERY_LOW = -256.0f;
 static const float fSRC_ENV_MIN_BLOCK_HEIGHT = -64.0f;
@@ -37,6 +31,10 @@ class SRC_Map_Block
 		void SetHeight( float fHeight );
 		void SetActive( bool bActive );
 		void SetPosition( GLToy_Vector_2 xPosition );
+
+		bool IsActive() const { return m_bActive; }
+
+		const GLToy_Bounded_AABB* GetAABB() const { return &m_xAABB; }
 
 	private:
 
@@ -72,6 +70,7 @@ class SRC_Environment : public GLToy_Environment
 	private:
 
 		void CreateEnv();
+		void CreatePhysics();
 		void ClearEnv();
 		SRC_Map_Block* GetBlock( int iX, int iY );
 		

@@ -884,4 +884,21 @@ void GLToy_Physics_System::ResetCollisions()
     s_xPhysicsObjects.Traverse( xFunctor );
 }
 
+GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsObject( const GLToy_Hash uHash )
+{
+	 GLToy_Physics_Object* pxPhysicsObject = new GLToy_Physics_Object( uHash );
+    s_xPhysicsObjects.AddNode( pxPhysicsObject, uHash );
+	return pxPhysicsObject;
+
+}
+
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+
+void GLToy_Physics_System::CreateCollisionListener( hkpRigidBody* pxRigidBody )
+{
+	pxRigidBody->addContactListener( new GLToy_Havok_PhysicsCollisionListener( pxRigidBody ) );
+}
+
+#endif
+
 #include <Core/GLToy_Memory_DebugOn.h>
