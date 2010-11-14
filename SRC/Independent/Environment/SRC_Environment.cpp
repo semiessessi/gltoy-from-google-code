@@ -23,7 +23,7 @@ SRC_Map_Block::~SRC_Map_Block()
 
 void SRC_Map_Block::SetHeight( float fHeight )
 {
-	m_xMax[1] = fHeight;
+	m_xMax[1] = fHeight * 64.0f;
 }
 
 void SRC_Map_Block::SetActive( bool bActive )
@@ -33,6 +33,8 @@ void SRC_Map_Block::SetActive( bool bActive )
 
 void SRC_Map_Block::SetPosition( GLToy_Vector_2 xPosition )
 {
+    xPosition -= 0.5f * GLToy_Vector_2( static_cast< float >( uSRC_ENV_BLOCKS ), static_cast< float >( uSRC_ENV_BLOCKS ) );
+
 	m_xMin[0] = xPosition[0];
 	m_xMin[1] = fSRC_ENV_VERY_LOW; // SE - this doesn't get read anywhere?
 	m_xMin[2] = xPosition[1];
