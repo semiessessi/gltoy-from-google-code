@@ -74,6 +74,7 @@
 #include <Physics/Collide/Shape/Compound/Tree/MOPP/hkpMoppBvTreeShape.h>
 #include <Physics/Collide/Shape/Compound/Tree/MOPP/hkpMoppUtility.h>
 #include <Physics/Collide/Shape/Convex/Box/hkpBoxShape.h>
+#include <Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
 #include <Physics/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesShape.h>
 #include <Physics/Collide/Shape/Convex/Triangle/hkpTriangleShape.h>
 #include <Physics/Collide/Shape/Convex/Sphere/hkpSphereShape.h>
@@ -83,6 +84,10 @@
 #include <Physics/Dynamics/Entity/hkpEntityListener.h>
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
 #include <Physics/Dynamics/World/hkpWorld.h>
+#include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
+#include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBodyListener.h>
+#include <Physics/Utilities/CharacterControl/StateMachine/hkpCharacterContext.h>
+#include <Physics/Utilities/CharacterControl/StateMachine/hkpDefaultCharacterStates.h>
 #include <Physics/Utilities/Dynamics/Inertia/hkpInertiaTensorComputer.h>
 
 // keycode - this needs to go somewhere, this seems as good a place as any
@@ -385,6 +390,7 @@ void GLToy_Physics_System::SetDefaultControllerActive( const bool bActive, const
     if( bActive )
     {
         s_xDefaultController.Create( xPosition );
+        s_xDefaultController.SetCameraControl( true );
     }
     else
     {
@@ -402,6 +408,92 @@ GLToy_Physics_Object* GLToy_Physics_System::FindPhysicsObject( const GLToy_Hash 
     GLToy_Physics_Object** const ppxPhysicsObject = s_xPhysicsObjects.FindData( uHash );
 
     return ppxPhysicsObject ? *ppxPhysicsObject : NULL;
+}
+
+GLToy_Physics_Object* GLToy_Physics_System::CreateControlledCapsule( const GLToy_Hash uHash, const GLToy_Vector_3& xOrigin )
+{
+    GLToy_Physics_Object* pxPhysicsObject = new GLToy_Physics_Object( uHash );
+    s_xPhysicsObjects.AddNode( pxPhysicsObject, uHash );
+
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+    
+    const GLToy_Vector_3 xScaledPosition = xOrigin * fHAVOK_SCALE;
+
+    hkpWorld* pxWorld = GLToy_Physics_System::GetHavokWorld();
+
+    if( !pxWorld )
+    {
+        s_xPhysicsObjects.Remove( uHash );
+        delete pxPhysicsObject;
+        return NULL;
+    }
+
+    // Define the shapes for the controller
+    hkVector4 xVertexA( 0.0f, 0.0f, 0.1f );
+    hkVector4 xVertexB( 0.0f, 0.0f, -0.1f );
+    hkpShape* pxShape = new hkpCapsuleShape( xVertexA, xVertexB, 1.1f );
+
+    // Construct a character rigid body
+    hkpCharacterRigidBodyCinfo xCharacterRigidBodyCInfo;
+    xCharacterRigidBodyCInfo.m_mass = 100.0f;
+    xCharacterRigidBodyCInfo.m_shape = pxShape;
+
+    xCharacterRigidBodyCInfo.m_maxForce = 1000.0f;
+    xCharacterRigidBodyCInfo.m_up.set( 0.0f, 1.0f, 0.0f );
+    xCharacterRigidBodyCInfo.m_position.set( xScaledPosition[ 0 ], xScaledPosition[ 1 ], xScaledPosition[ 2 ] );
+    xCharacterRigidBodyCInfo.m_maxSlope = GLToy_Maths::Deg2Rad( 70.0f );
+    xCharacterRigidBodyCInfo.m_friction = 0.6f;
+    
+    hkpCharacterRigidBody* pxHavokRigidBody = new hkpCharacterRigidBody( xCharacterRigidBodyCInfo );
+
+    hkpCharacterRigidBodyListener* pxListener = new hkpCharacterRigidBodyListener();
+    pxHavokRigidBody->setListener( pxListener );
+    pxListener->removeReference();
+
+    pxWorld->lock();
+    GLToy_Havok_MarkForWrite();
+
+    pxWorld->addEntity( pxHavokRigidBody->getRigidBody() );
+
+    hkpCharacterState* pxState;
+    hkpCharacterStateManager* pxManager = new hkpCharacterStateManager();
+
+    pxState = new hkpCharacterStateOnGround();
+    pxManager->registerState( pxState, HK_CHARACTER_ON_GROUND );
+    pxState->removeReference();
+
+    pxState = new hkpCharacterStateInAir();
+    pxManager->registerState( pxState, HK_CHARACTER_IN_AIR );
+    pxState->removeReference();
+
+    pxState = new hkpCharacterStateJumping();
+    pxManager->registerState( pxState, HK_CHARACTER_JUMPING );
+    pxState->removeReference();
+
+    pxState = new hkpCharacterStateClimbing();
+    pxManager->registerState( pxState, HK_CHARACTER_CLIMBING );
+    pxState->removeReference();
+
+    pxPhysicsObject->SetHavokContextPointer( new hkpCharacterContext( pxManager, HK_CHARACTER_ON_GROUND ) );
+    pxManager->removeReference();
+
+    pxPhysicsObject->GetHavokContextPointer()->setCharacterType( hkpCharacterContext::HK_CHARACTER_RIGIDBODY );
+
+    // oh yeah. confusing variable names :)
+    hkpRigidBody* pxRigidBody = pxHavokRigidBody->getRigidBody();
+
+    pxRigidBody->setUserData( uHash );
+    pxRigidBody->addContactListener( new GLToy_Havok_PhysicsCollisionListener( pxRigidBody ) );
+
+    pxPhysicsObject->SetHavokData( pxHavokRigidBody );
+    pxPhysicsObject->SetHavokRigidBodyPointer( pxRigidBody );
+
+    GLToy_Havok_UnmarkForWrite();
+    pxWorld->unlock();
+
+#endif
+
+    return pxPhysicsObject;
 }
 
 GLToy_Physics_Object* GLToy_Physics_System::CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane& xPlane )

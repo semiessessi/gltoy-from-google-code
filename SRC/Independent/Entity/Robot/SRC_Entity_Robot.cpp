@@ -15,6 +15,8 @@
 
 // GLToy
 #include <Entity/GLToy_Entity_System.h>
+#include <Physics/GLToy_Physics_Object.h>
+#include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Camera.h>
 
 // SRC
@@ -33,8 +35,6 @@ GLToy_Array< SRC_Entity_Robot* > SRC_Entity_Robot::s_xInstanceList;
 SRC_Entity_Robot::SRC_Entity_Robot( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
 {
-    SetBB( GLToy_AABB( GLToy_Vector_3( 32.0f, 32.0f, 32.0f ), GLToy_Vector_3( GLToy_Maths::ZeroVector3 ) ) );
-
     s_xInstanceList.Append( this );
 }
 
@@ -43,17 +43,26 @@ SRC_Entity_Robot::~SRC_Entity_Robot()
     s_xInstanceList.RemoveByValue( this );
 }
 
+void SRC_Entity_Robot::Spawn( const GLToy_Vector_3& xPosition )
+{
+    SetPhysicsObject( GLToy_Physics_System::CreateControlledCapsule( GetHash(), xPosition ) );
+}
+
 void SRC_Entity_Robot::Render() const
 {
-    GLToy_Parent::RenderOBB();
+    GLToy_Physics_Object* pxPhysicsObject = GetPhysicsObject();
+    if( pxPhysicsObject )
+    {
+        pxPhysicsObject->GetOBB().Render();
+    }
 }
 
 void SRC_Entity_Robot::SpawnRobot_Console()
 {
     static u_int ls_uID = 0;
-    GLToy_Entity* const pxRobot = GLToy_Entity_System::CreateEntity( ( GLToy_String( "Robot " ) + ls_uID ).GetHash(), SRC_ENTITY_ROBOT );
+    SRC_Entity_Robot* const pxRobot = static_cast< SRC_Entity_Robot* >( GLToy_Entity_System::CreateEntity( ( GLToy_String( "Robot " ) + ls_uID ).GetHash(), SRC_ENTITY_ROBOT ) );
 
-    pxRobot->SetPosition( GLToy_Camera::GetPosition() );
+    pxRobot->Spawn( GLToy_Camera::GetPosition() );
 
     ++ls_uID;
 }

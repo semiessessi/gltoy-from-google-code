@@ -12,7 +12,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // Parent
-#include <Entity/GLToy_Entity.h>
+#include <Entity/Object/SRC_Entity_Object.h>
 
 // GLToy
 #include <Core/Data Structures/GLToy_Array.h>
@@ -22,15 +22,17 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class SRC_Entity_Robot
-: public GLToy_Entity_Oriented_AABB
+: public SRC_Entity_Object
 {
 
-    typedef GLToy_Entity_Oriented_AABB GLToy_Parent;
+    typedef SRC_Entity_Object GLToy_Parent;
 
 public:
 
     SRC_Entity_Robot( const GLToy_Hash uHash, const u_int uType );
     virtual ~SRC_Entity_Robot();
+
+    void Spawn( const GLToy_Vector_3& xPosition );
 
     virtual void Render() const;
 

@@ -34,14 +34,8 @@
 // Parent
 #include <Core/GLToy_Updateable.h>
 
-// so far this include is just needed for the default parameter GLToy_Maths::ZeroVector3
-
 // GLToy
 #include <Maths/GLToy_Maths.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
-/////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -55,12 +49,14 @@ public:
     GLToy_Physics_Controller( const GLToy_Hash uHash )
     : m_uHash( uHash )
     , m_bOldJump( false )
+    , m_bCameraControl( false )
+    , m_bActive( false )
+    , m_xMovement( GLToy_Maths::ZeroVector2 )
 #ifdef GLTOY_USE_HAVOK_PHYSICS
     , m_pxHavokRigidBody( NULL )
     , m_pxHavokContext( NULL )
     , m_pxStandShape( NULL )
     , m_pxCrouchShape( NULL )
-    , m_bActive( false )
 #endif
     {
     }
@@ -76,6 +72,10 @@ public:
     void SetPosition( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
     void SetVelocity( const GLToy_Vector_3& xVelocity );
 
+    void SetCameraControl( const bool bCameraControl ) { m_bCameraControl = bCameraControl; }
+
+    void SetMovementDirection( const GLToy_Vector_2& xDirection ) { m_xMovement = xDirection; }
+
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
     GLToy_Inline void SetHavokRigidBodyPointer( class hkpCharacterRigidBody* const pxRigidBody ) { m_pxHavokRigidBody = pxRigidBody; }
@@ -90,6 +90,8 @@ protected:
     GLToy_Hash m_uHash;
     bool m_bOldJump;
     bool m_bActive;
+    bool m_bCameraControl;
+    GLToy_Vector_2 m_xMovement;
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
     

@@ -197,9 +197,9 @@ void GLToy_Physics_Controller::Update( const float fTimestep )
         return;
     }
 
-    const bool bJump = ( !m_bOldJump && GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetSpaceKey() ) );
-    const bool bCrouch = GLToy_Input_System::IsKeyDown( 'C' );
-    m_bOldJump = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetSpaceKey() );
+    const bool bJump = m_bCameraControl && ( !m_bOldJump && GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetSpaceKey() ) );
+    const bool bCrouch = m_bCameraControl && GLToy_Input_System::IsKeyDown( 'C' );
+    m_bOldJump = m_bCameraControl && GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetSpaceKey() );
 
     pxWorld->lock();
     GLToy_Havok_MarkForWrite();
@@ -247,7 +247,7 @@ void GLToy_Physics_Controller::Update( const float fTimestep )
     float fDX = 0.0f;
     float fDZ = 0.0f;
 
-    if( GLToy_Camera::IsControllerCamEnabled() )
+    if( m_bCameraControl && GLToy_Camera::IsControllerCamEnabled() )
     {
         if( GLToy_Input_System::IsKeyDown( 'W' )
             || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetUpKey() ) )
@@ -271,6 +271,11 @@ void GLToy_Physics_Controller::Update( const float fTimestep )
             fDX += 0.5f;
         }
     }
+    else
+    {
+        fDX = m_xMovement[ 0 ];
+        fDZ = m_xMovement[ 1 ];
+    }
 
     xInput.m_inputLR = fDX;
     xInput.m_inputUD = fDZ;
@@ -287,7 +292,7 @@ void GLToy_Physics_Controller::Update( const float fTimestep )
     xStepInfo.m_invDeltaTime = 1.0f / fTimestep;
     xInput.m_stepInfo = xStepInfo;
 
-    xInput.m_characterGravity.set( 0, -16.0f, 0.0f );
+    xInput.m_characterGravity.set( 0.0f, -16.0f, 0.0f );
     
     hkpRigidBody* const pxRigidBody = m_pxHavokRigidBody->getRigidBody();
     
@@ -363,11 +368,7 @@ void GLToy_Physics_Controller::LateUpdate()
         return;
     }
 
-    // TODO - when merged with GLToy get rid of this rubbish
-    // also do something to allow for multiple controllers for
-    // AI and perhaps even remote players...
-    // ... er I should have done this by now, but I guess I am just too lazy :I
-    if( GLToy_Camera::IsControllerCamEnabled() && m_pxHavokRigidBody )
+    if( m_bCameraControl && GLToy_Camera::IsControllerCamEnabled() && m_pxHavokRigidBody )
     {
         pxWorld->lockReadOnly();
         GLToy_Havok_MarkForRead();

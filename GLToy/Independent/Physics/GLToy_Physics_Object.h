@@ -75,6 +75,8 @@ public:
     , m_xCollisions()
 #ifdef GLTOY_USE_HAVOK_PHYSICS
     , m_pxHavokRigidBody( NULL )
+    , m_pxHavokContext( NULL )
+    , m_pHavokData( NULL )
 #endif
     {
     }
@@ -101,6 +103,12 @@ public:
 
     void SetHavokRigidBodyPointer( class hkpRigidBody* const pxRigidBody ) { m_pxHavokRigidBody = pxRigidBody; }
     const hkpRigidBody* GetHavokRigidBodyPointer() const { return m_pxHavokRigidBody; }
+    void SetHavokContextPointer( class hkpCharacterContext* const pxContext ) { m_pxHavokContext = pxContext; }
+    hkpCharacterContext* GetHavokContextPointer() { return m_pxHavokContext; }
+    const hkpCharacterContext* GetHavokContextPointer() const { return m_pxHavokContext; }
+    void SetHavokData( void* const pData ) { m_pHavokData = pData; }
+    void* GetHavokData() { return m_pHavokData; }
+    const void* GetHavokData() const { return m_pHavokData; }
 
 #endif
 
@@ -112,6 +120,8 @@ protected:
 #ifdef GLTOY_USE_HAVOK_PHYSICS
     
     class hkpRigidBody* m_pxHavokRigidBody;
+    class hkpCharacterContext* m_pxHavokContext;
+    void* m_pHavokData;
 
 #endif
 
