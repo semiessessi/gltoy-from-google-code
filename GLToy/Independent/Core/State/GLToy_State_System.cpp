@@ -129,8 +129,8 @@ void GLToy_State_System::RegisterState( GLToy_State* const pxState, const GLToy_
     const GLToy_State* const* const ppxState = s_xStates.FindData( uHash );
     if( ppxState && *ppxState )
     {
-        s_xStates.Remove( uHash );
         delete *ppxState; // nothing like deleting with a triple const'ed double pointer to make you question some of the logic involved with C++ :)
+        s_xStates.Remove( uHash );
     }
 
     s_xStates.AddNode( pxState, uHash );

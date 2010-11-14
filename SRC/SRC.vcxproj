@@ -145,6 +145,7 @@ upx.exe $(TargetPath) --best</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Independent\Core\State\SRC_State_Editor.cpp" />
     <ClCompile Include="Independent\Core\State\SRC_State_Game.cpp" />
     <ClCompile Include="Independent\Core\State\SRC_State_MainMenu.cpp" />
     <ClCompile Include="Independent\Entity\Goal\SRC_Entity_Goal.cpp" />
@@ -170,6 +171,7 @@ upx.exe $(TargetPath) --best</Command>
     <ClCompile Include="Independent\Core\Project_GLToy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Independent\Core\State\SRC_State_Editor.h" />
     <ClInclude Include="Independent\Core\State\SRC_State_Game.h" />
     <ClInclude Include="Independent\Core\State\SRC_State_MainMenu.h" />
     <ClInclude Include="Independent\Entity\Goal\SRC_Entity_Goal.h" />

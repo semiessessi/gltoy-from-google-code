@@ -19,6 +19,7 @@
 #include "Render/GLToy_Camera.h"
 
 // SRC
+#include <Core/State/SRC_State_Editor.h>
 #include <Core/State/SRC_State_Game.h>
 #include <Core/State/SRC_State_MainMenu.h>
 #include <Entity/SRC_EntityTypes.h>
@@ -37,6 +38,7 @@ void SRC::CreateTestEnvironment()
 
 bool SRC::Initialise()
 {
+    GLToy_State_System::RegisterState( new SRC_State_Editor() ); 
     GLToy_State_System::RegisterState( new SRC_State_Game() ); 
     GLToy_State_System::RegisterState( new SRC_State_MainMenu() );
 
@@ -54,8 +56,6 @@ bool SRC::Initialise()
     GLToy_Console::RegisterCommand( "spawn.fixedcube", SRC_Console_SpawnFixedCube );
     GLToy_Console::RegisterCommand( "spawn.robot", SRC_Entity_Robot::SpawnRobot_Console );
 	GLToy_Console::RegisterCommand( "worldtest", SRC::CreateTestEnvironment );
-
-
 
     return true;
 }

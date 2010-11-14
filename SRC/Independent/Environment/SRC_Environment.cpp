@@ -83,7 +83,7 @@ void SRC_Map_Block::SetPosition( GLToy_Vector_2 xPosition )
 	GLToy_Vector_3& xMax = m_xAABB.m_xBoundingBox.m_xPointMax;
 
 	xMin[0] = xPosition[0];
-	xMin[1] = fSRC_ENV_VERY_LOW; // SE - this doesn't get read anywhere?
+	xMin[1] = fSRC_ENV_VERY_LOW / 64.0f;
 	xMin[2] = xPosition[1];
 	
 	xMax[0] = xPosition[0] + 1.0f;

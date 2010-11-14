@@ -105,6 +105,9 @@
     <ClCompile Include="Independent\Core\State\SRC_State_MainMenu.cpp">
       <Filter>Independent\Core\State</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Core\State\SRC_State_Editor.cpp">
+      <Filter>Independent\Core\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_SRC.h">
@@ -156,6 +159,9 @@
       <Filter>Independent\Core\State</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Core\State\SRC_State_MainMenu.h">
+      <Filter>Independent\Core\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\State\SRC_State_Editor.h">
       <Filter>Independent\Core\State</Filter>
     </ClInclude>
   </ItemGroup>
