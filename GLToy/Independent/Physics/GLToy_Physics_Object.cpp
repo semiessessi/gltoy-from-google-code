@@ -49,6 +49,11 @@
 #include <Physics/Dynamics/hkpDynamics.h>
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>
 #include <Physics/Dynamics/World/hkpWorld.h>
+#include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
+#include <Physics/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBodyListener.h>
+#include <Physics/Utilities/CharacterControl/StateMachine/hkpCharacterContext.h>
+#include <Physics/Utilities/CharacterControl/StateMachine/hkpDefaultCharacterStates.h>
+
 
 #endif
 
@@ -169,6 +174,81 @@ void GLToy_Physics_Object::Destroy()
 
 #endif
 
+}
+
+void GLToy_Physics_Object::Update()
+{
+#ifdef GLTOY_USE_HAVOK_PHYSICS
+
+    if( m_pxHavokContext )
+    {
+        hkpCharacterRigidBody* pxCharacterRigidBody = reinterpret_cast< hkpCharacterRigidBody* >( m_pHavokData );
+        hkpWorld* pxWorld = GLToy_Physics_System::GetHavokWorld();
+
+        if( !pxWorld )
+        {
+            return;
+        }
+
+        if( !pxCharacterRigidBody )
+        {
+            return;
+        }
+
+        pxWorld->lock();
+        GLToy_Havok_MarkForWrite();
+
+        
+        hkpCharacterInput xInput;
+        hkpCharacterOutput xOutput;
+
+        float fDX = 0.0f;
+        float fDZ = 0.0f;
+
+
+        xInput.m_inputLR = fDX;
+        xInput.m_inputUD = fDZ;
+
+        xInput.m_wantJump = false;
+        xInput.m_atLadder = false;
+
+        xInput.m_up.set( 0.0f, 1.0f, 0.0f );
+        xInput.m_forward.set( 0.0f, 0.0f, 0.0f );
+        xInput.m_forward.normalize3();
+
+        hkStepInfo xStepInfo;
+        xStepInfo.m_deltaTime = fPHYSICS_STEP_TIME;
+        xStepInfo.m_invDeltaTime = 1.0f / fPHYSICS_STEP_TIME;
+        xInput.m_stepInfo = xStepInfo;
+
+        xInput.m_characterGravity.set( 0.0f, -16.0f, 0.0f );
+    
+        hkpRigidBody* const pxRigidBody = pxCharacterRigidBody->getRigidBody();
+    
+        GLToy_Assert( pxRigidBody != NULL, "A character's Havok rigid body pointer has been nulled. Get ready for a crash!" );
+    
+        xInput.m_velocity = pxRigidBody->getLinearVelocity();
+        xInput.m_position = pxRigidBody->getPosition();
+
+        pxCharacterRigidBody->checkSupport( xStepInfo, xInput.m_surfaceInfo );
+
+        const hkpCollidable* const pxCollidable = pxRigidBody->getCollidable();
+
+        GLToy_Assert( pxRigidBody != NULL, "A character's Havok collidable pointer has been nulled. We are going to assume they aren't crouching." );
+
+        m_pxHavokContext->update( xInput, xOutput );
+
+        pxCharacterRigidBody->setLinearVelocity( xOutput.m_velocity, fPHYSICS_STEP_TIME );
+
+        GLToy_Havok_UnmarkForWrite();
+        pxWorld->unlock();
+    }
+
+#endif
+}
+
+void GLToy_Physics_Object::LateUpdate()
+{
 }
 
 #include <Core/GLToy_Memory_DebugOn.h>

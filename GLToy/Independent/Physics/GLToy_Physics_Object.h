@@ -31,6 +31,9 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// Parent
+#include <Core/GLToy_Updateable.h>
+
 // GLToy
 #include <Core/Data Structures/GLToy_Array.h>
 #include <Maths/GLToy_Maths.h>
@@ -60,6 +63,7 @@ public:
 };
 
 class GLToy_Physics_Object
+: public GLToy_Updateable
 {
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
@@ -86,7 +90,7 @@ public:
 #ifdef GLTOY_USE_HAVOK_PHYSICS
         m_pxHavokRigidBody = NULL;
 #endif
-        }
+    }
 
     void SetPosition( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
     void SetVelocity( const GLToy_Vector_3& xVelocity );
@@ -98,6 +102,9 @@ public:
     GLToy_OBB GetOBB() const;
     GLToy_Vector_3 GetPosition() const;
     GLToy_Inline GLToy_Hash GetHash() const { return m_uHash; }
+
+    virtual void Update();
+    virtual void LateUpdate();
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 

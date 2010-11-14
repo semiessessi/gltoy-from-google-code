@@ -37,6 +37,7 @@
 #include <Core/Console/GLToy_Console.h>
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <Core/GLToy_Timer.h>
+#include <Core/GLToy_UpdateFunctor.h>
 #include <Entity/Physics/GLToy_Entity_PhysicsBox.h>
 #include <Entity/GLToy_EntityTypes.h>
 #include <Entity/GLToy_Entity_System.h>
@@ -364,8 +365,11 @@ void GLToy_Physics_System::Update()
     // this seems dumb, but it has higher quality and is stupidly fast anyway...
     while( ls_fAccumulatedTimer > fPHYSICS_STEP_TIME )
     {
+        s_xPhysicsObjects.Traverse( GLToy_PointerUpdateFunctor< GLToy_Physics_Object* >() );
         s_xDefaultController.Update( fPHYSICS_STEP_TIME );
         g_pxHavokWorld->stepMultithreaded( g_pxJobQueue, g_pxThreadPool, fPHYSICS_STEP_TIME );
+        GLToy_QuickFunctorInstance( LateUpdateFunctor, GLToy_Physics_Object*, ppxObject, { ( *ppxObject )->LateUpdate(); }, xFunctor )
+        s_xPhysicsObjects.Traverse( xFunctor );
         s_xDefaultController.LateUpdate();
 
         ls_fAccumulatedTimer -= fPHYSICS_STEP_TIME;
