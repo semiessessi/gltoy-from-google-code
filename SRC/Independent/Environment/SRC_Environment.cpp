@@ -34,12 +34,15 @@ void SRC_Map_Block::SetActive( bool bActive )
 void SRC_Map_Block::SetPosition( GLToy_Vector_2 xPosition )
 {
 	m_xMin[0] = xPosition[0];
-	m_xMin[1] = fSRC_ENV_VERY_LOW;
+	m_xMin[1] = fSRC_ENV_VERY_LOW; // SE - this doesn't get read anywhere?
 	m_xMin[2] = xPosition[1];
 	
 	m_xMax[0] = xPosition[0] + 1.0f;
 	m_xMax[1] = 0.0f;
 	m_xMax[2] = xPosition[1] + 1.0f;
+
+    m_xMin *= 64.0f;
+    m_xMax *= 64.0f;
 }
 
 void SRC_Map_Block::Update()
@@ -63,88 +66,88 @@ void SRC_Map_Block::Render() const
 
 		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, m_xMax[ 1 ] ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, m_xMax[ 1 ] / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], m_xMax[ 1 ], m_xMax[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMax[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMax[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, m_xMax[ 1 ] ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, m_xMax[ 1 ] / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], m_xMax[ 1 ], m_xMax[ 2 ] ) );
 		
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, m_xMax[ 1 ] ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, m_xMax[ 1 ] / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], m_xMax[ 1 ], m_xMin[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMin[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMin[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, m_xMax[ 1 ] ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, m_xMax[ 1 ] / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], m_xMax[ 1 ], m_xMin[ 2 ] ) );
 
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, m_xMax[ 1 ] ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, m_xMax[ 1 ] / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], m_xMax[ 1 ], m_xMax[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, m_xMax[ 1 ] ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, m_xMax[ 1 ] / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], m_xMax[ 1 ], m_xMin[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMin[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMax[ 2 ] ) );
 		
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, m_xMax[ 1 ] ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, m_xMax[ 1 ] / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], m_xMax[ 1 ], m_xMax[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, m_xMax[ 1 ] ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, m_xMax[ 1 ] / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], m_xMax[ 1 ], m_xMin[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMin[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMax[ 2 ] ) );
 
 		// Fade
 
 		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMax[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_VERY_LOW ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
 		GLToy_Render::SubmitColour( GLToy_Vector_4( 0.0f, 0.0f, 0.0f, 1.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], fSRC_ENV_VERY_LOW, m_xMax[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_VERY_LOW ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], fSRC_ENV_VERY_LOW, m_xMax[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMax[ 2 ] ) );
 		
 		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMin[ 2 ] ) );
 		GLToy_Render::SubmitColour( GLToy_Vector_4( 0.0f, 0.0f, 0.0f, 1.0f ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_VERY_LOW ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], fSRC_ENV_VERY_LOW, m_xMin[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_VERY_LOW ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], fSRC_ENV_VERY_LOW, m_xMin[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMin[ 2 ] ) );
 
 		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMax[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMin[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_VERY_LOW ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
 		GLToy_Render::SubmitColour( GLToy_Vector_4( 0.0f, 0.0f, 0.0f, 1.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], fSRC_ENV_VERY_LOW, m_xMin[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_VERY_LOW ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMax[ 0 ], fSRC_ENV_VERY_LOW, m_xMax[ 2 ] ) );
 		
 		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMax[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, m_xMin[ 2 ] ) );
 		GLToy_Render::SubmitColour( GLToy_Vector_4( 0.0f, 0.0f, 0.0f, 1.0f ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_VERY_LOW ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], fSRC_ENV_VERY_LOW, m_xMin[ 2 ] ) );
-		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_VERY_LOW ) );
+		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( m_xMin[ 0 ], fSRC_ENV_VERY_LOW, m_xMax[ 2 ] ) );
 	}
     GLToy_Render::EndSubmit();

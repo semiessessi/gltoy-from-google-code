@@ -29,12 +29,6 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static void HACK_FixCamera()
-{
-	GLToy_Camera::SetPosition( GLToy_Vector_3( 0.0f, 10.0f, 10.0f ) );
-	GLToy_Camera::LookAt( GLToy_Vector_3() );
-}
-
 void SRC::CreateTestEnvironment()
 {
     GLToy_Entity_System::DestroyEntities();
@@ -60,7 +54,6 @@ bool SRC::Initialise()
     GLToy_Console::RegisterCommand( "spawn.fixedcube", SRC_Console_SpawnFixedCube );
     GLToy_Console::RegisterCommand( "spawn.robot", SRC_Entity_Robot::SpawnRobot_Console );
 	GLToy_Console::RegisterCommand( "worldtest", SRC::CreateTestEnvironment );
-	GLToy_Console::RegisterCommand( "fixcamera", HACK_FixCamera );
 
 
 

@@ -20,8 +20,8 @@ static const u_int uSRC_ENVIRONMENT_TYPE = 0xDEADBEEF;
 static const u_int uSRC_ENV_BLOCKS = 16;  // Blocks in map ( length and breadth )
 // static const u_int uSRC_ENV_BLOCK_SIZE = 16;
 
-static const float fSRC_ENV_VERY_LOW = -50.0f;
-static const float fSRC_ENV_MIN_BLOCK_HEIGHT = -10.0f;
+static const float fSRC_ENV_VERY_LOW = -256.0f;
+static const float fSRC_ENV_MIN_BLOCK_HEIGHT = -64.0f;
 
 class SRC_Map_Block
 {
