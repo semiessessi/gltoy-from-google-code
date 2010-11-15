@@ -37,6 +37,7 @@
 #include <Core/GLToy_Bounded.h>
 #include <Maths/GLToy_Plane.h>
 #include <Maths/GLToy_Volume.h>
+#include <Render/GLToy_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -257,4 +258,18 @@ bool GLToy_Ray::IntersectsWithOBB( const GLToy_OBB& xOBB, GLToy_Vector_3* const 
 bool GLToy_Ray::IntersectsWith( const GLToy_Bounded& xBounded, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const
 {
     return xBounded.IntersectWithRay( *this, pxPosition, pxNormal );
+}
+
+void GLToy_Ray::Render() const
+{
+    GLToy_Render::EnableBlending();
+    GLToy_Render::StartSubmittingLines();
+
+    GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    GLToy_Render::SubmitVertex( m_xPosition );
+    GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 0.0f ) );
+    GLToy_Render::SubmitVertex( m_xPosition + m_xDirection * 32.0f );
+
+    GLToy_Render::EndSubmit();
+    GLToy_Render::DisableBlending();
 }

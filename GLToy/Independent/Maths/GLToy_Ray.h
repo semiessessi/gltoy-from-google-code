@@ -68,6 +68,8 @@ public:
     bool IntersectsWithOBB( const GLToy_OBB& xOBB, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
     bool IntersectsWith( const GLToy_Bounded& xBounded, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
 
+    virtual void Render() const;
+
 protected:
 
     GLToy_Vector_3 m_xPosition;

@@ -274,7 +274,7 @@ void GLToy_Camera::SetOverCamEnabled( const bool bEnabled )
 
 GLToy_Vector_2 GLToy_Camera::WorldSpaceToScreenSpace( const GLToy_Vector_3& xWorldPosition )
 {
-    const GLToy_Vector_3 xTranslated = xWorldPosition  - GetPosition();
+    const GLToy_Vector_3 xTranslated = xWorldPosition - GetPosition();
     GLToy_Vector_3 xDirection = xTranslated * GetOrientation();
     xDirection.Normalise();
 
@@ -294,6 +294,14 @@ GLToy_Vector_2 GLToy_Camera::WorldSpaceToScreenSpace( const GLToy_Vector_3& xWor
 
     // just in case we get a direction parallel to the plane...
     return GLToy_Maths::LargeVector2;
+}
+
+GLToy_Ray GLToy_Camera::ScreenSpaceToRay( const GLToy_Vector_2& xPoint )
+{
+    GLToy_Vector_3 xDirection = GLToy_Vector_3( xPoint, 1.0f );
+    xDirection.Normalise();
+
+    return GLToy_Ray( s_xPosition, xDirection * GetOrientation() );
 }
 
 bool GLToy_Camera::IsPointOnScreen( const GLToy_Vector_2& xPoint )

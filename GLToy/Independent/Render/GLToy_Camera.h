@@ -33,6 +33,7 @@
 
 // GLToy
 #include <Maths/GLToy_Maths.h>
+#include <Maths/GLToy_Ray.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -74,6 +75,7 @@ public:
     static bool IsOverCamEnabled() { return s_bOverCam; }
 
     static GLToy_Vector_2 WorldSpaceToScreenSpace( const GLToy_Vector_3& xWorldPosition );
+    static GLToy_Ray ScreenSpaceToRay( const GLToy_Vector_2& xPoint );
     static bool IsPointOnScreen( const GLToy_Vector_2& xPoint );
 
 private:
