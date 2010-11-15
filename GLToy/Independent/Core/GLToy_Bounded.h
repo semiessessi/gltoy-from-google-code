@@ -101,7 +101,8 @@ public:
         GLToy_Vector_3* const pxPosition = 0,
         GLToy_Vector_3* const pxNormal = 0 ) const
     {
-        return xRay.IntersectsWithAABB( m_xBoundingBox, pxPosition, pxNormal );
+        float fParameter;
+        return xRay.IntersectsWithAABB( m_xBoundingBox, &fParameter, pxPosition, pxNormal );
     }
 
     virtual bool IntersectWithAABB( const GLToy_AABB& xAABB ) const

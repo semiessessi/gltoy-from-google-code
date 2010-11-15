@@ -74,7 +74,7 @@ bool GLToy_Ray::IntersectsWithPlane( const GLToy_Plane& xPlane, float* const pfP
     return bHit;
 }
 
-bool GLToy_Ray::IntersectsWithAABB( const GLToy_AABB& xAABB, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const
+bool GLToy_Ray::IntersectsWithAABB( const GLToy_AABB& xAABB, float* const pfParameter, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const
 {
     if( xAABB.IsInside( m_xPosition ) )
     {
@@ -133,16 +133,17 @@ bool GLToy_Ray::IntersectsWithAABB( const GLToy_AABB& xAABB, GLToy_Vector_3* con
         { 0, 1 }
     };
 
+    float fParameter[ 3 ];
+
     for( u_int u = 0; u < 3; ++u )
     {
-        float fParameter;
         if( m_xDirection[ u ] > 0.0f )
         {
-            abHit[ u ] = IntersectsWithPlane( GLToy_Plane( -axNormalsMax[ u ], xMin[ u ] ), &fParameter, &( axIntersections[ u ] ) );
+            abHit[ u ] = IntersectsWithPlane( GLToy_Plane( -axNormalsMax[ u ], xMin[ u ] ), &( fParameter[ u ] ), &( axIntersections[ u ] ) );
         }
         else
         {
-            abHit[ u ] = IntersectsWithPlane( GLToy_Plane( axNormalsMax[ u ], -xMax[ u ] ), &fParameter, &( axIntersections[ u ] ) );
+            abHit[ u ] = IntersectsWithPlane( GLToy_Plane( axNormalsMax[ u ], -xMax[ u ] ), &( fParameter[ u ] ), &( axIntersections[ u ] ) );
         }
 
         // check the intersection point is actually within bounds and decide if we hit accordingly
@@ -191,6 +192,11 @@ bool GLToy_Ray::IntersectsWithAABB( const GLToy_AABB& xAABB, GLToy_Vector_3* con
         if( abHit[ u ] )
         {
             *pxPosition = axIntersections[ u ];
+            if( pfParameter )
+            {
+                *pfParameter = fParameter[ u ];
+            }
+
             if( pxNormal )
             {
                 *pxNormal = ( m_xDirection[ u ] > 0.0f ) ? -axNormalsMax[ u ] : axNormalsMax[ u ];
