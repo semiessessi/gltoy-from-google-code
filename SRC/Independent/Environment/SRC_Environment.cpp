@@ -6,12 +6,17 @@
 #include "SRC_Environment.h"
 
 #include "Core/GLToy_Timer.h"
+#include "Core/Data Structures/GLToy_List.h"
+#include "Core/State/GLToy_State_System.h"
+#include "Input/GLToy_Input.h"
 #include "Maths/GLToy_Plane.h"
+#include "Maths/GLToy_Ray.h"
 #include "Physics/GLToy_Physics_System.h"
 #include "Physics/GLToy_Physics_Object.h"
 #include "Render/GLToy_Camera.h"
 #include "Render/GLToy_Render.h"
 #include "Render/GLToy_Texture.h"
+#include "UI/GLToy_UI_System.h"
 
 #include <Core/GLToy_Memory_DebugOff.h>
 // Havok
@@ -62,6 +67,7 @@
 
 SRC_Map_Block::SRC_Map_Block()
 : m_bActive( true )
+, m_bEditor_Highlighted( false )
 {
 }
 
@@ -72,6 +78,15 @@ SRC_Map_Block::~SRC_Map_Block()
 void SRC_Map_Block::SetHeight( float fHeight )
 {
 	m_xAABB.m_xBoundingBox.m_xPointMax[1] = fHeight * 64.0f;
+	if( m_xAABB.m_xBoundingBox.m_xPointMax[1] < fSRC_ENV_MIN_BLOCK_HEIGHT )
+	{
+		m_xAABB.m_xBoundingBox.m_xPointMax[1] = fSRC_ENV_MIN_BLOCK_HEIGHT;
+	}
+}
+
+float SRC_Map_Block::GetHeight()
+{
+	return m_xAABB.m_xBoundingBox.m_xPointMax[1] / 64.0f;
 }
 
 void SRC_Map_Block::SetActive( bool bActive )
@@ -87,7 +102,7 @@ void SRC_Map_Block::SetPosition( GLToy_Vector_2 xPosition )
 	GLToy_Vector_3& xMax = m_xAABB.m_xBoundingBox.m_xPointMax;
 
 	xMin[0] = xPosition[0];
-	xMin[1] = fSRC_ENV_VERY_LOW / 64.0f;
+	xMin[1] = fSRC_ENV_VERY_LOW;
 	xMin[2] = xPosition[1];
 	
 	xMax[0] = xPosition[0] + 1.0f;
@@ -96,21 +111,22 @@ void SRC_Map_Block::SetPosition( GLToy_Vector_2 xPosition )
 
     xMin *= 64.0f;
     xMax *= 64.0f;
-
-
 }
 
 void SRC_Map_Block::Update()
 {
+	
 }
 
 void SRC_Map_Block::Render() const
 {
-	if( !m_bActive )
+	const bool bInEditor = 	GLToy_State_System::GetState() == GLToy_Hash_Constant( "Editor" );
+	
+	if( !m_bActive && !bInEditor )
 	{
 		return;
 	}
-
+	
 	const GLToy_Vector_3& xMin = m_xAABB.m_xBoundingBox.m_xPointMin;
 	const GLToy_Vector_3& xMax = m_xAABB.m_xBoundingBox.m_xPointMax;
 
@@ -122,7 +138,14 @@ void SRC_Map_Block::Render() const
 
 		// Top bit
 
-		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+		if( bInEditor && !m_bActive )
+		{
+			GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 0.3f ) );
+		}
+		else
+		{
+			GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+		}
 
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, xMax[ 1 ] / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMax[ 0 ], xMax[ 1 ], xMax[ 2 ] ) );
@@ -162,47 +185,49 @@ void SRC_Map_Block::Render() const
 
 		// Fade
 
-		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+		const float fAlpha = ( bInEditor && !m_bActive ) ? 0.3f : 1.0f;
+
+		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, fAlpha ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMax[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, xMax[ 2 ] ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
-		GLToy_Render::SubmitColour( GLToy_Vector_4( 0.0f, 0.0f, 0.0f, 1.0f ) );
+		GLToy_Render::SubmitColour( GLToy_Vector_4( 0.0f, 0.0f, 0.0f, fAlpha ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMax[ 0 ], fSRC_ENV_VERY_LOW, xMax[ 2 ] ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMin[ 0 ], fSRC_ENV_VERY_LOW, xMax[ 2 ] ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
-		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, fAlpha ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMin[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, xMax[ 2 ] ) );
 		
-		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, fAlpha ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMax[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, xMin[ 2 ] ) );
-		GLToy_Render::SubmitColour( GLToy_Vector_4( 0.0f, 0.0f, 0.0f, 1.0f ) );
+		GLToy_Render::SubmitColour( GLToy_Vector_4( 0.0f, 0.0f, 0.0f, fAlpha ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMax[ 0 ], fSRC_ENV_VERY_LOW, xMin[ 2 ] ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMin[ 0 ], fSRC_ENV_VERY_LOW, xMin[ 2 ] ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
-		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, fAlpha ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMin[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, xMin[ 2 ] ) );
 
-		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, fAlpha ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMax[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, xMax[ 2 ] ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMax[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, xMin[ 2 ] ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
-		GLToy_Render::SubmitColour( GLToy_Vector_4( 0.0f, 0.0f, 0.0f, 1.0f ) );
+		GLToy_Render::SubmitColour( GLToy_Vector_4( 0.0f, 0.0f, 0.0f, fAlpha ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMax[ 0 ], fSRC_ENV_VERY_LOW, xMin[ 2 ] ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMax[ 0 ], fSRC_ENV_VERY_LOW, xMax[ 2 ] ) );
 		
-		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, fAlpha ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMin[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, xMax[ 2 ] ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_MIN_BLOCK_HEIGHT / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMin[ 0 ], fSRC_ENV_MIN_BLOCK_HEIGHT, xMin[ 2 ] ) );
-		GLToy_Render::SubmitColour( GLToy_Vector_4( 0.0f, 0.0f, 0.0f, 1.0f ) );
+		GLToy_Render::SubmitColour( GLToy_Vector_4( 0.0f, 0.0f, 0.0f, fAlpha ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMin[ 0 ], fSRC_ENV_VERY_LOW, xMin[ 2 ] ) );
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, fSRC_ENV_VERY_LOW / 64.0f ) );
@@ -216,7 +241,21 @@ void SRC_Map_Block::Render() const
 
     GLToy_Render::StartSubmittingQuads();
 	{
-		GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+		if( bInEditor )
+		{
+			if( m_bEditor_Highlighted )
+			{
+				GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 0.0f, 0.0f, m_bActive ? 1.0f : 0.3f ) );
+			}
+			else
+			{
+				GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, m_bActive ? 1.0f : 0.3f ) );
+			}
+		}
+		else
+		{
+			GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+		}
 
 		GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 1.0f ) );
 		GLToy_Render::SubmitVertex( GLToy_Vector_3( xMax[ 0 ], xMax[ 1 ], xMax[ 2 ] ) );
@@ -229,6 +268,16 @@ void SRC_Map_Block::Render() const
 		
 	}
 	GLToy_Render::EndSubmit();
+}
+
+void SRC_Map_Block::Editor_SetHighlighted( bool bHighlight )
+{
+	m_bEditor_Highlighted = bHighlight;
+}
+
+bool SRC_Map_Block::Editor_IsHighlighted() const
+{
+	return m_bEditor_Highlighted;
 }
 
 // ________________________________ SRC_Environment __________________________________
@@ -385,6 +434,73 @@ void SRC_Environment::Update()
 	for( int iBlock = 0; iBlock < uSRC_ENV_BLOCKS * uSRC_ENV_BLOCKS; ++iBlock )
 	{
 		m_pxBlocks[iBlock]->Update();
+
+	}
+
+	// Editor stuff
+
+	if( !GLToy_State_System::GetState() == GLToy_Hash_Constant( "Editor" ) )
+	{
+		// We are not in the editor, so we are done
+		return;
+	}
+	
+	GLToy_List<SRC_Map_Block*> xHighlighted;
+	
+	GLToy_Vector_2 xPoint = GLToy_UI_System::GetMousePosition();
+	GLToy_Ray xRay = GLToy_Camera::ScreenSpaceToRay( xPoint );
+		
+	for( int iBlock = 0; iBlock < uSRC_ENV_BLOCKS * uSRC_ENV_BLOCKS; ++iBlock )
+	{
+		m_pxBlocks[iBlock]->Editor_SetHighlighted( false );
+
+		GLToy_AABB xAABB = m_pxBlocks[iBlock]->GetAABB()->GetBB();
+		xAABB.m_xPointMin[1] = xAABB.m_xPointMax[1] - 10.0f;
+		if( xRay.IntersectsWithAABB( xAABB ) )
+		{
+			xHighlighted.Append( m_pxBlocks[iBlock] );
+		}
+	}
+
+	SRC_Map_Block* pxHighlighted = 0;
+
+	if( !xHighlighted.IsEmpty() )
+	{
+		pxHighlighted = xHighlighted.Head();
+		xHighlighted.RemoveHead();
+
+		while( !xHighlighted.IsEmpty() )
+		{
+			SRC_Map_Block* pxOther = xHighlighted.Head();
+			xHighlighted.RemoveHead();
+
+			const float fToCurrent = pxHighlighted->GetAABB()->GetDistanceToPoint( GLToy_Camera::GetPosition() );
+			const float fToOther = pxOther->GetAABB()->GetDistanceToPoint( GLToy_Camera::GetPosition() );
+
+			if( fToOther > fToCurrent )
+			{
+				pxHighlighted = pxOther;
+			}
+		}
+
+		pxHighlighted->Editor_SetHighlighted( true );
+	}
+		
+	if( pxHighlighted )
+	{
+		if( GLToy_Input_System::GetMouseWheelScroll() == GLTOY_MOUSE_SCROLL_POSITIVE )
+		{
+			pxHighlighted->SetHeight( GLToy_Maths::Floor( pxHighlighted->GetHeight() - 1.0f ) );
+		}
+		else if( GLToy_Input_System::GetMouseWheelScroll() == GLTOY_MOUSE_SCROLL_NEGATIVE )
+		{
+			pxHighlighted->SetHeight( GLToy_Maths::Floor( pxHighlighted->GetHeight() + 1.0f ) );
+		}
+		
+		if( /*debounce key pressed*/ 0 )
+		{
+			pxHighlighted->SetActive( !pxHighlighted->IsActive() );
+		}
 	}
 }
 
@@ -403,11 +519,6 @@ void SRC_Environment::Render() const
 	{
 		m_pxBlocks[iBlock]->Render();
 	}
-
-	GLToy_Physics_Object* pxPhys = GLToy_Physics_System::FindPhysicsObject( xSRC_ENV_PHYSICS_HASH );
-	pxPhys->GetOBB().Render();
-
-	GLToy_Render::EnableDepthWrites();
 }
 		
 void SRC_Environment::Shutdown()

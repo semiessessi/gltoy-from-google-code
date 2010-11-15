@@ -52,6 +52,7 @@
 GLToy_HashTree< GLToy_State* > GLToy_State_System::s_xStates;
 GLToy_State* GLToy_State_System::s_pxCurrentState = 0;
 GLToy_Hash GLToy_State_System::s_uNextState = uGLTOY_BAD_HASH;
+GLToy_Hash GLToy_State_System::s_uCurrentState = uGLTOY_BAD_HASH;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -148,6 +149,7 @@ bool GLToy_State_System::ChangeState( const GLToy_Hash uStateHash )
 
     if( ppxState )
     {
+		s_uCurrentState = uStateHash;
         s_pxCurrentState = *ppxState;
         s_pxCurrentState->Initialise();
         return true;
@@ -164,4 +166,9 @@ void GLToy_State_System::ChangeState_Console( const GLToy_String& szName )
     }
 
     ChangeState( szName.GetHash() );
+}
+
+GLToy_Hash GLToy_State_System::GetState()
+{
+	return s_uCurrentState;
 }

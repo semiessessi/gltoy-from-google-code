@@ -40,6 +40,17 @@
 static const unsigned int uGLTOY_INPUT_TEXT_BUFFER_SIZE = 1024;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// E N U M E R A T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+enum GLTOY_MOUSE_SCROLL
+{
+	GLTOY_MOUSE_SCROLL_NONE,
+	GLTOY_MOUSE_SCROLL_POSITIVE,
+	GLTOY_MOUSE_SCROLL_NEGATIVE
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -95,7 +106,10 @@ public:
     static bool IsMouseRightButtonDown();
     static float GetMouseDeltaX() { return s_fMouseDeltaX; }
     static float GetMouseDeltaY() { return s_fMouseDeltaY; }
-    
+
+	static void SetMouseWheelDelta( int iDelta ) { s_iMouseDelta = iDelta; }
+	static GLTOY_MOUSE_SCROLL GetMouseWheelScroll() { return s_eMouseScroll; }
+
     static GLToy_KeyInputHandler* GetKeyInputHandler() { return s_pxKeyInputHandler; }
     static void SetKeyInputHandler( GLToy_KeyInputHandler* pxKeyInputHandler );
 
@@ -138,6 +152,8 @@ private:
     
     static float s_fMouseDeltaX;
     static float s_fMouseDeltaY;
+	static GLTOY_MOUSE_SCROLL s_eMouseScroll;
+	static int s_iMouseDelta;
 
     static GLToy_KeyInputHandler* s_pxKeyInputHandler;
 

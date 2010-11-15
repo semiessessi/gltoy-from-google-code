@@ -80,7 +80,12 @@ public:
     GLToy_Inline void SetBB( const GLToy_AABB& xBB ) { m_xBoundingBox = xBB; }
 
     virtual const GLToy_Vector_3& GetPosition() const { return m_xBoundingBox.GetPosition(); }
-    
+    virtual float GetDistanceToPoint( const GLToy_Vector_3& xPoint ) const
+	{
+		GLToy_Vector_3 xToPoint = xPoint - m_xBoundingBox.GetPosition();
+		return xToPoint.Magnitude();
+	}
+
     virtual void SetPosition( const GLToy_Vector_3& xPosition )
     {
         GLToy_Vector_3 xDiff = xPosition - GetPosition();

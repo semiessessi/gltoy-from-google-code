@@ -79,7 +79,7 @@ u_int Win32_GLToy_GetDC()
 LRESULT CALLBACK WndProc( HWND uWindowHandle, unsigned int uMessage,
                             WPARAM uWParam, LPARAM uLParam )
 {
-    switch( uMessage )
+	switch( uMessage )
     {
 #ifndef GLTOY_DEMO
         case WM_SIZE:
@@ -113,7 +113,12 @@ LRESULT CALLBACK WndProc( HWND uWindowHandle, unsigned int uMessage,
             ShowCursor( TRUE );
             break;
         }
-        //case WM_MOUSEWHEEL:
+        
+		case WM_MOUSEWHEEL:
+		{
+			short sDelta = GET_WHEEL_DELTA_WPARAM( uWParam );
+			GLToy_Input_System::SetMouseWheelDelta( sDelta );
+		}
 
         case WM_KEYDOWN:
         {

@@ -60,6 +60,20 @@ void GLToy_Input_System::Platform_Update()
         s_fMouseDeltaY = 0.0f;
         bFirst = false;
     }
+
+	if( s_iMouseDelta > 0 )
+	{
+		s_eMouseScroll = GLTOY_MOUSE_SCROLL_POSITIVE;
+	}
+	else if( s_iMouseDelta < 0 )
+	{
+		s_eMouseScroll = GLTOY_MOUSE_SCROLL_NEGATIVE;
+	}
+	else
+	{
+		s_eMouseScroll = GLTOY_MOUSE_SCROLL_NONE;
+	}
+	s_iMouseDelta = 0;
 }
 
 bool GLToy_Input_System::Platform_IsKeyDown( const u_int uKey )

@@ -59,6 +59,7 @@ public:
     static void Render2D();
     static void Update();
 
+	static GLToy_Hash GetState();
     static void RegisterState( GLToy_State* const pxState, const GLToy_Hash uStateHash = uGLTOY_BAD_HASH );
     static bool ChangeState( const GLToy_Hash uStateHash );
     static void ChangeState_Console( const GLToy_String& szName );
@@ -69,7 +70,8 @@ private:
 
     static GLToy_HashTree< GLToy_State* > s_xStates;
     static GLToy_State* s_pxCurrentState;
-    static GLToy_Hash s_uNextState;
+	static GLToy_Hash s_uCurrentState;
+	static GLToy_Hash s_uNextState;
 
 };
 

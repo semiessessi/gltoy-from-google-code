@@ -58,6 +58,8 @@ u_int GLToy_Input_System::s_uAltKeyCode = 0;
 
 float GLToy_Input_System::s_fMouseDeltaX = 0.0f;
 float GLToy_Input_System::s_fMouseDeltaY = 0.0f;
+GLTOY_MOUSE_SCROLL GLToy_Input_System::s_eMouseScroll = GLTOY_MOUSE_SCROLL_NONE;
+int GLToy_Input_System::s_iMouseDelta = 0;
 
 GLToy_KeyInputHandler* GLToy_Input_System::s_pxKeyInputHandler = NULL;
 

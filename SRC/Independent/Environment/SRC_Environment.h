@@ -13,7 +13,7 @@ static const GLToy_Hash xSRC_ENV_PHYSICS_HASH = GLToy_GetHash( "SRC_Env" );
 
 static const u_int uSRC_ENV_BLOCKS = 16;  // Blocks in map ( length and breadth )
 
-static const float fSRC_ENV_VERY_LOW = -256.0f;
+static const float fSRC_ENV_VERY_LOW = -1024.0f;
 static const float fSRC_ENV_MIN_BLOCK_HEIGHT = -64.0f;
 
 class SRC_Map_Block
@@ -32,14 +32,20 @@ class SRC_Map_Block
 		void SetActive( bool bActive );
 		void SetPosition( GLToy_Vector_2 xPosition );
 
+		float GetHeight();
 		bool IsActive() const { return m_bActive; }
 
 		const GLToy_Bounded_AABB* GetAABB() const { return &m_xAABB; }
+
+		bool Editor_IsHighlighted() const;
+		void Editor_SetHighlighted( bool bHighlight );
 
 	private:
 
 		bool m_bActive;
 		GLToy_Bounded_AABB m_xAABB;
+
+		bool m_bEditor_Highlighted;
 };
 
 class SRC_Environment : public GLToy_Environment
