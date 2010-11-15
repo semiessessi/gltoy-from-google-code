@@ -557,7 +557,17 @@ void SRC_Environment::WriteToBitStream( GLToy_BitStream& xStream ) const
 
 float SRC_Environment::Trace( const GLToy_Ray& xRay, const float fLimitingDistance ) const
 {
-	return 0.0f;
+    float fMin = fLimitingDistance;
+    for( int iBlock = 0; iBlock < uSRC_ENV_BLOCKS * uSRC_ENV_BLOCKS; ++iBlock )
+	{
+        float fParameter;
+		if( xRay.IntersectsWithAABB( m_pxBlocks[ iBlock ]->GetAABB()->GetBB(), &fParameter ) )
+        {
+            fMin = GLToy_Maths::Min( fParameter, fMin );
+        }
+	}
+
+	return fMin;
 }
 
 GLToy_Environment* SRC_CreateEnvironment( const u_int uType )
