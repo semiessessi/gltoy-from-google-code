@@ -151,7 +151,7 @@ GLToy_Plane GLToy_AABB::GetPlane( int iIndex ) const
 		{
 			// Y = 1
 			xNormal = GLToy_Vector_3( 0.0f, 1.0f, 0.0f );
-			fDistance = m_xPointMax[1];
+			fDistance = -m_xPointMax[1];
 		}
 		break;
 
@@ -167,7 +167,7 @@ GLToy_Plane GLToy_AABB::GetPlane( int iIndex ) const
 		{
 			// Z = 1
 			xNormal = GLToy_Vector_3( 0.0f, 0.0f, 1.0f );
-			fDistance = m_xPointMax[2];
+			fDistance = -m_xPointMax[2];
 		}
 		break;
 
@@ -175,7 +175,7 @@ GLToy_Plane GLToy_AABB::GetPlane( int iIndex ) const
 		{
 			// X = 1
 			xNormal = GLToy_Vector_3( 1.0f, 0.0f, 0.0f );
-			fDistance = m_xPointMax[0];
+			fDistance = -m_xPointMax[0];
 		}
 		break;
 

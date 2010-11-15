@@ -303,11 +303,12 @@ void SRC_Environment::CreatePhysics()
         xPlanes.reserve( 6 );
         for( u_int v = 0; v < 6; ++v )
         {
+            const GLToy_Plane xPlane = pxBlock->GetAABB()->m_xBoundingBox.GetPlane( v );
             xPlanes.pushBack( hkVector4(
-                ( pxBlock->GetAABB()->m_xBoundingBox.GetPlane( v ).GetNormal()[ 0 ] ),
-                ( pxBlock->GetAABB()->m_xBoundingBox.GetPlane( v ).GetNormal()[ 1 ] ),
-                ( pxBlock->GetAABB()->m_xBoundingBox.GetPlane( v ).GetNormal()[ 2 ] ),
-                ( pxBlock->GetAABB()->m_xBoundingBox.GetPlane( v ).GetDistance() * fHAVOK_SCALE ) ) );
+                ( xPlane.GetNormal()[ 0 ] ),
+                ( xPlane.GetNormal()[ 1 ] ),
+                ( xPlane.GetNormal()[ 2 ] ),
+                ( xPlane.GetDistance() * fHAVOK_SCALE ) ) );
         }
 
 		
