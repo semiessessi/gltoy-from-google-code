@@ -142,7 +142,7 @@ bool GLToy_Ray::IntersectsWithAABB( const GLToy_AABB& xAABB, GLToy_Vector_3* con
         }
         else
         {
-            abHit[ u ] = IntersectsWithPlane( GLToy_Plane( axNormalsMax[ u ], xMax[ u ] ), &fParameter, &( axIntersections[ u ] ) );
+            abHit[ u ] = IntersectsWithPlane( GLToy_Plane( axNormalsMax[ u ], -xMax[ u ] ), &fParameter, &( axIntersections[ u ] ) );
         }
 
         // check the intersection point is actually within bounds and decide if we hit accordingly
