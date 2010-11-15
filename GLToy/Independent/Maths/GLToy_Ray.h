@@ -53,6 +53,12 @@ class GLToy_Ray
 
 public:
 
+    GLToy_Ray()
+    : m_xPosition( 0.0f, 0.0f, 0.0f )
+    , m_xDirection( 0.0f, 0.0f, 1.0f )
+    {
+    }
+
     GLToy_Ray( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection )
     : m_xPosition( xPosition )
     , m_xDirection( xDirection )

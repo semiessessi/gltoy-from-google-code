@@ -76,6 +76,7 @@ public:
 
     GLToy_Physics_Object( const GLToy_Hash uHash )
     : m_uHash( uHash )
+    , m_xMovement( GLToy_Maths::ZeroVector2 )
     , m_xCollisions()
 #ifdef GLTOY_USE_HAVOK_PHYSICS
     , m_pxHavokRigidBody( NULL )
@@ -98,6 +99,7 @@ public:
     const GLToy_Array< GLToy_Physics_ObjectCollision >& GetCollisions() const { return m_xCollisions; }
     void Destroy();
     void ResetCollisions() { m_xCollisions.Clear(); }
+    void ControlMovement( const GLToy_Vector_2& xMovement );
 
     GLToy_OBB GetOBB() const;
     GLToy_Vector_3 GetPosition() const;
@@ -122,6 +124,7 @@ public:
 protected:
 
     GLToy_Hash m_uHash;
+    GLToy_Vector_2 m_xMovement;
     GLToy_Array< GLToy_Physics_ObjectCollision > m_xCollisions;
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS

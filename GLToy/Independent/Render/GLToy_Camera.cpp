@@ -301,7 +301,11 @@ GLToy_Ray GLToy_Camera::ScreenSpaceToRay( const GLToy_Vector_2& xPoint )
     GLToy_Vector_3 xDirection = GLToy_Vector_3( xPoint, 1.0f );
     xDirection.Normalise();
 
-    return GLToy_Ray( s_xPosition, xDirection * GetOrientation() );
+    GLToy_Matrix_3 xOrientation = GetOrientation();
+    xOrientation.Orthonormalise();
+    xOrientation.Transpose();
+
+    return GLToy_Ray( GetPosition(), xDirection * xOrientation );
 }
 
 bool GLToy_Camera::IsPointOnScreen( const GLToy_Vector_2& xPoint )

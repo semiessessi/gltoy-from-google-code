@@ -202,8 +202,8 @@ void GLToy_Physics_Object::Update()
         hkpCharacterInput xInput;
         hkpCharacterOutput xOutput;
 
-        float fDX = 0.0f;
-        float fDZ = 0.0f;
+        float fDX = m_xMovement[ 0 ];
+        float fDZ = m_xMovement[ 1 ];
 
 
         xInput.m_inputLR = fDX;
@@ -249,6 +249,11 @@ void GLToy_Physics_Object::Update()
 
 void GLToy_Physics_Object::LateUpdate()
 {
+}
+
+void GLToy_Physics_Object::ControlMovement( const GLToy_Vector_2& xMovement )
+{
+    m_xMovement = xMovement;
 }
 
 #include <Core/GLToy_Memory_DebugOn.h>

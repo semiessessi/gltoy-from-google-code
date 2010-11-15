@@ -171,6 +171,7 @@ public:
     {
     }
 
+    GLToy_OBB& GetOBB() { return m_xBoundingBox; }
     const GLToy_OBB& GetOBB() const { return m_xBoundingBox; }
     void SetOBB( const GLToy_OBB& xBB ) { m_xBoundingBox = xBB; }
 
