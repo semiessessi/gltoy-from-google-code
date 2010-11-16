@@ -45,6 +45,7 @@ protected:
 
     GLToy_Vector_2 m_xTargetPosition;
     bool m_bMoving;
+    bool m_bOldMouseData;
 
 private:
 

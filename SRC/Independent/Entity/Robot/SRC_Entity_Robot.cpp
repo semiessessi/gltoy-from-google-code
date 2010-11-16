@@ -47,6 +47,7 @@ SRC_Entity_Robot::SRC_Entity_Robot( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
 , m_xTargetPosition( GLToy_Maths::ZeroVector2 )
 , m_bMoving( false )
+, m_bOldMouseData( false )
 {
     s_xInstanceList.Append( this );
 }
@@ -88,10 +89,9 @@ void SRC_Entity_Robot::Update()
 
     if( pxPhysicsObject && GLToy_State_System::GetState() == GLToy_Hash_Constant( "Game" ) )
     {
-        static bool bOldLeftDown = false;
         const bool bLeftDown = GLToy_Input_System::IsMouseLeftButtonDown();
 
-        if( !bLeftDown && bOldLeftDown )
+        if( !bLeftDown && m_bOldMouseData )
         {
             const GLToy_Environment* pxEnvironment = GLToy_Environment_System::GetCurrentEnvironment();
             if( pxEnvironment )
@@ -108,7 +108,7 @@ void SRC_Entity_Robot::Update()
             }
         }
 
-        bOldLeftDown = bLeftDown;
+        m_bOldMouseData = bLeftDown;
     }
 
     if( pxPhysicsObject )
