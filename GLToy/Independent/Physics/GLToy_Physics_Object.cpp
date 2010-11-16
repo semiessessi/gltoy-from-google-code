@@ -213,7 +213,7 @@ void GLToy_Physics_Object::Update()
         xInput.m_atLadder = false;
 
         xInput.m_up.set( 0.0f, 1.0f, 0.0f );
-        xInput.m_forward.set( 0.0f, 0.0f, 0.0f );
+        xInput.m_forward.set( 0.0f, 0.0f, 1.0f );
         xInput.m_forward.normalize3();
 
         hkStepInfo xStepInfo;

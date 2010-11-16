@@ -414,7 +414,7 @@ GLToy_Physics_Object* GLToy_Physics_System::FindPhysicsObject( const GLToy_Hash 
     return ppxPhysicsObject ? *ppxPhysicsObject : NULL;
 }
 
-GLToy_Physics_Object* GLToy_Physics_System::CreateControlledCapsule( const GLToy_Hash uHash, const GLToy_Vector_3& xOrigin )
+GLToy_Physics_Object* GLToy_Physics_System::CreateControlledCapsule( const GLToy_Hash uHash, const GLToy_Vector_3& xOrigin, const float fScale )
 {
     GLToy_Physics_Object* pxPhysicsObject = new GLToy_Physics_Object( uHash );
     s_xPhysicsObjects.AddNode( pxPhysicsObject, uHash );
@@ -433,9 +433,9 @@ GLToy_Physics_Object* GLToy_Physics_System::CreateControlledCapsule( const GLToy
     }
 
     // Define the shapes for the controller
-    hkVector4 xVertexA( 0.0f, 0.0f, 0.1f );
-    hkVector4 xVertexB( 0.0f, 0.0f, -0.1f );
-    hkpShape* pxShape = new hkpCapsuleShape( xVertexA, xVertexB, 1.1f );
+    hkVector4 xVertexA( 0.0f, 0.0f, 0.1f * fScale );
+    hkVector4 xVertexB( 0.0f, 0.0f, -0.1f * fScale );
+    hkpShape* pxShape = new hkpCapsuleShape( xVertexA, xVertexB, 1.1f * fScale );
 
     // Construct a character rigid body
     hkpCharacterRigidBodyCinfo xCharacterRigidBodyCInfo;

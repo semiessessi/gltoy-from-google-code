@@ -35,10 +35,16 @@ public:
     void Spawn( const GLToy_Vector_3& xPosition );
 
     virtual void Render() const;
+    virtual void Update();
 
     static const GLToy_Array< SRC_Entity_Robot* >& GetRobotList() { return s_xInstanceList; }
 
     static void SpawnRobot_Console();
+
+protected:
+
+    GLToy_Vector_2 m_xTargetPosition;
+    bool m_bMoving;
 
 private:
 

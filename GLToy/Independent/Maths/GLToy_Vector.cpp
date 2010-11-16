@@ -97,6 +97,18 @@ GLToy_Vector_2 GLToy_Vector_2::operator /( const float fFloat ) const
     return GLToy_Vector_2( m_fComponents[ 0 ] * fInverse, m_fComponents[ 1 ] * fInverse );
 }
 
+void GLToy_Vector_2::Normalise()
+{
+    const float fMagnitudeSquared = MagnitudeSquared();
+    GLToy_Assert( fMagnitudeSquared != 0.0f, "Trying to normalise a zero vector!" );
+    *this = *this * ( 1.0f / GLToy_Maths::Sqrt( fMagnitudeSquared ) );
+}
+
+float GLToy_Vector_2::Magnitude() const
+{
+    return GLToy_Maths::Sqrt( MagnitudeSquared() );
+}
+
 bool GLToy_Vector_2::operator ==( const GLToy_Vector_2& xVector ) const
 {
     // TODO - use platform compare

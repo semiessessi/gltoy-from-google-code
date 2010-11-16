@@ -71,6 +71,17 @@ public:
 	GLToy_ForceInline friend GLToy_Vector_2 operator *( const float fFloat, const GLToy_Vector_2& xVector ) { return xVector * fFloat; }
     GLToy_Vector_2 operator /( const float fFloat ) const;
 
+    // TODO - platform version
+    GLToy_Inline float operator *( const GLToy_Vector_2& xVector ) const
+    {
+        return m_fComponents[ 0 ] * xVector[ 0 ]
+            + m_fComponents[ 1 ] * xVector[ 1 ];
+    }
+
+    void Normalise();
+    float Magnitude() const;
+    float MagnitudeSquared() const { return *this * *this; }
+
     bool operator ==( const GLToy_Vector_2& xVector ) const;
 
 private:

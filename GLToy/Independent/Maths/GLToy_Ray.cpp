@@ -179,22 +179,20 @@ bool GLToy_Ray::IntersectsWithAABB( const GLToy_AABB& xAABB, float* const pfPara
         return false;
     }
 
-    // now we can early out if we don't care about the exact hit point...
-    if( !pxPosition )
-    {
-        return true;
-    }
-
     // ...otherwise only one point should actually be on the AABB surface, so iterate over what we have
     // and set the intersection position and normal accordingly
     for( u_int u = 0; u < 3; ++u )
     {
         if( abHit[ u ] )
         {
-            *pxPosition = axIntersections[ u ];
             if( pfParameter )
             {
                 *pfParameter = fParameter[ u ];
+            }
+
+            if( pxPosition )
+            {
+                *pxPosition = axIntersections[ u ];
             }
 
             if( pxNormal )

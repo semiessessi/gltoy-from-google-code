@@ -83,7 +83,7 @@ public:
     static GLToy_Physics_Object* FindPhysicsObject( const GLToy_Hash uHash );
 
 	static GLToy_Physics_Object* CreatePhysicsObject( const GLToy_Hash uHash );
-	static GLToy_Physics_Object* CreateControlledCapsule( const GLToy_Hash uHash, const GLToy_Vector_3& xOrigin );
+	static GLToy_Physics_Object* CreateControlledCapsule( const GLToy_Hash uHash, const GLToy_Vector_3& xOrigin, const float fScale = 1.0f );
     static GLToy_Physics_Object* CreatePhysicsPlane( const GLToy_Hash uHash, const GLToy_Plane& xPlane );
     static GLToy_Physics_Object* CreatePhysicsEnvironment( const GLToy_Hash uHash, const GLToy_Environment_Lightmapped& xEnvironment );
     static GLToy_Physics_Object* CreatePhysicsBox( const GLToy_Hash uHash, const GLToy_AABB& xAABB, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
