@@ -42,25 +42,15 @@
 
 GLToy_ModelStrip_FlatMaterials::GLToy_ModelStrip_FlatMaterials()
 : GLToy_Parent()
+, m_xSpecularColour( 0.0f, 0.0f, 0.0f )
+, m_fSpecularPower( 32.0f )
 {
 }
 
 GLToy_ModelStrip_FlatMaterials::GLToy_ModelStrip_FlatMaterials( const GLToy_ModelStrip_FlatMaterials& xStrip )
 : GLToy_Parent( xStrip )
-{
-}
-
-GLToy_ModelStrip_FlatMaterials::GLToy_ModelStrip_FlatMaterials( u_int uVertex1, u_int uVertex2, u_int uVertex3, const GLToy_Vector_3& xColour, const GLToy_Vector_3& xSpecularColour, const float fSpecularPower )
-: GLToy_Parent( uVertex1, uVertex2, uVertex3, m_xColour )
-, m_xSpecularColour( xSpecularColour )
-, m_fSpecularPower( fSpecularPower )
-{
-}
-
-GLToy_ModelStrip_FlatMaterials::GLToy_ModelStrip_FlatMaterials( u_int uVertex1, u_int uVertex2, u_int uVertex3, u_int uVertex4, const GLToy_Vector_3& xColour, const GLToy_Vector_3& xSpecularColour, const float fSpecularPower )
-: GLToy_Parent( uVertex1, uVertex2, uVertex3, uVertex4, m_xColour )
-, m_xSpecularColour( xSpecularColour )
-, m_fSpecularPower( fSpecularPower )
+, m_xSpecularColour( 0.0f, 0.0f, 0.0f )
+, m_fSpecularPower( 32.0f )
 {
 }
 

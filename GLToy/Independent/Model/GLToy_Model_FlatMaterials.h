@@ -67,8 +67,6 @@ public:
 
     GLToy_ModelStrip_FlatMaterials();
     GLToy_ModelStrip_FlatMaterials( const GLToy_ModelStrip_FlatMaterials& xStrip );
-    GLToy_ModelStrip_FlatMaterials( u_int uVertex1, u_int uVertex2, u_int uVertex3, const GLToy_Vector_3& xColour, const GLToy_Vector_3& xSpecularColour, const float fSpecularPower );
-    GLToy_ModelStrip_FlatMaterials( u_int uVertex1, u_int uVertex2, u_int uVertex3, u_int uVertex4, const GLToy_Vector_3& xColour, const GLToy_Vector_3& xSpecularColour, const float fSpecularPower );
     virtual ~GLToy_ModelStrip_FlatMaterials();
 
     virtual GLToy_ModelStrip_FlatMaterials& operator =( const GLToy_ModelStrip_FlatMaterials& xStrip );
