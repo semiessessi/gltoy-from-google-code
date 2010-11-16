@@ -508,10 +508,7 @@ public:
 
     virtual ~GLToy_SerialisableArray()
     {
-        //GLToy_Iterate( T, xIterator, this )
-        //{
-        //    xIterator.Current().~T();
-        //}
+        // 16/11/2010 - GLToy_Array destructor handles the deletion
     }
     
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream )

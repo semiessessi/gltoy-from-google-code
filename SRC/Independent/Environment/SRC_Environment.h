@@ -4,7 +4,13 @@
 #ifndef _SRC_ENVIRONMENT_
 #define _SRC_ENVIRONMENT_
 
+// Parent
 #include "Environment/GLToy_Environment.h"
+
+// GLToy
+#include <Core/GLToy_Serialisable.h>
+#include <Core/GLToy_Updateable.h>
+#include <Render/GLToy_Renderable.h>
 
 class GLToy_Plane;
 
@@ -17,6 +23,10 @@ static const float fSRC_ENV_VERY_LOW = -1024.0f;
 static const float fSRC_ENV_MIN_BLOCK_HEIGHT = -64.0f;
 
 class SRC_Map_Block
+: public GLToy_Bounded_AABB
+, public GLToy_Renderable
+, public GLToy_Serialisable
+, public GLToy_Updateable
 {
 	// These are the blocks which make up a level
 
@@ -28,14 +38,15 @@ class SRC_Map_Block
 		void Update();
 		void Render() const;
 
+        virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
+		virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+
 		void SetHeight( float fHeight );
 		void SetActive( bool bActive );
 		void SetPosition( GLToy_Vector_2 xPosition );
 
-		float GetHeight();
+		float GetHeight() const;
 		bool IsActive() const { return m_bActive; }
-
-		const GLToy_Bounded_AABB* GetAABB() const { return &m_xAABB; }
 
 		bool Editor_IsHighlighted() const;
 		void Editor_SetHighlighted( bool bHighlight );
@@ -43,7 +54,6 @@ class SRC_Map_Block
 	private:
 
 		bool m_bActive;
-		GLToy_Bounded_AABB m_xAABB;
 
 		bool m_bEditor_Highlighted;
 };
@@ -78,9 +88,10 @@ class SRC_Environment : public GLToy_Environment
 		void CreateEnv();
 		void CreatePhysics();
 		void ClearEnv();
-		SRC_Map_Block* GetBlock( int iX, int iY );
+		SRC_Map_Block& GetBlock( int iX, int iY );
 		
-		SRC_Map_Block** m_pxBlocks; // TODO: Use propper data structure
+        GLToy_SerialisableArray< SRC_Map_Block > m_xBlocks;
+		//SRC_Map_Block** m_pxBlocks; // TODO: Use propper data structure
 
 		GLToy_String m_xFilename;
 };

@@ -8,6 +8,7 @@
 #include "Core/GLToy_Timer.h"
 #include "Core/Data Structures/GLToy_List.h"
 #include "Core/State/GLToy_State_System.h"
+#include "Core/GLToy_UpdateFunctor.h"
 #include "Input/GLToy_Input.h"
 #include "Maths/GLToy_Plane.h"
 #include "Maths/GLToy_Ray.h"
@@ -15,6 +16,7 @@
 #include "Physics/GLToy_Physics_Object.h"
 #include "Render/GLToy_Camera.h"
 #include "Render/GLToy_Render.h"
+#include "Render/GLToy_RenderFunctor.h"
 #include "Render/GLToy_Texture.h"
 #include "UI/GLToy_UI_System.h"
 
@@ -77,16 +79,16 @@ SRC_Map_Block::~SRC_Map_Block()
 
 void SRC_Map_Block::SetHeight( float fHeight )
 {
-	m_xAABB.m_xBoundingBox.m_xPointMax[1] = fHeight * 64.0f;
-	if( m_xAABB.m_xBoundingBox.m_xPointMax[1] < fSRC_ENV_MIN_BLOCK_HEIGHT )
+	m_xBoundingBox.m_xPointMax[1] = fHeight * 64.0f;
+	if( m_xBoundingBox.m_xPointMax[1] < fSRC_ENV_MIN_BLOCK_HEIGHT )
 	{
-		m_xAABB.m_xBoundingBox.m_xPointMax[1] = fSRC_ENV_MIN_BLOCK_HEIGHT;
+		m_xBoundingBox.m_xPointMax[1] = fSRC_ENV_MIN_BLOCK_HEIGHT;
 	}
 }
 
-float SRC_Map_Block::GetHeight()
+float SRC_Map_Block::GetHeight() const
 {
-	return m_xAABB.m_xBoundingBox.m_xPointMax[1] / 64.0f;
+	return m_xBoundingBox.m_xPointMax[1] / 64.0f;
 }
 
 void SRC_Map_Block::SetActive( bool bActive )
@@ -98,8 +100,8 @@ void SRC_Map_Block::SetPosition( GLToy_Vector_2 xPosition )
 {
     xPosition -= 0.5f * GLToy_Vector_2( static_cast< float >( uSRC_ENV_BLOCKS ), static_cast< float >( uSRC_ENV_BLOCKS ) );
 
-	GLToy_Vector_3& xMin = m_xAABB.m_xBoundingBox.m_xPointMin;
-	GLToy_Vector_3& xMax = m_xAABB.m_xBoundingBox.m_xPointMax;
+	GLToy_Vector_3& xMin = m_xBoundingBox.m_xPointMin;
+	GLToy_Vector_3& xMax = m_xBoundingBox.m_xPointMax;
 
 	xMin[0] = xPosition[0];
 	xMin[1] = fSRC_ENV_VERY_LOW;
@@ -127,8 +129,8 @@ void SRC_Map_Block::Render() const
 		return;
 	}
 	
-	const GLToy_Vector_3& xMin = m_xAABB.m_xBoundingBox.m_xPointMin;
-	const GLToy_Vector_3& xMax = m_xAABB.m_xBoundingBox.m_xPointMax;
+	const GLToy_Vector_3& xMin = m_xBoundingBox.m_xPointMin;
+	const GLToy_Vector_3& xMax = m_xBoundingBox.m_xPointMax;
 
 	GLToy_Texture_System::BindTexture( "Generic/Grid2.png" );
 
@@ -270,6 +272,20 @@ void SRC_Map_Block::Render() const
 	GLToy_Render::EndSubmit();
 }
 
+void SRC_Map_Block::ReadFromBitStream( const GLToy_BitStream& xStream )
+{
+    xStream >> m_bActive;
+    float fHeight;
+    xStream >> fHeight;
+    SetHeight( fHeight );
+}
+
+void SRC_Map_Block::WriteToBitStream( GLToy_BitStream& xStream ) const
+{
+    xStream << m_bActive;
+    xStream << GetHeight();
+}
+
 void SRC_Map_Block::Editor_SetHighlighted( bool bHighlight )
 {
 	m_bEditor_Highlighted = bHighlight;
@@ -284,8 +300,9 @@ bool SRC_Map_Block::Editor_IsHighlighted() const
 
 SRC_Environment::SRC_Environment()
 : GLToy_Environment() 
-, m_pxBlocks( 0 )
+, m_xBlocks()
 {
+    m_xBlocks.Resize( uSRC_ENV_BLOCKS * uSRC_ENV_BLOCKS );
 }
 
 SRC_Environment::~SRC_Environment()
@@ -299,24 +316,18 @@ void SRC_Environment::Initialise()
 
 void SRC_Environment::CreateEnv()
 {
-	GLToy_Assert( !m_pxBlocks, "Blocks pointer should not be set" );
+	GLToy_Iterate( SRC_Map_Block, xIterator, &m_xBlocks )
+    {
+        SRC_Map_Block& xBlock = xIterator.Current();
+		const float fX = static_cast<float>( xIterator.Index() % uSRC_ENV_BLOCKS );
+		const float fY = static_cast<float>( xIterator.Index() / uSRC_ENV_BLOCKS );
 
-	m_pxBlocks = new SRC_Map_Block*[ uSRC_ENV_BLOCKS * uSRC_ENV_BLOCKS ];
-	memset( m_pxBlocks, 0, sizeof( SRC_Map_Block* ) * uSRC_ENV_BLOCKS * uSRC_ENV_BLOCKS );
-
-	for( int iBlock = 0; iBlock < uSRC_ENV_BLOCKS * uSRC_ENV_BLOCKS; ++iBlock )
-	{
-		m_pxBlocks[iBlock] = new SRC_Map_Block();
-
-		const float fX = static_cast<float>( iBlock % uSRC_ENV_BLOCKS );
-		const float fY = static_cast<float>( iBlock / uSRC_ENV_BLOCKS );
-
-		m_pxBlocks[iBlock]->SetPosition( GLToy_Vector_2( fX, fY ) );
+		xBlock.SetPosition( GLToy_Vector_2( fX, fY ) );
 
 		// TODO: Remove hack
 
-		m_pxBlocks[iBlock]->SetHeight( GLToy_Maths::Floor( GLToy_Maths::Random( 0.0f, 1.0f ) * 3.0f ) );
-		m_pxBlocks[iBlock]->SetActive( GLToy_Maths::Random( 0.0f, 1.0f ) > 0.3f );
+		xBlock.SetHeight( GLToy_Maths::Floor( GLToy_Maths::Random( 0.0f, 1.0f ) * 3.0f ) );
+		xBlock.SetActive( GLToy_Maths::Random( 0.0f, 1.0f ) > 0.3f );
 	}
 
 	CreatePhysics();
@@ -324,25 +335,21 @@ void SRC_Environment::CreateEnv()
 
 void SRC_Environment::CreatePhysics()
 {
-	GLToy_Assert( m_pxBlocks != 0, "Blocks pointer should be set" );
-
 	GLToy_Physics_System::DestroyPhysicsObject( xSRC_ENV_PHYSICS_HASH );
 	GLToy_Physics_Object* pxObject = GLToy_Physics_System::CreatePhysicsObject( xSRC_ENV_PHYSICS_HASH );
 
-	#ifdef GLTOY_USE_HAVOK_PHYSICS
-
-    hkArray< hkpShape* > xShapeArray;
-
-	const u_int uTotalBlocks = uSRC_ENV_BLOCKS * uSRC_ENV_BLOCKS;
+#ifdef GLTOY_USE_HAVOK_PHYSICS
 
     // create the brushes...
+	const u_int uTotalBlocks = uSRC_ENV_BLOCKS * uSRC_ENV_BLOCKS;
+    hkArray< hkpShape* > xShapeArray;
     xShapeArray.reserve( uTotalBlocks );
 
-    for( u_int u = 0; u < uTotalBlocks; ++u )
+    GLToy_ConstIterate( SRC_Map_Block, xIterator, &m_xBlocks )
     {
-		const SRC_Map_Block* pxBlock = m_pxBlocks[ u ];
+		const SRC_Map_Block& xBlock = xIterator.Current();
 		
-		if( !pxBlock->IsActive() )
+		if( !xBlock.IsActive() )
 		{
 			continue;
 		}
@@ -352,7 +359,7 @@ void SRC_Environment::CreatePhysics()
         xPlanes.reserve( 6 );
         for( u_int v = 0; v < 6; ++v )
         {
-            const GLToy_Plane xPlane = pxBlock->GetAABB()->m_xBoundingBox.GetPlane( v );
+            const GLToy_Plane xPlane = xBlock.GetBB().GetPlane( v );
             xPlanes.pushBack( hkVector4(
                 ( xPlane.GetNormal()[ 0 ] ),
                 ( xPlane.GetNormal()[ 1 ] ),
@@ -409,33 +416,24 @@ void SRC_Environment::CreatePhysics()
     pxTreeShape->removeReference();
     pxMoppCode->removeReference();
 
-	#else
+#else
 
     GLToy_Assert( false, "Physics require GLTOY_USE_HAVOK_PHYSICS for now..." );
 
-	#endif
+#endif
 
 }
 
-SRC_Map_Block* SRC_Environment::GetBlock( int iX, int iY )
+SRC_Map_Block& SRC_Environment::GetBlock( int iX, int iY )
 {
-	if( !m_pxBlocks )
-	{
-		return 0;
-	}
-
-	return ( m_pxBlocks[0] + ( iY * uSRC_ENV_BLOCKS + iX % uSRC_ENV_BLOCKS ) );
+	return m_xBlocks[ iY * uSRC_ENV_BLOCKS + iX % uSRC_ENV_BLOCKS ];
 }
 
 void SRC_Environment::Update()
 {
 	GLToy_Parent::Update();
 	
-	for( int iBlock = 0; iBlock < uSRC_ENV_BLOCKS * uSRC_ENV_BLOCKS; ++iBlock )
-	{
-		m_pxBlocks[iBlock]->Update();
-
-	}
+	m_xBlocks.Traverse( GLToy_UpdateFunctor< SRC_Map_Block >() );
 
 	// Editor stuff
 
@@ -450,15 +448,19 @@ void SRC_Environment::Update()
 	GLToy_Vector_2 xPoint = GLToy_UI_System::GetMousePosition();
 	GLToy_Ray xRay = GLToy_Camera::ScreenSpaceToRay( xPoint );
 		
-	for( int iBlock = 0; iBlock < uSRC_ENV_BLOCKS * uSRC_ENV_BLOCKS; ++iBlock )
-	{
-		m_pxBlocks[iBlock]->Editor_SetHighlighted( false );
+	GLToy_Iterate( SRC_Map_Block, xIterator, &m_xBlocks )
+    {
+        SRC_Map_Block& xBlock = xIterator.Current();
+		xBlock.Editor_SetHighlighted( false );
 
-		GLToy_AABB xAABB = m_pxBlocks[iBlock]->GetAABB()->GetBB();
+        // WTF??? is this some hack so that it only picks the right block instead of everything along the ray?
+        // i suppose its faster than finding the nearest along the ray path... the following logic looks like
+        // it picks the one on the ray path anyway - i'll just leave alone since i don't get what the intent is
+		GLToy_AABB xAABB = xBlock.GetBB();
 		xAABB.m_xPointMin[1] = xAABB.m_xPointMax[1] - 10.0f;
 		if( xRay.IntersectsWithAABB( xAABB ) )
 		{
-			xHighlighted.Append( m_pxBlocks[iBlock] );
+			xHighlighted.Append( &xBlock );
 		}
 	}
 
@@ -474,8 +476,8 @@ void SRC_Environment::Update()
 			SRC_Map_Block* pxOther = xHighlighted.Head();
 			xHighlighted.RemoveHead();
 
-			const float fToCurrent = pxHighlighted->GetAABB()->GetDistanceToPoint( GLToy_Camera::GetPosition() );
-			const float fToOther = pxOther->GetAABB()->GetDistanceToPoint( GLToy_Camera::GetPosition() );
+			const float fToCurrent = pxHighlighted->GetDistanceToPoint( GLToy_Camera::GetPosition() );
+			const float fToOther = pxOther->GetDistanceToPoint( GLToy_Camera::GetPosition() );
 
 			if( fToOther > fToCurrent )
 			{
@@ -506,19 +508,13 @@ void SRC_Environment::Update()
 
 void SRC_Environment::Render() const
 {
-	if( !m_pxBlocks )
-	{
-		return;
-	}
-
 	GLToy_Render::EnableBlending();
     
     GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
 
-	for( int iBlock = 0; iBlock < uSRC_ENV_BLOCKS * uSRC_ENV_BLOCKS; ++iBlock )
-	{
-		m_pxBlocks[iBlock]->Render();
-	}
+    m_xBlocks.Traverse( GLToy_RenderFunctor< SRC_Map_Block >() );
+
+    GLToy_Render::DisableBlending(); // preserve render state
 }
 		
 void SRC_Environment::Shutdown()
@@ -528,16 +524,8 @@ void SRC_Environment::Shutdown()
 
 void SRC_Environment::ClearEnv()
 {
-	if( !m_pxBlocks )
-	{
-		return;
-	}
-
-	for( int iBlock = 0; iBlock < uSRC_ENV_BLOCKS * uSRC_ENV_BLOCKS; ++iBlock )
-	{
-		delete m_pxBlocks[iBlock];
-	}
-	delete []m_pxBlocks;
+    m_xBlocks.Clear();
+    m_xBlocks.Resize( uSRC_ENV_BLOCKS * uSRC_ENV_BLOCKS );
 }
 
 u_int SRC_Environment::GetType() const
@@ -548,20 +536,25 @@ u_int SRC_Environment::GetType() const
 void SRC_Environment::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
 	GLToy_Parent::ReadFromBitStream( xStream );
+
+    xStream >> m_xBlocks;
 }
 
 void SRC_Environment::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
 	GLToy_Parent::WriteToBitStream( xStream );
+
+    xStream << m_xBlocks;
 }
 
 float SRC_Environment::Trace( const GLToy_Ray& xRay, const float fLimitingDistance ) const
 {
     float fMin = ( fLimitingDistance > 0.0f ) ? fLimitingDistance : GLToy_Maths::LargeFloat;
-    for( int iBlock = 0; iBlock < uSRC_ENV_BLOCKS * uSRC_ENV_BLOCKS; ++iBlock )
-	{
+	GLToy_ConstIterate( SRC_Map_Block, xIterator, &m_xBlocks )
+    {
+        const SRC_Map_Block& xBlock = xIterator.Current();
         float fParameter;
-		if( xRay.IntersectsWithAABB( m_pxBlocks[ iBlock ]->GetAABB()->GetBB(), &fParameter ) )
+		if( xRay.IntersectsWith( xBlock, &fParameter ) )
         {
             fMin = GLToy_Maths::Min( fParameter, fMin );
         }
