@@ -135,6 +135,8 @@ bool GLToy_Ray::IntersectsWithAABB( const GLToy_AABB& xAABB, float* const pfPara
 
     float fParameter[ 3 ];
 
+    static const u_int uRAYTRACE_AABB_NOHIT_INDEX = 4;
+    u_int uHitIndex = uRAYTRACE_AABB_NOHIT_INDEX;
     for( u_int u = 0; u < 3; ++u )
     {
         if( m_xDirection[ u ] > 0.0f )
@@ -171,97 +173,101 @@ bool GLToy_Ray::IntersectsWithAABB( const GLToy_AABB& xAABB, float* const pfPara
                 abHit[ u ] = false;
             }
         }
+
+        if( abHit[ u ] )
+        {
+            uHitIndex = u;
+            break; // early out if we have hit
+        }
     }
 
-    const bool bHit = abHit[ 0 ] || abHit[ 1 ] || abHit[ 2 ];
-    if( !bHit )
+    if( uHitIndex == uRAYTRACE_AABB_NOHIT_INDEX )
     {
         return false;
     }
 
-    // ...otherwise only one point should actually be on the AABB surface, so iterate over what we have
-    // and set the intersection position and normal accordingly
-    for( u_int u = 0; u < 3; ++u )
+    if( pfParameter )
     {
-        if( abHit[ u ] )
-        {
-            if( pfParameter )
-            {
-                *pfParameter = fParameter[ u ];
-            }
+        *pfParameter = fParameter[ uHitIndex ];
+    }
 
-            if( pxPosition )
-            {
-                *pxPosition = axIntersections[ u ];
-            }
+    if( pxPosition )
+    {
+        *pxPosition = axIntersections[ uHitIndex ];
+    }
 
-            if( pxNormal )
-            {
-                *pxNormal = ( m_xDirection[ u ] > 0.0f ) ? -axNormalsMax[ u ] : axNormalsMax[ u ];
-            }
-            break;
-        }
+    if( pxNormal )
+    {
+        *pxNormal = ( m_xDirection[ uHitIndex ] > 0.0f ) ? -axNormalsMax[ uHitIndex ] : axNormalsMax[ uHitIndex ];
     }
 
     return true;
 }
 
-// TODO: Use that almost purely vector formulation I came up with when messing with demo shaders
-bool GLToy_Ray::IntersectsWithSphere( const GLToy_Sphere& xSphere, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const
+bool GLToy_Ray::IntersectsWithSphere( const GLToy_Sphere& xSphere, float* const pfParameter, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const
 {
     if( xSphere.IsInside( m_xPosition ) )
     {
         return false;
     }
 
-    const float fA = m_xDirection * m_xDirection * 2.0f;
-    const float fB = m_xDirection * m_xPosition * 2.0f;
-    const float fC = ( m_xPosition * m_xPosition - xSphere.GetRadius() ) * 2.0f * fA;
+    // xParams = ( 2a, b, 2c ) where a, b, c are the traditional coefficients for at^2 + bt + c = 0 
+    const GLToy_Vector_3 xParams = 2.0f * GLToy_Vector_3( m_xDirection * m_xDirection, m_xDirection * m_xPosition, m_xPosition * m_xPosition - xSphere.GetRadius() * xSphere.GetRadius() );
     
-    float fT = fB * fB;
+    // b^2 - 4ac
+    const float fDiscriminant = xParams[ 1 ] * xParams[ 1 ] - xParams[ 0 ] * xParams[ 2 ];
     
-    if( fT < fC )
+    if( fDiscriminant < 0 )
     {
         return false;
     }
 
-    fT -= fC;
-    fT = -fB - GLToy_Maths::Sqrt( fT );
+    // -b - sqrt( b^2 - 4ac )
+    float fT = ( -xParams[ 1 ] - GLToy_Maths::Sqrt( fDiscriminant ) );
 
-    const bool bHit = !( ( fT < 0.0f ) ^ ( fA < 0.0f ) );
+    const bool bHit = !( ( fT < 0.0f ) ^ ( xParams[ 0 ] < 0.0f ) );
 
     if( !pxPosition && !pxNormal )
     {
         return bHit;
     }
 
-    fT /= fA;
+    // ( -b - sqrt( b^2 - 4ac ) ) / 2a
+    fT /= xParams[ 0 ];
 
-    const GLToy_Vector_3 xPosition = m_xPosition + m_xDirection * fT;
-
-    if( pxPosition )
+    if( pfParameter )
     {
-        *pxPosition = xPosition;
+        *pfParameter = fT;
     }
 
-    if( pxNormal )
+    if( pxPosition || pxNormal )
     {
-        *pxNormal = xPosition - xSphere.GetPosition();
-        ( *pxNormal ).Normalise();
+        const GLToy_Vector_3 xPosition = m_xPosition + m_xDirection * fT;
+
+        if( pxPosition )
+        {
+            *pxPosition = xPosition;
+        }
+
+        if( pxNormal )
+        {
+            *pxNormal = xPosition - xSphere.GetPosition();
+            ( *pxNormal ).Normalise();
+        }
     }
 
     return false;
 }
 
 // TODO: implement this
-bool GLToy_Ray::IntersectsWithOBB( const GLToy_OBB& xOBB, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const
+bool GLToy_Ray::IntersectsWithOBB( const GLToy_OBB& xOBB, float* const pfParameter, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const
 {
     return false;
 }
 
-bool GLToy_Ray::IntersectsWith( const GLToy_Bounded& xBounded, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const
+bool GLToy_Ray::IntersectsWith( const GLToy_Bounded& xBounded, float* const pfParameter, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) const
 {
-    return xBounded.IntersectWithRay( *this, pxPosition, pxNormal );
+    return xBounded.IntersectWithRay( *this, pfParameter, pxPosition, pxNormal );
 }
 
 void GLToy_Ray::Render() const

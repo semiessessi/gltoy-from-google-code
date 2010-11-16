@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010 Semi Essessi, Thomas Young
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -52,7 +52,7 @@ public:
     virtual const GLToy_Vector_3& GetPosition() const = 0;
     virtual void SetPosition( const GLToy_Vector_3& xPosition ) = 0;
 
-    virtual bool IntersectWithRay( const GLToy_Ray& xRay, GLToy_Vector_3* const pxPosition = 0, GLToy_Vector_3* const pxNormal = 0 ) const = 0;
+    virtual bool IntersectWithRay( const GLToy_Ray& xRay, float* const pfParameter = 0, GLToy_Vector_3* const pxPosition = 0, GLToy_Vector_3* const pxNormal = 0 ) const = 0;
     virtual bool IntersectWithAABB( const GLToy_AABB& xAABB ) const = 0;
     //virtual bool IntersectWithOBB();
     //virtual bool IntersectWithSphere();
@@ -98,11 +98,11 @@ public:
 
     virtual bool IntersectWithRay(
         const GLToy_Ray& xRay,
+        float* const pfParameter = 0,
         GLToy_Vector_3* const pxPosition = 0,
         GLToy_Vector_3* const pxNormal = 0 ) const
     {
-        float fParameter;
-        return xRay.IntersectsWithAABB( m_xBoundingBox, &fParameter, pxPosition, pxNormal );
+        return xRay.IntersectsWithAABB( m_xBoundingBox, pfParameter, pxPosition, pxNormal );
     }
 
     virtual bool IntersectWithAABB( const GLToy_AABB& xAABB ) const
@@ -145,10 +145,11 @@ public:
 
     virtual bool IntersectWithRay(
         const GLToy_Ray& xRay,
+        float* const pfParameter = 0,
         GLToy_Vector_3* const pxPosition = 0,
         GLToy_Vector_3* const pxNormal = 0 ) const
     {
-        return xRay.IntersectsWithSphere( m_xBoundingSphere, pxPosition, pxNormal );
+        return xRay.IntersectsWithSphere( m_xBoundingSphere, pfParameter, pxPosition, pxNormal );
     }
 
     virtual bool IntersectWithAABB( const GLToy_AABB& xAABB ) const
@@ -196,10 +197,11 @@ public:
 
     virtual bool IntersectWithRay(
         const GLToy_Ray& xRay,
+        float* const pfParameter = 0,
         GLToy_Vector_3* const pxPosition = 0,
         GLToy_Vector_3* const pxNormal = 0 ) const
     {
-        return xRay.IntersectsWithOBB( m_xBoundingBox, pxPosition, pxNormal );
+        return xRay.IntersectsWithOBB( m_xBoundingBox, pfParameter, pxPosition, pxNormal );
     }
 
     virtual bool IntersectWithAABB( const GLToy_AABB& xAABB ) const

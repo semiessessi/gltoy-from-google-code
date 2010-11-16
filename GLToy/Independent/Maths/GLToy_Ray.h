@@ -72,9 +72,9 @@ public:
 
     bool IntersectsWithPlane( const GLToy_Plane& xPlane, float* const pfParameter = NULL, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
     bool IntersectsWithAABB( const GLToy_AABB& xAABB, float* const pfParameter = NULL, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
-    bool IntersectsWithSphere( const GLToy_Sphere& xSphere, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
-    bool IntersectsWithOBB( const GLToy_OBB& xOBB, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
-    bool IntersectsWith( const GLToy_Bounded& xBounded, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
+    bool IntersectsWithSphere( const GLToy_Sphere& xSphere, float* const pfParameter = 0, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
+    bool IntersectsWithOBB( const GLToy_OBB& xOBB, float* const pfParameter = 0, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
+    bool IntersectsWith( const GLToy_Bounded& xBounded, float* const pfParameter = 0, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
 
     virtual void Render() const;
 

@@ -78,7 +78,7 @@ bool GLToy_Render::Initialise()
 
     GLToy_InitialiserCall( GLToy_Camera );
     GLToy_InitialiserCall( GLToy_Texture_System );
-    GLToy_InitialiserCall( GLToy_Shader_System );
+    //GLToy_InitialiserCall( GLToy_Shader_System );
     // SE - 13/10/2010 - a material system would sit here, so we can materialise fonts why not... :)
     // but actually, just commenting because my original rationale for the texture system initialising after shaders
     // was to allow shader based materials...
