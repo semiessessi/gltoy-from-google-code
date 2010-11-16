@@ -135,7 +135,7 @@ public:
 
 protected:
     
-    void UpdateStripPointers();
+    virtual void UpdateStripPointers();
     
     u_int GetVertexIndex( const GLToy_Vector_3& xVertex );
 

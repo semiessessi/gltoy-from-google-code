@@ -34,7 +34,7 @@
 #include <File/GLToy_OBJFile.h>
 
 // GLToy
-//#include <Model/GLToy_Model_OBJ.h>
+#include <Model/GLToy_Model_FlatMaterials.h>
 #include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,13 +52,115 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
         return m_pxModel;
     }
 
+    GLToy_Model_FlatMaterials* const pxModel = new GLToy_Model_FlatMaterials();
+    m_pxModel = pxModel;
+
     char* pcData = new char[ GetSize() ];
     GetAllData( pcData );
-
+    GLToy_String szData( pcData );
     delete[] pcData;
 
+    // go through the data and remove junk, build index arrays etc.
+    struct FaceVertex
+    {
+        u_int m_uIndices[ 3 ];
 
-    // TODO - finish
+        FaceVertex() { m_uIndices[ 0 ] = m_uIndices[ 1 ] = m_uIndices[ 2 ] = 0; }
+    };
 
-    return NULL;
+    GLToy_Array< GLToy_String > xLines = szData.Split( '\n' );
+    GLToy_Iterate( GLToy_String, xIterator, &xLines )
+    {
+        GLToy_String& szLine = xIterator.Current();
+        szLine.TrimTrailingWhiteSpace();
+        if( szLine.IsEmpty() )
+        {
+            continue;
+        }
+
+        switch( szLine[ 0 ] )
+        {
+            case '#':
+            {
+                // comment
+                continue;
+            }
+
+            case 'f':
+            {
+                // face
+                // f 0/1/2 1/2/3 etc.
+                pxModel->AppendFace();
+                
+                GLToy_Array< GLToy_String > xFaceVertices = szLine.Right( szLine.GetLength() - 2 ).Split( ' ' );
+                GLToy_Iterate( GLToy_String, xIterator, &xFaceVertices )
+                {
+                    GLToy_String& szVertex = xIterator.Current();
+                    GLToy_Array< GLToy_String > xIndices = szVertex.Split( '/' );
+                    
+                    u_int auIndices[ 3 ];
+                    for( u_int u = 0; u < 3; ++u )
+                    {
+                        if( u < xIndices.GetCount() )
+                        {
+                            auIndices[ u ] = xIndices[ u ].ExtractUnsignedInt();
+                        }
+                    }
+
+                    pxModel->AppendFaceVertex( auIndices[ 0 ], auIndices[ 1 ], auIndices[ 2 ] );
+                }
+                break;
+            }
+
+            case 'v':
+            {
+                if( szLine[ 1 ] == 't' )
+                {
+                    // texture coordinate
+                    // vt 0.12 1.23 2.34                
+                    GLToy_Array< GLToy_String > xValues = szLine.Right( szLine.GetLength() - 3 ).Split( ' ' );
+                
+                    if( xValues.GetCount() < 2 )
+                    {
+                        continue;
+                    }
+
+                    pxModel->AppendUV( GLToy_Vector_2( xValues[ 0 ].ExtractFloat(), xValues[ 1 ].ExtractFloat() ) );
+                }
+                else if( szLine[ 1 ] == 'n' )
+                {
+                    // normal
+                    // vn 0.12 1.23 2.34
+                    GLToy_Array< GLToy_String > xValues = szLine.Right( szLine.GetLength() - 3 ).Split( ' ' );
+                
+                    if( xValues.GetCount() < 3 )
+                    {
+                        continue;
+                    }
+
+                    GLToy_Vector_3 xNormal( xValues[ 0 ].ExtractFloat(), xValues[ 1 ].ExtractFloat(), xValues[ 2 ].ExtractFloat() );
+                    xNormal.Normalise();
+                    pxModel->AppendNormal( xNormal );
+                }
+                else
+                {
+                    // vertex
+                    // v 0.12 1.23 2.34                
+                    GLToy_Array< GLToy_String > xValues = szLine.Right( szLine.GetLength() - 2 ).Split( ' ' );
+                
+                    if( xValues.GetCount() < 3 )
+                    {
+                        continue;
+                    }
+
+                    pxModel->AppendVertex( GLToy_Vector_3( xValues[ 0 ].ExtractFloat(), xValues[ 1 ].ExtractFloat(), xValues[ 2 ].ExtractFloat() ) );
+                }
+                break;
+            }
+        }
+    }
+
+    // TODO - materials
+
+    return m_pxModel;
 }

@@ -483,6 +483,18 @@ public:
         }
     }
 
+    GLToy_String Right( const unsigned int uLength ) const
+    {
+        return GLToy_String( &( GetDataPointer()[ GetLength() - uLength ] ) );
+    }
+
+    GLToy_String Left( const unsigned int uLength ) const
+    {
+        GLToy_String szReturnValue( *this );
+        szReturnValue.RemoveFromEnd( GetLength() - uLength );
+        return szReturnValue;
+    }
+
     // TODO - can't pass by reference due to va_args - I'm sure there is a portable way around it though
     void SetToFormatString( const GLToy_String szFormatString, ... );
     void SetToFormatString( const GLToy_String& szFormatString, const va_list& xArgumentList );

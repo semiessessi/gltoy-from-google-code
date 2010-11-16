@@ -1,0 +1,146 @@
+/////////////////////////////////////////////////////////////////////////////////////////////
+//
+// ©Copyright 2010 Semi Essessi
+//
+/////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+//
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// I N C L U D E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#include <Core/GLToy.h>
+
+// This file's header
+#include <Model/GLToy_Model_FlatMaterials.h>
+
+// GLToy
+#include <Render/GLToy_Render.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F U N C T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+GLToy_ModelStrip_FlatMaterials::GLToy_ModelStrip_FlatMaterials()
+: GLToy_Parent()
+{
+}
+
+GLToy_ModelStrip_FlatMaterials::GLToy_ModelStrip_FlatMaterials( const GLToy_ModelStrip_FlatMaterials& xStrip )
+: GLToy_Parent( xStrip )
+{
+}
+
+GLToy_ModelStrip_FlatMaterials::GLToy_ModelStrip_FlatMaterials( u_int uVertex1, u_int uVertex2, u_int uVertex3, const GLToy_Vector_3& xColour, const GLToy_Vector_3& xSpecularColour, const float fSpecularPower )
+: GLToy_Parent( uVertex1, uVertex2, uVertex3, m_xColour )
+, m_xSpecularColour( xSpecularColour )
+, m_fSpecularPower( fSpecularPower )
+{
+}
+
+GLToy_ModelStrip_FlatMaterials::GLToy_ModelStrip_FlatMaterials( u_int uVertex1, u_int uVertex2, u_int uVertex3, u_int uVertex4, const GLToy_Vector_3& xColour, const GLToy_Vector_3& xSpecularColour, const float fSpecularPower )
+: GLToy_Parent( uVertex1, uVertex2, uVertex3, uVertex4, m_xColour )
+, m_xSpecularColour( xSpecularColour )
+, m_fSpecularPower( fSpecularPower )
+{
+}
+
+GLToy_ModelStrip_FlatMaterials::~GLToy_ModelStrip_FlatMaterials()
+{
+}
+
+GLToy_ModelStrip_FlatMaterials& GLToy_ModelStrip_FlatMaterials::operator =( const GLToy_ModelStrip_FlatMaterials& xStrip )
+{
+    GLToy_Parent::operator =( xStrip );
+
+    return *this;
+}
+
+void GLToy_ModelStrip_FlatMaterials::Render() const
+{
+    GLToy_Render::StartSubmittingTriangleStrip();
+    
+    GLToy_Render::SubmitColour( m_xColour );
+
+    GLToy_ConstIterate( GLToy_ModelVertex_FlatMaterials, xIterator, &m_xIndices )
+    {
+        const GLToy_ModelVertex_FlatMaterials& xFaceVertex = xIterator.Current();
+
+        GLToy_Render::SubmitVertex( m_pxVertices[ xFaceVertex[ 0 ] ] );
+        GLToy_Render::SubmitUV( m_pxUVs[ xFaceVertex[ 1 ] ] );
+        GLToy_Render::SubmitNormal( m_pxNormals[ xFaceVertex[ 2 ] ] );
+    }
+    
+    GLToy_Render::EndSubmit();
+}
+
+void GLToy_ModelStrip_FlatMaterials::ReadFromBitStream( const GLToy_BitStream& xStream )
+{
+    GLToy_Parent::ReadFromBitStream( xStream );
+}
+
+void GLToy_ModelStrip_FlatMaterials::WriteToBitStream( GLToy_BitStream& xStream ) const
+{
+    GLToy_Parent::WriteToBitStream( xStream );
+}
+
+void GLToy_ModelStrip_FlatMaterials::AddVertex( const u_int uVertexIndex, const u_int uUVIndex, const u_int uNormalIndex )
+{
+    GLToy_ModelVertex_FlatMaterials xVertex;
+    
+    xVertex[ 0 ] = uVertexIndex;
+    xVertex[ 1 ] = uUVIndex;
+    xVertex[ 2 ] = uNormalIndex;
+    
+    m_xIndices.Append( xVertex );
+}
+
+//
+// GLToy_Model_FlatMaterials
+//
+
+GLToy_Model_FlatMaterials::GLToy_Model_FlatMaterials()
+: GLToy_Parent()
+, m_xNormals()
+, m_xUVs()
+{
+}
+
+GLToy_Model_FlatMaterials::~GLToy_Model_FlatMaterials()
+{
+}
+
+void GLToy_Model_FlatMaterials::ReadFromBitStream( const GLToy_BitStream& xStream )
+{
+    GLToy_Model::ReadFromDerivedBitStream< GLToy_ModelStrip_FlatMaterials >( xStream );
+}
+
+void GLToy_Model_FlatMaterials::UpdateStripPointers()
+{
+    GLToy_Parent::UpdateStripPointers();
+    GLToy_Iterate( GLToy_ModelStrip, xIterator, this )
+    {
+        GLToy_ModelStrip_FlatMaterials& xStrip = static_cast< GLToy_ModelStrip_FlatMaterials& >( xIterator.Current() );
+        xStrip.SetNormalPointer( m_xNormals.GetDataPointer() );
+        xStrip.SetUVPointer( m_xUVs.GetDataPointer() );
+    }
+}

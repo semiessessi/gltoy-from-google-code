@@ -504,6 +504,9 @@
     <ClCompile Include="Independent\File\GLToy_PTXFile.cpp">
       <Filter>Independent\File</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Model\GLToy_Model_FlatMaterials.cpp">
+      <Filter>Independent\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
@@ -907,6 +910,9 @@
     </ClInclude>
     <ClInclude Include="Independent\File\GLToy_PTXFile.h">
       <Filter>Independent\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Model\GLToy_Model_FlatMaterials.h">
+      <Filter>Independent\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
