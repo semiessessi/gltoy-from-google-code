@@ -202,8 +202,8 @@ void GLToy_Physics_Object::Update()
         hkpCharacterInput xInput;
         hkpCharacterOutput xOutput;
 
-        float fDX = m_xMovement[ 0 ];
-        float fDZ = m_xMovement[ 1 ];
+        float fDX = m_xMovement[ 0 ] * fHAVOK_SCALE;
+        float fDZ = -m_xMovement[ 1 ] * fHAVOK_SCALE;
 
 
         xInput.m_inputLR = fDX;

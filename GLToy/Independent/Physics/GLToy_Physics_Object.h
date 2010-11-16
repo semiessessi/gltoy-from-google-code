@@ -100,6 +100,7 @@ public:
     void Destroy();
     void ResetCollisions() { m_xCollisions.Clear(); }
     void ControlMovement( const GLToy_Vector_2& xMovement );
+    GLToy_Vector_3 GetMovementDirection() const { return GLToy_Vector_3( m_xMovement[ 0 ], 0.0f, m_xMovement[ 1 ] ); }
 
     GLToy_OBB GetOBB() const;
     GLToy_Vector_3 GetPosition() const;

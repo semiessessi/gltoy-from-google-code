@@ -31,7 +31,7 @@
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const float fSRC_ROBOT_SPEED = 16.0f;
+static const float fSRC_ROBOT_SPEED = 32.0f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -67,12 +67,25 @@ void SRC_Entity_Robot::Render() const
     if( pxPhysicsObject )
     {
         pxPhysicsObject->GetOBB().Render();
+
+        // render the direction of travel for debugging
+        //GLToy_Ray( pxPhysicsObject->GetPosition(), pxPhysicsObject->GetMovementDirection() ).Render();
     }
 }
 
 void SRC_Entity_Robot::Update()
 {
     GLToy_Physics_Object* pxPhysicsObject = GetPhysicsObject();
+
+    // TODO: work out if this will be a problem for other things when doing trace etc... :/
+    // maybe all objects should do something like this - afaik atm the BBs just diverge
+    // maybe overload the getters/setters?
+    if( pxPhysicsObject )
+    {
+        SetBB( pxPhysicsObject->GetOBB().GetUnrotatedBB() );
+        SetOrientation( pxPhysicsObject->GetOBB().GetOrientation() );
+    }
+
     if( pxPhysicsObject && GLToy_State_System::GetState() == GLToy_Hash_Constant( "Game" ) )
     {
         static bool bOldLeftDown = false;
@@ -119,7 +132,7 @@ void SRC_Entity_Robot::Update()
             }
         }
 
-        const GLToy_Vector_2 xActual( GetPosition()[ 0 ], GetPosition()[ 2 ] );
+        const GLToy_Vector_2 xActual( pxPhysicsObject->GetPosition()[ 0 ], pxPhysicsObject->GetPosition()[ 2 ] );
         GLToy_Vector_2 xDifference = m_xTargetPosition - xActual;
         if( xDifference.MagnitudeSquared() < 64.0f )
         {
