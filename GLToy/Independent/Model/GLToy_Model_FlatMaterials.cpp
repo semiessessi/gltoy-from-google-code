@@ -67,7 +67,7 @@ GLToy_ModelStrip_FlatMaterials& GLToy_ModelStrip_FlatMaterials::operator =( cons
 
 void GLToy_ModelStrip_FlatMaterials::Render() const
 {
-    GLToy_Render::StartSubmittingTriangleStrip();
+    GLToy_Render::StartSubmittingPolygon();
     
     GLToy_Render::SubmitColour( m_xColour );
 
@@ -112,6 +112,7 @@ GLToy_Model_FlatMaterials::GLToy_Model_FlatMaterials()
 : GLToy_Parent()
 , m_xNormals()
 , m_xUVs()
+, m_xMaterials()
 {
 }
 

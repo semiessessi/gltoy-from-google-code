@@ -34,6 +34,8 @@
 #include <File/GLToy_OBJFile.h>
 
 // GLToy
+#include <Core/Data Structures/GLToy_HashTree.h>
+#include <File/GLToy_TextFile.h>
 #include <Model/GLToy_Model_FlatMaterials.h>
 #include <Render/GLToy_Texture.h>
 
@@ -61,18 +63,13 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
     delete[] pcData;
 
     // go through the data and remove junk, build index arrays etc.
-    struct FaceVertex
-    {
-        u_int m_uIndices[ 3 ];
-
-        FaceVertex() { m_uIndices[ 0 ] = m_uIndices[ 1 ] = m_uIndices[ 2 ] = 0; }
-    };
-
+    GLToy_HashTree< u_int > xMaterialReferences;
     GLToy_Array< GLToy_String > xLines = szData.Split( '\n' );
     GLToy_Iterate( GLToy_String, xIterator, &xLines )
     {
         GLToy_String& szLine = xIterator.Current();
         szLine.TrimTrailingWhiteSpace();
+        szLine.TrimLeadingWhiteSpace();
         if( szLine.IsEmpty() )
         {
             continue;
@@ -108,6 +105,139 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
                     }
 
                     pxModel->AppendFaceVertex( auIndices[ 0 ], auIndices[ 1 ], auIndices[ 2 ] );
+                }
+                break;
+            }
+
+            case 'm':
+            {
+                if( szLine.Left( 6 ) == "mtllib" )
+                {
+                    // load mtl file
+                    GLToy_String szPath = szLine.Right( szLine.GetLength() );
+                    szPath.TrimLeadingWhiteSpace();
+
+                    // TODO: does the path need adjusting? probably...
+                    GLToy_TextFile xFile( GLToy_String( "Models/" ) + szPath );
+                    GLToy_String szMtlData = xFile.GetString();
+
+                    // now parse the mtl file - which is somewhat like the obj
+                    //GLToy_Vector_3 xCurrentAmbient( GLToy_Maths::ZeroVector3 );
+                    GLToy_Vector_3 xCurrentDiffuse( GLToy_Maths::ZeroVector3 );
+                    GLToy_Vector_3 xCurrentSpecular( GLToy_Maths::ZeroVector3 );
+                    float fCurrentExponent = 32.0f;
+
+                    GLToy_Array< GLToy_String > xMtlLines = szMtlData.Split( '\n' );
+                    GLToy_Iterate( GLToy_String, xIterator, &xMtlLines )
+                    {
+                        GLToy_String& szMtlLine = xIterator.Current();
+                        szMtlLine.TrimTrailingWhiteSpace();
+                        szMtlLine.TrimLeadingWhiteSpace();
+                        if( szMtlLine.IsEmpty() )
+                        {
+                            continue;
+                        }
+
+                        // TODO: "Tr"/"d" for transparency as a float
+                        // TODO: the various map commands for texture maps
+                        switch( szMtlLine[ 0 ] )
+                        {
+                            case 'K':
+                            {
+                                switch( szMtlLine[ 1 ] )
+                                {
+                                    case 'a':
+                                    {
+                                        // TODO: ambient colour
+                                        break;
+                                    }
+                                    
+                                    case 'd':
+                                    {
+                                        // diffuse
+                                        // Kd 1.1 2.2 3.3
+                                        GLToy_Array< GLToy_String > xValues = szMtlLine.Right( szLine.GetLength() - 3 ).Split( ' ' );
+                
+                                        if( xValues.GetCount() < 3 )
+                                        {
+                                            continue;
+                                        }
+
+                                        xCurrentDiffuse =  GLToy_Vector_3( xValues[ 0 ].ExtractFloat(), xValues[ 1 ].ExtractFloat(), xValues[ 2 ].ExtractFloat() );
+                                        break;
+                                    }
+
+                                    case 's':
+                                    {
+                                        // specular
+                                        // Ks 1.1 2.2 3.3
+                                        GLToy_Array< GLToy_String > xValues = szMtlLine.Right( szLine.GetLength() - 3 ).Split( ' ' );
+                
+                                        if( xValues.GetCount() < 3 )
+                                        {
+                                            continue;
+                                        }
+
+                                        xCurrentSpecular =  GLToy_Vector_3( xValues[ 0 ].ExtractFloat(), xValues[ 1 ].ExtractFloat(), xValues[ 2 ].ExtractFloat() );
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+
+                            case 'N':
+                            {
+                                switch( szMtlLine[ 1 ] )
+                                {
+                                    case 's':
+                                    {
+                                        // specular exponent
+                                        // Ns 1.234
+                                        fCurrentExponent = szMtlLine.Right( szLine.GetLength() - 3 ).ExtractFloat();
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+
+                            case 'n':
+                            {
+                                if( szMtlLine.Left( 6 ) == "newmtl" )
+                                {
+                                    // use this as a signal to finish the previous material definition
+                                    if( pxModel->GetMaterials().GetCount() )
+                                    {
+                                        pxModel->GetMaterials().End().m_xDiffuse = xCurrentDiffuse;
+                                        pxModel->GetMaterials().End().m_xSpecular = xCurrentSpecular;
+                                        pxModel->GetMaterials().End().m_fSpecularPower = fCurrentExponent;
+                                    }
+
+                                    GLToy_Assert( xMaterialReferences.GetCount() == pxModel->GetMaterials().GetCount(), "These counts need to line up for the materials in the .obj to match up to the ones we load from the .mtl!" );
+
+                                    xMaterialReferences.AddNode( xMaterialReferences.GetCount(), szMtlLine.Right( szMtlLine.GetLength() - 7 ).GetHash() );
+                                    pxModel->GetMaterials().Append( GLToy_ModelMaterial_FlatMaterials() );
+                                }
+                                break;
+                            }
+                        }
+                    }
+
+                    // tidy up the last material if necessary...
+                    if( pxModel->GetMaterials().GetCount() )
+                    {
+                        pxModel->GetMaterials().End().m_xDiffuse = xCurrentDiffuse;
+                        pxModel->GetMaterials().End().m_xSpecular = xCurrentSpecular;
+                        pxModel->GetMaterials().End().m_fSpecularPower = fCurrentExponent;
+                    }
+                }
+                break;
+            }
+
+            case 'u':
+            {
+                if( szLine.Left( 6 ) == "usemtl" )
+                {
+                    // select current material from mtl file
                 }
                 break;
             }
@@ -160,7 +290,6 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
         }
     }
 
-    // TODO - materials
     m_pxModel->UpdateStripPointers();
     return m_pxModel;
 }

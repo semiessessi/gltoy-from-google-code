@@ -57,6 +57,31 @@ private:
 
 };
 
+class GLToy_ModelMaterial_FlatMaterials
+{
+
+public:
+
+    GLToy_ModelMaterial_FlatMaterials()
+    : m_xDiffuse( GLToy_Maths::ZeroVector3 )
+    , m_xSpecular( GLToy_Maths::ZeroVector3 )
+    , m_fSpecularPower( 32.0f )
+    {
+    }
+
+    GLToy_ModelMaterial_FlatMaterials( const GLToy_Vector_3 xDiffuse, const GLToy_Vector_3 xSpecular, const float fSpecularPower )
+    : m_xDiffuse( xDiffuse )
+    , m_xSpecular( xSpecular )
+    , m_fSpecularPower( fSpecularPower )
+    {
+    }
+
+    GLToy_Vector_3 m_xDiffuse;
+    GLToy_Vector_3 m_xSpecular;
+    float m_fSpecularPower;
+
+};
+
 class GLToy_ModelStrip_FlatMaterials
 : public GLToy_ModelStrip_Coloured
 {
@@ -115,11 +140,16 @@ public:
     void AppendUV( const GLToy_Vector_2& xUV ) { m_xUVs.Append( xUV ); }
     void AppendFace() { Append( new GLToy_ModelStrip_FlatMaterials() ); }
     void AppendFaceVertex( const u_int uVertex, const u_int uUV, const u_int uNormal ) { static_cast< GLToy_ModelStrip_FlatMaterials& >( End() ).AddVertex( uVertex, uUV, uNormal ); }
+    void AppendMaterial( const GLToy_Vector_3& xDiffuse, const GLToy_Vector_3& xSpecular, const float fSpecularExponent ) { m_xMaterials.Append( GLToy_ModelMaterial_FlatMaterials( xDiffuse, xSpecular, fSpecularExponent ) ); }
+
+    GLToy_Array< GLToy_ModelMaterial_FlatMaterials >& GetMaterials() { return m_xMaterials; }
+    const GLToy_Array< GLToy_ModelMaterial_FlatMaterials >& GetMaterials() const { return m_xMaterials; }
 
 protected:
 
     GLToy_Array< GLToy_Vector_3 > m_xNormals;
     GLToy_Array< GLToy_Vector_2 > m_xUVs;
+    GLToy_Array< GLToy_ModelMaterial_FlatMaterials > m_xMaterials;
 
 };
 
