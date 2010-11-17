@@ -101,6 +101,10 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
                         if( u < xIndices.GetCount() )
                         {
                             auIndices[ u ] = xIndices[ u ].ExtractUnsignedInt();
+                            if( auIndices[ u ] )
+                            {
+                                --auIndices[ u ];
+                            }
                         }
                     }
 
