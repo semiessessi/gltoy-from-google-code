@@ -133,9 +133,9 @@ public:
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
-protected:
-    
     virtual void UpdateStripPointers();
+
+protected:
     
     u_int GetVertexIndex( const GLToy_Vector_3& xVertex );
 

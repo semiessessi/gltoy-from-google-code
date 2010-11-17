@@ -161,6 +161,6 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
     }
 
     // TODO - materials
-
+    m_pxModel->UpdateStripPointers();
     return m_pxModel;
 }
