@@ -64,6 +64,32 @@ GLToy_Entity* ( *GLToy_Entity_System::s_pfnProject_CreateFromType )( const GLToy
 GLToy_HashTree< GLToy_Entity* > GLToy_Entity_System::s_xEntities;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// C L A S S E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+class GLToy_EntitySaveFunctor
+: public GLToy_ConstFunctor< GLToy_Entity* >
+{
+
+public:
+
+    GLToy_EntitySaveFunctor( GLToy_BitStream& xBitStream )
+    : m_xStream( xBitStream )
+    {
+    }
+
+    void operator()( GLToy_Entity* const* const pxEntity )
+    {
+        ( *pxEntity )->WriteToBitStream( m_xStream );
+    }
+
+protected:
+
+    GLToy_BitStream& m_xStream;
+
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -182,6 +208,38 @@ void GLToy_Entity_System::LoadEntityFile( const GLToy_String& szName )
 void GLToy_Entity_System::SaveEntityFile( const GLToy_String& szName )
 {
     GLToy_EntityFile::Save( GLToy_String( "Environments/" ) + szName + ".ents" );
+}
+
+void GLToy_Entity_System::LoadEntitiesFromStream( const GLToy_BitStream& xStream )
+{
+    GLToy_Entity_System::DestroyEntities();
+
+    while( xStream.HasNMoreBytes( 5 ) )
+    {
+        u_char ucType;
+        GLToy_Hash uHash;
+
+        xStream >> ucType;
+        xStream >> uHash;
+
+        GLToy_Entity* pxEntity = GLToy_Entity_System::CreateEntity( uHash, static_cast< GLToy_EntityType >( ucType ) );
+
+        if( pxEntity )
+        {
+            pxEntity->ReadFromBitStream( xStream );
+        }
+        else
+        {
+            GLToy_Assert( pxEntity != NULL, "Fatal error whilst loading entities - can not continue processing stream" );
+            return;
+        }
+    }
+}
+
+void GLToy_Entity_System::SaveEntitiesToStream( GLToy_BitStream& xStream )
+{
+    GLToy_EntitySaveFunctor xFunctor( xStream );
+    GLToy_Entity_System::Traverse( xFunctor );
 }
 
 void GLToy_Entity_System::SpawnModel( const GLToy_String& szName, const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation )

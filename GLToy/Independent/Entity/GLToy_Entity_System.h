@@ -42,6 +42,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template < class T > class GLToy_HashTree;
+class GLToy_BitStream;
 class GLToy_Entity;
 class GLToy_Matrix_3;
 class GLToy_Ray;
@@ -75,6 +76,9 @@ public:
 
     static void LoadEntityFile( const GLToy_String& szName );
     static void SaveEntityFile( const GLToy_String& szName );
+
+    static void LoadEntitiesFromStream( const GLToy_BitStream& xStream );
+    static void SaveEntitiesToStream( GLToy_BitStream& xStream );
 
     static u_int GetEntityCount();
 

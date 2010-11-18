@@ -38,32 +38,6 @@
 #include <Entity/GLToy_Entity_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-class GLToy_EntitySaveFunctor
-: public GLToy_ConstFunctor< GLToy_Entity* >
-{
-
-public:
-
-    GLToy_EntitySaveFunctor( GLToy_BitStream& xBitStream )
-    : m_xStream( xBitStream )
-    {
-    }
-
-    void operator()( GLToy_Entity* const* const pxEntity )
-    {
-        ( *pxEntity )->WriteToBitStream( m_xStream );
-    }
-
-protected:
-
-    GLToy_BitStream& m_xStream;
-
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -87,28 +61,7 @@ void GLToy_EntityFile::LoadEntities() const
         return;
     }
 
-    GLToy_Entity_System::DestroyEntities();
-
-    while( xStream.HasNMoreBytes( 5 ) )
-    {
-        u_char ucType;
-        GLToy_Hash uHash;
-
-        xStream >> ucType;
-        xStream >> uHash;
-
-        GLToy_Entity* pxEntity = GLToy_Entity_System::CreateEntity( uHash, static_cast< GLToy_EntityType >( ucType ) );
-
-        if( pxEntity )
-        {
-            pxEntity->ReadFromBitStream( xStream );
-        }
-        else
-        {
-            GLToy_Assert( pxEntity != NULL, "Fatal error whilst loading entity file \"%S\" - can not continue processing stream", GetFilename().GetWideString() );
-            return;
-        }
-    }
+    GLToy_Entity_System::LoadEntitiesFromStream( xStream );
 
     GLToy_DebugOutput_Release( "Loaded entity file \"%S\" successfully", m_szFilename.GetWideString() );
 }
@@ -119,8 +72,7 @@ void GLToy_EntityFile::Save( const GLToy_String& szFilename )
 
     xStream << GLToy_HeaderBytes( "ENTS" );
 
-    GLToy_EntitySaveFunctor xFunctor( xStream );
-    GLToy_Entity_System::Traverse(  xFunctor );
+    GLToy_Entity_System::SaveEntitiesToStream( xStream );
 
     GLToy_EntityFile( szFilename ).WriteFromBitStream( xStream );
 

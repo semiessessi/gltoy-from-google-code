@@ -133,7 +133,7 @@ public:
     void SeekEnd() { m_uReadPos = m_uNumBytes << 3; m_uPosition = m_uReadPos; }
 
     void IgnoreNBytes( const u_int uN ) const { m_uReadPos += uN << 3; }
-    bool HasNMoreBytes( const u_int uN ) { return ( m_uReadPos + ( uN << 3 ) ) <= m_uPosition; }
+    bool HasNMoreBytes( const u_int uN ) const { return ( m_uReadPos + ( uN << 3 ) ) <= m_uPosition; }
     bool IsDoneReading() const { return m_uReadPos >= m_uPosition; }
 
     // overrides for data structure
