@@ -38,6 +38,19 @@
 #include <Maths/GLToy_Vector.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// M A C R O S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#define GLToy_Matrix_RoundOut( T ) \
+    GLToy_Inline T operator /( const float fFloat ) const { return operator *( 1.0f / fFloat ); }\
+    GLToy_Inline friend T operator *( const float fFloat, const T& xMatrix ) { return xMatrix * fFloat; } \
+    GLToy_Inline friend T operator /( const float fFloat, const T& xMatrix ) { return xMatrix / fFloat; } \
+    GLToy_Inline T& operator +=( const T& xMatrix ) { return *this = ( *this + xMatrix ); } \
+    GLToy_Inline T& operator -=( const T& xMatrix ) { return *this = ( *this - xMatrix ); } \
+    GLToy_Inline T& operator *=( const float fFloat ) { return *this = ( *this * fFloat ); } \
+    GLToy_Inline T& operator /=( const float fFloat ) { return operator *=( 1.0f / fFloat ); }
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -77,6 +90,8 @@ public:
 
     void Identity();
     void Transpose();
+
+    GLToy_Matrix_RoundOut( GLToy_Matrix_2 )
 
 private:
     
@@ -121,6 +136,8 @@ public:
     void Identity();
     void Transpose();
     void Orthonormalise();
+
+    GLToy_Matrix_RoundOut( GLToy_Matrix_3 )
 
 private:
     
@@ -168,6 +185,8 @@ public:
 
     void Identity();
     void Transpose();
+
+    GLToy_Matrix_RoundOut( GLToy_Matrix_4 )
 
 private:
     
