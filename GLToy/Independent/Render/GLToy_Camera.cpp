@@ -40,16 +40,18 @@
 #include <Maths/GLToy_Vector.h>
 #include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Render.h>
+#include <UI/GLToy_UI_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const float fCAMERA_SPEED = 128.0f;
-static const float fCAMERA_ROTATION_SPEED = 2.0f;
+static const float fCAMERA_SPEED = 256.0f;
+static const float fCAMERA_ROTATION_SPEED = 1.4f;
 static const float fCAMERA_MOUSE_SCALE = 1.0f / 100.0f;
 static const float fCAMERA_OVERCAMHEIGHT_MIN = 32.0f;
 static const float fCAMERA_OVERCAMHEIGHT_MAX = 512.0f;
+static const float fCAMERA_OVERCAMHEIGHT_MOUSE_SCALE = 256.0f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -67,6 +69,10 @@ bool GLToy_Camera::s_bLockedCam = false;
 bool GLToy_Camera::s_bControllerCam = false;
 bool GLToy_Camera::s_bOverCam = false;
 float GLToy_Camera::s_fOverCamHeight = 256.0f;
+bool GLToy_Camera::s_bOverCamMouseIsDown = false;
+GLToy_Vector_2 GLToy_Camera::s_xOverCamMouseDown;
+GLToy_Vector_2 GLToy_Camera::s_xOverCamOldRot;
+float GLToy_Camera::s_fOverCamOldHeight = 0.0f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -104,32 +110,28 @@ void GLToy_Camera::Update()
         s_fRX = GLToy_Maths::Clamp( s_fRX, -( GLToy_Maths::Pi * 0.5f ), GLToy_Maths::Pi * 0.5f );
     }
 
-    if( s_bOverCam && GLToy_Input_System::IsMouseRightButtonDown() )
-    {
-        if( GLToy_Input_System::IsKeyDown( 'W' )
-            || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetUpKey() ) )
-        {
-            s_fOverCamHeight = GLToy_Maths::Max( s_fOverCamHeight - GLToy_Timer::GetFrameTime() * fCAMERA_SPEED, fCAMERA_OVERCAMHEIGHT_MIN );
-        }
+	if( s_bOverCam && GLToy_Input_System::IsMouseRightButtonDown() )
+	{
+		if( !s_bOverCamMouseIsDown )
+		{
+			s_bOverCamMouseIsDown = true;
+			s_xOverCamMouseDown = GLToy_UI_System::GetMousePosition(); // TY - This function needs moving to the input system
+			s_xOverCamOldRot = GLToy_Vector_2( s_fRX, s_fRY );
+			s_fOverCamOldHeight = s_fOverCamHeight;
+		}
+		else
+		{
+			GLToy_Vector_2 xDelta = s_xOverCamMouseDown - GLToy_UI_System::GetMousePosition();
 
-        if( GLToy_Input_System::IsKeyDown( 'S' )
-            || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetDownKey() ) )
-        {
-            s_fOverCamHeight = GLToy_Maths::Min( s_fOverCamHeight + GLToy_Timer::GetFrameTime() * fCAMERA_SPEED, fCAMERA_OVERCAMHEIGHT_MAX );
-        }
-
-        if( GLToy_Input_System::IsKeyDown( 'A' )
-            || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() ) )
-        {
-            s_fRY += GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
-        }
-
-        if( GLToy_Input_System::IsKeyDown( 'D' )
-            || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetRightKey() ) )
-        {
-            s_fRY -= GLToy_Timer::GetFrameTime() * fCAMERA_ROTATION_SPEED;
-        }
-    }
+			s_fOverCamHeight =  GLToy_Maths::Min( GLToy_Maths::Max( s_fOverCamOldHeight + xDelta[1] * fCAMERA_OVERCAMHEIGHT_MOUSE_SCALE, fCAMERA_OVERCAMHEIGHT_MIN ), fCAMERA_OVERCAMHEIGHT_MAX );
+			s_fRY = s_xOverCamOldRot[1] + xDelta[0] * fCAMERA_ROTATION_SPEED;
+		}
+	}
+	else
+	{
+		s_bOverCamMouseIsDown = false;
+	}
+	
 
     // ... then calculate basis from the orientation
     const float fSRX = GLToy_Maths::Sin( s_fRX );

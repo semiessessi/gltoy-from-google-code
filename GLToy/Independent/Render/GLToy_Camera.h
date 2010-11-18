@@ -96,6 +96,10 @@ private:
     static bool s_bOverCam;
 
     static float s_fOverCamHeight;
+	static bool s_bOverCamMouseIsDown;
+	static GLToy_Vector_2 s_xOverCamMouseDown;
+	static GLToy_Vector_2 s_xOverCamOldRot;
+	static float s_fOverCamOldHeight;
 };
 
 #endif
