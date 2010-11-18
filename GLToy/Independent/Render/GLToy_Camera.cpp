@@ -217,6 +217,7 @@ void GLToy_Camera::SetLocked( const bool bLocked )
     s_bLockedCam = bLocked;
     if( bLocked )
     {
+        s_xPosition = GetPosition();
         GLToy_Physics_System::SetDefaultControllerActive( false );
         s_bFlyCam = false;
         s_bControllerCam = false;
@@ -233,6 +234,7 @@ void GLToy_Camera::SetControllerCamEnabled( const bool bEnabled )
         GLToy_Console::Print( GLToy_String( "fpscam is set to " ) + ( bEnabled ? "true" : "false" ) );
         if( bEnabled )
         {
+            s_xPosition = GetPosition();
             GLToy_Physics_System::SetDefaultControllerActive( true, GetPosition() );
             s_bFlyCam = false;
             s_bOverCam = false;
@@ -249,6 +251,7 @@ void GLToy_Camera::SetFlyCamEnabled( const bool bEnabled )
         GLToy_Console::Print( GLToy_String( "flycam is set to " ) + ( bEnabled ? "true" : "false" ) );
         if( bEnabled )
         {
+            s_xPosition = GetPosition();
             GLToy_Physics_System::SetDefaultControllerActive( false );
             s_bControllerCam = false;
             s_bOverCam = false;
