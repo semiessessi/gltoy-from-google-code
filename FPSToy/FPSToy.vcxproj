@@ -145,6 +145,10 @@
       <FixedBaseAddress>false</FixedBaseAddress>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <PostBuildEvent>
+      <Command>cd $(SolutionDir)
+upx.exe $(TargetPath) --best</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_FPSToy.cpp" />

@@ -305,6 +305,22 @@ GLToy_Vector_4::GLToy_Vector_4( const GLToy_Vector_4& xVector )
     m_fComponents[ 3 ] = xVector[ 3 ];
 }
 
+void GLToy_Vector_4::ReadFromBitStream( const GLToy_BitStream& xStream )
+{
+    xStream >> m_fComponents[ 0 ];
+    xStream >> m_fComponents[ 1 ];
+    xStream >> m_fComponents[ 2 ];
+    xStream >> m_fComponents[ 3 ];
+}
+
+void GLToy_Vector_4::WriteToBitStream( GLToy_BitStream& xStream ) const
+{
+    xStream << m_fComponents[ 0 ];
+    xStream << m_fComponents[ 1 ];
+    xStream << m_fComponents[ 2 ];
+    xStream << m_fComponents[ 3 ];
+}
+
 bool GLToy_Vector_4::operator ==( const GLToy_Vector_4& xVector ) const
 {
     // TODO - use platform compare

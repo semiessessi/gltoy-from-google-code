@@ -43,6 +43,7 @@
 
 class GLToy_Vector_2;
 class GLToy_Vector_3;
+class GLToy_Vector_4;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -91,6 +92,7 @@ public:
     void operator <<( const double dDouble ) { WriteDouble( dDouble ); }
     void operator <<( const GLToy_Vector_2& xVector ) { WriteVector( xVector ); }
     void operator <<( const GLToy_Vector_3& xVector ) { WriteVector( xVector ); }
+    void operator <<( const GLToy_Vector_4& xVector ) { WriteVector( xVector ); }
     void operator <<( const GLToy_Serialisable& xSerialisable ) { xSerialisable.WriteToBitStream( *this ); }
     void operator <<( const GLToy_Serialisable* const pxSerialisable ) { pxSerialisable->WriteToBitStream( *this ); }
 
@@ -106,6 +108,7 @@ public:
     void operator >>( double& dDouble ) const { ReadDouble( dDouble ); }
     void operator >>( GLToy_Vector_2& xVector ) const { ReadVector( xVector ); }
     void operator >>( GLToy_Vector_3& xVector ) const { ReadVector( xVector ); }
+    void operator >>( GLToy_Vector_4& xVector ) const { ReadVector( xVector ); }
     void operator >>( GLToy_Serialisable& xSerialisable ) const { xSerialisable.ReadFromBitStream( *this ); }
     void operator >>( GLToy_Serialisable* const pxSerialisable ) const { pxSerialisable->ReadFromBitStream( *this ); }
 
@@ -123,6 +126,7 @@ public:
     void WriteData( const char* const pcData, const u_int uBitCount );
     void WriteVector( const GLToy_Vector_2& xVector );
     void WriteVector( const GLToy_Vector_3& xVector );
+    void WriteVector( const GLToy_Vector_4& xVector );
     
     void ReadBool( bool& bBool ) const { bBool = ReadBit(); }
     void ReadHalfByte( char& cValue ) const { u_int uBits; ReadBits( uBits, 4 ); cValue = uBits; }
@@ -138,6 +142,7 @@ public:
     void ReadData( char* pcOutput, const u_int uBitCount ) const;
     void ReadVector( GLToy_Vector_2& xVector ) const;
     void ReadVector( GLToy_Vector_3& xVector ) const;
+    void ReadVector( GLToy_Vector_4& xVector ) const;
 
     void ByteAlignedWrite( char* const pcData, const u_int uNumBytes ) const;
 

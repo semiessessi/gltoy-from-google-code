@@ -55,7 +55,9 @@ public:
     static const GLToy_Vector_2 ZeroVector2;
     static const GLToy_Vector_3 ZeroVector3;
     static const GLToy_Vector_4 ZeroVector4;
+    static const GLToy_Matrix_2 IdentityMatrix2;
     static const GLToy_Matrix_3 IdentityMatrix3;
+    static const GLToy_Matrix_4 IdentityMatrix4;
     static const GLToy_Quaternion IdentityQuaternion;
 
     static bool Initialise();

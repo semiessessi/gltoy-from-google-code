@@ -101,12 +101,22 @@ void GLToy_BitStream::WriteVector( const GLToy_Vector_3& xVector )
     xVector.WriteToBitStream( *this );
 }
 
+void GLToy_BitStream::WriteVector( const GLToy_Vector_4& xVector )
+{
+    xVector.WriteToBitStream( *this );
+}
+
 void GLToy_BitStream::ReadVector( GLToy_Vector_2& xVector ) const
 {
     xVector.ReadFromBitStream( *this );
 }
 
 void GLToy_BitStream::ReadVector( GLToy_Vector_3& xVector ) const
+{
+    xVector.ReadFromBitStream( *this );
+}
+
+void GLToy_BitStream::ReadVector( GLToy_Vector_4& xVector ) const
 {
     xVector.ReadFromBitStream( *this );
 }

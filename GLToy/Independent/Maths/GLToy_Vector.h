@@ -60,6 +60,8 @@ public:
     GLToy_Inline float* GetFloatPointer() { return m_fComponents; }
     GLToy_Inline const float* GetFloatPointer() const { return m_fComponents; }
 
+    GLToy_Vector_2 operator -() const { return GLToy_Vector_2( -m_fComponents[ 0 ], -m_fComponents[ 1 ] ); }
+
     GLToy_ForceInline GLToy_Vector_2& operator +=( GLToy_Vector_2& xVector ) { return *this = ( *this + xVector ); }
     GLToy_ForceInline GLToy_Vector_2& operator -=( GLToy_Vector_2& xVector ) { return *this = ( *this - xVector ); }
     GLToy_ForceInline GLToy_Vector_2& operator *=( const float fFloat ) { return *this = ( *this * fFloat ); }
@@ -170,11 +172,16 @@ public:
     GLToy_Vector_4( const u_int uRGBA );
     GLToy_Vector_4( const GLToy_Vector_4& xVector );
 
+    void ReadFromBitStream( const GLToy_BitStream& xStream );
+    void WriteToBitStream( GLToy_BitStream& xStream ) const;
+
     float& operator[] ( int i ) { return m_fComponents[ i ]; }
     const float& operator[] ( int i ) const { return m_fComponents[ i ]; }
 
     float* GetFloatPointer() { return m_fComponents; }
     const float* GetFloatPointer() const { return m_fComponents; }
+
+    GLToy_Vector_4 operator -() const { return GLToy_Vector_4( -m_fComponents[ 0 ], -m_fComponents[ 1 ], -m_fComponents[ 2 ], -m_fComponents[ 3 ] ); }
 
     bool operator ==( const GLToy_Vector_4& xVector ) const;
 
