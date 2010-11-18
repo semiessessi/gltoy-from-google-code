@@ -104,6 +104,9 @@ public:
     static bool IsMouseLeftButtonDown();
     static bool IsMouseMiddleButtonDown();
     static bool IsMouseRightButtonDown();
+    static bool GetDebouncedMouseLeft();
+    static bool GetDebouncedMouseMiddle();
+    static bool GetDebouncedMouseRight();
     static float GetMouseDeltaX() { return s_fMouseDeltaX; }
     static float GetMouseDeltaY() { return s_fMouseDeltaY; }
 
@@ -156,6 +159,10 @@ private:
 	static int s_iMouseDelta;
 
     static GLToy_KeyInputHandler* s_pxKeyInputHandler;
+
+    static bool s_bMouseLeftDebounced;
+    static bool s_bMouseMiddleDebounced;
+    static bool s_bMouseRightDebounced;
 
 };
 

@@ -63,6 +63,10 @@ int GLToy_Input_System::s_iMouseDelta = 0;
 
 GLToy_KeyInputHandler* GLToy_Input_System::s_pxKeyInputHandler = NULL;
 
+bool GLToy_Input_System::s_bMouseLeftDebounced = false;
+bool GLToy_Input_System::s_bMouseMiddleDebounced = false;
+bool GLToy_Input_System::s_bMouseRightDebounced = false;
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,6 +91,17 @@ void GLToy_Input_System::Update()
     {
         return;
     }
+    static bool ls_bDelayLeft = false;
+    static bool ls_bDelayMiddle = false;
+    static bool ls_bDelayRight = false;
+
+    s_bMouseLeftDebounced = ls_bDelayLeft && !Platform_IsMouseLeftButtonDown();
+    s_bMouseMiddleDebounced = ls_bDelayMiddle && !Platform_IsMouseMiddleButtonDown();
+    s_bMouseRightDebounced = ls_bDelayRight && !Platform_IsMouseRightButtonDown();
+
+    ls_bDelayLeft = Platform_IsMouseLeftButtonDown();
+    ls_bDelayMiddle = Platform_IsMouseMiddleButtonDown();
+    ls_bDelayRight = Platform_IsMouseRightButtonDown();
 
     Platform_Update();
 }
@@ -167,6 +182,36 @@ bool GLToy_Input_System::IsMouseRightButtonDown()
     }
 
     return Platform_IsMouseRightButtonDown();
+}
+
+bool GLToy_Input_System::GetDebouncedMouseLeft()
+{
+    if( !GLToy::HasFocus() )
+    {
+        return false;
+    }
+
+    return s_bMouseLeftDebounced;
+}
+
+bool GLToy_Input_System::GetDebouncedMouseMiddle()
+{
+    if( !GLToy::HasFocus() )
+    {
+        return false;
+    }
+
+    return s_bMouseMiddleDebounced;
+}
+
+bool GLToy_Input_System::GetDebouncedMouseRight()
+{
+    if( !GLToy::HasFocus() )
+    {
+        return false;
+    }
+
+    return s_bMouseRightDebounced;
 }
 
 GLToy_KeyInputHandler::GLToy_KeyInputHandler()
