@@ -34,17 +34,6 @@
 // Parents
 #include <Core/Data Structures/GLToy_DataStructure.h>
 
-// GLToy
-#include <Core/GLToy_SerialisationWrapper.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-//class GLToy_Vector_2;
-//class GLToy_Vector_3;
-//class GLToy_Vector_4;
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,12 +80,7 @@ public:
     void operator <<( const float fFloat ) { WriteFloat( fFloat ); }
     void operator <<( const double dDouble ) { WriteDouble( dDouble ); }
     template< class T >
-    void operator <<( const T& xSerialisable ) { GLToy_SerialisationWrapper< T >::WriteToBitStream( xSerialisable, *this ); }
-    //void operator <<( const GLToy_Vector_2& xVector ) { GLToy_SerialisationWrapper< GLToy_Vector_2 >::WriteToBitStream( xVector, *this ); }
-    //void operator <<( const GLToy_Vector_3& xVector ) { GLToy_SerialisationWrapper< GLToy_Vector_3 >::WriteToBitStream( xVector, *this ); }
-    //void operator <<( const GLToy_Vector_4& xVector ) { GLToy_SerialisationWrapper< GLToy_Vector_4 >::WriteToBitStream( xVector, *this ); }
-    //void operator <<( const GLToy_Serialisable& xSerialisable ) { xSerialisable.WriteToBitStream( *this ); }
-    //void operator <<( const GLToy_Serialisable* const pxSerialisable ) { pxSerialisable->WriteToBitStream( *this ); }
+    void operator <<( const T& xSerialisable ) { xSerialisable.WriteToBitStream( *this ); }
 
     void operator >>( bool& bBool ) const { ReadBool( bBool ); }
     void operator >>( char& cChar ) const { ReadChar( cChar ); }
@@ -109,12 +93,7 @@ public:
     void operator >>( float& fFloat ) const { ReadFloat( fFloat ); }
     void operator >>( double& dDouble ) const { ReadDouble( dDouble ); }
     template< class T >
-    void operator >>( T& xSerialisable ) const { GLToy_SerialisationWrapper< T >::ReadFromBitStream( xSerialisable, *this ); }
-    //void operator >>( GLToy_Vector_2& xVector ) const { GLToy_SerialisationWrapper< GLToy_Vector_2 >::ReadFromBitStream( xVector, *this ); }
-    //void operator >>( GLToy_Vector_3& xVector ) const { GLToy_SerialisationWrapper< GLToy_Vector_3 >::ReadFromBitStream( xVector, *this ); }
-    //void operator >>( GLToy_Vector_4& xVector ) const { GLToy_SerialisationWrapper< GLToy_Vector_4 >::ReadFromBitStream( xVector, *this ); }
-    //void operator >>( GLToy_Serialisable& xSerialisable ) const { xSerialisable.ReadFromBitStream( *this ); }
-    //void operator >>( GLToy_Serialisable* const pxSerialisable ) const { pxSerialisable->ReadFromBitStream( *this ); }
+    void operator >>( T& xSerialisable ) const { xSerialisable.ReadFromBitStream( *this ); }
 
     void WriteBool( const bool bBool ) { WriteBit( bBool ); }
     void WriteHalfByte( const char cValue ) { WriteBits( cValue, 4 ); }

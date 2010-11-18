@@ -555,7 +555,6 @@
     <ClInclude Include="Independent\Core\GLToy_Memory.h" />
     <ClInclude Include="Independent\Core\GLToy_Memory_DebugOff.h" />
     <ClInclude Include="Independent\Core\GLToy_Memory_DebugOn.h" />
-    <ClInclude Include="Independent\Core\GLToy_SerialisationWrapper.h" />
     <ClInclude Include="Independent\Core\State\GLToy_State_FixedCamera.h" />
     <ClInclude Include="Independent\Environment\GLToy_Environment_HeightField.h" />
     <ClInclude Include="Independent\File\GLToy_PTXFile.h" />

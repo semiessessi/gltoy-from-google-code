@@ -911,9 +911,6 @@
     <ClInclude Include="Independent\Model\GLToy_Model_FlatMaterials.h">
       <Filter>Independent\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Core\GLToy_SerialisationWrapper.h">
-      <Filter>Independent\Core</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\Default.vs">
