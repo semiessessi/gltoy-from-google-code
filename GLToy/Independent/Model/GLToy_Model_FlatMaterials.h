@@ -76,6 +76,22 @@ public:
     {
     }
 
+    GLToy_ModelMaterial_FlatMaterials( const GLToy_ModelMaterial_FlatMaterials& xStrip )
+    : m_xDiffuse( xStrip.m_xDiffuse )
+    , m_xSpecular( xStrip.m_xSpecular )
+    , m_fSpecularPower( xStrip.m_fSpecularPower )
+    {
+    }
+
+    GLToy_ModelMaterial_FlatMaterials& operator =( const GLToy_ModelMaterial_FlatMaterials& xStrip )
+    {
+        m_xDiffuse = xStrip.m_xDiffuse;
+        m_xSpecular = xStrip.m_xSpecular;
+        m_fSpecularPower = xStrip.m_fSpecularPower;
+
+        return *this;
+    }
+
     GLToy_Vector_3 m_xDiffuse;
     GLToy_Vector_3 m_xSpecular;
     float m_fSpecularPower;
@@ -102,18 +118,21 @@ public:
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
+    void SetMaterialPointer( const GLToy_ModelMaterial_FlatMaterials* pxMaterials ) { m_pxMaterials = pxMaterials; }
     void SetNormalPointer( const GLToy_Vector_3* pxNormals ) { m_pxNormals = pxNormals; }
     void SetUVPointer( const GLToy_Vector_2* pxUVs ) { m_pxUVs = pxUVs; }
 
     void AddVertex( const u_int uVertexIndex, const u_int uUVIndex, const u_int uNormalIndex );
 
+    void SetMaterialIndex( const u_int uMaterialIndex ) { m_uMaterialIndex = uMaterialIndex; }
+
 protected:
     
-    GLToy_Vector_3 m_xSpecularColour;
-    float m_fSpecularPower;
+    u_int m_uMaterialIndex;
 
     const GLToy_Vector_3* m_pxNormals;
     const GLToy_Vector_2* m_pxUVs;
+    const GLToy_ModelMaterial_FlatMaterials* m_pxMaterials;
 
     GLToy_Array< GLToy_ModelVertex_FlatMaterials > m_xIndices;
 
@@ -140,6 +159,7 @@ public:
     void AppendUV( const GLToy_Vector_2& xUV ) { m_xUVs.Append( xUV ); }
     void AppendFace() { Append( new GLToy_ModelStrip_FlatMaterials() ); }
     void AppendFaceVertex( const u_int uVertex, const u_int uUV, const u_int uNormal ) { static_cast< GLToy_ModelStrip_FlatMaterials& >( End() ).AddVertex( uVertex, uUV, uNormal ); }
+    void AppendFaceMaterial( const u_int uMaterial ) { static_cast< GLToy_ModelStrip_FlatMaterials& >( End() ).SetMaterialIndex( uMaterial ); }
     void AppendMaterial( const GLToy_Vector_3& xDiffuse, const GLToy_Vector_3& xSpecular, const float fSpecularExponent ) { m_xMaterials.Append( GLToy_ModelMaterial_FlatMaterials( xDiffuse, xSpecular, fSpecularExponent ) ); }
 
     GLToy_Array< GLToy_ModelMaterial_FlatMaterials >& GetMaterials() { return m_xMaterials; }

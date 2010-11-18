@@ -42,15 +42,13 @@
 
 GLToy_ModelStrip_FlatMaterials::GLToy_ModelStrip_FlatMaterials()
 : GLToy_Parent()
-, m_xSpecularColour( 0.0f, 0.0f, 0.0f )
-, m_fSpecularPower( 32.0f )
+, m_uMaterialIndex( 0 )
 {
 }
 
 GLToy_ModelStrip_FlatMaterials::GLToy_ModelStrip_FlatMaterials( const GLToy_ModelStrip_FlatMaterials& xStrip )
 : GLToy_Parent( xStrip )
-, m_xSpecularColour( 0.0f, 0.0f, 0.0f )
-, m_fSpecularPower( 32.0f )
+, m_uMaterialIndex( xStrip.m_uMaterialIndex )
 {
 }
 
@@ -69,7 +67,7 @@ void GLToy_ModelStrip_FlatMaterials::Render() const
 {
     GLToy_Render::StartSubmittingPolygon();
     
-    GLToy_Render::SubmitColour( m_xColour );
+    GLToy_Render::SubmitColour( m_pxMaterials[ m_uMaterialIndex ].m_xDiffuse );
 
     GLToy_ConstIterate( GLToy_ModelVertex_FlatMaterials, xIterator, &m_xIndices )
     {
@@ -133,5 +131,6 @@ void GLToy_Model_FlatMaterials::UpdateStripPointers()
         GLToy_ModelStrip_FlatMaterials& xStrip = static_cast< GLToy_ModelStrip_FlatMaterials& >( xIterator.Current() );
         xStrip.SetNormalPointer( m_xNormals.GetDataPointer() );
         xStrip.SetUVPointer( m_xUVs.GetDataPointer() );
+        xStrip.SetMaterialPointer( m_xMaterials.GetDataPointer() );
     }
 }

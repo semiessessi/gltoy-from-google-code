@@ -465,7 +465,7 @@ public:
 
     GLToy_Inline void TrimTrailingWhiteSpace()
     {
-        while( IsWhiteSpace( End() ) )
+        while( IsWhiteSpace( GLToy_Parent::m_pxData[ GetLength() - 1 ] ) )
         {
             RemoveFromEnd( 1 );
         }

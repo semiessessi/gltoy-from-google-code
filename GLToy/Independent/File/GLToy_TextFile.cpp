@@ -268,7 +268,7 @@ GLToy_String GLToy_TextFile::GetString() const
 		case UTF32LE:
         {
 			// this roughly complies with the Unicode Standard 4.1 section 3.10, D43-45
-			// however to allow all jEngine builds to handle the results it throws away all code points > 0xFFFF and replaces them with ? ( for now )
+			// however to allow all GLToy builds to handle the results it throws away all code points > 0xFFFF and replaces them with ? ( for now )
 			
             for( u_int u = uPos; u < ( GetSize() - 3  ); u += 4 )
 			{
