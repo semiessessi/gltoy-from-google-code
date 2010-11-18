@@ -471,6 +471,12 @@ public:
         }
     }
 
+    GLToy_Inline void TrimWhiteSpace()
+    {
+        TrimLeadingWhiteSpace();
+        TrimTrailingWhiteSpace();
+    }
+
     GLToy_Inline void RemoveWhiteSpace()
     {
         for( u_int u = 0; u < GetLength(); ++u )

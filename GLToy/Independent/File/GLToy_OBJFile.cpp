@@ -69,8 +69,7 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
     GLToy_Iterate( GLToy_String, xIterator, &xLines )
     {
         GLToy_String& szLine = xIterator.Current();
-        szLine.TrimTrailingWhiteSpace();
-        szLine.TrimLeadingWhiteSpace();
+        szLine.TrimWhiteSpace();
         if( szLine.IsEmpty() )
         {
             continue;
@@ -121,8 +120,7 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
                 {
                     // load mtl file
                     GLToy_String szPath = szLine.Right( szLine.GetLength() - 7 );
-                    szPath.TrimLeadingWhiteSpace();
-                    szPath.TrimTrailingWhiteSpace();
+                    szPath.TrimWhiteSpace();
 
                     // TODO: does the path need adjusting? probably...
                     GLToy_TextFile xFile( GLToy_String( "Models/" ) + szPath );
@@ -138,8 +136,7 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
                     GLToy_Iterate( GLToy_String, xIterator, &xMtlLines )
                     {
                         GLToy_String& szMtlLine = xIterator.Current();
-                        szMtlLine.TrimTrailingWhiteSpace();
-                        szMtlLine.TrimLeadingWhiteSpace();
+                        szMtlLine.TrimWhiteSpace();
                         if( szMtlLine.IsEmpty() )
                         {
                             continue;
@@ -246,8 +243,7 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
                 {
                     // select current material from mtl file
                     GLToy_String szMaterial = szLine.Right( szLine.GetLength() - 7 );
-                    szMaterial.TrimLeadingWhiteSpace();
-                    szMaterial.TrimTrailingWhiteSpace();
+                    szMaterial.TrimWhiteSpace();
                     u_int* puMaterial = xMaterialReferences.FindData( szMaterial.GetHash() );
                     uCurrentMaterial = puMaterial ? *puMaterial : 0;
                 }
