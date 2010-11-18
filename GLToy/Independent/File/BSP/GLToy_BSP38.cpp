@@ -83,13 +83,12 @@ static const u_int uBSP38_BRUSHFLAGS_AICLIP = 0x20000;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_BSP38_Lump
-: public GLToy_Serialisable
 {
 
 public:
     
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_uOffset; xStream >> m_uSize; }
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_uOffset; xStream << m_uSize; }
+    void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_uOffset; xStream >> m_uSize; }
+    void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_uOffset; xStream << m_uSize; }
 
     u_int m_uOffset;
     u_int m_uSize;
@@ -97,13 +96,12 @@ public:
 };
 
 class GLToy_BSP38_LumpDirectory
-: public GLToy_Serialisable
 {
 
 public:
     
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { for( u_int u = 0; u < 19; ++u ) { xStream >> m_axLumps[ u ]; } }
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { for( u_int u = 0; u < 19; ++u ) { xStream << m_axLumps[ u ]; } }
+    void ReadFromBitStream( const GLToy_BitStream& xStream ) { for( u_int u = 0; u < 19; ++u ) { xStream >> m_axLumps[ u ]; } }
+    void WriteToBitStream( GLToy_BitStream& xStream ) const { for( u_int u = 0; u < 19; ++u ) { xStream << m_axLumps[ u ]; } }
 
 
     GLToy_BSP38_Lump m_axLumps[ 19 ];
@@ -112,12 +110,11 @@ public:
 
 
 class GLToy_BSP38_Face
-: public GLToy_Serialisable
 {
 
 public:
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
+    void ReadFromBitStream( const GLToy_BitStream& xStream )
     {
         xStream >> m_usPlane;
         xStream >> m_usPlaneSide;
@@ -131,7 +128,7 @@ public:
         xStream >> m_uLightmapOffset;
     }
 
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
+    void WriteToBitStream( GLToy_BitStream& xStream ) const
     {
         xStream << m_usPlane;
         xStream << m_usPlaneSide;
@@ -156,7 +153,6 @@ public:
 };
 
 class GLToy_BSP38_Plane
-: public GLToy_Serialisable
 {
 
 public:
@@ -176,7 +172,7 @@ public:
     }
     
     // TODO - do we ever want to write one of these files?
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const {}
+    void WriteToBitStream( GLToy_BitStream& xStream ) const {}
 
     GLToy_Plane m_xPlane;
     u_int m_uType;
@@ -184,12 +180,11 @@ public:
 };
 
 class GLToy_BSP38_Node
-: public GLToy_Serialisable
 {
 
 public:
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
+    void ReadFromBitStream( const GLToy_BitStream& xStream )
     {
         xStream >> m_uPlane;
         xStream >> m_iFrontChild;
@@ -204,7 +199,7 @@ public:
         xStream >> m_usFaceCount;
     }
 
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
+    void WriteToBitStream( GLToy_BitStream& xStream ) const
     {
         xStream << m_uPlane;
         xStream << m_iFrontChild;
@@ -230,12 +225,11 @@ public:
 };
 
 class GLToy_BSP38_Leaf
-: public GLToy_Serialisable
 {
 
 public:
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
+    void ReadFromBitStream( const GLToy_BitStream& xStream )
     {
         xStream >> m_uBrushOr;
         xStream >> m_usCluster;
@@ -252,7 +246,7 @@ public:
         xStream >> m_usLeafBrushCount;
     }
 
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
+    void WriteToBitStream( GLToy_BitStream& xStream ) const
     {
         xStream << m_uBrushOr;
         xStream << m_usCluster;
@@ -282,12 +276,11 @@ public:
 };
 
 class GLToy_BSP38_TextureInfo
-: public GLToy_Serialisable
 {
 
 public:
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
+    void ReadFromBitStream( const GLToy_BitStream& xStream )
     {
         xStream >> m_xUAxis;
         xStream >> m_fUOffset;
@@ -299,7 +292,7 @@ public:
         xStream >> m_uNextTextureInfo;
     }
 
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
+    void WriteToBitStream( GLToy_BitStream& xStream ) const
     {
         xStream << m_xUAxis;
         xStream << m_fUOffset;
@@ -323,13 +316,12 @@ public:
 };
 
 class GLToy_BSP38_VisOffset
-: public GLToy_Serialisable
 {
 
 public:
     
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_uPVS; xStream >> m_uPHS; }
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_uPVS; xStream << m_uPHS; }
+    void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_uPVS; xStream >> m_uPHS; }
+    void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_uPVS; xStream << m_uPHS; }
 
     u_int m_uPVS;
     u_int m_uPHS;
@@ -337,13 +329,12 @@ public:
 };
 
 class GLToy_BSP38_Edge
-: public GLToy_Serialisable
 {
 
 public:
     
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_usVertex1; xStream >> m_usVertex2; }
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_usVertex1; xStream << m_usVertex2; }
+    void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_usVertex1; xStream >> m_usVertex2; }
+    void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_usVertex1; xStream << m_usVertex2; }
 
     u_short m_usVertex1;
     u_short m_usVertex2;
@@ -351,12 +342,11 @@ public:
 };
 
 class GLToy_BSP38_Model
-: public GLToy_Serialisable
 {
 
 public:
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
+    void ReadFromBitStream( const GLToy_BitStream& xStream )
     {
         xStream >> m_xMins;
         xStream >> m_xMaxs;
@@ -366,7 +356,7 @@ public:
         xStream >> m_uNumFaces;
     }
 
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
+    void WriteToBitStream( GLToy_BitStream& xStream ) const
     {
         xStream << m_xMins;
         xStream << m_xMaxs;
@@ -386,13 +376,12 @@ public:
 };
 
 class GLToy_BSP38_Brush
-: public GLToy_Serialisable
 {
 
 public:
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_uFirstSide; xStream >> m_uNumSides; xStream >> m_uFlags; }
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_uFirstSide; xStream << m_uNumSides; xStream << m_uFlags; }
+    void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_uFirstSide; xStream >> m_uNumSides; xStream >> m_uFlags; }
+    void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_uFirstSide; xStream << m_uNumSides; xStream << m_uFlags; }
 
     u_int m_uFirstSide;
     u_int m_uNumSides;
@@ -401,13 +390,12 @@ public:
 };
 
 class GLToy_BSP38_BrushSide
-: public GLToy_Serialisable
 {
 
 public:
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_usPlane; xStream >> m_sTexInfo; }
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_usPlane; xStream << m_sTexInfo; }
+    void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_usPlane; xStream >> m_sTexInfo; }
+    void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_usPlane; xStream << m_sTexInfo; }
 
     u_short m_usPlane;
     short m_sTexInfo;

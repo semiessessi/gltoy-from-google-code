@@ -94,7 +94,7 @@ void GLToy_Texture_Procedural::LayerNode::ReadFromBitStream( const GLToy_BitStre
     if( !bLeaf )
     {
         m_pxChildren = new GLToy_SmallSerialisableArray< LayerNode >();
-        xStream >> m_pxChildren; // recurse...
+        xStream >> *m_pxChildren; // recurse...
     }
     else
     {
@@ -245,7 +245,7 @@ void GLToy_Texture_Procedural::LayerNode::WriteToBitStream( GLToy_BitStream& xSt
     xStream << ( m_pxChildren == NULL );
     if( m_pxChildren )
     {
-        xStream << m_pxChildren;
+        xStream << *m_pxChildren;
     }
     else
     {

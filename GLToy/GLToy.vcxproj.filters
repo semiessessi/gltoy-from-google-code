@@ -548,9 +548,6 @@
     <ClInclude Include="Independent\Core\GLToy_Hash.h">
       <Filter>Independent\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Core\GLToy_Serialisable.h">
-      <Filter>Independent\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Independent\Core\GLToy_Timer.h">
       <Filter>Independent\Core</Filter>
     </ClInclude>
@@ -913,6 +910,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Model\GLToy_Model_FlatMaterials.h">
       <Filter>Independent\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_SerialisationWrapper.h">
+      <Filter>Independent\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

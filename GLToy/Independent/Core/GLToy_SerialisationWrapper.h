@@ -24,8 +24,8 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_SERIALISABLE_H_
-#define __GLTOY_SERIALISABLE_H_
+#ifndef __GLTOY_SERIALISATIONWRAPPER_H_
+#define __GLTOY_SERIALISATIONWRAPPER_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
@@ -37,16 +37,14 @@ class GLToy_BitStream;
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Serialisable
+template< class T >
+class GLToy_SerialisationWrapper
 {
 
 public:
 
-    GLToy_Serialisable() {}
-    virtual ~GLToy_Serialisable() {}
-
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) = 0;
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const = 0;
+    static void ReadFromBitStream( T& xSerialisable, const GLToy_BitStream& xStream ) { xSerialisable.ReadFromBitStream( xStream ); }
+    static void WriteToBitStream( const T& xSerialisable, GLToy_BitStream& xStream ) { xSerialisable.WriteToBitStream( xStream ); }
 
 };
 

@@ -63,13 +63,12 @@ static const u_int uBSP46_FACE_SPRITE = 4;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_BSP46_Lump
-: public GLToy_Serialisable
 {
 
 public:
     
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_uOffset; xStream >> m_uSize; }
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_uOffset; xStream << m_uSize; }
+    void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_uOffset; xStream >> m_uSize; }
+    void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_uOffset; xStream << m_uSize; }
 
     u_int m_uOffset;
     u_int m_uSize;
@@ -77,13 +76,12 @@ public:
 };
 
 class GLToy_BSP46_LumpDirectory
-: public GLToy_Serialisable
 {
 
 public:
     
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { for( u_int u = 0; u < 17; ++u ) { xStream >> m_axLumps[ u ]; } }
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { for( u_int u = 0; u < 17; ++u ) { xStream << m_axLumps[ u ]; } }
+    void ReadFromBitStream( const GLToy_BitStream& xStream ) { for( u_int u = 0; u < 17; ++u ) { xStream >> m_axLumps[ u ]; } }
+    void WriteToBitStream( GLToy_BitStream& xStream ) const { for( u_int u = 0; u < 17; ++u ) { xStream << m_axLumps[ u ]; } }
 
 
     GLToy_BSP46_Lump m_axLumps[ 17 ];
@@ -91,12 +89,11 @@ public:
 };
 
 class GLToy_BSP46_Vertex
-: public GLToy_Serialisable
 {
 
 public:
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
+    void ReadFromBitStream( const GLToy_BitStream& xStream )
     {
         xStream >> m_xVertex;
         xStream >> m_xUV;
@@ -105,7 +102,7 @@ public:
         xStream >> m_uRGBA;
     }
 
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
+    void WriteToBitStream( GLToy_BitStream& xStream ) const
     {
         xStream << m_xVertex;
         xStream << m_xUV;
@@ -125,12 +122,11 @@ public:
 };
 
 class GLToy_BSP46_Face
-: public GLToy_Serialisable
 {
 
 public:
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
+    void ReadFromBitStream( const GLToy_BitStream& xStream )
     {
         xStream >> m_iTextureIndex;
         xStream >> m_iEffect;
@@ -152,7 +148,7 @@ public:
         xStream >> m_auPatchSize[ 1 ];
     }
 
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
+    void WriteToBitStream( GLToy_BitStream& xStream ) const
     {
         xStream << m_iTextureIndex;
         xStream << m_iEffect;

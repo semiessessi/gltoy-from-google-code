@@ -49,7 +49,6 @@ class GLToy_String;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Texture_Procedural
-: public GLToy_Serialisable
 {
 
 public:
@@ -234,7 +233,6 @@ public:
 private:
 
     class LayerNode
-    : public GLToy_Serialisable
     {
         friend class GLToy_Texture_Procedural;
 
@@ -418,8 +416,8 @@ private:
 #endif
         }
 
-        virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-        virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+        void ReadFromBitStream( const GLToy_BitStream& xStream );
+        void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
         void Render( const u_int uWidth, const u_int uHeight );
 
@@ -791,8 +789,8 @@ public:
 
 #undef Setter
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+    void ReadFromBitStream( const GLToy_BitStream& xStream );
+    void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
     void ReadNoHeader( const char* const pcData, const u_int uLength );
     void SaveToCPPHeader( const GLToy_String& szName, const GLToy_String* pszFilename = NULL );

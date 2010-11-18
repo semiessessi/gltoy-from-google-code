@@ -8,7 +8,6 @@
 #include "Environment/GLToy_Environment.h"
 
 // GLToy
-#include <Core/GLToy_Serialisable.h>
 #include <Core/GLToy_Updateable.h>
 #include <Render/GLToy_Renderable.h>
 
@@ -25,7 +24,6 @@ static const float fSRC_ENV_MIN_BLOCK_HEIGHT = -64.0f;
 class SRC_Map_Block
 : public GLToy_Bounded_AABB
 , public GLToy_Renderable
-, public GLToy_Serialisable
 , public GLToy_Updateable
 {
 	// These are the blocks which make up a level
@@ -38,8 +36,8 @@ class SRC_Map_Block
 		void Update();
 		void Render() const;
 
-        virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-		virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+        void ReadFromBitStream( const GLToy_BitStream& xStream );
+		void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
 		void SetHeight( float fHeight );
 		void SetActive( bool bActive );

@@ -31,9 +31,8 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
+// Parent
 #include <Core/Data Structures/GLToy_FlatDataStructure.h>
-#include <Core/GLToy_Serialisable.h>
 
 // C/C++
 #include <new>
@@ -476,10 +475,10 @@ protected:
 
 };
 
+// TODO: roll this into regular array now serialisation mechanism has been improved
 template < class T >
 class GLToy_SerialisableArray
 : public GLToy_Array< T >
-, public GLToy_Serialisable
 {
 
     typedef GLToy_Array< T > GLToy_Parent;
@@ -540,7 +539,6 @@ public:
 template < class T >
 class GLToy_SerialisableIndirectArray
 : public GLToy_IndirectArray< T >
-, public GLToy_Serialisable
 {
 
     typedef GLToy_IndirectArray< T > GLToy_Parent;
@@ -549,7 +547,6 @@ public:
 
     GLToy_SerialisableIndirectArray()
     : GLToy_Parent()
-    , GLToy_Serialisable()
     {
     }
 
@@ -564,7 +561,7 @@ public:
         for( u_int u = 0; u < uCount; ++u )
         {
             Derived* pxData = new Derived();
-            xStream >> pxData;
+            xStream >> *pxData;
             Append( pxData );
         }
     }
@@ -579,7 +576,7 @@ public:
         for( u_int u = 0; u < uCount; ++u )
         {
             T* pxData = new T;
-            xStream >> pxData;
+            xStream >> *pxData;
             Append( pxData );
         }
     }

@@ -33,7 +33,6 @@
 
 // Parents
 #include <Core/GLToy_Bounded.h>
-#include <Core/GLToy_Serialisable.h>
 #include <Core/GLToy_Updateable.h>
 #include <Render/GLToy_Renderable.h>
 
@@ -51,7 +50,6 @@
 class GLToy_Entity
 : public virtual GLToy_Bounded
 , public GLToy_Renderable
-, public GLToy_Serialisable
 , public GLToy_Updateable
 {
 

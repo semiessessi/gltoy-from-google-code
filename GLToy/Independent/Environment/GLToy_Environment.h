@@ -33,7 +33,6 @@
 
 // Parents
 #include <Core/Data Structures/GLToy_BSPTree.h>
-#include <Core/GLToy_Serialisable.h>
 #include <Core/GLToy_Updateable.h>
 #include <Model/GLToy_Model.h>
 #include <Render/GLToy_Renderable.h>
@@ -58,7 +57,6 @@ class GLToy_EnvironmentLeaf
 class GLToy_Environment
 : protected GLToy_BSPTree< GLToy_EnvironmentLeaf >
 , public GLToy_Renderable
-, public GLToy_Serialisable
 , public GLToy_Updateable
 {
 

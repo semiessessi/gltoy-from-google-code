@@ -31,9 +31,6 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Core/GLToy_Serialisable.h>
-
 // GLToy
 #include <Maths/GLToy_Vector.h>
 
@@ -42,7 +39,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Plane
-: public GLToy_Serialisable
 {
 public:
     GLToy_Plane()
@@ -80,8 +76,8 @@ public:
         return xPosition * m_xNormal + m_fDistance;
     }    
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+    void ReadFromBitStream( const GLToy_BitStream& xStream );
+    void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
     GLToy_Inline const GLToy_Vector_3& GetNormal() const { return m_xNormal; }
     GLToy_Inline float GetDistance() const { return m_fDistance; }

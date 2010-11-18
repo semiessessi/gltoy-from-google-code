@@ -31,9 +31,7 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Core/Data Structures/GLToy_Pool.h>
-#include <Core/GLToy_Serialisable.h>
+// Parent
 #include <Render/GLToy_Renderable.h>
 
 // GLToy
@@ -66,8 +64,6 @@ class GLToy_Texture;
 
 class GLToy_Sprite
 : public GLToy_Renderable
-, public GLToy_Serialisable
-//, public GLToy_PoolAllocated< GLToy_Sprite >
 {
 
 public:

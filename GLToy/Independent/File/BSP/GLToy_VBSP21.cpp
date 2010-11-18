@@ -61,13 +61,12 @@ static const u_int uVBSP21_LUMP_EDGES = 12;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_VBSP21_Lump
-: public GLToy_Serialisable
 {
 
 public:
     
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_uVersion; xStream >> m_uOffset; xStream >> m_uSize; xStream >> m_uFourCC; }
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_uVersion; xStream << m_uOffset; xStream << m_uSize; xStream << m_uFourCC; }
+    void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_uVersion; xStream >> m_uOffset; xStream >> m_uSize; xStream >> m_uFourCC; }
+    void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_uVersion; xStream << m_uOffset; xStream << m_uSize; xStream << m_uFourCC; }
 
     u_int m_uVersion;
     u_int m_uOffset;
@@ -77,13 +76,12 @@ public:
 };
 
 class GLToy_VBSP21_LumpDirectory
-: public GLToy_Serialisable
 {
 
 public:
     
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { for( u_int u = 0; u < 64; ++u ) { xStream >> m_axLumps[ u ]; } }
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { for( u_int u = 0; u < 64; ++u ) { xStream << m_axLumps[ u ]; } }
+    void ReadFromBitStream( const GLToy_BitStream& xStream ) { for( u_int u = 0; u < 64; ++u ) { xStream >> m_axLumps[ u ]; } }
+    void WriteToBitStream( GLToy_BitStream& xStream ) const { for( u_int u = 0; u < 64; ++u ) { xStream << m_axLumps[ u ]; } }
 
 
     GLToy_VBSP21_Lump m_axLumps[ 64 ];
@@ -91,13 +89,12 @@ public:
 };
 
 class GLToy_VBSP21_Plane
-: public GLToy_Serialisable
 {
 
 public:
     
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_xPlane; xStream >> m_uType; }
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_xPlane; xStream << m_uType; }
+    void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_xPlane; xStream >> m_uType; }
+    void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_xPlane; xStream << m_uType; }
 
 
     GLToy_Plane m_xPlane;
@@ -106,13 +103,12 @@ public:
 };
 
 class GLToy_VBSP21_Edge
-: public GLToy_Serialisable
 {
 
 public:
     
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_ausVertexIndices[ 0 ]; xStream >> m_ausVertexIndices[ 1 ]; }
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_ausVertexIndices[ 0 ]; xStream << m_ausVertexIndices[ 1 ]; }
+    void ReadFromBitStream( const GLToy_BitStream& xStream ) { xStream >> m_ausVertexIndices[ 0 ]; xStream >> m_ausVertexIndices[ 1 ]; }
+    void WriteToBitStream( GLToy_BitStream& xStream ) const { xStream << m_ausVertexIndices[ 0 ]; xStream << m_ausVertexIndices[ 1 ]; }
 
 
     u_short m_ausVertexIndices[ 2 ];
@@ -120,12 +116,11 @@ public:
 };
 
 class GLToy_VBSP21_Face
-: public GLToy_Serialisable
 {
 
 public:
     
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
+    void ReadFromBitStream( const GLToy_BitStream& xStream )
     {
         xStream >> m_usPlane;
         xStream >> m_cSide;
@@ -151,7 +146,7 @@ public:
         xStream >> m_uSmoothingGroups;
     }
 
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const
+    void WriteToBitStream( GLToy_BitStream& xStream ) const
     {
         xStream << m_usPlane;
         xStream << m_cSide;
