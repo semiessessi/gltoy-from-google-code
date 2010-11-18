@@ -58,6 +58,7 @@ void SRC_State_MainMenu_LoadCallback( void* const pData )
 
 void SRC_State_MainMenu_EditorCallback( void* const pData )
 {
+	SRC::CreateTestEnvironment();
     GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Editor" ) );
 }
 

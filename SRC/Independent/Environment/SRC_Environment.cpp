@@ -93,6 +93,7 @@
 SRC_Map_Block::SRC_Map_Block()
 : m_bActive( true )
 , m_bEditor_Highlighted( false )
+, m_bEditor_Selected( false )
 {
 }
 
@@ -268,14 +269,7 @@ void SRC_Map_Block::Render() const
 	{
 		if( bInEditor )
 		{
-			if( m_bEditor_Highlighted )
-			{
-				GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 0.0f, 0.0f, m_bActive ? 1.0f : 0.3f ) );
-			}
-			else
-			{
-				GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, m_bActive ? 1.0f : 0.3f ) );
-			}
+			GLToy_Render::SubmitColour( GLToy_Vector_4( 8.0f, m_bEditor_Highlighted ? 0.5f : 1.0f, m_bEditor_Selected ? 0.5f : 1.0f, m_bActive ? 1.0f : 0.3f ) );
 		}
 		else
 		{
@@ -314,9 +308,19 @@ void SRC_Map_Block::Editor_SetHighlighted( bool bHighlight )
 	m_bEditor_Highlighted = bHighlight;
 }
 
+void SRC_Map_Block::Editor_SetSelected( bool bSelected )
+{
+	m_bEditor_Selected = bSelected;
+}
+
 bool SRC_Map_Block::Editor_IsHighlighted() const
 {
 	return m_bEditor_Highlighted;
+}
+
+bool SRC_Map_Block::Editor_IsSelected() const
+{
+	return m_bEditor_Selected;
 }
 
 // ________________________________ SRC_Environment __________________________________
@@ -346,11 +350,7 @@ void SRC_Environment::CreateEnv()
 		const float fY = static_cast<float>( xIterator.Index() / uSRC_ENV_BLOCKS );
 
 		xBlock.SetPosition( GLToy_Vector_2( fX, fY ) );
-
-		// TODO: Remove hack
-
-		xBlock.SetHeight( GLToy_Maths::Floor( GLToy_Maths::Random( 0.0f, 1.0f ) * 3.0f ) );
-		xBlock.SetActive( GLToy_Maths::Random( 0.0f, 1.0f ) > 0.3f );
+		xBlock.SetActive( false );
 	}
 
 	CreatePhysics();
@@ -404,6 +404,11 @@ void SRC_Environment::CreatePhysics()
         xStridedVertices.m_vertices = &( xVertices[ 0 ]( 0 ) );
 
         xShapeArray.pushBack( new hkpConvexVerticesShape( xStridedVertices, xPlanes ) );
+	}
+
+	if( xShapeArray.getSize() == 0 )
+	{
+		return;
 	}
 
     hkpListShape* pxShapeList = new hkpListShape( &( xShapeArray[ 0 ] ), xShapeArray.getSize() );
@@ -466,6 +471,8 @@ void SRC_Environment::Update()
 		return;
 	}
 	
+	// Deal with highlighting
+
 	GLToy_List<SRC_Map_Block*> xHighlighted;
 	
 	GLToy_Vector_2 xPoint = GLToy_UI_System::GetMousePosition();
@@ -475,14 +482,12 @@ void SRC_Environment::Update()
     {
         SRC_Map_Block& xBlock = xIterator.Current();
 		xBlock.Editor_SetHighlighted( false );
-
-        // WTF??? is this some hack so that it only picks the right block instead of everything along the ray?
-        // i suppose its faster than finding the nearest along the ray path... the following logic looks like
-        // it picks the one on the ray path anyway - i'll just leave alone since i don't get what the intent is
+		// Force selection to occur on the top face of the BB
 		GLToy_AABB xAABB = xBlock.GetBB();
 		xAABB.m_xPointMin[1] = xAABB.m_xPointMax[1] - 10.0f;
 		if( xRay.IntersectsWithAABB( xAABB ) )
 		{
+			// Add to the list BB's which intersected on the top face, we will pick the nearest below
 			xHighlighted.Append( &xBlock );
 		}
 	}
@@ -502,7 +507,7 @@ void SRC_Environment::Update()
 			const float fToCurrent = pxHighlighted->GetDistanceToPoint( GLToy_Camera::GetPosition() );
 			const float fToOther = pxOther->GetDistanceToPoint( GLToy_Camera::GetPosition() );
 
-			if( fToOther > fToCurrent )
+			if( fToOther < fToCurrent )
 			{
 				pxHighlighted = pxOther;
 			}
@@ -510,22 +515,59 @@ void SRC_Environment::Update()
 
 		pxHighlighted->Editor_SetHighlighted( true );
 	}
-		
+
 	if( pxHighlighted )
 	{
-		if( GLToy_Input_System::GetMouseWheelScroll() == GLTOY_MOUSE_SCROLL_POSITIVE )
+		if( GLToy_Input_System::GetDebouncedMouseLeft() )
 		{
-			pxHighlighted->SetHeight( GLToy_Maths::Floor( pxHighlighted->GetHeight() - 1.0f ) );
+			pxHighlighted->Editor_SetSelected( !pxHighlighted->Editor_IsSelected() );
+			if( !GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetCtrlKey() ) )
+			{
+				// Deselect existing blocks
+				GLToy_Iterate( SRC_Map_Block, xIterator, &m_xBlocks )
+				{
+					SRC_Map_Block& xBlock = xIterator.Current();
+					if( &xBlock != pxHighlighted )
+					{
+						xBlock.Editor_SetSelected( false );
+					}
+				}
+			}
 		}
-		else if( GLToy_Input_System::GetMouseWheelScroll() == GLTOY_MOUSE_SCROLL_NEGATIVE )
+	}
+
+	// Deal with selected blocks
+
+	bool bChange = false;
+
+	GLToy_Iterate( SRC_Map_Block, xIterator, &m_xBlocks )
+	{
+		SRC_Map_Block& xBlock = xIterator.Current();
+
+		if( xBlock.Editor_IsSelected() )
 		{
-			pxHighlighted->SetHeight( GLToy_Maths::Floor( pxHighlighted->GetHeight() + 1.0f ) );
-		}
+			if( GLToy_Input_System::GetMouseWheelScroll() == GLTOY_MOUSE_SCROLL_POSITIVE )
+			{
+				bChange = true;
+				xBlock.SetHeight( GLToy_Maths::Floor( xBlock.GetHeight() - 1.0f ) );
+			}
+			else if( GLToy_Input_System::GetMouseWheelScroll() == GLTOY_MOUSE_SCROLL_NEGATIVE )
+			{
+				bChange = true;
+				xBlock.SetHeight( GLToy_Maths::Floor( xBlock.GetHeight() + 1.0f ) );
+			}
 		
-		if( /*debounce key pressed*/ 0 )
-		{
-			pxHighlighted->SetActive( !pxHighlighted->IsActive() );
+			if( GLToy_Input_System::GetDebouncedMouseMiddle() )
+			{
+				bChange = true;
+				xBlock.SetActive( !xBlock.IsActive() );
+			}
 		}
+	}
+
+	if( bChange )
+	{
+		CreatePhysics();
 	}
 }
 

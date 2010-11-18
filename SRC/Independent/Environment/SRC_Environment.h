@@ -71,12 +71,16 @@ class SRC_Map_Block
 
 		bool Editor_IsHighlighted() const;
 		void Editor_SetHighlighted( bool bHighlight );
+		
+		bool Editor_IsSelected() const;
+		void Editor_SetSelected( bool bSelected );
 
 	private:
 
 		bool m_bActive;
 
 		bool m_bEditor_Highlighted;
+		bool m_bEditor_Selected;
 };
 
 class SRC_Environment : public GLToy_Environment
