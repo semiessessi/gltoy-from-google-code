@@ -104,7 +104,7 @@ void GLToy_Camera::Update()
         s_fRX = GLToy_Maths::Clamp( s_fRX, -( GLToy_Maths::Pi * 0.5f ), GLToy_Maths::Pi * 0.5f );
     }
 
-    if( s_bOverCam && GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetAltKey() ) )
+    if( s_bOverCam && GLToy_Input_System::IsMouseRightButtonDown() )
     {
         if( GLToy_Input_System::IsKeyDown( 'W' )
             || GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetUpKey() ) )
@@ -138,7 +138,7 @@ void GLToy_Camera::Update()
     const float fCRY = GLToy_Maths::Cos( s_fRY );
     s_xDirection = GLToy_Vector_3( fCRX * fSRY, -fSRX, fCRX * fCRY );
     s_xUp = GLToy_Vector_3( fSRX * fSRY, fCRX, fSRX * fCRY );
-    if( s_bFlyCam || ( s_bOverCam && !GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetAltKey() ) ) )
+    if( s_bFlyCam || ( s_bOverCam && !GLToy_Input_System::IsMouseRightButtonDown() ) )
     {
         const GLToy_Vector_3 xRight = GetRight();
         GLToy_Vector_3 xDirection = s_xDirection;
