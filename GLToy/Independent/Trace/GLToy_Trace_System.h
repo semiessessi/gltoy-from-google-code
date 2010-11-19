@@ -24,71 +24,64 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_RAY_H_
-#define __GLTOY_RAY_H_
+#ifndef __GLTOY_TRACE_SYSTEM_H_
+#define __GLTOY_TRACE_SYSTEM_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // GLToy
-#include <Maths/GLToy_Maths.h>
+#include <Maths/GLToy_Ray.h>
+#include <Maths/GLToy_Vector.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// M A C R O S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_AABB;
-class GLToy_Bounded;
-class GLToy_OBB;
-class GLToy_Plane;
-class GLToy_Sphere;
+#define GLToy_Trace_System_VectorPairOverload( xReturnType, xFunction ) static xReturnType xFunction( const GLToy_Vector_3& xPosition1, const GLToy_Vector_3& xPosition2 )\
+    {\
+        const float fLimitingDistance = ( xPosition2 - xPosition1 ).Magnitude();\
+        const GLToy_Ray xRay = GLToy_Ray::FromPositions( xPosition1, xPosition2 );\
+        return xFunction( xRay, fLimitingDistance );\
+    }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Ray
+class GLToy_Trace_Result
 {
 
 public:
 
-    GLToy_Ray()
-    : m_xPosition( 0.0f, 0.0f, 0.0f )
-    , m_xDirection( 0.0f, 0.0f, 1.0f )
-    {
-    }
+    bool m_bHit;
+    float m_fParameter;
+    // TODO: although the raytrace functions at the bottom of this stuff can always get these they aren't propogated upwards yet
+    //GLToy_Vector_3 m_xPosition;
+    //GLToy_Vector_3 m_xNormal;
+    GLToy_Hash m_uHitEntity;
 
-    GLToy_Ray( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection )
-    : m_xPosition( xPosition )
-    , m_xDirection( xDirection )
-    {
-    }
+};
 
-    const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
-    const GLToy_Vector_3& GetDirection() const { return m_xDirection; }
+class GLToy_Trace_System
+{
 
-    GLToy_Vector_3 Evaluate( const float fParameter ) const { return m_xPosition + m_xDirection * fParameter; }
+public:
 
-    bool IntersectsWithPlane( const GLToy_Plane& xPlane, float* const pfParameter = NULL, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
-    bool IntersectsWithAABB( const GLToy_AABB& xAABB, float* const pfParameter = NULL, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
-    bool IntersectsWithSphere( const GLToy_Sphere& xSphere, float* const pfParameter = 0, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
-    bool IntersectsWithOBB( const GLToy_OBB& xOBB, float* const pfParameter = 0, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
-    bool IntersectsWith( const GLToy_Bounded& xBounded, float* const pfParameter = 0, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL ) const;
+    static bool LineOfSightTest( const GLToy_Ray& xRay, const float fLimitingDistance );
+    static float Trace( const GLToy_Ray& xRay, const float fLimitingDistance );
+    static GLToy_Hash TraceEntity( const GLToy_Ray& xRay, const float fLimitingDistance );
 
-    virtual void Render() const;
+    static GLToy_Trace_Result FullTrace( const GLToy_Ray& xRay, const float fLimitingDistance );
 
-    static GLToy_Ray FromPositions( const GLToy_Vector_3& xPosition1, const GLToy_Vector_3& xPosition2 )
-    {
-        GLToy_Vector_3 xDirection = xPosition2 - xPosition1;
-        xDirection.Normalise();
-        return GLToy_Ray( xPosition1, xDirection );
-    }
+    GLToy_Trace_System_VectorPairOverload( bool, LineOfSightTest )
+    GLToy_Trace_System_VectorPairOverload( float, Trace )
+    GLToy_Trace_System_VectorPairOverload( GLToy_Hash, TraceEntity )
 
-protected:
+    GLToy_Trace_System_VectorPairOverload( GLToy_Trace_Result, FullTrace )
 
-    GLToy_Vector_3 m_xPosition;
-    GLToy_Vector_3 m_xDirection;
+private:
 
 };
 

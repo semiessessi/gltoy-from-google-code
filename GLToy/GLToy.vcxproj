@@ -357,6 +357,7 @@
     <ClCompile Include="Independent\Sound\GLToy_Sound.cpp" />
     <ClCompile Include="Independent\Sound\GLToy_Sound_System.cpp" />
     <ClCompile Include="Independent\Test\GLToy_Test_System.cpp" />
+    <ClCompile Include="Independent\Trace\GLToy_Trace_System.cpp" />
     <ClCompile Include="Win32\Core\Platform_GLToy_Memory.cpp" />
     <ClCompile Include="Win32\File\Platform_GLToy_WaveFile.cpp" />
     <ClCompile Include="Win32\Render\Platform_GLToy_Texture_Renderable.cpp" />
@@ -573,6 +574,7 @@
     <ClInclude Include="Independent\Sound\GLToy_Sound_Source.h" />
     <ClInclude Include="Independent\Sound\GLToy_Sound_System.h" />
     <ClInclude Include="Independent\Test\GLToy_Test_System.h" />
+    <ClInclude Include="Independent\Trace\GLToy_Trace_System.h" />
     <ClInclude Include="Win32\Sound\Platform_GLToy_Sound_System.h" />
     <ClInclude Include="X11\Core\Platform_GLToy.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

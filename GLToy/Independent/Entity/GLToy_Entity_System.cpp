@@ -159,7 +159,7 @@ void GLToy_Entity_System::Render()
 
 float GLToy_Entity_System::Trace( const GLToy_Ray& xRay, const float fLimitingDistance, GLToy_Hash* const puHitEntity ) 
 {
-    float fMin = fLimitingDistance;
+    float fMin = ( fLimitingDistance < 0.0f ) ? GLToy_Maths::LargeFloat : fLimitingDistance;
     float fParameter = 0;
     
     if( puHitEntity )
@@ -167,14 +167,25 @@ float GLToy_Entity_System::Trace( const GLToy_Ray& xRay, const float fLimitingDi
         *puHitEntity = uGLTOY_BAD_HASH;
     }
 
+    bool bHit = false;
+
     GLToy_ConstIterate( GLToy_Entity*, xIterator, &s_xEntities )
     {
         const GLToy_Entity* const pxEntity = xIterator.Current();
+
+        // early out objects that are too distant to possibly need a proper test
+        const float fDistanceToCheck = fLimitingDistance + pxEntity->GetBoundingSphere().GetRadius();
+        if( ( pxEntity->GetPosition() - xRay.GetPosition() ).MagnitudeSquared() > ( fDistanceToCheck * fDistanceToCheck ) )
+        {
+            continue;
+        }
+
         if( pxEntity->IntersectWithRay( xRay, &fParameter ) )
         {
             if( fParameter < fMin )
             {
                 fMin = fParameter;
+                bHit = true;
                 if( puHitEntity )
                 {
                     *puHitEntity = pxEntity->GetHash();
@@ -183,7 +194,7 @@ float GLToy_Entity_System::Trace( const GLToy_Ray& xRay, const float fLimitingDi
         }
     }
 
-    return fMin;
+    return bHit ? fMin : -1.0f;
 }
 
 GLToy_Entity* GLToy_Entity_System::FindEntity( const GLToy_Hash uHash )

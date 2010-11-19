@@ -151,6 +151,9 @@
     <Filter Include="Win32\Sound">
       <UniqueIdentifier>{82f465b4-2ab0-4bd7-bae5-fc6fb4110914}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Trace">
+      <UniqueIdentifier>{ae59a446-2a72-4426-a7ac-fdc576178a9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_GLToy.cpp">
@@ -506,6 +509,9 @@
     </ClCompile>
     <ClCompile Include="Independent\Model\GLToy_Model_FlatMaterials.cpp">
       <Filter>Independent\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Trace\GLToy_Trace_System.cpp">
+      <Filter>Independent\Trace</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -910,6 +916,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Model\GLToy_Model_FlatMaterials.h">
       <Filter>Independent\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Trace\GLToy_Trace_System.h">
+      <Filter>Independent\Trace</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

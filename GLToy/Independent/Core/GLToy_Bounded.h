@@ -52,6 +52,8 @@ public:
     virtual const GLToy_Vector_3& GetPosition() const = 0;
     virtual void SetPosition( const GLToy_Vector_3& xPosition ) = 0;
 
+    virtual GLToy_Sphere GetBoundingSphere() const = 0;
+
     virtual bool IntersectWithRay( const GLToy_Ray& xRay, float* const pfParameter = 0, GLToy_Vector_3* const pxPosition = 0, GLToy_Vector_3* const pxNormal = 0 ) const = 0;
     virtual bool IntersectWithAABB( const GLToy_AABB& xAABB ) const = 0;
     //virtual bool IntersectWithOBB();
@@ -74,6 +76,8 @@ public:
     virtual ~GLToy_Bounded_AABB()
     {
     }
+
+    virtual GLToy_Sphere GetBoundingSphere() const { return m_xBoundingBox.GetBoundingSphere(); }
 
     GLToy_Inline GLToy_AABB& GetBB() { return m_xBoundingBox; }
     GLToy_Inline const GLToy_AABB& GetBB() const { return m_xBoundingBox; }
@@ -132,7 +136,7 @@ public:
     {
     }
 
-    const GLToy_Sphere& GetBoundingSphere() const { return m_xBoundingSphere; }
+    virtual GLToy_Sphere GetBoundingSphere() const { return m_xBoundingSphere; }
 
     virtual void SetPosition( const GLToy_Vector_3& xPosition ) { m_xBoundingSphere = GLToy_Sphere( xPosition, m_xBoundingSphere.GetRadius() ); }
     virtual const GLToy_Vector_3& GetPosition() const { return m_xBoundingSphere.GetPosition(); }
@@ -178,6 +182,8 @@ public:
     virtual ~GLToy_Bounded_OBB()
     {
     }
+
+    virtual GLToy_Sphere GetBoundingSphere() const { return m_xBoundingBox.GetBoundingSphere(); }
 
     GLToy_OBB& GetOBB() { return m_xBoundingBox; }
     const GLToy_OBB& GetOBB() const { return m_xBoundingBox; }
