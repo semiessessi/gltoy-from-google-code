@@ -168,42 +168,78 @@ float GLToy_Entity_System::Trace( const GLToy_Ray& xRay, const float fLimitingDi
     }
 
     bool bHit = false;
-    GLToy_ConstIterate( GLToy_Entity*, xIterator, &s_xEntities )
+    
+    class TraceFunctor
+    : public GLToy_ConstFunctor< GLToy_Entity* >
     {
-        const GLToy_Entity* const pxEntity = xIterator.Current();
+    public:
 
-        // early out objects that are too distant to possibly need a proper test
-        const float fDistanceToCheck = fLimitingDistance + pxEntity->GetBoundingSphere().GetRadius();
-        if( ( pxEntity->GetPosition() - xRay.GetPosition() ).MagnitudeSquared() > ( fDistanceToCheck * fDistanceToCheck ) )
+        bool& bHit;
+        const float& fLimitingDistance;
+        float& fMin;
+        float& fParameter;
+        const GLToy_Ray& xRay;
+
+        GLToy_Hash* const puHitEntity;
+        GLToy_Vector_3* const pxPosition;
+        GLToy_Vector_3* const pxNormal;
+        
+        TraceFunctor( bool& bH, const float& fLD, float& fM, float& fP, const GLToy_Ray& xR, GLToy_Hash* const puHE, GLToy_Vector_3* const pxP, GLToy_Vector_3* const pxN )
+        : bHit( bH )
+        , fLimitingDistance( fLD )
+        , fMin( fM )
+        , fParameter( fP )
+        , xRay( xR )
+        , puHitEntity( puHE )
+        , pxPosition( pxP )
+        , pxNormal( pxN )
         {
-            continue;
         }
 
-        GLToy_Vector_3 xPosition;
-        GLToy_Vector_3 xNormal;
-        if( pxEntity->IntersectWithRay( xRay, &fParameter, pxPosition ? &xPosition : NULL, pxNormal ? &xNormal : NULL ) )
+        void operator()( GLToy_Entity* const* const ppxEntity )
         {
-            if( fParameter < fMin )
+            if( !ppxEntity )
             {
-                fMin = fParameter;
-                bHit = true;
-                if( puHitEntity )
-                {
-                    *puHitEntity = pxEntity->GetHash();
-                }
+                return;
+            }
 
-                if( pxPosition )
-                {
-                    *pxPosition = xPosition;
-                }
+            const GLToy_Entity* const pxEntity = *ppxEntity;
 
-                if( pxNormal )
+            // early out objects that are too distant to possibly need a proper test
+            const float fDistanceToCheck = fMin + pxEntity->GetBoundingSphere().GetRadius();
+            if( ( pxEntity->GetPosition() - xRay.GetPosition() ).MagnitudeSquared() > ( fDistanceToCheck * fDistanceToCheck ) )
+            {
+                return;
+            }
+
+            GLToy_Vector_3 xPosition;
+            GLToy_Vector_3 xNormal;
+            if( pxEntity->IntersectWithRay( xRay, &fParameter, pxPosition ? &xPosition : NULL, pxNormal ? &xNormal : NULL ) )
+            {
+                if( fParameter < fMin )
                 {
-                    *pxNormal = xNormal;
+                    fMin = fParameter;
+                    bHit = true;
+                    if( puHitEntity )
+                    {
+                        *puHitEntity = pxEntity->GetHash();
+                    }
+
+                    if( pxPosition )
+                    {
+                        *pxPosition = xPosition;
+                    }
+
+                    if( pxNormal )
+                    {
+                        *pxNormal = xNormal;
+                    }
                 }
             }
         }
-    }
+    } xFunctor( bHit, fLimitingDistance, fMin, fParameter, xRay, puHitEntity, pxPosition, pxNormal );
+
+    s_xEntities.Traverse( xFunctor );
 
     return bHit ? fMin : -1.0f;
 }
