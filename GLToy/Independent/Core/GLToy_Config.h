@@ -33,7 +33,7 @@
         #define GLTOY_USE_FRIDGESCRIPT        (1)
     #endif
     
-    #ifndef _NOHAVOK
+    #ifdef _HAVOK
         #define GLTOY_USE_HAVOK_PHYSICS        (1)
     #endif
 #endif

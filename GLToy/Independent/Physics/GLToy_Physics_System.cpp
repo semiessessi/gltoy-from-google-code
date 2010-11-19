@@ -97,17 +97,17 @@
 #define HK_CLASSES_FILE <Common/Serialize/Classlist/hkKeyCodeClasses.h>
 
 //#if // Havok 7.1
-// #include <Common/Serialize/Util/hkBuiltinTypeRegistry.cxx>
+#include <Common/Serialize/Util/hkBuiltinTypeRegistry.cxx>
 //#elseif // Havok 2010
-#undef HK_FEATURE_PRODUCT_AI
-#undef HK_FEATURE_PRODUCT_ANIMATION
-#undef HK_FEATURE_PRODUCT_CLOTH
-#undef HK_FEATURE_PRODUCT_DESTRUCTION
-#undef HK_FEATURE_PRODUCT_BEHAVIOR
+//#undef HK_FEATURE_PRODUCT_AI
+//#undef HK_FEATURE_PRODUCT_ANIMATION
+//#undef HK_FEATURE_PRODUCT_CLOTH
+//#undef HK_FEATURE_PRODUCT_DESTRUCTION
+//#undef HK_FEATURE_PRODUCT_BEHAVIOR
 
-#define HK_EXCLUDE_LIBRARY_hkgpConvexDecomposition
-#define HK_FEATURE_REFLECTION_PHYSICS
-#include <Common/Base/Config/hkProductFeatures.cxx>
+//#define HK_EXCLUDE_LIBRARY_hkgpConvexDecomposition
+//#define HK_FEATURE_REFLECTION_PHYSICS
+//#include <Common/Base/Config/hkProductFeatures.cxx>
 //#endif
 
 #endif
@@ -275,7 +275,7 @@ bool GLToy_Physics_System::Initialise()
     // this initialisation routine is inspired by the ConsoleExampleMt_win32_9-0 example in the Havok SDK
     hkMemoryRouter* pxMemoryRouter = hkMemoryInitUtil::initDefault(
 			// TODO: work out how to make this next line only if havok 2010, or not havok 7
-			hkMallocAllocator::m_defaultMallocAllocator, hkMemorySystem::FrameInfo( 500000 )
+			//hkMallocAllocator::m_defaultMallocAllocator, hkMemorySystem::FrameInfo( 500000 )
 		);
     hkBaseSystem::init( pxMemoryRouter, GLToy_Havok_ErrorReport );
 

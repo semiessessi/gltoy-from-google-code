@@ -7,23 +7,23 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FPSToy", "FPSToy\FPSToy.vcx
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Win32 = Debug|Win32
-		Final|Win32 = Final|Win32
-		Release|Win32 = Release|Win32
+		Debug (Havok)|Win32 = Debug (Havok)|Win32
+		Final (Havok)|Win32 = Final (Havok)|Win32
+		Release (Havok)|Win32 = Release (Havok)|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D102268C-2C78-4954-99A9-433EF8F9182F}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D102268C-2C78-4954-99A9-433EF8F9182F}.Debug|Win32.Build.0 = Debug|Win32
-		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final|Win32.ActiveCfg = Final|Win32
-		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final|Win32.Build.0 = Final|Win32
-		{D102268C-2C78-4954-99A9-433EF8F9182F}.Release|Win32.ActiveCfg = Release|Win32
-		{D102268C-2C78-4954-99A9-433EF8F9182F}.Release|Win32.Build.0 = Release|Win32
-		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Debug|Win32.ActiveCfg = Debug|Win32
-		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Debug|Win32.Build.0 = Debug|Win32
-		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Final|Win32.ActiveCfg = Final|Win32
-		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Final|Win32.Build.0 = Final|Win32
-		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Release|Win32.ActiveCfg = Release|Win32
-		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Release|Win32.Build.0 = Release|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Debug (Havok)|Win32.ActiveCfg = Debug (Havok)|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Debug (Havok)|Win32.Build.0 = Debug (Havok)|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (Havok)|Win32.ActiveCfg = Final (Havok)|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (Havok)|Win32.Build.0 = Final (Havok)|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Release (Havok)|Win32.ActiveCfg = Release (Havok)|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Release (Havok)|Win32.Build.0 = Release (Havok)|Win32
+		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Debug (Havok)|Win32.ActiveCfg = Debug (Havok)|Win32
+		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Debug (Havok)|Win32.Build.0 = Debug (Havok)|Win32
+		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Final (Havok)|Win32.ActiveCfg = Final (Havok)|Win32
+		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Final (Havok)|Win32.Build.0 = Final (Havok)|Win32
+		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Release (Havok)|Win32.ActiveCfg = Release (Havok)|Win32
+		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Release (Havok)|Win32.Build.0 = Release (Havok)|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
