@@ -41,6 +41,7 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// TODO: Make GLToy_AlignedPool and GLToy_AlignedPoolAllocated
 class GLToy_AlignedVector_Data
 : public GLToy_PoolAllocated< GLToy_AlignedVector_Data >
 {
@@ -53,6 +54,7 @@ public:
 private:
 
     float m_afComponents[ 4 ];
+
 };
 
 // NOTE: no virtual functions - this is important for this sort of speed...
@@ -78,13 +80,13 @@ public:
         delete m_pxComponents;
     }
 
-    void Add( const GLToy_AlignedVector_Data& xData );
-    void Sub( const GLToy_AlignedVector_Data& xData );
+    void Add4v( const GLToy_AlignedVector_Data& xData );
+    void Sub4v( const GLToy_AlignedVector_Data& xData );
 
 protected:
 
-    void Platform_Add( const GLToy_AlignedVector_Data& xData );
-    void Platform_Sub( const GLToy_AlignedVector_Data& xData );
+    void Platform_Add4v( const GLToy_AlignedVector_Data& xData );
+    void Platform_Sub4v( const GLToy_AlignedVector_Data& xData );
 
     GLToy_AlignedVector_Data* m_pxComponents;
 
@@ -94,7 +96,14 @@ class GLToy_AlignedVector_4
 : public GLToy_AlignedVector_Base
 {
 
+    typedef GLToy_AlignedVector_Base GLToy_Parent;
+
 public:
+
+    GLToy_AlignedVector_4();
+    GLToy_AlignedVector_4( const float fX, const float fY, const float fZ, const float fW );
+    GLToy_AlignedVector_4( const GLToy_Vector_4& xVector );
+    GLToy_AlignedVector_4( const GLToy_AlignedVector_4& xVector );
 
 };
 

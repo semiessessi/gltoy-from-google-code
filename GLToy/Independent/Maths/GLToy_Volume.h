@@ -227,6 +227,8 @@ public:
     {
     }
 
+    virtual void Render() const;
+
     virtual float GetSurfaceArea() const
     {
         return 4.0f * GLToy_Maths::Pi * m_fRadius * m_fRadius;

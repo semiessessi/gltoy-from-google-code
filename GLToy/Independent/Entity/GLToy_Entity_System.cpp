@@ -157,9 +157,33 @@ void GLToy_Entity_System::Render()
     }
 }
 
-float GLToy_Entity_System::Trace( const GLToy_Ray& xRay, const float fLimitingDistance ) 
+float GLToy_Entity_System::Trace( const GLToy_Ray& xRay, const float fLimitingDistance, GLToy_Hash* const puHitEntity ) 
 {
-    return -1.0f;
+    float fMin = fLimitingDistance;
+    float fParameter = 0;
+    
+    if( puHitEntity )
+    {
+        *puHitEntity = uGLTOY_BAD_HASH;
+    }
+
+    GLToy_ConstIterate( GLToy_Entity*, xIterator, &s_xEntities )
+    {
+        const GLToy_Entity* const pxEntity = xIterator.Current();
+        if( pxEntity->IntersectWithRay( xRay, &fParameter ) )
+        {
+            if( fParameter < fMin )
+            {
+                fMin = fParameter;
+                if( puHitEntity )
+                {
+                    *puHitEntity = pxEntity->GetHash();
+                }
+            }
+        }
+    }
+
+    return fMin;
 }
 
 GLToy_Entity* GLToy_Entity_System::FindEntity( const GLToy_Hash uHash )

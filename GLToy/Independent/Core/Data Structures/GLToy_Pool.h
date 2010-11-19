@@ -142,22 +142,22 @@ public:
 
     GLToy_Inline void* operator new( const u_int uSize )
     {
-        return s_pxPool.Allocate();
+        return s_xPool.Allocate();
     }
 
     GLToy_Inline void operator delete( void* const pxPointer )
     {
-        s_pxPool.Free( reinterpret_cast< T* const >( pxPointer ) );
+        s_xPool.Free( reinterpret_cast< T* const >( pxPointer ) );
     }
 
 private:
 
-    static GLToy_Pool< T > s_pxPool;
+    static GLToy_Pool< T > s_xPool;
 
 };
 
 template< class T >
-GLToy_Pool< T > GLToy_PoolAllocated< T >::s_pxPool;
+GLToy_Pool< T > GLToy_PoolAllocated< T >::s_xPool;
 
 #include <Core/GLToy_Memory_DebugOn.h>
 

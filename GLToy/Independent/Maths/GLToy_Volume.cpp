@@ -39,6 +39,12 @@
 #include <Render/GLToy_Texture.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// C O N S T A N T S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+static const u_int uSPHERE_RENDER_POINTCOUNT = 400;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -107,6 +113,31 @@ void GLToy_AABB::Render() const
     GLToy_Render::SubmitVertex( xVertex );
     xVertex[ 2 ] = m_xPointMax[ 2 ];
     GLToy_Render::SubmitVertex( xVertex );
+
+    GLToy_Render::EndSubmit();
+}
+
+void GLToy_Sphere::Render() const
+{
+    GLToy_Texture_System::BindWhite();
+
+    // draw two squares, then the remaining 4 lines between them
+    GLToy_Render::StartSubmittingLineStrip();
+
+    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+
+    for( u_int u = 0; u < uSPHERE_RENDER_POINTCOUNT; ++u )
+    {
+        const float fS = static_cast< float >( u );
+        const float fT = static_cast< float >( u & 0xF );
+        GLToy_Render::SubmitVertex(
+            GLToy_Vector_3(
+                GLToy_Maths::Sin( fS ) * GLToy_Maths::Sin( fT ),
+                GLToy_Maths::Cos( fS ) * GLToy_Maths::Sin( fT ),
+                GLToy_Maths::Cos( fT )
+            )
+        );
+    }
 
     GLToy_Render::EndSubmit();
 }
