@@ -84,8 +84,8 @@ GLToy_Trace_Result GLToy_Trace_System::FullTrace( const GLToy_Ray& xRay, const f
     {
         false,
         GLToy_Maths::LargeFloat,
-        //GLToy_Maths::ZeroVector3,
-        //GLToy_Maths::ZeroVector3,
+        GLToy_Maths::ZeroVector3,
+        GLToy_Maths::ZeroVector3,
         uGLTOY_BAD_HASH
     };
 
@@ -97,7 +97,7 @@ GLToy_Trace_Result GLToy_Trace_System::FullTrace( const GLToy_Ray& xRay, const f
     }
     else
     {
-        xReturnValue.m_fParameter = GLToy_Entity_System::Trace( xRay, fLimitingDistance, &( xReturnValue.m_uHitEntity ) );
+        xReturnValue.m_fParameter = GLToy_Entity_System::Trace( xRay, fLimitingDistance, &( xReturnValue.m_uHitEntity ), &( xReturnValue.m_xPosition ), &( xReturnValue.m_xNormal ) );
         xReturnValue.m_bHit = ( xReturnValue.m_fParameter >= 0.0f );
     }
 

@@ -157,7 +157,7 @@ void GLToy_Entity_System::Render()
     }
 }
 
-float GLToy_Entity_System::Trace( const GLToy_Ray& xRay, const float fLimitingDistance, GLToy_Hash* const puHitEntity ) 
+float GLToy_Entity_System::Trace( const GLToy_Ray& xRay, const float fLimitingDistance, GLToy_Hash* const puHitEntity, GLToy_Vector_3* const pxPosition, GLToy_Vector_3* const pxNormal ) 
 {
     float fMin = ( fLimitingDistance < 0.0f ) ? GLToy_Maths::LargeFloat : fLimitingDistance;
     float fParameter = 0;
@@ -168,7 +168,6 @@ float GLToy_Entity_System::Trace( const GLToy_Ray& xRay, const float fLimitingDi
     }
 
     bool bHit = false;
-
     GLToy_ConstIterate( GLToy_Entity*, xIterator, &s_xEntities )
     {
         const GLToy_Entity* const pxEntity = xIterator.Current();
@@ -180,7 +179,9 @@ float GLToy_Entity_System::Trace( const GLToy_Ray& xRay, const float fLimitingDi
             continue;
         }
 
-        if( pxEntity->IntersectWithRay( xRay, &fParameter ) )
+        GLToy_Vector_3 xPosition;
+        GLToy_Vector_3 xNormal;
+        if( pxEntity->IntersectWithRay( xRay, &fParameter, pxPosition ? &xPosition : NULL, pxNormal ? &xNormal : NULL ) )
         {
             if( fParameter < fMin )
             {
@@ -189,6 +190,16 @@ float GLToy_Entity_System::Trace( const GLToy_Ray& xRay, const float fLimitingDi
                 if( puHitEntity )
                 {
                     *puHitEntity = pxEntity->GetHash();
+                }
+
+                if( pxPosition )
+                {
+                    *pxPosition = xPosition;
+                }
+
+                if( pxNormal )
+                {
+                    *pxNormal = xNormal;
                 }
             }
         }

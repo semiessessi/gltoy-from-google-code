@@ -58,8 +58,8 @@ public:
     bool m_bHit;
     float m_fParameter;
     // TODO: although the raytrace functions at the bottom of this stuff can always get these they aren't propogated upwards yet
-    //GLToy_Vector_3 m_xPosition;
-    //GLToy_Vector_3 m_xNormal;
+    GLToy_Vector_3 m_xPosition;
+    GLToy_Vector_3 m_xNormal;
     GLToy_Hash m_uHitEntity;
 
 };

@@ -63,7 +63,7 @@ public:
     static void Update();
     static void Render();
 
-    static float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f, GLToy_Hash* const puHitEntity = 0 );
+    static float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f, GLToy_Hash* const puHitEntity = NULL, GLToy_Vector_3* const pxPosition = NULL, GLToy_Vector_3* const pxNormal = NULL );
 
     static GLToy_Entity* FindEntity( const GLToy_Hash uHash );
     static GLToy_Entity* LookUpEntity( const GLToy_String& szName );
