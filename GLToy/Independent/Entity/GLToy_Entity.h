@@ -112,7 +112,7 @@ protected:
 };
 
 class GLToy_Entity_Null
-: public GLToy_Bounded_AABB
+: public GLToy_Unbounded
 , public GLToy_Entity
 {
 
@@ -122,7 +122,7 @@ public:
 
     GLToy_Entity_Null( const GLToy_Hash uHash, const u_int uType )
     : GLToy_Parent( uHash, uType )
-    , GLToy_Bounded_AABB()
+    , GLToy_Unbounded()
     {
     }
 

@@ -43,10 +43,7 @@ class GLToy_Bounded
 
 public:
 
-    GLToy_Bounded()
-    {
-    }
-
+    GLToy_Bounded() {}
     virtual ~GLToy_Bounded() {}
 
     virtual const GLToy_Vector_3& GetPosition() const = 0;
@@ -58,6 +55,22 @@ public:
     virtual bool IntersectWithAABB( const GLToy_AABB& xAABB ) const = 0;
     //virtual bool IntersectWithOBB();
     //virtual bool IntersectWithSphere();
+
+};
+
+class GLToy_Unbounded
+: public virtual GLToy_Bounded
+{
+
+public:
+    
+    virtual const GLToy_Vector_3& GetPosition() const { return GLToy_Maths::LargeVector3; }
+    virtual void SetPosition( const GLToy_Vector_3& xPosition ) {};
+
+    virtual GLToy_Sphere GetBoundingSphere() const { return GLToy_Sphere( GLToy_Maths::LargeVector3, GLToy_Maths::LargeFloat ); }
+
+    virtual bool IntersectWithAABB( const GLToy_AABB& ) const { return false; }
+    virtual bool IntersectWithRay( const GLToy_Ray&, float* const, GLToy_Vector_3* const, GLToy_Vector_3* const ) const { return false; }
 
 };
 
