@@ -92,11 +92,13 @@ GLToy_Trace_Result GLToy_Trace_System::FullTrace( const GLToy_Ray& xRay, const f
     const float fEnvLimit = GLToy_Environment_System::Trace( xRay, fLimitingDistance );
     if( fEnvLimit > 0.0f )
     {
-        GLToy_Entity_System::Trace( xRay, fEnvLimit, &( xReturnValue.m_uHitEntity ) );
+        xReturnValue.m_bHit = true;
+        xReturnValue.m_fParameter = GLToy_Entity_System::Trace( xRay, fEnvLimit, &( xReturnValue.m_uHitEntity ) );
     }
     else
     {
-        GLToy_Entity_System::Trace( xRay, fLimitingDistance, &( xReturnValue.m_uHitEntity ) );
+        xReturnValue.m_fParameter = GLToy_Entity_System::Trace( xRay, fLimitingDistance, &( xReturnValue.m_uHitEntity ) );
+        xReturnValue.m_bHit = ( xReturnValue.m_fParameter >= 0.0f );
     }
 
     return xReturnValue;
