@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Win32">
+      <UniqueIdentifier>{c93ebb2f-39eb-4733-9802-f4898d59e9ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Core">
+      <UniqueIdentifier>{62729de4-7ca3-44ce-aa2f-78802d55432e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent">
+      <UniqueIdentifier>{f2ef08ca-f28e-42f8-913b-9e5dd942364f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Render">
+      <UniqueIdentifier>{e2df9dff-f759-4404-81b1-89e9f0b2e331}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Core">
+      <UniqueIdentifier>{97f47abd-9691-4e4c-bb2d-7e633e8b7184}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="X11">
+      <UniqueIdentifier>{c20b91f9-eda2-485c-96a3-e7c39191cd0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="X11\Core">
+      <UniqueIdentifier>{d40f7ab4-b375-4c7d-b8fd-d6461f50c374}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Win32\Core\Platform_TestCube.cpp">
+      <Filter>Win32\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Project_GLToy_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\TestCube_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\Project_GLToy.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="X11\Core\Platform_TestCube.cpp">
+      <Filter>X11\Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Win32\Core\Platform_TestCube.h">
+      <Filter>Win32\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\TestCube_Render.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\TestCube.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="X11\Core\Platform_TestCube.h">
+      <Filter>X11\Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
