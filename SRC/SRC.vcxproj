@@ -15,7 +15,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{451F6CAD-AF6B-479E-9321-C4DAE0F40260}</ProjectGuid>
+    <ProjectGuid>{7B7A4EDC-F524-44BE-AD87-227E3651D445}</ProjectGuid>
     <RootNamespace>SRC</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
