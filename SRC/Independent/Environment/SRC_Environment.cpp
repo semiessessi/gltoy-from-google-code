@@ -32,7 +32,7 @@
 #include "Core/Data Structures/GLToy_List.h"
 #include "Core/State/GLToy_State_System.h"
 #include "Core/GLToy_UpdateFunctor.h"
-#include "Input/GLToy_Input.h"
+#include "Input/GLToy_Input_System.h"
 #include "Maths/GLToy_Plane.h"
 #include "Maths/GLToy_Ray.h"
 #include "Physics/GLToy_Physics_System.h"

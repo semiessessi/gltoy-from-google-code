@@ -448,6 +448,8 @@
     <ClCompile Include="Independent\File\GLToy_PTXFile.cpp" />
     <ClCompile Include="Independent\File\GLToy_TextFile.cpp" />
     <ClCompile Include="Independent\File\GLToy_WaveFile.cpp" />
+    <ClCompile Include="Independent\Input\GLToy_InputHandler.cpp" />
+    <ClCompile Include="Independent\Input\GLToy_Input_System.cpp" />
     <ClCompile Include="Independent\Maths\GLToy_Noise.cpp" />
     <ClCompile Include="Independent\Maths\GLToy_OrientedSpline.cpp" />
     <ClCompile Include="Independent\Model\GLToy_Model_FlatMaterials.cpp" />
@@ -459,6 +461,7 @@
     <ClCompile Include="Independent\Trace\GLToy_Trace_System.cpp" />
     <ClCompile Include="Win32\Core\Platform_GLToy_Memory.cpp" />
     <ClCompile Include="Win32\File\Platform_GLToy_WaveFile.cpp" />
+    <ClCompile Include="Win32\Input\Platform_GLToy_Input_System.cpp" />
     <ClCompile Include="Win32\Render\Platform_GLToy_Texture_Renderable.cpp" />
     <ClCompile Include="Win32\Sound\Platform_GLToy_Sound_System.cpp" />
     <ClCompile Include="X11\Core\Platform_GLToy.cpp">
@@ -516,14 +519,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (Havok)|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (No Physics)|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="X11\Input\Platform_GLToy_Input.cpp">
+    <ClCompile Include="X11\Input\Platform_GLToy_Input_System.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (No Memory Debugging)|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (No Physics)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (No Memory Debugging)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Havok)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (No Physics)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Demo)|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Crinkler + No Havok)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Demo)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (No Physics)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Havok)|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (Havok)|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (No Physics)|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -579,7 +582,6 @@
     <ClCompile Include="Win32\Maths\Platform_GLToy_Maths.cpp" />
     <ClCompile Include="Win32\Maths\Platform_GLToy_Vector.cpp" />
     <ClCompile Include="Win32\File\Platform_GLToy_File_System.cpp" />
-    <ClCompile Include="Win32\Input\Platform_GLToy_Input.cpp" />
     <ClCompile Include="Independent\Core\GLToy.cpp" />
     <ClCompile Include="Independent\Core\GLToy_Assert.cpp" />
     <ClCompile Include="Independent\Core\GLToy_Timer.cpp" />
@@ -635,7 +637,6 @@
     <ClCompile Include="Independent\Environment\GLToy_Environment_Plane.cpp" />
     <ClCompile Include="Independent\Environment\GLToy_Environment_System.cpp" />
     <ClCompile Include="Independent\String\GLToy_String.cpp" />
-    <ClCompile Include="Independent\Input\GLToy_Input.cpp" />
     <ClCompile Include="Independent\Entity\GLToy_Entity.cpp" />
     <ClCompile Include="Independent\Entity\GLToy_Entity_System.cpp" />
     <ClCompile Include="Independent\Entity\Model\GLToy_Entity_ModelAnimated.cpp" />
@@ -683,6 +684,8 @@
     <ClInclude Include="Independent\File\GLToy_SoundFile.h" />
     <ClInclude Include="Independent\File\GLToy_TextFile.h" />
     <ClInclude Include="Independent\File\GLToy_WaveFile.h" />
+    <ClInclude Include="Independent\Input\GLToy_InputHandler.h" />
+    <ClInclude Include="Independent\Input\GLToy_Input_System.h" />
     <ClInclude Include="Independent\Maths\GLToy_AlignedVector.h" />
     <ClInclude Include="Independent\Maths\GLToy_Noise.h" />
     <ClInclude Include="Independent\Maths\GLToy_OrientedSpline.h" />
@@ -696,6 +699,9 @@
     <ClInclude Include="Independent\Sound\GLToy_Sound_System.h" />
     <ClInclude Include="Independent\Test\GLToy_Test_System.h" />
     <ClInclude Include="Independent\Trace\GLToy_Trace_System.h" />
+    <ClCompile Include="Win32\Input\Platform_GLToy_InputHandler.cpp">
+      <FileType>CppHeader</FileType>
+    </ClCompile>
     <ClInclude Include="Win32\Sound\Platform_GLToy_Sound_System.h" />
     <ClInclude Include="X11\Core\Platform_GLToy.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">true</ExcludedFromBuild>
@@ -843,7 +849,6 @@
     <ClInclude Include="Independent\Environment\GLToy_Environment_Plane.h" />
     <ClInclude Include="Independent\Environment\GLToy_Environment_System.h" />
     <ClInclude Include="Independent\String\GLToy_String.h" />
-    <ClInclude Include="Independent\Input\GLToy_Input.h" />
     <ClInclude Include="Independent\Entity\GLToy_Entity.h" />
     <ClInclude Include="Independent\Entity\GLToy_Entity_System.h" />
     <ClInclude Include="Independent\Entity\GLToy_EntityTypes.h" />

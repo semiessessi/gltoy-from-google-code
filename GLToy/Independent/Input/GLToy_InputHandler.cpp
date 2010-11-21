@@ -28,53 +28,34 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/FPSToy.h>
+#include <Core/GLToy.h>
 
 // This file's header
-#include <Core/FPSToy_Player.h>
-
-// GLToy
-#include <Core/GLToy_Hash.h>
-#include <Input/GLToy_Input_System.h>
-#include <Physics/GLToy_Physics_System.h>
-#include <Render/GLToy_Camera.h>
-
-// FPSToy
-#include <Weapon/FPSToy_Weapon.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// D A T A
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-FPSToy_WeaponInventory FPSToy_Player::s_xWeaponInventory( FPSToy_Player::GetHash() );
+#include <Input/GLToy_InputHandler.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void FPSToy_Player::Spawn( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation )
+GLToy_InputHandler::GLToy_InputHandler()
+: m_uCaret( 0 )
+, m_bInsert( true )
+, m_szInput()
+, m_bHandleStringInput( true )
 {
-    s_xWeaponInventory.Reset();
-    // TODO: something better than a magic constant here
-    s_xWeaponInventory.AddWeapon( GLToy_Hash_Constant( "TestWeapon1" ) );
-
-    GLToy_Camera::SetPosition( xPosition );
-    GLToy_Camera::SetControllerCamEnabled( true );
 }
 
-void FPSToy_Player::Update()
+void GLToy_InputHandler::HandleCharacter( const wchar_t wcCharacter )
 {
-    static bool s_bOldMouseDown = false;
-    const bool bMouseDown = GLToy_Input_System::IsMouseLeftButtonDown();
-    if( !s_bOldMouseDown && bMouseDown )
+    if( !m_bHandleStringInput )
     {
-        // TODO: something better than magic numbers here...
-        s_xWeaponInventory.FireCurrent( GLToy_Camera::GetPosition() + GLToy_Camera::GetDirection() * 64.0f, GLToy_Camera::GetDirection() );
+        return;
     }
-    s_bOldMouseDown = bMouseDown;
+
+    Platform_HandleCharacter( wcCharacter );
 }
 
-GLToy_Hash FPSToy_Player::GetHash()
+void GLToy_InputHandler::HandleKey( const unsigned int uKey )
 {
-    return GLToy_Hash_Constant( "Player" );
+    Platform_HandleKey( uKey );
 }

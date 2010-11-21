@@ -37,7 +37,7 @@
 #include <Core/Data Structures/GLToy_Array.h>
 #include <Core/GLToy_Timer.h>
 #include <Core/GLToy_UpdateFunctor.h>
-#include <Input/GLToy_Input.h>
+#include <Input/GLToy_Input_System.h>
 #include <Maths/GLToy_Maths.h>
 #include <Render/Font/GLToy_Font.h>
 #include <Render/GLToy_Camera.h>

@@ -31,13 +31,14 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <String/GLToy_String.h>
+// GLToy
+#include <Core/Data Structures/GLToy_Stack.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C O N S T A N T S
+// F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const unsigned int uGLTOY_INPUT_TEXT_BUFFER_SIZE = 1024;
+class GLToy_InputHandler;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // E N U M E R A T I O N S
@@ -53,40 +54,6 @@ enum GLTOY_MOUSE_SCROLL
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
-
-class GLToy_KeyInputHandler
-{
-    
-    friend class GLToy_Input_System;
-
-public:
-
-    GLToy_KeyInputHandler();
-    virtual ~GLToy_KeyInputHandler() {}
-
-    void ClearInputBuffer() { m_szInput.Clear(); m_uCaret = 0; }
-    const GLToy_String& GetInputBuffer() const { return m_szInput; }
-    void ReplaceInputBuffer( const GLToy_String& xString ) { m_szInput = xString; m_uCaret = m_szInput.GetLength(); }
-
-    void DisableStringInput() { m_bHandleStringInput = false; }
-    void EnableStringInput() { m_bHandleStringInput = true; }
-    
-    GLToy_Inline u_int GetCaret() const { return m_uCaret; }
-
-protected:
-
-    virtual void HandleCharacter( const wchar_t wcCharacter );
-    virtual void HandleKey( const unsigned int uKey );
-
-    virtual void Platform_HandleCharacter( const wchar_t wcCharacter );
-    virtual void Platform_HandleKey( const unsigned int uKey );
-
-    u_int m_uCaret;
-    bool m_bInsert;
-    GLToy_String m_szInput;
-    bool m_bHandleStringInput;
-
-};
 
 class GLToy_Input_System
 {
@@ -113,8 +80,9 @@ public:
 	static void SetMouseWheelDelta( int iDelta ) { s_iMouseDelta = iDelta; }
 	static GLTOY_MOUSE_SCROLL GetMouseWheelScroll() { return s_eMouseScroll; }
 
-    static GLToy_KeyInputHandler* GetKeyInputHandler() { return s_pxKeyInputHandler; }
-    static void SetKeyInputHandler( GLToy_KeyInputHandler* pxKeyInputHandler );
+    static GLToy_InputHandler* GetInputHandler() { return s_xInputStack.Peek(); }
+    static void PushInputHandler( GLToy_InputHandler* pxInputHandler );
+    static void PopInputHandler() { s_xInputStack.Pop(); }
 
     static GLToy_Inline u_int GetConsoleKey() { return s_uConsoleKeyCode; }
 	static GLToy_Inline u_int GetEscapeKey() { return s_uEscapeKeyCode; }
@@ -158,7 +126,7 @@ private:
 	static GLTOY_MOUSE_SCROLL s_eMouseScroll;
 	static int s_iMouseDelta;
 
-    static GLToy_KeyInputHandler* s_pxKeyInputHandler;
+    static GLToy_Stack< GLToy_InputHandler* > s_xInputStack;
 
     static bool s_bMouseLeftDebounced;
     static bool s_bMouseMiddleDebounced;

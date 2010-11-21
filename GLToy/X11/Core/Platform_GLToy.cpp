@@ -32,7 +32,7 @@
 #include <Core/GLToy.h>
 
 // GLToy
-#include <Input/GLToy_Input.h>
+#include <Input/GLToy_Input_System.h>
 
 // C++
 #include <stdarg.h>

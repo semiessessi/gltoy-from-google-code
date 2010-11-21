@@ -180,9 +180,6 @@
     <ClCompile Include="Win32\File\Platform_GLToy_File_System.cpp">
       <Filter>Win32\File</Filter>
     </ClCompile>
-    <ClCompile Include="Win32\Input\Platform_GLToy_Input.cpp">
-      <Filter>Win32\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Independent\Core\GLToy.cpp">
       <Filter>Independent\Core</Filter>
     </ClCompile>
@@ -348,9 +345,6 @@
     <ClCompile Include="Independent\String\GLToy_String.cpp">
       <Filter>Independent\String</Filter>
     </ClCompile>
-    <ClCompile Include="Independent\Input\GLToy_Input.cpp">
-      <Filter>Independent\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Independent\Entity\GLToy_Entity.cpp">
       <Filter>Independent\Entity</Filter>
     </ClCompile>
@@ -432,9 +426,6 @@
     <ClCompile Include="X11\File\Platform_GLToy_File_System.cpp">
       <Filter>X11\File</Filter>
     </ClCompile>
-    <ClCompile Include="X11\Input\Platform_GLToy_Input.cpp">
-      <Filter>X11\Input</Filter>
-    </ClCompile>
     <ClCompile Include="X11\Maths\Platform_GLToy_Maths.cpp">
       <Filter>X11\Maths</Filter>
     </ClCompile>
@@ -512,6 +503,21 @@
     </ClCompile>
     <ClCompile Include="Independent\Trace\GLToy_Trace_System.cpp">
       <Filter>Independent\Trace</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Input\GLToy_Input_System.cpp">
+      <Filter>Independent\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="X11\Input\Platform_GLToy_Input_System.cpp">
+      <Filter>X11\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Input\Platform_GLToy_Input_System.cpp">
+      <Filter>Win32\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Input\Platform_GLToy_InputHandler.cpp">
+      <Filter>Win32\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Input\GLToy_InputHandler.cpp">
+      <Filter>Independent\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -740,9 +746,6 @@
     <ClInclude Include="Independent\String\GLToy_String.h">
       <Filter>Independent\String</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Input\GLToy_Input.h">
-      <Filter>Independent\Input</Filter>
-    </ClInclude>
     <ClInclude Include="Independent\Entity\GLToy_Entity.h">
       <Filter>Independent\Entity</Filter>
     </ClInclude>
@@ -919,6 +922,12 @@
     </ClInclude>
     <ClInclude Include="Independent\Trace\GLToy_Trace_System.h">
       <Filter>Independent\Trace</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Input\GLToy_Input_System.h">
+      <Filter>Independent\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Input\GLToy_InputHandler.h">
+      <Filter>Independent\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

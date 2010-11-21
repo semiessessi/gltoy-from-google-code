@@ -34,7 +34,7 @@
 #include <UI/GLToy_Widget_ImageButton.h>
 
 // GLToy
-#include <Input/GLToy_Input.h>
+#include <Input/GLToy_Input_System.h>
 #include <Maths/GLToy_Maths.h>
 #include <Render/Font/GLToy_Font.h>
 #include <Render/GLToy_Render.h>

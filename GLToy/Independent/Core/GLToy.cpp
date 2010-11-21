@@ -42,7 +42,7 @@
 #ifdef GLTOY_USE_FRIDGESCRIPT
 #include <FridgeScript/GLToy_FridgeScript.h>
 #endif
-#include <Input/GLToy_Input.h>
+#include <Input/GLToy_Input_System.h>
 #include <Maths/GLToy_Maths.h>
 #ifndef GLTOY_DEMO
 #include <Model/GLToy_Model_System.h>

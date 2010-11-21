@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C++ Express 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLToy", "GLToy\GLToy.vcxproj", "{D102268C-2C78-4954-99A9-433EF8F9182F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SRC", "SRC\SRC.vcxproj", "{451F6CAD-AF6B-479E-9321-C4DAE0F40260}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SRC", "SRC\SRC.vcxproj", "{7B7A4EDC-F524-44BE-AD87-227E3651D445}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,12 +18,12 @@ Global
 		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (Havok)|Win32.Build.0 = Final (Havok)|Win32
 		{D102268C-2C78-4954-99A9-433EF8F9182F}.Release (Havok)|Win32.ActiveCfg = Release (Havok)|Win32
 		{D102268C-2C78-4954-99A9-433EF8F9182F}.Release (Havok)|Win32.Build.0 = Release (Havok)|Win32
-		{451F6CAD-AF6B-479E-9321-C4DAE0F40260}.Debug (Havok)|Win32.ActiveCfg = Debug (Havok)|Win32
-		{451F6CAD-AF6B-479E-9321-C4DAE0F40260}.Debug (Havok)|Win32.Build.0 = Debug (Havok)|Win32
-		{451F6CAD-AF6B-479E-9321-C4DAE0F40260}.Final (Havok)|Win32.ActiveCfg = Final (Havok)|Win32
-		{451F6CAD-AF6B-479E-9321-C4DAE0F40260}.Final (Havok)|Win32.Build.0 = Final (Havok)|Win32
-		{451F6CAD-AF6B-479E-9321-C4DAE0F40260}.Release (Havok)|Win32.ActiveCfg = Release (Havok)|Win32
-		{451F6CAD-AF6B-479E-9321-C4DAE0F40260}.Release (Havok)|Win32.Build.0 = Release (Havok)|Win32
+		{7B7A4EDC-F524-44BE-AD87-227E3651D445}.Debug (Havok)|Win32.ActiveCfg = Debug (Havok)|Win32
+		{7B7A4EDC-F524-44BE-AD87-227E3651D445}.Debug (Havok)|Win32.Build.0 = Debug (Havok)|Win32
+		{7B7A4EDC-F524-44BE-AD87-227E3651D445}.Final (Havok)|Win32.ActiveCfg = Final (Havok)|Win32
+		{7B7A4EDC-F524-44BE-AD87-227E3651D445}.Final (Havok)|Win32.Build.0 = Final (Havok)|Win32
+		{7B7A4EDC-F524-44BE-AD87-227E3651D445}.Release (Havok)|Win32.ActiveCfg = Release (Havok)|Win32
+		{7B7A4EDC-F524-44BE-AD87-227E3651D445}.Release (Havok)|Win32.Build.0 = Release (Havok)|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -24,8 +24,8 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_CONSOLE_H_
-#define __GLTOY_CONSOLE_H_
+#ifndef __GLTOY_INPUTHANDLER_H_
+#define __GLTOY_INPUTHANDLER_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
@@ -35,71 +35,46 @@
 #include <String/GLToy_String.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Console_InputHandler;
-class GLToy_ConsoleCommand;
-template < class T > class GLToy_HashTree;
-class GLToy_Font;
-class GLToy_InputHandler;
+static const unsigned int uGLTOY_INPUT_TEXT_BUFFER_SIZE = 1024;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Console
+class GLToy_InputHandler
 {
     
-    friend class GLToy_Console_InputHandler;
+    friend class GLToy_Input_System;
 
 public:
 
-    static bool Initialise();
-    static void Shutdown();
+    GLToy_InputHandler();
+    virtual ~GLToy_InputHandler() {}
 
-    static void Render2D();
+    void ClearInputBuffer() { m_szInput.Clear(); m_uCaret = 0; }
+    const GLToy_String& GetInputBuffer() const { return m_szInput; }
+    void ReplaceInputBuffer( const GLToy_String& xString ) { m_szInput = xString; m_uCaret = m_szInput.GetLength(); }
 
-    static void Update();
+    void DisableStringInput() { m_bHandleStringInput = false; }
+    void EnableStringInput() { m_bHandleStringInput = true; }
+    
+    GLToy_Inline u_int GetCaret() const { return m_uCaret; }
 
-    static void ClearLog();
-    static void Print( const GLToy_String& szLine );
-    static void ExecuteLine( const GLToy_String& szLine, const bool bStoreInHistory = true );
-    static void ExecuteFile( const GLToy_String& szFilename );
-    static void Toggle();
-    static bool IsDown() { return s_bConsoleDown; }
+protected:
 
-    static const GLToy_Font* GetFont() { return s_pxFont; }
+    virtual void HandleCharacter( const wchar_t wcCharacter );
+    virtual void HandleKey( const unsigned int uKey );
 
-    static void RegisterCommand( const GLToy_String& szName, void ( *pfnFunction )() );
-    static void RegisterCommand( const GLToy_String& szName, void ( *pfnFunction )( const bool ) );
-    static void RegisterCommand( const GLToy_String& szName, void ( *pfnFunction )( const u_int ) );
-    static void RegisterCommand( const GLToy_String& szName, void ( *pfnFunction )( const GLToy_String& ) );
+    virtual void Platform_HandleCharacter( const wchar_t wcCharacter );
+    virtual void Platform_HandleKey( const unsigned int uKey );
 
-    static void RegisterVariable( const GLToy_String& szName, bool* pbVariable );
-    static void RegisterVariable( const GLToy_String& szName, u_int* puVariable );
-
-private:
-
-    static GLToy_ConsoleCommand* LookUpCommand( const GLToy_String& szName );
-    static void ListAll();
-
-    static void HandleCharacter( const wchar_t wcCharacter );
-    static void HandleKey( const unsigned int uKey );
-
-    static GLToy_Array< GLToy_String > s_xHistory;
-    static GLToy_Array< GLToy_String > s_xLog;
-
-    static GLToy_Console_InputHandler s_xInputHandler;
-    static bool s_bConsoleDown;
-    static float s_fSlideOffset;
-
-    static u_int s_uHistoryPosition;
-    static u_int s_uVerticalPosition;
-
-    static GLToy_Font* s_pxFont;
-
-    static GLToy_HashTree< GLToy_ConsoleCommand* > s_xCommandTree;
+    u_int m_uCaret;
+    bool m_bInsert;
+    GLToy_String m_szInput;
+    bool m_bHandleStringInput;
 
 };
 

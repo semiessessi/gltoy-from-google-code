@@ -36,7 +36,7 @@
 // GLToy
 #include <Core/Console/GLToy_Console.h>
 #include <Core/GLToy_Timer.h>
-#include <Input/GLToy_Input.h>
+#include <Input/GLToy_Input_System.h>
 #include <Maths/GLToy_Vector.h>
 #include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Render.h>

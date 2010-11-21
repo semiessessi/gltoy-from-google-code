@@ -31,16 +31,17 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <Input/GLToy_Input.h>
+#include <Input/GLToy_Input_System.h>
 
 // GLToy
 #include <Core/Console/GLToy_Console.h>
+#include <Input/GLToy_InputHandler.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static GLToy_KeyInputHandler g_xDefaultKeyInputHandler;
+static GLToy_InputHandler g_xDefaultInputHandler;
 
 u_int GLToy_Input_System::s_uConsoleKeyCode = 0;
 u_int GLToy_Input_System::s_uEscapeKeyCode = 0;
@@ -61,7 +62,7 @@ float GLToy_Input_System::s_fMouseDeltaY = 0.0f;
 GLTOY_MOUSE_SCROLL GLToy_Input_System::s_eMouseScroll = GLTOY_MOUSE_SCROLL_NONE;
 int GLToy_Input_System::s_iMouseDelta = 0;
 
-GLToy_KeyInputHandler* GLToy_Input_System::s_pxKeyInputHandler = NULL;
+GLToy_Stack< GLToy_InputHandler* > GLToy_Input_System::s_xInputStack;
 
 bool GLToy_Input_System::s_bMouseLeftDebounced = false;
 bool GLToy_Input_System::s_bMouseMiddleDebounced = false;
@@ -71,10 +72,10 @@ bool GLToy_Input_System::s_bMouseRightDebounced = false;
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Input_System::SetKeyInputHandler( GLToy_KeyInputHandler* pxKeyInputHandler )
+void GLToy_Input_System::PushInputHandler( GLToy_InputHandler* pxInputHandler )
 {
 #ifndef GLTOY_DEMO
-    s_pxKeyInputHandler = pxKeyInputHandler;
+    s_xInputStack.Push( pxInputHandler );
 #endif
 }
 
@@ -116,9 +117,9 @@ void GLToy_Input_System::ChangeLayout()
 void GLToy_Input_System::HandleCharacter( const wchar_t wcCharacter )
 {
 #ifndef GLTOY_DEMO
-    if( s_pxKeyInputHandler )
+    if( ( s_xInputStack.GetCount() > 0 ) && s_xInputStack.Peek() )
     {
-        s_pxKeyInputHandler->HandleCharacter( wcCharacter );
+        s_xInputStack.Peek()->HandleCharacter( wcCharacter );
     }
 #endif
 }
@@ -126,9 +127,9 @@ void GLToy_Input_System::HandleCharacter( const wchar_t wcCharacter )
 void GLToy_Input_System::HandleKey( const u_int uKey )
 {
 #ifndef GLTOY_DEMO
-    if( s_pxKeyInputHandler )
+    if( ( s_xInputStack.GetCount() > 0 ) && s_xInputStack.Peek() )
     {
-        s_pxKeyInputHandler->HandleKey( uKey );
+        s_xInputStack.Peek()->HandleKey( uKey );
     }
 
     if( uKey == GLToy_Input_System::GetConsoleKey() )
@@ -151,7 +152,7 @@ bool GLToy_Input_System::IsKeyDown( const u_int uKey )
         return false;
     }
 
-    return s_pxKeyInputHandler ? false : Platform_IsKeyDown( uKey );
+    return ( ( s_xInputStack.GetCount() > 0 ) && s_xInputStack.Peek() ) ? false : Platform_IsKeyDown( uKey );
 }
 
 bool GLToy_Input_System::IsMouseLeftButtonDown()
@@ -212,27 +213,4 @@ bool GLToy_Input_System::GetDebouncedMouseRight()
     }
 
     return s_bMouseRightDebounced;
-}
-
-GLToy_KeyInputHandler::GLToy_KeyInputHandler()
-: m_uCaret( 0 )
-, m_bInsert( true )
-, m_szInput()
-, m_bHandleStringInput( true )
-{
-}
-
-void GLToy_KeyInputHandler::HandleCharacter( const wchar_t wcCharacter )
-{
-    if( !m_bHandleStringInput )
-    {
-        return;
-    }
-
-    Platform_HandleCharacter( wcCharacter );
-}
-
-void GLToy_KeyInputHandler::HandleKey( const unsigned int uKey )
-{
-    Platform_HandleKey( uKey );
 }

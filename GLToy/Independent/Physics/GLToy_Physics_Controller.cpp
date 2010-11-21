@@ -34,7 +34,7 @@
 #include <Physics/GLToy_Physics_Controller.h>
 
 // GLToy
-#include <Input/GLToy_Input.h>
+#include <Input/GLToy_Input_System.h>
 #include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>

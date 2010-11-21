@@ -39,7 +39,8 @@
 #include <Core/Data Structures/GLToy_HashTree.h>
 #include <Core/GLToy_Timer.h>
 #include <File/GLToy_TextFile.h>
-#include <Input/GLToy_Input.h>
+#include <Input/GLToy_InputHandler.h>
+#include <Input/GLToy_Input_System.h>
 #include <Maths/GLToy_Maths.h>
 #include <Render/Font/GLToy_Font.h>
 #include <Render/GLToy_Render.h>
@@ -59,11 +60,11 @@ static const u_int uGLTOY_CONSOLE_MAX_LOG_LINES = 256;
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Console_KeyInputHandler
-: public GLToy_KeyInputHandler
+class GLToy_Console_InputHandler
+: public GLToy_InputHandler
 {
     
-    typedef GLToy_KeyInputHandler GLToy_Parent;
+    typedef GLToy_InputHandler GLToy_Parent;
 
 protected:
 
@@ -92,7 +93,7 @@ protected:
 GLToy_Array< GLToy_String > GLToy_Console::s_xHistory;
 GLToy_Array< GLToy_String > GLToy_Console::s_xLog;
 
-GLToy_Console_KeyInputHandler GLToy_Console::s_xInputHandler;
+GLToy_Console_InputHandler GLToy_Console::s_xInputHandler;
 bool GLToy_Console::s_bConsoleDown = false;
 float GLToy_Console::s_fSlideOffset = fGLTOY_CONSOLE_TOP;
 
@@ -179,12 +180,15 @@ void GLToy_Console::Toggle()
 {
 #ifndef GLTOY_DEMO
     s_bConsoleDown = !s_bConsoleDown;
-    static GLToy_KeyInputHandler* ls_pxOldHandler = NULL;
+
     if( s_bConsoleDown )
     {
-        ls_pxOldHandler = GLToy_Input_System::GetKeyInputHandler();
+        GLToy_Input_System::PushInputHandler( &s_xInputHandler );
     }
-    GLToy_Input_System::SetKeyInputHandler( s_bConsoleDown ? &s_xInputHandler : ls_pxOldHandler );
+    else
+    {
+        GLToy_Input_System::PopInputHandler();
+    }
 #endif
 }
 

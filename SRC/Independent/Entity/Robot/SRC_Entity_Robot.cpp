@@ -38,7 +38,7 @@
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment.h>
 #include <Environment/GLToy_Environment_System.h>
-#include <Input/GLToy_Input.h>
+#include <Input/GLToy_Input_System.h>
 #include <Physics/GLToy_Physics_Object.h>
 #include <Physics/GLToy_Physics_System.h>
 #include <Render/GLToy_Camera.h>

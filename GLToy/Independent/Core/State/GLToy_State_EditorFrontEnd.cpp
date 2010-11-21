@@ -40,7 +40,8 @@
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment_System.h>
 #include <File/GLToy_EnvironmentFile.h>
-#include <Input/GLToy_Input.h>
+#include <Input/GLToy_InputHandler.h>
+#include <Input/GLToy_Input_System.h>
 #include <Maths/GLToy_Maths.h>
 #include <Render/Font/GLToy_Font.h>
 #include <Render/GLToy_Render.h>
@@ -58,10 +59,10 @@ static GLToy_Font* g_pxFont;
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_EditorFrontEnd_KeyInputHandler : public GLToy_KeyInputHandler
+class GLToy_EditorFrontEnd_InputHandler : public GLToy_InputHandler
 {
     
-    typedef GLToy_KeyInputHandler GLToy_Parent;
+    typedef GLToy_InputHandler GLToy_Parent;
 
 protected:
 
@@ -107,7 +108,7 @@ protected:
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_EditorFrontEnd_KeyInputHandler g_xInputHandler;
+GLToy_EditorFrontEnd_InputHandler g_xInputHandler;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -147,7 +148,7 @@ void GLToy_State_EditorFrontEnd::Initialise()
         g_pxFont->Initialise();
     }
 
-    GLToy_Input_System::SetKeyInputHandler( &g_xInputHandler );
+    GLToy_Input_System::PushInputHandler( &g_xInputHandler );
 
     GLToy_Texture_System::CreateTexture( "Widgets/File.png" );
     GLToy_Texture_System::CreateTexture( "Widgets/Folder.png" );
@@ -181,7 +182,7 @@ void GLToy_State_EditorFrontEnd::Shutdown()
 {
     GLToy_UI_System::ClearWidgets();
 
-    GLToy_Input_System::SetKeyInputHandler( NULL );
+    GLToy_Input_System::PopInputHandler();
 }
 
 // TODO - use widgets for this
