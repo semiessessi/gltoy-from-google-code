@@ -63,6 +63,16 @@ public:
     
     GLToy_Inline u_int GetCaret() const { return m_uCaret; }
 
+    bool IsKeyDown( const u_int uKey ) const;
+    bool IsMouseLeftButtonDown() const;
+    bool IsMouseMiddleButtonDown() const;
+    bool IsMouseRightButtonDown() const;
+    bool GetDebouncedMouseLeft() const;
+    bool GetDebouncedMouseMiddle() const;
+    bool GetDebouncedMouseRight() const;
+    float GetMouseDeltaX() const;
+    float GetMouseDeltaY() const;
+
 protected:
 
     virtual void HandleCharacter( const wchar_t wcCharacter );

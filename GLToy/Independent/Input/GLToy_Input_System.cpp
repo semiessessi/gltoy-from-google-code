@@ -72,7 +72,7 @@ bool GLToy_Input_System::s_bMouseRightDebounced = false;
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Input_System::PushInputHandler( GLToy_InputHandler* pxInputHandler )
+void GLToy_Input_System::PushInputHandler( GLToy_InputHandler* const pxInputHandler )
 {
 #ifndef GLTOY_DEMO
     s_xInputStack.Push( pxInputHandler );

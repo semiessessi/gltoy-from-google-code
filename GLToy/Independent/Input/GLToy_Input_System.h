@@ -80,23 +80,25 @@ public:
 	static void SetMouseWheelDelta( int iDelta ) { s_iMouseDelta = iDelta; }
 	static GLTOY_MOUSE_SCROLL GetMouseWheelScroll() { return s_eMouseScroll; }
 
-    static GLToy_InputHandler* GetInputHandler() { return s_xInputStack.Peek(); }
-    static void PushInputHandler( GLToy_InputHandler* pxInputHandler );
-    static void PopInputHandler() { s_xInputStack.Pop(); }
+    static GLToy_ForceInline GLToy_InputHandler* GetInputHandler() { return s_xInputStack.Peek(); }
+    static void PushInputHandler( GLToy_InputHandler* const pxInputHandler );
+    static GLToy_ForceInline void PopInputHandler() { s_xInputStack.Pop(); }
 
-    static GLToy_Inline u_int GetConsoleKey() { return s_uConsoleKeyCode; }
-	static GLToy_Inline u_int GetEscapeKey() { return s_uEscapeKeyCode; }
-    static GLToy_Inline u_int GetExecuteKey() { return s_uExecuteKeyCode; }
-    static GLToy_Inline u_int GetReturnKey() { return s_uReturnKeyCode; }
-    static GLToy_Inline u_int GetUpKey() { return s_uUpKeyCode; }
-    static GLToy_Inline u_int GetDownKey() { return s_uDownKeyCode; }
-    static GLToy_Inline u_int GetLeftKey() { return s_uLeftKeyCode; }
-    static GLToy_Inline u_int GetRightKey() { return s_uRightKeyCode; }
-    static GLToy_Inline u_int GetPageUpKey() { return s_uPageUpKeyCode; }
-    static GLToy_Inline u_int GetPageDownKey() { return s_uPageDownKeyCode; }
-    static GLToy_Inline u_int GetSpaceKey() { return s_uSpaceKeyCode; }
-    static GLToy_Inline u_int GetCtrlKey() { return s_uCtrlKeyCode; }
-    static GLToy_Inline u_int GetAltKey() { return s_uAltKeyCode; }
+    static GLToy_ForceInline u_int GetConsoleKey() { return s_uConsoleKeyCode; }
+	static GLToy_ForceInline u_int GetEscapeKey() { return s_uEscapeKeyCode; }
+    static GLToy_ForceInline u_int GetExecuteKey() { return s_uExecuteKeyCode; }
+    static GLToy_ForceInline u_int GetReturnKey() { return s_uReturnKeyCode; }
+    static GLToy_ForceInline u_int GetUpKey() { return s_uUpKeyCode; }
+    static GLToy_ForceInline u_int GetDownKey() { return s_uDownKeyCode; }
+    static GLToy_ForceInline u_int GetLeftKey() { return s_uLeftKeyCode; }
+    static GLToy_ForceInline u_int GetRightKey() { return s_uRightKeyCode; }
+    static GLToy_ForceInline u_int GetPageUpKey() { return s_uPageUpKeyCode; }
+    static GLToy_ForceInline u_int GetPageDownKey() { return s_uPageDownKeyCode; }
+    static GLToy_ForceInline u_int GetSpaceKey() { return s_uSpaceKeyCode; }
+    static GLToy_ForceInline u_int GetCtrlKey() { return s_uCtrlKeyCode; }
+    static GLToy_ForceInline u_int GetAltKey() { return s_uAltKeyCode; }
+
+    static bool IsTopInputHandler( const GLToy_InputHandler* const pxInputHandler ) { return pxInputHandler == s_xInputStack.Peek(); }
 
 private:
 

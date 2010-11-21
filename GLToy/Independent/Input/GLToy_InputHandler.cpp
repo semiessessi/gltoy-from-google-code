@@ -33,6 +33,9 @@
 // This file's header
 #include <Input/GLToy_InputHandler.h>
 
+// GLToy
+#include <Input/GLToy_Input_System.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,4 +61,94 @@ void GLToy_InputHandler::HandleCharacter( const wchar_t wcCharacter )
 void GLToy_InputHandler::HandleKey( const unsigned int uKey )
 {
     Platform_HandleKey( uKey );
+}
+
+bool GLToy_InputHandler::IsKeyDown( const u_int uKey ) const
+{
+    if( GLToy_Input_System::IsTopInputHandler( this ) )
+    {
+        return GLToy_Input_System::IsKeyDown( uKey );
+    }
+
+    return false;
+}
+
+bool GLToy_InputHandler::IsMouseLeftButtonDown() const
+{
+    if( GLToy_Input_System::IsTopInputHandler( this ) )
+    {
+        return GLToy_Input_System::IsMouseLeftButtonDown();
+    }
+
+    return false;
+}
+
+bool GLToy_InputHandler::IsMouseMiddleButtonDown() const
+{
+    if( GLToy_Input_System::IsTopInputHandler( this ) )
+    {
+        return GLToy_Input_System::IsMouseMiddleButtonDown();
+    }
+
+    return false;
+}
+
+bool GLToy_InputHandler::IsMouseRightButtonDown() const
+{
+    if( GLToy_Input_System::IsTopInputHandler( this ) )
+    {
+        return GLToy_Input_System::IsMouseRightButtonDown();
+    }
+
+    return false;
+}
+
+bool GLToy_InputHandler::GetDebouncedMouseLeft() const
+{
+    if( GLToy_Input_System::IsTopInputHandler( this ) )
+    {
+        return GLToy_Input_System::GetDebouncedMouseLeft();
+    }
+
+    return false;
+}
+
+bool GLToy_InputHandler::GetDebouncedMouseMiddle() const
+{
+    if( GLToy_Input_System::IsTopInputHandler( this ) )
+    {
+        return GLToy_Input_System::GetDebouncedMouseMiddle();
+    }
+
+    return false;
+}
+
+bool GLToy_InputHandler::GetDebouncedMouseRight() const
+{
+    if( GLToy_Input_System::IsTopInputHandler( this ) )
+    {
+        return GLToy_Input_System::GetDebouncedMouseRight();
+    }
+
+    return false;
+}
+
+float GLToy_InputHandler::GetMouseDeltaX() const
+{
+    if( GLToy_Input_System::IsTopInputHandler( this ) )
+    {
+        return GLToy_Input_System::GetMouseDeltaX();
+    }
+
+    return 0.0f;
+}
+
+float GLToy_InputHandler::GetMouseDeltaY() const
+{
+    if( GLToy_Input_System::IsTopInputHandler( this ) )
+    {
+        return GLToy_Input_System::GetMouseDeltaY();
+    }
+
+    return 0.0f;
 }
