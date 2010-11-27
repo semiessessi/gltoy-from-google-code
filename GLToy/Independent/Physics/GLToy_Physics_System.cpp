@@ -63,8 +63,9 @@
 #include <Common/Base/System/hkBaseSystem.h>
 #include <Common/Base/Memory/System/Util/hkMemoryInitUtil.h>
 #include <Common/Base/Memory/System/hkMemorySystem.h>
-// TODO: work out how to make this next include only if havok 2010, or not havok 7
+#if ( GLTOY_HAVOK_VERSION > 7 )
 #include <Common/Base/Memory/Allocator/Malloc/hkMallocAllocator.h>
+#endif
 #include <Common/Base/Thread/Job/ThreadPool/Cpu/hkCpuJobThreadPool.h>
 #include <Common/Base/Thread/JobQueue/hkJobQueue.h>
 #include <Common/Internal/ConvexHull/hkGeometryUtility.h>
@@ -96,19 +97,19 @@
 
 #define HK_CLASSES_FILE <Common/Serialize/Classlist/hkKeyCodeClasses.h>
 
-//#if // Havok 7.1
-#include <Common/Serialize/Util/hkBuiltinTypeRegistry.cxx>
-//#elseif // Havok 2010
-//#undef HK_FEATURE_PRODUCT_AI
-//#undef HK_FEATURE_PRODUCT_ANIMATION
-//#undef HK_FEATURE_PRODUCT_CLOTH
-//#undef HK_FEATURE_PRODUCT_DESTRUCTION
-//#undef HK_FEATURE_PRODUCT_BEHAVIOR
+#if ( HAVOK_VERSION > 7 )
+//#include <Common/Serialize/Util/hkBuiltinTypeRegistry.cxx>
+#else // Havok 7
+#undef HK_FEATURE_PRODUCT_AI
+#undef HK_FEATURE_PRODUCT_ANIMATION
+#undef HK_FEATURE_PRODUCT_CLOTH
+#undef HK_FEATURE_PRODUCT_DESTRUCTION
+#undef HK_FEATURE_PRODUCT_BEHAVIOR
 
-//#define HK_EXCLUDE_LIBRARY_hkgpConvexDecomposition
-//#define HK_FEATURE_REFLECTION_PHYSICS
-//#include <Common/Base/Config/hkProductFeatures.cxx>
-//#endif
+#define HK_EXCLUDE_LIBRARY_hkgpConvexDecomposition
+#define HK_FEATURE_REFLECTION_PHYSICS
+#include <Common/Base/Config/hkProductFeatures.cxx>
+#endif
 
 #endif
 
@@ -274,8 +275,9 @@ bool GLToy_Physics_System::Initialise()
 
     // this initialisation routine is inspired by the ConsoleExampleMt_win32_9-0 example in the Havok SDK
     hkMemoryRouter* pxMemoryRouter = hkMemoryInitUtil::initDefault(
-			// TODO: work out how to make this next line only if havok 2010, or not havok 7
-			//hkMallocAllocator::m_defaultMallocAllocator, hkMemorySystem::FrameInfo( 500000 )
+		#if ( GLTOY_HAVOK_VERSION > 7 )
+		hkMallocAllocator::m_defaultMallocAllocator, hkMemorySystem::FrameInfo( 500000 )
+		#endif
 		);
     hkBaseSystem::init( pxMemoryRouter, GLToy_Havok_ErrorReport );
 
