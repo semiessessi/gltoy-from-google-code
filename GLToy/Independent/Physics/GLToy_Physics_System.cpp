@@ -97,9 +97,7 @@
 
 #define HK_CLASSES_FILE <Common/Serialize/Classlist/hkKeyCodeClasses.h>
 
-#if ( HAVOK_VERSION > 7 )
-//#include <Common/Serialize/Util/hkBuiltinTypeRegistry.cxx>
-#else // Havok 7
+#if ( GLTOY_HAVOK_VERSION > 7 )
 #undef HK_FEATURE_PRODUCT_AI
 #undef HK_FEATURE_PRODUCT_ANIMATION
 #undef HK_FEATURE_PRODUCT_CLOTH
@@ -109,6 +107,8 @@
 #define HK_EXCLUDE_LIBRARY_hkgpConvexDecomposition
 #define HK_FEATURE_REFLECTION_PHYSICS
 #include <Common/Base/Config/hkProductFeatures.cxx>
+#else
+#include <Common/Serialize/Util/hkBuiltinTypeRegistry.cxx>
 #endif
 
 #endif
