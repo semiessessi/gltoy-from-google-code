@@ -34,7 +34,7 @@
 #include <Model/GLToy_Model_System.h>
 
 // GLToy
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <File/GLToy_File_System.h>
 #include <File/GLToy_3DSFile.h>
 #include <File/GLToy_LWOFile.h>
@@ -48,7 +48,7 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_HashTree< GLToy_ModelFile* > GLToy_Model_System::s_xModels;
+GLToy_HashMap< GLToy_ModelFile* > GLToy_Model_System::s_xModels;
 GLToy_Model_Placeholder GLToy_Model_System::s_xPlaceholder;
 
 /////////////////////////////////////////////////////////////////////////////////////////////

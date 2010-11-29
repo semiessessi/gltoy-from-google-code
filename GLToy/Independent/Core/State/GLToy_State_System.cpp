@@ -35,7 +35,7 @@
 
 // GLToy
 #include <Core/Console/GLToy_Console.h>
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <Core/State/GLToy_State.h>
 #ifndef GLTOY_DEMO
 #include <Core/State/GLToy_State_Editor.h>
@@ -49,7 +49,7 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_HashTree< GLToy_State* > GLToy_State_System::s_xStates;
+GLToy_HashMap< GLToy_State* > GLToy_State_System::s_xStates;
 GLToy_State* GLToy_State_System::s_pxCurrentState = 0;
 GLToy_Hash GLToy_State_System::s_uNextState = uGLTOY_BAD_HASH;
 GLToy_Hash GLToy_State_System::s_uCurrentState = uGLTOY_BAD_HASH;

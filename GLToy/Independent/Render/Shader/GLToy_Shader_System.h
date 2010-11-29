@@ -39,7 +39,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_HashTree;
+template < class T > class GLToy_HashMap;
 class GLToy_ShaderProgram;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +64,7 @@ public:
 
 private:
 
-    static GLToy_HashTree< GLToy_ShaderProgram* > s_xPrograms;
+    static GLToy_HashMap< GLToy_ShaderProgram* > s_xPrograms;
 
 };
 

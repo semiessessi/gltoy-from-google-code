@@ -24,48 +24,67 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_FRUSTUM_H_
-#define __GLTOY_FRUSTUM_H_
+#ifndef __GLTOY_CONVEXHULL_H_
+#define __GLTOY_CONVEXHULL_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // Parents
+#include <Core/Data Structures/GLToy_Array.h>
+#include <Maths/GLToy_Plane.h>
 #include <Maths/GLToy_Volume.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Frustum
-: public GLToy_Volume
+class GLToy_ConvexHull
+: public GLToy_Array< GLToy_Plane >
+, public GLToy_Volume
 {
 
     typedef GLToy_Volume GLToy_Parent;
+    typedef GLToy_Array< GLToy_Plane > GLToy_DataParent;
 
 public:
 
+    GLToy_ConvexHull( const GLToy_Vector_3& xPosition )
+    : GLToy_Parent( xPosition )
+    , GLToy_DataParent()
+    {
+    }
+
     virtual float GetSurfaceArea() const
     {
-        return 0.0f;
+        return GLToy_Maths::LargeFloat;
     }
 
     virtual float GetVolume() const
     {
-        return 0.0f;
+        return GLToy_Maths::LargeFloat;
     }
 
     virtual bool IsInside( const GLToy_Vector_3& xPosition ) const
     {
+        // if on the wrong side of any plane, then outside
+        GLToy_ConstIterate( GLToy_Plane, xIterator, this )
+        {
+            if( xIterator.Current().IsOnPositiveSide( xPosition ) )
+            {
+                return false;
+            }
+        }
+
         return true;
     }
 
     virtual void SetToPoint( const GLToy_Vector_3& xPosition ) {}
     virtual void GrowByPoint( const GLToy_Vector_3& xPosition ) {}
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) {}
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const {}
 
 protected:
 

@@ -31,7 +31,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_HashTree;
+template < class T > class GLToy_HashMap;
 class GLToy_Environment;
 class GLToy_EnvironmentFile;
 class GLToy_Ray;
@@ -79,7 +79,7 @@ public:
     static void ClearCurrentEnvironment();
     static void SetCurrentEnvironment( GLToy_Environment* const pxEnv );
 
-    static GLToy_HashTree< GLToy_EnvironmentFile* >& GetEnvironmentFileTree() { return s_xEnvironments; }
+    static GLToy_HashMap< GLToy_EnvironmentFile* >& GetEnvironmentFileTree() { return s_xEnvironments; }
 
     static bool IsRenderingLightmap() { return s_bRenderLightmap; }
     static bool IsRenderingLightmapOnly() { return s_bRenderLightmapOnly; }
@@ -103,7 +103,7 @@ private:
 #ifdef GLTOY_PLATFORM_WIN32
 	__declspec( align( 4 ) )
 #endif
-    static GLToy_HashTree< GLToy_EnvironmentFile* > s_xEnvironments;
+    static GLToy_HashMap< GLToy_EnvironmentFile* > s_xEnvironments;
 
 };
 

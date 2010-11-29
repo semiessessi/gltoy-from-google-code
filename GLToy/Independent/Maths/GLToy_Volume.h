@@ -327,9 +327,13 @@ public:
 
     virtual bool IsInside( const GLToy_Vector_3& xPosition ) const
     {
-        // TODO - move and rotate the point, then move it back and test with m_xBox
-        // needs matrix multiplication...
-        return false;
+        GLToy_Vector_3 xTestPosition = xPosition - GetPosition();
+        GLToy_Matrix_3 xInverse = GetOrientation();
+        xInverse.Transpose();
+        xTestPosition *= xInverse;
+        
+        const GLToy_Vector_3 xHalfExtents = m_xBox.GetHalfExtents();
+        return GLToy_AABB( xHalfExtents, -xHalfExtents ).IsInside( xTestPosition );
     }
 
     virtual bool HasBoundingSphere() const { return true; }

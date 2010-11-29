@@ -41,7 +41,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_HashTree;
+template < class T > class GLToy_HashMap;
 class GLToy_BitStream;
 class GLToy_Entity;
 class GLToy_Matrix_3;
@@ -103,7 +103,7 @@ private:
 
     static GLToy_Entity* ( *s_pfnProject_CreateFromType )( const GLToy_Hash, const u_int );
 
-    static GLToy_HashTree< GLToy_Entity* > s_xEntities;
+    static GLToy_HashMap< GLToy_Entity* > s_xEntities;
 
 };
 

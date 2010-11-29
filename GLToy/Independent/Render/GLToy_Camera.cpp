@@ -328,6 +328,15 @@ bool GLToy_Camera::IsPointOnScreen( const GLToy_Vector_2& xPoint )
     return true;
 }
 
+GLToy_ConvexHull GLToy_Camera::ViewFrustum()
+{
+    GLToy_ConvexHull xReturnValue( GetPosition() );
+    // TODO: something correct... this is just the back plane of the view frustum
+    xReturnValue.Append( GLToy_Plane( GetDirection(), -( GetDirection() * GetPosition() ) ) );
+
+    return xReturnValue;
+}
+
 void GLToy_Camera::SetEuler( const float fX, const float fY, const float fZ )
 {
     s_xDirection = GLToy_Vector_3( 0.0f, 0.0f, 1.0f );

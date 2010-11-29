@@ -34,7 +34,7 @@
 #include <Damage/FPSToy_Damage_System.h>
 
 // GLToy
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <Entity/GLToy_Entity.h>
 #include <Entity/GLToy_Entity_System.h>
 
@@ -45,7 +45,7 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_HashTree< FPSToy_DamageType* > FPSToy_Damage_System::s_xDamageTypes;
+GLToy_HashMap< FPSToy_DamageType* > FPSToy_Damage_System::s_xDamageTypes;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S

@@ -34,7 +34,7 @@
 #include <File/GLToy_OBJFile.h>
 
 // GLToy
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <File/GLToy_TextFile.h>
 #include <Model/GLToy_Model_FlatMaterials.h>
 #include <Render/GLToy_Texture.h>
@@ -63,7 +63,7 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
     delete[] pcData;
 
     // go through the data and remove junk, build index arrays etc.
-    GLToy_HashTree< u_int > xMaterialReferences;
+    GLToy_HashMap< u_int > xMaterialReferences;
     u_int uCurrentMaterial = 0;
     GLToy_Array< GLToy_String > xLines = szData.Split( '\n' );
     GLToy_Iterate( GLToy_String, xIterator, &xLines )

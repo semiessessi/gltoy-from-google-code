@@ -96,6 +96,24 @@ bool GLToy_Maths_DotTest()
     return fMaxError < 0.0005f;
 }
 
+bool GLToy_Maths_QuadraticSolverTest()
+{
+    float fMaxError = 0.0f;
+
+    fMaxError = 0.5f * GLToy_Maths::Max( fMaxError, GLToy_Maths::Abs( GLToy_Maths::SolveQuadratic( 1.0f, 0.0f, -4.0f )[ 0 ] - 2.0f ) );
+    fMaxError = GLToy_Maths::Max( fMaxError, GLToy_Maths::Abs( GLToy_Maths::SolveQuadratic( 1.0f, -2.0f, 1.0f )[ 0 ] - 1.0f ) );
+
+    for( float fA = 1.0f; fA < 50.0f; ++fA )
+    {
+        for( float fB = -25.0f; fB < 0.0f; ++fB )
+        {
+            fMaxError = GLToy_Maths::Max( fMaxError, GLToy_Maths::Abs( GLToy_Maths::SolveQuadratic( fA, fB, 0.0f )[ 0 ] - ( -fB / fA ) ) );
+        }
+    }
+
+    return fMaxError < 0.0005f;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,6 +124,7 @@ bool GLToy_Maths::Initialise()
     GLToy_Test_System::RegisterTest( GLToy_Maths_TrigIdentityTest, "Trig identities accurate to 5 decimal places" );
     GLToy_Test_System::RegisterTest( GLToy_Maths_SqrtTest, "Square of square root accurate to 0.5%" );
     GLToy_Test_System::RegisterTest( GLToy_Maths_DotTest, "Dot product accurate to 0.05%" );
+    GLToy_Test_System::RegisterTest( GLToy_Maths_QuadraticSolverTest, "Quadratic solver accurate to 0.05%" );
 
     return Platform_Initialise();
 }
@@ -272,4 +291,33 @@ float GLToy_Maths::Rad2Deg( const float fValue )
 {
     static const float ls_fConversionFactor = 180.0f / Pi;
     return ls_fConversionFactor * fValue;
+}
+
+GLToy_Vector_2 GLToy_Maths::SolveQuadratic( const float fA, const float fB, const float fC )
+{
+    if( fA == 0.0f )
+    {
+        return GLToy_Vector_2( SolveLinear( fB, fC ), LargeFloat );
+    }
+
+    if( fB == 0.0f )
+    {
+        const float fSquare = -fC / fA;
+        if( fSquare >= 0.0f )
+        {
+            const float fX = GLToy_Maths::Sqrt( fSquare );
+            return GLToy_Vector_2( fX, -fX );
+        }
+        
+        return LargeVector2;
+    }
+
+    const float fDiscriminant = fB * fB - 4 * fA * fC;
+    if( fDiscriminant < 0.0f )
+    {
+        return LargeVector2;
+    }
+    
+    const float fDivisor = 0.5f / fA;
+    return GLToy_Vector_2( -fB + Sqrt( fDiscriminant ), -fB - Sqrt( fDiscriminant ) ) * fDivisor;
 }

@@ -31,7 +31,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template< class T > class GLToy_HashTree;
+template< class T > class GLToy_HashMap;
 class GLToy_PFX;
 class GLToy_PFXProperties;
 struct GLToy_ParticleProperties;
@@ -63,10 +63,10 @@ private:
     static bool InitialiseSourceProperties();
     static bool InitialiseParticleProperties();
 
-    static GLToy_HashTree< GLToy_PFX* > s_xPFX;
-    static GLToy_HashTree< GLToy_PFXProperties > s_xPFXProperties;
-    static GLToy_HashTree< GLToy_ParticleSourceProperties > s_xSourceProperties;
-    static GLToy_HashTree< GLToy_ParticleProperties > s_xParticleProperties;
+    static GLToy_HashMap< GLToy_PFX* > s_xPFX;
+    static GLToy_HashMap< GLToy_PFXProperties > s_xPFXProperties;
+    static GLToy_HashMap< GLToy_ParticleSourceProperties > s_xSourceProperties;
+    static GLToy_HashMap< GLToy_ParticleProperties > s_xParticleProperties;
 
 };
 

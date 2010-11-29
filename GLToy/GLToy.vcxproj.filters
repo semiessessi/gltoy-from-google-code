@@ -519,6 +519,9 @@
     <ClCompile Include="Independent\Input\GLToy_InputHandler.cpp">
       <Filter>Independent\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Maths\GLToy_Complex.cpp">
+      <Filter>Independent\Maths</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
@@ -587,9 +590,6 @@
     <ClInclude Include="Independent\Core\Data Structures\GLToy_FlatDataStructure.h">
       <Filter>Independent\Core\Data Structures</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Core\Data Structures\GLToy_HashTree.h">
-      <Filter>Independent\Core\Data Structures</Filter>
-    </ClInclude>
     <ClInclude Include="Independent\Core\Data Structures\GLToy_List.h">
       <Filter>Independent\Core\Data Structures</Filter>
     </ClInclude>
@@ -655,9 +655,6 @@
     </ClInclude>
     <ClInclude Include="Independent\Render\Shader\GLToy_Shader_System.h">
       <Filter>Independent\Render\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Maths\GLToy_Frustum.h">
-      <Filter>Independent\Maths</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Maths\GLToy_Maths.h">
       <Filter>Independent\Maths</Filter>
@@ -928,6 +925,15 @@
     </ClInclude>
     <ClInclude Include="Independent\Input\GLToy_InputHandler.h">
       <Filter>Independent\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Maths\GLToy_Complex.h">
+      <Filter>Independent\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_HashMap.h">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Maths\GLToy_ConvexHull.h">
+      <Filter>Independent\Maths</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

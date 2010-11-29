@@ -39,7 +39,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_HashTree;
+template < class T > class GLToy_HashMap;
 class GLToy_Model;
 class GLToy_Model_Placeholder;
 class GLToy_ModelFile;
@@ -61,7 +61,7 @@ public:
 
 private:
 
-    static GLToy_HashTree< GLToy_ModelFile* > s_xModels;
+    static GLToy_HashMap< GLToy_ModelFile* > s_xModels;
     static GLToy_Model_Placeholder s_xPlaceholder;
 
 };

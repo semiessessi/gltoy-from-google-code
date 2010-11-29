@@ -40,7 +40,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template < class T > class GLToy_Array;
-template < class T > class GLToy_HashTree;
+template < class T > class GLToy_HashMap;
 class GLToy_State;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +68,7 @@ public:
 
 private:
 
-    static GLToy_HashTree< GLToy_State* > s_xStates;
+    static GLToy_HashMap< GLToy_State* > s_xStates;
     static GLToy_State* s_pxCurrentState;
 	static GLToy_Hash s_uCurrentState;
 	static GLToy_Hash s_uNextState;

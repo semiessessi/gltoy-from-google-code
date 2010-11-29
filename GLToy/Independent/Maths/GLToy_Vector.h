@@ -121,6 +121,7 @@ public:
     GLToy_Vector_3& operator +=( const GLToy_Vector_3& xVector );
     GLToy_Vector_3& operator -=( const GLToy_Vector_3& xVector );
     GLToy_Vector_3& operator *=( const float fFloat );
+    GLToy_Vector_3& operator *=( const GLToy_Matrix_3& xMatrix );
     GLToy_Vector_3& operator /=( const float fFloat ) { return operator *=( 1.0f / fFloat ); }
 
     GLToy_Vector_3 operator +( const GLToy_Vector_3& xVector ) const;

@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,70 +24,58 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_SOUND_SYSTEM_H_
-#define __GLTOY_SOUND_SYSTEM_H_
+#ifndef __GLTOY_COMPLEX_H_
+#define __GLTOY_COMPLEX_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// GLToy
-#include <Core/GLToy_Hash.h>
-#include <String/GLToy_String.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-template < class T > class GLToy_Array;
-template < class T > class GLToy_HashMap;
-class GLToy_Vector_3;
-class GLToy_Sound_Source;
-class GLToy_SoundFile;
+#include <Maths/GLToy_Matrix.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-enum GLToy_Sound_Transition
+class GLToy_Complex
 {
-    GLToy_SOUND_CUT,
-    GLToy_SOUND_WAIT,
-    GLToy_SOUND_FADE
-};
-
-class GLToy_Sound_System
-{
-
-    friend class GLToy_Sound;
-    friend class GLToy_WaveFile;
 
 public:
 
-    static bool Initialise();
-    static void Shutdown();
+    GLToy_Complex()
+    {
+        m_fComponents[ 0 ] = 0.0f;
+        m_fComponents[ 1 ] = 0.0f;
+    }
 
-    static void Update();
+    GLToy_Complex( const float fRe, const float fIm = 0.0f )
+    {
+        m_fComponents[ 0 ] = fRe;
+        m_fComponents[ 1 ] = fIm;
+    }
 
-    static GLToy_Handle CreateSource( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const bool bRelative = false, const bool bLooped = false );
-    static GLToy_Handle PlayMusic( const GLToy_Hash uHash, const GLToy_Sound_Transition eTransitionType = GLToy_SOUND_CUT );
+	float& operator[] ( int i ) { return m_fComponents[ i ]; }
+    const float& operator[] ( int i ) const { return m_fComponents[ i ]; }
 
-    static void Stop( const GLToy_Handle iHandle, const GLToy_Sound_Transition eTransitionType = GLToy_SOUND_CUT );
+	GLToy_Complex& operator =( const GLToy_Complex& xComplex );
 
-private:
+	GLToy_Complex operator +( const GLToy_Complex& xComplex ) const;
+    GLToy_Complex operator -( const GLToy_Complex& xComplex ) const;
+    GLToy_Complex operator *( const float fFloat ) const;
+	friend GLToy_Complex operator *( const float fFloat, const GLToy_Complex& xComplex ) { return xComplex * fFloat; }
+    GLToy_Complex operator /( const float fFloat ) const { return operator *( 1.0f / fFloat ); }
 
-    static void TestSound_Console( const GLToy_String& szName );
+	GLToy_Complex& operator *=( const float fFloat ) { return ( *this = *this * fFloat ); }
 
-    static GLToy_Handle CreateSoundHandle();
-    static GLToy_Handle CreateSourceHandle();
+	GLToy_Complex Conjugate() const { return GLToy_Complex( m_fComponents[ 0 ], -m_fComponents[ 1 ] ); }
+	float MagnitudeSquared() const { return m_fComponents[ 0 ] * m_fComponents[ 0 ] + m_fComponents[ 1 ] * m_fComponents[ 1 ]; }
+	float Magnitude() const;
 
-    static void DestroySoundHandle( const GLToy_Handle iHandle );
-    static void DestroySourceHandle( const GLToy_Handle iHandle );
+	void Normalise();
 
-    static GLToy_Sound* LoadSound( const GLToy_Hash uHash );
+protected:
 
-    static GLToy_HashMap< GLToy_SoundFile* > s_xSounds;
-    static GLToy_Array< GLToy_Sound_Source* > s_xSources;
+    float m_fComponents[ 2 ];
 
 };
 

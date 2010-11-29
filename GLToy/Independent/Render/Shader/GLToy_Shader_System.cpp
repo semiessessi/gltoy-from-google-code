@@ -34,7 +34,7 @@
 #include <Render/Shader/GLToy_Shader_System.h>
 
 // GLToy
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <File/GLToy_TextFile.h>
 #include <File/GLToy_File_System.h>
 #include <Maths/GLToy_Maths.h>
@@ -47,7 +47,7 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_HashTree< GLToy_ShaderProgram* > GLToy_Shader_System::s_xPrograms;
+GLToy_HashMap< GLToy_ShaderProgram* > GLToy_Shader_System::s_xPrograms;
 
 static const GLToy_String szVersionPrefix = "#version 120\r\n";
 

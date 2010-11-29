@@ -40,7 +40,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_HashTree;
+template < class T > class GLToy_HashMap;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -102,7 +102,7 @@ public:
 
 private:
 
-    static GLToy_HashTree< GLToy_Font* > s_xFonts;
+    static GLToy_HashMap< GLToy_Font* > s_xFonts;
 
 };
 

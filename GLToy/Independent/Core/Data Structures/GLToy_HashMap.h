@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,71 +24,36 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_SOUND_SYSTEM_H_
-#define __GLTOY_SOUND_SYSTEM_H_
+#ifndef __GLToy_HashMap_H_
+#define __GLToy_HashMap_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// Parents
+#include <Core/Data Structures/GLToy_BinaryTree.h>
+
 // GLToy
 #include <Core/GLToy_Hash.h>
-#include <String/GLToy_String.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-template < class T > class GLToy_Array;
-template < class T > class GLToy_HashMap;
-class GLToy_Vector_3;
-class GLToy_Sound_Source;
-class GLToy_SoundFile;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-enum GLToy_Sound_Transition
-{
-    GLToy_SOUND_CUT,
-    GLToy_SOUND_WAIT,
-    GLToy_SOUND_FADE
-};
-
-class GLToy_Sound_System
+template < class T >
+class GLToy_HashMap
+: public GLToy_BinaryTree< T, GLToy_Hash >
 {
 
-    friend class GLToy_Sound;
-    friend class GLToy_WaveFile;
+    typedef GLToy_BinaryTree< T, GLToy_Hash > GLToy_Parent;
 
 public:
 
-    static bool Initialise();
-    static void Shutdown();
-
-    static void Update();
-
-    static GLToy_Handle CreateSource( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const bool bRelative = false, const bool bLooped = false );
-    static GLToy_Handle PlayMusic( const GLToy_Hash uHash, const GLToy_Sound_Transition eTransitionType = GLToy_SOUND_CUT );
-
-    static void Stop( const GLToy_Handle iHandle, const GLToy_Sound_Transition eTransitionType = GLToy_SOUND_CUT );
-
-private:
-
-    static void TestSound_Console( const GLToy_String& szName );
-
-    static GLToy_Handle CreateSoundHandle();
-    static GLToy_Handle CreateSourceHandle();
-
-    static void DestroySoundHandle( const GLToy_Handle iHandle );
-    static void DestroySourceHandle( const GLToy_Handle iHandle );
-
-    static GLToy_Sound* LoadSound( const GLToy_Hash uHash );
-
-    static GLToy_HashMap< GLToy_SoundFile* > s_xSounds;
-    static GLToy_Array< GLToy_Sound_Source* > s_xSources;
-
+    GLToy_HashMap()
+    : GLToy_Parent()
+    {
+    }
 };
 
 #endif

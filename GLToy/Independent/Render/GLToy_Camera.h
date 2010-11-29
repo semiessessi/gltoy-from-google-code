@@ -32,6 +32,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // GLToy
+#include <Maths/GLToy_ConvexHull.h>
 #include <Maths/GLToy_Maths.h>
 #include <Maths/GLToy_Ray.h>
 
@@ -77,6 +78,7 @@ public:
     static GLToy_Vector_2 WorldSpaceToScreenSpace( const GLToy_Vector_3& xWorldPosition );
     static GLToy_Ray ScreenSpaceToRay( const GLToy_Vector_2& xPoint );
     static bool IsPointOnScreen( const GLToy_Vector_2& xPoint );
+    static GLToy_ConvexHull ViewFrustum();
 
 private:
 

@@ -74,9 +74,9 @@ public:
     static float Deg2Rad( const float fDegrees );
     static float Rad2Deg( const float fDegrees );
 
-    template< class T > static GLToy_ForceInline T Max( const T xValue1, const T xValue2 ) { return ( xValue1 > xValue2 ) ? xValue1 : xValue2; }
-	template< class T > static GLToy_ForceInline T Min( const T xValue1, const T xValue2 ) { return ( xValue1 < xValue2 ) ? xValue1 : xValue2; }
-    template< class T > static GLToy_ForceInline T Clamp( const T xValue, const T xMin = 0.0f, const T xMax = 1.0f ) { return Min( xMax, Max( xValue, xMin ) ); }
+    template < class T > static GLToy_ForceInline T Max( const T xValue1, const T xValue2 ) { return ( xValue1 > xValue2 ) ? xValue1 : xValue2; }
+	template < class T > static GLToy_ForceInline T Min( const T xValue1, const T xValue2 ) { return ( xValue1 < xValue2 ) ? xValue1 : xValue2; }
+    template < class T > static GLToy_ForceInline T Clamp( const T xValue, const T xMin = 0.0f, const T xMax = 1.0f ) { return Min( xMax, Max( xValue, xMin ) ); }
 
 	static GLToy_Inline float Wrap( const float fValue, const float fMin = 0.0f, const float fMax = 1.0f )
 	{
@@ -96,13 +96,6 @@ public:
         GLToy_Assert( uMax > uMin, "Minimum is greater than maximum!" );
         return uMin + ( ( uValue - uMin ) % ( uMax - uMin ) );
     }
-
-    //static GLToy_Inline int Wrap( const int iValue, const int iMin = 0, const int iMax = 1 )
-    //{
-    //    GLToy_Assert( iMax > iMin, "Minimum is greater than maximum!" );
-    //    const int iMod = ( ( iValue - iMin ) % ( iMax - iMin ) );
-    //    return iMin + ( ( iMod > 0 ) ? iMod : ( iMax - iMin - iMod ) );
-    //}
 
 	template < class T >
 	static GLToy_Inline T Lerp( const T& xValue1, const T& xValue2, const float fAmount )
@@ -143,7 +136,7 @@ public:
 	static GLToy_Inline T CatmullRomInterpolate( const T& xValue1, const T& xValue2, const T& xValue3, const T& xValue4, const float fAmount )
 	{
 		const T xA = 0.5f * xValue4 - 1.5f * xValue3 + 1.5f * xValue2 - 0.5f * xValue1;
-		const T xB = xValue1 - 2.5f * xValue2 + 2.0f * xValue3 - 0.5f* xValue4;
+		const T xB = xValue1 - 2.5f * xValue2 + 2.0f * xValue3 - 0.5f * xValue4;
 		const T xC = 0.5f * ( xValue3 - xValue1 );
 		const T xD = xValue2;
 
@@ -172,6 +165,12 @@ public:
     static GLToy_Vector_3 Rotate_AxisAngle( const GLToy_Vector_3& xVector, const GLToy_Vector_3& xAxis, const float fAngle );
 	static GLToy_Matrix_3 Orientation_FromDirection( const GLToy_Vector_3& xDirection );
     static GLToy_Matrix_3 Orientation_FromDirectionAndUp( const GLToy_Vector_3& xDirection, const GLToy_Vector_3 xUp = GLToy_Vector_3( 0.0f, 1.0f, 0.0f ) );
+
+    static GLToy_Inline float SolveLinear( const float fA, const float fB ) { return ( fA == 0.0f ) ? LargeFloat : ( -fB / fA ); }
+    static GLToy_Vector_2 SolveQuadratic( const float fA, const float fB, const float fC );
+    // TODO: ...
+    //static GLToy_Vector_3 SolveCubic( const float fA, const float fB, const float fC, const float fD );
+    //static GLToy_Vector_3 SolveQuartic( const float fA, const float fB, const float fC, const float fD, const float fE );
 
 private:
     

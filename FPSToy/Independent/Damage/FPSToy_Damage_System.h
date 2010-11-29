@@ -31,7 +31,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_HashTree;
+template < class T > class GLToy_HashMap;
 
 class FPSToy_DamageType;
 
@@ -51,7 +51,7 @@ public:
 
 private:
 
-    static GLToy_HashTree< FPSToy_DamageType* > s_xDamageTypes;
+    static GLToy_HashMap< FPSToy_DamageType* > s_xDamageTypes;
 };
 
 #endif

@@ -35,7 +35,7 @@
     
     #ifdef _HAVOK
         #define GLTOY_USE_HAVOK_PHYSICS        (1)
-		#define GLTOY_HAVOK_VERSION            (2010)
+		#define GLTOY_HAVOK_VERSION            (7)
     #endif
 #endif
 

@@ -35,7 +35,7 @@
 
 // GLToy
 #include <Core/Data Structures/GLToy_Array.h>
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <File/GLToy_TextFile.h>
 #include <File/GLToy_File_System.h>
 #include <String/GLToy_String.h>
@@ -50,9 +50,9 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_HashTree< FPSToy_AmmoType* > FPSToy_Weapon_System::s_xAmmoTypes;
-GLToy_HashTree< FPSToy_WeaponType* > FPSToy_Weapon_System::s_xWeaponTypes;
-GLToy_HashTree< GLToy_Array< GLToy_Hash > > FPSToy_Weapon_System::s_xWeaponDefinitions;
+GLToy_HashMap< FPSToy_AmmoType* > FPSToy_Weapon_System::s_xAmmoTypes;
+GLToy_HashMap< FPSToy_WeaponType* > FPSToy_Weapon_System::s_xWeaponTypes;
+GLToy_HashMap< GLToy_Array< GLToy_Hash > > FPSToy_Weapon_System::s_xWeaponDefinitions;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S

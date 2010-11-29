@@ -32,7 +32,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template < class T > class GLToy_Array;
-template < class T > class GLToy_HashTree;
+template < class T > class GLToy_HashMap;
 
 class FPSToy_AmmoType;
 class FPSToy_Weapon;
@@ -59,9 +59,9 @@ private:
     static bool InitialiseWeaponTypes();
     static bool InitialiseWeaponDefinitions();
 
-    static GLToy_HashTree< FPSToy_AmmoType* > s_xAmmoTypes;
-    static GLToy_HashTree< FPSToy_WeaponType* > s_xWeaponTypes;
-    static GLToy_HashTree< GLToy_Array< GLToy_Hash > > s_xWeaponDefinitions;
+    static GLToy_HashMap< FPSToy_AmmoType* > s_xAmmoTypes;
+    static GLToy_HashMap< FPSToy_WeaponType* > s_xWeaponTypes;
+    static GLToy_HashMap< GLToy_Array< GLToy_Hash > > s_xWeaponDefinitions;
 
 };
 

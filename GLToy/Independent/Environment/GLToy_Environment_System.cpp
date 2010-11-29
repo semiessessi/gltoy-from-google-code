@@ -35,7 +35,7 @@
 
 // GLToy
 #include <Core/Console/GLToy_Console.h>
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment.h>
 #include <Environment/GLToy_Environment_Lightmapped.h>
@@ -58,7 +58,7 @@ bool GLToy_Environment_System::s_bRenderLightmapOnly = false;
 bool GLToy_Environment_System::s_bBSPQuadRes = true;
 bool GLToy_Environment_System::s_bDebugRender = false;
 GLToy_Environment* ( *GLToy_Environment_System::s_pfnProject_CreateFromType )( const u_int ) = NULL;
-GLToy_HashTree< GLToy_EnvironmentFile* > GLToy_Environment_System::s_xEnvironments;
+GLToy_HashMap< GLToy_EnvironmentFile* > GLToy_Environment_System::s_xEnvironments;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S

@@ -40,7 +40,7 @@
 
 class GLToy_Console_InputHandler;
 class GLToy_ConsoleCommand;
-template < class T > class GLToy_HashTree;
+template < class T > class GLToy_HashMap;
 class GLToy_Font;
 class GLToy_InputHandler;
 
@@ -99,7 +99,7 @@ private:
 
     static GLToy_Font* s_pxFont;
 
-    static GLToy_HashTree< GLToy_ConsoleCommand* > s_xCommandTree;
+    static GLToy_HashMap< GLToy_ConsoleCommand* > s_xCommandTree;
 
 };
 

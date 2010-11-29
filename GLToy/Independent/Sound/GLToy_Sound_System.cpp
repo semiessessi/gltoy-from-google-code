@@ -37,7 +37,7 @@
 // GLToy
 #include <Core/Console/GLToy_Console.h>
 #include <Core/Data Structures/GLToy_Array.h>
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <File/GLToy_File_System.h>
 #include <File/GLToy_SoundFile.h>
 #include <File/GLToy_WaveFile.h>
@@ -48,7 +48,7 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_HashTree< GLToy_SoundFile* > GLToy_Sound_System::s_xSounds;
+GLToy_HashMap< GLToy_SoundFile* > GLToy_Sound_System::s_xSounds;
 GLToy_Array< GLToy_Sound_Source* > GLToy_Sound_System::s_xSources;
 
 /////////////////////////////////////////////////////////////////////////////////////////////

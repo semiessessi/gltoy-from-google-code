@@ -34,7 +34,7 @@
 #include <Core/State/GLToy_State_EditorFrontEnd.h>
 
 // GLToy
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <Core/State/GLToy_State_System.h>
 #include <Core/GLToy_Timer.h>
 #include <Entity/GLToy_Entity_System.h>
@@ -68,7 +68,7 @@ protected:
 
     virtual void HandleKey( const unsigned int uKey )
     {
-        GLToy_HashTree< GLToy_EnvironmentFile* >& xEnvTree =
+        GLToy_HashMap< GLToy_EnvironmentFile* >& xEnvTree =
             GLToy_Environment_System::GetEnvironmentFileTree();
 
         if( uKey == GLToy_Input_System::GetLeftKey() )
@@ -122,7 +122,7 @@ void GLToy_State_EditorFrontEnd_NewEnvironmentCallback( void* const pData )
 
 void GLToy_State_EditorFrontEnd_LoadEnvironmentCallback( void* const pData )
 {
-    GLToy_HashTree< GLToy_EnvironmentFile* >& xEnvTree =
+    GLToy_HashMap< GLToy_EnvironmentFile* >& xEnvTree =
         GLToy_Environment_System::GetEnvironmentFileTree();
 
     GLToy_Environment_System::LoadEnvironmentFile(
@@ -200,7 +200,7 @@ void GLToy_State_EditorFrontEnd::Render2D() const
     }
 
     const float fTextX = GLToy_Render::GetMinX() + 0.3f;
-    GLToy_HashTree< GLToy_EnvironmentFile* >& xEnvTree =
+    GLToy_HashMap< GLToy_EnvironmentFile* >& xEnvTree =
         GLToy_Environment_System::GetEnvironmentFileTree();
     if( xEnvTree.GetCount() > 0 )
     {

@@ -35,7 +35,7 @@
 
 // GLToy
 #include <Core/Console/GLToy_Console.h>
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <Core/GLToy_Timer.h>
 #include <Core/GLToy_UpdateFunctor.h>
 #include <Entity/Physics/GLToy_Entity_PhysicsBox.h>
@@ -117,7 +117,7 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_HashTree< GLToy_Physics_Object* > GLToy_Physics_System::s_xPhysicsObjects;
+GLToy_HashMap< GLToy_Physics_Object* > GLToy_Physics_System::s_xPhysicsObjects;
 GLToy_Physics_Controller GLToy_Physics_System::s_xDefaultController = GLToy_Physics_Controller( GLToy_Hash_Constant( "DefaultController" ) );
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS

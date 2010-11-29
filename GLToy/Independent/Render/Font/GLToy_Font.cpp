@@ -34,7 +34,7 @@
 #include <Render/Font/GLToy_Font.h>
 
 // GLToy
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <File/GLToy_TextFile.h>
 #include <File/GLToy_File_System.h>
 #include <Render/Font/GLToy_Font_Bitmap.h>
@@ -43,7 +43,7 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_HashTree< GLToy_Font* > GLToy_Font_System::s_xFonts;
+GLToy_HashMap< GLToy_Font* > GLToy_Font_System::s_xFonts;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S

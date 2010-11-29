@@ -36,7 +36,7 @@
 // GLToy
 #include <Core/Console/GLToy_ConsoleCommand.h>
 #include <Core/Console/GLToy_ConsoleVariable.h>
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <Core/GLToy_Timer.h>
 #include <File/GLToy_TextFile.h>
 #include <Input/GLToy_InputHandler.h>
@@ -102,7 +102,7 @@ u_int GLToy_Console::s_uVerticalPosition = 0;
 
 GLToy_Font* GLToy_Console::s_pxFont = NULL;
 
-GLToy_HashTree< GLToy_ConsoleCommand* > GLToy_Console::s_xCommandTree;
+GLToy_HashMap< GLToy_ConsoleCommand* > GLToy_Console::s_xCommandTree;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S

@@ -35,7 +35,7 @@
 
 // GLToy
 #include <Core/Console/GLToy_Console.h>
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <Core/GLToy_UpdateFunctor.h>
 #include <Entity/GLToy_Entity.h>
 #include <Entity/BSP/Common/GLToy_Entity_BSP_Func_Button.h>
@@ -61,7 +61,7 @@ bool GLToy_Entity_System::s_bRenderAABBs = false;
 bool GLToy_Entity_System::s_bRenderOBBs = false;
 bool GLToy_Entity_System::s_bRenderSpheres = false;
 GLToy_Entity* ( *GLToy_Entity_System::s_pfnProject_CreateFromType )( const GLToy_Hash, const u_int ) = NULL;
-GLToy_HashTree< GLToy_Entity* > GLToy_Entity_System::s_xEntities;
+GLToy_HashMap< GLToy_Entity* > GLToy_Entity_System::s_xEntities;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -460,7 +460,7 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Array< GLToy_Pair< 
     ++uKeyValueEntityCount;
 
     // build a hash tree for convenient lookups
-    GLToy_HashTree< GLToy_String > xValueTree;
+    GLToy_HashMap< GLToy_String > xValueTree;
     GLToy_ConstIterate( GLToy_Pair< GLToy_String >, xIterator, &xKeyValuePairs )
     {
         xValueTree.AddNode( xIterator.Current().Second(), xIterator.Current().First().GetHash() );

@@ -52,7 +52,7 @@ static const float fPHYSICS_STEP_TIME = 1.0f / 85.0f;
 
 class GLToy_AABB;
 class GLToy_Environment_Lightmapped;
-template < class T > class GLToy_HashTree;
+template < class T > class GLToy_HashMap;
 class GLToy_OBB;
 class GLToy_Physics_Controller;
 class GLToy_Physics_Object;
@@ -108,7 +108,7 @@ public:
 
 private:
 
-    static GLToy_HashTree< GLToy_Physics_Object* > s_xPhysicsObjects;
+    static GLToy_HashMap< GLToy_Physics_Object* > s_xPhysicsObjects;
     static GLToy_Physics_Controller s_xDefaultController;
 
 };

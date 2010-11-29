@@ -35,7 +35,7 @@
 
 // GLToy
 #include <Core/GLToy_UpdateFunctor.h>
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <File/GLToy_TextFile.h>
 #include <File/GLToy_File_System.h>
 #include <Particle/GLToy_ParticleSource.h>
@@ -47,10 +47,10 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_HashTree< GLToy_PFX* > GLToy_PFX_System::s_xPFX;
-GLToy_HashTree< GLToy_PFXProperties > GLToy_PFX_System::s_xPFXProperties;
-GLToy_HashTree< GLToy_ParticleSourceProperties > GLToy_PFX_System::s_xSourceProperties;
-GLToy_HashTree< GLToy_ParticleProperties > GLToy_PFX_System::s_xParticleProperties;
+GLToy_HashMap< GLToy_PFX* > GLToy_PFX_System::s_xPFX;
+GLToy_HashMap< GLToy_PFXProperties > GLToy_PFX_System::s_xPFXProperties;
+GLToy_HashMap< GLToy_ParticleSourceProperties > GLToy_PFX_System::s_xSourceProperties;
+GLToy_HashMap< GLToy_ParticleProperties > GLToy_PFX_System::s_xParticleProperties;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S

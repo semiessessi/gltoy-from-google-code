@@ -208,6 +208,11 @@ GLToy_Vector_3& GLToy_Vector_3::operator *=( const float fFloat )
     return *this;
 }
 
+GLToy_Vector_3& GLToy_Vector_3::operator *=( const GLToy_Matrix_3& xMatrix )
+{
+    return ( *this = ( *this * xMatrix ) );
+}
+
 GLToy_Vector_3 GLToy_Vector_3::operator +( const GLToy_Vector_3& xVector ) const
 {
     return Platform_GLToy_Vector::Add( *this, xVector );

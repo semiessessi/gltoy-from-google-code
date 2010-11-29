@@ -24,36 +24,61 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_HASHTREE_H_
-#define __GLTOY_HASHTREE_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Core/Data Structures/GLToy_BinaryTree.h>
+#include <Core/GLToy.h>
+
+// This file's header
+#include <Maths/GLToy_Complex.h>
 
 // GLToy
-#include <Core/GLToy_Hash.h>
+#include <Maths/GLToy_Maths.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T >
-class GLToy_HashTree
-: public GLToy_BinaryTree< T, GLToy_Hash >
+GLToy_Complex& GLToy_Complex::operator =( const GLToy_Complex& xComplex )
 {
+	m_fComponents[ 0 ] = xComplex[ 0 ];
+	m_fComponents[ 1 ] = xComplex[ 1 ];
+	
+	return *this;
+}
 
-    typedef GLToy_BinaryTree< T, GLToy_Hash > GLToy_Parent;
+GLToy_Complex GLToy_Complex::operator +( const GLToy_Complex& xComplex ) const
+{
+    return GLToy_Complex(
+		m_fComponents[ 0 ] + xComplex[ 0 ],
+		m_fComponents[ 1 ] + xComplex[ 1 ]
+	);
+}
 
-public:
+GLToy_Complex GLToy_Complex::operator -( const GLToy_Complex& xComplex ) const
+{
+    return GLToy_Complex(
+		m_fComponents[ 0 ] - xComplex[ 0 ],
+		m_fComponents[ 1 ] - xComplex[ 1 ]
+	);
+}
 
-    GLToy_HashTree()
-    : GLToy_Parent()
-    {
-    }
-};
+GLToy_Complex GLToy_Complex::operator *( const float fFloat ) const
+{
+    return GLToy_Complex(
+		fFloat * m_fComponents[ 0 ],
+		fFloat * m_fComponents[ 1 ]
+	);
+}
 
-#endif
+float GLToy_Complex::Magnitude() const
+{
+	return GLToy_Maths::Sqrt( MagnitudeSquared() );
+}
+
+void GLToy_Complex::Normalise()
+{
+	const float fConstant = GLToy_Maths::InvSqrt( MagnitudeSquared() );
+	*this *= fConstant;
+}

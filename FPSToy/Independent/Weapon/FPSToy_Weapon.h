@@ -33,7 +33,7 @@
 
 // GLToy
 #include <Core/Data Structures/GLToy_Array.h>
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
@@ -186,7 +186,7 @@ protected:
     GLToy_Hash m_uOwnerEntityHash;
     u_int m_uCurrentWeapon;
     GLToy_Array< FPSToy_Weapon > m_xWeapons;
-    GLToy_HashTree< u_int > m_xAmmo;
+    GLToy_HashMap< u_int > m_xAmmo;
 
 };
 

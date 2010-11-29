@@ -41,7 +41,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_HashTree;
+template < class T > class GLToy_HashMap;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -167,7 +167,7 @@ private:
     static void Platform_DestroyFrameBufferTexture( u_int& uID );
     static void Platform_BindFrameBufferTexture( const u_int uID, const u_int uTextureUnit );
 
-    static GLToy_HashTree< GLToy_Texture > s_xTextures;
+    static GLToy_HashMap< GLToy_Texture > s_xTextures;
 
     static GLToy_Texture* s_pxBlackTexture;
     static GLToy_Texture* s_pxWhiteTexture;

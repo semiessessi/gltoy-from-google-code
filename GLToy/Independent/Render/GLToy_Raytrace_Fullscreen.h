@@ -35,7 +35,7 @@
 #include <Render/GLToy_Renderable.h>
 
 // GLToy
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <Core/Data Structures/GLToy_Pair.h>
 #include <String/GLToy_String.h>
 
@@ -69,7 +69,7 @@ private:
 
     GLToy_Hash m_uShader;
     GLToy_Pair< GLToy_Pair< GLToy_Hash, u_int >, GLToy_String > m_axTextures[ 8 ];
-	GLToy_HashTree< Vector4Uniform > m_xVector4Uniforms;
+	GLToy_HashMap< Vector4Uniform > m_xVector4Uniforms;
     const bool m_bDepthBuffered;
 
 };

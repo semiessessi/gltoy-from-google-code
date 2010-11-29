@@ -34,7 +34,7 @@
 #include <Render/GLToy_Texture.h>
 
 // GLToy
-#include <Core/Data Structures/GLToy_HashTree.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <File/GLToy_File_System.h>
 #include <File/GLToy_PTXFile.h>
 #include <UI/GLToy_UI_System.h>
@@ -43,7 +43,7 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_HashTree< GLToy_Texture > GLToy_Texture_System::s_xTextures;
+GLToy_HashMap< GLToy_Texture > GLToy_Texture_System::s_xTextures;
 GLToy_Texture* GLToy_Texture_System::s_pxBlackTexture = NULL;
 GLToy_Texture* GLToy_Texture_System::s_pxWhiteTexture = NULL;
 

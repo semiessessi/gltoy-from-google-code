@@ -60,7 +60,7 @@ public:
 
 	GLToy_Quaternion( const GLToy_Matrix_3& xOrientation );
 
-    virtual ~GLToy_Quaternion() {}
+    ~GLToy_Quaternion() {}
 
 	float& operator[] ( int i ) { return m_fComponents[ i ]; }
     const float& operator[] ( int i ) const { return m_fComponents[ i ]; }

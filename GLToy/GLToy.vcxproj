@@ -450,6 +450,7 @@
     <ClCompile Include="Independent\File\GLToy_WaveFile.cpp" />
     <ClCompile Include="Independent\Input\GLToy_InputHandler.cpp" />
     <ClCompile Include="Independent\Input\GLToy_Input_System.cpp" />
+    <ClCompile Include="Independent\Maths\GLToy_Complex.cpp" />
     <ClCompile Include="Independent\Maths\GLToy_Noise.cpp" />
     <ClCompile Include="Independent\Maths\GLToy_OrientedSpline.cpp" />
     <ClCompile Include="Independent\Model\GLToy_Model_FlatMaterials.cpp" />
@@ -674,6 +675,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\stb_image\stb_image.h" />
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_HashMap.h" />
     <ClInclude Include="Independent\Core\Data Structures\GLToy_Pool.h" />
     <ClInclude Include="Independent\Core\GLToy_Memory.h" />
     <ClInclude Include="Independent\Core\GLToy_Memory_DebugOff.h" />
@@ -687,6 +689,8 @@
     <ClInclude Include="Independent\Input\GLToy_InputHandler.h" />
     <ClInclude Include="Independent\Input\GLToy_Input_System.h" />
     <ClInclude Include="Independent\Maths\GLToy_AlignedVector.h" />
+    <ClInclude Include="Independent\Maths\GLToy_Complex.h" />
+    <ClInclude Include="Independent\Maths\GLToy_ConvexHull.h" />
     <ClInclude Include="Independent\Maths\GLToy_Noise.h" />
     <ClInclude Include="Independent\Maths\GLToy_OrientedSpline.h" />
     <ClInclude Include="Independent\Maths\GLToy_Spline.h" />
@@ -796,7 +800,6 @@
     <ClInclude Include="Independent\Core\Data Structures\GLToy_BSPTree.h" />
     <ClInclude Include="Independent\Core\Data Structures\GLToy_DataStructure.h" />
     <ClInclude Include="Independent\Core\Data Structures\GLToy_FlatDataStructure.h" />
-    <ClInclude Include="Independent\Core\Data Structures\GLToy_HashTree.h" />
     <ClInclude Include="Independent\Core\Data Structures\GLToy_List.h" />
     <ClInclude Include="Independent\Core\Data Structures\GLToy_Pair.h" />
     <ClInclude Include="Independent\Core\Data Structures\GLToy_Stack.h" />
@@ -819,7 +822,6 @@
     <ClInclude Include="Independent\Render\Font\GLToy_Font_Bitmap.h" />
     <ClInclude Include="Independent\Render\Shader\GLToy_Shader.h" />
     <ClInclude Include="Independent\Render\Shader\GLToy_Shader_System.h" />
-    <ClInclude Include="Independent\Maths\GLToy_Frustum.h" />
     <ClInclude Include="Independent\Maths\GLToy_Maths.h" />
     <ClInclude Include="Independent\Maths\GLToy_Matrix.h" />
     <ClInclude Include="Independent\Maths\GLToy_Plane.h" />
