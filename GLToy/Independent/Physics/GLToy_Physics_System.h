@@ -46,6 +46,11 @@ static const float fPHYSICS_STEP_TIME = 1.0f / 85.0f;
 
 #endif
 
+#ifdef GLTOY_BULLET_PHYSICS
+static const float fBULLET_SCALE = 1.0f / 64.0f;
+static const float fINVERSE_BULLET_SCALE = 1.0f / fBULLET_SCALE;
+#endif
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////

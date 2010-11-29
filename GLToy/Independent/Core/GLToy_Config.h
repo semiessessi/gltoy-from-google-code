@@ -30,12 +30,16 @@
 #ifndef GLTOY_PLATFORM_X11
     // keep FridgeScript out of final builds for now
     #ifndef _FINAL
-        #define GLTOY_USE_FRIDGESCRIPT        (1)
+        #define GLTOY_USE_FRIDGESCRIPT         (1)
     #endif
     
     #ifdef _HAVOK
         #define GLTOY_USE_HAVOK_PHYSICS        (1)
 		#define GLTOY_HAVOK_VERSION            (2010)
+    #endif
+
+    #ifdef _BULLET
+        #define GLTOY_USE_BULLET_PHYSICS       (1) 
     #endif
 #endif
 

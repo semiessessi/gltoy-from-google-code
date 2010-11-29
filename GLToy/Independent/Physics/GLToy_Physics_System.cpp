@@ -51,6 +51,11 @@
 
 #include <Core/GLToy_Memory_DebugOff.h>
 
+// Bullet
+#ifdef GLTOY_USE_BULLET_PHYSICS
+// ...
+#endif
+
 // Havok
 #include <Physics/Platform_GLToy_Havok_Physics.h>
 #ifdef GLTOY_USE_HAVOK_PHYSICS
