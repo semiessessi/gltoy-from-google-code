@@ -32,6 +32,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // GLToy
+#include <Maths/GLToy_AlignedVector.h>
+#include <Maths/GLToy_Complex.h>
 #include <Maths/GLToy_Matrix.h>
 #include <Maths/GLToy_Plane.h>
 #include <Maths/GLToy_Ray.h>

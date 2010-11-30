@@ -24,8 +24,10 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_POOL_H_
-#define __GLTOY_POOL_H_
+#ifndef __GLTOY_ALIGNEDPOOL_H_
+#define __GLTOY_ALIGNEDPOOL_H_
+
+// TODO: this lazy pile of crap can be seriously optimised...
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
@@ -40,50 +42,70 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template< class T >
-class GLToy_Pool
+class GLToy_AlignedPool
 {
 
-    struct Allocation
+    struct AlignedBlock
     {
-        u_char      m_aucData[ sizeof( T ) ];
-        bool        m_bFree;
-
-        Allocation()
-        : m_bFree( true )
+        void* m_pData;
+        void* m_pAlignedPointer;
+        bool  m_bFree;
+        
+        AlignedBlock( const u_int uSize = 1 )
+        : m_pData( NULL )
+        , m_pAlignedPointer( NULL )
+        , m_bFree( true )
         {
+            Size( uSize );
+        }
+
+        void Size( const u_int uSize )
+        {
+            delete[] m_pData;
+            m_pData = reinterpret_cast< void* >( new u_char[ sizeof( T ) * ( uSize + 1 ) ] );
+            m_pAlignedPointer = m_pData;
+            while( reinterpret_cast< u_int >( m_pAlignedPointer ) % sizeof( T ) )
+            {
+                m_pAlignedPointer = reinterpret_cast< u_char* >( m_pAlignedPointer ) + 1;
+            }
+        }
+
+        ~AlignedBlock()
+        {
+            delete[] m_pData;
         }
     };
 
 public:
 #include <Core/GLToy_Memory_DebugOff.h>
-    GLToy_Pool( const u_int uInitialSize = 256 )
+    GLToy_AlignedPool( const u_int uInitialSize = 256 )
     : m_xData()
     , m_uAllocated( 0 )
     , m_uCapacity( uInitialSize )
     , m_uCursor( 0 )
     , m_uListCursor( 0 )
     {
-        m_xData.Push( new GLToy_Array< Allocation >() );
+        m_xData.Push( new GLToy_Array< AlignedBlock >() );
         m_xData.Peek()->Resize( uInitialSize );
     }
 #include <Core/GLToy_Memory_DebugOn.h>
-    ~GLToy_Pool()
+    ~GLToy_AlignedPool()
     {
         m_xData.DeleteAll();
     }
 
-    GLToy_Inline T* Allocate()
+    GLToy_Inline T* Allocate( const u_int uCount = 1 )
     {
         ++m_uAllocated;
         if( m_uAllocated == m_uCapacity )
         {
             const u_int uNewSize = m_uCapacity;
             m_uCapacity <<= 1;
-            m_xData.Push( new GLToy_Array< Allocation >() );
+            m_xData.Push( new GLToy_Array< AlignedBlock >() );
             m_xData.Peek()->Resize( uNewSize );
         }
 
-        GLToy_Array< Allocation >* pxAllocationData = m_xData[ m_uListCursor ];
+        GLToy_Array< AlignedBlock >* pxAllocationData = m_xData[ m_uListCursor ];
         while( !( ( *pxAllocationData )[ m_uCursor ].m_bFree ) )
         {
             ++m_uCursor;
@@ -99,17 +121,19 @@ public:
             pxAllocationData = m_xData[ m_uListCursor ];
         }
 
+        ( *pxAllocationData )[ m_uCursor ].Size( uCount );
+
 #ifdef GLTOY_DEBUG
-        GLToy_Memory::MarkUninitialised( &( ( *pxAllocationData )[ m_uCursor ].m_aucData ), sizeof( T ) );
+        GLToy_Memory::MarkUninitialised( &( ( *pxAllocationData )[ m_uCursor ].m_pAlignedPointer ), sizeof( T ) * uCount );
 #endif
 
         ( *pxAllocationData )[ m_uCursor ].m_bFree = false;
-        return reinterpret_cast< T* >( &( ( *pxAllocationData )[ m_uCursor ].m_aucData ) );
+        return reinterpret_cast< T* >( &( ( *pxAllocationData )[ m_uCursor ].m_pAlignedPointer ) );
     }
 
     GLToy_Inline void Free( T* const pxPointer )
     {
-        reinterpret_cast< Allocation* const >( pxPointer )->m_bFree = true;
+        reinterpret_cast< AlignedBlock* const >( pxPointer )->m_bFree = true;
         --m_uAllocated;
 
 #ifdef GLTOY_DEBUG
@@ -120,7 +144,7 @@ public:
 protected:
 
 
-    GLToy_Stack< GLToy_Array< Allocation >* > m_xData;
+    GLToy_Stack< GLToy_Array< AlignedBlock >* > m_xData;
     u_int m_uAllocated;
     u_int m_uCapacity;
     u_int m_uCursor;
@@ -131,13 +155,13 @@ protected:
 #include <Core/GLToy_Memory_DebugOff.h>
 
 template< class T >
-class GLToy_PoolAllocated
+class GLToy_AlignedPoolAllocated
 {
 
 public:
 
 #ifdef GLTOY_DEBUG
-    GLToy_ForceInline void* operator new( const u_int uSize, const char* szFile, const int iLine ) { return operator new( uSize ); }
+    GLToy_Inline void* operator new( const u_int uSize, const char* szFile, const int iLine ) { return operator new( uSize ); }
 #endif
 
     GLToy_ForceInline void* operator new( const u_int uSize )
@@ -145,19 +169,29 @@ public:
         return s_xPool.Allocate();
     }
 
+    GLToy_ForceInline void* operator new[]( const u_int uSize )
+    {
+        return s_xPool.Allocate( uSize / sizeof( T ) );
+    }
+
     GLToy_ForceInline void operator delete( void* const pxPointer )
+    {
+        s_xPool.Free( reinterpret_cast< T* const >( pxPointer ) );
+    }
+
+    GLToy_ForceInline void operator delete[]( void* const pxPointer )
     {
         s_xPool.Free( reinterpret_cast< T* const >( pxPointer ) );
     }
 
 private:
 
-    static GLToy_Pool< T > s_xPool;
+    static GLToy_AlignedPool< T > s_xPool;
 
 };
 
 template< class T >
-GLToy_Pool< T > GLToy_PoolAllocated< T >::s_xPool;
+GLToy_AlignedPool< T > GLToy_AlignedPoolAllocated< T >::s_xPool;
 
 #include <Core/GLToy_Memory_DebugOn.h>
 

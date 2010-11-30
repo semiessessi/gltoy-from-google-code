@@ -935,6 +935,9 @@
     <ClInclude Include="Independent\Maths\GLToy_ConvexHull.h">
       <Filter>Independent\Maths</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_AlignedPool.h">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\Default.vs">

@@ -32,7 +32,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // Parents
-#include <Core/Data Structures/GLToy_Pool.h>
+#include <Core/Data Structures/GLToy_AlignedPool.h>
 
 // GLToy
 #include <Maths/GLToy_Vector.h>
@@ -41,9 +41,8 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// TODO: Make GLToy_AlignedPool and GLToy_AlignedPoolAllocated
 class GLToy_AlignedVector_Data
-: public GLToy_PoolAllocated< GLToy_AlignedVector_Data >
+: public GLToy_AlignedPoolAllocated< GLToy_AlignedVector_Data >
 {
 
 public:
