@@ -501,6 +501,7 @@
     <ClCompile Include="Win32\Core\Platform_GLToy_Memory.cpp" />
     <ClCompile Include="Win32\File\Platform_GLToy_WaveFile.cpp" />
     <ClCompile Include="Win32\Input\Platform_GLToy_Input_System.cpp" />
+    <ClCompile Include="Win32\Maths\Platform_GLToy_AlignedVector.cpp" />
     <ClCompile Include="Win32\Render\Platform_GLToy_Texture_Renderable.cpp" />
     <ClCompile Include="Win32\Sound\Platform_GLToy_Sound_System.cpp" />
     <ClCompile Include="X11\Core\Platform_GLToy.cpp">

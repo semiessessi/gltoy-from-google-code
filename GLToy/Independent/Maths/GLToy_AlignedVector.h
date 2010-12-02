@@ -47,8 +47,8 @@ class GLToy_AlignedVector_Data
 
 public:
 
-    float& operator[] ( int i ) { return m_afComponents[ i ]; }
-    const float& operator[] ( int i ) const { return m_afComponents[ i ]; }
+    float& operator[] ( const int i ) { return m_afComponents[ i ]; }
+    const float& operator[] ( const int i ) const { return m_afComponents[ i ]; }
 
 private:
 
@@ -71,21 +71,51 @@ public:
     GLToy_AlignedVector_Base( const float fFloat )
     : m_pxComponents( new GLToy_AlignedVector_Data )
     {
-        ( *m_pxComponents )[ 0 ] = fFloat;
+        Platform_Set1( fFloat );
     }
 
-    void Destroy()
-    {
-        delete m_pxComponents;
-    }
+	GLToy_ForceInline void Destroy() { delete m_pxComponents; }
 
-    void Add4v( const GLToy_AlignedVector_Data& xData );
-    void Sub4v( const GLToy_AlignedVector_Data& xData );
+	GLToy_ForceInline float& operator[] ( const int i ) { return ( *m_pxComponents )[ i ]; }
+    GLToy_ForceInline const float& operator[] ( const int i ) const { return ( *m_pxComponents )[ i ]; }
+
+	template < class AlignedVectorType >
+	GLToy_PointerArray< AlignedVectorType > CreateFastArray( const u_int uCount )
+	{
+		GLToy_AlignedVector_Data* const pxData = new GLToy_AlignedVector_Data[ uCount ];
+		// to avoid all the new calls for the data allocate u_char to avoid the AlignedVectorType constructor
+		AlignedVectorType* const pxVectors = reinterpret_cast< AlignedVectorType* >( new u_char[ sizeof( AlignedVectorType ) * uCount ] );
+		for( u_int u = 0; u < uCount; ++u )
+		{
+			pxVectors[ u ].m_pxComponents = &( pxData[ u ] );
+		}
+
+		return GLToy_PointerArray< AlignedVectorType >( pxVectors );
+	}
+
+	template < class AlignedVectorType >
+	void DestroyFastArray( GLToy_PointerArray< AlignedVectorType >& xArray )
+	{
+		delete[] xArray[ 0 ].m_pxComponents;
+		delete[] &( xArray[ 0 ] );
+	}
 
 protected:
 
-    void Platform_Add4v( const GLToy_AlignedVector_Data& xData );
-    void Platform_Sub4v( const GLToy_AlignedVector_Data& xData );
+	void Platform_Copy4( const GLToy_AlignedVector_Data& xData );
+	void Platform_Copy4( const float* pfData );
+
+	void Platform_Set1( const float fValue );
+	void Platform_Set2( const float fValue1, const float fValue2 );
+	void Platform_Set3( const float fValue1, const float fValue2, const float fValue3 );
+	void Platform_Set4( const float fValue1, const float fValue2, const float fValue3, const float fValue4 );
+
+    void Platform_Add4( const GLToy_AlignedVector_Data& xData );
+    void Platform_Sub4( const GLToy_AlignedVector_Data& xData );
+
+	float Platform_Dot2( const GLToy_AlignedVector_Data& xData ) const;
+	float Platform_Dot3( const GLToy_AlignedVector_Data& xData ) const;
+	float Platform_Dot4( const GLToy_AlignedVector_Data& xData ) const;
 
     GLToy_AlignedVector_Data* m_pxComponents;
 
@@ -99,10 +129,16 @@ class GLToy_AlignedVector_4
 
 public:
 
-    GLToy_AlignedVector_4();
-    GLToy_AlignedVector_4( const float fX, const float fY, const float fZ, const float fW );
-    GLToy_AlignedVector_4( const GLToy_Vector_4& xVector );
-    GLToy_AlignedVector_4( const GLToy_AlignedVector_4& xVector );
+	GLToy_AlignedVector_4( const float fX, const float fY, const float fZ, const float fW ) { Platform_Set4( fX, fY, fZ, fW ); }
+    GLToy_AlignedVector_4( const GLToy_Vector_4& xVector ) { Platform_Copy4( &( xVector[ 0 ] ) ); }
+	GLToy_AlignedVector_4( const GLToy_AlignedVector_4& xVector ) { Platform_Copy4( *xVector.m_pxComponents ); }
+
+	GLToy_ForceInline GLToy_AlignedVector_4& operator =( const GLToy_AlignedVector_4& xVector ) { Platform_Copy4( *xVector.m_pxComponents ); return *this; }
+
+	GLToy_ForceInline GLToy_AlignedVector_4 operator +( const GLToy_AlignedVector_4& xVector ) const { GLToy_AlignedVector_4 xReturnValue( *this ); xReturnValue.Platform_Add4( *xVector.m_pxComponents ); return xReturnValue; }
+	GLToy_ForceInline GLToy_AlignedVector_4 operator -( const GLToy_AlignedVector_4& xVector ) const { GLToy_AlignedVector_4 xReturnValue( *this ); xReturnValue.Platform_Sub4( *xVector.m_pxComponents ); return xReturnValue; }
+
+	GLToy_ForceInline float operator *( const GLToy_AlignedVector_4& xVector ) const { return Platform_Dot4( *xVector.m_pxComponents ); }
 
 };
 

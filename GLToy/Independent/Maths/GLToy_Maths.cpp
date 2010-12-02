@@ -88,10 +88,18 @@ bool GLToy_Maths_SqrtTest()
 
 bool GLToy_Maths_DotTest()
 {
-    #define GLToy_Maths_DotTest_Test( xValue1, xValue2 ) ( GLToy_Maths::Abs( ( xValue1 * xValue2 ) - ( xValue1[ 0 ] * xValue2[ 0 ] + xValue1[ 1 ] * xValue2[ 1 ] + xValue1[ 2 ] * xValue2[ 2 ] ) ) / ( xValue1[ 0 ] * xValue2[ 0 ] + xValue1[ 1 ] * xValue2[ 1 ] + xValue1[ 2 ] * xValue2[ 2 ] ) )
-    float fMaxError = GLToy_Maths_DotTest_Test( GLToy_Vector_3( 1.0f, -1.0f, 2.0f ), GLToy_Vector_3( 11.11f, 2311.11f, -2391.121f ) );
-    fMaxError = GLToy_Maths::Max( fMaxError, GLToy_Maths_DotTest_Test( GLToy_Vector_3( -1.0f, -0.5f, 0.0f ), GLToy_Vector_3( 1.11f, 0.11f, -0.121f ) ) );
-    #undef GLToy_Maths_DotTest_Test
+	#define GLToy_Maths_DotTest_Test2( xValue1, xValue2 ) ( GLToy_Maths::Abs( ( xValue1 * xValue2 ) - ( xValue1[ 0 ] * xValue2[ 0 ] + xValue1[ 1 ] * xValue2[ 1 ] ) ) / ( xValue1[ 0 ] * xValue2[ 0 ] + xValue1[ 1 ] * xValue2[ 1 ] ) )
+    #define GLToy_Maths_DotTest_Test3( xValue1, xValue2 ) ( GLToy_Maths::Abs( ( xValue1 * xValue2 ) - ( xValue1[ 0 ] * xValue2[ 0 ] + xValue1[ 1 ] * xValue2[ 1 ] + xValue1[ 2 ] * xValue2[ 2 ] ) ) / ( xValue1[ 0 ] * xValue2[ 0 ] + xValue1[ 1 ] * xValue2[ 1 ] + xValue1[ 2 ] * xValue2[ 2 ] ) )
+	#define GLToy_Maths_DotTest_Test4( xValue1, xValue2 ) ( GLToy_Maths::Abs( ( xValue1 * xValue2 ) - ( xValue1[ 0 ] * xValue2[ 0 ] + xValue1[ 1 ] * xValue2[ 1 ] + xValue1[ 2 ] * xValue2[ 2 ] + xValue1[ 3 ] * xValue2[ 3 ] ) ) / ( xValue1[ 0 ] * xValue2[ 0 ] + xValue1[ 1 ] * xValue2[ 1 ] + xValue1[ 2 ] * xValue2[ 2 ] + xValue1[ 3 ] * xValue2[ 3 ] ) )
+
+    float fMaxError = GLToy_Maths_DotTest_Test3( GLToy_Vector_3( 1.0f, -1.0f, 2.0f ), GLToy_Vector_3( 11.11f, 2311.11f, -2391.121f ) );
+    fMaxError = GLToy_Maths::Max( fMaxError, GLToy_Maths_DotTest_Test3( GLToy_Vector_3( -1.0f, -0.5f, 0.0f ), GLToy_Vector_3( 1.11f, 0.11f, -0.121f ) ) );
+    fMaxError = GLToy_Maths::Max( fMaxError, GLToy_Maths_DotTest_Test4( GLToy_Vector_4( 1.0f, 1.5f, 0.707f, 0.0f ), GLToy_Vector_4( 1.11f, -0.11f, 0.5f, -1.41f ) ) );
+	fMaxError = GLToy_Maths::Max( fMaxError, GLToy_Maths_DotTest_Test4( GLToy_AlignedVector_4( -0.01f, 0.5f, -0.123f, -1.0f ), GLToy_AlignedVector_4( 1.11f, 1.0f, -0.707f, 1.23f ) ) );
+
+	#undef GLToy_Maths_DotTest_Test4
+	#undef GLToy_Maths_DotTest_Test3
+	#undef GLToy_Maths_DotTest_Test2
 
     return fMaxError < 0.0005f;
 }

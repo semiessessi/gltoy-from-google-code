@@ -119,7 +119,6 @@ public:
 
 protected:
 
-
     GLToy_Stack< GLToy_Array< Allocation >* > m_xData;
     u_int m_uAllocated;
     u_int m_uCapacity;

@@ -522,6 +522,9 @@
     <ClCompile Include="Independent\Maths\GLToy_Complex.cpp">
       <Filter>Independent\Maths</Filter>
     </ClCompile>
+    <ClCompile Include="Win32\Maths\Platform_GLToy_AlignedVector.cpp">
+      <Filter>Win32\Maths</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">

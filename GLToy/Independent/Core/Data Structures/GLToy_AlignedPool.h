@@ -28,6 +28,7 @@
 #define __GLTOY_ALIGNEDPOOL_H_
 
 // TODO: this lazy pile of crap can be seriously optimised...
+// its not even a real pool
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
@@ -45,110 +46,40 @@ template< class T >
 class GLToy_AlignedPool
 {
 
-    struct AlignedBlock
-    {
-        void* m_pData;
-        void* m_pAlignedPointer;
-        bool  m_bFree;
-        
-        AlignedBlock( const u_int uSize = 1 )
-        : m_pData( NULL )
-        , m_pAlignedPointer( NULL )
-        , m_bFree( true )
-        {
-            Size( uSize );
-        }
-
-        void Size( const u_int uSize )
-        {
-            delete[] m_pData;
-            m_pData = reinterpret_cast< void* >( new u_char[ sizeof( T ) * ( uSize + 1 ) ] );
-            m_pAlignedPointer = m_pData;
-            while( reinterpret_cast< u_int >( m_pAlignedPointer ) % sizeof( T ) )
-            {
-                m_pAlignedPointer = reinterpret_cast< u_char* >( m_pAlignedPointer ) + 1;
-            }
-        }
-
-        ~AlignedBlock()
-        {
-            delete[] m_pData;
-        }
-    };
-
 public:
-#include <Core/GLToy_Memory_DebugOff.h>
+
     GLToy_AlignedPool( const u_int uInitialSize = 256 )
-    : m_xData()
-    , m_uAllocated( 0 )
-    , m_uCapacity( uInitialSize )
-    , m_uCursor( 0 )
-    , m_uListCursor( 0 )
     {
-        m_xData.Push( new GLToy_Array< AlignedBlock >() );
-        m_xData.Peek()->Resize( uInitialSize );
     }
-#include <Core/GLToy_Memory_DebugOn.h>
+
     ~GLToy_AlignedPool()
     {
-        m_xData.DeleteAll();
     }
 
     GLToy_Inline T* Allocate( const u_int uCount = 1 )
     {
-        ++m_uAllocated;
-        if( m_uAllocated == m_uCapacity )
-        {
-            const u_int uNewSize = m_uCapacity;
-            m_uCapacity <<= 1;
-            m_xData.Push( new GLToy_Array< AlignedBlock >() );
-            m_xData.Peek()->Resize( uNewSize );
-        }
-
-        GLToy_Array< AlignedBlock >* pxAllocationData = m_xData[ m_uListCursor ];
-        while( !( ( *pxAllocationData )[ m_uCursor ].m_bFree ) )
-        {
-            ++m_uCursor;
-            if( m_uCursor == pxAllocationData->GetCount() )
-            {
-                ++m_uListCursor;
-                m_uCursor = 0;
-                if( m_uListCursor == m_xData.GetCount() )
-                {
-                    m_uListCursor = 0;
-                }
-            }
-            pxAllocationData = m_xData[ m_uListCursor ];
-        }
-
-        ( *pxAllocationData )[ m_uCursor ].Size( uCount );
-
-#ifdef GLTOY_DEBUG
-        GLToy_Memory::MarkUninitialised( &( ( *pxAllocationData )[ m_uCursor ].m_pAlignedPointer ), sizeof( T ) * uCount );
-#endif
-
-        ( *pxAllocationData )[ m_uCursor ].m_bFree = false;
-        return reinterpret_cast< T* >( &( ( *pxAllocationData )[ m_uCursor ].m_pAlignedPointer ) );
+		// allocate enough space for the offset and the aligned block
+		u_char* const pucAllocation = new u_char[ sizeof( T ) * ( uCount + 1 ) + 4 ];
+		// calculate the offset from the start of the aligned block to the first aligned address
+		const u_int uOffset = 4 + sizeof( T ) - ( reinterpret_cast< u_int >( pucAllocation + 4 ) % sizeof( T ) );
+		// store the offset
+		*reinterpret_cast< u_int* >( pucAllocation + uOffset - 4 ) = uOffset;
+		// return the first aligned address
+		return reinterpret_cast< T* >( pucAllocation + uOffset );
     }
 
     GLToy_Inline void Free( T* const pxPointer )
     {
-        reinterpret_cast< AlignedBlock* const >( pxPointer )->m_bFree = true;
-        --m_uAllocated;
+		if( !pxPointer )
+		{
+			return;
+		}
 
-#ifdef GLTOY_DEBUG
-        GLToy_Memory::MarkDestroyed( reinterpret_cast< Allocation* const >( pxPointer )->m_aucData, sizeof( T ) );
-#endif
+		// extract the offset to the start of the allocation
+		const u_int uOffset = *( reinterpret_cast< u_int* >( pxPointer ) - 1 );
+		// free the allocation
+		delete[] ( reinterpret_cast< u_char* >( pxPointer ) - uOffset );
     }
-
-protected:
-
-
-    GLToy_Stack< GLToy_Array< AlignedBlock >* > m_xData;
-    u_int m_uAllocated;
-    u_int m_uCapacity;
-    u_int m_uCursor;
-    u_int m_uListCursor;
 
 };
 
