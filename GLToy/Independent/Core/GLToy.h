@@ -128,15 +128,13 @@ static const GLToy_Hash uGLTOY_BAD_HASH = 0;
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+class GLToy_BitStream;
 class GLToy_String;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Didn't think this deserves its own header, but its useful enough to deserve being here
-// NOTE: This class should be derived from to make classes which use a Destroy function
-// for destruction, but do not want virtual destructors
 template< class T >
 class GLToy_Destroyable
 {
@@ -144,6 +142,32 @@ class GLToy_Destroyable
 public:
 
     ~GLToy_Destroyable() { static_cast< T* >( this )->Destroy(); }
+
+};
+
+template< class T >
+class GLToy_SimpleSerialisable
+{
+
+public:
+
+    void ReadFromBitStream( const GLToy_BitStream& xStream )
+	{
+		u_char* const pucThis = reinterpret_cast< u_char* >( this );
+		for( u_int u = 0; u < sizeof( T ); ++u )
+		{
+			xStream >> pucThis[ u ];
+		}
+	}
+
+    void WriteToBitStream( GLToy_BitStream& xStream ) const
+	{
+		const u_char* const pucThis = reinterpret_cast< const u_char* >( this );
+		for( u_int u = 0; u < sizeof( T ); ++u )
+		{
+			xStream << pucThis[ u ];
+		}
+	}
 
 };
 
