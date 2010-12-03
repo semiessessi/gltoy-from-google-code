@@ -39,10 +39,27 @@
 
 void GLToy_AlignedVector_Base::Platform_Copy4( const GLToy_AlignedVector_Data& xData )
 {
+    const GLToy_AlignedVector_Data* const pxData = &xData;
+    GLToy_AlignedVector_Data* const pxThis = m_pxComponents;
+    __asm
+    {
+        mov esi, pxData
+        movdqa xmm0, [ esi ]
+        mov edi, pxThis
+        movdqa [ edi ], xmm0
+    }
 }
 
-void GLToy_AlignedVector_Base::Platform_Copy4( const float* pfData )
+void GLToy_AlignedVector_Base::Platform_Copy4( const float* const pfData )
 {
+    GLToy_AlignedVector_Data* const pxThis = m_pxComponents;
+    __asm
+    {
+        mov esi, pfData
+        movdqu xmm0, [ esi ]
+        mov edi, pxThis
+        movdqa [ edi ], xmm0
+    }
 }
 
 void GLToy_AlignedVector_Base::Platform_Set1( const float fValue )
@@ -73,10 +90,32 @@ void GLToy_AlignedVector_Base::Platform_Set4( const float fValue1, const float f
 
 void GLToy_AlignedVector_Base::Platform_Add4( const GLToy_AlignedVector_Data& xData )
 {
+    const GLToy_AlignedVector_Data* const pxData = &xData;
+    GLToy_AlignedVector_Data* const pxThis = m_pxComponents;
+
+    __asm
+    {
+        mov edi, pxThis
+        movdqa xmm0, [ edi ]
+        mov esi, pxData
+        addps xmm0, [ esi ]
+        movdqa [ edi ], xmm0
+    }
 }
 
 void GLToy_AlignedVector_Base::Platform_Sub4( const GLToy_AlignedVector_Data& xData )
 {
+    const GLToy_AlignedVector_Data* const pxData = &xData;
+    GLToy_AlignedVector_Data* const pxThis = m_pxComponents;
+
+    __asm
+    {
+        mov edi, pxThis
+        movdqa xmm0, [ edi ]
+        mov esi, pxData
+        subps xmm0, [ esi ]
+        movdqa [ edi ], xmm0
+    }
 }
 
 float GLToy_AlignedVector_Base::Platform_Dot2( const GLToy_AlignedVector_Data& xData ) const
@@ -94,8 +133,22 @@ float GLToy_AlignedVector_Base::Platform_Dot3( const GLToy_AlignedVector_Data& x
 
 float GLToy_AlignedVector_Base::Platform_Dot4( const GLToy_AlignedVector_Data& xData ) const
 {
-	return xData[ 0 ] * ( *m_pxComponents )[ 0 ]
-		+ xData[ 1 ] * ( *m_pxComponents )[ 1 ]
-		+ xData[ 2 ] * ( *m_pxComponents )[ 2 ]
-		+ xData[ 3 ] * ( *m_pxComponents )[ 3 ];
+    float fReturnValue;
+    float* const pxReturnValue = &fReturnValue;
+    const GLToy_AlignedVector_Data* const pxData = &xData;
+    GLToy_AlignedVector_Data* const pxThis = m_pxComponents;
+
+    __asm
+    {
+        mov edi, pxThis
+        movdqa xmm0, [ edi ]
+        mov esi, pxData
+        mulps xmm0, [ esi ]
+        mov edi, pxReturnValue
+        haddps xmm0, xmm0
+        haddps xmm0, xmm0
+        movss [ edi ], xmm0
+    }
+
+    return fReturnValue;
 }

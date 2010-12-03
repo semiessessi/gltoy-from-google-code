@@ -103,7 +103,7 @@ public:
 protected:
 
 	void Platform_Copy4( const GLToy_AlignedVector_Data& xData );
-	void Platform_Copy4( const float* pfData );
+	void Platform_Copy4( const float* const pfData );
 
 	void Platform_Set1( const float fValue );
 	void Platform_Set2( const float fValue1, const float fValue2 );
@@ -134,6 +134,9 @@ public:
 	GLToy_AlignedVector_4( const GLToy_AlignedVector_4& xVector ) { Platform_Copy4( *xVector.m_pxComponents ); }
 
 	GLToy_ForceInline GLToy_AlignedVector_4& operator =( const GLToy_AlignedVector_4& xVector ) { Platform_Copy4( *xVector.m_pxComponents ); return *this; }
+    
+    GLToy_ForceInline GLToy_AlignedVector_4& operator +=( const GLToy_AlignedVector_4& xVector ) { Platform_Add4( *xVector.m_pxComponents ); return *this; }
+    GLToy_ForceInline GLToy_AlignedVector_4& operator -=( const GLToy_AlignedVector_4& xVector ) { Platform_Sub4( *xVector.m_pxComponents ); return *this; }
 
 	GLToy_ForceInline GLToy_AlignedVector_4 operator +( const GLToy_AlignedVector_4& xVector ) const { GLToy_AlignedVector_4 xReturnValue( *this ); xReturnValue.Platform_Add4( *xVector.m_pxComponents ); return xReturnValue; }
 	GLToy_ForceInline GLToy_AlignedVector_4 operator -( const GLToy_AlignedVector_4& xVector ) const { GLToy_AlignedVector_4 xReturnValue( *this ); xReturnValue.Platform_Sub4( *xVector.m_pxComponents ); return xReturnValue; }
