@@ -121,6 +121,54 @@ protected:
 
 };
 
+class GLToy_AlignedVector_2
+: public GLToy_AlignedVector_Base
+{
+
+    typedef GLToy_AlignedVector_Base GLToy_Parent;
+
+public:
+
+	GLToy_AlignedVector_2( const float fX, const float fY ) { Platform_Set2( fX, fY ); }
+    GLToy_AlignedVector_2( const GLToy_Vector_2& xVector ) { Platform_Copy4( &( xVector[ 0 ] ) ); }
+	GLToy_AlignedVector_2( const GLToy_AlignedVector_2& xVector ) { Platform_Copy4( *xVector.m_pxComponents ); }
+
+	GLToy_ForceInline GLToy_AlignedVector_2& operator =( const GLToy_AlignedVector_2& xVector ) { Platform_Copy4( *xVector.m_pxComponents ); return *this; }
+    
+    GLToy_ForceInline GLToy_AlignedVector_2& operator +=( const GLToy_AlignedVector_2& xVector ) { Platform_Add4( *xVector.m_pxComponents ); return *this; }
+    GLToy_ForceInline GLToy_AlignedVector_2& operator -=( const GLToy_AlignedVector_2& xVector ) { Platform_Sub4( *xVector.m_pxComponents ); return *this; }
+
+	GLToy_ForceInline GLToy_AlignedVector_2 operator +( const GLToy_AlignedVector_2& xVector ) const { GLToy_AlignedVector_2 xReturnValue( *this ); xReturnValue.Platform_Add4( *xVector.m_pxComponents ); return xReturnValue; }
+	GLToy_ForceInline GLToy_AlignedVector_2 operator -( const GLToy_AlignedVector_2& xVector ) const { GLToy_AlignedVector_2 xReturnValue( *this ); xReturnValue.Platform_Sub4( *xVector.m_pxComponents ); return xReturnValue; }
+
+	GLToy_ForceInline float operator *( const GLToy_AlignedVector_2& xVector ) const { return Platform_Dot2( *xVector.m_pxComponents ); }
+
+};
+
+class GLToy_AlignedVector_3
+: public GLToy_AlignedVector_Base
+{
+
+    typedef GLToy_AlignedVector_Base GLToy_Parent;
+
+public:
+
+	GLToy_AlignedVector_3( const float fX, const float fY, const float fZ ) { Platform_Set3( fX, fY, fZ ); }
+    GLToy_AlignedVector_3( const GLToy_Vector_3& xVector ) { Platform_Copy4( &( xVector[ 0 ] ) ); }
+	GLToy_AlignedVector_3( const GLToy_AlignedVector_3& xVector ) { Platform_Copy4( *xVector.m_pxComponents ); }
+
+	GLToy_ForceInline GLToy_AlignedVector_3& operator =( const GLToy_AlignedVector_3& xVector ) { Platform_Copy4( *xVector.m_pxComponents ); return *this; }
+    
+    GLToy_ForceInline GLToy_AlignedVector_3& operator +=( const GLToy_AlignedVector_3& xVector ) { Platform_Add4( *xVector.m_pxComponents ); return *this; }
+    GLToy_ForceInline GLToy_AlignedVector_3& operator -=( const GLToy_AlignedVector_3& xVector ) { Platform_Sub4( *xVector.m_pxComponents ); return *this; }
+
+	GLToy_ForceInline GLToy_AlignedVector_3 operator +( const GLToy_AlignedVector_3& xVector ) const { GLToy_AlignedVector_3 xReturnValue( *this ); xReturnValue.Platform_Add4( *xVector.m_pxComponents ); return xReturnValue; }
+	GLToy_ForceInline GLToy_AlignedVector_3 operator -( const GLToy_AlignedVector_3& xVector ) const { GLToy_AlignedVector_3 xReturnValue( *this ); xReturnValue.Platform_Sub4( *xVector.m_pxComponents ); return xReturnValue; }
+
+	GLToy_ForceInline float operator *( const GLToy_AlignedVector_3& xVector ) const { return Platform_Dot3( *xVector.m_pxComponents ); }
+
+};
+
 class GLToy_AlignedVector_4
 : public GLToy_AlignedVector_Base
 {

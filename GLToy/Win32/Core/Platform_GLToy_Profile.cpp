@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,38 +24,49 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_TIMER_H_
-#define __GLTOY_TIMER_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Timer
+#include <Core/GLToy.h>
+
+// This file's header
+#include <Core/GLToy_Profile.h>
+
+// Win32
+#include <windows.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+static LARGE_INTEGER xPerformanceCount;
+static LARGE_INTEGER xPerformanceFrequency;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F U N C T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+bool GLToy_Profile::Platform_Initialise()
 {
+	SetThreadAffinityMask( GetCurrentThread(), 1 ); // make sure we only run this (main) thread on the first CPU - to avoid obscure bugs in CPU/BIOS etc
+    QueryPerformanceCounter( &xPerformanceCount );
 
-    friend class Platform_GLToy_Timer;
+    return true;
+}
 
-public:
-    
-    static bool Initialise();
+float GLToy_Profile::Platform_GetTimeSinceLastGet()
+{
+    // this can change... so we had better update it
+    QueryPerformanceFrequency( &xPerformanceFrequency );
 
-    static void Update();
+    LARGE_INTEGER xNewPerformanceCount;
+    QueryPerformanceCounter( &xNewPerformanceCount );
 
-    GLToy_ForceInline static const float& GetTime() { return s_fTimer; }
-    GLToy_ForceInline static float GetFrameTime() { return s_fFrameTime; }
-    GLToy_ForceInline static float GetFrameRate() { return 1 / s_fFrameTime; }
-    GLToy_ForceInline static float GetSmoothedFrameRate() { return s_fSmoothedFrameRate; }
+    float fTime = static_cast< float >( xNewPerformanceCount.QuadPart - xPerformanceCount.QuadPart )
+        / static_cast< float >( xPerformanceFrequency.QuadPart );
 
-private:
-    
-    static bool Platform_Initialise();
+    xPerformanceCount = xNewPerformanceCount;
 
-    static float Platform_GetTimeSinceLastGet();
-
-    static float s_fTimer;
-    static float s_fFrameTime;
-    static float s_fSmoothedFrameRate;
-};
-
-#endif
+    return fTime;
+}

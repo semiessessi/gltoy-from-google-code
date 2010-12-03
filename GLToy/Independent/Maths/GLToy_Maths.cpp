@@ -34,6 +34,7 @@
 #include <Maths/GLToy_Maths.h>
 
 // GLToy
+#include <Core/GLToy_Profile.h>
 #include <Core/GLToy_Timer.h>
 #include <Maths/Platform_GLToy_Vector.h>
 #include <Test/GLToy_Test_System.h>
@@ -113,13 +114,48 @@ bool GLToy_Maths_QuadraticSolverTest()
 
     for( float fA = 1.0f; fA < 50.0f; ++fA )
     {
-        for( float fB = -25.0f; fB < 0.0f; ++fB )
+        for( float fB = -25.0f; fB < -1.0f; ++fB )
         {
             fMaxError = GLToy_Maths::Max( fMaxError, GLToy_Maths::Abs( GLToy_Maths::SolveQuadratic( fA, fB, 0.0f )[ 0 ] - ( -fB / fA ) ) );
         }
     }
 
     return fMaxError < 0.0005f;
+}
+
+bool GLToy_Maths_AlignedVectorSpeedTest()
+{
+    const u_int uTestCount = 5000;
+    GLToy_AlignedVector_4 xTest1( 0.0f, 0.0f, 0.0f, 0.0f );
+    GLToy_AlignedVector_4 xIncrement1( 1.0f, -1.0f, 2.0f, 0.1f );
+    
+    GLToy_Profile::StartProfileTimer();
+    
+    for( u_int u = 0; u < uTestCount; ++u )
+    {
+        xTest1 += xIncrement1;
+    }
+
+    float fAlignedTime = GLToy_Profile::EndProfileTimer();
+
+    GLToy_Vector_4 xTest2( 0.0f, 0.0f, 0.0f, 0.0f );
+    GLToy_Vector_4 xIncrement2( 1.0f, -1.0f, 2.0f, 0.1f );
+
+    GLToy_Profile::StartProfileTimer();
+
+    for( u_int u = 0; u < uTestCount; ++u )
+    {
+        xTest2 += xIncrement2;
+    }
+
+    float fRegularTime = GLToy_Profile::EndProfileTimer();
+
+    if( fAlignedTime > fRegularTime )
+    {
+        return false;
+    }
+
+    return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,6 +169,7 @@ bool GLToy_Maths::Initialise()
     GLToy_Test_System::RegisterTest( GLToy_Maths_SqrtTest, "Square of square root accurate to 0.5%" );
     GLToy_Test_System::RegisterTest( GLToy_Maths_DotTest, "Dot product accurate to 0.05%" );
     GLToy_Test_System::RegisterTest( GLToy_Maths_QuadraticSolverTest, "Quadratic solver accurate to 0.05%" );
+    GLToy_Test_System::RegisterTest( GLToy_Maths_AlignedVectorSpeedTest, "Aligned vector is faster than unaligned vector" );
 
     return Platform_Initialise();
 }

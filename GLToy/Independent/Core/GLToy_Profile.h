@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,38 +24,28 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_TIMER_H_
-#define __GLTOY_TIMER_H_
+#ifndef __GLTOY_PROFILE_H_
+#define __GLTOY_PROFILE_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Timer
+class GLToy_Profile
 {
-
-    friend class Platform_GLToy_Timer;
 
 public:
     
-    static bool Initialise();
+    static bool Initialise() { return Platform_Initialise(); }
 
-    static void Update();
-
-    GLToy_ForceInline static const float& GetTime() { return s_fTimer; }
-    GLToy_ForceInline static float GetFrameTime() { return s_fFrameTime; }
-    GLToy_ForceInline static float GetFrameRate() { return 1 / s_fFrameTime; }
-    GLToy_ForceInline static float GetSmoothedFrameRate() { return s_fSmoothedFrameRate; }
+    static void StartProfileTimer() { Platform_GetTimeSinceLastGet(); }
+    static float EndProfileTimer() { return Platform_GetTimeSinceLastGet(); }
 
 private:
-    
-    static bool Platform_Initialise();
 
+    static bool Platform_Initialise();
     static float Platform_GetTimeSinceLastGet();
 
-    static float s_fTimer;
-    static float s_fFrameTime;
-    static float s_fSmoothedFrameRate;
 };
 
 #endif

@@ -34,6 +34,9 @@
 // GLToy headers
 #include <Core/Console/GLToy_Console.h>
 #include <Core/State/GLToy_State_System.h>
+#ifndef GLTOY_DEMO
+#include <Core/GLToy_Profile.h>
+#endif
 #include <Core/GLToy_Timer.h>
 #ifndef GLTOY_DEMO
 #include <Entity/GLToy_Entity_System.h>
@@ -163,6 +166,10 @@ bool GLToy::Initialise()
 
     GLToy_InitialiserCall( GLToy_Memory );
     GLToy_InitialiserCall( GLToy_Maths );
+
+#ifndef GLTOY_DEMO
+    GLToy_InitialiserCall( GLToy_Profile );
+#endif
     
     if( !s_bSilent )
     {

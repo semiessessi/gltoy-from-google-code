@@ -525,6 +525,9 @@
     <ClCompile Include="Win32\Maths\Platform_GLToy_AlignedVector.cpp">
       <Filter>Win32\Maths</Filter>
     </ClCompile>
+    <ClCompile Include="Win32\Core\Platform_GLToy_Profile.cpp">
+      <Filter>Win32\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
@@ -940,6 +943,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Core\Data Structures\GLToy_AlignedPool.h">
       <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_Profile.h">
+      <Filter>Independent\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
