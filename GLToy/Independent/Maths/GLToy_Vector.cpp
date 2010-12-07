@@ -63,6 +63,18 @@ GLToy_Vector_2::GLToy_Vector_2( const GLToy_Vector_2& xVector )
     m_fComponents[ 1 ] = xVector[ 1 ];
 }
 
+GLToy_Vector_2::GLToy_Vector_2( const GLToy_Vector_3& xVector )
+{
+    m_fComponents[ 0 ] = xVector[ 0 ];
+    m_fComponents[ 1 ] = xVector[ 1 ];
+}
+
+GLToy_Vector_2::GLToy_Vector_2( const GLToy_Vector_4& xVector )
+{
+    m_fComponents[ 0 ] = xVector[ 0 ];
+    m_fComponents[ 1 ] = xVector[ 1 ];
+}
+
 GLToy_Vector_2& GLToy_Vector_2::operator =( const GLToy_Vector_2& xVector )
 {
     // TODO - use platform copy
@@ -137,6 +149,14 @@ GLToy_Vector_3::GLToy_Vector_3( float fX, float fY, float fZ )
 }
 
 GLToy_Vector_3::GLToy_Vector_3( const GLToy_Vector_3& xVector )
+{
+    // TODO - use platform copy
+    m_fComponents[ 0 ] = xVector[ 0 ];
+    m_fComponents[ 1 ] = xVector[ 1 ];
+    m_fComponents[ 2 ] = xVector[ 2 ];
+}
+
+GLToy_Vector_3::GLToy_Vector_3( const GLToy_Vector_4& xVector )
 {
     // TODO - use platform copy
     m_fComponents[ 0 ] = xVector[ 0 ];

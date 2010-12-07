@@ -149,7 +149,7 @@ void GLToy_OBB::Render() const
     GLToy_Render::Translate( GetPosition() );
 
     GLToy_Matrix_3 xInverseOrientation = m_xOrientation;
-    xInverseOrientation.Transpose();
+    xInverseOrientation.InvertTransformationMatrix();
 
     GLToy_Render::Transform( xInverseOrientation );
 

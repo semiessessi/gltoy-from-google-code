@@ -139,7 +139,7 @@ void GLToy_Memory::Set( void* const pxMemory, const u_int uBytes, const u_char u
     }
 }
 
-void GLToy_Memory::SetDWords( void* const pxMemory, const u_int uDWords, const u_int uValue )
+void GLToy_Memory::Set_4Bytes( void* const pxMemory, const u_int uDWords, const u_int uValue )
 {
     for( u_int u = 0; u < uDWords; ++u )
     {

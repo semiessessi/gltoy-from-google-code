@@ -90,7 +90,7 @@ void GLToy_Camera::Update()
 {
     s_xOrientation = GLToy_Matrix_3( GetRight(), s_xUp, s_xDirection );
     s_xInverseOrientation = s_xOrientation;
-    s_xInverseOrientation.Transpose();
+    s_xInverseOrientation.InvertTransformationMatrix();
 
     if( s_bFlyCam || s_bControllerCam )
     {
@@ -308,7 +308,7 @@ GLToy_Ray GLToy_Camera::ScreenSpaceToRay( const GLToy_Vector_2& xPoint )
 
     GLToy_Matrix_3 xOrientation = GetOrientation();
     xOrientation.Orthonormalise();
-    xOrientation.Transpose();
+    xOrientation.InvertTransformationMatrix();
 
     return GLToy_Ray( GetPosition(), xDirection * xOrientation );
 }

@@ -329,7 +329,7 @@ public:
     {
         GLToy_Vector_3 xTestPosition = xPosition - GetPosition();
         GLToy_Matrix_3 xInverse = GetOrientation();
-        xInverse.Transpose();
+        xInverse.InvertTransformationMatrix();
         xTestPosition *= xInverse;
         
         const GLToy_Vector_3 xHalfExtents = m_xBox.GetHalfExtents();

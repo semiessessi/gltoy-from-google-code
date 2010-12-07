@@ -132,6 +132,8 @@ public:
     void Transpose();
     void Orthonormalise();
 
+    GLToy_ForceInline void InvertTransformationMatrix() { Transpose(); }
+
     GLToy_Matrix_RoundOut( GLToy_Matrix_3 )
 
 private:
@@ -179,6 +181,8 @@ public:
 
     void Identity();
     void Transpose();
+
+    void InvertTransformationMatrix();
 
     GLToy_Matrix_RoundOut( GLToy_Matrix_4 )
 

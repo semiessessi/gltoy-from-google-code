@@ -33,14 +33,14 @@
 
 class GLToy_BitStream;
 class GLToy_Matrix_3;
+class GLToy_Vector_3;
+class GLToy_Vector_4;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Vector_2
-// TODO: Investigate the possibility of moving GLToy_Serialisable over to a templated type, like GLToy_Destroyable
-// : public GLToy_Serialisable - don't do this, its nicer if we can map this to float[ 2 ], which we can't if it needs a virtual function table pointer
 {
 
 public:
@@ -48,6 +48,8 @@ public:
     GLToy_Vector_2();
     GLToy_Vector_2( float fX, float fY );
     GLToy_Vector_2( const GLToy_Vector_2& xVector );
+    GLToy_Vector_2( const GLToy_Vector_3& xVector );
+    GLToy_Vector_2( const GLToy_Vector_4& xVector );
 
     void ReadFromBitStream( const GLToy_BitStream& xStream );
     void WriteToBitStream( GLToy_BitStream& xStream ) const;
@@ -73,11 +75,9 @@ public:
 	GLToy_ForceInline friend GLToy_Vector_2 operator *( const float fFloat, const GLToy_Vector_2& xVector ) { return xVector * fFloat; }
     GLToy_Vector_2 operator /( const float fFloat ) const;
 
-    // TODO - platform version
     GLToy_Inline float operator *( const GLToy_Vector_2& xVector ) const
     {
-        return m_fComponents[ 0 ] * xVector[ 0 ]
-            + m_fComponents[ 1 ] * xVector[ 1 ];
+        return m_fComponents[ 0 ] * xVector[ 0 ] + m_fComponents[ 1 ] * xVector[ 1 ];
     }
 
     void Normalise();
@@ -93,7 +93,6 @@ private:
 };
 
 class GLToy_Vector_3
-// : public GLToy_Serialisable - don't do this, its nicer if we can map this to float[ 3 ], which we can't if it needs a virtual function table pointer
 {
 
     friend class GLToy_Matrix_3;
@@ -104,6 +103,7 @@ public:
     GLToy_Vector_3( float fX, float fY, float fZ );
     GLToy_Vector_3( const GLToy_Vector_3& xVector );
     GLToy_Vector_3( const GLToy_Vector_2& xVector, const float fZ = 1.0f );
+    GLToy_Vector_3( const GLToy_Vector_4& xVector );
 
     void ReadFromBitStream( const GLToy_BitStream& xStream );
     void WriteToBitStream( GLToy_BitStream& xStream ) const;
@@ -131,7 +131,6 @@ public:
     GLToy_Vector_3 operator *( const GLToy_Matrix_3& xMatrix ) const;
     GLToy_Vector_3 operator /( const float fFloat ) const { return operator *( 1.0f / fFloat ); }
 
-    // TODO - platform version
     GLToy_Inline float operator *( const GLToy_Vector_3& xVector ) const
     {
         return m_fComponents[ 0 ] * xVector[ 0 ]
@@ -162,7 +161,6 @@ private:
 };
 
 class GLToy_Vector_4
-// : public GLToy_Serialisable - don't do this, its nicer if we can map this to float[ 4 ], which we can't if it needs a virtual function table pointer
 {
 
 public:

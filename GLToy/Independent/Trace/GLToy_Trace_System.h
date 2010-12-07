@@ -69,11 +69,11 @@ class GLToy_Trace_System
 
 public:
 
-    static bool LineOfSightTest( const GLToy_Ray& xRay, const float fLimitingDistance );
-    static float Trace( const GLToy_Ray& xRay, const float fLimitingDistance );
-    static GLToy_Hash TraceEntity( const GLToy_Ray& xRay, const float fLimitingDistance );
+    static bool LineOfSightTest( const GLToy_Ray& xRay, const float fLimitingDistance = GLToy_Maths::LargeFloat );
+    static float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = GLToy_Maths::LargeFloat );
+    static GLToy_Hash TraceEntity( const GLToy_Ray& xRay, const float fLimitingDistance = GLToy_Maths::LargeFloat );
 
-    static GLToy_Trace_Result FullTrace( const GLToy_Ray& xRay, const float fLimitingDistance );
+    static GLToy_Trace_Result FullTrace( const GLToy_Ray& xRay, const float fLimitingDistance = GLToy_Maths::LargeFloat );
 
     GLToy_Trace_System_VectorPairOverload( bool, LineOfSightTest )
     GLToy_Trace_System_VectorPairOverload( float, Trace )

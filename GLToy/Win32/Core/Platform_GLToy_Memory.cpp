@@ -49,3 +49,25 @@ void GLToy_Memory::Platform_Free( void* const pxMemory )
 {
     HeapFree( GetProcessHeap(), 0, pxMemory );
 }
+
+void GLToy_Memory::Platform_Swap_16Bytes( void* const px1, void* const px2 )
+{
+    __asm
+    {
+        movq xmm1, px1
+        movq xmm2, px2
+        movq px2, xmm1
+        movq px1, xmm2
+    }
+}
+
+void GLToy_Memory::Platform_Swap_32Bytes( void* const px1, void* const px2 )
+{
+    __asm
+    {
+        movdqu xmm1, px1
+        movdqu xmm2, px2
+        movdqu px2, xmm1
+        movdqu px1, xmm2
+    }
+}

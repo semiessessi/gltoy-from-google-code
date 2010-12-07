@@ -72,7 +72,7 @@ void GLToy_Entity_PhysicsBox::Render() const
         GLToy_Render::Translate( xOBB.GetPosition() );
 
         GLToy_Matrix_3 xInverseOrientation = xOBB.GetOrientation();
-        xInverseOrientation.Transpose();
+        xInverseOrientation.InvertTransformationMatrix();
 
         GLToy_Render::Transform( xInverseOrientation );
 

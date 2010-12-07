@@ -40,14 +40,51 @@ public:
     static void Shutdown();
 
     static void Set( void* const pxMemory, const u_int uBytes, const u_char ucValue );
-    static void SetDWords( void* const pxMemory, const u_int uDWords, const u_int uValue );
+    static GLToy_ForceInline void Set_1Byte( void* const pxMemory, const u_int uBytes, const u_char ucValue ) { Set( pxMemory, uBytes, ucValue ); }
+    static void Set_4Bytes( void* const pxMemory, const u_int uDWords, const u_int uValue );
+    
+    // TODO: test and see if these are actually faster
+    static GLToy_ForceInline void Swap_1Byte( void* const px1, void* const px2 )
+    {
+        char* const pc1 = reinterpret_cast< char* const >( px1 );
+        char* const pc2 = reinterpret_cast< char* const >( px2 );
+        *pc1 ^= *pc2; *pc2 ^= *pc1; *pc1 ^= *pc2;
+    }
 
-    static void MarkUninitialised( void* const pxMemory, const u_int uBytes ) { Set( pxMemory, uBytes, 0xCC ); }
-    static void MarkDestroyed( void* const pxMemory, const u_int uBytes ) { Set( pxMemory, uBytes, 0xDD ); }
-    static void Zero( void* const pxMemory, const u_int uBytes ) { Set( pxMemory, uBytes, 0 ); }
+    static GLToy_ForceInline void Swap_2Bytes( void* const px1, void* const px2 )
+    {
+        short* const pc1 = reinterpret_cast< short* const >( px1 );
+        short* const pc2 = reinterpret_cast< short* const >( px2 );
+        *pc1 ^= *pc2; *pc2 ^= *pc1; *pc1 ^= *pc2;
+    }
+
+    static GLToy_ForceInline void Swap_4Bytes( void* const px1, void* const px2 )
+    {
+        int* const pc1 = reinterpret_cast< int* const >( px1 );
+        int* const pc2 = reinterpret_cast< int* const >( px2 );
+        *pc1 ^= *pc2; *pc2 ^= *pc1; *pc1 ^= *pc2;
+    }
+
+    static GLToy_ForceInline void Swap_8Bytes( void* const px1, void* const px2 )
+    {
+        long long* const pc1 = reinterpret_cast< long long* const >( px1 );
+        long long* const pc2 = reinterpret_cast< long long* const >( px2 );
+        *pc1 ^= *pc2; *pc2 ^= *pc1; *pc1 ^= *pc2;
+    }
+
+    static GLToy_ForceInline void Swap_16Bytes( void* const px1, void* const px2 ) { Platform_Swap_16Bytes( px1, px2 ); }
+    static GLToy_ForceInline void Swap_32Bytes( void* const px1, void* const px2 ) { Platform_Swap_32Bytes( px1, px2 ); }
+
+    static GLToy_ForceInline void MarkUninitialised( void* const pxMemory, const u_int uBytes ) { Set( pxMemory, uBytes, 0xCC ); }
+    static GLToy_ForceInline void MarkDestroyed( void* const pxMemory, const u_int uBytes ) { Set( pxMemory, uBytes, 0xDD ); }
+    static GLToy_ForceInline void Zero( void* const pxMemory, const u_int uBytes ) { Set( pxMemory, uBytes, 0 ); }
 
     static void* Platform_Allocate( const u_int uSize );
     static void Platform_Free( void* const pxMemory );
+
+    static void Platform_Swap_16Bytes( void* const px1, void* const px2 );
+    static void Platform_Swap_32Bytes( void* const px1, void* const px2 );
+
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////

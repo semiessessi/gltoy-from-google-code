@@ -381,7 +381,7 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
 {
     GLToy_Vector_4* pxData = new GLToy_Vector_4[ uWidth * uHeight ];
 
-    GLToy_Memory::SetDWords( pxData, 4 * uWidth * uHeight, 0 );
+    GLToy_Memory::Set_4Bytes( pxData, 4 * uWidth * uHeight, 0 );
 
     s_xRenderStack.Push( pxData );
 
@@ -1404,7 +1404,7 @@ u_int* GLToy_Texture_Procedural::CreateRGBA( const u_int uWidth, const u_int uHe
 {
     GLToy_Vector_4* pxData = new GLToy_Vector_4[ uWidth * uHeight ];
 
-    GLToy_Memory::SetDWords( pxData, uWidth * uHeight * 4, 0 );
+    GLToy_Memory::Set_4Bytes( pxData, uWidth * uHeight * 4, 0 );
 
     // initialise render state
     LayerNode::s_xRenderStack.Push( pxData );

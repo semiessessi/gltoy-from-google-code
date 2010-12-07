@@ -110,9 +110,6 @@
     <ClInclude Include="Independent\Weapon\FPSToy_WeaponType_Trace.h">
       <Filter>Independent\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Damage\FPSToy_Damage_System.h">
-      <Filter>Independent\Damage</Filter>
-    </ClInclude>
     <ClInclude Include="Independent\Damage\FPSToy_DamageType.h">
       <Filter>Independent\Damage</Filter>
     </ClInclude>
@@ -127,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Entity\Actor\FPSToy_Entity_Actor.h">
       <Filter>Independent\Entity\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Damage\FPSToy_Damage_System.h">
+      <Filter>Independent\Damage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

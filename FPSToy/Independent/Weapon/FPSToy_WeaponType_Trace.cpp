@@ -35,6 +35,10 @@
 
 // GLToy
 #include <Maths/GLToy_Maths.h>
+#include <Trace/GLToy_Trace_System.h>
+
+// FPSToy
+#include <Damage/FPSToy_Damage_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -42,6 +46,9 @@
 
 void FPSToy_WeaponType_Trace::Fire( const GLToy_Hash uOwnerEntityHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection ) const
 {
+    const GLToy_Hash uHitEntity = GLToy_Trace_System::TraceEntity( GLToy_Ray( xPosition, xDirection ) );
+
+    FPSToy_Damage_System::ApplyDamage( uOwnerEntityHash, uHitEntity, 20.0f );
 }
 
 void FPSToy_WeaponType_Trace::SetKeyValuePair( const GLToy_String& szKey, const GLToy_String& szValue )

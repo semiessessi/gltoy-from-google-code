@@ -182,7 +182,7 @@ void GLToy_Model::RenderWithPositionAndOrientation( const GLToy_Vector_3& xPosit
     GLToy_Render::PushViewMatrix();
     GLToy_Render::Translate( xPosition );
     GLToy_Matrix_3 xInverseOri = xOrientation;
-    xInverseOri.Transpose();
+    xInverseOri.InvertTransformationMatrix();
     GLToy_Render::Transform( xInverseOri );
 
     Render();
