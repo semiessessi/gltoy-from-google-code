@@ -31,8 +31,7 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Core/GLToy_Updateable.h>
+// Parent
 #include <Render/GLToy_Renderable.h>
 
 // GLToy
@@ -76,7 +75,6 @@ struct GLToy_ParticleSourceProperties
 
 class GLToy_ParticleSource
 : public GLToy_Renderable
-, public GLToy_Updateable
 {
 
 public:
@@ -84,9 +82,9 @@ public:
     GLToy_ParticleSource( const GLToy_ParticleSourceProperties& xProperties, const GLToy_PFX* const pxParent = NULL );
 
     virtual void Render() const;
-    virtual void Update();
+    void Update();
 
-    GLToy_Inline bool IsEmitting() const { return m_fLifetime > 0.0f; }
+    GLToy_ForceInline bool IsEmitting() const { return m_fLifetime > 0.0f; }
     bool IsDone() const;
 
     // TODO : getters and setters, or okay to leave public for now?

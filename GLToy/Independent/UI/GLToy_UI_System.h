@@ -68,7 +68,7 @@ public:
     static void ClearWidgets();
 
     static void ShowPointer( const bool bShow = true );
-    static bool IsPointerShown() { return s_bShowPointer; }
+    static GLToy_ForceInline bool IsPointerShown() { return s_bShowPointer; }
 
     static GLToy_Widget_Label* CreateLabel( const GLToy_String& szLabel, const float fX, const float fY );
     static GLToy_Widget_Image* CreateImage( const GLToy_String& szTexture, const float fX, const float fY, const float fWidth, const float fHeight );
@@ -84,7 +84,7 @@ public:
     static void ShowErrorDialog( const GLToy_String& szError, ... );
     static void ShowQuitDialog();
 
-    static const GLToy_Vector_2& GetMousePosition() { return s_xMousePosition; }
+    static GLToy_ForceInline const GLToy_Vector_2& GetMousePosition() { return s_xMousePosition; }
     static float GetPulse();
 
 private:

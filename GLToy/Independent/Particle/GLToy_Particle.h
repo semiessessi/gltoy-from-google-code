@@ -31,8 +31,7 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Core/GLToy_Updateable.h>
+// Parent
 #include <Render/GLToy_Sprite.h>
 
 // GLToy
@@ -72,7 +71,6 @@ struct GLToy_ParticleProperties
 
 class GLToy_Particle
 : public GLToy_Sprite
-, public GLToy_Updateable
 {
 
     typedef GLToy_Sprite GLToy_Parent;
@@ -96,12 +94,12 @@ public:
         }
     }
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+    void ReadFromBitStream( const GLToy_BitStream& xStream );
+    void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
-    virtual void Update();
+    void Update();
 
-    virtual bool IsDone() const { return m_fLifetime <= 0.0f; }
+    bool IsDone() const { return m_fLifetime <= 0.0f; }
 
     // TODO : getters and setters, or okay to leave public for now?
     // maybe protected with friends specified?

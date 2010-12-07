@@ -65,7 +65,7 @@ public:
     {
     }
 
-    virtual ~GLToy_BSPNode()
+    ~GLToy_BSPNode()
     {
         delete m_pxPositive;
         delete m_pxNegative;
@@ -95,12 +95,12 @@ public:
     {
     }
 
-    GLToy_Inline bool IsOnPositiveSide( const GLToy_Vector_3& xPosition ) const
+    GLToy_ForceInline bool IsOnPositiveSide( const GLToy_Vector_3& xPosition ) const
     {
         return m_xPlane.IsOnPositiveSide( xPosition );
     }
 
-    GLToy_Inline double SignedDistance( const GLToy_Vector_3& xPosition ) const
+    GLToy_ForceInline double SignedDistance( const GLToy_Vector_3& xPosition ) const
     {
         return m_xPlane.SignedDistance( xPosition );
     }
@@ -135,7 +135,7 @@ public:
         return GetChild( xPosition )->FindLeaf( xPosition );
     }
 
-    virtual GLToy_BSPNode* AddLeaf( const GLToy_Vector_3& xPosition, T* const pData )
+    GLToy_BSPNode* AddLeaf( const GLToy_Vector_3& xPosition, T* const pData )
     {
         if( m_pData )
         {
@@ -164,7 +164,7 @@ public:
         return GetChild( xPosition )->AddLeaf( xPosition, pData );
     }
 
-    virtual void SplitLeaf( const GLToy_Vector_3& xPosition, const GLToy_Plane& xSplitPlane, T* const pDataPositive, T* const pDataNegative )
+    void SplitLeaf( const GLToy_Vector_3& xPosition, const GLToy_Plane& xSplitPlane, T* const pDataPositive, T* const pDataNegative )
     {
         if( !m_pData )
         {
@@ -178,7 +178,7 @@ public:
         m_pData = NULL;
     }
 
-    virtual void Traverse( GLToy_Functor< T >& xFunctor )
+    void Traverse( GLToy_Functor< T >& xFunctor )
     {
         if( m_pData )
         {
@@ -191,7 +191,7 @@ public:
         }
     }
 
-    virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
+    void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
     {
         if( m_pData )
         {
@@ -205,7 +205,7 @@ public:
         }
     }
 
-    virtual void TraverseNodes( GLToy_ConstFunctor< GLToy_BSPNode< T > >& xFunctor ) const
+    void TraverseNodes( GLToy_ConstFunctor< GLToy_BSPNode< T > >& xFunctor ) const
     {
         xFunctor( this );
 
@@ -311,10 +311,10 @@ public:
         }
     }
 
-    GLToy_Inline T* GetData() const { return m_pData; }
-    GLToy_Inline GLToy_BSPNode* GetPositiveNode() const { return m_pxPositive; }
-    GLToy_Inline GLToy_BSPNode* GetNegativeNode() const { return m_pxNegative; }
-    GLToy_Inline const GLToy_Plane& GetPlane() const { return m_xPlane; }
+    GLToy_ForceInline T* GetData() const { return m_pData; }
+    GLToy_ForceInline GLToy_BSPNode* GetPositiveNode() const { return m_pxPositive; }
+    GLToy_ForceInline GLToy_BSPNode* GetNegativeNode() const { return m_pxNegative; }
+    GLToy_ForceInline const GLToy_Plane& GetPlane() const { return m_xPlane; }
 
 protected:
 
@@ -341,7 +341,7 @@ public:
         delete m_pxHead;
     }
 
-    GLToy_Inline static GLToy_BSPTree< T >* CreateBSPTree( T* pData, const unsigned int uCount )
+    static GLToy_Inline GLToy_BSPTree< T >* CreateBSPTree( T* pData, const unsigned int uCount )
     {
         GLToy_BSPTree< T >* pxTree = new GLToy_BSPTree< T >();
 
@@ -353,14 +353,14 @@ public:
         return pxTree;
     }
 
-    GLToy_Inline T* GetLeafData( const GLToy_Vector_3& xPosition )
+    GLToy_ForceInline T* GetLeafData( const GLToy_Vector_3& xPosition )
     {
         return m_pxHead
             ? m_pxHead->FindLeaf( xPosition )->GetData()
             : 0;
     }
 
-    GLToy_Inline T* GetLeafData( const GLToy_Vector_3& xPosition ) const
+    GLToy_ForceInline T* GetLeafData( const GLToy_Vector_3& xPosition ) const
     {
         return m_pxHead
             ? m_pxHead->FindLeaf( xPosition )->GetData()
@@ -378,7 +378,7 @@ public:
         m_pxHead = new GLToy_BSPNode< T >( xPosition, pData );
     }
 
-    GLToy_Inline void SplitLeaf( const GLToy_Vector_3& xPosition, const GLToy_Plane& xSplitPlane, T* const pDataPositive, T* const pDataNegative )
+    GLToy_ForceInline void SplitLeaf( const GLToy_Vector_3& xPosition, const GLToy_Plane& xSplitPlane, T* const pDataPositive, T* const pDataNegative )
     {
         if( !m_pxHead )
         {
@@ -412,7 +412,7 @@ public:
         }
     }
 
-    GLToy_Inline void DistanceSortedLeafTraverse( GLToy_Functor< T >& xFunctor, const GLToy_Vector_3& xPosition )
+    GLToy_ForceInline void DistanceSortedLeafTraverse( GLToy_Functor< T >& xFunctor, const GLToy_Vector_3& xPosition )
     {
         if( m_pxHead )
         {
@@ -420,7 +420,7 @@ public:
         }
     }
 
-    GLToy_Inline void DistanceSortedLeafTraverse( GLToy_ConstFunctor< T >& xFunctor, const GLToy_Vector_3& xPosition ) const
+    GLToy_ForceInline void DistanceSortedLeafTraverse( GLToy_ConstFunctor< T >& xFunctor, const GLToy_Vector_3& xPosition ) const
     {
         if( m_pxHead )
         {
@@ -428,7 +428,7 @@ public:
         }
     }
 
-    GLToy_Inline void ReverseDistanceSortedLeafTraverse( GLToy_Functor< T >& xFunctor, const GLToy_Vector_3& xPosition )
+    GLToy_ForceInline void ReverseDistanceSortedLeafTraverse( GLToy_Functor< T >& xFunctor, const GLToy_Vector_3& xPosition )
     {
         if( m_pxHead )
         {
@@ -436,7 +436,7 @@ public:
         }
     }
 
-    GLToy_Inline void ReverseDistanceSortedLeafTraverse( GLToy_ConstFunctor< T >& xFunctor, const GLToy_Vector_3& xPosition ) const
+    GLToy_ForceInline void ReverseDistanceSortedLeafTraverse( GLToy_ConstFunctor< T >& xFunctor, const GLToy_Vector_3& xPosition ) const
     {
         if( m_pxHead )
         {
@@ -444,7 +444,7 @@ public:
         }
     }
 
-    GLToy_Inline bool IsEmpty() const { return m_pxHead == NULL; }
+    GLToy_ForceInline bool IsEmpty() const { return m_pxHead == NULL; }
 
     void SetToNodePointer( GLToy_BSPNode< T >* const pxNode )
     {

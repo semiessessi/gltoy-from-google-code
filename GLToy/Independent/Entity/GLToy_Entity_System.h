@@ -88,7 +88,7 @@ public:
 
     static void SetRender( const bool bRender ) { s_bRender = bRender; };
 
-    static void SetProjectEntityCreateCallback( GLToy_Entity* ( *pfnCreateFromType )( const GLToy_Hash, const u_int ) ) { s_pfnProject_CreateFromType = pfnCreateFromType; }
+    static GLToy_ForceInline void SetProjectEntityCreateCallback( GLToy_Entity* ( *pfnCreateFromType )( const GLToy_Hash, const u_int ) ) { s_pfnProject_CreateFromType = pfnCreateFromType; }
 
 private:
 

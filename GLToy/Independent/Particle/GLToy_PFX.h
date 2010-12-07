@@ -31,8 +31,7 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Core/GLToy_Updateable.h>
+// Parent
 #include <Render/GLToy_Renderable.h>
 
 // GLToy
@@ -62,7 +61,6 @@ public:
 
 class GLToy_PFX
 : public GLToy_Renderable
-, public GLToy_Updateable
 {
 
 public:
@@ -76,17 +74,17 @@ public:
     }
 
     virtual void Render() const;
-    virtual void Update();
+    void Update();
 
-    virtual void AddSource( GLToy_ParticleSource* const pxSource ) { m_xSources.Append( pxSource ); }
+    GLToy_ForceInline void AddSource( GLToy_ParticleSource* const pxSource ) { m_xSources.Append( pxSource ); }
 
-    GLToy_Inline GLToy_Hash GetHash() const { return m_uHash; }
-    GLToy_Inline const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
+    GLToy_ForceInline GLToy_Hash GetHash() const { return m_uHash; }
+    GLToy_ForceInline const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
 
-    GLToy_Inline float GetLifetime() const { return m_fLifetime; }
-    GLToy_Inline void SetLifetime( const float fLifetime ) { m_fLifetime = fLifetime; }
+    GLToy_ForceInline float GetLifetime() const { return m_fLifetime; }
+    GLToy_ForceInline void SetLifetime( const float fLifetime ) { m_fLifetime = fLifetime; }
 
-    GLToy_Inline bool IsEmitting() const { return m_fLifetime > 0.0f; }
+    GLToy_ForceInline bool IsEmitting() const { return m_fLifetime > 0.0f; }
     bool IsDone() const;
 
 protected:

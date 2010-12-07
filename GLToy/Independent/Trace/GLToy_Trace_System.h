@@ -39,7 +39,7 @@
 // M A C R O S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#define GLToy_Trace_System_VectorPairOverload( xReturnType, xFunction ) static xReturnType xFunction( const GLToy_Vector_3& xPosition1, const GLToy_Vector_3& xPosition2 )\
+#define GLToy_Trace_System_VectorPairOverload( xReturnType, xFunction ) static GLToy_Inline xReturnType xFunction( const GLToy_Vector_3& xPosition1, const GLToy_Vector_3& xPosition2 )\
     {\
         const float fLimitingDistance = ( xPosition2 - xPosition1 ).Magnitude();\
         const GLToy_Ray xRay = GLToy_Ray::FromPositions( xPosition1, xPosition2 );\

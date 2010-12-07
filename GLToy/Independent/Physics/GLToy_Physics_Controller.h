@@ -31,9 +31,6 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parent
-#include <Core/GLToy_Updateable.h>
-
 // GLToy
 #include <Maths/GLToy_Maths.h>
 
@@ -61,27 +58,27 @@ public:
     {
     }
 
-    virtual void Create( const GLToy_Vector_3& xPosition = GLToy_Maths::ZeroVector3 );
-    virtual void Destroy();
+    void Create( const GLToy_Vector_3& xPosition = GLToy_Maths::ZeroVector3 );
+    void Destroy();
 
-    virtual void Update( const float fTimestep );
-    virtual void LateUpdate();
+    void Update( const float fTimestep );
+    void LateUpdate();
 
-    GLToy_Inline bool IsActive() const { return m_bActive; }
+    GLToy_ForceInline bool IsActive() const { return m_bActive; }
 
     void SetPosition( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
     void SetVelocity( const GLToy_Vector_3& xVelocity );
 
-    void SetCameraControl( const bool bCameraControl ) { m_bCameraControl = bCameraControl; }
+    GLToy_ForceInline void SetCameraControl( const bool bCameraControl ) { m_bCameraControl = bCameraControl; }
 
-    void SetMovementDirection( const GLToy_Vector_2& xDirection ) { m_xMovement = xDirection; }
+    GLToy_ForceInline void SetMovementDirection( const GLToy_Vector_2& xDirection ) { m_xMovement = xDirection; }
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-    GLToy_Inline void SetHavokRigidBodyPointer( class hkpCharacterRigidBody* const pxRigidBody ) { m_pxHavokRigidBody = pxRigidBody; }
-    GLToy_Inline const class hkpCharacterRigidBody* GetHavokRigidBodyPointer() const { return m_pxHavokRigidBody; }
-    GLToy_Inline void SetHavokContextPointer( class hkpCharacterContext* const pxContext ) { m_pxHavokContext = pxContext; }
-    GLToy_Inline const class hkpCharacterContext* GetHavokContextPointer() const { return m_pxHavokContext; }
+    GLToy_ForceInline void SetHavokRigidBodyPointer( class hkpCharacterRigidBody* const pxRigidBody ) { m_pxHavokRigidBody = pxRigidBody; }
+    GLToy_ForceInline const class hkpCharacterRigidBody* GetHavokRigidBodyPointer() const { return m_pxHavokRigidBody; }
+    GLToy_ForceInline void SetHavokContextPointer( class hkpCharacterContext* const pxContext ) { m_pxHavokContext = pxContext; }
+    GLToy_ForceInline const class hkpCharacterContext* GetHavokContextPointer() const { return m_pxHavokContext; }
 
 #endif
 

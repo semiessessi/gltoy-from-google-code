@@ -42,10 +42,10 @@ public:
 
     static void Update();
 
-    GLToy_ForceInline static const float& GetTime() { return s_fTimer; }
-    GLToy_ForceInline static float GetFrameTime() { return s_fFrameTime; }
-    GLToy_ForceInline static float GetFrameRate() { return 1 / s_fFrameTime; }
-    GLToy_ForceInline static float GetSmoothedFrameRate() { return s_fSmoothedFrameRate; }
+    static GLToy_ForceInline const float& GetTime() { return s_fTimer; }
+    static GLToy_ForceInline float GetFrameTime() { return s_fFrameTime; }
+    static GLToy_ForceInline float GetFrameRate() { return 1 / s_fFrameTime; }
+    static GLToy_ForceInline float GetSmoothedFrameRate() { return s_fSmoothedFrameRate; }
 
 private:
     

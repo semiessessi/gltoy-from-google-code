@@ -31,9 +31,6 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parent
-#include <Core/GLToy_Updateable.h>
-
 // GLToy
 #include <Core/Data Structures/GLToy_Array.h>
 #include <Maths/GLToy_Maths.h>
@@ -63,7 +60,6 @@ public:
 };
 
 class GLToy_Physics_Object
-: public GLToy_Updateable
 {
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
@@ -86,7 +82,7 @@ public:
     {
     }
 
-    virtual ~GLToy_Physics_Object()
+    ~GLToy_Physics_Object()
     {
 #ifdef GLTOY_USE_HAVOK_PHYSICS
         m_pxHavokRigidBody = NULL;
@@ -96,35 +92,36 @@ public:
     void SetPosition( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
     void SetVelocity( const GLToy_Vector_3& xVelocity );
 
-    const GLToy_Array< GLToy_Physics_ObjectCollision >& GetCollisions() const { return m_xCollisions; }
+    GLToy_ForceInline const GLToy_Array< GLToy_Physics_ObjectCollision >& GetCollisions() const { return m_xCollisions; }
     void Destroy();
-    void ResetCollisions() { m_xCollisions.Clear(); }
+    GLToy_ForceInline void ResetCollisions() { m_xCollisions.Clear(); }
     void ControlMovement( const GLToy_Vector_2& xMovement );
-    GLToy_Vector_3 GetMovementDirection() const { return GLToy_Vector_3( m_xMovement[ 0 ], 0.0f, m_xMovement[ 1 ] ); }
+    GLToy_ForceInline GLToy_Vector_3 GetMovementDirection() const { return GLToy_Vector_3( m_xMovement[ 0 ], 0.0f, m_xMovement[ 1 ] ); }
 
     GLToy_OBB GetOBB() const;
     GLToy_Vector_3 GetPosition() const;
-    GLToy_Inline GLToy_Hash GetHash() const { return m_uHash; }
+    GLToy_ForceInline GLToy_Hash GetHash() const { return m_uHash; }
 
-    virtual void Update();
-    virtual void LateUpdate();
+    void Update();
+    void LateUpdate();
 
 #ifdef GLTOY_USE_HAVOK_PHYSICS
 
-    void SetHavokRigidBodyPointer( class hkpRigidBody* const pxRigidBody ) { m_pxHavokRigidBody = pxRigidBody; }
-    const hkpRigidBody* GetHavokRigidBodyPointer() const { return m_pxHavokRigidBody; }
-    void SetHavokContextPointer( class hkpCharacterContext* const pxContext ) { m_pxHavokContext = pxContext; }
-    hkpCharacterContext* GetHavokContextPointer() { return m_pxHavokContext; }
-    const hkpCharacterContext* GetHavokContextPointer() const { return m_pxHavokContext; }
-    void SetHavokData( void* const pData ) { m_pHavokData = pData; }
-    void* GetHavokData() { return m_pHavokData; }
-    const void* GetHavokData() const { return m_pHavokData; }
+    GLToy_ForceInline void SetHavokRigidBodyPointer( class hkpRigidBody* const pxRigidBody ) { m_pxHavokRigidBody = pxRigidBody; }
+    GLToy_ForceInline const hkpRigidBody* GetHavokRigidBodyPointer() const { return m_pxHavokRigidBody; }
+    GLToy_ForceInline void SetHavokContextPointer( class hkpCharacterContext* const pxContext ) { m_pxHavokContext = pxContext; }
+    GLToy_ForceInline hkpCharacterContext* GetHavokContextPointer() { return m_pxHavokContext; }
+    GLToy_ForceInline const hkpCharacterContext* GetHavokContextPointer() const { return m_pxHavokContext; }
+    GLToy_ForceInline void SetHavokData( void* const pData ) { m_pHavokData = pData; }
+    GLToy_ForceInline void* GetHavokData() { return m_pHavokData; }
+    GLToy_ForceInline const void* GetHavokData() const { return m_pHavokData; }
 
 #endif
 
 protected:
 
-    GLToy_Hash m_uHash;
+    const GLToy_Hash m_uHash;
+
     GLToy_Vector_2 m_xMovement;
     GLToy_Array< GLToy_Physics_ObjectCollision > m_xCollisions;
 

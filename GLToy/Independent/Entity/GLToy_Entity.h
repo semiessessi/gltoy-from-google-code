@@ -79,35 +79,36 @@ public:
 
     // own virtuals
     virtual void Trigger( const GLToy_Hash uTriggerHash ) { GLToy_Assert( false, "Entity 0x%X is trying to trigger a non-triggerable entity 0x%X", uTriggerHash, m_uHash ); }
-
-    virtual void Activate() { m_bActive = true; }
-    virtual void Deactivate() { m_bActive = false; }
-
     virtual void Hurt( const GLToy_Hash uTriggerHash, const float fAmount ) { m_fHealth -= fAmount; }
     virtual void Kill() { m_fHealth = 0.0f; }
-    GLToy_Inline bool IsDead() const { return m_fHealth == 0.0f; }
-    virtual void Destroy() { m_bFlaggedForDestruction = true; }
+
+    GLToy_ForceInline void Activate() { m_bActive = true; }
+    GLToy_ForceInline void Deactivate() { m_bActive = false; }
+
+    GLToy_ForceInline bool IsDead() const { return m_fHealth == 0.0f; }
+    GLToy_ForceInline void Destroy() { m_bFlaggedForDestruction = true; }
 
     virtual void RenderAABB() const {}
     virtual void RenderOBB() const {}
 
     // accessors
-    GLToy_Inline GLToy_Hash GetHash() const { return m_uHash; }
-    GLToy_Inline u_int GetType() const { return m_uType; }
-    GLToy_Inline float GetHealth() const { return m_fHealth; }
+    GLToy_ForceInline GLToy_Hash GetHash() const { return m_uHash; }
+    GLToy_ForceInline u_int GetType() const { return m_uType; }
+    GLToy_ForceInline float GetHealth() const { return m_fHealth; }
 
-    GLToy_Inline void SetHealth( const float fValue ) { m_fHealth = fValue; }
+    GLToy_ForceInline void SetHealth( const float fValue ) { m_fHealth = fValue; }
 
-    GLToy_Inline bool IsActive() const { return m_bActive; }
-    GLToy_Inline bool IsFlaggedForDestruction() const { return m_bFlaggedForDestruction; }
+    GLToy_ForceInline bool IsActive() const { return m_bActive; }
+    GLToy_ForceInline bool IsFlaggedForDestruction() const { return m_bFlaggedForDestruction; }
 
 protected:
 
     bool m_bActive;
     bool m_bFlaggedForDestruction;
     float m_fHealth;
-    u_int m_uType;
-    GLToy_Hash m_uHash;
+
+    const u_int m_uType;
+    const GLToy_Hash m_uHash;
 
 };
 

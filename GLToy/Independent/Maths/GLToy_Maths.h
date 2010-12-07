@@ -162,6 +162,7 @@ public:
     static GLToy_ForceInline float Sqrt( const float fValue ) { return Platform_GLToy_Maths::Sqrt( fValue ); }
     static float Pow( const float fValue, const float fPower );
 
+    template < class T > static GLToy_Inline T Reflect( const T& xVector, const T& xNormal ) { return xVector - 2.0f * ( xVector * xNormal ) * xNormal; }
     static GLToy_Vector_2 Rotate_2D( const GLToy_Vector_2& xVector, const float fAngle );
     static GLToy_Vector_2 Rotate_2D_FromCosSin( const GLToy_Vector_2& xVector, const float fCos, const float fSin );
     static GLToy_Vector_3 Rotate_AxisAngle( const GLToy_Vector_3& xVector, const GLToy_Vector_3& xAxis, const float fAngle );
