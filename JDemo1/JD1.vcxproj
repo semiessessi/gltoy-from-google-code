@@ -73,14 +73,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)Data\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)Data\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</GenerateManifest>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</EmbedManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)Data\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Final|Win32'">$(SolutionDir)Data\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Final (Demo)|Win32'">$(SolutionDir)Data\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Final (Crinkler)|Win32'">$(SolutionDir)Data\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Data\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Final|Win32'">$(ProjectDir)Data\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Final (Demo)|Win32'">$(ProjectDir)Data\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Final (Crinkler)|Win32'">$(ProjectDir)Data\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Final|Win32'">$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Final (Demo)|Win32'">$(Configuration)\</IntDir>

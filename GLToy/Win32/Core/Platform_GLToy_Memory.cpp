@@ -52,13 +52,15 @@ void GLToy_Memory::Platform_Free( void* const pxMemory )
 
 void GLToy_Memory::Platform_Swap_16Bytes( void* const px1, void* const px2 )
 {
-    __asm
-    {
-        movq xmm1, px1
-        movq xmm2, px2
-        movq px2, xmm1
-        movq px1, xmm2
-    }
+    Swap_8Bytes( px1, px2 );
+    Swap_8Bytes( reinterpret_cast< int* >( px1 ) + 1, reinterpret_cast< int* >( px2 ) + 1 );
+    //__asm
+    //{
+    //    movq xmm1, px1
+    //    movq xmm2, px2
+    //    movq px2, xmm1
+    //    movq px1, xmm2
+    //}
 }
 
 void GLToy_Memory::Platform_Swap_32Bytes( void* const px1, void* const px2 )
