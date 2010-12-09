@@ -43,7 +43,7 @@ Dir.glob( "Data/**/.svn" ) do | szFile |
 	end
 end
 
-$g_xProjectList.each do | szProject |
+$g_xProjectListNoDemos.each do | szProject |
 	puts "#{ szProject }"
 		
 	FileUtils.copy_entry( "Data", "#{ szProject }\\Data" )

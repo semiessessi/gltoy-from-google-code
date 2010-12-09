@@ -1,5 +1,0 @@
-Except for the GLToy logo the logos in SplashBanner.png are NOT covered by the CC license and are used with permission from their respective owners.
-
-GLToy uses Havok®.  ©Copyright 1999-2008 Havok.com Inc. (and its Licensors). All Rights Reserved.  See www.havok.com for details.
-
-OpenGL® and the oval logo are trademarks or registered trademarks of Silicon Graphics, Inc. in the United States and/or other countries worldwide.
