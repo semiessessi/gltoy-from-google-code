@@ -1,2 +1,0 @@
-JD1_Raytrace_Chmutov
-Raytrace_Fullscreen
