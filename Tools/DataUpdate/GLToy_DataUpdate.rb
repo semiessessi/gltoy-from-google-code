@@ -36,20 +36,35 @@ puts "GLToy Data Update"
 
 puts ""
 
+Dir.glob( "Data/**/.svn" ) do | szFile |
+	if File.directory? szFile
+		FileUtils.copy_entry( szFile, szFile.gsub( /\.svn/, "&svn" ) )
+		FileUtils.remove_dir( szFile )
+	end
+end
+
 $g_xProjectList.each do | szProject |
 	puts "#{ szProject }"
-	FileUtils.copy_entry( "Data\\.svn", "Data\\_svn" )
-	FileUtils.remove_dir( "Data\\.svn", true )
+		
 	FileUtils.copy_entry( "Data", "#{ szProject }\\Data" )
-	FileUtils.remove_dir( "#{ szProject }\\Data\\_svn", true )
-	FileUtils.copy_entry( "Data\\_svn", "Data\\.svn" )
-	FileUtils.remove_dir( "Data\\_svn", true )
 	
-	# should remove /all/ svn directories
+	Dir.glob( "#{ szProject }/Data/**/&svn" ) do | szFile |
+        if File.directory? szFile
+			FileUtils.remove_dir( szFile )
+        end
+    end
 	
 	FileUtils.remove_file( "#{ szProject }\\Data\\TextureTool.exe", true )
 	FileUtils.remove_file( "#{ szProject }\\Data\\TextureTool.chm", true )
 	FileUtils.remove_file( "#{ szProject }\\Data\\UserImages.bmp", true )
+end
+
+Dir.glob( "Data/**/&svn" ) do | szFile |
+	puts "fixing #{ szFile }..."
+	if File.directory? szFile
+		FileUtils.copy_entry( szFile, szFile.gsub( /&svn/, ".svn" ) )
+		FileUtils.remove_dir( szFile )
+	end
 end
 
 puts "Done!"

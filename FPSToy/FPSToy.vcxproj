@@ -59,19 +59,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">$(SolutionDir)Data\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug (Bullet)|Win32'">$(SolutionDir)Data\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">$(ProjectDir)Data\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug (Bullet)|Win32'">$(ProjectDir)Data\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug (Bullet)|Win32'">$(Configuration)\</IntDir>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">false</GenerateManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug (Bullet)|Win32'">false</GenerateManifest>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">false</EmbedManifest>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug (Bullet)|Win32'">false</EmbedManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release (Havok)|Win32'">$(SolutionDir)Data\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release (Havok)|Win32'">$(ProjectDir)Data\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release (Havok)|Win32'">$(Configuration)\</IntDir>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release (Havok)|Win32'">false</GenerateManifest>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release (Havok)|Win32'">false</EmbedManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Final (Havok)|Win32'">$(SolutionDir)Data\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Final (Havok)|Win32'">$(ProjectDir)Data\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Final (Havok)|Win32'">$(Configuration)\</IntDir>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Final (Havok)|Win32'">false</GenerateManifest>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Final (Havok)|Win32'">false</EmbedManifest>
