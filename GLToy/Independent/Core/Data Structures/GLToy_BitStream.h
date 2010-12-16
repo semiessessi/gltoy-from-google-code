@@ -188,8 +188,6 @@ public:
 
 protected:
 
-    virtual void CopyFrom( const GLToy_DataStructure< bool >* const pxDataStructure ) {}
-
     void Grow( u_int uNumBytes );
     void WriteBit( bool bBit );
     bool ReadBit() const;

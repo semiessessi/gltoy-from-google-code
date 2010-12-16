@@ -69,13 +69,12 @@ public:
     virtual bool IsInside( const GLToy_Vector_3& xPosition ) const
     {
         // if on the wrong side of any plane, then outside
-        GLToy_ConstIterate( GLToy_Plane, xIterator, this )
-        {
-            if( xIterator.Current().IsOnPositiveSide( xPosition ) )
+        GLToy_ConstIterate( GLToy_Plane, xPlane, *this )
+            if( xPlane.IsOnPositiveSide( xPosition ) )
             {
                 return false;
             }
-        }
+        GLToy_Iterate_End;
 
         return true;
     }

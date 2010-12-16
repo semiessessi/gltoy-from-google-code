@@ -64,16 +64,15 @@ bool GLToy_Sound_System::Initialise()
 
     GLToy_Array< GLToy_String > xWavePaths = GLToy_File_System::PathsFromFilter( "Sounds/", "*.wav" );
 
-    GLToy_ConstIterate( GLToy_String, xIterator, &xWavePaths )
-    {
-        GLToy_String xName = xIterator.Current();
-        xName.RemoveAt( 0, 7 ); // remove "Sounds/"
-        xName.RemoveFromEnd( 4 ); // remove .wav
+    GLToy_ConstIterate( GLToy_String, szPath, xWavePaths )
+        GLToy_String szName = szPath;
+        szName.RemoveAt( 0, 7 ); // remove "Sounds/"
+        szName.RemoveFromEnd( 4 ); // remove .wav
         
-        GLToy_DebugOutput( "   - Found sound \"%S\".\r\n", xName.GetWideString() );
+        GLToy_DebugOutput( "   - Found sound \"%S\".\r\n", szName.GetWideString() );
 
-        s_xSounds.AddNode( new GLToy_WaveFile( xIterator.Current() ), xName.GetHash() );
-    }
+        s_xSounds.AddNode( new GLToy_WaveFile( szPath ), szName.GetHash() );
+    GLToy_Iterate_End;
 
     return Platform_GLToy_Sound_System::Initialise();
 }

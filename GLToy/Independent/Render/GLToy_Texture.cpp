@@ -138,19 +138,17 @@ bool GLToy_Texture_System::Initialise()
     xTexturePaths.Append( GLToy_File_System::PathsFromFilter( "Textures/", "*.tga" ) );
     xTexturePaths.Append( GLToy_File_System::PathsFromFilter( "Textures/", "*.wal" ) );
 
-    GLToy_ConstIterate( GLToy_String, xIterator, &xTexturePaths )
-    {
-        GLToy_String szName = xIterator.Current();
+    GLToy_ConstIterate( GLToy_String, szPath, xTexturePaths )
+        GLToy_String szName = szPath;
         szName.RemoveAt( 0, 9 ); // remove "textures/"
         s_xTextures.AddNode( GLToy_Texture( szName ), szName.GetHash() );
-    }
+    GLToy_Iterate_End;
 
     GLToy_Array< GLToy_String > xPTXPaths = GLToy_File_System::PathsFromFilter( "Textures/", "*.ptx" );
 
-    GLToy_ConstIterate( GLToy_String, xIterator, &xPTXPaths )
-    {
-        GLToy_PTXFile( xIterator.Current() ).LoadTexture();
-    }
+    GLToy_ConstIterate( GLToy_String, szPath, xPTXPaths )
+        GLToy_PTXFile( szPath ).LoadTexture();
+    GLToy_Iterate_End;
 
     return true;
 }
@@ -302,11 +300,10 @@ void GLToy_Texture_System::BindTexture( const GLToy_Hash uHash, const u_int uTex
 
 void GLToy_Texture_System::Reset()
 {
-    GLToy_Iterate( GLToy_Texture, xIterator, &s_xTextures )
-    {
-        xIterator.Current().Destroy();
-        xIterator.Current().Unload();
-    }
+    GLToy_Iterate( GLToy_Texture, xTexture, s_xTextures )
+        xTexture.Destroy();
+        xTexture.Unload();
+    GLToy_Iterate_End;
 }
 
 void GLToy_Texture_System::BindBlack( const u_int uTextureUnit )

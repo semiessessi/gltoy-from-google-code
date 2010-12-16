@@ -143,19 +143,14 @@ class GLToy_Tree
 
 public:
 
-    GLToy_Tree()
-    : GLToy_Parent()
-    {
-    }
-
-    virtual T& operator []( const int iIndex )
+    T& operator []( const int iIndex )
     {
         GLToy_TreeIndexFunctor< T > xFunctor( iIndex );
         Traverse( xFunctor );
         return *( xFunctor.GetResult() );
     }
 
-    virtual const T& operator []( const int iIndex ) const
+    const T& operator []( const int iIndex ) const
     {
         GLToy_ConstTreeIndexFunctor< T > xFunctor( iIndex );
         Traverse( xFunctor );
@@ -185,10 +180,8 @@ public:
 
     virtual void Clear() = 0;
 
-protected:
-
-    virtual void CopyFrom( const GLToy_DataStructure< T >* const pxDataStructure ) {}
-
+    virtual void Traverse( GLToy_Functor< T >& xFunctor ) = 0;
+    virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const = 0;
 };
 
 #endif

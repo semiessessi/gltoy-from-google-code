@@ -96,7 +96,7 @@ public:
         delete m_pxTail;
     }
 
-    virtual T& operator []( const int iIndex )
+    T& operator []( const int iIndex )
     {
         if( iIndex == 0 )
         {
@@ -106,7 +106,7 @@ public:
         return m_pxTail->operator []( iIndex - 1 );
     }
 
-    virtual const T& operator []( const int iIndex ) const
+    const T& operator []( const int iIndex ) const
     {
         if( iIndex == 0 )
         {
@@ -116,7 +116,7 @@ public:
         return m_pxTail->operator []( iIndex - 1 );
     }
 
-    virtual void Traverse( GLToy_Functor< T >& xFunctor )
+    void Traverse( GLToy_Functor< T >& xFunctor )
     {
         xFunctor( &m_xData );
         if( m_pxTail )
@@ -125,7 +125,7 @@ public:
         }
     }
 
-    virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const 
+    void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const 
     {
         xFunctor( &m_xData );
         if( m_pxTail )
@@ -164,7 +164,8 @@ public:
 
 protected:
 
-    virtual void CopyFrom( const GLToy_DataStructure< T >* const pxDataStructure )
+    template < class DataStructure >
+    void CopyFrom( const DataStructure* const pxDataStructure )
     {
         delete m_pxTail;
         m_pxTail = 0;
@@ -229,17 +230,17 @@ public:
         Clear();
     }
 
-    virtual T& operator []( const int iIndex )
+    T& operator []( const int iIndex )
     {
         return ( *m_pxData )[ iIndex ];
     }
 
-    virtual const T& operator []( const int iIndex ) const
+    const T& operator []( const int iIndex ) const
     {
         return ( *m_pxData )[ iIndex ];
     }
 
-    virtual void Traverse( GLToy_Functor< T >& xFunctor )
+    void Traverse( GLToy_Functor< T >& xFunctor )
     {
         if( m_pxData )
         {
@@ -247,7 +248,7 @@ public:
         }
     }
 
-    virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
+    void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
     {
         if( m_pxData )
         {
@@ -391,7 +392,8 @@ protected:
         return *pxNode;
     }
 
-    virtual void CopyFrom( const GLToy_DataStructure< T >* const pxDataStructure )
+    template < class DataStructure >
+    void CopyFrom( const DataStructure* const pxDataStructure )
     {
         if( pxDataStructure->IsEmpty() )
         {

@@ -65,7 +65,8 @@ public:
         m_uCount = xArray.m_uCount;
     }
     
-    GLToy_Array& operator =( const GLToy_DataStructure< T >& xDataStructure )
+    template < class DataStructure >
+    GLToy_Array& operator =( const DataStructure& xDataStructure )
     {
         CopyFrom( &xDataStructure );
         m_uCount = xDataStructure.GetCount();
@@ -75,10 +76,9 @@ public:
 
     virtual ~GLToy_Array()
     {
-        GLToy_Iterate( T, xIterator, this )
-        {
-            xIterator.Current().~T();
-        }
+        GLToy_Iterate( T, xElement, *this )
+            xElement.~T();
+        GLToy_Iterate_End;
     }
 
     
@@ -220,10 +220,9 @@ public:
 
     void DeleteAll()
     {
-        GLToy_Iterate( T, xIterator, this )
-        {
-            delete xIterator.Current();
-        }
+        GLToy_Iterate( T, xElement, *this )
+            delete xElement;
+        GLToy_Iterate_End;
 
         Clear();
     }
@@ -231,13 +230,12 @@ public:
     void RemoveByValue( const T& xValue )
     {
         int iIndex = -1;
-        GLToy_ConstIterate( T, xIterator, this )
-        {
-            if( xIterator.Current() == xValue )
+        GLToy_ConstIterate( T, xCurrent, *this )
+            if( xCurrent == xValue )
             {
                 iIndex = xIterator.Index();
             }
-        }
+        GLToy_Iterate_End;
 
         //GLToy_Assert( iIndex >= 0, "Could not find item to remove from array!" );
         if( iIndex >= 0 )
@@ -270,46 +268,42 @@ public:
     virtual u_int GetMemoryUsage() const { return m_xArray.GetMemoryUsage(); }
     virtual bool IsFlat() const { return false; }
 
-    virtual T& operator []( const int iIndex )
+    T& operator []( const int iIndex )
     {
         return *( m_xArray[ iIndex ] );
     }
 
-    virtual const T& operator []( const int iIndex ) const
+    const T& operator []( const int iIndex ) const
     {
         return *( m_xArray[ iIndex ] );
     }
 
     virtual void Traverse( GLToy_Functor< T >& xFunctor )
     {
-        GLToy_Iterate( T*, xIterator, &m_xArray )
-        {
-            xFunctor( xIterator.Current() );
-        }
+        GLToy_Iterate( T*, pxElement, m_xArray )
+            xFunctor( pxElement );
+        GLToy_Iterate_End;
     }
 
     virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
     {
-        GLToy_ConstIterate( T*, xIterator, &m_xArray )
-        {
-            xFunctor( xIterator.Current() );
-        }
+        GLToy_ConstIterate( T*, xCurrent, m_xArray )
+            xFunctor( xCurrent );
+        GLToy_Iterate_End;
     }
 
     virtual void Traverse( GLToy_Functor< T* >& xFunctor )
     {
-        GLToy_Iterate( T*, xIterator, &m_xArray )
-        {
-            xFunctor( &( xIterator.Current() ) );
-        }
+        GLToy_Iterate( T*, xElement, m_xArray )
+            xFunctor( &xElement );
+        GLToy_Iterate_End;
     }
 
     virtual void Traverse( GLToy_ConstFunctor< T* >& xFunctor ) const
     {
-        GLToy_ConstIterate( T*, xIterator, &m_xArray )
-        {
-            xFunctor( &( xIterator.Current() ) );
-        }
+        GLToy_ConstIterate( T*, xCurrent, m_xArray )
+            xFunctor( &xCurrent );
+        GLToy_Iterate_End;
     }
 
     // array functions
@@ -355,14 +349,14 @@ public:
 
 protected:
 
-    virtual void CopyFrom( const GLToy_DataStructure< T >* const pxDataStructure )
+    template < class DataStructure >
+    void CopyFrom( const DataStructure* const pxDataStructure )
     {
         DeleteAll();
 
-        GLToy_ConstIterate( T, xIterator, pxDataStructure )
-        {
-            Append( new T( xIterator.Current() ) );
-        }
+        GLToy_ConstIterate( T, xCurrent, *pxDataStructure )
+            Append( new T( xCurrent ) );
+        GLToy_Iterate_End;
     }
 
 // TODO: it would be nice to protect this...
@@ -395,33 +389,31 @@ public:
 
     virtual bool IsFlat() const { return false; }
 
-    virtual T& operator []( const int iIndex ) { return m_pxData[ iIndex ]; }
-    virtual const T& operator []( const int iIndex ) const  { return m_pxData[ iIndex ]; }
+    T& operator []( const int iIndex ) { return m_pxData[ iIndex ]; }
+    const T& operator []( const int iIndex ) const  { return m_pxData[ iIndex ]; }
 
     virtual void Traverse( GLToy_Functor< T >& xFunctor )
     {
-        GLToy_Iterate( T, xIterator, this )
-        {
-            xFunctor( &( xIterator.Current() ) );
-        }
+        GLToy_Iterate( T, xElement, *this )
+            xFunctor( &xElement );
+        GLToy_Iterate_End;
     }
 
     virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
     {
-        GLToy_ConstIterate( T, xIterator, this )
-        {
-            xFunctor( &( xIterator.Current() ) );
-        }
+        GLToy_ConstIterate( T, xCurrent, *this )
+            xFunctor( &xCurrent );
+        GLToy_Iterate_End;
     }
 
 protected:
 
-    virtual void CopyFrom( const GLToy_DataStructure< T >* const pxDataStructure )
+    template < class DataStructure >
+    void CopyFrom( const DataStructure* const pxDataStructure )
     {
-        GLToy_ConstIterate( T, xIterator, pxDataStructure )
-        {
-            m_pxData[ xIterator.Index() ] = xIterator.Current();
-        }
+        GLToy_ConstIterate( T, xCurrent, *pxDataStructure )
+            m_pxData[ xIterator.Index() ] = xCurrent;
+        GLToy_Iterate_End;
     }
 
     T* m_pxData;
@@ -453,17 +445,13 @@ public:
 
     virtual bool IsFlat() const { return false; }
 
-    virtual T& operator []( const int iIndex )  { static T ls_Dummy; return ls_Dummy; }
-    virtual const T& operator []( const int iIndex ) const  { return m_pxData[ iIndex ]; }
+    const T& operator []( const int iIndex ) const  { return m_pxData[ iIndex ]; }
 
-    virtual void Traverse( GLToy_Functor< T >& xFunctor ) {}
-
-    virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
+    void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
     {
-        GLToy_ConstIterate( T, xIterator, this )
-        {
-            xFunctor( &( xIterator.Current() ) );
-        }
+        GLToy_ConstIterate( T, xCurrent, *this )
+            xFunctor( &xCurrent );
+        GLToy_Iterate_End;
     }
 
 protected:
@@ -529,10 +517,9 @@ public:
     {
         xStream << GetCount();
 
-        GLToy_ConstIterate( T, xIterator, this )
-        {
-            xStream << xIterator.Current();
-        }
+        GLToy_ConstIterate( T, xCurrent, *this )
+            xStream << xCurrent;
+        GLToy_Iterate_End;
     }
 };
 
@@ -585,10 +572,9 @@ public:
     {
         xStream << GetCount();
 
-        GLToy_ConstIterate( T, xIterator, this )
-        {
-            xStream << xIterator.Current();
-        }
+        GLToy_ConstIterate( T, xCurrent, *this )
+            xStream << xCurrent;
+        GLToy_Iterate_End;
     }
 };
 
@@ -623,10 +609,9 @@ public:
 
     virtual ~GLToy_SmallSerialisableArray()
     {
-        //GLToy_Iterate( T, xIterator, this )
-        //{
-        //    xIterator.Current().~T();
-        //}
+        //GLToy_Iterate( T, xElement, *this )
+        //    xElement.~T();
+        //GLToy_Iterate_End;
     }
     
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
@@ -649,10 +634,9 @@ public:
         GLToy_Assert( GetCount() < 32, "Not allowed more than 31 members in a GLToy_SmallSerialisableArray" );
         xStream.WriteBits( GetCount(), 5 );
 
-        GLToy_ConstIterate( T, xIterator, this )
-        {
-            xStream << xIterator.Current();
-        }
+        GLToy_ConstIterate( T, xCurrent, *this )
+            xStream << xCurrent;
+        GLToy_Iterate_End;
     }
 };
 

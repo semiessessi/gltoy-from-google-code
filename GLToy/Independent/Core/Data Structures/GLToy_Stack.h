@@ -103,10 +103,9 @@ public:
 
     void DeleteAll()
     {
-        GLToy_Iterate( T, xIterator, this )
-        {
-            delete xIterator.Current();
-        }
+        GLToy_Iterate( T, xElement, *this )
+            delete xElement;
+        GLToy_Iterate_End;
 
         Clear();
     }

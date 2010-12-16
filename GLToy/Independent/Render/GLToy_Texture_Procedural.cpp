@@ -388,10 +388,9 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
     if( m_pxChildren )
     {
         // traverse the tree
-        GLToy_Iterate( LayerNode, xIterator, m_pxChildren )
-        {
-            xIterator.Current().Render( uWidth, uHeight );
-        }
+        GLToy_Iterate( LayerNode, xNode, *m_pxChildren )
+            xNode.Render( uWidth, uHeight );
+        GLToy_Iterate_End;
     }
     else
     {
@@ -1412,10 +1411,9 @@ u_int* GLToy_Texture_Procedural::CreateRGBA( const u_int uWidth, const u_int uHe
     LayerNode::s_xLight = GLToy_Vector_3( 0.533f, 0.533f, 0.533f );
 
     // traverse the tree
-    GLToy_Iterate( LayerNode, xIterator, &m_xLayers )
-    {
-        xIterator.Current().Render( uWidth, uHeight );
-    }
+    GLToy_Iterate( LayerNode, xNode, m_xLayers )
+        xNode.Render( uWidth, uHeight );
+    GLToy_Iterate_End;
 
     pxData = LayerNode::s_xRenderStack.Pop();
 

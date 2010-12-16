@@ -106,9 +106,7 @@ void FPSToy_Entity_Projectile::Update()
         return;
     }
 
-    GLToy_ConstIterate( GLToy_Physics_ObjectCollision, xIterator, &( m_pxPhysicsObject->GetCollisions() ) )
-    {
-        const GLToy_Physics_ObjectCollision& xCollision = xIterator.Current();
+    GLToy_ConstIterate( GLToy_Physics_ObjectCollision, xCollision, m_pxPhysicsObject->GetCollisions() )
         if( pxProjectileType->GetContactDetonation() )
         {
             // detonate
@@ -123,7 +121,7 @@ void FPSToy_Entity_Projectile::Update()
 
             break;
         }
-    }
+    GLToy_Iterate_End;
 }
 
 void FPSToy_Entity_Projectile::Destroy()

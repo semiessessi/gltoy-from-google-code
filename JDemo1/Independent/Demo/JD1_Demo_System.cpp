@@ -71,15 +71,13 @@ bool JD1_Demo_System::Initialise()
 
 void JD1_Demo_System::Shutdown()
 {
-    GLToy_Iterate( JD1_DemoQueueItem, xIterator, &s_xQueue )
-    {
-        delete xIterator.Current().m_pxScene;
-    }
+    GLToy_Iterate( JD1_DemoQueueItem, xItem, s_xQueue )
+        delete xItem.m_pxScene;
+    GLToy_Iterate_End;
 
-    GLToy_Iterate( JD1_DemoQueueItem, xIterator, &s_xDeleteList )
-    {
-        delete xIterator.Current().m_pxScene;
-    }
+    GLToy_Iterate( JD1_DemoQueueItem, xItem, s_xDeleteList )
+        delete xItem.m_pxScene;
+    GLToy_Iterate_End;
 
     s_xQueue.Clear();
     s_xDeleteList.Clear();

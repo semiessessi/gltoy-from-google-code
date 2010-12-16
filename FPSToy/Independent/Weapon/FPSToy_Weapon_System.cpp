@@ -98,10 +98,9 @@ FPSToy_Weapon FPSToy_Weapon_System::CreateWeapon( const GLToy_Hash uHash, const 
 
     if( pxDefinition )
     {
-        GLToy_ConstIterate( GLToy_Hash, xIterator, pxDefinition )
-        {
-            xReturnValue.AddMode( xIterator.Current() );
-        }
+        GLToy_ConstIterate( GLToy_Hash, uModeHash, *pxDefinition )
+            xReturnValue.AddMode( uModeHash );
+        GLToy_Iterate_End;
     }
 
     return xReturnValue;
@@ -113,21 +112,20 @@ bool FPSToy_Weapon_System::InitialiseAmmoTypes()
 
     GLToy_Array< GLToy_String > xAmmoPaths = GLToy_File_System::PathsFromFilter( "Weapons/Ammo/", "*.ammo" );
 
-    GLToy_ConstIterate( GLToy_String, xIterator, &xAmmoPaths )
-    {
-        GLToy_String szName = xIterator.Current();
+    GLToy_ConstIterate( GLToy_String, szPath, xAmmoPaths )
+        GLToy_String szName = szPath;
         szName.RemoveAt( 0, 13 ); // remove "Weapons/Ammo/"
         szName.RemoveFromEnd( 5 ); // remove ".ammo"
 
         GLToy_DebugOutput( "   - Found ammo type \"%S\".\r\n", szName.GetWideString() );
         
-        GLToy_TextFile xFile( xIterator.Current() );
+        GLToy_TextFile xFile( szPath );
 
-        GLToy_String xData = xFile.GetString();
+        GLToy_String szData = xFile.GetString();
 
-        while( xData.GetLength() > 0 )
+        while( szData.GetLength() > 0 )
         {
-            GLToy_String szValue = xData.RemoveFirstLine();
+            GLToy_String szValue = szData.RemoveFirstLine();
             if( szValue.Contains( L'=' ) )
             {
                 GLToy_String szKey = szValue.RemoveUpTo( L'=' );
@@ -143,7 +141,7 @@ bool FPSToy_Weapon_System::InitialiseAmmoTypes()
         }
 
         // s_xAmmoTypes.AddNode( new GLToy_AmmoType( szName.GetHash() ), szName.GetHash() );
-    }
+    GLToy_Iterate_End;
 
     return true;
 }
@@ -154,17 +152,16 @@ bool FPSToy_Weapon_System::InitialiseWeaponDefinitions()
 
     GLToy_Array< GLToy_String > xWeaponDefinitionPaths = GLToy_File_System::PathsFromFilter( "Weapons/", "*.weapon" );
 
-    GLToy_ConstIterate( GLToy_String, xIterator, &xWeaponDefinitionPaths )
-    {
-        GLToy_String szName = xIterator.Current();
+    GLToy_ConstIterate( GLToy_String, szPath, xWeaponDefinitionPaths )
+        GLToy_String szName = szPath;
         szName.RemoveAt( 0, 8 ); // remove "Weapons/"
         szName.RemoveFromEnd( 7 ); // remove ".weapon"
 
         GLToy_DebugOutput( "   - Found weapon definition \"%S\".\r\n", szName.GetWideString() );
 
-        GLToy_TextFile xFile( xIterator.Current() );
+        GLToy_TextFile xFile( szPath );
 
-        GLToy_String xData = xFile.GetString();
+        GLToy_String szData = xFile.GetString();
 
         s_xWeaponDefinitions.AddNode( GLToy_Array< GLToy_Hash >(), szName.GetHash() );
 
@@ -175,9 +172,9 @@ bool FPSToy_Weapon_System::InitialiseWeaponDefinitions()
             continue;
         }
 
-        while( xData.GetLength() > 0 )
+        while( szData.GetLength() > 0 )
         {
-            GLToy_String szValue = xData.RemoveFirstLine();
+            GLToy_String szValue = szData.RemoveFirstLine();
             if( szValue.Contains( L'=' ) )
             {
                 GLToy_String szKey = szValue.RemoveUpTo( L'=' );
@@ -192,7 +189,7 @@ bool FPSToy_Weapon_System::InitialiseWeaponDefinitions()
                 }
             }
         }
-    }
+    GLToy_Iterate_End;
 
     return true;
 }
@@ -203,25 +200,24 @@ bool FPSToy_Weapon_System::InitialiseWeaponTypes()
 
     GLToy_Array< GLToy_String > xWeaponTypePaths = GLToy_File_System::PathsFromFilter( "Weapons/Types/", "*.weapontype" );
 
-    GLToy_ConstIterate( GLToy_String, xIterator, &xWeaponTypePaths )
-    {
-        GLToy_String szName = xIterator.Current();
+    GLToy_ConstIterate( GLToy_String, szPath, xWeaponTypePaths )
+        GLToy_String szName = szPath;
         szName.RemoveAt( 0, 14 ); // remove "Weapons/Types/"
         szName.RemoveFromEnd( 11 ); // remove ".weapontype"
 
         GLToy_DebugOutput( "   - Found weapon type \"%S\".\r\n", szName.GetWideString() );
         
-        GLToy_TextFile xFile( xIterator.Current() );
+        GLToy_TextFile xFile( szPath );
 
-        GLToy_String xData = xFile.GetString();
-        GLToy_String xDataCopy = xData;
+        GLToy_String szData = xFile.GetString();
+        GLToy_String szDataCopy = szData;
 
         GLToy_Hash uAmmoHash = uGLTOY_BAD_HASH;
         u_int uBurstCount = 1;
         u_int uClass = 0;
-        while( xData.GetLength() > 0 )
+        while( szData.GetLength() > 0 )
         {
-            GLToy_String szValue = xData.RemoveFirstLine();
+            GLToy_String szValue = szData.RemoveFirstLine();
             if( szValue.Contains( L'=' ) )
             {
                 GLToy_String szKey = szValue.RemoveUpTo( L'=' );
@@ -270,9 +266,9 @@ bool FPSToy_Weapon_System::InitialiseWeaponTypes()
             continue;
         }
 
-        while( xDataCopy.GetLength() > 0 )
+        while( szDataCopy.GetLength() > 0 )
         {
-            GLToy_String szValue = xDataCopy.RemoveFirstLine();
+            GLToy_String szValue = szDataCopy.RemoveFirstLine();
             if( szValue.Contains( L'=' ) )
             {
                 GLToy_String szKey = szValue.RemoveUpTo( L'=' );
@@ -317,7 +313,7 @@ bool FPSToy_Weapon_System::InitialiseWeaponTypes()
         {
             GLToy_DebugOutput_Release( "  - Failed to create weapon type \"%S\".\r\n", szName.GetWideString() );
         }
-    }
+    GLToy_Iterate_End;
 
     return true;
 }

@@ -129,15 +129,14 @@ GLToy_PFX* GLToy_PFX_System::CreatePFX( const GLToy_Hash uHash, const GLToy_Vect
     GLToy_PFX* const pxPFX = new GLToy_PFX( szName.GetHash(), xPosition, pxProperties->m_fLifetime );
 
     // create sources
-    GLToy_ConstIterate( GLToy_Hash, xIterator, pxProperties )
-    {
-        const GLToy_ParticleSourceProperties* const pxSourceProperties = s_xSourceProperties.FindData( xIterator.Current() );
+    GLToy_ConstIterate( GLToy_Hash, uHash, *pxProperties )
+        const GLToy_ParticleSourceProperties* const pxSourceProperties = s_xSourceProperties.FindData( uHash );
         if( pxSourceProperties )
         {
             GLToy_ParticleSource* const pxSource = new GLToy_ParticleSource( *pxSourceProperties, pxPFX );
             pxPFX->AddSource( pxSource );
         }
-    }
+    GLToy_Iterate_End;
 
     s_xPFX.AddNode( pxPFX, pxPFX->GetHash() );
 
@@ -165,22 +164,21 @@ bool GLToy_PFX_System::InitialisePFXProperties()
 
     GLToy_Array< GLToy_String > xPFXPaths = GLToy_File_System::PathsFromFilter( "PFX/", "*.pfx" );
 
-    GLToy_ConstIterate( GLToy_String, xIterator, &xPFXPaths )
-    {
-        GLToy_String szName = xIterator.Current();
+    GLToy_ConstIterate( GLToy_String, szPath, xPFXPaths )
+        GLToy_String szName = szPath;
         szName.RemoveAt( 0, 4 ); // remove "PFX/"
         szName.RemoveFromEnd( 4 ); // remove ".pfx"
 
         GLToy_DebugOutput( "   - Found PFX \"%S\".\r\n", szName.GetWideString() );
         
-        GLToy_TextFile xFile( xIterator.Current() );
+        GLToy_TextFile xFile( szPath );
 
-        GLToy_String xData = xFile.GetString();
+        GLToy_String szData = xFile.GetString();
 
         GLToy_PFXProperties xPFXProperties;
-        while( xData.GetLength() > 0 )
+        while( szData.GetLength() > 0 )
         {
-            GLToy_String szValue = xData.RemoveFirstLine();
+            GLToy_String szValue = szData.RemoveFirstLine();
             if( szValue.Contains( L'=' ) )
             {
                 GLToy_String szKey = szValue.RemoveUpTo( L'=' );
@@ -201,7 +199,7 @@ bool GLToy_PFX_System::InitialisePFXProperties()
         }
 
         s_xPFXProperties.AddNode( xPFXProperties, szName.GetHash() );
-    }
+    GLToy_Iterate_End;
 
     return true;
 }
@@ -212,22 +210,21 @@ bool GLToy_PFX_System::InitialiseSourceProperties()
 
     GLToy_Array< GLToy_String > xSourcePaths = GLToy_File_System::PathsFromFilter( "PFX/Sources/", "*.source" );
 
-    GLToy_ConstIterate( GLToy_String, xIterator, &xSourcePaths )
-    {
-        GLToy_String szName = xIterator.Current();
+    GLToy_ConstIterate( GLToy_String, szPath, xSourcePaths )
+        GLToy_String szName = szPath;
         szName.RemoveAt( 0, 12 ); // remove "PFX/Sources/"
         szName.RemoveFromEnd( 7 ); // remove ".source"
 
         GLToy_DebugOutput( "   - Found particle source \"%S\".\r\n", szName.GetWideString() );
         
-        GLToy_TextFile xFile( xIterator.Current() );
+        GLToy_TextFile xFile( szPath );
 
-        GLToy_String xData = xFile.GetString();
+        GLToy_String szData = xFile.GetString();
 
         GLToy_ParticleSourceProperties xSourceProperties;;
-        while( xData.GetLength() > 0 )
+        while( szData.GetLength() > 0 )
         {
-            GLToy_String szValue = xData.RemoveFirstLine();
+            GLToy_String szValue = szData.RemoveFirstLine();
             if( szValue.Contains( L'=' ) )
             {
                 GLToy_String szKey = szValue.RemoveUpTo( L'=' );
@@ -252,7 +249,7 @@ bool GLToy_PFX_System::InitialiseSourceProperties()
         }
 
         s_xSourceProperties.AddNode( xSourceProperties, szName.GetHash() );
-    }
+    GLToy_Iterate_End;
 
     return true;
 }
@@ -263,22 +260,21 @@ bool GLToy_PFX_System::InitialiseParticleProperties()
 
     GLToy_Array< GLToy_String > xParticlePaths = GLToy_File_System::PathsFromFilter( "PFX/Particles/", "*.particle" );
 
-    GLToy_ConstIterate( GLToy_String, xIterator, &xParticlePaths )
-    {
-        GLToy_String szName = xIterator.Current();
+    GLToy_ConstIterate( GLToy_String, szPath, xParticlePaths )
+        GLToy_String szName = szPath;
         szName.RemoveAt( 0, 14 ); // remove "PFX/Particles/"
         szName.RemoveFromEnd( 9 ); // remove ".particle"
 
         GLToy_DebugOutput( "   - Found particle \"%S\".\r\n", szName.GetWideString() );
         
-        GLToy_TextFile xFile( xIterator.Current() );
+        GLToy_TextFile xFile( szPath );
 
-        GLToy_String xData = xFile.GetString();
+        GLToy_String szData = xFile.GetString();
 
         GLToy_ParticleProperties xParticleProperties;
-        while( xData.GetLength() > 0 )
+        while( szData.GetLength() > 0 )
         {
-            GLToy_String szValue = xData.RemoveFirstLine();
+            GLToy_String szValue = szData.RemoveFirstLine();
             if( szValue.Contains( L'=' ) )
             {
                 GLToy_String szKey = szValue.RemoveUpTo( L'=' );
@@ -319,7 +315,7 @@ bool GLToy_PFX_System::InitialiseParticleProperties()
         }
 
         s_xParticleProperties.AddNode( xParticleProperties, szName.GetHash() );
-    }
+    GLToy_Iterate_End;
 
     return true;
 }

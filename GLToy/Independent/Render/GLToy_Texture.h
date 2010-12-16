@@ -50,7 +50,7 @@ template < class T > class GLToy_HashMap;
 class GLToy_Texture
 : protected GLToy_SerialisableArray< u_int >
 {
-
+    friend class GLToy_Iterator< u_int >;
     friend class GLToy_Texture_System;
 
     typedef GLToy_SerialisableArray< u_int > GLToy_DataParent;

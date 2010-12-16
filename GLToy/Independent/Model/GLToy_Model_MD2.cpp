@@ -301,17 +301,14 @@ void GLToy_Model_MD2::Render() const
 
         GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
         
-        GLToy_ConstIterate( GLToy_MD2_Triangle, xIterator, &m_xTriangles )
-        {
-            const GLToy_MD2_Triangle& xTriangle = xIterator.Current();
-
+        GLToy_ConstIterate( GLToy_MD2_Triangle, xTriangle, m_xTriangles )
             for( u_int u = 0; u < 3; ++u )
             {
                 GLToy_Render::SubmitUV( m_xUVs[ xTriangle.m_ausUVs[ u ] ] );
                 GLToy_Render::SubmitNormal( m_xWorkingNormals[ xTriangle.m_ausVertices[ u ] ] );
                 GLToy_Render::SubmitVertex( m_xWorkingVertices[ xTriangle.m_ausVertices[ u ] ] );
             }
-        }
+        GLToy_Iterate_End;
 
         GLToy_Render::EndSubmit();
 
@@ -338,14 +335,13 @@ void GLToy_Model_MD2::Render() const
 
         GLToy_ConstPointerArray< GLToy_MD2_CommandVertex > xCommandList( reinterpret_cast< const GLToy_MD2_CommandVertex* >( &m_xGLCommands[ uIP ] ), iCount );
 
-        GLToy_ConstIterate( GLToy_MD2_CommandVertex, xIterator, &xCommandList )
-        {
-            GLToy_Render::SubmitUV( GLToy_Vector_3( xIterator.Current().m_fU, xIterator.Current().m_fV, 0.0f ) );
-            GLToy_Render::SubmitNormal( m_xWorkingNormals[ xIterator.Current().m_uIndex ] );
-            GLToy_Render::SubmitVertex( m_xWorkingVertices[ xIterator.Current().m_uIndex ] );
+        GLToy_ConstIterate( GLToy_MD2_CommandVertex, xCommandVertex, xCommandList )
+            GLToy_Render::SubmitUV( GLToy_Vector_3( xCommandVertex.m_fU, xCommandVertex.m_fV, 0.0f ) );
+            GLToy_Render::SubmitNormal( m_xWorkingNormals[ xCommandVertex.m_uIndex ] );
+            GLToy_Render::SubmitVertex( m_xWorkingVertices[ xCommandVertex.m_uIndex ] );
             
             uIP += 3;
-        }
+        GLToy_Iterate_End;
 
         GLToy_Render::EndSubmit();
     }
@@ -470,10 +466,9 @@ void GLToy_MD2_AnimationStack::Evaluate( GLToy_Model* const pxModel ) const
         xWorkingNormals[ u ] = GLToy_Maths::ZeroVector3;
     }
 
-    GLToy_ConstIterate( GLToy_MD2_AnimationState, xIterator, this )
-    {
-        xIterator.Current().Evaluate( pxMD2Model );
-    }
+    GLToy_ConstIterate( GLToy_MD2_AnimationState, xState, *this )
+        xState.Evaluate( pxMD2Model );
+    GLToy_Iterate_End;
 }
 
 bool GLToy_MD2_AnimationStack::SupportsAnimID( GLToy_Model* const pxModel, const u_int uAnimID ) const

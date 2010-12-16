@@ -66,9 +66,7 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
     GLToy_HashMap< u_int > xMaterialReferences;
     u_int uCurrentMaterial = 0;
     GLToy_Array< GLToy_String > xLines = szData.Split( '\n' );
-    GLToy_Iterate( GLToy_String, xIterator, &xLines )
-    {
-        GLToy_String& szLine = xIterator.Current();
+    GLToy_Iterate( GLToy_String, szLine, xLines )
         szLine.TrimWhiteSpace();
         if( szLine.IsEmpty() )
         {
@@ -90,9 +88,7 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
                 pxModel->AppendFace();
                 
                 GLToy_Array< GLToy_String > xFaceVertices = szLine.Right( szLine.GetLength() - 2 ).Split( ' ' );
-                GLToy_Iterate( GLToy_String, xIterator, &xFaceVertices )
-                {
-                    GLToy_String& szVertex = xIterator.Current();
+                GLToy_Iterate( GLToy_String, szVertex, xFaceVertices )
                     GLToy_Array< GLToy_String > xIndices = szVertex.Split( '/' );
                     
                     u_int auIndices[ 3 ];
@@ -110,7 +106,7 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
 
                     pxModel->AppendFaceMaterial( uCurrentMaterial );
                     pxModel->AppendFaceVertex( auIndices[ 0 ], auIndices[ 1 ], auIndices[ 2 ] );
-                }
+                GLToy_Iterate_End;
                 break;
             }
 
@@ -133,9 +129,7 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
                     float fCurrentExponent = 32.0f;
 
                     GLToy_Array< GLToy_String > xMtlLines = szMtlData.Split( '\n' );
-                    GLToy_Iterate( GLToy_String, xIterator, &xMtlLines )
-                    {
-                        GLToy_String& szMtlLine = xIterator.Current();
+                    GLToy_Iterate( GLToy_String, szMtlLine, xMtlLines )
                         szMtlLine.TrimWhiteSpace();
                         if( szMtlLine.IsEmpty() )
                         {
@@ -224,7 +218,7 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
                                 break;
                             }
                         }
-                    }
+                    GLToy_Iterate_End;
 
                     // tidy up the last material if necessary...
                     if( pxModel->GetMaterials().GetCount() )
@@ -296,7 +290,7 @@ GLToy_Model* GLToy_OBJFile::LoadModel() const
                 break;
             }
         }
-    }
+    GLToy_Iterate_End;
 
     m_pxModel->UpdateStripPointers();
     return m_pxModel;

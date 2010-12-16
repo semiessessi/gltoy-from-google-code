@@ -130,12 +130,11 @@ void GLToy_Dialog::Update()
 
 void GLToy_Dialog::Expand( const float fWidth, const float fHeight )
 {
-    GLToy_Iterate( GLToy_Widget*, xIterator, &m_xWidgets )
-    {
-        xIterator.Current()->SetPosition(
-            xIterator.Current()->GetX(),
-            xIterator.Current()->GetY() + fHeight );
-    }
+    GLToy_Iterate( GLToy_Widget*, pxWidget, m_xWidgets )
+        pxWidget->SetPosition(
+            pxWidget->GetX(),
+            pxWidget->GetY() + fHeight );
+    GLToy_Iterate_End;
 
     m_xSize[ 0 ] += fWidth; m_xSize[ 1 ] += fHeight;
 }

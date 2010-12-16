@@ -43,22 +43,20 @@
 
 void JD1_DemoScene_AVS::Initialise()
 {
-    GLToy_Iterate( JD1_AVS_Component, xIterator, &m_xComponents )
-    {
-        GLToy_Renderable* const pxRenderable = xIterator.Current().First();
+    GLToy_Iterate( JD1_AVS_Component, xComponent, m_xComponents )
+        GLToy_Renderable* const pxRenderable = xComponent.First();
         pxRenderable->Initialise();
-    }
+    GLToy_Iterate_End;
 
     GLToy_Camera::SetPosition( GLToy_Maths::ZeroVector3 );
 }
 
 void JD1_DemoScene_AVS::Shutdown()
 {
-    GLToy_Iterate( JD1_AVS_Component, xIterator, &m_xComponents )
-    {
-        GLToy_Renderable* const pxRenderable = xIterator.Current().First();
+    GLToy_Iterate( JD1_AVS_Component, xComponent, m_xComponents )
+        GLToy_Renderable* const pxRenderable = xComponent.First();
         pxRenderable->Shutdown();
-    }
+    GLToy_Iterate_End;
 }
 
 void JD1_DemoScene_AVS::Start()
@@ -70,20 +68,18 @@ void JD1_DemoScene_AVS::Start()
 
 void JD1_DemoScene_AVS::Render() const
 {
-    GLToy_ConstIterate( JD1_AVS_Component, xIterator, &m_xComponents )
-    {
-        const GLToy_Renderable* const pxRenderable = xIterator.Current().First();
+    GLToy_ConstIterate( JD1_AVS_Component, xCurrent, m_xComponents )
+        const GLToy_Renderable* const pxRenderable = xCurrent.First();
         pxRenderable->Render();
-    }
+    GLToy_Iterate_End;
 }
 
 void JD1_DemoScene_AVS::Update()
 {
     GLToy_Parent::Update();
 
-    GLToy_Iterate( JD1_AVS_Component, xIterator, &m_xComponents )
-    {
-        GLToy_Updateable* const pxUpdateable = xIterator.Current().Second();
+    GLToy_Iterate( JD1_AVS_Component, xCurrent, m_xComponents )
+        GLToy_Updateable* const pxUpdateable = xCurrent.Second();
         pxUpdateable->Update();
-    }
+    GLToy_Iterate_End;
 }

@@ -438,20 +438,16 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 
     // initialise vertices
     u_int uNumVertices = 0;
-    GLToy_Iterate( GLToy_BSP38_Face, xIterator, &xFaces )
-    {
-        GLToy_BSP38_Face& xBSPFace = xIterator.Current();
+    GLToy_Iterate( GLToy_BSP38_Face, xBSPFace, xFaces )
         uNumVertices += xBSPFace.m_usEdgeCount;
-    }
+    GLToy_Iterate_End;
 
     pxEnv->m_xVertices.Resize( uNumVertices );
 
     // set up faces
     pxEnv->m_xFaces.Resize( xFaces.GetCount() );
     u_int uCurrentVertex = 0;
-    GLToy_Iterate( GLToy_Environment_LightmappedFace, xIterator, &( pxEnv->m_xFaces ) )
-    {
-        GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
+    GLToy_Iterate( GLToy_Environment_LightmappedFace, xFace, pxEnv->m_xFaces )
         GLToy_BSP38_Face& xBSPFace = xFaces[ xIterator.Index() ];
         xFace.m_aucLightmapStyles[ 0 ] = xBSPFace.m_aucLightmapStyles[ 0 ];
         xFace.m_aucLightmapStyles[ 1 ] = xBSPFace.m_aucLightmapStyles[ 1 ];
@@ -519,14 +515,12 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 
             ++uCurrentVertex;
         }
-    }
+    GLToy_Iterate_End;
 
     // re-orient vertices - this must be done after setting up the faces to ensure UVs are generated correctly
-    GLToy_Iterate( GLToy_Environment_LightmappedFaceVertex, xIterator, &( pxEnv->m_xVertices ) )
-    {
-        GLToy_Environment_LightmappedFaceVertex& xCurrent = xIterator.Current();
+    GLToy_Iterate( GLToy_Environment_LightmappedFaceVertex, xCurrent, pxEnv->m_xVertices )
         xCurrent.m_xPosition = GLToy_Vector_3( -( xCurrent.m_xPosition[ 1 ] ), xCurrent.m_xPosition[ 2 ], xCurrent.m_xPosition[ 0 ] );
-    }
+    GLToy_Iterate_End;
 
     // create the lightmap textures
     pxEnv->m_xLightmapData.Resize( xLumps.m_axLumps[ uBSP38_LUMP_LIGHTMAPS ].m_uSize );
@@ -555,15 +549,14 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
             float fVMax = -GLToy_Maths::LargeFloat;
             float fVMin = GLToy_Maths::LargeFloat;
 
-            GLToy_Iterate( u_int, xIterator, &( xEnvFace.m_xIndices ) )
-            {
-                GLToy_Vector_2& xUV = pxEnv->m_xVertices[ xIterator.Current() ].m_xLightmapUV;
+            GLToy_Iterate( u_int, uIndex, xEnvFace.m_xIndices )
+                GLToy_Vector_2& xUV = pxEnv->m_xVertices[ uIndex ].m_xLightmapUV;
 
                 fUMax = GLToy_Maths::Max( xUV[ 0 ], fUMax );
                 fUMin = GLToy_Maths::Min( xUV[ 0 ], fUMin );
                 fVMax = GLToy_Maths::Max( xUV[ 1 ], fVMax );
                 fVMin = GLToy_Maths::Min( xUV[ 1 ], fVMin );
-            }
+            GLToy_Iterate_End;
 
             const u_int uWidth = static_cast< u_int >( GLToy_Maths::Ceiling( fUMax / 16.0f ) - GLToy_Maths::Floor( fUMin / 16.0f ) ) + 1;
             const u_int uHeight = static_cast< u_int >( GLToy_Maths::Ceiling( fVMax / 16.0f ) - GLToy_Maths::Floor( fVMin / 16.0f ) ) + 1;
@@ -697,50 +690,46 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
     
     // first split the data up per entity
     GLToy_Array< GLToy_String > xEntityStrings = szEntityData.Split( L'}' );
-    GLToy_Iterate( GLToy_String, xIterator, &xEntityStrings )
-    {
-        xIterator.Current().TrimLeadingWhiteSpace();
-        xIterator.Current().RemoveAt( 0 );
-    }
+    GLToy_Iterate( GLToy_String, xString, xEntityStrings )
+        xString.TrimLeadingWhiteSpace();
+        xString.RemoveAt( 0 );
+    GLToy_Iterate_End;
 
     // then for each value the entities have
     GLToy_Array< GLToy_Array< GLToy_String > > xEntityValues;
     xEntityValues.Resize( xEntityStrings.GetCount() );
-    GLToy_ConstIterate( GLToy_String, xIterator, &xEntityStrings )
-    {
-        xEntityValues[ xIterator.Index() ] = xIterator.Current().Split( '"' );
-    }
+    GLToy_ConstIterate( GLToy_String, szString, xEntityStrings )
+        xEntityValues[ xIterator.Index() ] = szString.Split( '"' );
+    GLToy_Iterate_End;
 
     GLToy_Array< GLToy_Array< GLToy_Pair< GLToy_String > > > xKeyValuePairs;
     xKeyValuePairs.Resize( xEntityStrings.GetCount() );
-    GLToy_ConstIterate( GLToy_Array< GLToy_String >, xIterator, &xEntityValues )
-    {
+    GLToy_ConstIterate( GLToy_Array< GLToy_String >, xArray, xEntityValues )
         bool bFirst = true;
-        GLToy_ConstIterate( GLToy_String, xStringIterator, &( xIterator.Current() ) )
-        {
-            if( !( xStringIterator.Current().IsWhiteSpace() || xStringIterator.Current().IsEmpty() ) )
+        const GLToy_ConstIterator< GLToy_Array< GLToy_String > >& xParentIterator = xIterator;
+        GLToy_ConstIterate( GLToy_String, szString, xArray )
+            if( !( szString.IsWhiteSpace() || szString.IsEmpty() ) )
             {
                 if( bFirst )
                 {
-                    xKeyValuePairs[ xIterator.Index() ].Append( GLToy_Pair< GLToy_String >( xStringIterator.Current() ) );
+                    xKeyValuePairs[ xParentIterator.Index() ].Append( GLToy_Pair< GLToy_String >( szString ) );
                 }
                 else
                 {
-                    xKeyValuePairs[ xIterator.Index() ].End().Second() = xStringIterator.Current();
+                    xKeyValuePairs[ xParentIterator.Index() ].End().Second() = szString;
                 }
 
                 bFirst = !bFirst;
             }
-        }
+        GLToy_Iterate_End;
 
         GLToy_Assert( bFirst, "The number of keys and values is not the same for entity %d!", xIterator.Index() );
-    }
+    GLToy_Iterate_End;
 
     // finally, create the entities
-    GLToy_ConstIterate( GLToy_Array< GLToy_Pair< GLToy_String > >, xIterator, &xKeyValuePairs )
-    {
-        GLToy_Entity_System::CreateEntity( xIterator.Current() );
-    }
+    GLToy_ConstIterate( GLToy_Array< GLToy_Pair< GLToy_String > >, xEntityDefinition, xKeyValuePairs )
+        GLToy_Entity_System::CreateEntity( xEntityDefinition );
+    GLToy_Iterate_End;
 
     GLToy_DebugOutput_Release( "Loaded BSP v38 (Quake 2/Kingpin) environment file \"%S\" successfully", m_szFilename.GetWideString() );
     GLToy_Environment_System::SetCurrentEnvironment( pxEnv );

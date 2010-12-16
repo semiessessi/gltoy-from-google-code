@@ -62,7 +62,6 @@ class GLToy_FlatDataStructure
 public:
 
     GLToy_FlatDataStructure()
-    : GLToy_Parent()
     {
         // set up initial memory usage
         m_uSize = uGLTOY_FLATDATASTRUCTURE_START_ALLOC;
@@ -94,17 +93,17 @@ public:
         return sizeof( *this ) + sizeof( T ) * m_uSize;
     }
 
-    virtual bool IsFlat() const
+    bool IsFlat() const
     {
         return true;
     }
 
-    virtual T& operator []( const int iIndex )
+    T& operator []( const int iIndex )
     {
         return m_pxData[ iIndex ];
     }
 
-    virtual const T& operator []( const int iIndex ) const
+    const T& operator []( const int iIndex ) const
     {
         return m_pxData[ iIndex ];
     }
@@ -115,20 +114,18 @@ public:
         return *this;
     }
 
-    virtual void Traverse( GLToy_Functor< T >& xFunctor )
+    void Traverse( GLToy_Functor< T >& xFunctor )
     {
-        GLToy_Iterate( T, xIterator, this )
-        {
-            xFunctor( &( xIterator.Current() ) );
-        }
+        GLToy_Iterate( T, xElement, *this )
+            xFunctor( &( xElement ) );
+        GLToy_Iterate_End;
     }
 
-    virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
+    void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
     {
-        GLToy_ConstIterate( T, xIterator, this )
-        {
-            xFunctor( &( xIterator.Current() ) );
-        }
+        GLToy_ConstIterate( T, xCurrent, *this )
+            xFunctor( &xCurrent );
+        GLToy_Iterate_End;
     }
 
     T* GetDataPointer() { return m_pxData; }
@@ -169,7 +166,8 @@ protected:
         }
     }
 
-    virtual void CopyFrom( const GLToy_DataStructure< T >* const pxDataStructure )
+    template < class DataStructure >
+    void CopyFrom( const DataStructure* const pxDataStructure )
     {
         const u_int uNewCount = pxDataStructure->GetCount();
         const u_int uOldCount = GetCount();
@@ -186,17 +184,16 @@ protected:
 
         const u_int uAllocCount = ( uOldCount > uNewCount ) ? uNewCount : uOldCount;
 
-        GLToy_ConstIterate( T, xIterator, pxDataStructure )
-        {
+        GLToy_ConstIterate( T, xCurrent, *pxDataStructure )
             if( static_cast< u_int >( xIterator.Index() ) < uAllocCount )
             {
-                m_pxData[ xIterator.Index() ] = xIterator.Current();
+                m_pxData[ xIterator.Index() ] = xCurrent;
             }
             else
             {
-                new ( &( m_pxData[ xIterator.Index() ] ) ) T( xIterator.Current() );
+                new ( &( m_pxData[ xIterator.Index() ] ) ) T( xCurrent );
             }
-        }
+        GLToy_Iterate_End;
     }
 
     T* m_pxData;

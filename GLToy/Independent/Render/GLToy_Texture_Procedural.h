@@ -895,9 +895,7 @@ protected:
             pxLayers = &m_xLayers;
         }
 
-        GLToy_Iterate( LayerNode, xIterator, pxLayers )
-        {
-            LayerNode& xLayerNode = xIterator.Current();
+        GLToy_Iterate( LayerNode, xLayerNode, *pxLayers )
             if( xLayerNode.GetID() == uID )
             {
                 return &xLayerNode;
@@ -910,7 +908,7 @@ protected:
                     return pxLayerNode;
                 }
             }
-        }
+        GLToy_Iterate_End;
 
         return NULL;
     }
@@ -922,9 +920,7 @@ protected:
             pxLayers = &m_xLayers;
         }
 
-        GLToy_ConstIterate( LayerNode, xIterator, pxLayers )
-        {
-            const LayerNode& xLayerNode = xIterator.Current();
+        GLToy_ConstIterate( LayerNode, xLayerNode, *pxLayers )
             if( xLayerNode.GetID() == uID )
             {
                 return &xLayerNode;
@@ -937,7 +933,7 @@ protected:
                     return pxLayerNode;
                 }
             }
-        }
+        GLToy_Iterate_End;
 
         return NULL;
     }
@@ -949,9 +945,7 @@ protected:
             pxLayers = &m_xLayers;
         }
 
-        GLToy_Iterate( LayerNode, xIterator, pxLayers )
-        {
-            LayerNode& xLayerNode = xIterator.Current();
+        GLToy_Iterate( LayerNode, xLayerNode, *pxLayers )
             if( xLayerNode.GetID() == uID )
             {
                 if( xLayerNode.IsLeaf() )
@@ -974,7 +968,7 @@ protected:
                     return true;
                 }
             }
-        }
+        GLToy_Iterate_End;
 
         return false;
     }
@@ -986,9 +980,7 @@ protected:
             pxLayers = &m_xLayers;
         }
 
-        GLToy_ConstIterate( LayerNode, xIterator, pxLayers )
-        {
-            const LayerNode& xLayerNode = xIterator.Current();
+        GLToy_ConstIterate( LayerNode, xLayerNode, *pxLayers )
             if( xLayerNode.GetID() == uID )
             {
                 return uParentID;
@@ -1001,7 +993,7 @@ protected:
                     return uReturnID;
                 }
             }
-        }
+        GLToy_Iterate_End;
 
         return 0;
     }
@@ -1013,9 +1005,7 @@ protected:
             pxLayers = &m_xLayers;
         }
 
-        GLToy_Iterate( LayerNode, xIterator, pxLayers )
-        {
-            LayerNode& xLayerNode = xIterator.Current();
+        GLToy_Iterate( LayerNode, xLayerNode, *pxLayers )
             if( xLayerNode.GetID() == uID )
             {
                 return pxLayers;
@@ -1028,7 +1018,7 @@ protected:
                     return xLayerNode.GetChildren();
                 }
             }
-        }
+        GLToy_Iterate_End;
 
         return NULL;
     }
@@ -1040,9 +1030,7 @@ protected:
             pxLayers = &m_xLayers;
         }
 
-        GLToy_ConstIterate( LayerNode, xIterator, pxLayers )
-        {
-            const LayerNode& xLayerNode = xIterator.Current();
+        GLToy_ConstIterate( LayerNode, xLayerNode, *pxLayers )
             if( xLayerNode.GetID() == uID )
             {
                 return pxLayers;
@@ -1055,7 +1043,7 @@ protected:
                     return xLayerNode.GetChildren();
                 }
             }
-        }
+        GLToy_Iterate_End;
 
         return NULL;
     }
@@ -1067,9 +1055,7 @@ protected:
             pxLayers = &m_xLayers;
         }
 
-        GLToy_ConstIterate( LayerNode, xIterator, pxLayers )
-        {
-            const LayerNode& xLayerNode = xIterator.Current();
+        GLToy_ConstIterate( LayerNode, xLayerNode, *pxLayers )
             if( xLayerNode.GetID() == uID )
             {
                 return xIterator.Index();
@@ -1082,7 +1068,7 @@ protected:
                     return uChildID;
                 }
             }
-        }
+        GLToy_Iterate_End;
 
         return 0xFFFFFFFF;
     }
@@ -1094,9 +1080,7 @@ protected:
             pxLayers = &m_xLayers;
         }
 
-        GLToy_Iterate( LayerNode, xIterator, pxLayers )
-        {
-            LayerNode& xLayerNode = xIterator.Current();
+        GLToy_Iterate( LayerNode, xLayerNode, *pxLayers )
             if( ( xLayerNode.m_eInstruction == INSTRUCTION_EXTENSION ) 
                 && ( xLayerNode.m_eExtensionFunction == EXTENSION_REFERENCE )
                 && ( xLayerNode.m_uParam1 == uPosition ) )
@@ -1111,7 +1095,7 @@ protected:
                     return pxLayerNode;
                 }
             }
-        }
+        GLToy_Iterate_End;
 
         return NULL;
     }
@@ -1124,9 +1108,7 @@ protected:
         }
 
         u_int uCount = 0;
-        GLToy_ConstIterate( LayerNode, xIterator, pxLayers )
-        {
-            const LayerNode& xLayerNode = xIterator.Current();
+        GLToy_ConstIterate( LayerNode, xLayerNode, *pxLayers )
             if( xLayerNode.GetID() == uID )
             {
                 if( xLayerNode.IsLeaf() )
@@ -1146,7 +1128,7 @@ protected:
             {
                 uCount += 1 + GetTotalChildCount( uID, xLayerNode.GetChildren() );
             }
-        }
+        GLToy_Iterate_End;
 
         return uCount;
     }

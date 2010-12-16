@@ -343,15 +343,13 @@ void SRC_Environment::Initialise()
 
 void SRC_Environment::CreateEnv()
 {
-	GLToy_Iterate( SRC_Map_Block, xIterator, &m_xBlocks )
-    {
-        SRC_Map_Block& xBlock = xIterator.Current();
+	GLToy_Iterate( SRC_Map_Block, xBlock, m_xBlocks )
 		const float fX = static_cast<float>( xIterator.Index() % uSRC_ENV_BLOCKS );
 		const float fY = static_cast<float>( xIterator.Index() / uSRC_ENV_BLOCKS );
 
 		xBlock.SetPosition( GLToy_Vector_2( fX, fY ) );
 		xBlock.SetActive( false );
-	}
+    GLToy_Iterate_End;
 
 	CreatePhysics();
 }
@@ -368,10 +366,7 @@ void SRC_Environment::CreatePhysics()
     hkArray< hkpShape* > xShapeArray;
     xShapeArray.reserve( uTotalBlocks );
 
-    GLToy_ConstIterate( SRC_Map_Block, xIterator, &m_xBlocks )
-    {
-		const SRC_Map_Block& xBlock = xIterator.Current();
-		
+    GLToy_ConstIterate( SRC_Map_Block, xBlock, m_xBlocks )
 		if( !xBlock.IsActive() )
 		{
 			continue;
@@ -404,7 +399,7 @@ void SRC_Environment::CreatePhysics()
         xStridedVertices.m_vertices = &( xVertices[ 0 ]( 0 ) );
 
         xShapeArray.pushBack( new hkpConvexVerticesShape( xStridedVertices, xPlanes ) );
-	}
+	GLToy_Iterate_End;
 
 	if( xShapeArray.getSize() == 0 )
 	{
@@ -478,9 +473,7 @@ void SRC_Environment::Update()
 	GLToy_Vector_2 xPoint = GLToy_UI_System::GetMousePosition();
 	GLToy_Ray xRay = GLToy_Camera::ScreenSpaceToRay( xPoint );
 		
-	GLToy_Iterate( SRC_Map_Block, xIterator, &m_xBlocks )
-    {
-        SRC_Map_Block& xBlock = xIterator.Current();
+	GLToy_Iterate( SRC_Map_Block, xBlock, m_xBlocks )
 		xBlock.Editor_SetHighlighted( false );
 		// Force selection to occur on the top face of the BB
 		GLToy_AABB xAABB = xBlock.GetBB();
@@ -490,7 +483,7 @@ void SRC_Environment::Update()
 			// Add to the list BB's which intersected on the top face, we will pick the nearest below
 			xHighlighted.Append( &xBlock );
 		}
-	}
+    GLToy_Iterate_End;
 
 	SRC_Map_Block* pxHighlighted = 0;
 
@@ -524,14 +517,12 @@ void SRC_Environment::Update()
 			if( !GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetCtrlKey() ) )
 			{
 				// Deselect existing blocks
-				GLToy_Iterate( SRC_Map_Block, xIterator, &m_xBlocks )
-				{
-					SRC_Map_Block& xBlock = xIterator.Current();
+				GLToy_Iterate( SRC_Map_Block, xBlock, m_xBlocks )
 					if( &xBlock != pxHighlighted )
 					{
 						xBlock.Editor_SetSelected( false );
 					}
-				}
+                GLToy_Iterate_End;
 			}
 		}
 	}
@@ -540,10 +531,7 @@ void SRC_Environment::Update()
 
 	bool bChange = false;
 
-	GLToy_Iterate( SRC_Map_Block, xIterator, &m_xBlocks )
-	{
-		SRC_Map_Block& xBlock = xIterator.Current();
-
+	GLToy_Iterate( SRC_Map_Block, xBlock, m_xBlocks )
 		if( xBlock.Editor_IsSelected() )
 		{
 			if( GLToy_Input_System::GetMouseWheelScroll() == GLTOY_MOUSE_SCROLL_POSITIVE )
@@ -563,7 +551,7 @@ void SRC_Environment::Update()
 				xBlock.SetActive( !xBlock.IsActive() );
 			}
 		}
-	}
+    GLToy_Iterate_End;
 
 	if( bChange )
 	{
@@ -615,15 +603,13 @@ void SRC_Environment::WriteToBitStream( GLToy_BitStream& xStream ) const
 float SRC_Environment::Trace( const GLToy_Ray& xRay, const float fLimitingDistance ) const
 {
     float fMin = ( fLimitingDistance > 0.0f ) ? fLimitingDistance : GLToy_Maths::LargeFloat;
-	GLToy_ConstIterate( SRC_Map_Block, xIterator, &m_xBlocks )
-    {
-        const SRC_Map_Block& xBlock = xIterator.Current();
+	GLToy_ConstIterate( SRC_Map_Block, xBlock, m_xBlocks )
         float fParameter;
 		if( xRay.IntersectsWith( xBlock, &fParameter ) )
         {
             fMin = GLToy_Maths::Min( fParameter, fMin );
         }
-	}
+	GLToy_Iterate_End;
 
 	return ( fMin == GLToy_Maths::LargeFloat ) ? -1.0f : fMin;
 }

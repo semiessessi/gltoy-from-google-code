@@ -60,9 +60,7 @@ void SRC_Entity_Goal::Update()
 {
     // check for robots inside the goal...
     const GLToy_Array< SRC_Entity_Robot* >* const pxList = &( SRC_Entity_Robot::GetRobotList() );
-    GLToy_ConstIterate( SRC_Entity_Robot*, xIterator, pxList )
-    {
-        SRC_Entity_Robot* const pxRobot = xIterator.Current();
+    GLToy_ConstIterate( SRC_Entity_Robot*, pxRobot, *pxList )
         if( !pxRobot )
         {
             continue;
@@ -74,5 +72,5 @@ void SRC_Entity_Goal::Update()
         {
             // TODO: goal reached logic
         }
-    }
+    GLToy_Iterate_End;
 }

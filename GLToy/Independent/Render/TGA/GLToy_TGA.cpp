@@ -107,13 +107,12 @@ void GLToy_Texture::LoadTGA()
         xStream.ByteAlignedWrite( pcRawData, uRawByteCount );
 
         // now we have some BGR data, insert it into the texture
-        GLToy_Iterate( u_int, xIterator, this )
-        {
+        GLToy_Iterate( u_int, uCurrent, *this )
             const u_int uB = pcRawData[ xIterator.Index() * 3 ];
             const u_int uG = pcRawData[ xIterator.Index() * 3 + 1 ];
             const u_int uR = pcRawData[ xIterator.Index() * 3 + 2 ];
-            xIterator.Current() = 0xFF000000 | uR | ( uG << 8 ) | ( uB << 16 );
-        }
+            uCurrent = 0xFF000000 | uR | ( uG << 8 ) | ( uB << 16 );
+        GLToy_Iterate_End;
 
         delete[] pcRawData;
     }
@@ -121,12 +120,11 @@ void GLToy_Texture::LoadTGA()
     {
         xStream.ByteAlignedWrite( reinterpret_cast< char* >( GetDataPointer() ), uRawByteCount );
         // swap BGRA -> RGBA
-        GLToy_Iterate( u_int, xIterator, this )
-        {
-            const u_int u_G_A = xIterator.Current() & 0xFF00FF00;
-            const u_int uR = ( xIterator.Current() & 0xFF0000 ) >> 16;
-            const u_int uB = xIterator.Current() & 0xFF;
-            xIterator.Current() = u_G_A | uR | ( uB << 16 );
-        }
+        GLToy_Iterate( u_int, uCurrent, *this )
+            const u_int u_G_A = uCurrent & 0xFF00FF00;
+            const u_int uR = ( uCurrent & 0xFF0000 ) >> 16;
+            const u_int uB = uCurrent & 0xFF;
+            uCurrent = u_G_A | uR | ( uB << 16 );
+        GLToy_Iterate_End;
     }
 }

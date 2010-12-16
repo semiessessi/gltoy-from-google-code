@@ -70,13 +70,12 @@ void GLToy_Environment_Lightmapped::Initialise()
 void GLToy_Environment_Lightmapped::Shutdown()
 {
     // clean up lightmap textures
-    GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
-    {
-        if( xIterator.Current().m_uLightmapHash != GLToy_Hash_Constant( "White" ) )
+    GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xFace, m_xFaces )
+        if( xFace.m_uLightmapHash != GLToy_Hash_Constant( "White" ) )
         {
-            GLToy_Texture_System::DestroyTexture( xIterator.Current().m_uLightmapHash );
+            GLToy_Texture_System::DestroyTexture( xFace.m_uLightmapHash );
         }
-    }
+    GLToy_Iterate_End;
 }
 
 // TODO - many optimisations
@@ -92,11 +91,9 @@ void GLToy_Environment_Lightmapped::Render() const
     GLToy_Render::EnableDepthWrites();
     GLToy_Render::UseProgram( 0 );
 
-    GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
-    {
-        const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
+    GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xFace, m_xFaces )
         xFace.m_uRenderFlags = 0;
-    }
+    GLToy_Iterate_End;
 
     if( GLToy_Environment_System::IsRenderingLightmapOnly() )
     {
@@ -107,24 +104,19 @@ void GLToy_Environment_Lightmapped::Render() const
         GLToy_EnvironmentLeaf_Lightmapped* pxLeaf = static_cast< GLToy_EnvironmentLeaf_Lightmapped* >( GetLeafData( GLToy_Camera::GetPosition() ) );
         if( !IsEmpty() && pxLeaf && pxLeaf->m_uCluster != 0xFFFF )
         {
-            GLToy_ConstIterate( u_int, xPVSIterator, &( m_xClusters[ pxLeaf->m_uCluster ].m_xPVS ) )
-            {
-                GLToy_Assert( xPVSIterator.Current() < m_xClusters.GetCount(), "Cluster index is too large!" );
+            GLToy_ConstIterate( u_int, uClusterIndex, m_xClusters[ pxLeaf->m_uCluster ].m_xPVS )
+                GLToy_Assert( uClusterIndex < m_xClusters.GetCount(), "Cluster index is too large!" );
                 
-                GLToy_ConstIterate( u_int, xClusterIterator, &( m_xClusters[ xPVSIterator.Current() ].m_xIndices ) )
-                {
-                    m_xLeaves[ xClusterIterator.Current() ].Render();
-                }
-            }
+                GLToy_ConstIterate( u_int, uCluster, m_xClusters[ uClusterIndex ].m_xIndices )
+                    m_xLeaves[ uCluster ].Render();
+                GLToy_Iterate_End;
+            GLToy_Iterate_End;
         }
         else
         {
             // fallback - render with no bsp tree or visibilty culling
             const bool bQuadRes = GLToy_Environment_System::IsBSPQuadRes();
-            GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
-            {
-                const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
-                
+            GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xFace, m_xFaces )                
                 if( !xFace.m_bVisible || xFace.m_bRendered )
                 {
                     continue;
@@ -138,16 +130,15 @@ void GLToy_Environment_Lightmapped::Render() const
 
                 GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-                GLToy_ConstIterate( u_int, xIndexIterator, &( xFace.m_xIndices ) )
-                {
-                    const GLToy_Environment_LightmappedFaceVertex& xVertex = m_xVertices[ xIndexIterator.Current() ];
+                GLToy_ConstIterate( u_int, uIndex, xFace.m_xIndices )
+                    const GLToy_Environment_LightmappedFaceVertex& xVertex = m_xVertices[ uIndex ];
 
                     GLToy_Render::SubmitUV( xVertex.m_xUV * ( bQuadRes ? 4.0f : 1.0f ) );
                     GLToy_Render::SubmitVertex( xVertex.m_xPosition );
-                }
+                GLToy_Iterate_End;
 
                 GLToy_Render::EndSubmit();
-            }
+            GLToy_Iterate_End;
         }
 
         if( GLToy_Environment_System::IsRenderingLightmap() )
@@ -172,23 +163,18 @@ void GLToy_Environment_Lightmapped::RenderLightmap() const
     GLToy_EnvironmentLeaf_Lightmapped* pxLeaf = static_cast< GLToy_EnvironmentLeaf_Lightmapped* >( GetLeafData( GLToy_Camera::GetPosition() ) );
     if( !IsEmpty() && pxLeaf && pxLeaf->m_uCluster != 0xFFFF )
     {
-        GLToy_ConstIterate( u_int, xPVSIterator, &( m_xClusters[ pxLeaf->m_uCluster ].m_xPVS ) )
-        {
-            GLToy_Assert( xPVSIterator.Current() < m_xClusters.GetCount(), "Cluster index is too large!" );
+        GLToy_ConstIterate( u_int, uClusterIndex, m_xClusters[ pxLeaf->m_uCluster ].m_xPVS )
+            GLToy_Assert( uClusterIndex < m_xClusters.GetCount(), "Cluster index is too large!" );
             
-            GLToy_ConstIterate( u_int, xClusterIterator, &( m_xClusters[ xPVSIterator.Current() ].m_xIndices ) )
-            {
-                m_xLeaves[ xClusterIterator.Current() ].RenderLightmap();
-            }
-        }
+            GLToy_ConstIterate( u_int, uLeafIndex, m_xClusters[ uClusterIndex ].m_xIndices )
+                m_xLeaves[ uLeafIndex ].RenderLightmap();
+            GLToy_Iterate_End;
+        GLToy_Iterate_End;
     }
     else
     {
         // fallback - render with no bsp tree or visibilty culling
-        GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
-        {
-            const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
-
+        GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xFace, m_xFaces )
             if( !xFace.m_bVisible || xFace.m_bRenderedLightmap )
             {
                 continue;
@@ -202,16 +188,15 @@ void GLToy_Environment_Lightmapped::RenderLightmap() const
 
             GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-            GLToy_ConstIterate( u_int, xIndexIterator, &( xFace.m_xIndices ) )
-            {
-                const GLToy_Environment_LightmappedFaceVertex& xVertex = m_xVertices[ xIndexIterator.Current() ];
+            GLToy_ConstIterate( u_int, uIndex, xFace.m_xIndices )
+                const GLToy_Environment_LightmappedFaceVertex& xVertex = m_xVertices[ uIndex ];
 
                 GLToy_Render::SubmitUV( xVertex.m_xLightmapUV );
                 GLToy_Render::SubmitVertex( xVertex.m_xPosition );
-            }
+            GLToy_Iterate_End;
 
             GLToy_Render::EndSubmit();
-        }
+        GLToy_Iterate_End;
     }
 }
 
@@ -225,33 +210,27 @@ void GLToy_Environment_Lightmapped::Render2D() const
     GLToy_EnvironmentLeaf_Lightmapped* pxLeaf = static_cast< GLToy_EnvironmentLeaf_Lightmapped* >( GetLeafData( GLToy_Camera::GetPosition() ) );
     if( !IsEmpty() && pxLeaf && pxLeaf->m_uCluster != 0xFFFF )
     {
-        GLToy_ConstIterate( u_int, xPVSIterator, &( m_xClusters[ pxLeaf->m_uCluster ].m_xPVS ) )
-        {
-            GLToy_Assert( xPVSIterator.Current() < m_xClusters.GetCount(), "Cluster index is too large!" );
+        GLToy_ConstIterate( u_int, uClusterIndex, m_xClusters[ pxLeaf->m_uCluster ].m_xPVS )
+            GLToy_Assert( uClusterIndex < m_xClusters.GetCount(), "Cluster index is too large!" );
             
-            GLToy_ConstIterate( u_int, xClusterIterator, &( m_xClusters[ xPVSIterator.Current() ].m_xIndices ) )
-            {
-                m_xLeaves[ xClusterIterator.Current() ].RenderDebugFaceInfo();
-            }
-        }
+            GLToy_ConstIterate( u_int, uLeafIndex, m_xClusters[ uClusterIndex ].m_xIndices )
+                m_xLeaves[ uLeafIndex ].RenderDebugFaceInfo();
+            GLToy_Iterate_End;
+        GLToy_Iterate_End;
     }
     else
     {
         // fallback - render with no bsp tree or visibilty culling
-        GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xIterator, &m_xFaces )
-        {
-            const GLToy_Environment_LightmappedFace& xFace = xIterator.Current();
-
+        GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xFace, m_xFaces )
             if( !xFace.m_bVisible )
             {
                 continue;
             }
 
             GLToy_Vector_3 xAverage = GLToy_Maths::ZeroVector3;
-            GLToy_ConstIterate( u_int, xIndexIterator, &( xFace.m_xIndices ) )
-            {
-                xAverage += m_xVertices[ xIndexIterator.Current() ].m_xPosition;
-            }
+            GLToy_ConstIterate( u_int, uIndex, xFace.m_xIndices )
+                xAverage += m_xVertices[ uIndex ].m_xPosition;
+            GLToy_Iterate_End;
             xAverage /= static_cast< float >( xFace.m_xIndices.GetCount() );
 
             const GLToy_Vector_2 xPoint = GLToy_Camera::WorldSpaceToScreenSpace( xAverage );
@@ -261,7 +240,7 @@ void GLToy_Environment_Lightmapped::Render2D() const
                 xFaceString.SetToFormatString( "Face %d", xIterator.Index() );
                 GLToy_Console::GetFont()->RenderString( xFaceString, xPoint[ 0 ], xPoint[ 1 ] );
             }
-        }
+        GLToy_Iterate_End;
     }
 }
 
@@ -278,13 +257,12 @@ float GLToy_Environment_Lightmapped::Trace( const GLToy_Ray& xRay, const float f
 
 u_int GLToy_Environment_Lightmapped::GetVertexIndex( const GLToy_Environment_LightmappedFaceVertex& xVertex )
 {
-    GLToy_ConstIterate( GLToy_Environment_LightmappedFaceVertex, xIterator, &m_xVertices )
-    {
-        if( xVertex == xIterator.Current() )
+    GLToy_ConstIterate( GLToy_Environment_LightmappedFaceVertex, xVertex, m_xVertices )
+        if( xVertex == xVertex )
         {
             return xIterator.Index();
         }
-    }
+    GLToy_Iterate_End;
 
     m_xVertices.Append( xVertex );
 
@@ -382,11 +360,10 @@ void GLToy_EnvironmentLeaf_Lightmapped::Render() const
     }
 
     const bool bQuadRes = GLToy_Environment_System::IsBSPQuadRes();
-    GLToy_ConstIterate( u_int, xIterator, &m_xIndices )
-    {
-        GLToy_Assert( xIterator.Current() < m_pxParent->m_xFaces.GetCount(), "Bad face index: %d (max: %d)", xIterator.Current(), m_pxParent->m_xFaces.GetCount() - 1 );
+    GLToy_ConstIterate( u_int, uFaceIndex, m_xIndices )
+        GLToy_Assert( uFaceIndex < m_pxParent->m_xFaces.GetCount(), "Bad face index: %d (max: %d)", uFaceIndex, m_pxParent->m_xFaces.GetCount() - 1 );
 
-        const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ xIterator.Current() ];
+        const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ uFaceIndex ];
 
         if( !xFace.m_bVisible || xFace.m_bRendered )
         {
@@ -401,16 +378,15 @@ void GLToy_EnvironmentLeaf_Lightmapped::Render() const
 
         GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-        GLToy_ConstIterate( u_int, xIndexIterator, &( xFace.m_xIndices ) )
-        {
-            const GLToy_Environment_LightmappedFaceVertex& xVertex = m_pxParent->m_xVertices[ xIndexIterator.Current() ];
+        GLToy_ConstIterate( u_int, uIndex, xFace.m_xIndices )
+            const GLToy_Environment_LightmappedFaceVertex& xVertex = m_pxParent->m_xVertices[ uIndex ];
 
             GLToy_Render::SubmitUV( xVertex.m_xUV * ( bQuadRes ? 4.0f : 1.0f ) );
             GLToy_Render::SubmitVertex( xVertex.m_xPosition );
-        }
+        GLToy_Iterate_End;
 
         GLToy_Render::EndSubmit();
-    }
+    GLToy_Iterate_End;
 }
 
 void GLToy_EnvironmentLeaf_Lightmapped::RenderLightmap() const
@@ -420,9 +396,8 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderLightmap() const
         return;
     }
 
-    GLToy_ConstIterate( u_int, xIterator, &m_xIndices )
-    {
-        const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ xIterator.Current() ];
+    GLToy_ConstIterate( u_int, uFaceIndex, m_xIndices )
+        const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ uFaceIndex ];
 
         if( !xFace.m_bVisible || xFace.m_bRenderedLightmap )
         {
@@ -437,16 +412,15 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderLightmap() const
 
         GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-        GLToy_ConstIterate( u_int, xIndexIterator, &( xFace.m_xIndices ) )
-        {
-            const GLToy_Environment_LightmappedFaceVertex& xVertex = m_pxParent->m_xVertices[ xIndexIterator.Current() ];
+        GLToy_ConstIterate( u_int, uIndex, xFace.m_xIndices )
+            const GLToy_Environment_LightmappedFaceVertex& xVertex = m_pxParent->m_xVertices[ uIndex ];
 
             GLToy_Render::SubmitUV( xVertex.m_xLightmapUV );
             GLToy_Render::SubmitVertex( xVertex.m_xPosition );
-        }
+        GLToy_Iterate_End;
 
         GLToy_Render::EndSubmit();
-    }
+    GLToy_Iterate_End;
 }
 
 void GLToy_EnvironmentLeaf_Lightmapped::RenderDebugFaceInfo() const
@@ -456,9 +430,8 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderDebugFaceInfo() const
         return;
     }
 
-    GLToy_ConstIterate( u_int, xIterator, &m_xIndices )
-    {
-        const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ xIterator.Current() ];
+    GLToy_ConstIterate( u_int, uFaceIndex, m_xIndices )
+        const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ uFaceIndex ];
 
         if( !xFace.m_bVisible )
         {
@@ -466,10 +439,9 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderDebugFaceInfo() const
         }
 
         GLToy_Vector_3 xAverage = GLToy_Maths::ZeroVector3;
-        GLToy_ConstIterate( u_int, xIndexIterator, &( xFace.m_xIndices ) )
-        {
-            xAverage += m_pxParent->m_xVertices[ xIndexIterator.Current() ].m_xPosition;
-        }
+        GLToy_ConstIterate( u_int, uIndex, xFace.m_xIndices )
+            xAverage += m_pxParent->m_xVertices[ uIndex ].m_xPosition;
+        GLToy_Iterate_End;
         xAverage /= static_cast< float >( xFace.m_xIndices.GetCount() );
 
         const GLToy_Vector_2 xPoint = GLToy_Camera::WorldSpaceToScreenSpace( xAverage );
@@ -482,7 +454,7 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderDebugFaceInfo() const
             GLToy_Console::GetFont()->RenderString( xFaceString, xPoint[ 0 ], xPoint[ 1 ] );
             GLToy_Console::GetFont()->RenderString( xClusterString, xPoint[ 0 ], xPoint[ 1 ] + GLToy_Console::GetFont()->GetHeight() );
         }
-    }
+    GLToy_Iterate_End;
 }
 
 const GLToy_Environment_LightmappedFace& GLToy_EnvironmentLeaf_Lightmapped::GetFace( const u_int uFace ) const

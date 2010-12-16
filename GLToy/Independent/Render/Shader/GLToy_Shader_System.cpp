@@ -255,15 +255,14 @@ bool GLToy_Shader_System::Initialise()
 
     GLToy_Array< GLToy_String > xShaderPaths = GLToy_File_System::PathsFromFilter( "Shaders/", "*.shader" );
 
-    GLToy_ConstIterate( GLToy_String, xIterator, &xShaderPaths )
-    {
-        GLToy_String szName = xIterator.Current();
+    GLToy_ConstIterate( GLToy_String, szPath, xShaderPaths )
+        GLToy_String szName = szPath;
         szName.RemoveAt( 0, 8 ); // remove "Shaders/"
         szName.RemoveFromEnd( 7 ); // remove .shader
     
         GLToy_DebugOutput( "   - Found shader \"%S\".\r\n", szName.GetWideString() );
         
-        GLToy_TextFile xShaderFile = GLToy_TextFile( xIterator.Current() );
+        GLToy_TextFile xShaderFile = GLToy_TextFile( szPath );
 
         GLToy_String szShaderData = xShaderFile.GetString();
 
@@ -369,7 +368,7 @@ bool GLToy_Shader_System::Initialise()
         {
             GLToy_DebugOutput( "   - Success!\r\n" );
         }
-    }
+    GLToy_Iterate_End;
 
 #endif
 

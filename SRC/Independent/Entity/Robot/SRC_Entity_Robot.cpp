@@ -133,9 +133,7 @@ void SRC_Entity_Robot::Update()
 
     if( pxPhysicsObject )
     {
-        GLToy_ConstIterate( GLToy_Physics_ObjectCollision, xIterator, &( m_pxPhysicsObject->GetCollisions() ) )
-        {
-            const GLToy_Physics_ObjectCollision& xCollision = xIterator.Current();
+        GLToy_ConstIterate( GLToy_Physics_ObjectCollision, xCollision, m_pxPhysicsObject->GetCollisions() )
             if( false /* check the normal is sufficiently harsh */ )
             {
                 // detonate
@@ -150,7 +148,7 @@ void SRC_Entity_Robot::Update()
 
                 break;
             }
-        }
+        GLToy_Iterate_End;
 
         const GLToy_Vector_2 xActual( pxPhysicsObject->GetPosition()[ 0 ], pxPhysicsObject->GetPosition()[ 2 ] );
         GLToy_Vector_2 xDifference = m_xTargetPosition - xActual;

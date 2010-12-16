@@ -84,9 +84,8 @@ void GLToy_Font_Bitmap::RenderString( const GLToy_String& szString, const float 
 
     GLToy_Render::SubmitColour( xColour );
 
-    GLToy_ConstIterate( wchar_t, xIterator, &szString )
-    {
-        const wchar_t wcChar = xIterator.Current();
+    GLToy_ConstIterate( wchar_t, wcCharacter, szString )
+        const wchar_t wcChar = wcCharacter;
         
         if( wcChar == L'\r' )
         {
@@ -104,7 +103,7 @@ void GLToy_Font_Bitmap::RenderString( const GLToy_String& szString, const float 
         GLToy_Render::SubmitTexturedQuad2D( fPosX, fY, fPosX + fW, fY + fW, fTX, fTY, fTX + fTW, fTY + fTW );
 
         fPosX += fW * 0.55f;
-    }
+    GLToy_Iterate_End;
 
     GLToy_Render::EndSubmit();
 
@@ -129,9 +128,8 @@ void GLToy_Font_Bitmap::RenderStringDown( const GLToy_String& szString, const fl
 
     GLToy_Render::SubmitColour( xColour );
 
-    GLToy_ConstIterate( wchar_t, xIterator, &szString )
-    {
-        const wchar_t wcChar = xIterator.Current();
+    GLToy_ConstIterate( wchar_t, wcCharacter, szString )
+        const wchar_t wcChar = wcCharacter;
         
         if( wcChar == L'\r' )
         {
@@ -159,7 +157,7 @@ void GLToy_Font_Bitmap::RenderStringDown( const GLToy_String& szString, const fl
         GLToy_Render::SubmitVertex( GLToy_Vector_3( fX, fPosY + fW, 0.0f ) );
 
         fPosY -= fW * 0.55f;
-    }
+    GLToy_Iterate_End;
 
     GLToy_Render::EndSubmit();
 
@@ -184,9 +182,8 @@ void GLToy_Font_Bitmap::RenderStringUp( const GLToy_String& szString, const floa
 
     GLToy_Render::SubmitColour( xColour );
 
-    GLToy_ConstIterate( wchar_t, xIterator, &szString )
-    {
-        const wchar_t wcChar = xIterator.Current();
+    GLToy_ConstIterate( wchar_t, wcCharacter, szString )
+        const wchar_t wcChar = wcCharacter;
         
         if( wcChar == L'\r' )
         {
@@ -214,7 +211,7 @@ void GLToy_Font_Bitmap::RenderStringUp( const GLToy_String& szString, const floa
         GLToy_Render::SubmitVertex( GLToy_Vector_3( fX, fPosY + fW, 0.0f ) );
 
         fPosY += fW * 0.55f;
-    }
+    GLToy_Iterate_End;
 
     GLToy_Render::EndSubmit();
 

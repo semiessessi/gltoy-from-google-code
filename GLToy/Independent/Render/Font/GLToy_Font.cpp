@@ -55,28 +55,27 @@ bool GLToy_Font_System::Initialise()
 
     GLToy_Array< GLToy_String > xFontPaths = GLToy_File_System::PathsFromFilter( "Fonts/", "*.font" );
 
-    GLToy_ConstIterate( GLToy_String, xIterator, &xFontPaths )
-    {
-        GLToy_String xName = xIterator.Current();
-        xName.RemoveAt( 0, 6 ); // remove "Fonts/"
-        xName.RemoveFromEnd( 5 ); // remove .font
+    GLToy_ConstIterate( GLToy_String, szPath, xFontPaths )
+        GLToy_String szName = szPath;
+        szName.RemoveAt( 0, 6 ); // remove "Fonts/"
+        szName.RemoveFromEnd( 5 ); // remove .font
         
-        GLToy_DebugOutput( "   - Found font \"%S\".\r\n", xName.GetWideString() );
+        GLToy_DebugOutput( "   - Found font \"%S\".\r\n", szName.GetWideString() );
 
-        GLToy_TextFile xFontFile = GLToy_TextFile( xIterator.Current() );
+        GLToy_TextFile xFontFile = GLToy_TextFile( szPath );
 
-        GLToy_String xFontData = xFontFile.GetString();
+        GLToy_String szFontData = xFontFile.GetString();
 
-        if( xFontData.BeginsWith( "bitmap " ) )
+        if( szFontData.BeginsWith( "bitmap " ) )
         {
-            xFontData.RemoveFirstWord();
-            const u_int uSize = xFontData.ExtractUnsignedInt();
-            xFontData.RemoveFirstWord();
-            const GLToy_String xTextureName = xFontData.RemoveFirstWord();
+            szFontData.RemoveFirstWord();
+            const u_int uSize = szFontData.ExtractUnsignedInt();
+            szFontData.RemoveFirstWord();
+            const GLToy_String szTextureName = szFontData.RemoveFirstWord();
 
-            s_xFonts.AddNode( new GLToy_Font_Bitmap( xName, uSize, xTextureName ), xName.GetHash() );
+            s_xFonts.AddNode( new GLToy_Font_Bitmap( szName, uSize, szTextureName ), szName.GetHash() );
         }
-    }
+    GLToy_Iterate_End;
 
     return true;
 }

@@ -171,6 +171,8 @@ class GLToy_MD2_AnimationStack
 , public GLToy_AnimationStack
 {
 
+    friend class GLToy_ConstIterator< GLToy_MD2_AnimationState >;
+
     typedef GLToy_Array< GLToy_MD2_AnimationState > GLToy_Parent;
 
 public:
