@@ -1,0 +1,524 @@
+
+<html>
+
+
+
+<head>
+
+
+
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+
+
+<script type="text/javascript">
+
+var uHeight;
+
+var uWidth;
+
+var xContext;
+
+var fTimer;
+
+
+
+var fSRX;
+
+var fSRY;
+
+var fCRX;
+
+var fCRY;
+
+
+
+var fTransformedX;
+
+var fTransformedY;
+
+
+
+var fCamDistance;
+
+
+
+var verts =
+
+[
+
+	[ 19.6850393700787, 19.6850393700787, 39.3700787401575 ],
+
+	[ -19.6850393700788, 19.6850393700787, 39.3700787401575 ],
+
+	[ -19.6850393700788, 19.6850393700787, 59.0551181102362 ],
+
+	[ 19.6850393700787, 19.6850393700787, 59.0551181102362 ],
+
+	[ -39.3700787401575, 39.3700787401575, 39.3700787401575 ],
+
+	[ -39.3700787401575, -39.3700787401575, 39.3700787401575 ],
+
+	[ 19.6850393700787, -39.3700787401575, 39.3700787401575 ],
+
+	[ 19.6850393700787, -19.6850393700787, 39.3700787401575 ],
+
+	[ 39.3700787401575, -19.6850393700787, 39.3700787401575 ],
+
+	[ 39.3700787401575, 39.3700787401575, 39.3700787401575 ],
+
+	[ -19.6850393700788, -19.6850393700787, 39.3700787401575 ],
+
+	[ -19.6850393700788, 39.3700787401575, 19.6850393700787 ],
+
+	[ -7.105427357601e-015, 78.740157480315, 0.0 ],
+
+	[ -19.6850393700788, 39.3700787401575, -19.6850393700787 ],
+
+	[ 19.6850393700787, 39.3700787401575, 19.6850393700787 ],
+
+	[ 19.6850393700787, -19.6850393700787, 19.6850393700787 ],
+
+	[ 39.3700787401575, -19.6850393700787, 19.6850393700787 ],
+
+	[ 19.6850393700787, -39.3700787401575, 19.6850393700787 ],
+
+	[ 39.3700787401575, -39.3700787401575, 19.6850393700787 ],
+
+	[ -9.84251968503936, -39.3700787401575, 19.6850393700787 ],
+
+	[ -39.3700787401575, -39.3700787401575, 19.6850393700787 ],
+
+	[ -39.3700787401575, -9.84251968503936, 19.6850393700787 ],
+
+	[ -9.84251968503936, -9.84251968503936, 19.6850393700787 ],
+
+	[ 39.3700787401575, -39.3700787401575, -19.6850393700787 ],
+
+	[ 19.6850393700787, -39.3700787401575, -19.6850393700787 ],
+
+	[ 19.6850393700787, -19.6850393700787, -19.6850393700787 ],
+
+	[ 39.3700787401575, -19.6850393700787, -19.6850393700787 ],
+
+	[ 19.6850393700787, -39.3700787401575, -39.3700787401575 ],
+
+	[ 19.6850393700787, -19.6850393700787, -39.3700787401575 ],
+
+	[ -39.3700787401575, -39.3700787401575, -39.3700787401575 ],
+
+	[ -39.3700787401576, 39.3700787401575, -39.3700787401575 ],
+
+	[ 39.3700787401575, 39.3700787401575, -39.3700787401575 ],
+
+	[ 39.3700787401575, -19.6850393700787, -39.3700787401575 ],
+
+	[ -19.6850393700788, -19.6850393700787, -39.3700787401575 ],
+
+	[ 19.6850393700787, 19.6850393700787, -39.3700787401575 ],
+
+	[ -19.6850393700788, 19.6850393700787, -39.3700787401575 ],
+
+	[ -39.3700787401575, -39.3700787401575, -19.6850393700787 ],
+
+	[ -39.3700787401575, -9.84251968503936, -19.6850393700787 ],
+
+	[ -19.6850393700788, -19.6850393700787, -59.0551181102362 ],
+
+	[ -19.6850393700788, 19.6850393700787, -59.0551181102362 ],
+
+	[ 19.6850393700787, -19.6850393700787, -59.0551181102362 ],
+
+	[ -9.84251968503941, -39.3700787401575, -19.6850393700787 ],
+
+	[ 19.6850393700787, 39.3700787401575, -19.6850393700787 ],
+
+	[ -9.84251968503941, -9.84251968503936, -19.6850393700787 ],
+
+	[ 19.6850393700787, 19.6850393700787, -59.0551181102362 ]
+
+];
+
+
+
+var faces =
+
+[
+
+	[ 1, 2, 3, 4 ],
+
+	[ 5, 6, 7, 8, 9, 10 ],
+
+	[ 12, 13, 14 ],
+
+	[ 15, 13, 12 ],
+
+	[ 9, 8, 16, 17 ],
+
+	[ 7, 18, 16, 8 ],
+
+	[ 18, 19, 17, 16 ],
+
+	[ 20, 21, 22, 23 ],
+
+	[ 24, 25, 26, 27 ],
+
+	[ 25, 28, 29, 26 ],
+
+	[ 30, 31, 32, 33, 29, 28 ],
+
+	[ 37, 38, 22, 21, 6, 5, 31, 30 ],
+
+	[ 39, 34, 36, 40 ],
+
+	[ 33, 32, 10, 9, 17, 19, 24, 27 ],
+
+	[ 29, 34, 39, 41 ],
+
+	[ 25, 24, 19, 18, 7, 6, 21, 20, 42, 37, 30, 28 ],
+
+	[ 29, 33, 27, 26 ],
+
+	[ 13, 43, 14 ],
+
+	[ 38, 44, 23, 22 ],
+
+	[ 44, 42, 20, 23 ],
+
+	[ 37, 42, 44, 38 ],
+
+	[ 41, 45, 35, 29 ],
+
+	[ 36, 35, 45, 40 ],
+
+	[ 39, 40, 45, 41 ],
+
+	[ 10, 32, 31, 5 ],
+
+	[ 4, 8, 1 ],
+
+	[ 11, 3, 2 ],
+
+	[ 4, 3, 11, 8 ],
+
+	[ 13, 15, 43 ]
+
+];
+
+
+
+function Initialise()
+
+{
+
+	var canvas = document.getElementById( 'canvas' );
+
+	xContext = canvas.getContext( '2d' );
+
+	uHeight = canvas.height;
+
+	uWidth = canvas.width;
+
+	fTimer = 0.0;
+
+	
+
+	return setInterval( Render, 15 ); // ~60fps
+
+}
+
+
+
+function Render()
+
+{
+
+	RenderClear();
+
+	RenderRotate( fTimer, 1.5 * fTimer - 1.0 );
+
+	RenderCameraDistance( 100.0 );
+
+	
+
+	xContext.fillStyle = 'rgba( 255, 255, 255, 1.0 )';
+
+	
+
+	RenderColour( 255, 255, 255, 0.4 );
+
+	RenderMesh( verts, faces );
+
+		
+
+	fTimer += 0.015;
+
+}
+
+
+
+function RenderClear() 
+
+{
+
+	xContext.fillStyle = 'rgba( 0, 0, 0, 1.0 )';
+
+	xContext.fillRect( 0, 0, uWidth, uHeight );
+
+}
+
+
+
+function RenderRotate( rx, ry )
+
+{
+
+	fSRX = Math.sin( rx );
+
+	fSRY = Math.sin( ry );
+
+	fCRX = Math.cos( rx );
+
+	fCRY = Math.cos( ry );
+
+}
+
+
+
+function RenderColour( r, g, b, a )
+
+{
+
+	xContext.fillStyle = 'rgba( ' + r + ', ' + g + ', ' + b + ', ' + a + ' )';
+
+}
+
+
+
+function RenderCameraDistance( d )
+
+{
+
+	fCamDistance = d;
+
+}
+
+
+
+function RenderTransformVertex( vx, vy, vz )
+
+{
+
+	var ty;
+
+	var tz;
+
+	ty = fCRX * vy - fSRX * vz;
+
+	tz = fSRX * vy + fCRX * vz;
+
+	vz = fCRY * tz - fSRY * vx;
+
+	vx = fSRY * tz + fCRY * vx;
+
+	
+
+	fTransformedX = vx / ( fCamDistance + vz );
+
+	fTransformedY = ty / ( fCamDistance + vz );
+
+	
+
+	var factor = uHeight / 2;
+
+	if( uHeight > uWidth )
+
+	{
+
+		factor = uWidth / 2;
+
+	}
+
+	fTransformedX = ( 1 + fTransformedX ) * factor;
+
+	fTransformedY = ( 1 + fTransformedY ) * factor;
+
+}
+
+
+
+function RenderTestNormal( nx, ny, nz, px, py, pz )
+
+{
+
+	var ty;
+
+	var tz;
+
+	ty = fCRX * ny - fSRX * nz;
+
+	tz = fSRX * ny + fCRX * nz;
+
+	nz = fCRY * tz - fSRY * nx;
+
+	nx = fSRY * tz + fCRY * nx;
+
+	ny = ty;
+
+	
+
+	ty = fCRX * py - fSRX * pz;
+
+	tz = fSRX * py + fCRX * pz;
+
+	pz = fCRY * tz - fSRY * px;
+
+	px = fSRY * tz + fCRY * px;
+
+	py = ty;
+
+	
+
+	pz += fCamDistance;
+
+	
+
+	return px * nx + py * ny + pz * nz < 0.0;
+
+}
+
+
+
+function RenderMesh( vs, fs )
+
+{
+
+	for( var u = 0; u < fs.length; ++u )
+
+	{
+
+		xContext.beginPath();
+
+	
+
+		var first = true;
+
+		for( var v = 0; v < fs[ u ].length; ++v )
+
+		{
+
+			
+
+			RenderTransformVertex(
+
+				vs[ fs[ u ][ v ] - 1 ][ 0 ],
+
+				vs[ fs[ u ][ v ] - 1 ][ 1 ],
+
+				vs[ fs[ u ][ v ] - 1 ][ 2 ] );
+
+				
+
+			if( first )
+
+			{
+
+				xContext.moveTo( fTransformedX, fTransformedY );
+
+			}
+
+			else
+
+			{
+
+				xContext.lineTo( fTransformedX, fTransformedY );
+
+			}
+
+			
+
+			first = false;
+
+		}
+
+		
+
+		xContext.fill();
+
+	}
+
+}
+
+
+
+function RenderQuad(
+
+	v1x, v1y, v1z,
+
+	v2x, v2y, v2z,
+
+	v3x, v3y, v3z,
+
+	v4x, v4y, v4z,
+
+	nx, ny, nz )
+
+{
+
+	if( !RenderTestNormal(
+
+		nx, ny, nz,
+
+		( v1x + v2x + v3x + v4x ) / 4,
+
+		( v1y + v2y + v3y + v4y ) / 4,
+
+		( v1z + v2z + v3z + v4z ) / 4 ) )
+
+	{
+
+		return;
+
+	}
+
+	
+
+	xContext.beginPath();
+
+	
+
+	RenderTransformVertex( v1x, v1y, v1z );
+
+	xContext.moveTo( fTransformedX, fTransformedY );
+
+	RenderTransformVertex( v2x, v2y, v2z );
+
+	xContext.lineTo( fTransformedX, fTransformedY );
+
+	RenderTransformVertex( v3x, v3y, v3z );
+
+	xContext.lineTo( fTransformedX, fTransformedY );
+
+	RenderTransformVertex( v4x, v4y, v4z );
+
+	xContext.lineTo( fTransformedX, fTransformedY );
+
+	
+
+	xContext.fill();
+
+}
+
+</script>
+
+
+
+</head>
+
+<canvas id="canvas" width="500" height="500">You need a HTML5 capable browser to view this image.</canvas>
+
+</body>
+
+
+
+</html>
