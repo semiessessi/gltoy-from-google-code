@@ -33,12 +33,54 @@
 // This file's header
 #include <Entity/Player/X_Entity_Player.h>
 
+// GLToy
+#include <Core/GLToy_Timer.h>
+#include <Render/GLToy_Render.h>
+#include <Render/GLToy_Texture.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C O N S T A N T S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+static const float fSPEED = 2.5f;
+static const float fSIZE = 0.05f;
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 X_Entity_Player::X_Entity_Player( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
+, m_xMovement( GLToy_Maths::ZeroVector2 )
 {
 }
 
+void X_Entity_Player::Update()
+{
+    GLToy_Vector_3 xPosition = GetPosition();
+    xPosition += GLToy_Vector_3( m_xMovement, 0.0f ) * fSPEED * GLToy_Timer::GetFrameTime();
+
+    // TODO: think about aspect ratio...
+    xPosition[ 0 ] = GLToy_Maths::Clamp( xPosition[ 0 ], -1.0f, 1.0f );
+    xPosition[ 1 ] = GLToy_Maths::Clamp( xPosition[ 1 ], -1.0f, 1.0f );
+
+    SetPosition( xPosition );
+
+    GLToy_Parent::Update();
+}
+
+void X_Entity_Player::Render() const
+{
+    const GLToy_Vector_3& xPosition = GetPosition();
+
+    GLToy_Texture_System::BindWhite();
+
+    GLToy_Render::StartSubmittingTriangles();
+
+    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ], xPosition[ 1 ] + fSIZE, xPosition[ 2 ] );  
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] ); 
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+
+    GLToy_Render::EndSubmit();
+}

@@ -15,12 +15,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLToy", "GLToy\GLToy.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SRC", "SRC\SRC.vcxproj", "{7B7A4EDC-F524-44BE-AD87-227E3651D445}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "X", "X\X.vcxproj", "{7A8FCC1F-16F6-4670-8401-2EFF2E4823F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Final (Demo)|Win32 = Final (Demo)|Win32
 		Final (Havok)|Win32 = Final (Havok)|Win32
 		Final (No Physics)|Win32 = Final (No Physics)|Win32
+		Final|Win32 = Final|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
@@ -30,6 +33,8 @@ Global
 		{2CEB9D8E-2BFF-442D-B29C-0D8DB36D958A}.Final (Havok)|Win32.ActiveCfg = Final|Win32
 		{2CEB9D8E-2BFF-442D-B29C-0D8DB36D958A}.Final (No Physics)|Win32.ActiveCfg = Final|Win32
 		{2CEB9D8E-2BFF-442D-B29C-0D8DB36D958A}.Final (No Physics)|Win32.Build.0 = Final|Win32
+		{2CEB9D8E-2BFF-442D-B29C-0D8DB36D958A}.Final|Win32.ActiveCfg = Final|Win32
+		{2CEB9D8E-2BFF-442D-B29C-0D8DB36D958A}.Final|Win32.Build.0 = Final|Win32
 		{2CEB9D8E-2BFF-442D-B29C-0D8DB36D958A}.Release|Win32.ActiveCfg = Release|Win32
 		{2CEB9D8E-2BFF-442D-B29C-0D8DB36D958A}.Release|Win32.Build.0 = Release|Win32
 		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Debug|Win32.ActiveCfg = Debug (Havok)|Win32
@@ -38,6 +43,8 @@ Global
 		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Final (Havok)|Win32.ActiveCfg = Final (Havok)|Win32
 		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Final (Havok)|Win32.Build.0 = Final (Havok)|Win32
 		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Final (No Physics)|Win32.ActiveCfg = Final (Havok)|Win32
+		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Final|Win32.ActiveCfg = Final (Havok)|Win32
+		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Final|Win32.Build.0 = Final (Havok)|Win32
 		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Release|Win32.ActiveCfg = Release (Havok)|Win32
 		{A75E7C31-BA9E-4903-A1F2-062A75317612}.Release|Win32.Build.0 = Release (Havok)|Win32
 		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -46,6 +53,8 @@ Global
 		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Final (Demo)|Win32.Build.0 = Final (Demo)|Win32
 		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Final (Havok)|Win32.ActiveCfg = Final (Demo)|Win32
 		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Final (No Physics)|Win32.ActiveCfg = Final|Win32
+		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Final|Win32.ActiveCfg = Final|Win32
+		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Final|Win32.Build.0 = Final|Win32
 		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Release|Win32.ActiveCfg = Release|Win32
 		{1D0829B7-1031-4C04-8D5B-1A48CEB165CB}.Release|Win32.Build.0 = Release|Win32
 		{451F6CAD-AF6B-479E-9321-C4DAE0F40260}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -54,6 +63,8 @@ Global
 		{451F6CAD-AF6B-479E-9321-C4DAE0F40260}.Final (Havok)|Win32.ActiveCfg = Final|Win32
 		{451F6CAD-AF6B-479E-9321-C4DAE0F40260}.Final (No Physics)|Win32.ActiveCfg = Final|Win32
 		{451F6CAD-AF6B-479E-9321-C4DAE0F40260}.Final (No Physics)|Win32.Build.0 = Final|Win32
+		{451F6CAD-AF6B-479E-9321-C4DAE0F40260}.Final|Win32.ActiveCfg = Final|Win32
+		{451F6CAD-AF6B-479E-9321-C4DAE0F40260}.Final|Win32.Build.0 = Final|Win32
 		{451F6CAD-AF6B-479E-9321-C4DAE0F40260}.Release|Win32.ActiveCfg = Release|Win32
 		{451F6CAD-AF6B-479E-9321-C4DAE0F40260}.Release|Win32.Build.0 = Release|Win32
 		{94DDE1E4-B409-4221-81E4-22D6E63646CC}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -62,6 +73,8 @@ Global
 		{94DDE1E4-B409-4221-81E4-22D6E63646CC}.Final (Havok)|Win32.ActiveCfg = Release|Win32
 		{94DDE1E4-B409-4221-81E4-22D6E63646CC}.Final (No Physics)|Win32.ActiveCfg = Release|Win32
 		{94DDE1E4-B409-4221-81E4-22D6E63646CC}.Final (No Physics)|Win32.Build.0 = Release|Win32
+		{94DDE1E4-B409-4221-81E4-22D6E63646CC}.Final|Win32.ActiveCfg = Release|Win32
+		{94DDE1E4-B409-4221-81E4-22D6E63646CC}.Final|Win32.Build.0 = Release|Win32
 		{94DDE1E4-B409-4221-81E4-22D6E63646CC}.Release|Win32.ActiveCfg = Release|Win32
 		{94DDE1E4-B409-4221-81E4-22D6E63646CC}.Release|Win32.Build.0 = Release|Win32
 		{D102268C-2C78-4954-99A9-433EF8F9182F}.Debug|Win32.ActiveCfg = Debug (Havok)|Win32
@@ -72,6 +85,8 @@ Global
 		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (Havok)|Win32.Build.0 = Final (Havok)|Win32
 		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (No Physics)|Win32.ActiveCfg = Final (No Physics)|Win32
 		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final (No Physics)|Win32.Build.0 = Final (No Physics)|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final|Win32.ActiveCfg = Final (Havok)|Win32
+		{D102268C-2C78-4954-99A9-433EF8F9182F}.Final|Win32.Build.0 = Final (Havok)|Win32
 		{D102268C-2C78-4954-99A9-433EF8F9182F}.Release|Win32.ActiveCfg = Release (Havok)|Win32
 		{D102268C-2C78-4954-99A9-433EF8F9182F}.Release|Win32.Build.0 = Release (Havok)|Win32
 		{7B7A4EDC-F524-44BE-AD87-227E3651D445}.Debug|Win32.ActiveCfg = Debug (Havok)|Win32
@@ -80,8 +95,22 @@ Global
 		{7B7A4EDC-F524-44BE-AD87-227E3651D445}.Final (Havok)|Win32.ActiveCfg = Final (Havok)|Win32
 		{7B7A4EDC-F524-44BE-AD87-227E3651D445}.Final (Havok)|Win32.Build.0 = Final (Havok)|Win32
 		{7B7A4EDC-F524-44BE-AD87-227E3651D445}.Final (No Physics)|Win32.ActiveCfg = Final (Havok)|Win32
+		{7B7A4EDC-F524-44BE-AD87-227E3651D445}.Final|Win32.ActiveCfg = Final (Havok)|Win32
+		{7B7A4EDC-F524-44BE-AD87-227E3651D445}.Final|Win32.Build.0 = Final (Havok)|Win32
 		{7B7A4EDC-F524-44BE-AD87-227E3651D445}.Release|Win32.ActiveCfg = Release (Havok)|Win32
 		{7B7A4EDC-F524-44BE-AD87-227E3651D445}.Release|Win32.Build.0 = Release (Havok)|Win32
+		{7A8FCC1F-16F6-4670-8401-2EFF2E4823F0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7A8FCC1F-16F6-4670-8401-2EFF2E4823F0}.Debug|Win32.Build.0 = Debug|Win32
+		{7A8FCC1F-16F6-4670-8401-2EFF2E4823F0}.Final (Demo)|Win32.ActiveCfg = Final|Win32
+		{7A8FCC1F-16F6-4670-8401-2EFF2E4823F0}.Final (Demo)|Win32.Build.0 = Final|Win32
+		{7A8FCC1F-16F6-4670-8401-2EFF2E4823F0}.Final (Havok)|Win32.ActiveCfg = Final|Win32
+		{7A8FCC1F-16F6-4670-8401-2EFF2E4823F0}.Final (Havok)|Win32.Build.0 = Final|Win32
+		{7A8FCC1F-16F6-4670-8401-2EFF2E4823F0}.Final (No Physics)|Win32.ActiveCfg = Final|Win32
+		{7A8FCC1F-16F6-4670-8401-2EFF2E4823F0}.Final (No Physics)|Win32.Build.0 = Final|Win32
+		{7A8FCC1F-16F6-4670-8401-2EFF2E4823F0}.Final|Win32.ActiveCfg = Final|Win32
+		{7A8FCC1F-16F6-4670-8401-2EFF2E4823F0}.Final|Win32.Build.0 = Final|Win32
+		{7A8FCC1F-16F6-4670-8401-2EFF2E4823F0}.Release|Win32.ActiveCfg = Release|Win32
+		{7A8FCC1F-16F6-4670-8401-2EFF2E4823F0}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

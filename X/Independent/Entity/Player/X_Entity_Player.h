@@ -49,6 +49,15 @@ public:
     X_Entity_Player( const GLToy_Hash uHash, const u_int uType );
     virtual ~X_Entity_Player() {}
 
+    virtual void Render() const;
+	virtual void Update();
+
+	void SetMovement( const GLToy_Vector_2& xMovement ) { m_xMovement = xMovement; }
+
+protected:
+
+	GLToy_Vector_2 m_xMovement;
+
 };
 
 #endif

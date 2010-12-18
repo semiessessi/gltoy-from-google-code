@@ -36,6 +36,7 @@
 // GLToy
 #include <Environment/GLToy_Environment_System.h>
 #include <Entity/GLToy_Entity_System.h>
+#include <Input/GLToy_Input_System.h>
 #include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Camera.h>
 #include <UI/GLToy_UI_System.h>
@@ -58,7 +59,7 @@ void X_State_Game::Initialise()
 {
     GLToy_UI_System::ShowPointer( false );
     GLToy_Camera::SetLocked( true );
-	GLToy_Camera::SetPosition( GLToy_Maths::ZeroVector3 );
+	GLToy_Camera::SetPosition( GLToy_Vector_3( 0.0f, 0.0f, -1.0f ) );
 	GLToy_Camera::SetOrientation( GLToy_Maths::IdentityMatrix3 );
 
     GLToy_Entity_System::SetRender( true );
@@ -75,5 +76,13 @@ void X_State_Game::Shutdown()
 
 void X_State_Game::Update()
 {
-	// since our controls are so simple, handle them here partly and forward the relevant bits to the entity
+	const bool bLeft = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() );
+    const bool bRight = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetRightKey() );
+    const bool bUp = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetUpKey() );
+    const bool bDown = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetDownKey() );
+
+    m_pxPlayer->SetMovement(
+        GLToy_Vector_2(
+                ( bRight ? 1.0f : 0.0f ) + ( bLeft ? -1.0f : 0.0f ),
+                ( bUp ? 1.0f : 0.0f ) + ( bDown ? -1.0f : 0.0f ) ) );
 }

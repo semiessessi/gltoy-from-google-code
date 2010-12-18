@@ -65,7 +65,7 @@ public:
 
     virtual ~GLToy_Volume() {}
 
-    GLToy_Inline const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
+    GLToy_ForceInline const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
 
     virtual float GetSurfaceArea() const = 0;
     virtual float GetVolume() const = 0;
@@ -181,8 +181,8 @@ public:
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
-	GLToy_Inline const GLToy_Vector_3& GetMax() const { return m_xPointMax; }
-    GLToy_Inline const GLToy_Vector_3& GetMin() const { return m_xPointMin; }
+	GLToy_ForceInline const GLToy_Vector_3& GetMax() const { return m_xPointMax; }
+    GLToy_ForceInline const GLToy_Vector_3& GetMin() const { return m_xPointMin; }
     GLToy_Inline GLToy_Vector_3 GetExtents() const { return m_xPointMax - m_xPointMin; }
     GLToy_Inline GLToy_Vector_3 GetHalfExtents() const { return m_xPosition - m_xPointMin; }
 
@@ -271,8 +271,8 @@ public:
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
-    GLToy_Inline void SetRadius( const float fRadius ) { m_fRadius = fRadius; }
-    GLToy_Inline float GetRadius() const { return m_fRadius; }
+    GLToy_ForceInline void SetRadius( const float fRadius ) { m_fRadius = fRadius; }
+    GLToy_ForceInline float GetRadius() const { return m_fRadius; }
 
     bool IntersectsWithAABB( const GLToy_AABB& xAABB ) const;
 
