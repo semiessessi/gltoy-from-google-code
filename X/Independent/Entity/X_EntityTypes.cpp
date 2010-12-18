@@ -31,49 +31,31 @@
 #include <Core/X.h>
 
 // This file's header
-#include <Core/State/X_State_Game.h>
+#include <Entity/X_EntityTypes.h>
 
 // GLToy
-#include <Environment/GLToy_Environment_System.h>
+#include <Entity/GLToy_Entity.h>
 #include <Entity/GLToy_Entity_System.h>
-#include <Maths/GLToy_Maths.h>
-#include <Render/GLToy_Camera.h>
-#include <UI/GLToy_UI_System.h>
 
 // X
-#include <Entity/X_EntityTypes.h>
 #include <Entity/Player/X_Entity_Player.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-X_State_Game::X_State_Game()
-: GLToy_Parent()
-, m_pxPlayer( NULL )
+GLToy_Entity* X_CreateEntity( const GLToy_Hash uHash, const u_int uType )
 {
+    switch( uType )
+    {
+        case X_ENTITY_PLAYER:				return new X_Entity_Player( uHash, uType );
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return NULL;
 }
 
-void X_State_Game::Initialise()
-{
-    GLToy_UI_System::ShowPointer( false );
-    GLToy_Camera::SetLocked( true );
-	GLToy_Camera::SetPosition( GLToy_Maths::ZeroVector3 );
-	GLToy_Camera::SetOrientation( GLToy_Maths::IdentityMatrix3 );
-
-    GLToy_Entity_System::SetRender( true );
-
-	// create our player's entity
-	m_pxPlayer = static_cast< X_Entity_Player* >( GLToy_Entity_System::CreateEntity( GLToy_Hash_Constant( "Player" ), X_ENTITY_PLAYER ) );
-}
-
-void X_State_Game::Shutdown()
-{
-	GLToy_Entity_System::DestroyEntities();
-	m_pxPlayer = NULL;
-}
-
-void X_State_Game::Update()
-{
-	// since our controls are so simple, handle them here partly and forward the relevant bits to the entity
-}

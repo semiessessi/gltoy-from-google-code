@@ -148,6 +148,8 @@ upx.exe $(TargetPath) --best</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Independent\Core\State\X_State_Game.cpp" />
+    <ClCompile Include="Independent\Entity\Player\X_Entity_Player.cpp" />
+    <ClCompile Include="Independent\Entity\X_EntityTypes.cpp" />
     <ClCompile Include="X11\Core\Platform_X.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -161,6 +163,8 @@ upx.exe $(TargetPath) --best</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Independent\Core\State\X_State_Game.h" />
+    <ClInclude Include="Independent\Entity\Player\X_Entity_Player.h" />
+    <ClInclude Include="Independent\Entity\X_EntityTypes.h" />
     <ClInclude Include="X11\Core\Platform_X.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

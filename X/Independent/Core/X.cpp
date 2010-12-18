@@ -33,9 +33,11 @@
 
 // GLToy
 #include <Core/State/GLToy_State_System.h>
+#include <Entity/GLToy_Entity_System.h>
 
 // X
 #include <Core/State/X_State_Game.h>
+#include <Entity/X_EntityTypes.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -44,6 +46,8 @@
 bool X::Initialise()
 {
     GLToy::ChangeWindowTitle( "X" );
+
+	GLToy_Entity_System::SetProjectEntityCreateCallback( X_CreateEntity );
 
 	GLToy_State_System::RegisterState( new X_State_Game() );
 

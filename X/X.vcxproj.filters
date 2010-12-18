@@ -25,6 +25,12 @@
     <Filter Include="Independent\Core\State">
       <UniqueIdentifier>{4aad544f-c2c1-4e9c-82c3-5abbbdb4aaa4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Entity">
+      <UniqueIdentifier>{752c3ef8-988e-4f75-815a-c88550cd31f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity\Player">
+      <UniqueIdentifier>{8a24a3a5-ba9b-4368-bbc8-e292a8c0700a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_X.cpp">
@@ -48,6 +54,12 @@
     <ClCompile Include="Independent\Core\State\X_State_Game.cpp">
       <Filter>Independent\Core\State</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Entity\X_EntityTypes.cpp">
+      <Filter>Independent\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\Player\X_Entity_Player.cpp">
+      <Filter>Independent\Entity\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_X.h">
@@ -64,6 +76,12 @@
     </ClInclude>
     <ClInclude Include="Independent\Core\State\X_State_Game.h">
       <Filter>Independent\Core\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\X_EntityTypes.h">
+      <Filter>Independent\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Player\X_Entity_Player.h">
+      <Filter>Independent\Entity\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
