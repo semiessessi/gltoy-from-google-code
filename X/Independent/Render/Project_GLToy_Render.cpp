@@ -28,11 +28,11 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/Empty.h>
+#include <Core/X.h>
 
 // This file's header
 #include <Render/GLToy_Render.h>
-#include <Render/Empty_Render.h>
+#include <Render/X_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -40,15 +40,15 @@
 
 bool GLToy_Render::Project_Initialise()
 {
-    return Empty_Render::Initialise();
+    return X_Render::Initialise();
 }
 
 void GLToy_Render::Project_Shutdown()
 {
-    Empty_Render::Shutdown();
+    X_Render::Shutdown();
 }
 
 void GLToy_Render::Project_Render()
 {
-    Empty_Render::Render();
+    X_Render::Render();
 }

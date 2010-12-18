@@ -31,8 +31,8 @@
 // This file's header
 #include <Core/GLToy.h>
 
-// Empty
-#include <Core/Empty.h>
+// X
+#include <Core/X.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -40,15 +40,15 @@
 
 bool GLToy::Project_Initialise()
 {
-    return Empty::Initialise();
+    return X::Initialise();
 }
 
 void GLToy::Project_Shutdown()
 {
-    Empty::Shutdown();
+    X::Shutdown();
 }
 
 void GLToy::Project_Update()
 {
-    Empty::Update();
+    X::Update();
 }
