@@ -28,32 +28,29 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// This file's header
 #include <Core/X.h>
 
-// GLToy
-#include <Core/State/GLToy_State_System.h>
-
-// X
+// This file's header
 #include <Core/State/X_State_Game.h>
+
+// GLToy
+#include <Environment/GLToy_Environment_System.h>
+#include <Entity/GLToy_Entity_System.h>
+#include <Maths/GLToy_Maths.h>
+#include <Render/GLToy_Camera.h>
+#include <UI/GLToy_UI_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool X::Initialise()
+void X_State_Game::Initialise()
 {
-    GLToy::ChangeWindowTitle( "X" );
+    GLToy_UI_System::ShowPointer( false );
+    GLToy_Camera::SetLocked( true );
+	GLToy_Camera::SetPosition( GLToy_Maths::ZeroVector3 );
+	GLToy_Camera::SetOrientation( GLToy_Maths::IdentityMatrix3 );
 
-	GLToy_State_System::RegisterState( new X_State_Game() );
-
-    return true;
-}
-
-void X::Shutdown()
-{
-}
-
-void X::Update()
-{
+    GLToy_Entity_System::SetRender( true );
+    GLToy_Environment_System::SetRender( true );
 }

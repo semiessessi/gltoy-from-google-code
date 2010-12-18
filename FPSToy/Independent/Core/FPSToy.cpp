@@ -66,8 +66,6 @@ bool FPSToy::Initialise()
     // TODO - something better here
     FPSToy_Player::Spawn( GLToy_Vector_3( 0.0f, 100.0f, 0.0f ), GLToy_Maths::IdentityMatrix3 );
 
-    GLToy_Console::ExecuteFile( "autoexec.console" );
-
     return true;
 }
 

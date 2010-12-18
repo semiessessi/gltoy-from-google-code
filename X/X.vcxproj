@@ -147,6 +147,7 @@ upx.exe $(TargetPath) --best</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Independent\Core\State\X_State_Game.cpp" />
     <ClCompile Include="X11\Core\Platform_X.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -159,6 +160,7 @@ upx.exe $(TargetPath) --best</Command>
     <ClCompile Include="Independent\Core\Project_GLToy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Independent\Core\State\X_State_Game.h" />
     <ClInclude Include="X11\Core\Platform_X.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

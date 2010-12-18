@@ -22,6 +22,9 @@
     <Filter Include="X11\Core">
       <UniqueIdentifier>{64029202-2c16-4f22-a44a-b8f57c2154c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Core\State">
+      <UniqueIdentifier>{4aad544f-c2c1-4e9c-82c3-5abbbdb4aaa4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_X.cpp">
@@ -42,6 +45,9 @@
     <ClCompile Include="X11\Core\Platform_X.cpp">
       <Filter>X11\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Core\State\X_State_Game.cpp">
+      <Filter>Independent\Core\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_X.h">
@@ -55,6 +61,9 @@
     </ClInclude>
     <ClInclude Include="X11\Core\Platform_X.h">
       <Filter>X11\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\State\X_State_Game.h">
+      <Filter>Independent\Core\State</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

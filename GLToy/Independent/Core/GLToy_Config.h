@@ -29,9 +29,10 @@
 
 #ifndef GLTOY_PLATFORM_X11
     // keep FridgeScript out of final builds for now
-    #ifndef _FINAL
-        #define GLTOY_USE_FRIDGESCRIPT         (1)
-    #endif
+	// SE - 18/12/2010 - actually keep it out of everything and I can fix FSDemo later if I actually care...
+    //#ifndef _FINAL
+    //    #define GLTOY_USE_FRIDGESCRIPT         (1)
+    //#endif
     
     #ifdef _HAVOK
         #define GLTOY_USE_HAVOK_PHYSICS        (1)

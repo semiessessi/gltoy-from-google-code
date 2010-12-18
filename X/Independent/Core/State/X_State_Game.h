@@ -24,36 +24,32 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __X_STATE_GAME_H_
+#define __X_STATE_GAME_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// This file's header
-#include <Core/X.h>
+// Parent
+#include <Core/State/GLToy_State.h>
 
 // GLToy
-#include <Core/State/GLToy_State_System.h>
-
-// X
-#include <Core/State/X_State_Game.h>
+#include <String/GLToy_String.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool X::Initialise()
+class X_State_Game
+: public GLToy_State
 {
-    GLToy::ChangeWindowTitle( "X" );
 
-	GLToy_State_System::RegisterState( new X_State_Game() );
+public:
 
-    return true;
-}
+    virtual const GLToy_String& GetName() const { static const GLToy_String ls_szName = "Game"; return ls_szName; }
 
-void X::Shutdown()
-{
-}
+    virtual void Initialise();
+};
 
-void X::Update()
-{
-}
+#endif
