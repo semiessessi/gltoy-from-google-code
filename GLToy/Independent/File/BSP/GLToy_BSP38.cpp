@@ -193,7 +193,7 @@ public:
         xStream >> m_xVAxis;
         xStream >> m_fVOffset;
         xStream >> m_uFlags;
-        xStream >> m_uValue;z
+        xStream >> m_uValue;
         for( u_int u = 0; u < 32; ++u ) { xStream >> m_szTextureName[ u ]; }
         xStream >> m_uNextTextureInfo;
     }
