@@ -34,7 +34,6 @@
 #include <Maths/GLToy_Volume.h>
 
 // GLToy
-#include <Core/Data Structures/GLToy_BitStream.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
 
@@ -194,29 +193,9 @@ bool GLToy_OBB::IntersectsWithAABB( const GLToy_AABB& xAABB ) const
     return false;
 }
 
-GLToy_Sphere GLToy_Volume::GetBoundingSphere() const
-{
-    return GLToy_Sphere();
-}
-
-GLToy_AABB GLToy_Volume::GetBoundingAABB() const
-{
-    return GLToy_AABB();
-}
-
 GLToy_Sphere GLToy_AABB::GetBoundingSphere() const
 {
     return GLToy_Sphere( m_xPosition, GLToy_Maths::Sqrt( GetHalfExtents() * GetHalfExtents() ) );
-}
-
-void GLToy_Volume::ReadFromBitStream( const GLToy_BitStream& xStream )
-{
-    xStream >> m_xPosition;
-}
-
-void GLToy_Volume::WriteToBitStream( GLToy_BitStream& xStream ) const
-{
-    xStream << m_xPosition;
 }
 
 void GLToy_AABB::ReadFromBitStream( const GLToy_BitStream& xStream )

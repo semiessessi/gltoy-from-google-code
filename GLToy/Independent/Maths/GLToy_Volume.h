@@ -35,6 +35,7 @@
 #include <Render/GLToy_Renderable.h>
 
 // GLToy
+#include <Core/Data Structures/GLToy_BitStream.h>
 #include <Maths/GLToy_Maths.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +49,7 @@ class GLToy_Sphere;
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+template < class Derived >
 class GLToy_Volume
 {
 
@@ -63,29 +65,27 @@ public:
     {
     }
 
-    virtual ~GLToy_Volume() {}
-
     GLToy_ForceInline const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
 
-    virtual float GetSurfaceArea() const = 0;
-    virtual float GetVolume() const = 0;
+    //virtual float GetSurfaceArea() const = 0;
+    //virtual float GetVolume() const = 0;
 
-    virtual bool IsInside( const GLToy_Vector_3& xPosition ) const = 0;
-    virtual bool IsOutside( const GLToy_Vector_3& xPosition ) const
+    //virtual bool IsInside( const GLToy_Vector_3& xPosition ) const = 0;
+    GLToy_ForceInline bool IsOutside( const GLToy_Vector_3& xPosition ) const
     {
-        return !IsInside( xPosition );
+        return !( static_cast< const Derived* const >( this )->IsInside( xPosition ) );
     }
 
-    virtual bool HasBoundingSphere() const { return false; }
-    virtual bool HasBoundingAABB() const { return false; }
-    virtual GLToy_Sphere GetBoundingSphere() const;
-    virtual GLToy_AABB GetBoundingAABB() const;
+    //bool HasBoundingSphere() const { return false; }
+    //bool HasBoundingAABB() const { return false; }
+    //GLToy_Sphere GetBoundingSphere() const;
+    //GLToy_AABB GetBoundingAABB() const;
 
-    virtual void SetToPoint( const GLToy_Vector_3& xPosition ) = 0;
-    virtual void GrowByPoint( const GLToy_Vector_3& xPosition ) = 0;
+    //virtual void SetToPoint( const GLToy_Vector_3& xPosition ) = 0;
+    //virtual void GrowByPoint( const GLToy_Vector_3& xPosition ) = 0;
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+    void ReadFromBitStream( const GLToy_BitStream& xStream );
+    void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
 protected:
 
@@ -94,11 +94,11 @@ protected:
 };
 
 class GLToy_AABB
-: public GLToy_Volume
-, public GLToy_Renderable
+: public GLToy_Volume< GLToy_AABB >
+//, public GLToy_Renderable
 {
 
-    typedef GLToy_Volume GLToy_Parent;
+    typedef GLToy_Volume< GLToy_AABB > GLToy_Parent;
 
 public:
     
@@ -123,9 +123,9 @@ public:
     {
     }
 
-    virtual void Render() const;
+    void Render() const;
 
-    virtual float GetSurfaceArea() const
+    float GetSurfaceArea() const
     {
         const float fX = m_xPointMax[ 0 ] - m_xPointMin[ 0 ];
         const float fY = m_xPointMax[ 1 ] - m_xPointMin[ 1 ];
@@ -134,14 +134,14 @@ public:
         return 2.0f * ( fX * fY + fY * fZ + fZ * fX );
     }
 
-    virtual float GetVolume() const
+    float GetVolume() const
     {
         return ( m_xPointMax[ 0 ] - m_xPointMin[ 0 ] )
             * ( m_xPointMax[ 1 ] - m_xPointMin[ 1 ] )
             * ( m_xPointMax[ 2 ] - m_xPointMin[ 2 ] );
     }
 
-    virtual bool IsInside( const GLToy_Vector_3& xPosition ) const
+    bool IsInside( const GLToy_Vector_3& xPosition ) const
     {
         return ( xPosition[ 0 ] > m_xPointMin[ 0 ] )
             && ( xPosition[ 1 ] > m_xPointMin[ 1 ] )
@@ -151,22 +151,22 @@ public:
             && ( xPosition[ 2 ] < m_xPointMax[ 2 ] );
     }
 
-    virtual bool HasBoundingAABB() const { return true; }
-    virtual bool HasBoundingSphere() const { return true; }
+    bool HasBoundingAABB() const { return true; }
+    bool HasBoundingSphere() const { return true; }
 
-    virtual GLToy_AABB GetBoundingAABB() const
+    GLToy_AABB GetBoundingAABB() const
     {
         return *this;
     }
 
-    virtual GLToy_Sphere GetBoundingSphere() const;
+    GLToy_Sphere GetBoundingSphere() const;
 
-    virtual void SetToPoint( const GLToy_Vector_3& xPosition )
+    void SetToPoint( const GLToy_Vector_3& xPosition )
     {
         m_xPosition = m_xPointMax = m_xPointMin = xPosition;
     }
 
-    virtual void GrowByPoint( const GLToy_Vector_3& xPosition )
+    void GrowByPoint( const GLToy_Vector_3& xPosition )
     {
         m_xPointMax[ 0 ] = GLToy_Maths::Max( xPosition[ 0 ], m_xPointMax[ 0 ] );
         m_xPointMax[ 1 ] = GLToy_Maths::Max( xPosition[ 1 ], m_xPointMax[ 1 ] );
@@ -178,8 +178,8 @@ public:
         m_xPosition = ( m_xPointMax + m_xPointMin ) * 0.5f;
     }
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+    void ReadFromBitStream( const GLToy_BitStream& xStream );
+    void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
 	GLToy_ForceInline const GLToy_Vector_3& GetMax() const { return m_xPointMax; }
     GLToy_ForceInline const GLToy_Vector_3& GetMin() const { return m_xPointMin; }
@@ -208,10 +208,11 @@ public:
 };
 
 class GLToy_Sphere
-: public GLToy_Volume
+: public GLToy_Volume< GLToy_Sphere >
+//, public GLToy_Renderable
 {
   
-    typedef GLToy_Volume GLToy_Parent;
+    typedef GLToy_Volume< GLToy_Sphere > GLToy_Parent;
 
 public:
     
@@ -227,49 +228,49 @@ public:
     {
     }
 
-    virtual void Render() const;
+    void Render() const;
 
-    virtual float GetSurfaceArea() const
+    float GetSurfaceArea() const
     {
         return 4.0f * GLToy_Maths::Pi * m_fRadius * m_fRadius;
     }
 
-    virtual float GetVolume() const
+    float GetVolume() const
     {
         return ( 4.0f / 3.0f ) * GLToy_Maths::Pi * m_fRadius * m_fRadius * m_fRadius;
     }
 
-    virtual bool IsInside( const GLToy_Vector_3& xPosition ) const
+    bool IsInside( const GLToy_Vector_3& xPosition ) const
     {
         return ( xPosition - m_xPosition ).Magnitude() < m_fRadius;
     }
 
-    virtual bool HasBoundingSphere() const { return true; }
-    virtual bool HasBoundingAABB() const { return true; }
+    bool HasBoundingSphere() const { return true; }
+    bool HasBoundingAABB() const { return true; }
 
-    virtual GLToy_Sphere GetBoundingSphere() const
+    GLToy_Sphere GetBoundingSphere() const
     {
         return *this;
     }
 
-    virtual GLToy_AABB GetBoundingAABB() const
+    GLToy_AABB GetBoundingAABB() const
     {
         return GLToy_AABB( GetPosition(), m_fRadius, m_fRadius, m_fRadius );
     }
 
-    virtual void SetToPoint( const GLToy_Vector_3& xPosition )
+    void SetToPoint( const GLToy_Vector_3& xPosition )
     {
         m_xPosition = xPosition;
         m_fRadius = 0.0f;
     }
 
-    virtual void GrowByPoint( const GLToy_Vector_3& xPosition )
+    void GrowByPoint( const GLToy_Vector_3& xPosition )
     {
         m_fRadius = GLToy_Maths::Max( m_fRadius, ( xPosition - m_xPosition ).Magnitude() );
     }
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+    void ReadFromBitStream( const GLToy_BitStream& xStream );
+    void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
     GLToy_ForceInline void SetRadius( const float fRadius ) { m_fRadius = fRadius; }
     GLToy_ForceInline float GetRadius() const { return m_fRadius; }
@@ -284,11 +285,11 @@ protected:
 };
 
 class GLToy_OBB
-: public GLToy_Volume
-, public GLToy_Renderable
+: public GLToy_Volume< GLToy_OBB >
+//, public GLToy_Renderable
 {
 
-    typedef GLToy_Volume GLToy_Parent;
+    typedef GLToy_Volume< GLToy_OBB > GLToy_Parent;
 
 public:
     
@@ -313,20 +314,20 @@ public:
     {
     }
 
-    virtual void Render() const;
+    void Render() const;
 
     // surface area and volume are invariant under rotation...
-    virtual float GetSurfaceArea() const
+    float GetSurfaceArea() const
     {        
         return m_xBox.GetSurfaceArea();
     }
 
-    virtual float GetVolume() const
+    float GetVolume() const
     {
         return m_xBox.GetVolume();
     }
 
-    virtual bool IsInside( const GLToy_Vector_3& xPosition ) const
+    bool IsInside( const GLToy_Vector_3& xPosition ) const
     {
         GLToy_Vector_3 xTestPosition = xPosition - GetPosition();
         GLToy_Matrix_3 xInverse = GetOrientation();
@@ -337,34 +338,34 @@ public:
         return GLToy_AABB( xHalfExtents, -xHalfExtents ).IsInside( xTestPosition );
     }
 
-    virtual bool HasBoundingSphere() const { return true; }
+    bool HasBoundingSphere() const { return true; }
 
-    virtual GLToy_Sphere GetBoundingSphere() const
+    GLToy_Sphere GetBoundingSphere() const
     {
         return m_xBox.GetBoundingSphere();
     }
 
-    virtual void SetToPoint( const GLToy_Vector_3& xPosition )
+    void SetToPoint( const GLToy_Vector_3& xPosition )
     {
         m_xBox.SetToPoint( xPosition );
     }
 
-    virtual void GrowByPoint( const GLToy_Vector_3& xPosition )
+    void GrowByPoint( const GLToy_Vector_3& xPosition )
     {
         // TODO - move and rotate the point, then move it back and call m_xBox.GrowByPoint
         // needs matrix multiplication...
     }
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+    void ReadFromBitStream( const GLToy_BitStream& xStream );
+    void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
-    GLToy_Inline const GLToy_Matrix_3& GetOrientation() const { return m_xOrientation; }
-    GLToy_Inline void SetOrientation( const GLToy_Matrix_3& xOrientation ) { m_xOrientation = xOrientation; }
+    GLToy_ForceInline const GLToy_Matrix_3& GetOrientation() const { return m_xOrientation; }
+    GLToy_ForceInline void SetOrientation( const GLToy_Matrix_3& xOrientation ) { m_xOrientation = xOrientation; }
 
-    GLToy_Inline const GLToy_AABB& GetUnrotatedBB() const { return m_xBox; }
+    GLToy_ForceInline const GLToy_AABB& GetUnrotatedBB() const { return m_xBox; }
 
-    GLToy_Inline GLToy_Vector_3 GetExtents() const { return m_xBox.GetExtents(); }
-    GLToy_Inline GLToy_Vector_3 GetHalfExtents() const { return m_xBox.GetHalfExtents(); }
+    GLToy_ForceInline GLToy_Vector_3 GetExtents() const { return m_xBox.GetExtents(); }
+    GLToy_ForceInline GLToy_Vector_3 GetHalfExtents() const { return m_xBox.GetHalfExtents(); }
 
     bool IntersectsWithAABB( const GLToy_AABB& xAABB ) const;
 
@@ -374,5 +375,17 @@ protected:
     GLToy_Matrix_3 m_xOrientation;
 
 };
+
+template < class Derived >
+void GLToy_Volume< Derived >::ReadFromBitStream( const GLToy_BitStream& xStream )
+{
+    xStream >> m_xPosition;
+}
+
+template < class Derived >
+void GLToy_Volume< Derived >::WriteToBitStream( GLToy_BitStream& xStream ) const
+{
+    xStream << m_xPosition;
+}
 
 #endif

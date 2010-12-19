@@ -42,10 +42,10 @@
 
 class GLToy_ConvexHull
 : public GLToy_Array< GLToy_Plane >
-, public GLToy_Volume
+, public GLToy_Volume< GLToy_ConvexHull >
 {
 
-    typedef GLToy_Volume GLToy_Parent;
+    typedef GLToy_Volume< GLToy_ConvexHull > GLToy_Parent;
     typedef GLToy_Array< GLToy_Plane > GLToy_DataParent;
 
 public:
@@ -56,17 +56,17 @@ public:
     {
     }
 
-    virtual float GetSurfaceArea() const
+    float GetSurfaceArea() const
     {
         return GLToy_Maths::LargeFloat;
     }
 
-    virtual float GetVolume() const
+    float GetVolume() const
     {
         return GLToy_Maths::LargeFloat;
     }
 
-    virtual bool IsInside( const GLToy_Vector_3& xPosition ) const
+    bool IsInside( const GLToy_Vector_3& xPosition ) const
     {
         // if on the wrong side of any plane, then outside
         GLToy_ConstIterate( GLToy_Plane, xPlane, *this )
@@ -79,11 +79,11 @@ public:
         return true;
     }
 
-    virtual void SetToPoint( const GLToy_Vector_3& xPosition ) {}
-    virtual void GrowByPoint( const GLToy_Vector_3& xPosition ) {}
+    void SetToPoint( const GLToy_Vector_3& xPosition ) {}
+    void GrowByPoint( const GLToy_Vector_3& xPosition ) {}
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream ) {}
-    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const {}
+    void ReadFromBitStream( const GLToy_BitStream& xStream ) {}
+    void WriteToBitStream( GLToy_BitStream& xStream ) const {}
 
 protected:
 
