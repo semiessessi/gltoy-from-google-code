@@ -172,8 +172,20 @@ bool GLToy_AABB::IntersectsWithAABB( const GLToy_AABB& xAABB ) const
 
 bool GLToy_Sphere::IntersectsWithAABB( const GLToy_AABB& xAABB ) const
 {
-    // TODO
+    if( xAABB.IsInside( GetPosition() ) )
+    {
+        return true;
+    }
+
+    // TODO: ray tests with each of the AABB edges?
+
     return false;
+}
+
+bool GLToy_Sphere::IntersectsWithSphere( const GLToy_Sphere& xSphere ) const
+{
+    const float fTotalRadii = xSphere.GetRadius() + GetRadius();
+    return ( GetPosition() - xSphere.GetPosition() ).MagnitudeSquared() < ( fTotalRadii * fTotalRadii );
 }
 
 bool GLToy_OBB::IntersectsWithAABB( const GLToy_AABB& xAABB ) const

@@ -52,7 +52,7 @@ public:
     virtual void Render() const;
 	virtual void Update();
 
-	void SetMovement( const GLToy_Vector_2& xMovement ) { m_xMovement = xMovement; }
+	GLToy_ForceInline void SetMovement( const GLToy_Vector_2& xMovement ) { m_xMovement = xMovement; }
 
 protected:
 

@@ -275,6 +275,7 @@ public:
     GLToy_ForceInline float GetRadius() const { return m_fRadius; }
 
     bool IntersectsWithAABB( const GLToy_AABB& xAABB ) const;
+    bool IntersectsWithSphere( const GLToy_Sphere& xSphere ) const;
 
 protected:
 
