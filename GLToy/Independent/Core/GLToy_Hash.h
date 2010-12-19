@@ -82,4 +82,14 @@ GLToy_ForceInline GLToy_Hash _GLToy_GetHash( const char* const szString, const u
     return uHash;
 }
 
+GLToy_ForceInline GLToy_Hash GLToy_Random_Hash()
+{
+    static u_int ls_uHash = 0xFA45C14A;
+    static char ls_cChar = 'a';
+    ls_uHash += ls_uHash << 5;
+    ls_uHash += ls_cChar;
+    ++ls_cChar;
+    return ls_uHash;
+}
+
 #endif
