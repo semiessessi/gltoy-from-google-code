@@ -28,36 +28,56 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/X.h>
+#include <Core/GLToy.h>
 
 // This file's header
-#include <Entity/X_EntityTypes.h>
+#include <Entity/Enemy/X_Entity_Enemy.h>
 
 // GLToy
-#include <Entity/GLToy_Entity.h>
-#include <Entity/GLToy_Entity_System.h>
+#include <Core/GLToy_Timer.h>
+#include <Render/GLToy_Render.h>
+#include <Render/GLToy_Texture.h>
 
-// X
-#include <Entity/Enemy/X_Entity_Enemy.h>
-#include <Entity/Player/X_Entity_Player.h>
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C O N S T A N T S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+static const float fSPEED = 0.5f;
+static const float fSIZE = 0.05f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Entity* X_CreateEntity( const GLToy_Hash uHash, const u_int uType )
+X_Entity_Enemy::X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType )
+: GLToy_Parent( uHash, uType )
 {
-    switch( uType )
-    {
-        case X_ENTITY_PLAYER:				return new X_Entity_Player( uHash, uType );
-        case X_ENTITY_ENEMY:				return new X_Entity_Enemy( uHash, uType );
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return NULL;
+    m_xBoundingSphere.SetRadius( fSIZE );
 }
 
+void X_Entity_Enemy::Update()
+{
+    GLToy_Vector_3 xPosition = GetPosition();
+    xPosition -= GLToy_Vector_3( 0.0f, fSPEED * GLToy_Timer::GetFrameTime(), 0.0f );
+
+    SetPosition( xPosition );
+
+    GLToy_Parent::Update();
+}
+
+void X_Entity_Enemy::Render() const
+{
+    const GLToy_Vector_3& xPosition = GetPosition();
+
+    GLToy_Texture_System::BindWhite();
+
+    GLToy_Render::StartSubmittingQuads();
+
+    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 0.0f, 0.0f ) );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] );  
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] );  
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] ); 
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+
+    GLToy_Render::EndSubmit();
+}

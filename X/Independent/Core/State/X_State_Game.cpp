@@ -34,6 +34,7 @@
 #include <Core/State/X_State_Game.h>
 
 // GLToy
+#include <Core/GLToy_Timer.h>
 #include <Environment/GLToy_Environment_System.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Input/GLToy_Input_System.h>
@@ -52,6 +53,7 @@
 X_State_Game::X_State_Game()
 : GLToy_Parent()
 , m_pxPlayer( NULL )
+, m_fEnemyTimer( 0.0f )
 {
 }
 
@@ -66,6 +68,8 @@ void X_State_Game::Initialise()
 
 	// create our player's entity
 	m_pxPlayer = static_cast< X_Entity_Player* >( GLToy_Entity_System::CreateEntity( GLToy_Hash_Constant( "Player" ), X_ENTITY_PLAYER ) );
+
+    m_fEnemyTimer = 0.0f;
 }
 
 void X_State_Game::Shutdown()
@@ -76,6 +80,8 @@ void X_State_Game::Shutdown()
 
 void X_State_Game::Update()
 {
+    m_fEnemyTimer += GLToy_Timer::GetFrameTime();
+
 	const bool bLeft = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() );
     const bool bRight = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetRightKey() );
     const bool bUp = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetUpKey() );
@@ -85,4 +91,12 @@ void X_State_Game::Update()
         GLToy_Vector_2(
                 ( bRight ? 1.0f : 0.0f ) + ( bLeft ? -1.0f : 0.0f ),
                 ( bUp ? 1.0f : 0.0f ) + ( bDown ? -1.0f : 0.0f ) ) );
+
+    if( m_fEnemyTimer > 3.0f )
+    {
+        GLToy_Entity_Sphere* const pxEntity = static_cast< GLToy_Entity_Sphere* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_ENEMY ) );
+        pxEntity->SetPosition( GLToy_Vector_3( GLToy_Maths::Random( -1.0f, 1.0f ), 1.5f, 0.0f ) );
+
+        m_fEnemyTimer = 0.0f;
+    }
 }

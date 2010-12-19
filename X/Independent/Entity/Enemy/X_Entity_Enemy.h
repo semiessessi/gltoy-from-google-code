@@ -24,40 +24,34 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __X_ENTITY_ENEMY_H_
+#define __X_ENTITY_ENEMY_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/X.h>
-
-// This file's header
-#include <Entity/X_EntityTypes.h>
-
-// GLToy
+// Parents
 #include <Entity/GLToy_Entity.h>
-#include <Entity/GLToy_Entity_System.h>
-
-// X
-#include <Entity/Enemy/X_Entity_Enemy.h>
-#include <Entity/Player/X_Entity_Player.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Entity* X_CreateEntity( const GLToy_Hash uHash, const u_int uType )
+class X_Entity_Enemy
+: public GLToy_Entity_Sphere
 {
-    switch( uType )
-    {
-        case X_ENTITY_PLAYER:				return new X_Entity_Player( uHash, uType );
-        case X_ENTITY_ENEMY:				return new X_Entity_Enemy( uHash, uType );
 
-        default:
-        {
-            break;
-        }
-    }
+    typedef GLToy_Entity_Sphere GLToy_Parent;
 
-    return NULL;
-}
+public:
 
+    X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType );
+    virtual ~X_Entity_Enemy() {}
+
+    virtual void Render() const;
+	virtual void Update();
+
+};
+
+#endif

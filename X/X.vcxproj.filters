@@ -31,6 +31,9 @@
     <Filter Include="Independent\Entity\Player">
       <UniqueIdentifier>{8a24a3a5-ba9b-4368-bbc8-e292a8c0700a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Entity\Enemy">
+      <UniqueIdentifier>{4a29c318-c22e-4c51-9656-d6bcb61f4621}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_X.cpp">
@@ -60,6 +63,9 @@
     <ClCompile Include="Independent\Entity\Player\X_Entity_Player.cpp">
       <Filter>Independent\Entity\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Entity\Enemy\X_Entity_Enemy.cpp">
+      <Filter>Independent\Entity\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_X.h">
@@ -82,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Entity\Player\X_Entity_Player.h">
       <Filter>Independent\Entity\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Enemy\X_Entity_Enemy.h">
+      <Filter>Independent\Entity\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -66,6 +66,7 @@ public:
 protected:
 
 	X_Entity_Player* m_pxPlayer;
+    float m_fEnemyTimer;
 
 };
 

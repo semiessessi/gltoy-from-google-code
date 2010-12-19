@@ -148,6 +148,7 @@ upx.exe $(TargetPath) --best</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Independent\Core\State\X_State_Game.cpp" />
+    <ClCompile Include="Independent\Entity\Enemy\X_Entity_Enemy.cpp" />
     <ClCompile Include="Independent\Entity\Player\X_Entity_Player.cpp" />
     <ClCompile Include="Independent\Entity\X_EntityTypes.cpp" />
     <ClCompile Include="X11\Core\Platform_X.cpp">
@@ -163,6 +164,7 @@ upx.exe $(TargetPath) --best</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Independent\Core\State\X_State_Game.h" />
+    <ClInclude Include="Independent\Entity\Enemy\X_Entity_Enemy.h" />
     <ClInclude Include="Independent\Entity\Player\X_Entity_Player.h" />
     <ClInclude Include="Independent\Entity\X_EntityTypes.h" />
     <ClInclude Include="X11\Core\Platform_X.h">

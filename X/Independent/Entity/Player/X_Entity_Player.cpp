@@ -53,6 +53,7 @@ X_Entity_Player::X_Entity_Player( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
 , m_xMovement( GLToy_Maths::ZeroVector2 )
 {
+    m_xBoundingSphere.SetRadius( fSIZE );
 }
 
 void X_Entity_Player::Update()

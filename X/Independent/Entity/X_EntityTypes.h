@@ -43,6 +43,8 @@ enum X_EntityType
 {
     X_ENTITY_PLAYER = ENTITY_FIRST_PROJECT_TYPE,
 
+    X_ENTITY_ENEMY,
+
     NUM_X_ENTITY_TYPES
 };
 
