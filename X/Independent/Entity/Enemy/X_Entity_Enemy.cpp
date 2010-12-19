@@ -38,12 +38,21 @@
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
 
+// X
+#include <Core/State/X_State_Game.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static const float fSPEED = 0.5f;
 static const float fSIZE = 0.05f;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+GLToy_Array< X_Entity_Enemy* > X_Entity_Enemy::s_xList;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -53,6 +62,13 @@ X_Entity_Enemy::X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
 {
     m_xBoundingSphere.SetRadius( fSIZE );
+
+    s_xList.Append( this );
+}
+
+X_Entity_Enemy::~X_Entity_Enemy()
+{
+    s_xList.RemoveByValue( this );
 }
 
 void X_Entity_Enemy::Update()
@@ -61,6 +77,17 @@ void X_Entity_Enemy::Update()
     xPosition -= GLToy_Vector_3( 0.0f, fSPEED * GLToy_Timer::GetFrameTime(), 0.0f );
 
     SetPosition( xPosition );
+
+    if( xPosition[ 1 ] < -1.5f )
+    {
+        Destroy();
+    }
+
+    if( IsDead() )
+    {
+        X_State_Game::AddScore( 10 );
+        Destroy();
+    }
 
     GLToy_Parent::Update();
 }

@@ -54,9 +54,12 @@ public:
 
 	GLToy_ForceInline void SetMovement( const GLToy_Vector_2& xMovement ) { m_xMovement = xMovement; }
 
+    u_int GetLives() const { return m_uLives; }
+
 protected:
 
 	GLToy_Vector_2 m_xMovement;
+    u_int m_uLives;
 
 };
 

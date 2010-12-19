@@ -34,6 +34,9 @@
 // Parents
 #include <Entity/GLToy_Entity.h>
 
+// GLToy
+#include <Core/Data Structures/GLToy_Array.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,10 +50,16 @@ class X_Entity_Enemy
 public:
 
     X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType );
-    virtual ~X_Entity_Enemy() {}
+    virtual ~X_Entity_Enemy();
 
     virtual void Render() const;
 	virtual void Update();
+
+    static GLToy_Array< X_Entity_Enemy* >& GetList() { return s_xList; }
+
+private:
+
+    static GLToy_Array< X_Entity_Enemy* > s_xList;
 
 };
 

@@ -63,10 +63,16 @@ public:
 
 	virtual void Update();
 
+    virtual void Render2D() const;
+
+    static GLToy_ForceInline void AddScore( const u_int uAmount ) { s_uScore += uAmount; }
+
 protected:
 
 	X_Entity_Player* m_pxPlayer;
     float m_fEnemyTimer;
+
+    static u_int s_uScore;
 
 };
 

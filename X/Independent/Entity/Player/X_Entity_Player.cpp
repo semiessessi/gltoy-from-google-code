@@ -38,6 +38,9 @@
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
 
+// X
+#include <Entity/Enemy/X_Entity_Enemy.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,6 +55,7 @@ static const float fSIZE = 0.05f;
 X_Entity_Player::X_Entity_Player( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
 , m_xMovement( GLToy_Maths::ZeroVector2 )
+, m_uLives( 3 )
 {
     m_xBoundingSphere.SetRadius( fSIZE );
 }
@@ -66,6 +70,26 @@ void X_Entity_Player::Update()
     xPosition[ 1 ] = GLToy_Maths::Clamp( xPosition[ 1 ], -1.0f, 1.0f );
 
     SetPosition( xPosition );
+
+    static X_Entity_Player* const ls_pxThis = this;
+    // check for collisions:
+    GLToy_QuickFunctor( CollisionFunctor, X_Entity_Enemy*, ppxEnemy,
+
+        if( ppxEnemy && !( *ppxEnemy )->IsDead() && ( *ppxEnemy )->GetBoundingSphere().IntersectsWithSphere( ls_pxThis->m_xBoundingSphere ) )
+        {
+            --( ls_pxThis->m_uLives );
+            ( *ppxEnemy )->Kill();
+        }
+
+    );
+
+    X_Entity_Enemy::GetList().Traverse( CollisionFunctor() );
+
+    // TODO: death
+    if( m_uLives == 0xFFFFFFFF )
+    {
+        // dead...
+    }
 
     GLToy_Parent::Update();
 }

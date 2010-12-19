@@ -40,11 +40,19 @@
 #include <Input/GLToy_Input_System.h>
 #include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Camera.h>
+#include <Render/GLToy_Render.h>
+#include <Render/Font/GLToy_Font.h>
 #include <UI/GLToy_UI_System.h>
 
 // X
 #include <Entity/X_EntityTypes.h>
 #include <Entity/Player/X_Entity_Player.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+u_int X_State_Game::s_uScore = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -70,6 +78,8 @@ void X_State_Game::Initialise()
 	m_pxPlayer = static_cast< X_Entity_Player* >( GLToy_Entity_System::CreateEntity( GLToy_Hash_Constant( "Player" ), X_ENTITY_PLAYER ) );
 
     m_fEnemyTimer = 0.0f;
+
+    s_uScore = 0;
 }
 
 void X_State_Game::Shutdown()
@@ -99,4 +109,15 @@ void X_State_Game::Update()
 
         m_fEnemyTimer = 0.0f;
     }
+}
+
+void X_State_Game::Render2D() const
+{
+    static GLToy_String szLives;
+    static GLToy_String szScore;
+    szLives.SetToFormatString( "Lives: %d", m_pxPlayer->GetLives() );
+    szScore.SetToFormatString( "Score: %d", s_uScore );
+
+    GLToy_Font_System::RenderString( szLives, "FrontEnd", -GLToy_Render::GetAspectRatio(), 0.9f );
+    GLToy_Font_System::RenderString( szScore, "FrontEnd", -GLToy_Render::GetAspectRatio(), 0.8f );
 }
