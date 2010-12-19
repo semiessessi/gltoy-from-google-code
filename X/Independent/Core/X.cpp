@@ -37,6 +37,8 @@
 
 // X
 #include <Core/State/X_State_Game.h>
+#include <Core/State/X_State_GameOver.h>
+#include <Core/State/X_State_MainMenu.h>
 #include <Entity/X_EntityTypes.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +52,10 @@ bool X::Initialise()
 	GLToy_Entity_System::SetProjectEntityCreateCallback( X_CreateEntity );
 
 	GLToy_State_System::RegisterState( new X_State_Game() );
+    GLToy_State_System::RegisterState( new X_State_GameOver() );
+    GLToy_State_System::RegisterState( new X_State_MainMenu() );
+
+    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "MainMenu" ) );
 
     return true;
 }

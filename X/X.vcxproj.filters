@@ -66,6 +66,12 @@
     <ClCompile Include="Independent\Entity\Enemy\X_Entity_Enemy.cpp">
       <Filter>Independent\Entity\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Core\State\X_State_GameOver.cpp">
+      <Filter>Independent\Core\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\State\X_State_MainMenu.cpp">
+      <Filter>Independent\Core\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_X.h">
@@ -91,6 +97,12 @@
     </ClInclude>
     <ClInclude Include="Independent\Entity\Enemy\X_Entity_Enemy.h">
       <Filter>Independent\Entity\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\State\X_State_MainMenu.h">
+      <Filter>Independent\Core\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\State\X_State_GameOver.h">
+      <Filter>Independent\Core\State</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

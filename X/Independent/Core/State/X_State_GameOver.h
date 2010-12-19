@@ -24,57 +24,33 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_STATE_SYSTEM_H_
-#define __GLTOY_STATE_SYSTEM_H_
+#ifndef __X_STATE_GameOver_H_
+#define __X_STATE_GameOver_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// Parent
+#include <Core/State/GLToy_State.h>
+
 // GLToy
-#include <Core/GLToy_Hash.h>
 #include <String/GLToy_String.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-template < class T > class GLToy_Array;
-template < class T > class GLToy_HashMap;
-class GLToy_State;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_State_System
+class X_State_GameOver
+: public GLToy_State
 {
 
 public:
 
-    static bool Initialise();
-    static void Shutdown();
+    virtual void Initialise();
+    virtual void Shutdown();
 
-    static void Render();
-    static void Render2D();
-    static void Update();
-
-	static GLToy_Hash GetState();
-    static void RegisterState( GLToy_State* const pxState, const GLToy_Hash uStateHash = uGLTOY_BAD_HASH );
-    static bool ChangeState( const GLToy_Hash uStateHash );
-    static void ChangeState_Console( const GLToy_String& szName );
-
-    static void SetNextState( const GLToy_Hash uStateHash ) { s_uNextState = uStateHash; }
-
-private:
-
-    static bool ChangeStateImmediate( const GLToy_Hash uStateHash );
-
-    static GLToy_HashMap< GLToy_State* > s_xStates;
-    static GLToy_State* s_pxCurrentState;
-	static GLToy_Hash s_uCurrentState;
-	static GLToy_Hash s_uNextState;
-    static GLToy_Hash s_uChangeState;
+    virtual const GLToy_String& GetName() const { static const GLToy_String ls_szName = "GameOver"; return ls_szName; }
 
 };
 

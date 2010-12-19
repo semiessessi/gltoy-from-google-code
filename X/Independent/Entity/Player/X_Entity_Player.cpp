@@ -35,6 +35,7 @@
 
 // GLToy
 #include <Core/GLToy_Timer.h>
+#include <Core/State/GLToy_State_System.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
 
@@ -71,7 +72,8 @@ void X_Entity_Player::Update()
 
     SetPosition( xPosition );
 
-    static X_Entity_Player* const ls_pxThis = this;
+    static X_Entity_Player* ls_pxThis;
+    ls_pxThis = this;
     // check for collisions:
     GLToy_QuickFunctor( CollisionFunctor, X_Entity_Enemy*, ppxEnemy,
 
@@ -85,10 +87,9 @@ void X_Entity_Player::Update()
 
     X_Entity_Enemy::GetList().Traverse( CollisionFunctor() );
 
-    // TODO: death
     if( m_uLives == 0xFFFFFFFF )
     {
-        // dead...
+        GLToy_State_System::ChangeState( GLToy_Hash_Constant( "GameOver" ) );
     }
 
     GLToy_Parent::Update();

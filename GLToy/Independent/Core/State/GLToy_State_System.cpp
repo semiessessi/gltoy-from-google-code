@@ -53,6 +53,7 @@ GLToy_HashMap< GLToy_State* > GLToy_State_System::s_xStates;
 GLToy_State* GLToy_State_System::s_pxCurrentState = 0;
 GLToy_Hash GLToy_State_System::s_uNextState = uGLTOY_BAD_HASH;
 GLToy_Hash GLToy_State_System::s_uCurrentState = uGLTOY_BAD_HASH;
+GLToy_Hash GLToy_State_System::s_uChangeState = uGLTOY_BAD_HASH;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -97,11 +98,17 @@ void GLToy_State_System::Render2D()
 
 void GLToy_State_System::Update()
 {
+    if( s_uChangeState )
+    {
+        ChangeStateImmediate( s_uChangeState );
+        s_uChangeState = uGLTOY_BAD_HASH;
+    }
+
     if( s_pxCurrentState )
     {
         if( s_pxCurrentState->IsDone() )
         {
-            ChangeState( s_uNextState );
+            ChangeStateImmediate( s_uNextState );
             s_uNextState = uGLTOY_BAD_HASH;
         }
 
@@ -138,6 +145,18 @@ void GLToy_State_System::RegisterState( GLToy_State* const pxState, const GLToy_
 }
 
 bool GLToy_State_System::ChangeState( const GLToy_Hash uStateHash )
+{
+    if( !s_xStates.FindData( uStateHash ) )
+    {
+        return false;
+    }
+
+    s_uChangeState = uStateHash;
+
+    return true;
+}
+
+bool GLToy_State_System::ChangeStateImmediate( const GLToy_Hash uStateHash )
 {
     if( s_pxCurrentState )
     {

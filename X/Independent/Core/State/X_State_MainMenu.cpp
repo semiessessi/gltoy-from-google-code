@@ -24,58 +24,62 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_STATE_SYSTEM_H_
-#define __GLTOY_STATE_SYSTEM_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <Core/X.h>
+
+// This file's header
+#include <Core/State/X_State_MainMenu.h>
+
 // GLToy
-#include <Core/GLToy_Hash.h>
-#include <String/GLToy_String.h>
+#include <Core/State/GLToy_State_System.h>
+#include <Entity/GLToy_Entity_System.h>
+#include <Render/GLToy_Render.h>
+#include <Render/GLToy_Texture.h>
+#include <UI/GLToy_UI_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_Array;
-template < class T > class GLToy_HashMap;
-class GLToy_State;
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-class GLToy_State_System
+void X_State_MainMenu_NewCallback( void* const pData )
 {
+    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Game" ) );
+}
 
-public:
+void X_State_MainMenu_QuitCallback( void* const pData )
+{
+    GLToy_UI_System::ShowQuitDialog();
+}
 
-    static bool Initialise();
-    static void Shutdown();
+void X_State_MainMenu::Initialise()
+{
+    GLToy_Entity_System::DestroyEntities();
 
-    static void Render();
-    static void Render2D();
-    static void Update();
+    GLToy_Texture_System::CreateTexture( "Widgets/File.png" );
+    GLToy_Texture_System::CreateTexture( "Widgets/Shutdown.png" );
 
-	static GLToy_Hash GetState();
-    static void RegisterState( GLToy_State* const pxState, const GLToy_Hash uStateHash = uGLTOY_BAD_HASH );
-    static bool ChangeState( const GLToy_Hash uStateHash );
-    static void ChangeState_Console( const GLToy_String& szName );
+    GLToy_Entity_System::SetRender( false );
 
-    static void SetNextState( const GLToy_Hash uStateHash ) { s_uNextState = uStateHash; }
+    GLToy_UI_System::ShowPointer( true );
 
-private:
+    const float fBaseX = GLToy_Render::GetMinX() + 0.05f;
+    GLToy_UI_System::CreateLabel( "X", fBaseX, 0.85f );
+    
+    GLToy_UI_System::CreateImageButton(
+        "Widgets/File.png", "New Game",
+        X_State_MainMenu_NewCallback,
+        fBaseX, 0.45f, 0.2f, 0.2f );
+    
+    GLToy_UI_System::CreateImageButton(
+        "Widgets/Shutdown.png", "Quit",
+        X_State_MainMenu_QuitCallback,
+        fBaseX, 0.15f, 0.2f, 0.2f );
+}
 
-    static bool ChangeStateImmediate( const GLToy_Hash uStateHash );
-
-    static GLToy_HashMap< GLToy_State* > s_xStates;
-    static GLToy_State* s_pxCurrentState;
-	static GLToy_Hash s_uCurrentState;
-	static GLToy_Hash s_uNextState;
-    static GLToy_Hash s_uChangeState;
-
-};
-
-#endif
+void X_State_MainMenu::Shutdown()
+{
+    GLToy_UI_System::ClearWidgets();
+}
