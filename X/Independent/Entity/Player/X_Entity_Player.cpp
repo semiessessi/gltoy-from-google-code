@@ -40,7 +40,14 @@
 #include <Render/GLToy_Texture.h>
 
 // X
+#include <Entity/Collectible/X_Entity_Collectible.h>
 #include <Entity/Enemy/X_Entity_Enemy.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Static member vars
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+GLToy_Array< X_Entity_Player* > X_Entity_Player::s_xList;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
@@ -57,8 +64,16 @@ X_Entity_Player::X_Entity_Player( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
 , m_xMovement( GLToy_Maths::ZeroVector2 )
 , m_uLives( 3 )
+, m_uGunType( X_PLAYER_GUN_TYPE_SINGLE )
 {
     m_xBoundingSphere.SetRadius( fSIZE );
+
+	s_xList.Append( this );
+}
+
+X_Entity_Player::~X_Entity_Player()
+{
+	s_xList.RemoveByValue( this );
 }
 
 void X_Entity_Player::Update()
@@ -87,6 +102,18 @@ void X_Entity_Player::Update()
 
     X_Entity_Enemy::GetList().Traverse( CollisionFunctor() );
 
+	GLToy_QuickFunctor( CollectFunctor, X_Entity_Collectible*, ppxCollectible,
+
+        if( ppxCollectible && ( *ppxCollectible )->GetBoundingSphere().IntersectsWithSphere( ls_pxThis->m_xBoundingSphere ) )
+        {
+            ls_pxThis->Collect( *ppxCollectible );
+            ( *ppxCollectible )->Destroy();
+        }
+
+    );
+
+    X_Entity_Collectible::GetList().Traverse( CollectFunctor() );
+
     if( m_uLives == 0xFFFFFFFF )
     {
         GLToy_State_System::ChangeState( GLToy_Hash_Constant( "GameOver" ) );
@@ -110,3 +137,26 @@ void X_Entity_Player::Render() const
 
     GLToy_Render::EndSubmit();
 }
+
+void X_Entity_Player::Collect( const X_Entity_Collectible* pxCollectible )
+{
+	switch( pxCollectible->GetCollectType() )
+	{
+		case X_COLLECTIBLE_TYPE_LIFE:
+		{
+			m_uLives++;
+		}
+		break;
+
+		case X_COLLECTIBLE_TYPE_WEAPON:
+		{
+			switch( m_uGunType )
+			{
+				case X_PLAYER_GUN_TYPE_SINGLE:	m_uGunType = X_PLAYER_GUN_TYPE_TRIPLE; break;
+				case X_PLAYER_GUN_TYPE_TRIPLE:	m_uGunType = X_PLAYER_GUN_TYPE_FIVER;  break;
+			}
+		}
+	}
+}
+
+//eof

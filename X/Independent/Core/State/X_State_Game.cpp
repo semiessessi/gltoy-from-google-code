@@ -46,13 +46,17 @@
 
 // X
 #include <Entity/X_EntityTypes.h>
+#include <Entity/Collectible/X_Entity_Collectible.h>
 #include <Entity/Player/X_Entity_Player.h>
+#include <Entity/Projectile/X_Entity_Projectile.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 u_int X_State_Game::s_uScore = 0;
+
+static const float fX_COLLECTIBLE_INTERVAL = 10.0f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -62,6 +66,7 @@ X_State_Game::X_State_Game()
 : GLToy_Parent()
 , m_pxPlayer( NULL )
 , m_fEnemyTimer( 0.0f )
+, m_fCollectibleTimer( 0.0f )
 , m_fStateTimer( 0.0f )
 {
 }
@@ -79,8 +84,9 @@ void X_State_Game::Initialise()
 	m_pxPlayer = static_cast< X_Entity_Player* >( GLToy_Entity_System::CreateEntity( GLToy_Hash_Constant( "Player" ), X_ENTITY_PLAYER ) );
 
     m_fEnemyTimer = 0.0f;
-    m_fStateTimer = 0.0f;
-
+    m_fCollectibleTimer = 0.0f;
+	m_fStateTimer = 0.0f;
+	
     s_uScore = 0;
 }
 
@@ -93,6 +99,7 @@ void X_State_Game::Shutdown()
 void X_State_Game::Update()
 {
     m_fEnemyTimer -= GLToy_Timer::GetFrameTime();
+	m_fCollectibleTimer -= GLToy_Timer::GetFrameTime();
     m_fStateTimer += GLToy_Timer::GetFrameTime();
 
 	const bool bLeft = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() );
@@ -113,6 +120,21 @@ void X_State_Game::Update()
         m_fEnemyTimer = GLToy_Maths::ClampedLerp( 3.0f, 1.0f, m_fStateTimer * 0.01f );
     }
 
+	if( m_fCollectibleTimer < 0.0f )
+	{
+		GLToy_Hash xHash = X_COLLECTIBLE_TYPE_WEAPON;
+		if( GLToy_Maths::Random() > 0.8f )
+		{
+			xHash = X_COLLECTIBLE_TYPE_LIFE;
+		}
+
+		X_Entity_Collectible* pxEntity = static_cast<X_Entity_Collectible*>( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_COLLECTIBLE ) );
+		pxEntity->SetCollectType( xHash );
+		pxEntity->SetPosition( GLToy_Vector_3( GLToy_Maths::Random( -1.0f, 1.0f ), 1.5f, 0.0f ) );
+
+		m_fCollectibleTimer = fX_COLLECTIBLE_INTERVAL;
+	}
+
     static bool ls_bSpaceDown = false;
     static float ls_fFiringTimer = 0.0f;
     const bool bSpaceDown = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetSpaceKey() );
@@ -128,12 +150,44 @@ void X_State_Game::Update()
 
     if( bSpaceDown )
     {
+		// TODO: This should be a function of the player no? pxPlayer->Shoot()
+
         ls_fFiringTimer -= GLToy_Timer::GetFrameTime();
 
         if( ls_fFiringTimer <= 0.0f )
         {
-            GLToy_Entity_Sphere* const pxProjectile = static_cast< GLToy_Entity_Sphere* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
+            X_Entity_Projectile* pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
             pxProjectile->SetPosition( m_pxPlayer->GetPosition() );
+
+			// Hack
+			X_Entity_Player* pxPlayer = X_Entity_Player::GetList()[0];
+
+			if( pxPlayer )
+			{
+				if(    ( pxPlayer->GetGunType() == X_PLAYER_GUN_TYPE_TRIPLE )
+					|| ( pxPlayer->GetGunType() == X_PLAYER_GUN_TYPE_FIVER  ) )
+				{
+					pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
+					pxProjectile->SetPosition( m_pxPlayer->GetPosition() );
+					pxProjectile->SetDirection( GLToy_Vector_3( 0.1f, 1.0f, 0.0f ) );
+
+					pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
+					pxProjectile->SetPosition( m_pxPlayer->GetPosition() );
+					pxProjectile->SetDirection( GLToy_Vector_3( -0.1f, 1.0f, 0.0f ) );
+
+					if( pxPlayer->GetGunType() == X_PLAYER_GUN_TYPE_FIVER )
+					{
+						pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
+						pxProjectile->SetPosition( m_pxPlayer->GetPosition() );
+						pxProjectile->SetDirection( GLToy_Vector_3( 0.15f, 0.8f, 0.0f ) );
+
+						pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
+						pxProjectile->SetPosition( m_pxPlayer->GetPosition() );
+						pxProjectile->SetDirection( GLToy_Vector_3( -0.15f, 0.8f, 0.0f ) );
+					}
+				}
+			}
+
             // TODO: remove magic number
             ls_fFiringTimer = 0.4f;
         }

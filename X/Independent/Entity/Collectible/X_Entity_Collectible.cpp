@@ -31,7 +31,7 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <Entity/Projectile/X_Entity_Projectile.h>
+#include <Entity/Collectible/X_Entity_Collectible.h>
 
 // GLToy
 #include <Core/GLToy_Timer.h>
@@ -40,54 +40,55 @@
 
 // X
 #include <Entity/Enemy/X_Entity_Enemy.h>
+#include <Entity/Player/X_Entity_Player.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const float fSPEED = 3.0f;
-static const float fSIZE = 0.01f;
+static const float fSPEED = 1.0f;
+static const float fSIZE = 0.02f;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Static member vars
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+GLToy_Array< X_Entity_Collectible* > X_Entity_Collectible::s_xList;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-X_Entity_Projectile::X_Entity_Projectile( const GLToy_Hash uHash, const u_int uType )
+X_Entity_Collectible::X_Entity_Collectible( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
+, m_xCollectType( uGLTOY_BAD_HASH )
 {
     m_xBoundingSphere.SetRadius( fSIZE );
-	m_xDirection[1] = 1.0f;
+
+	s_xList.Append( this );
 }
 
-void X_Entity_Projectile::Update()
+X_Entity_Collectible::~X_Entity_Collectible()
+{
+	s_xList.RemoveByValue( this );
+}
+
+void X_Entity_Collectible::Update()
 {
     GLToy_Vector_3 xPosition = GetPosition();
-    xPosition += m_xDirection * ( fSPEED * GLToy_Timer::GetFrameTime() );
+    xPosition -= GLToy_Vector_3( 0.0f, fSPEED * GLToy_Timer::GetFrameTime(), 0.0f );
 
     SetPosition( xPosition );
 
-    if( xPosition[ 1 ] > 1.5f )
+    if( xPosition[ 1 ] < -1.5f )
     {
         Destroy();
     }
 
-    static X_Entity_Projectile* ls_pxThis;
-    ls_pxThis = this;
-    // check for collisions:
-    GLToy_QuickFunctor( CollisionFunctor, X_Entity_Enemy*, ppxEnemy,
-
-        if( ppxEnemy && !( *ppxEnemy )->IsDead() && ( *ppxEnemy )->GetBoundingSphere().IntersectsWithSphere( ls_pxThis->m_xBoundingSphere ) )
-        {
-            ( *ppxEnemy )->Kill();
-        }
-    );
-
-    X_Entity_Enemy::GetList().Traverse( CollisionFunctor() );
-
     GLToy_Parent::Update();
 }
 
-void X_Entity_Projectile::Render() const
+void X_Entity_Collectible::Render() const
 {
     const GLToy_Vector_3& xPosition = GetPosition();
 
@@ -95,7 +96,14 @@ void X_Entity_Projectile::Render() const
 
     GLToy_Render::StartSubmittingQuads();
 
-    GLToy_Render::SubmitColour( GLToy_Vector_3( 0.0f, 1.0f, 1.0f ) );
+	if( GetCollectType() == X_COLLECTIBLE_TYPE_LIFE )
+	{
+		GLToy_Render::SubmitColour( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ) );
+	}
+	else if( GetCollectType() == X_COLLECTIBLE_TYPE_WEAPON )
+	{
+		GLToy_Render::SubmitColour( GLToy_Vector_3( 0.0f, 0.5f, 1.0f ) );
+	}
     GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] );  
     GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] );  
     GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] ); 

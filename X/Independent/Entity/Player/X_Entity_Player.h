@@ -35,6 +35,20 @@
 #include <Entity/GLToy_Entity.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// D E F I N E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#define X_PLAYER_GUN_TYPE_SINGLE 0x33333333 // TODO use correct hash
+#define X_PLAYER_GUN_TYPE_TRIPLE 0x44444444
+#define X_PLAYER_GUN_TYPE_FIVER  0x55555555
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Forward declarations
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+class X_Entity_Collectible;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -47,7 +61,7 @@ class X_Entity_Player
 public:
 
     X_Entity_Player( const GLToy_Hash uHash, const u_int uType );
-    virtual ~X_Entity_Player() {}
+    virtual ~X_Entity_Player();
 
     virtual void Render() const;
 	virtual void Update();
@@ -55,11 +69,21 @@ public:
 	GLToy_ForceInline void SetMovement( const GLToy_Vector_2& xMovement ) { m_xMovement = xMovement; }
 
     u_int GetLives() const { return m_uLives; }
+	u_int GetGunType() const { return m_uGunType; }
+
+	static GLToy_Array< X_Entity_Player* >& GetList() { return s_xList; }
 
 protected:
 
 	GLToy_Vector_2 m_xMovement;
     u_int m_uLives;
+	u_int m_uGunType;
+    
+private:
+
+	void Collect( const X_Entity_Collectible* pxCollectible );
+
+    static GLToy_Array< X_Entity_Player* > s_xList;
 
 };
 

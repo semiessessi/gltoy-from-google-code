@@ -72,8 +72,9 @@ protected:
 
 	X_Entity_Player* m_pxPlayer;
     float m_fEnemyTimer;
-    float m_fStateTimer;
-
+    float m_fCollectibleTimer;
+	float m_fStateTimer;
+	
     static u_int s_uScore;
 
 };

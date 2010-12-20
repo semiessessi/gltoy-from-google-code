@@ -37,6 +37,9 @@
     <Filter Include="Independent\Entity\Projectile">
       <UniqueIdentifier>{fbc5d0ab-aa0e-44ec-a642-73af41092302}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Entity\Collectible">
+      <UniqueIdentifier>{a0447cdc-fa58-46c5-acda-605014558636}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_X.cpp">
@@ -78,6 +81,9 @@
     <ClCompile Include="Independent\Entity\Projectile\X_Entity_Projectile.cpp">
       <Filter>Independent\Entity\Projectile</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Entity\Collectible\X_Entity_Collectible.cpp">
+      <Filter>Independent\Entity\Collectible</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_X.h">
@@ -112,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Entity\Projectile\X_Entity_Projectile.h">
       <Filter>Independent\Entity\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Collectible\X_Entity_Collectible.h">
+      <Filter>Independent\Entity\Collectible</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

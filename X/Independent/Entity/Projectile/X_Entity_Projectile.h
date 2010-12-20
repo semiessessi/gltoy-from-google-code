@@ -49,11 +49,16 @@ class X_Entity_Projectile
 
 public:
 
-    X_Entity_Projectile( const GLToy_Hash uHash, const u_int uType );
+	X_Entity_Projectile( const GLToy_Hash uHash, const u_int uType );
 
     virtual void Render() const;
 	virtual void Update();
 
+	void SetDirection( const GLToy_Vector_3& xDirection ) { m_xDirection = xDirection; }
+
+private:
+
+	GLToy_Vector_3 m_xDirection;
 };
 
 #endif
