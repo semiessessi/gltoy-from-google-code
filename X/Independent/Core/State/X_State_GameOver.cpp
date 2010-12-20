@@ -36,39 +36,41 @@
 // GLToy
 #include <Core/State/GLToy_State_System.h>
 #include <Entity/GLToy_Entity_System.h>
+#include <Input/GLToy_Input_System.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
 #include <UI/GLToy_UI_System.h>
+
+// X
+#include <Core/State/X_State_Game.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void X_State_GameOver_MainMenuCallback( void* const pData )
-{
-    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "MainMenu" ) );
-}
-
 void X_State_GameOver::Initialise()
 {
     GLToy_Entity_System::DestroyEntities();
-
-    GLToy_Texture_System::CreateTexture( "Widgets/Base_Round_Gray.png" );
-
     GLToy_Entity_System::SetRender( false );
-
     GLToy_UI_System::ShowPointer( true );
 
     const float fBaseX = GLToy_Render::GetMinX() + 0.05f;
     GLToy_UI_System::CreateLabel( "G A M E   O V E R", fBaseX, 0.85f );
-    
-    GLToy_UI_System::CreateImageButton(
-        "Widgets/Base_Round_Gray.png", "Main Menu",
-        X_State_GameOver_MainMenuCallback,
-        fBaseX, 0.45f, 0.2f, 0.2f );
+    GLToy_String szScore;
+    szScore.SetToFormatString( "You scored %d", X_State_Game::GetScore() );
+    GLToy_UI_System::CreateLabel( szScore, fBaseX, 0.75f );
+    GLToy_UI_System::CreateLabel( "Click to continue", fBaseX, 0.65f );
 }
 
 void X_State_GameOver::Shutdown()
 {
     GLToy_UI_System::ClearWidgets();
+}
+
+void X_State_GameOver::Update()
+{
+    if( GLToy_Input_System::GetDebouncedMouseLeft() )
+    {
+        GLToy_State_System::ChangeState( GLToy_Hash_Constant( "MainMenu" ) );
+    }
 }

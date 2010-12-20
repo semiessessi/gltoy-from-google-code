@@ -50,6 +50,8 @@ public:
     virtual void Initialise();
     virtual void Shutdown();
 
+    virtual void Update();
+
     virtual const GLToy_String& GetName() const { static const GLToy_String ls_szName = "GameOver"; return ls_szName; }
 
 };
