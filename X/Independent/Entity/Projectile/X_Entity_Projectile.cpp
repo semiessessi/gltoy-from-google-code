@@ -35,6 +35,7 @@
 
 // GLToy
 #include <Core/GLToy_Timer.h>
+#include <Particle/GLToy_PFX_System.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
 
@@ -78,7 +79,8 @@ void X_Entity_Projectile::Update()
 
         if( ppxEnemy && !( *ppxEnemy )->IsDead() && ( *ppxEnemy )->GetBoundingSphere().IntersectsWithSphere( ls_pxThis->m_xBoundingSphere ) )
         {
-            ( *ppxEnemy )->Hurt( 0, 10.0f );
+			GLToy_PFX_System::CreatePFX( GLToy_GetHash("Shot_Hit1" ), ls_pxThis->GetPosition() );
+			( *ppxEnemy )->Hurt( 0, 10.0f );
 			ls_pxThis->Destroy();
         }
     );
