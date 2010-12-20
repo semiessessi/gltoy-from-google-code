@@ -34,6 +34,9 @@
     <Filter Include="Independent\Entity\Enemy">
       <UniqueIdentifier>{4a29c318-c22e-4c51-9656-d6bcb61f4621}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Entity\Projectile">
+      <UniqueIdentifier>{fbc5d0ab-aa0e-44ec-a642-73af41092302}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_X.cpp">
@@ -72,6 +75,9 @@
     <ClCompile Include="Independent\Core\State\X_State_MainMenu.cpp">
       <Filter>Independent\Core\State</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Entity\Projectile\X_Entity_Projectile.cpp">
+      <Filter>Independent\Entity\Projectile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_X.h">
@@ -103,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Core\State\X_State_GameOver.h">
       <Filter>Independent\Core\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Projectile\X_Entity_Projectile.h">
+      <Filter>Independent\Entity\Projectile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

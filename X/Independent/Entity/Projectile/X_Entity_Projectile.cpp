@@ -24,35 +24,81 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __X_ENTITYTYPES_H_
-#define __X_ENTITYTYPES_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <Core/GLToy.h>
+
+// This file's header
+#include <Entity/Projectile/X_Entity_Projectile.h>
+
 // GLToy
-#include <Core/GLToy_Hash.h>
-#include <Entity/GLToy_EntityTypes.h>
+#include <Core/GLToy_Timer.h>
+#include <Render/GLToy_Render.h>
+#include <Render/GLToy_Texture.h>
+
+// X
+#include <Entity/Enemy/X_Entity_Enemy.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-enum X_EntityType
-{
-    X_ENTITY_PLAYER = ENTITY_FIRST_PROJECT_TYPE,
-
-    X_ENTITY_ENEMY,
-    X_ENTITY_PROJECTILE,
-
-    NUM_X_ENTITY_TYPES
-};
+static const float fSPEED = 3.0f;
+static const float fSIZE = 0.01f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Entity* X_CreateEntity( const GLToy_Hash uHash, const u_int uType );
+X_Entity_Projectile::X_Entity_Projectile( const GLToy_Hash uHash, const u_int uType )
+: GLToy_Parent( uHash, uType )
+{
+    m_xBoundingSphere.SetRadius( fSIZE );
+}
 
-#endif
+void X_Entity_Projectile::Update()
+{
+    GLToy_Vector_3 xPosition = GetPosition();
+    xPosition += GLToy_Vector_3( 0.0f, fSPEED * GLToy_Timer::GetFrameTime(), 0.0f );
+
+    SetPosition( xPosition );
+
+    if( xPosition[ 1 ] > 1.5f )
+    {
+        Destroy();
+    }
+
+    static X_Entity_Projectile* ls_pxThis;
+    ls_pxThis = this;
+    // check for collisions:
+    GLToy_QuickFunctor( CollisionFunctor, X_Entity_Enemy*, ppxEnemy,
+
+        if( ppxEnemy && !( *ppxEnemy )->IsDead() && ( *ppxEnemy )->GetBoundingSphere().IntersectsWithSphere( ls_pxThis->m_xBoundingSphere ) )
+        {
+            ( *ppxEnemy )->Kill();
+        }
+    );
+
+    X_Entity_Enemy::GetList().Traverse( CollisionFunctor() );
+
+    GLToy_Parent::Update();
+}
+
+void X_Entity_Projectile::Render() const
+{
+    const GLToy_Vector_3& xPosition = GetPosition();
+
+    GLToy_Texture_System::BindWhite();
+
+    GLToy_Render::StartSubmittingQuads();
+
+    GLToy_Render::SubmitColour( GLToy_Vector_3( 0.0f, 1.0f, 1.0f ) );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] );  
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] );  
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] ); 
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+
+    GLToy_Render::EndSubmit();
+}

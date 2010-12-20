@@ -109,6 +109,32 @@ void X_State_Game::Update()
 
         m_fEnemyTimer = 0.0f;
     }
+
+    static bool ls_bSpaceDown = false;
+    static float ls_fFiringTimer = 0.0f;
+    const bool bSpaceDown = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetSpaceKey() );
+    if( !ls_bSpaceDown && bSpaceDown )
+    {
+        ls_fFiringTimer = 0.0f;
+        ls_bSpaceDown = true;
+    }
+    else if( ls_bSpaceDown && !bSpaceDown )
+    {
+        ls_bSpaceDown = false;
+    }
+
+    if( bSpaceDown )
+    {
+        ls_fFiringTimer -= GLToy_Timer::GetFrameTime();
+
+        if( ls_fFiringTimer <= 0.0f )
+        {
+            GLToy_Entity_Sphere* const pxProjectile = static_cast< GLToy_Entity_Sphere* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
+            pxProjectile->SetPosition( m_pxPlayer->GetPosition() );
+            // TODO: remove magic number
+            ls_fFiringTimer = 0.4f;
+        }
+    }
 }
 
 void X_State_Game::Render2D() const

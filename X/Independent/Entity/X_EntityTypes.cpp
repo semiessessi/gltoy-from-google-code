@@ -40,6 +40,7 @@
 // X
 #include <Entity/Enemy/X_Entity_Enemy.h>
 #include <Entity/Player/X_Entity_Player.h>
+#include <Entity/Projectile/X_Entity_Projectile.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -51,6 +52,7 @@ GLToy_Entity* X_CreateEntity( const GLToy_Hash uHash, const u_int uType )
     {
         case X_ENTITY_PLAYER:				return new X_Entity_Player( uHash, uType );
         case X_ENTITY_ENEMY:				return new X_Entity_Enemy( uHash, uType );
+        case X_ENTITY_PROJECTILE:			return new X_Entity_Projectile( uHash, uType );
 
         default:
         {
