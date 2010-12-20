@@ -78,7 +78,8 @@ void X_Entity_Projectile::Update()
 
         if( ppxEnemy && !( *ppxEnemy )->IsDead() && ( *ppxEnemy )->GetBoundingSphere().IntersectsWithSphere( ls_pxThis->m_xBoundingSphere ) )
         {
-            ( *ppxEnemy )->Kill();
+            ( *ppxEnemy )->Hurt( 0, 10.0f );
+			ls_pxThis->Destroy();
         }
     );
 

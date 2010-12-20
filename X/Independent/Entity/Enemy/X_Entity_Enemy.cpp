@@ -45,7 +45,9 @@
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const float fSPEED = 0.5f;
+static const float fSPEED = 0.8f;
+static const float fWIGGLE_SPEED = 0.5f;
+static const float fWIGGLE_RANGE = 0.0025f;
 static const float fSIZE = 0.05f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,6 +65,8 @@ X_Entity_Enemy::X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType )
 {
     m_xBoundingSphere.SetRadius( fSIZE );
 
+	SetHealth( 40.0f );
+
     s_xList.Append( this );
 }
 
@@ -75,6 +79,7 @@ void X_Entity_Enemy::Update()
 {
     GLToy_Vector_3 xPosition = GetPosition();
     xPosition -= GLToy_Vector_3( 0.0f, fSPEED * GLToy_Timer::GetFrameTime(), 0.0f );
+	xPosition[0] += GLToy_Maths::Sin( GLToy_Timer::GetTime() * fWIGGLE_SPEED + static_cast<float>( GetHash() ) * 0.0001f ) * fWIGGLE_RANGE; // dont ask me about this mess
 
     SetPosition( xPosition );
 

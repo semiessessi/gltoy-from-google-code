@@ -84,7 +84,7 @@ void X_State_Game::Initialise()
 	m_pxPlayer = static_cast< X_Entity_Player* >( GLToy_Entity_System::CreateEntity( GLToy_Hash_Constant( "Player" ), X_ENTITY_PLAYER ) );
 
     m_fEnemyTimer = 0.0f;
-    m_fCollectibleTimer = 0.0f;
+    m_fCollectibleTimer = fX_COLLECTIBLE_INTERVAL * 2.0f;
 	m_fStateTimer = 0.0f;
 	
     s_uScore = 0;
@@ -117,7 +117,7 @@ void X_State_Game::Update()
         GLToy_Entity_Sphere* const pxEntity = static_cast< GLToy_Entity_Sphere* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_ENEMY ) );
         pxEntity->SetPosition( GLToy_Vector_3( GLToy_Maths::Random( -1.0f, 1.0f ), 1.5f, 0.0f ) );
 
-        m_fEnemyTimer = GLToy_Maths::ClampedLerp( 3.0f, 1.0f, m_fStateTimer * 0.01f );
+        m_fEnemyTimer = GLToy_Maths::ClampedLerp( 1.0f, 0.1f, m_fStateTimer * 0.01f );
     }
 
 	if( m_fCollectibleTimer < 0.0f )
