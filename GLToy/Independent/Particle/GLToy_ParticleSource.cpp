@@ -47,11 +47,13 @@
 
 GLToy_ParticleSource::GLToy_ParticleSource( const GLToy_ParticleSourceProperties& xProperties, const GLToy_PFX* const pxParent )
 : m_xParticleProperties()
+, m_xParticles()
+, m_pxParent( pxParent )
 , m_fReleaseRate( 1.0f / xProperties.m_fReleaseRate )
 , m_fReleaseTimer( 0.0f )
 , m_fLifetime( xProperties.m_fLifetime )
-, m_xParticles()
-, m_pxParent( pxParent )
+, m_fSpeed( xProperties.m_fSpeed )
+, m_bRandomDirection( xProperties.m_bRandomDirection )
 {
     const GLToy_ParticleProperties* const pxParticleProperties = GLToy_PFX_System::GetParticleProperties( xProperties.m_uParticleHash );
     if( pxParticleProperties )
@@ -94,6 +96,7 @@ void GLToy_ParticleSource::Update()
             const u_int uCount = static_cast< u_int >( GLToy_Maths::Floor( m_fReleaseTimer / m_fReleaseRate ) );
             for( u_int u = 0; u < uCount; ++u )
             {
+                m_xParticleProperties.m_xVelocity = m_bRandomDirection ? ( GLToy_Maths::RandomDirection() * m_fSpeed ) : m_xParticleProperties.m_xVelocity;
                 m_xParticles.Append( new GLToy_Particle( m_xParticleProperties, m_pxParent->GetPosition() + m_xParticleProperties.m_xVelocity * m_fReleaseRate * static_cast< float >( u ) ) );
             }
 

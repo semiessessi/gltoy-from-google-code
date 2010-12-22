@@ -65,6 +65,7 @@ struct GLToy_ParticleProperties
     float m_fFadeTime;
     float m_fRotationRate;
     bool m_bRandomAngle;
+    bool m_bAdditive;
     GLToy_Hash m_uTextureHash;
 
 };
@@ -91,6 +92,11 @@ public:
         if( xProperties.m_bRandomAngle )
         {
             SetAngle( GLToy_Maths::Random( 0.0f, 2.0f * GLToy_Maths::Pi ) );
+        }
+
+        if( xProperties.m_bAdditive )
+        {
+            SetBlendFunction( ucSPRITE_BLEND_ADDITIVE );
         }
     }
 

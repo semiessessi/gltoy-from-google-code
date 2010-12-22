@@ -329,6 +329,14 @@ float GLToy_Maths::Random( const float fLower, const float fHigher )
     return fLower + ( ( fHigher - fLower ) * uWorkingValue ) / static_cast< float >( 0xFFFFFFFF );
 }
 
+// TODO: sort out the distribution
+GLToy_Vector_3 GLToy_Maths::RandomDirection()
+{
+    GLToy_Vector_3 xReturnValue( Random( -1.0f ), Random( -1.0f ), Random( -1.0f ) );
+    xReturnValue.Normalise();
+    return xReturnValue;
+}
+
 float GLToy_Maths::Deg2Rad( const float fValue )
 {
     static const float ls_fConversionFactor = Pi / 180.0f;

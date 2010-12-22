@@ -151,6 +151,7 @@ void X_State_Game::Update()
     if( bSpaceDown )
     {
 		// TODO: This should be a function of the player no? pxPlayer->Shoot()
+        // SE - yes, indeed, good idea :)
 
         ls_fFiringTimer -= GLToy_Timer::GetFrameTime();
 
@@ -189,7 +190,7 @@ void X_State_Game::Update()
 			}
 
             // TODO: remove magic number
-            ls_fFiringTimer = 0.4f;
+            ls_fFiringTimer = 0.2f;
         }
     }
 }

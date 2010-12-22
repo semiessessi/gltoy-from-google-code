@@ -63,6 +63,8 @@ struct GLToy_ParticleSourceProperties
     , m_fReleaseRate( 2.0f )
     , m_fLifetime( 3.0f )
     , m_uParticleHash( uGLTOY_BAD_HASH )
+    , m_fSpeed( 32.0f )
+    , m_bRandomDirection( false )
     {
     }
 
@@ -70,6 +72,9 @@ struct GLToy_ParticleSourceProperties
     float m_fReleaseRate;
     float m_fLifetime;
     GLToy_Hash m_uParticleHash;
+    float m_fSpeed;
+
+    bool m_bRandomDirection;
 
 };
 
@@ -91,13 +96,15 @@ public:
     // maybe protected with friends specified?
 
     GLToy_ParticleProperties m_xParticleProperties;
+    GLToy_List< GLToy_Particle* > m_xParticles;
+    const GLToy_PFX* m_pxParent;
+
     float m_fReleaseRate;
     float m_fReleaseTimer;
     float m_fLifetime;
+    float m_fSpeed;    
 
-    GLToy_List< GLToy_Particle* > m_xParticles;
-
-    const GLToy_PFX* m_pxParent;
+    bool m_bRandomDirection;
 
 };
 

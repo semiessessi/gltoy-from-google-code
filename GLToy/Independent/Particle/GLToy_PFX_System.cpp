@@ -245,6 +245,14 @@ bool GLToy_PFX_System::InitialiseSourceProperties()
                 {
                     xSourceProperties.m_uParticleHash = szValue.GetHash();
                 }
+                else if( szKey == "RandomDirection" )
+                {
+                    xSourceProperties.m_bRandomDirection = !szValue.MeansFalse();
+                }
+                else if( szKey == "Speed" )
+                {
+                    xSourceProperties.m_fSpeed = szValue.ExtractFloat();
+                }
             }
         }
 
@@ -310,6 +318,10 @@ bool GLToy_PFX_System::InitialiseParticleProperties()
                 else if( szKey == "RandomAngle" )
                 {
                     xParticleProperties.m_bRandomAngle = !szValue.MeansFalse();
+                }
+                else if( szKey == "Additive" )
+                {
+                    xParticleProperties.m_bAdditive = !szValue.MeansFalse();
                 }
             }
         }
