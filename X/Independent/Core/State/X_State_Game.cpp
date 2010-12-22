@@ -165,28 +165,18 @@ void X_State_Game::Update()
 
 			if( pxPlayer )
 			{
-				if(    ( pxPlayer->GetGunType() == X_PLAYER_GUN_TYPE_TRIPLE )
-					|| ( pxPlayer->GetGunType() == X_PLAYER_GUN_TYPE_FIVER  ) )
-				{
-					pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
+                static const u_int uMax = 11;
+                static const GLToy_Vector_3 xIncrement( 0.1f, 0.0f, 0.0f );
+                const u_int uCount = GLToy_Maths::Min( 1 + ( pxPlayer->GetGunLevel() << 1 ), uMax );
+
+                GLToy_Vector_3 xDirection( -0.5f  * xIncrement[ 0 ] * static_cast< float >( uCount - 1 ), 1.0f, 0.0f );
+                for( u_int u = 0; u < uCount; ++u )
+                {
+                    pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
 					pxProjectile->SetPosition( m_pxPlayer->GetPosition() );
-					pxProjectile->SetDirection( GLToy_Vector_3( 0.1f, 1.0f, 0.0f ) );
-
-					pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
-					pxProjectile->SetPosition( m_pxPlayer->GetPosition() );
-					pxProjectile->SetDirection( GLToy_Vector_3( -0.1f, 1.0f, 0.0f ) );
-
-					if( pxPlayer->GetGunType() == X_PLAYER_GUN_TYPE_FIVER )
-					{
-						pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
-						pxProjectile->SetPosition( m_pxPlayer->GetPosition() );
-						pxProjectile->SetDirection( GLToy_Vector_3( 0.15f, 0.8f, 0.0f ) );
-
-						pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
-						pxProjectile->SetPosition( m_pxPlayer->GetPosition() );
-						pxProjectile->SetDirection( GLToy_Vector_3( -0.15f, 0.8f, 0.0f ) );
-					}
-				}
+					pxProjectile->SetDirection( xDirection );
+                    xDirection += xIncrement;
+                }
 			}
 
             // TODO: remove magic number

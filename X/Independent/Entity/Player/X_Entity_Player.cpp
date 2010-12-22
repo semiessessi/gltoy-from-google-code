@@ -64,7 +64,7 @@ X_Entity_Player::X_Entity_Player( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
 , m_xMovement( GLToy_Maths::ZeroVector2 )
 , m_uLives( 3 )
-, m_uGunType( X_PLAYER_GUN_TYPE_SINGLE )
+, m_uGunLevel( 0 )
 {
     m_xBoundingSphere.SetRadius( fSIZE );
 
@@ -144,18 +144,15 @@ void X_Entity_Player::Collect( const X_Entity_Collectible* pxCollectible )
 	{
 		case X_COLLECTIBLE_TYPE_LIFE:
 		{
-			m_uLives++;
+			++m_uLives;
 		}
 		break;
 
 		case X_COLLECTIBLE_TYPE_WEAPON:
 		{
-			switch( m_uGunType )
-			{
-				case X_PLAYER_GUN_TYPE_SINGLE:	m_uGunType = X_PLAYER_GUN_TYPE_TRIPLE; break;
-				case X_PLAYER_GUN_TYPE_TRIPLE:	m_uGunType = X_PLAYER_GUN_TYPE_FIVER;  break;
-			}
+			++m_uGunLevel;
 		}
+        break;
 	}
 }
 

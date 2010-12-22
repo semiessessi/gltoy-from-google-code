@@ -24,59 +24,17 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __X_ENTITY_PLAYER_H_
-#define __X_ENTITY_PLAYER_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Entity/GLToy_Entity.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// Forward declarations
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-class X_Entity_Collectible;
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-class X_Entity_Player
-: public GLToy_Entity_Sphere
-{
-
-    typedef GLToy_Entity_Sphere GLToy_Parent;
-
-public:
-
-    X_Entity_Player( const GLToy_Hash uHash, const u_int uType );
-    virtual ~X_Entity_Player();
-
-    virtual void Render() const;
-	virtual void Update();
-
-	GLToy_ForceInline void SetMovement( const GLToy_Vector_2& xMovement ) { m_xMovement = xMovement; }
-
-    u_int GetLives() const { return m_uLives; }
-	u_int GetGunLevel() const { return m_uGunLevel; }
-
-	static GLToy_Array< X_Entity_Player* >& GetList() { return s_xList; }
-
-protected:
-
-	GLToy_Vector_2 m_xMovement;
-    u_int m_uLives;
-	u_int m_uGunLevel;
-    
-private:
-
-	void Collect( const X_Entity_Collectible* pxCollectible );
-
-    static GLToy_Array< X_Entity_Player* > s_xList;
-
-};
-
-#endif
+#include <Maths/GLToy_Complex.cpp>
+#include <Maths/GLToy_Maths.cpp>
+#include <Maths/GLToy_Matrix.cpp>
+#include <Maths/GLToy_Noise.cpp>
+#include <Maths/GLToy_OrientedSpline.cpp>
+#include <Maths/GLToy_Plane.cpp>
+#include <Maths/GLToy_Quaternion.cpp>
+#include <Maths/GLToy_Ray.cpp>
+#include <Maths/GLToy_Vector.cpp>
+#include <Maths/GLToy_Volume.cpp>

@@ -528,6 +528,12 @@
     <ClCompile Include="Win32\Core\Platform_GLToy_Profile.cpp">
       <Filter>Win32\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Maths\GLToy_Maths_SCU.cpp">
+      <Filter>Independent\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\File\GLToy_File_SCU.cpp">
+      <Filter>Independent\File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">

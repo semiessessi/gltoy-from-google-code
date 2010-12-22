@@ -24,59 +24,25 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __X_ENTITY_PLAYER_H_
-#define __X_ENTITY_PLAYER_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Entity/GLToy_Entity.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// Forward declarations
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-class X_Entity_Collectible;
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-class X_Entity_Player
-: public GLToy_Entity_Sphere
-{
-
-    typedef GLToy_Entity_Sphere GLToy_Parent;
-
-public:
-
-    X_Entity_Player( const GLToy_Hash uHash, const u_int uType );
-    virtual ~X_Entity_Player();
-
-    virtual void Render() const;
-	virtual void Update();
-
-	GLToy_ForceInline void SetMovement( const GLToy_Vector_2& xMovement ) { m_xMovement = xMovement; }
-
-    u_int GetLives() const { return m_uLives; }
-	u_int GetGunLevel() const { return m_uGunLevel; }
-
-	static GLToy_Array< X_Entity_Player* >& GetList() { return s_xList; }
-
-protected:
-
-	GLToy_Vector_2 m_xMovement;
-    u_int m_uLives;
-	u_int m_uGunLevel;
-    
-private:
-
-	void Collect( const X_Entity_Collectible* pxCollectible );
-
-    static GLToy_Array< X_Entity_Player* > s_xList;
-
-};
-
-#endif
+#include <File/BSP/GLToy_BSP29.cpp>
+#include <File/BSP/GLToy_BSP30.cpp>
+#include <File/BSP/GLToy_BSP38.cpp>
+#include <File/BSP/GLToy_BSP46.cpp>
+#include <File/BSP/GLToy_VBSP19.cpp>
+#include <File/BSP/GLToy_VBSP20.cpp>
+#include <File/BSP/GLToy_VBSP21.cpp>
+#include <File/GLToy_3DSFile.cpp>
+#include <File/GLToy_EntityFile.cpp>
+#include <File/GLToy_EnvironmentFile.cpp>
+#include <File/GLToy_File.cpp>
+#include <File/GLToy_File_System.cpp>
+#include <File/GLToy_LWOFile.cpp>
+#include <File/GLToy_MD2File.cpp>
+#include <File/GLToy_OBJFile.cpp>
+#include <File/GLToy_PTXFile.cpp>
+#include <File/GLToy_TextFile.cpp>
+#include <File/GLToy_WaveFile.cpp>
