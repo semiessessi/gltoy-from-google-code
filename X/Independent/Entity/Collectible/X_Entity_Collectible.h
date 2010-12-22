@@ -36,13 +36,16 @@
 
 // GLToy
 #include <Core/Data Structures/GLToy_Array.h>
+#include <Core/GLToy_Hash.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D E F I N E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#define X_COLLECTIBLE_TYPE_LIFE   0x11111111 // TODO use correct hash
-#define X_COLLECTIBLE_TYPE_WEAPON 0x22222222
+// TODO: Use correct hash
+#define X_COLLECTIBLE_TYPE_LIFE   0x97154637 // GLToy_Hash_Constant( "Collect_Life" )
+#define X_COLLECTIBLE_TYPE_WEAPON 0x72947394 // GLToy_Hash_Constant( "Collect_Weapon" )
+#define X_COLLECTIBLE_TYPE_BOOST  0x33581769 // GLToy_Hash_Constant( "Collect_Boost" )
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S

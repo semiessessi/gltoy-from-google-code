@@ -122,10 +122,14 @@ void X_State_Game::Update()
 
 	if( m_fCollectibleTimer < 0.0f )
 	{
-		GLToy_Hash xHash = X_COLLECTIBLE_TYPE_WEAPON;
-		if( GLToy_Maths::Random() > 0.8f )
+		GLToy_Hash xHash = X_COLLECTIBLE_TYPE_BOOST;
+		if( GLToy_Maths::Random() > 0.95f )
 		{
 			xHash = X_COLLECTIBLE_TYPE_LIFE;
+		}
+		else if( GLToy_Maths::Random() > 0.8f )
+		{
+			xHash = X_COLLECTIBLE_TYPE_WEAPON;
 		}
 
 		X_Entity_Collectible* pxEntity = static_cast<X_Entity_Collectible*>( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_COLLECTIBLE ) );

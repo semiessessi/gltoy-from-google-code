@@ -40,6 +40,9 @@
     <Filter Include="Independent\Entity\Collectible">
       <UniqueIdentifier>{a0447cdc-fa58-46c5-acda-605014558636}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Equipment">
+      <UniqueIdentifier>{7a4e6e9e-4dcf-442d-9348-de9100eb7726}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_X.cpp">
@@ -84,6 +87,9 @@
     <ClCompile Include="Independent\Entity\Collectible\X_Entity_Collectible.cpp">
       <Filter>Independent\Entity\Collectible</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Equipment\X_Equipment_Weapon.cpp">
+      <Filter>Independent\Equipment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_X.h">
@@ -121,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Entity\Collectible\X_Entity_Collectible.h">
       <Filter>Independent\Entity\Collectible</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Equipment\X_Equipment_Weapon.h">
+      <Filter>Independent\Equipment</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

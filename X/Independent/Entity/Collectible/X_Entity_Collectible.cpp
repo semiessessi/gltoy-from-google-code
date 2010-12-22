@@ -50,6 +50,7 @@ static const float fSPEED = 1.0f;
 static const float fSIZE = 0.08f;
 static const GLToy_Hash xCOLLECTIBLE_WEAPON_TEXTURE = GLToy_Hash_Constant( "Sprites/Collectible/Collectible1.png" );
 static const GLToy_Hash xCOLLECTIBLE_LIFE_TEXTURE = GLToy_Hash_Constant( "Sprites/Collectible/Collectible2.png" );
+static const GLToy_Hash xCOLLECTIBLE_BOOST_TEXTURE = GLToy_Hash_Constant( "Sprites/Collectible/Collectible3.png" );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Static member vars
@@ -104,6 +105,10 @@ void X_Entity_Collectible::Render() const
 	else if( GetCollectType() == X_COLLECTIBLE_TYPE_WEAPON )
 	{
 		GLToy_Texture_System::BindTexture( xCOLLECTIBLE_WEAPON_TEXTURE );
+	}
+	else if( GetCollectType() == X_COLLECTIBLE_TYPE_BOOST )
+	{
+		GLToy_Texture_System::BindTexture( xCOLLECTIBLE_BOOST_TEXTURE );
 	}
     
     GLToy_Render::StartSubmittingQuads();
