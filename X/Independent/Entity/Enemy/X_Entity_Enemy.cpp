@@ -48,7 +48,8 @@
 static const float fSPEED = 0.8f;
 static const float fWIGGLE_SPEED = 0.5f;
 static const float fWIGGLE_RANGE = 0.0025f;
-static const float fSIZE = 0.05f;
+static const float fSIZE = 0.1f;
+static const GLToy_Hash xENEMY_SHIP_TEXTURE = GLToy_Hash_Constant( "Sprites/Enemy/Enemy1.png" );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -99,17 +100,26 @@ void X_Entity_Enemy::Update()
 
 void X_Entity_Enemy::Render() const
 {
-    const GLToy_Vector_3& xPosition = GetPosition();
+	const GLToy_Vector_3& xPosition = GetPosition();
 
-    GLToy_Texture_System::BindWhite();
+    GLToy_Render::EnableBlending();
+    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+
+    GLToy_Texture_System::BindTexture( xENEMY_SHIP_TEXTURE );
 
     GLToy_Render::StartSubmittingQuads();
-
-    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 0.0f, 0.0f ) );
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] );  
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] );  
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] ); 
+		
+    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+    GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 0.0f ) );
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 1.0f ) );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 1.0f ) );
     GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
-
+	
     GLToy_Render::EndSubmit();
+
+	GLToy_Render::DisableBlending();
 }

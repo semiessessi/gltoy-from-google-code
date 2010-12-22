@@ -54,7 +54,8 @@ GLToy_Array< X_Entity_Player* > X_Entity_Player::s_xList;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static const float fSPEED = 2.5f;
-static const float fSIZE = 0.05f;
+static const float fSIZE = 0.08f;
+static const GLToy_Hash xPLAYER_SHIP_TEXTURE = GLToy_Hash_Constant( "Sprites/Ship/Ship.png" );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -126,16 +127,26 @@ void X_Entity_Player::Render() const
 {
     const GLToy_Vector_3& xPosition = GetPosition();
 
-    GLToy_Texture_System::BindWhite();
+    GLToy_Render::EnableBlending();
+    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
 
-    GLToy_Render::StartSubmittingTriangles();
+    GLToy_Texture_System::BindTexture( xPLAYER_SHIP_TEXTURE );
 
+    GLToy_Render::StartSubmittingQuads();
+		
     GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
-    GLToy_Render::SubmitVertex( xPosition[ 0 ], xPosition[ 1 ] + fSIZE, xPosition[ 2 ] );  
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] ); 
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+    GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 0.0f ) );
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 1.0f ) );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 1.0f ) );
     GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
-
+	
     GLToy_Render::EndSubmit();
+
+	GLToy_Render::DisableBlending();
 }
 
 void X_Entity_Player::Collect( const X_Entity_Collectible* pxCollectible )

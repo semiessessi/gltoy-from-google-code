@@ -47,7 +47,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static const float fSPEED = 3.0f;
-static const float fSIZE = 0.01f;
+static const float fSIZE = 0.02f;
+static const GLToy_Hash xPROJECTILE_TEXTURE = GLToy_Hash_Constant( "Sprites/Projectile/Projectile1.png" );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -92,17 +93,26 @@ void X_Entity_Projectile::Update()
 
 void X_Entity_Projectile::Render() const
 {
-    const GLToy_Vector_3& xPosition = GetPosition();
+const GLToy_Vector_3& xPosition = GetPosition();
 
-    GLToy_Texture_System::BindWhite();
+    GLToy_Render::EnableBlending();
+    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+
+    GLToy_Texture_System::BindTexture( xPROJECTILE_TEXTURE );
 
     GLToy_Render::StartSubmittingQuads();
-
-    GLToy_Render::SubmitColour( GLToy_Vector_3( 0.0f, 1.0f, 1.0f ) );
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] );  
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] );  
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] ); 
+		
+    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+    GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 0.0f ) );
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 1.0f ) );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 1.0f ) );
     GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
-
+	
     GLToy_Render::EndSubmit();
+
+	GLToy_Render::DisableBlending();
 }

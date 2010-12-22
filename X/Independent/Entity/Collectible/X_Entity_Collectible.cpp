@@ -47,7 +47,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static const float fSPEED = 1.0f;
-static const float fSIZE = 0.02f;
+static const float fSIZE = 0.08f;
+static const GLToy_Hash xCOLLECTIBLE_WEAPON_TEXTURE = GLToy_Hash_Constant( "Sprites/Collectible/Collectible1.png" );
+static const GLToy_Hash xCOLLECTIBLE_LIFE_TEXTURE = GLToy_Hash_Constant( "Sprites/Collectible/Collectible2.png" );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Static member vars
@@ -90,24 +92,34 @@ void X_Entity_Collectible::Update()
 
 void X_Entity_Collectible::Render() const
 {
-    const GLToy_Vector_3& xPosition = GetPosition();
+	const GLToy_Vector_3& xPosition = GetPosition();
 
-    GLToy_Texture_System::BindWhite();
-
-    GLToy_Render::StartSubmittingQuads();
+    GLToy_Render::EnableBlending();
+    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
 
 	if( GetCollectType() == X_COLLECTIBLE_TYPE_LIFE )
 	{
-		GLToy_Render::SubmitColour( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ) );
+		GLToy_Texture_System::BindTexture( xCOLLECTIBLE_LIFE_TEXTURE );
 	}
 	else if( GetCollectType() == X_COLLECTIBLE_TYPE_WEAPON )
 	{
-		GLToy_Render::SubmitColour( GLToy_Vector_3( 0.0f, 0.5f, 1.0f ) );
+		GLToy_Texture_System::BindTexture( xCOLLECTIBLE_WEAPON_TEXTURE );
 	}
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] );  
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] );  
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] ); 
+    
+    GLToy_Render::StartSubmittingQuads();
+		
+    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+    GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 0.0f ) );
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 1.0f ) );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 1.0f ) );
     GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
-
+	
     GLToy_Render::EndSubmit();
+
+	GLToy_Render::DisableBlending();
+
 }
