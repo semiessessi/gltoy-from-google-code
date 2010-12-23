@@ -53,6 +53,7 @@ struct GLToy_ParticleProperties
     , m_fFadeTime( 0.5f )
     , m_fRotationRate( 0.0f )
     , m_bRandomAngle( false )
+    , m_bAdditive( false )
     , m_uTextureHash( uGLTOY_BAD_HASH )
     {
     }

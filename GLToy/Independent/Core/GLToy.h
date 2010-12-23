@@ -208,6 +208,11 @@ public:
 
     static void RegisterDebugOutputCallback( void ( *pfnCallback )( const char* const szMessage ) ) { s_pfnDebugOutputCallback = pfnCallback; }
 
+    static float GetRenderProfileTimer() { return s_fRenderTimer; }
+    static float GetUpdateProfileTimer() { return s_fUpdateTimer; }
+    static float GetGPUProfileTimer() { return s_fGPUTimer; }
+    static float GetSyncProfileTimer() { return s_fSyncTimer; }
+
 private:
 
     static bool Initialise();
@@ -247,6 +252,11 @@ private:
     static bool s_bSilent;
 
     static void ( *s_pfnDebugOutputCallback )( const char* const szMessage );
+
+    static float s_fUpdateTimer;
+    static float s_fRenderTimer;
+    static float s_fGPUTimer;
+    static float s_fSyncTimer;
 
 #ifdef WIN32
     friend unsigned int WndProc( unsigned int uWindowHandle, unsigned int uMessage,

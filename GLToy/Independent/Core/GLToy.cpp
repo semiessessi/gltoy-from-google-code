@@ -80,6 +80,11 @@ bool GLToy::s_bSilent = false;
 
 void ( *GLToy::s_pfnDebugOutputCallback )( const char* const szMessage ) = NULL;
 
+float GLToy::s_fUpdateTimer = 0.0f;
+float GLToy::s_fRenderTimer = 0.0f;
+float GLToy::s_fGPUTimer = 0.0f;
+float GLToy::s_fSyncTimer = 0.0f;
+
 static char g_szDebugMessageBuffer[ uDEBUGOUTPUT_MAX_LENGTH ];
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -289,8 +294,30 @@ bool GLToy::MainLoop()
         return false;
     }
 
+    // TODO: query GPU timer with timer_query_EXT
+#ifndef GLTOY_DEMO
+    GLToy_Profile::StartProfileTimer();
+#endif
+
     Render();
+
+#ifndef GLTOY_DEMO
+    s_fRenderTimer = GLToy_Profile::EndProfileTimer();
+    GLToy_Profile::StartProfileTimer();
+#endif
+
     Update();
+
+#ifndef GLTOY_DEMO
+    s_fUpdateTimer = GLToy_Profile::EndProfileTimer();
+    GLToy_Profile::StartProfileTimer();
+#endif
+
+    GLToy_Render::EndRender();
+
+#ifndef GLTOY_DEMO
+    s_fSyncTimer = GLToy_Profile::EndProfileTimer();
+#endif
 
     return true;
 }
@@ -317,7 +344,7 @@ void GLToy::Update()
 
     //GLToy_Camera::Update();
 
-    GLToy_Render::EndRender();
+    //GLToy_Render::EndRender();
 }
 
 void GLToy::Render()

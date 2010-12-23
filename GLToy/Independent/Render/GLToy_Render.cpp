@@ -54,6 +54,7 @@
 float GLToy_Render::s_fFOV = 90.0f;
 float GLToy_Render::s_fAspectRatio = 1.0f;
 bool GLToy_Render::s_bDrawFPS = GLToy_IsDebugBuild();
+bool GLToy_Render::s_bDrawTimers = GLToy_IsDebugBuild();
 bool GLToy_Render::s_bVsync = true;
 bool GLToy_Render::s_bClearFrame = true;
 u_int GLToy_Render::s_uDepthBuffer = 0xFFFFFFFF;
@@ -92,6 +93,7 @@ bool GLToy_Render::Initialise()
     }
 
     GLToy_Console::RegisterVariable( "showfps", &s_bDrawFPS );
+    GLToy_Console::RegisterVariable( "showtimers", &s_bDrawTimers );
     GLToy_Console::RegisterCommand( "vsync", SetVsyncEnabled );
 
     SetVsyncEnabled( s_bVsync );
@@ -281,16 +283,31 @@ void GLToy_Render::Render2D()
     // Project_Render2D();
 
 #ifndef GLTOY_DEM0
-	if( s_bDrawFPS )
+	if( s_bDrawFPS || s_bDrawTimers )
     {
         UseProgram( 0 );
         // draw fps counter, we should have the console's font by now
         GLToy_Font* pxFont = GLToy_Font_System::FindFont( GLToy_Hash_Constant( "console" ) );
         if( pxFont )
         {
-            GLToy_String szFPSString;
-            szFPSString.SetToFormatString( "%.2f fps", GLToy_Maths::Max( GLToy_Timer::GetSmoothedFrameRate(), 0.01f ) );
-            pxFont->RenderString( szFPSString, GLToy_Render::GetMaxX() - szFPSString.GetLength() * pxFont->GetWidth(), 1.0f - pxFont->GetHeight() );
+            GLToy_String szString;
+            if( s_bDrawFPS )
+            {
+                szString.SetToFormatString( "%.2f fps", GLToy_Maths::Max( GLToy_Timer::GetSmoothedFrameRate(), 0.01f ) );
+                pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 1.0f - pxFont->GetHeight() );
+            }
+
+            if( s_bDrawTimers )
+            {
+                szString.SetToFormatString( "Update: %.3fms", GLToy::GetUpdateProfileTimer() * 1000.0f );
+                pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.85f - pxFont->GetHeight() );
+                szString.SetToFormatString( "Render: %.3fms", GLToy::GetRenderProfileTimer() * 1000.0f );
+                pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.8f - pxFont->GetHeight() );
+                //szString.SetToFormatString( "GPU: %.3fms", GLToy::GetGPUProfileTimer() * 1000.0f );
+                //pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.75f - pxFont->GetHeight() );
+                szString.SetToFormatString( "Sync: %.3fms", GLToy::GetSyncProfileTimer() * 1000.0f );
+                pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.7f - pxFont->GetHeight() );
+            }
         }
     }
 #endif

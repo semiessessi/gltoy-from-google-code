@@ -351,6 +351,7 @@ private:
     static float s_fFOV;
     static float s_fAspectRatio;
     static bool s_bDrawFPS;
+    static bool s_bDrawTimers;
     static bool s_bVsync;
     static bool s_bClearFrame;
     static u_int s_uDepthBuffer;
