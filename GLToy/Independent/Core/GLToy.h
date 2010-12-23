@@ -215,6 +215,9 @@ private:
 
     static bool MainLoop();
 
+    static void Render();
+    static void Update();
+
     static bool Platform_Resize( const int& iWidth, const int& iHeight );
     static void Platform_UpdateBuffers();
 

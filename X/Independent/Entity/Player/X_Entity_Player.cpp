@@ -83,7 +83,7 @@ void X_Entity_Player::Update()
     xPosition += GLToy_Vector_3( m_xMovement, 0.0f ) * fSPEED * GLToy_Timer::GetFrameTime();
 
     // TODO: think about aspect ratio...
-    xPosition[ 0 ] = GLToy_Maths::Clamp( xPosition[ 0 ], -1.0f, 1.0f );
+    xPosition[ 0 ] = GLToy_Maths::Clamp( xPosition[ 0 ], -GLToy_Render::Get2DWidth() * 0.5f, GLToy_Render::Get2DWidth() * 0.5f );
     xPosition[ 1 ] = GLToy_Maths::Clamp( xPosition[ 1 ], -1.0f, 1.0f );
 
     SetPosition( xPosition );

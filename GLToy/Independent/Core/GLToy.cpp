@@ -289,7 +289,14 @@ bool GLToy::MainLoop()
         return false;
     }
 
-    // Update functions
+    Render();
+    Update();
+
+    return true;
+}
+
+void GLToy::Update()
+{
     GLToy_Timer::Update();
     GLToy_Input_System::Update();
     GLToy_State_System::Update();
@@ -308,10 +315,16 @@ bool GLToy::MainLoop()
 
     Project_Update();
 
-    // hopefully this will avoid a frame of camera lag if it stays here...
+    //GLToy_Camera::Update();
+
+    GLToy_Render::EndRender();
+}
+
+void GLToy::Render()
+{
+    // avoid camera lag
     GLToy_Camera::Update();
 
-    // Render functions
     GLToy_Render::BeginRender();
 
 #ifndef GLTOY_DEMO
@@ -341,9 +354,7 @@ bool GLToy::MainLoop()
 	GLToy_Console::Render2D();
 #endif
 
-    GLToy_Render::EndRender();
-
-    return true;
+    //GLToy_Render::EndRender();
 }
 
 void GLToy::DebugOutput( const GLToy_String& szString )
