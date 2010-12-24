@@ -37,6 +37,7 @@
 #include <Core/State/GLToy_State_FixedCamera.cpp>
 #include <Core/State/GLToy_State_Splash.cpp>
 #include <Core/State/GLToy_State_System.cpp>
+#include <Core/GLToy.cpp>
 #include <Core/GLToy_Assert.cpp>
 #include <Core/GLToy_Memory.cpp>
 #include <Core/GLToy_Timer.cpp>
