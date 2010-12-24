@@ -31,36 +31,40 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parent
-#include <File/GLToy_SoundFile.h>
+// GLToy
+#include <File/GLToy_File.h>
+
+// CRT
+#include <stdio.h>
+
+// Windows
+#include <windows.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_WaveFile
-: public GLToy_SoundFile
+class GLToy_WaveFile : public GLToy_File
 {
 
-    typedef GLToy_SoundFile GLToy_Parent;
-
-public:
+	public:
     
-    GLToy_WaveFile( const GLToy_String& szFilename )
-    : GLToy_Parent( szFilename )
-    {
-    }
+		GLToy_WaveFile( const GLToy_String& szFilename );
+		virtual ~GLToy_WaveFile();
+		
+		bool Load();
 
-    virtual ~GLToy_WaveFile()
-    {
-    }
+		const WAVEFORMATEX& GetWaveFormat();
+		void GetBuffer( void*& pBuffer, unsigned int& uBufferSize );
 
-    virtual GLToy_Sound* LoadSound() const;
+	protected:
 
-protected:
+		bool ParseChunk( FILE* pxFile );
 
-    void Platform_LoadSound( const GLToy_Handle iHandle ) const;
+		u_int m_uBufferSize;
+		void* m_pBuffer;
 
+		WAVEFORMATEX m_xFormat;
 };
 
 #endif

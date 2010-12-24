@@ -34,115 +34,38 @@
 #include <Sound/GLToy_Sound_System.h>
 #include <Sound/Platform_GLToy_Sound_System.h>
 
-// GLToy
-#include <Core/Console/GLToy_Console.h>
-#include <Core/Data Structures/GLToy_Array.h>
-#include <Core/Data Structures/GLToy_HashMap.h>
-#include <File/GLToy_File_System.h>
-#include <File/GLToy_SoundFile.h>
-#include <File/GLToy_WaveFile.h>
-#include <Sound/GLToy_Sound.h>
-#include <Sound/GLToy_Sound_Source.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// D A T A
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-GLToy_HashMap< GLToy_SoundFile* > GLToy_Sound_System::s_xSounds;
-GLToy_Array< GLToy_Sound_Source* > GLToy_Sound_System::s_xSources;
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 bool GLToy_Sound_System::Initialise()
 {
-    GLToy_Console::RegisterCommand( "test.sound", TestSound_Console );
-
-    s_xSounds.Clear(); // really? GLToy_Model_System etc. do this as well
-    s_xSources.Clear();
-
-    GLToy_Array< GLToy_String > xWavePaths = GLToy_File_System::PathsFromFilter( "Sounds/", "*.wav" );
-
-    GLToy_ConstIterate( GLToy_String, szPath, xWavePaths )
-        GLToy_String szName = szPath;
-        szName.RemoveAt( 0, 7 ); // remove "Sounds/"
-        szName.RemoveFromEnd( 4 ); // remove .wav
-        
-        GLToy_DebugOutput( "   - Found sound \"%S\".\r\n", szName.GetWideString() );
-
-        s_xSounds.AddNode( new GLToy_WaveFile( szPath ), szName.GetHash() );
-    GLToy_Iterate_End;
-
-    return Platform_GLToy_Sound_System::Initialise();
-}
-
-void GLToy_Sound_System::Shutdown()
-{
-    Platform_GLToy_Sound_System::Shutdown();
-
-    s_xSounds.DeleteAll();
-    s_xSources.DeleteAll();
+	return Platform_GLToy_Sound_System::Initialise();
 }
 
 void GLToy_Sound_System::Update()
 {
-    Platform_GLToy_Sound_System::Update();
+	Platform_GLToy_Sound_System::Update();
 }
 
-GLToy_Handle GLToy_Sound_System::CreateSource( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const bool bRelative, const bool bLooped )
+void GLToy_Sound_System::Shutdown()
 {
-    return uGLTOY_INVALID_HANDLE;
+	Platform_GLToy_Sound_System::Shutdown();
 }
 
-GLToy_Handle GLToy_Sound_System::PlayMusic( const GLToy_Hash uHash, const GLToy_Sound_Transition eTransitionType )
+GLToy_Handle GLToy_Sound_System::CreateVoice( const GLToy_Hash uWaveHash )
 {
-    return uGLTOY_INVALID_HANDLE;
+	return Platform_GLToy_Sound_System::CreateVoice( uWaveHash );
 }
 
-void GLToy_Sound_System::Stop( const GLToy_Handle iHandle, const GLToy_Sound_Transition eTransitionType )
+GLToy_Sound_Voice* GLToy_Sound_System::GetVoice( const GLToy_Handle iHandle )
 {
+	return Platform_GLToy_Sound_System::GetVoice( iHandle );
 }
 
-GLToy_Sound* GLToy_Sound_System::LoadSound( const GLToy_Hash uHash )
+void GLToy_Sound_System::DestroyVoice( const GLToy_Handle iHandle )
 {
-    GLToy_SoundFile** ppxSoundFile = s_xSounds.FindData( uHash );
-    if( !ppxSoundFile )
-    {
-        return NULL;
-    }
-
-    return (*ppxSoundFile)->LoadSound();
+	return Platform_GLToy_Sound_System::DestroyVoice( iHandle );
 }
 
-GLToy_Handle GLToy_Sound_System::CreateSoundHandle()
-{
-    return Platform_GLToy_Sound_System::CreateSoundHandle();
-}
-
-GLToy_Handle GLToy_Sound_System::CreateSourceHandle()
-{
-    return Platform_GLToy_Sound_System::CreateSourceHandle();
-}
-
-void GLToy_Sound_System::DestroySoundHandle( const GLToy_Handle iHandle )
-{
-    Platform_GLToy_Sound_System::DestroySoundHandle( iHandle );
-}
-
-void GLToy_Sound_System::DestroySourceHandle( const GLToy_Handle iHandle )
-{
-    Platform_GLToy_Sound_System::DestroySourceHandle( iHandle );
-}
-
-void GLToy_Sound_System::TestSound_Console( const GLToy_String& szName )
-{
-    const GLToy_Sound* const pxSound = LoadSound( szName.GetHash() );
-
-    if( !pxSound )
-    {
-        return;
-    }
-
-    Platform_GLToy_Sound_System::TestSound( pxSound->GetHandle() );
-}
+//eof

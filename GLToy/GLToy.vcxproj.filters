@@ -468,9 +468,6 @@
     <ClCompile Include="Independent\Test\GLToy_Test_System.cpp">
       <Filter>Independent\Test</Filter>
     </ClCompile>
-    <ClCompile Include="Independent\Sound\GLToy_Sound.cpp">
-      <Filter>Independent\Sound</Filter>
-    </ClCompile>
     <ClCompile Include="Independent\Sound\GLToy_Sound_System.cpp">
       <Filter>Independent\Sound</Filter>
     </ClCompile>
@@ -479,9 +476,6 @@
     </ClCompile>
     <ClCompile Include="Independent\File\GLToy_WaveFile.cpp">
       <Filter>Independent\File</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32\File\Platform_GLToy_WaveFile.cpp">
-      <Filter>Win32\File</Filter>
     </ClCompile>
     <ClCompile Include="Independent\Maths\GLToy_OrientedSpline.cpp">
       <Filter>Independent\Maths</Filter>
@@ -533,6 +527,9 @@
     </ClCompile>
     <ClCompile Include="Independent\File\GLToy_File_SCU.cpp">
       <Filter>Independent\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Sound\Platform_GLToy_Sound_Voice.cpp">
+      <Filter>Win32\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -887,12 +884,6 @@
     <ClInclude Include="Independent\Test\GLToy_Test_System.h">
       <Filter>Independent\Test</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Sound\GLToy_Sound.h">
-      <Filter>Independent\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Sound\GLToy_Sound_Source.h">
-      <Filter>Independent\Sound</Filter>
-    </ClInclude>
     <ClInclude Include="Independent\Sound\GLToy_Sound_System.h">
       <Filter>Independent\Sound</Filter>
     </ClInclude>
@@ -952,6 +943,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Core\GLToy_Profile.h">
       <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Sound\Platform_GLToy_Sound_Voice.h">
+      <Filter>Win32\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

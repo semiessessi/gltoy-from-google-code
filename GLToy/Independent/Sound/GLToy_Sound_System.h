@@ -39,56 +39,58 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-template < class T > class GLToy_Array;
-template < class T > class GLToy_HashMap;
-class GLToy_Vector_3;
-class GLToy_Sound_Source;
-class GLToy_SoundFile;
+//template < class T > class GLToy_Array;
+//template < class T > class GLToy_HashMap;
+//class GLToy_Vector_3;
+//class GLToy_Sound_Source;
+//class GLToy_SoundFile;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-enum GLToy_Sound_Transition
-{
-    GLToy_SOUND_CUT,
-    GLToy_SOUND_WAIT,
-    GLToy_SOUND_FADE
+// ______________________________ GLToy_Sound_Voice _________________________________________
+
+class GLToy_Sound_Voice
+{  
+	public:
+
+		GLToy_Sound_Voice( GLToy_Hash uWave ) 
+		{
+			m_uWave = uWave;
+			m_bReleased = false;
+		};
+		virtual ~GLToy_Sound_Voice() {};
+
+		virtual void Play() = 0;
+		virtual bool IsPlaying() = 0;
+
+		void Release()    { m_bReleased = true; }
+		bool IsReleased() { return m_bReleased; }
+
+	protected:
+
+		bool m_bReleased;
+		GLToy_Hash m_uWave;
 };
+
+// ______________________________ GLToy_Sound_System _________________________________________
 
 class GLToy_Sound_System
 {
 
-    friend class GLToy_Sound;
-    friend class GLToy_WaveFile;
+    //friend class GLToy_Sound;
+    //friend class GLToy_WaveFile;
 
-public:
+	public:
 
-    static bool Initialise();
-    static void Shutdown();
+		static bool Initialise();
+		static void Update();
+		static void Shutdown();
 
-    static void Update();
-
-    static GLToy_Handle CreateSource( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const bool bRelative = false, const bool bLooped = false );
-    static GLToy_Handle PlayMusic( const GLToy_Hash uHash, const GLToy_Sound_Transition eTransitionType = GLToy_SOUND_CUT );
-
-    static void Stop( const GLToy_Handle iHandle, const GLToy_Sound_Transition eTransitionType = GLToy_SOUND_CUT );
-
-private:
-
-    static void TestSound_Console( const GLToy_String& szName );
-
-    static GLToy_Handle CreateSoundHandle();
-    static GLToy_Handle CreateSourceHandle();
-
-    static void DestroySoundHandle( const GLToy_Handle iHandle );
-    static void DestroySourceHandle( const GLToy_Handle iHandle );
-
-    static GLToy_Sound* LoadSound( const GLToy_Hash uHash );
-
-    static GLToy_HashMap< GLToy_SoundFile* > s_xSounds;
-    static GLToy_Array< GLToy_Sound_Source* > s_xSources;
-
+		static GLToy_Handle CreateVoice( const GLToy_Hash uWaveHash );
+		static GLToy_Sound_Voice* GetVoice( const GLToy_Handle iHandle );
+		static void DestroyVoice( const GLToy_Handle iHandle );
 };
 
 #endif

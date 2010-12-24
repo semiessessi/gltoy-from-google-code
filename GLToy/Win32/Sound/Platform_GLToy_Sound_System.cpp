@@ -34,21 +34,29 @@
 #include <Sound/Platform_GLToy_Sound_System.h>
 
 // GLToy
-#include <Render/GLToy_Camera.h>
+#include <File/GLToy_File_System.h>
+#include <File/GLToy_WaveFile.h>
+#include <Sound/Platform_GLToy_Sound_Voice.h>
 
-// OpenAL
-#include <al.h>
-#include <al/alut.h>
+// Xaudio
+#include <xaudio2.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// S T A T I C   M E M B E R   V A R I A B L E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-union GLToy_Sound_HandleUnion
-{
-    GLToy_Handle i;
-    ALuint u;
-};
+IXAudio2* Platform_GLToy_Sound_System::s_pxEngine = 0;
+IXAudio2MasteringVoice* Platform_GLToy_Sound_System::s_pxMasteringVoice = 0;
+
+Platform_GLToy_Sound_Voice* Platform_GLToy_Sound_System::s_apxVoices[ uGLTOY_XAUDIO_MAX_VOICES ];
+GLToy_HashMap< GLToy_WaveFile* > Platform_GLToy_Sound_System::s_xWaves;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C O N S T A N T S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+static const unsigned int uGLTOY_XAUDIO_SAMPLE_RATE = 48000;
+static const unsigned int uGLTOY_XAUDIO_CHANNELS = 2;         // use XAUDIO2_DEFAULT_CHANNELS to support any number of output channels
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -56,96 +64,184 @@ union GLToy_Sound_HandleUnion
 
 bool Platform_GLToy_Sound_System::Initialise()
 {
-    alutInit( NULL, NULL );
-    return alGetError() == AL_NO_ERROR;
+	if( !Initialise_XAudio2() )
+	{
+		GLToy_DebugOutput( "Failed to initialise XAudio\r\n" );
+		return false;
+	}
+
+	if( !Initialise_Voices() )
+	{
+		GLToy_DebugOutput( "Failed to initialise voices\r\n" );
+	}
+
+	if( !Initialise_LoadSounds() )
+	{
+		GLToy_DebugOutput( "Failed to load sounds\r\n" );
+		return false;
+	}
+
+	return true;
 }
+
+bool Platform_GLToy_Sound_System::Initialise_XAudio2()
+{
+	CoInitializeEx( NULL, COINIT_APARTMENTTHREADED );
+
+	UINT32 uFlags = 0;
+	#ifdef GLTOY_XAUDIO_DEBUG
+	uFlags |= XAUDIO2_DEBUG_ENGINE;
+	#endif
+
+	GLToy_DebugOutput( "Initialising XAudio\r\n" );
+
+	s_pxEngine = NULL;
+	HRESULT xResult = XAudio2Create( &s_pxEngine, uFlags );
+
+	if( FAILED( xResult ) || !s_pxEngine )
+	{
+		return false;
+	}
+
+    XAUDIO2_DEBUG_CONFIGURATION xDebugConfig;
+    memset( &xDebugConfig, 0, sizeof(xDebugConfig) );
+	#ifdef GLTOY_XAUDIO_DEBUG
+	xDebugConfig.TraceMask = XAUDIO2_LOG_ERRORS | XAUDIO2_LOG_WARNINGS;
+	#endif
+    s_pxEngine->SetDebugConfiguration( &xDebugConfig );
+
+	s_pxMasteringVoice = NULL;
+	xResult = s_pxEngine->CreateMasteringVoice( &s_pxMasteringVoice, 2, uGLTOY_XAUDIO_SAMPLE_RATE );
+
+	if( FAILED( xResult ) || !s_pxMasteringVoice )
+	{
+		xResult = s_pxEngine->CreateMasteringVoice( &s_pxMasteringVoice, XAUDIO2_DEFAULT_CHANNELS, uGLTOY_XAUDIO_SAMPLE_RATE );
+		if( FAILED( xResult ) || !s_pxMasteringVoice )
+		{
+			s_pxEngine->Release();
+			s_pxEngine = 0;
+			return false;
+		}
+	}
+
+	{
+		XAUDIO2_DEVICE_DETAILS xDetails;
+		s_pxEngine->GetDeviceDetails( 0, &xDetails );
+
+		GLToy_DebugOutput( "XAudio2 device ID: %S\r\n", xDetails.DeviceID );
+		GLToy_DebugOutput( "XAudio2 device name: %S\r\n", xDetails.DisplayName );
+		GLToy_DebugOutput( "XAudio2 sample rate: %u Hz\r\n", xDetails.OutputFormat.Format.nSamplesPerSec );
+		GLToy_DebugOutput( "XAudio2 num channels: %u\r\n", xDetails.OutputFormat.Format.nChannels );
+	}
+
+	return true;
+}
+
+bool Platform_GLToy_Sound_System::Initialise_Voices()
+{
+	memset( s_apxVoices, 0, sizeof( Platform_GLToy_Sound_Voice* ) * uGLTOY_XAUDIO_MAX_VOICES );
+	return true;
+}
+
+bool Platform_GLToy_Sound_System::Initialise_LoadSounds()
+{
+	// TODO: Probably don't want to load in every sound like this
+
+	GLToy_Array< GLToy_String > xWavePaths = GLToy_File_System::PathsFromFilter( "Sounds/", "*.wav" );
+
+	GLToy_ConstIterate( GLToy_String, szPath, xWavePaths )
+
+		GLToy_String szName = szPath;
+		szName.RemoveAt( 0, 7 );      // remove "Sounds/"
+		szName.RemoveFromEnd( 4 );    // remove .wav
+        
+		GLToy_DebugOutput( "   - Found sound \"%S\".\r\n", szName.GetWideString() );
+
+		GLToy_WaveFile* pxWavFile = new GLToy_WaveFile( szPath );
+		if( pxWavFile->Load() )
+		{
+			s_xWaves.AddNode( pxWavFile, szName.GetHash() );
+		}
+		
+	GLToy_Iterate_End;
+
+	return true;
+}
+
 
 void Platform_GLToy_Sound_System::Shutdown()
 {
-    alutExit();
+	if( s_pxMasteringVoice )
+	{
+		s_pxMasteringVoice->DestroyVoice();
+		s_pxMasteringVoice = NULL;
+	}
+
+	if( s_pxEngine )
+	{
+		s_pxEngine->Release();
+	}
+
+	CoUninitialize();
 }
 
 void Platform_GLToy_Sound_System::Update()
 {
-    alListenerfv( AL_POSITION, GLToy_Camera::GetPosition().GetFloatPointer() );
-    alListenerfv( AL_VELOCITY, GLToy_Maths::ZeroVector3.GetFloatPointer() ); // TODO: some kind of velocity would be nice...
-    
-    const GLToy_Vector_3& xDirection = GLToy_Camera::GetDirection();
-    const GLToy_Vector_3& xUp = GLToy_Camera::GetUp();
-    const float afOrientation[ 6 ] =
-    {
-        xDirection[ 0 ], xDirection[ 1 ], xDirection[ 2 ],
-        xUp[ 0 ], xUp[ 1 ], xUp[ 2 ]
-    };
+	for( int iVoice = 0; iVoice < uGLTOY_XAUDIO_MAX_VOICES; ++iVoice )
+	{
+		if( s_apxVoices[ iVoice ] )
+		{
+			s_apxVoices[ iVoice ]->Update();
 
-    alListenerfv( AL_ORIENTATION, afOrientation );
+			if( !s_apxVoices[ iVoice ]->IsPlaying() && s_apxVoices[ iVoice ]->IsReleased() )
+			{
+				DestroyVoice( iVoice );
+			}
+		}
+	}
 }
 
-GLToy_Handle Platform_GLToy_Sound_System::CreateSoundHandle()
+GLToy_Handle Platform_GLToy_Sound_System::CreateVoice( const GLToy_Hash uWaveHash )
 {
-    GLToy_Sound_HandleUnion xBuffer;
-
-    alGenBuffers( 1, &(xBuffer.u) );
-
-    return xBuffer.i;
+	// Find a free voice slot
+	for( int iVoice = 0; iVoice < uGLTOY_XAUDIO_MAX_VOICES; ++iVoice )
+	{
+		if( !s_apxVoices[ iVoice ] )
+		{
+			s_apxVoices[ iVoice ] = new Platform_GLToy_Sound_Voice( uWaveHash );
+			return iVoice;
+		}
+	}
+	return uGLTOY_INVALID_HANDLE;
 }
 
-GLToy_Handle Platform_GLToy_Sound_System::CreateSourceHandle()
+GLToy_Sound_Voice* Platform_GLToy_Sound_System::GetVoice( const GLToy_Handle iHandle )
 {
-    GLToy_Sound_HandleUnion xSource;
-
-    alGenSources( 1, &(xSource.u) );
-
-    return xSource.i;
+	if( ( iHandle >= 0 ) && ( iHandle < uGLTOY_XAUDIO_MAX_VOICES ) )
+	{
+		return s_apxVoices[ iHandle ];
+	}
+	return 0;
 }
 
-void Platform_GLToy_Sound_System::DestroySoundHandle( const GLToy_Handle iHandle )
+void Platform_GLToy_Sound_System::DestroyVoice( const GLToy_Handle iHandle )
 {
-    if( !GLToy_IsValidHandle( iHandle ) )
-    {
-        GLToy_Assert( GLToy_IsValidHandle( iHandle ), "Bad handle!" );
-        return;
-    }
-
-    alDeleteBuffers( 1, reinterpret_cast< const ALuint* >( &iHandle ) );
+	if( ( iHandle >= 0 ) && ( iHandle < uGLTOY_XAUDIO_MAX_VOICES ) )
+	{
+		delete s_apxVoices[ iHandle ];
+		s_apxVoices[ iHandle ] = 0;
+	}
 }
 
-void Platform_GLToy_Sound_System::DestroySourceHandle( const GLToy_Handle iHandle )
+GLToy_WaveFile* Platform_GLToy_Sound_System::GetWave( GLToy_Hash uHash )
 {
-    if( !GLToy_IsValidHandle( iHandle ) )
-    {
-        GLToy_Assert( GLToy_IsValidHandle( iHandle ), "Bad handle!" );
-        return;
-    }
-
-    alDeleteSources( 1, reinterpret_cast< const ALuint* >( &iHandle ) );
+	return *s_xWaves.FindData( uHash );
 }
 
-void Platform_GLToy_Sound_System::TestSound( const GLToy_Handle iHandle )
+IXAudio2* Platform_GLToy_Sound_System::GetXAudio2Engine()
 {
-    if( !GLToy_IsValidHandle( iHandle ) )
-    {
-        GLToy_Assert( GLToy_IsValidHandle( iHandle ), "Bad handle!" );
-        return;
-    }
-
-    GLToy_Sound_HandleUnion xBufferHandle = { iHandle };
-    GLToy_Sound_HandleUnion xSourceHandle = { CreateSourceHandle() };
-
-    alSourcef( xSourceHandle.u, AL_PITCH, 1.0f );
-    alSourcef( xSourceHandle.u, AL_GAIN, 1.0f );
-    alSourcefv( xSourceHandle.u, AL_POSITION, GLToy_Maths::ZeroVector3.GetFloatPointer() );
-    alSourcefv( xSourceHandle.u, AL_VELOCITY, GLToy_Maths::ZeroVector3.GetFloatPointer() );
-    alSourcei( xSourceHandle.u, AL_BUFFER, xBufferHandle.u );
-    alSourcei( xSourceHandle.u, AL_LOOPING, AL_FALSE );
-
-    GLToy_Assert( alGetError() == AL_NO_ERROR, "Unexpected OpenAL error!" );
-
-    alSourcePlay( xSourceHandle.u );
-
-    ALint eState;
-    alGetSourcei( xSourceHandle.u, AL_SOURCE_STATE, &eState );
-
-    GLToy_Assert( eState == AL_PLAYING, "Source failed to play!" );
-    
+	return s_pxEngine;
 }
+
+//eof
+

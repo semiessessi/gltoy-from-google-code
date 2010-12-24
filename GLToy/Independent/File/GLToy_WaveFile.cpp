@@ -36,22 +36,189 @@
 // GLToy
 #include <Sound/GLToy_Sound_System.h>
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// D E F I N E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#define GLTOY_FOURCC(ch0, ch1, ch2, ch3) \
+                    ((unsigned int)(unsigned char)(ch0) | ((unsigned int)(unsigned char)(ch1) << 8) | \
+                    ((unsigned int)(unsigned char)(ch2) << 16) | ((unsigned int)(unsigned char)(ch3) << 24 ))
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C O N S T A N T S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+const u_int uGLTOY_4CC_DATA = GLTOY_FOURCC( 'd', 'a', 't', 'a' );
+const u_int uGLTOY_4CC_FMT  = GLTOY_FOURCC( 'f', 'm', 't', ' ' );
+const u_int uGLTOY_4CC_RIFF = GLTOY_FOURCC( 'R', 'I', 'F', 'F' );
+const u_int uGLTOY_4CC_WAVE = GLTOY_FOURCC( 'W', 'A', 'V', 'E' );
+
+const u_int uGLTOY_WAVE_READ_SIZE = 1024 * 16;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// S T R U C T U R E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+struct Riff_Chunk
+{
+	u_int uChunkType;
+	u_int uChunkSize;
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Sound* GLToy_WaveFile::LoadSound() const
+GLToy_WaveFile::GLToy_WaveFile( const GLToy_String& szFilename ) : GLToy_File( szFilename )
 {
-    if( m_pxSound )
-    {
-        return m_pxSound;
-    }
+	m_uBufferSize = 0;
+	m_pBuffer = 0;
+	memset( &m_xFormat, 0, sizeof( WAVEFORMATEX ) );
+}
 
-    m_pxSound = new GLToy_Sound();
+GLToy_WaveFile::~GLToy_WaveFile()
+{
+	delete []m_pBuffer;
+}
 
-    m_pxSound->SetHandle( GLToy_Sound_System::CreateSoundHandle() );
+const WAVEFORMATEX& GLToy_WaveFile::GetWaveFormat()
+{
+	return m_xFormat;
+}
 
-    Platform_LoadSound( m_pxSound->GetHandle() );
+void GLToy_WaveFile::GetBuffer( void*& pBuffer, unsigned int& uBufferSize )
+{
+	uBufferSize = m_uBufferSize;
+	pBuffer = m_pBuffer;
+}
 
-    return m_pxSound;
+bool GLToy_WaveFile::Load()
+{
+	FILE* pxFile = _wfopen( GetFilename().GetDataPointer(), L"rb" );
+	
+	if( !pxFile )
+	{
+		return false;
+	}
+
+	unsigned int uFileSize = 0;
+
+	// Read RIFF header
+	{
+		Riff_Chunk xRiff;
+
+		if( fread( &xRiff, sizeof( Riff_Chunk ), 1, pxFile ) == 0 )
+		{
+			fclose( pxFile );
+			return false;
+		}
+
+		if( xRiff.uChunkType != uGLTOY_4CC_RIFF ) 
+		{
+			fclose( pxFile );
+			return false;
+		}
+
+		// File size is RIFF chunk size + the above chunk header
+		uFileSize = xRiff.uChunkSize + 8;
+	}
+
+	// RIFF chunk contents are the subtype FOURCC then subtype-dependent data
+
+	unsigned int uSubType;
+	if( fread( &uSubType, sizeof( unsigned int ), 1, pxFile ) == 0 )
+	{
+		fclose( pxFile );
+		return false;
+	}
+
+	if( uSubType != uGLTOY_4CC_WAVE ) 
+	{
+		fclose( pxFile );
+		return false;
+	}
+
+	while( ftell( pxFile ) < static_cast<int>( uFileSize ) )
+	{
+		if( !ParseChunk( pxFile ) )
+		{
+			fclose( pxFile );
+			return false;
+		}
+	}
+
+	fclose( pxFile );
+	return true;
+}
+
+bool GLToy_WaveFile::ParseChunk( FILE* pxFile )
+{
+	Riff_Chunk xRiff;
+
+	if( fread( &xRiff, sizeof( Riff_Chunk ), 1, pxFile ) == 0 )
+	{
+		return false;
+	}
+
+	switch( xRiff.uChunkType )
+	{
+		case uGLTOY_4CC_DATA:
+		{
+            m_uBufferSize = xRiff.uChunkSize;
+			m_pBuffer = new char[ m_uBufferSize ];
+
+			unsigned int uToRead = m_uBufferSize;
+
+			while( uToRead > 0 )
+			{
+				u_int uReadSize = uGLTOY_WAVE_READ_SIZE;
+				if( uToRead < uGLTOY_WAVE_READ_SIZE )
+				{
+					uReadSize = uToRead;
+				}
+
+				if( fread( ( reinterpret_cast<char*>(m_pBuffer) + ( m_uBufferSize - uToRead ) ), uReadSize, 1, pxFile ) == 0 )
+				{
+					return false;
+				}
+
+				uToRead -= uReadSize;
+			}
+
+			return true;
+		}
+		break;
+
+		case uGLTOY_4CC_FMT:
+		{
+			char acBuffer[512];
+
+			if( fread( &acBuffer, xRiff.uChunkSize, 1, pxFile ) == 0 )
+			{
+				return false;
+			}
+
+			memcpy( &m_xFormat, &acBuffer[0], sizeof( WAVEFORMATEX ) );
+			
+			// Must be 16 bit PCM
+			if( ( m_xFormat.wFormatTag != WAVE_FORMAT_PCM ) || ( m_xFormat.wBitsPerSample != 16 ) )
+			{
+				return false;
+			}
+
+			return true;
+		}
+		break;
+
+		default:
+		{
+			// Unknown chunk, skip it
+			fseek( pxFile, xRiff.uChunkSize, SEEK_CUR );
+			return true;
+		}
+	}
+
+	// shouldnt get here
+	return false;
 }

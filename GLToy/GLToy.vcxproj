@@ -152,7 +152,7 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Final (Crinkler + No Havok)|Win32'">$(Configuration)\</IntDir>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug (Bullet)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug (No Physics)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug (No Physics)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug (No Memory Debugging)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">..\..\Havok\Lib\win32_net_9-0\debug_multithreaded;..\..\OpenAL\lib;..\..\OpenAL\libs\Win32;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug (Bullet)|Win32'">..\..\Havok\Lib\win32_net_9-0\debug_multithreaded;..\..\OpenAL\lib;..\..\OpenAL\libs\Win32;$(LibraryPath)</LibraryPath>
@@ -562,17 +562,16 @@
     <ClCompile Include="Independent\Model\GLToy_Model_FlatMaterials.cpp" />
     <ClCompile Include="Independent\Render\GLToy_Raytrace_Fullscreen.cpp" />
     <ClCompile Include="Independent\Render\GLToy_Texture_Procedural.cpp" />
-    <ClCompile Include="Independent\Sound\GLToy_Sound.cpp" />
     <ClCompile Include="Independent\Sound\GLToy_Sound_System.cpp" />
     <ClCompile Include="Independent\Test\GLToy_Test_System.cpp" />
     <ClCompile Include="Independent\Trace\GLToy_Trace_System.cpp" />
     <ClCompile Include="Win32\Core\Platform_GLToy_Memory.cpp" />
     <ClCompile Include="Win32\Core\Platform_GLToy_Profile.cpp" />
-    <ClCompile Include="Win32\File\Platform_GLToy_WaveFile.cpp" />
     <ClCompile Include="Win32\Input\Platform_GLToy_Input_System.cpp" />
     <ClCompile Include="Win32\Maths\Platform_GLToy_AlignedVector.cpp" />
     <ClCompile Include="Win32\Render\Platform_GLToy_Texture_Renderable.cpp" />
     <ClCompile Include="Win32\Sound\Platform_GLToy_Sound_System.cpp" />
+    <ClCompile Include="Win32\Sound\Platform_GLToy_Sound_Voice.cpp" />
     <ClCompile Include="X11\Core\Platform_GLToy.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (Bullet)|Win32'">true</ExcludedFromBuild>
@@ -1061,8 +1060,6 @@
     <ClInclude Include="Independent\Render\GLToy_Raytrace_Fullscreen.h" />
     <ClInclude Include="Independent\Render\GLToy_Texture_Procedural.h" />
     <ClInclude Include="Independent\Render\GLToy_Texture_Renderable.h" />
-    <ClInclude Include="Independent\Sound\GLToy_Sound.h" />
-    <ClInclude Include="Independent\Sound\GLToy_Sound_Source.h" />
     <ClInclude Include="Independent\Sound\GLToy_Sound_System.h" />
     <ClInclude Include="Independent\Test\GLToy_Test_System.h" />
     <ClInclude Include="Independent\Trace\GLToy_Trace_System.h" />
@@ -1070,6 +1067,7 @@
       <FileType>CppHeader</FileType>
     </ClCompile>
     <ClInclude Include="Win32\Sound\Platform_GLToy_Sound_System.h" />
+    <ClInclude Include="Win32\Sound\Platform_GLToy_Sound_Voice.h" />
     <ClInclude Include="X11\Core\Platform_GLToy.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (Bullet)|Win32'">true</ExcludedFromBuild>
