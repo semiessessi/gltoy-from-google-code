@@ -534,6 +534,9 @@
     <ClCompile Include="Independent\Core\GLToy_Core_SCU.cpp">
       <Filter>Independent\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Model\GLToy_Model_SCU.cpp">
+      <Filter>Independent\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">

@@ -79,7 +79,7 @@ void GLToy_Environment_Lightmapped::Shutdown()
 }
 
 // TODO - many optimisations
-// * frustrum cull PVS
+// * frustum cull PVS
 // * vertex/index buffers
 // * single pass lightmapping with shader - although it will need its own pass anyway when there is a deferred renderer
 void GLToy_Environment_Lightmapped::Render() const

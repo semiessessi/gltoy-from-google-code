@@ -24,36 +24,14 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLToy_HASHMAP_H_
-#define __GLToy_HASHMAP_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parents
-#include <Core/Data Structures/GLToy_BinaryTree.h>
-
-// GLToy
-#include <Core/GLToy_Hash.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-template < class T >
-class GLToy_HashMap
-: public GLToy_BinaryTree< T, GLToy_Hash >
-{
-
-    typedef GLToy_BinaryTree< T, GLToy_Hash > GLToy_Parent;
-
-public:
-
-    GLToy_HashMap()
-    : GLToy_Parent()
-    {
-    }
-};
-
-#endif
+#include <Model/GLToy_Model.cpp>
+#include <Model/GLToy_Model_3DS.cpp>
+#include <Model/GLToy_Model_Coloured.cpp>
+#include <Model/GLToy_Model_FlatMaterials.cpp>
+#include <Model/GLToy_Model_MD2.cpp>
+#include <Model/GLToy_Model_Placeholder.cpp>
+#include <Model/GLToy_Model_System.cpp>
