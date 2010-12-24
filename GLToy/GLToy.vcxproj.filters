@@ -531,6 +531,9 @@
     <ClCompile Include="Win32\Sound\Platform_GLToy_Sound_Voice.cpp">
       <Filter>Win32\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Core\GLToy_Core_SCU.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
