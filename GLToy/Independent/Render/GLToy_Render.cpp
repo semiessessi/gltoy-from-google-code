@@ -303,8 +303,8 @@ void GLToy_Render::Render2D()
                 pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.85f - pxFont->GetHeight() );
                 szString.SetToFormatString( "Render: %.3fms", GLToy::GetRenderProfileTimer() * 1000.0f );
                 pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.8f - pxFont->GetHeight() );
-                //szString.SetToFormatString( "GPU: %.3fms", GLToy::GetGPUProfileTimer() * 1000.0f );
-                //pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.75f - pxFont->GetHeight() );
+                szString.SetToFormatString( "GPU: %.3fms", GLToy::GetGPUProfileTimer() * 1000.0f );
+                pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.75f - pxFont->GetHeight() );
                 szString.SetToFormatString( "Sync: %.3fms", GLToy::GetSyncProfileTimer() * 1000.0f );
                 pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.7f - pxFont->GetHeight() );
             }
@@ -939,6 +939,36 @@ void GLToy_Render::SetAttribute( u_int uAttributeID, float fValue1, float fValue
 void GLToy_Render::SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3, float fValue4 )
 {
     Platform_GLToy_Render::SetAttribute( uAttributeID, fValue1, fValue2, fValue3, fValue4 );
+}
+
+void GLToy_Render::BeginQuery( u_int uTarget, u_int uID )
+{
+    Platform_GLToy_Render::BeginQuery( uTarget, uID );
+}
+
+void GLToy_Render::EndQuery( u_int uTarget )
+{
+    Platform_GLToy_Render::EndQuery( uTarget );
+}
+
+void GLToy_Render::GenerateQueries( u_int uCount, u_int* puIDs )
+{
+    Platform_GLToy_Render::GenerateQueries( uCount, puIDs );
+}
+
+void GLToy_Render::DeleteQueries( u_int uCount, const u_int* puIDs )
+{
+    Platform_GLToy_Render::DeleteQueries( uCount, puIDs );
+}
+
+void GLToy_Render::GetQueryObject( u_int uID, u_int uParameterName, int* piParameters )
+{
+    Platform_GLToy_Render::GetQueryObject( uID, uParameterName, piParameters );
+}
+
+void GLToy_Render::GetQueryObject( u_int uID, u_int uParameterName, unsigned long long* pullParameters )
+{
+    Platform_GLToy_Render::GetQueryObject( uID, uParameterName, pullParameters );
 }
 
 bool GLToy_Render::IsIntelGraphicsCard()

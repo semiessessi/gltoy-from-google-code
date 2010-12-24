@@ -163,6 +163,10 @@
 #define FRAMEBUFFER_BINDING									0x8CA6
 #define DRAW_FRAMEBUFFER_BINDING							FRAMEBUFFER_BINDING
 
+#define TIME_ELAPSED                                        0x88BF
+#define QUERY_RESULT                                        0x8866
+#define QUERY_RESULT_AVAILABLE                              0x8867
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -332,6 +336,13 @@ public:
     static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2 );
     static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3 );
     static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3, float fValue4 );
+
+    static void BeginQuery( u_int uTarget, u_int uID );
+    static void EndQuery( u_int uTarget );
+    static void GenerateQueries( u_int uCount, u_int* puIDs );
+    static void DeleteQueries( u_int uCount, const u_int* puIDs );
+    static void GetQueryObject( u_int uID, u_int uParameterName, int* piParameters );
+    static void GetQueryObject( u_int uID, u_int uParameterName, unsigned long long* pullParameters );
 
     static bool IsIntelGraphicsCard();
 

@@ -128,6 +128,13 @@ public:
     static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3 );
     static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3, float fValue4 );
 
+    static void BeginQuery( u_int uTarget, u_int uID );
+    static void EndQuery( u_int uTarget );
+    static void GenerateQueries( u_int uCount, u_int* puIDs );
+    static void DeleteQueries( u_int uCount, const u_int* puIDs );
+    static void GetQueryObject( u_int uID, u_int uParameterName, int* piParameters );
+    static void GetQueryObject( u_int uID, u_int uParameterName, unsigned long long* pullParameters );
+
     static bool IsIntelGraphicsCard() { return s_bIntel; }
 
 private:
@@ -258,6 +265,14 @@ private:
     static void ( __stdcall* s_pfnSetAttribute2f )( u_int uAttributeID, float fValue1, float fValue2 );
     static void ( __stdcall* s_pfnSetAttribute3f )( u_int uAttributeID, float fValue1, float fValue2, float fValue3 );
     static void ( __stdcall* s_pfnSetAttribute4f )( u_int uAttributeID, float fValue1, float fValue2, float fValue3, float fValue4 );
+    // queries
+    static void ( __stdcall* s_pfnBeginQuery )( u_int uTarget, u_int uID );
+    static void ( __stdcall* s_pfnEndQuery )( u_int uTarget );
+    static void ( __stdcall* s_pfnGenQueries )( u_int uCount, u_int* puIDs );
+    static void ( __stdcall* s_pfnDeleteQueries )( u_int uCount, const u_int* puIDs );
+    static void ( __stdcall* s_pfnGetQueryObjectiv )( u_int uID, u_int uParameterName, int* piParameters );
+    static void ( __stdcall* s_pfnGetQueryObjectui64v )( u_int uID, u_int uParameterName, unsigned long long* pullParameters );
+
 };
 
 #endif

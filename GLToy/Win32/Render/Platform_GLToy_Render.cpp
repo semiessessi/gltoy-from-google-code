@@ -115,6 +115,12 @@ void ( __stdcall* Platform_GLToy_Render::s_pfnSetAttribute1f )( u_int uAttribute
 void ( __stdcall* Platform_GLToy_Render::s_pfnSetAttribute2f )( u_int uAttributeID, float fValue1, float fValue2 ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnSetAttribute3f )( u_int uAttributeID, float fValue1, float fValue2, float fValue3 ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnSetAttribute4f )( u_int uAttributeID, float fValue1, float fValue2, float fValue3, float fValue4 ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnBeginQuery )( u_int uTarget, u_int uID ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnEndQuery )( u_int uTarget ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnGenQueries )( u_int uCount, u_int* puIDs ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnDeleteQueries )( u_int uCount, const u_int* puIDs ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnGetQueryObjectiv )( u_int uID, u_int uParameterName, int* piParameters ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnGetQueryObjectui64v )( u_int uID, u_int uParameterName, unsigned long long* pllParameters ) = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -229,6 +235,13 @@ bool Platform_GLToy_Render::Initialise()
     s_pfnSetAttribute2f                     = reinterpret_cast< void ( __stdcall* )( u_int, float, float ) >(                                                           wglGetProcAddress( "glVertexAttrib2f" ) );
     s_pfnSetAttribute3f                     = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float ) >(                                                    wglGetProcAddress( "glVertexAttrib3f" ) );
     s_pfnSetAttribute4f                     = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float, float ) >(                                             wglGetProcAddress( "glVertexAttrib4f" ) );
+
+    s_pfnBeginQuery                         = reinterpret_cast< void ( __stdcall* )( u_int, u_int ) >(                                                                  wglGetProcAddress( "glBeginQuery" ) );
+    s_pfnEndQuery                           = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glEndQuery" ) );
+    s_pfnGenQueries                         = reinterpret_cast< void ( __stdcall* )( u_int, u_int* ) >(                                                                 wglGetProcAddress( "glGenQueries" ) );
+    s_pfnDeleteQueries                      = reinterpret_cast< void ( __stdcall* )( u_int, const u_int* ) >(                                                           wglGetProcAddress( "glDeleteQueries" ) );
+    s_pfnGetQueryObjectiv                   = reinterpret_cast< void ( __stdcall* )( u_int, u_int, int* ) >(                                                            wglGetProcAddress( "glGetQueryObjectiv" ) );
+    s_pfnGetQueryObjectui64v                = reinterpret_cast< void ( __stdcall* )( u_int, u_int, unsigned long long* ) >(                                             wglGetProcAddress( "glGetQueryObjectui64vEXT" ) );
 
     return true;
 }
@@ -907,4 +920,52 @@ void Platform_GLToy_Render::SetAttribute( u_int uAttributeID, float fValue1, flo
 void Platform_GLToy_Render::SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3, float fValue4 )
 {
     s_pfnSetAttribute4f( uAttributeID, fValue1, fValue2, fValue3, fValue4 );
+}
+
+void Platform_GLToy_Render::BeginQuery( u_int uTarget, u_int uID )
+{
+    if( s_pfnBeginQuery )
+    {
+        s_pfnBeginQuery( uTarget, uID );
+    }
+}
+
+void Platform_GLToy_Render::EndQuery( u_int uTarget )
+{
+    if( s_pfnEndQuery )
+    {
+        s_pfnEndQuery( uTarget );
+    }
+}
+
+void Platform_GLToy_Render::GenerateQueries( u_int uCount, u_int* puIDs )
+{
+    if( s_pfnGenQueries )
+    {
+        s_pfnGenQueries( uCount, puIDs );
+    }
+}
+
+void Platform_GLToy_Render::DeleteQueries( u_int uCount, const u_int* puIDs )
+{
+    if( s_pfnDeleteQueries )
+    {
+        s_pfnDeleteQueries( uCount, puIDs );
+    }
+}
+
+void Platform_GLToy_Render::GetQueryObject( u_int uID, u_int uParameterName, int* piParameters )
+{
+    if( s_pfnGetQueryObjectiv )
+    {
+        s_pfnGetQueryObjectiv( uID, uParameterName, piParameters );
+    }
+}
+
+void Platform_GLToy_Render::GetQueryObject( u_int uID, u_int uParameterName, unsigned long long* pullParameters )
+{
+    if( s_pfnGetQueryObjectui64v )
+    {
+        s_pfnGetQueryObjectui64v( uID, uParameterName, pullParameters );
+    }
 }
