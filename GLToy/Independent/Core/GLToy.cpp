@@ -296,15 +296,23 @@ bool GLToy::MainLoop()
 
 #ifndef GLTOY_DEMO
     GLToy_Profile::StartProfileTimer();
+    
     u_int uQueryID = 0;
-    GLToy_Render::GenerateQueries( 1, &uQueryID );
-    GLToy_Render::BeginQuery( TIME_ELAPSED, uQueryID );
+    if( !GLToy_Render::IsIntelGraphicsCard() )
+    {
+        GLToy_Render::GenerateQueries( 1, &uQueryID );
+        GLToy_Render::BeginQuery( TIME_ELAPSED, uQueryID );
+    }
 #endif
 
     Render();
 
 #ifndef GLTOY_DEMO
-    GLToy_Render::EndQuery( TIME_ELAPSED );
+    if( !GLToy_Render::IsIntelGraphicsCard() )
+    {
+        GLToy_Render::EndQuery( TIME_ELAPSED );
+    }
+
     s_fRenderTimer = GLToy_Profile::EndProfileTimer();
     GLToy_Profile::StartProfileTimer();
 #endif
@@ -321,17 +329,20 @@ bool GLToy::MainLoop()
 #ifndef GLTOY_DEMO
     s_fSyncTimer = GLToy_Profile::EndProfileTimer();
 
-    int iQueryDone = 0;
-    while( iQueryDone == 0 )
+    if( !GLToy_Render::IsIntelGraphicsCard() )
     {
-        GLToy_Render::GetQueryObject( uQueryID, QUERY_RESULT_AVAILABLE, &iQueryDone );
+        int iQueryDone = 0;
+        while( iQueryDone == 0 )
+        {
+            GLToy_Render::GetQueryObject( uQueryID, QUERY_RESULT_AVAILABLE, &iQueryDone );
+        }
+
+        unsigned long long uNanoseconds;
+        GLToy_Render::GetQueryObject( uQueryID, QUERY_RESULT, &uNanoseconds );
+        s_fGPUTimer = static_cast< float >( static_cast< double >( uNanoseconds ) / 1000000000.0 );  
+
+        GLToy_Render::DeleteQueries( 1, &uQueryID );
     }
-
-    unsigned long long uNanoseconds;
-    GLToy_Render::GetQueryObject( uQueryID, QUERY_RESULT, &uNanoseconds );
-    s_fGPUTimer = static_cast< float >( static_cast< double >( uNanoseconds ) / 1000000000.0 );  
-
-    GLToy_Render::DeleteQueries( 1, &uQueryID );
 #endif
 
     return true;

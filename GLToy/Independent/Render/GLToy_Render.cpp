@@ -303,8 +303,11 @@ void GLToy_Render::Render2D()
                 pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.85f - pxFont->GetHeight() );
                 szString.SetToFormatString( "Render: %.3fms", GLToy::GetRenderProfileTimer() * 1000.0f );
                 pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.8f - pxFont->GetHeight() );
-                szString.SetToFormatString( "GPU: %.3fms", GLToy::GetGPUProfileTimer() * 1000.0f );
-                pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.75f - pxFont->GetHeight() );
+                if( !IsIntelGraphicsCard() )
+                {
+                    szString.SetToFormatString( "GPU: %.3fms", GLToy::GetGPUProfileTimer() * 1000.0f );
+                    pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.75f - pxFont->GetHeight() );
+                }
                 szString.SetToFormatString( "Sync: %.3fms", GLToy::GetSyncProfileTimer() * 1000.0f );
                 pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.7f - pxFont->GetHeight() );
             }

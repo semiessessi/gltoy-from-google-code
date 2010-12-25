@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi, Thomas Young
+// ©Copyright 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -28,44 +28,19 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
-
-// This file's headers
-#include <Sound/GLToy_Sound_System.h>
-#include <Sound/Platform_GLToy_Sound_System.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-bool GLToy_Sound_System::Initialise()
-{
-	return Platform_GLToy_Sound_System::Initialise();
-}
-
-void GLToy_Sound_System::Update()
-{
-	Platform_GLToy_Sound_System::Update();
-}
-
-void GLToy_Sound_System::Shutdown()
-{
-	Platform_GLToy_Sound_System::Shutdown();
-}
-
-GLToy_Handle GLToy_Sound_System::CreateVoice( const GLToy_Hash uWaveHash )
-{
-	return Platform_GLToy_Sound_System::CreateVoice( uWaveHash );
-}
-
-GLToy_Sound_Voice* GLToy_Sound_System::GetVoice( const GLToy_Handle iHandle )
-{
-	return Platform_GLToy_Sound_System::GetVoice( iHandle );
-}
-
-void GLToy_Sound_System::DestroyVoice( const GLToy_Handle iHandle )
-{
-	return Platform_GLToy_Sound_System::DestroyVoice( iHandle );
-}
-
-//eof
+#include <Core/Platform_GLToy.cpp>
+#include <Core/Platform_GLToy_Assert.cpp>
+#include <Core/Platform_GLToy_Memory.cpp>
+#include <Core/Platform_GLToy_Profile.cpp>
+#include <Core/Platform_GLToy_Timer.cpp>
+#include <File/Platform_GLToy_File_System.cpp>
+#include <Input/Platform_GLToy_Input_System.cpp>
+#include <Input/Platform_GLToy_InputHandler.cpp>
+#include <Maths/Platform_GLToy_AlignedVector.cpp>
+#include <Maths/Platform_GLToy_Maths.cpp>
+#include <Maths/Platform_GLToy_Vector.cpp>
+#include <Render/Platform_GLToy_Render.cpp>
+#include <Render/Platform_GLToy_Texture.cpp>
+#include <Render/Platform_GLToy_Texture_Renderable.cpp>
+#include <Sound/Platform_GLToy_Sound_System.cpp>
+#include <Sound/Platform_GLToy_Sound_Voice.cpp>

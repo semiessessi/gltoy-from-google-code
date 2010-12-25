@@ -537,6 +537,15 @@
     <ClCompile Include="Independent\Model\GLToy_Model_SCU.cpp">
       <Filter>Independent\Model</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\UI\GLToy_UI_SCU.cpp">
+      <Filter>Independent\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\GLToy_Render_SCU.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\GLToy_Win32_SCU.cpp">
+      <Filter>Win32</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">

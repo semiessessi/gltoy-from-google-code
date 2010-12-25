@@ -40,8 +40,8 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static LARGE_INTEGER xPerformanceCount;
-static LARGE_INTEGER xPerformanceFrequency;
+static LARGE_INTEGER xProfilePerformanceCount;
+static LARGE_INTEGER xProfilePerformanceFrequency;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -50,7 +50,7 @@ static LARGE_INTEGER xPerformanceFrequency;
 bool GLToy_Profile::Platform_Initialise()
 {
 	SetThreadAffinityMask( GetCurrentThread(), 1 ); // make sure we only run this (main) thread on the first CPU - to avoid obscure bugs in CPU/BIOS etc
-    QueryPerformanceCounter( &xPerformanceCount );
+    QueryPerformanceCounter( &xProfilePerformanceCount );
 
     return true;
 }
@@ -58,15 +58,15 @@ bool GLToy_Profile::Platform_Initialise()
 float GLToy_Profile::Platform_GetTimeSinceLastGet()
 {
     // this can change... so we had better update it
-    QueryPerformanceFrequency( &xPerformanceFrequency );
+    QueryPerformanceFrequency( &xProfilePerformanceFrequency );
 
     LARGE_INTEGER xNewPerformanceCount;
     QueryPerformanceCounter( &xNewPerformanceCount );
 
-    float fTime = static_cast< float >( xNewPerformanceCount.QuadPart - xPerformanceCount.QuadPart )
-        / static_cast< float >( xPerformanceFrequency.QuadPart );
+    float fTime = static_cast< float >( xNewPerformanceCount.QuadPart - xProfilePerformanceCount.QuadPart )
+        / static_cast< float >( xProfilePerformanceFrequency.QuadPart );
 
-    xPerformanceCount = xNewPerformanceCount;
+    xProfilePerformanceCount = xNewPerformanceCount;
 
     return fTime;
 }

@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi, Thomas Young
+// ©Copyright 2010 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -28,44 +28,14 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
-
-// This file's headers
-#include <Sound/GLToy_Sound_System.h>
-#include <Sound/Platform_GLToy_Sound_System.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-bool GLToy_Sound_System::Initialise()
-{
-	return Platform_GLToy_Sound_System::Initialise();
-}
-
-void GLToy_Sound_System::Update()
-{
-	Platform_GLToy_Sound_System::Update();
-}
-
-void GLToy_Sound_System::Shutdown()
-{
-	Platform_GLToy_Sound_System::Shutdown();
-}
-
-GLToy_Handle GLToy_Sound_System::CreateVoice( const GLToy_Hash uWaveHash )
-{
-	return Platform_GLToy_Sound_System::CreateVoice( uWaveHash );
-}
-
-GLToy_Sound_Voice* GLToy_Sound_System::GetVoice( const GLToy_Handle iHandle )
-{
-	return Platform_GLToy_Sound_System::GetVoice( iHandle );
-}
-
-void GLToy_Sound_System::DestroyVoice( const GLToy_Handle iHandle )
-{
-	return Platform_GLToy_Sound_System::DestroyVoice( iHandle );
-}
-
-//eof
+#include <Render/Font/GLToy_Font.cpp>
+#include <Render/Font/GLToy_Font_Bitmap.cpp>
+#include <Render/Shader/GLToy_Shader.cpp>
+#include <Render/Shader/GLToy_Shader_System.cpp>
+#include <Render/TGA/GLToy_TGA.cpp>
+#include <Render/GLToy_Camera.cpp>
+#include <Render/GLToy_Raytrace_Fullscreen.cpp>
+#include <Render/GLToy_Render.cpp>
+#include <Render/GLToy_Sprite.cpp>
+#include <Render/GLToy_Texture.cpp>
+#include <Render/GLToy_Texture_Procedural.cpp>
