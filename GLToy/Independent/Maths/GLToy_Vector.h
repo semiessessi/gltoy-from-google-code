@@ -85,9 +85,8 @@ public:
     float MagnitudeSquared() const { return *this * *this; }
 
     bool operator ==( const GLToy_Vector_2& xVector ) const;
+	GLToy_ForceInline bool operator !=( const GLToy_Vector_2& xVector ) const { return !( *this == xVector ); }
 
-private:
-    
 	union
 	{
 		float m_fComponents[ 2 ];
@@ -162,8 +161,6 @@ public:
 
     bool operator ==( const GLToy_Vector_3& xVector ) const;
 
-public:
-    
 	union
 	{
 		float m_fComponents[ 3 ];

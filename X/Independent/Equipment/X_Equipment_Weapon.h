@@ -15,6 +15,15 @@ class X_Equipment_Weapon
 
 		void RandomGenerate( float fDamageMax );
 
+		float GetDamage();
+		float GetSpeed();
+		float GetRate();
+		float GetSize();
+		float GetSpread();
+		int GetNumProjectiles();
+		bool IsWavey();
+		
+
 	private:
 
 		GLToy_Vector_2 m_xDamage; // Min and max damage per projectile

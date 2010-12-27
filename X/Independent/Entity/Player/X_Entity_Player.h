@@ -34,6 +34,8 @@
 // Parents
 #include <Entity/GLToy_Entity.h>
 
+#include <Equipment/X_Equipment_Weapon.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,16 +62,26 @@ public:
 
 	GLToy_ForceInline void SetMovement( const GLToy_Vector_2& xMovement ) { m_xMovement = xMovement; }
 
+	void Shoot();
+
     u_int GetLives() const { return m_uLives; }
 	u_int GetGunLevel() const { return m_uGunLevel; }
 
 	static GLToy_Array< X_Entity_Player* >& GetList() { return s_xList; }
 
+	void SetWeapon( const X_Equipment_Weapon& xWeapon );
+
 protected:
 
 	GLToy_Vector_2 m_xMovement;
+	GLToy_Vector_2 m_xPreviousMovement;
+	GLToy_Vector_2 m_xSpeed;
+	GLToy_Vector_2 m_xLerpStart;
+	float m_fAccelerationTimer;
     u_int m_uLives;
 	u_int m_uGunLevel;
+	X_Equipment_Weapon m_xWeapon;
+	float m_fShootTimer;
     
 private:
 

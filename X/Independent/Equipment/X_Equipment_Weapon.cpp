@@ -42,7 +42,7 @@ static const float fX_EQUIP_WEAPON_MAX_SIZE = 0.04f;
 X_Equipment_Weapon::X_Equipment_Weapon()
 : m_fSize( 0.0f )
 , m_fSpread( 0.0f )
-, m_iProjectiles( 0 )
+, m_iProjectiles( 1 )
 , m_bWavey( false )
 , m_fBoost( 0.0f )
 {
@@ -91,7 +91,7 @@ void X_Equipment_Weapon::RandomGenerate( float fDamageMax )
 		fSeed += 0.1f;
 	}
 
-	m_xRate[1] = GLToy_Maths::ClampedLerp( fX_EQUIP_WEAPON_MIN_SPEED, fX_EQUIP_WEAPON_MAX_SPEED, fSeed );
+	m_xRate[1] = GLToy_Maths::ClampedLerp( fX_EQUIP_WEAPON_MIN_RATE, fX_EQUIP_WEAPON_MAX_RATE, fSeed );
 	m_xRate[0] = GLToy_Maths::Random( m_xRate[1] * 0.5f, m_xRate[1] );
 
 	// Size
@@ -102,6 +102,41 @@ void X_Equipment_Weapon::RandomGenerate( float fDamageMax )
 	// Wavey?
 
 	m_bWavey = bMultipleProjectiles ? false : ( GLToy_Maths::Random() > 0.5f );
+}
+
+float X_Equipment_Weapon::GetDamage()
+{
+	return GLToy_Maths::Lerp<float>( m_xDamage[0], m_xDamage[1], m_fBoost );
+}
+
+float X_Equipment_Weapon::GetSpeed()
+{
+	return GLToy_Maths::Lerp<float>( m_xSpeed[0], m_xSpeed[1], m_fBoost );
+}
+
+float X_Equipment_Weapon::GetRate()
+{
+	return GLToy_Maths::Lerp<float>( m_xRate[0], m_xRate[1], m_fBoost );
+}
+
+float X_Equipment_Weapon::GetSize()
+{
+	return m_fSize;
+}
+
+float X_Equipment_Weapon::GetSpread()
+{
+	return m_fSpread;
+}
+
+int X_Equipment_Weapon::GetNumProjectiles()
+{
+	return m_iProjectiles;
+}
+
+bool X_Equipment_Weapon::IsWavey()
+{
+	return m_bWavey;
 }
 
 //eof

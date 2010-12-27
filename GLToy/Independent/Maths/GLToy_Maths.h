@@ -126,6 +126,18 @@ public:
 	{
 		return Lerp( xValue1, xValue2, ( ( ( fAmount * 6.0f - 15.0f ) * fAmount + 10.0f ) * fAmount * fAmount * fAmount ) );
 	}
+
+	template < class T >
+    static GLToy_ForceInline T ClampedCosineInterpolate( const T& xValue1, const T& xValue2, const float fAmount )
+	{
+		return CosineInterpolate( xValue1, xValue2, Clamp( fAmount, 0.0f, 1.0f ) );
+	}
+
+	template < class T >
+    static GLToy_ForceInline T ClampedQuinticNoiseInterpolate( const T& xValue1, const T& xValue2, const float fAmount )
+	{
+		return QuinticNoiseInterpolate( xValue1, xValue2, Clamp( fAmount, 0.0f, 1.0f ) );
+	}
 	
 	template < class T >
 	static GLToy_Inline T CubicInterpolate( const T& xValue1, const T& xValue2, const T& xValue3, const T& xValue4, const float fAmount )

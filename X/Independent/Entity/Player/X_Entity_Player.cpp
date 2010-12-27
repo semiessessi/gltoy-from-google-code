@@ -36,10 +36,13 @@
 // GLToy
 #include <Core/GLToy_Timer.h>
 #include <Core/State/GLToy_State_System.h>
+#include <Entity/GLToy_Entity_System.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture.h>
 
 // X
+#include <Entity/X_EntityTypes.h>
+#include <Entity/Projectile/X_Entity_Projectile.h>
 #include <Entity/Collectible/X_Entity_Collectible.h>
 #include <Entity/Enemy/X_Entity_Enemy.h>
 
@@ -53,6 +56,7 @@ GLToy_Array< X_Entity_Player* > X_Entity_Player::s_xList;
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+static const float fACCELERATION = 3.0f;
 static const float fSPEED = 2.5f;
 static const float fSIZE = 0.08f;
 static const GLToy_Hash xPLAYER_SHIP_TEXTURE = GLToy_Hash_Constant( "Sprites/Ship/Ship.png" );
@@ -64,8 +68,14 @@ static const GLToy_Hash xPLAYER_SHIP_TEXTURE = GLToy_Hash_Constant( "Sprites/Shi
 X_Entity_Player::X_Entity_Player( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
 , m_xMovement( GLToy_Maths::ZeroVector2 )
+, m_xPreviousMovement( GLToy_Maths::ZeroVector2 )
+, m_xSpeed( GLToy_Maths::ZeroVector2 )
+, m_xLerpStart( GLToy_Maths::ZeroVector2 )
+, m_fAccelerationTimer( 0.0f )
 , m_uLives( 3 )
 , m_uGunLevel( 0 )
+, m_xWeapon()
+, m_fShootTimer( 0.0f )
 {
     m_xBoundingSphere.SetRadius( fSIZE );
 
@@ -80,7 +90,24 @@ X_Entity_Player::~X_Entity_Player()
 void X_Entity_Player::Update()
 {
     GLToy_Vector_3 xPosition = GetPosition();
-    xPosition += GLToy_Vector_3( m_xMovement, 0.0f ) * fSPEED * GLToy_Timer::GetFrameTime();
+	if( m_xMovement[ 0 ] != m_xPreviousMovement[ 0 ] )
+	{
+		m_xLerpStart[ 0 ] = 0.0f;
+		m_xLerpStart[ 1 ] = m_xSpeed[ 1 ];
+		m_fAccelerationTimer = 0.0f;
+	}
+
+	if( m_xMovement[ 1 ] != m_xPreviousMovement[ 1 ] )
+	{
+		m_xLerpStart[ 1 ] = 0.0f;
+		m_xLerpStart[ 0 ] = m_xSpeed[ 0 ];
+		m_fAccelerationTimer = 0.0f;
+	}
+
+	m_fAccelerationTimer += GLToy_Timer::GetFrameTime();
+	m_xSpeed = GLToy_Maths::ClampedLerp( m_xLerpStart, m_xMovement, fACCELERATION * m_fAccelerationTimer );
+
+    xPosition += GLToy_Vector_3( m_xSpeed, 0.0f ) * fSPEED * GLToy_Timer::GetFrameTime();
 
     // TODO: think about aspect ratio...
     xPosition[ 0 ] = GLToy_Maths::Clamp( xPosition[ 0 ], -GLToy_Render::Get2DWidth() * 0.5f, GLToy_Render::Get2DWidth() * 0.5f );
@@ -120,7 +147,11 @@ void X_Entity_Player::Update()
         GLToy_State_System::ChangeState( GLToy_Hash_Constant( "GameOver" ) );
     }
 
+	m_fShootTimer = GLToy_Maths::Max( m_fShootTimer - GLToy_Timer::GetFrameTime(), 0.0f );
+
     GLToy_Parent::Update();
+
+	m_xPreviousMovement = m_xMovement;
 }
 
 void X_Entity_Player::Render() const
@@ -165,6 +196,29 @@ void X_Entity_Player::Collect( const X_Entity_Collectible* pxCollectible )
 		}
         break;
 	}
+}
+
+void X_Entity_Player::Shoot()
+{
+	if( m_fShootTimer == 0.0f )
+	{
+		if( m_xWeapon.GetNumProjectiles() == 1 )
+		{
+			X_Entity_Projectile* pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
+            pxProjectile->SetPosition( GetPosition() );
+			
+			GLToy_Vector_2 xDirection( 0.0f, 1.0f );
+			xDirection = GLToy_Maths::Rotate_2D( xDirection, GLToy_Maths::Random( -m_xWeapon.GetSpread(), m_xWeapon.GetSpread() ) );
+			pxProjectile->SetDirection( GLToy_Vector_3( xDirection.x, xDirection.y, 0.0f ) );
+		}
+		m_fShootTimer = m_xWeapon.GetRate();
+	}
+
+}
+
+void X_Entity_Player::SetWeapon( const X_Equipment_Weapon& xWeapon )
+{
+	m_xWeapon = xWeapon;
 }
 
 //eof

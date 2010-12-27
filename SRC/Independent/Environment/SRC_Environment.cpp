@@ -156,7 +156,7 @@ void SRC_Map_Block::Render() const
 	const GLToy_Vector_3& xMin = m_xBoundingBox.m_xPointMin;
 	const GLToy_Vector_3& xMax = m_xBoundingBox.m_xPointMax;
 
-	GLToy_Texture_System::BindTexture( "Generic/Grid2.png" );
+	GLToy_Texture_System::BindTexture( "SRC/ConcreteTile1.png" );
 
     GLToy_Render::StartSubmittingQuads();
 	{

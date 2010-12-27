@@ -35,6 +35,7 @@
 
 // GLToy
 #include <Core/GLToy_Timer.h>
+#include <Core/Console/GLToy_Console.h>
 #include <Environment/GLToy_Environment_System.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Input/GLToy_Input_System.h>
@@ -49,6 +50,7 @@
 #include <Entity/Collectible/X_Entity_Collectible.h>
 #include <Entity/Player/X_Entity_Player.h>
 #include <Entity/Projectile/X_Entity_Projectile.h>
+#include <Equipment/X_Equipment_Weapon.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -62,6 +64,14 @@ static const float fX_COLLECTIBLE_INTERVAL = 10.0f;
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+static void Debug_MakeWeapon()
+{
+	GLToy_Array< X_Entity_Player* >& xList = X_Entity_Player::GetList();
+	X_Equipment_Weapon xWeapon;
+	xWeapon.RandomGenerate( 10.0f );
+	xList[0]->SetWeapon( xWeapon );
+}
+
 X_State_Game::X_State_Game()
 : GLToy_Parent()
 , m_pxPlayer( NULL )
@@ -69,6 +79,7 @@ X_State_Game::X_State_Game()
 , m_fCollectibleTimer( 0.0f )
 , m_fStateTimer( 0.0f )
 {
+	GLToy_Console::RegisterCommand( "makeweapon", Debug_MakeWeapon );
 }
 
 void X_State_Game::Initialise()
@@ -139,53 +150,10 @@ void X_State_Game::Update()
 		m_fCollectibleTimer = fX_COLLECTIBLE_INTERVAL;
 	}
 
-    static bool ls_bSpaceDown = false;
-    static float ls_fFiringTimer = 0.0f;
-    const bool bSpaceDown = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetSpaceKey() );
-    if( !ls_bSpaceDown && bSpaceDown )
-    {
-        ls_fFiringTimer = 0.0f;
-        ls_bSpaceDown = true;
-    }
-    else if( ls_bSpaceDown && !bSpaceDown )
-    {
-        ls_bSpaceDown = false;
-    }
-
-    if( bSpaceDown )
-    {
-		// TODO: This should be a function of the player no? pxPlayer->Shoot()
-        // SE - yes, indeed, good idea :)
-
-        ls_fFiringTimer -= GLToy_Timer::GetFrameTime();
-
-        if( ls_fFiringTimer <= 0.0f )
-        {
-            X_Entity_Projectile* pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
-            pxProjectile->SetPosition( m_pxPlayer->GetPosition() );
-
-			// Hack
-			X_Entity_Player* pxPlayer = X_Entity_Player::GetList()[0];
-
-			if( pxPlayer )
-			{
-                static const u_int uMax = 11;
-                static const GLToy_Vector_3 xIncrement( 0.1f, 0.0f, 0.0f );
-                const u_int uCount = GLToy_Maths::Min( 1 + ( pxPlayer->GetGunLevel() << 1 ), uMax );
-
-                GLToy_Vector_3 xDirection( -0.5f  * xIncrement[ 0 ] * static_cast< float >( uCount - 1 ), 1.0f, 0.0f );
-                for( u_int u = 0; u < uCount; ++u )
-                {
-                    pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
-					pxProjectile->SetPosition( m_pxPlayer->GetPosition() );
-					pxProjectile->SetDirection( xDirection );
-                    xDirection += xIncrement;
-                }
-			}
-
-            // TODO: remove magic number
-            ls_fFiringTimer = 0.2f;
-        }
+	GLToy_Array< X_Entity_Player* >& xList = X_Entity_Player::GetList();
+	if( GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetSpaceKey() ) )
+	{
+		xList[0]->Shoot();
     }
 }
 
