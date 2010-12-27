@@ -477,3 +477,8 @@ void GLToy::ChangeWindowIcon( const char* const szTextureName )
 {
     Platform_ChangeWindowIcon( szTextureName );
 }
+
+GLToy_Vector_2 GLToy::GetWindowPos()
+{
+    return Platform_GetWindowPos();
+}

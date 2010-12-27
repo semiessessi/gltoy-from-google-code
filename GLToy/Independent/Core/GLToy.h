@@ -131,6 +131,7 @@ static const GLToy_Hash uGLTOY_BAD_HASH = 0;
 
 class GLToy_BitStream;
 class GLToy_String;
+class GLToy_Vector_2;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -189,6 +190,7 @@ public:
 
     static u_int GetWindowViewportWidth();
     static u_int GetWindowViewportHeight();
+	static GLToy_Vector_2 GetWindowPos();
 
     static void Quit() { s_bQuitFlag = true; }
 	static void QuitDialog();
@@ -241,6 +243,7 @@ private:
 
     static void Platform_ChangeWindowTitle( const char* const szNewTitle );
     static void Platform_ChangeWindowIcon( const char* const szTextureName );
+	static GLToy_Vector_2 Platform_GetWindowPos();
 
     static bool s_bFullscreen;
     static int s_iWidth;

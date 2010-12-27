@@ -43,15 +43,17 @@
 
 void GLToy_Input_System::Platform_Update()
 {
+	GLToy_Vector_2 xWindowPos = GLToy::GetWindowPos();
 
-    POINT xCentre = { GLToy::GetWindowViewportWidth() >> 1, GLToy::GetWindowViewportHeight() >> 1 };
+    POINT xCentre = { ( GLToy::GetWindowViewportWidth() >> 1 ) + static_cast<int>( xWindowPos[0] )
+					, ( GLToy::GetWindowViewportHeight() >> 1 ) + static_cast<int>( xWindowPos[1] ) };
     POINT xPoint;
     GetCursorPos( &xPoint );
 
     s_fMouseDeltaX = static_cast< float >( xPoint.x - xCentre.x );
     s_fMouseDeltaY = static_cast< float >( xPoint.y - xCentre.y );
 
-    SetCursorPos( xCentre.x, xCentre.y );
+	SetCursorPos( xCentre.x, xCentre.y );
 
     static bool bFirst = true;
     if( bFirst )

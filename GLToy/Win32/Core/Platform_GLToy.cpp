@@ -34,6 +34,7 @@
 // GLToy
 #include <Input/GLToy_Input_System.h>
 #include <String/GLToy_String.h>
+#include <Maths/GLToy_Maths.h>
 
 #include <Core/GLToy_Memory_DebugOff.h>
 
@@ -426,3 +427,15 @@ void GLToy::Platform_ChangeWindowIcon( const char* const szTextureName )
 }
 
 #include <Core/GLToy_Memory_DebugOn.h>
+
+GLToy_Vector_2 GLToy::Platform_GetWindowPos()
+{
+	GLToy_Vector_2 xRect;
+	RECT xWinRect;
+	if( GetWindowRect( g_uWindowHandle, &xWinRect ) )
+	{
+		xRect[0] = static_cast<float>( xWinRect.left );
+		xRect[1] = static_cast<float>( xWinRect.top );
+	}
+	return xRect;
+}
