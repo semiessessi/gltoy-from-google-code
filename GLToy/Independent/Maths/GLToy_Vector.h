@@ -88,7 +88,15 @@ public:
 
 private:
     
-    float m_fComponents[ 2 ];
+	union
+	{
+		float m_fComponents[ 2 ];
+		struct
+		{
+			float x;
+			float y;
+		};
+	};
 
 };
 
@@ -154,9 +162,18 @@ public:
 
     bool operator ==( const GLToy_Vector_3& xVector ) const;
 
-private:
+public:
     
-    float m_fComponents[ 3 ];
+	union
+	{
+		float m_fComponents[ 3 ];
+		struct
+		{
+			float x;
+			float y;
+			float z;
+		};
+	};
 
 };
 
@@ -205,9 +222,19 @@ public:
 
     u_int GetRGBA() const;
 
-private:
+public:
     
-    float m_fComponents[ 4 ];
+	union
+	{
+		float m_fComponents[ 4 ];
+		struct
+		{
+			float x;
+			float y;
+			float z;
+			float w;
+		};
+	};
 
 };
 
