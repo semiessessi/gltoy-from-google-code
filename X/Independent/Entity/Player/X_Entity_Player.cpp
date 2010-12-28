@@ -73,7 +73,6 @@ X_Entity_Player::X_Entity_Player( const GLToy_Hash uHash, const u_int uType )
 , m_xLerpStart( GLToy_Maths::ZeroVector2 )
 , m_fAccelerationTimer( 0.0f )
 , m_uLives( 3 )
-, m_uGunLevel( 0 )
 , m_xWeapon()
 , m_fShootTimer( 0.0f )
 {
@@ -190,9 +189,15 @@ void X_Entity_Player::Collect( const X_Entity_Collectible* pxCollectible )
 		}
 		break;
 
+		case X_COLLECTIBLE_TYPE_BOOST:
+		{
+			m_xWeapon.Boost( 0.5f );
+		}
+        break;
+
 		case X_COLLECTIBLE_TYPE_WEAPON:
 		{
-			++m_uGunLevel;
+			m_xWeapon.RandomGenerate( 10.0f );
 		}
         break;
 	}
@@ -210,7 +215,26 @@ void X_Entity_Player::Shoot()
 			GLToy_Vector_2 xDirection( 0.0f, 1.0f );
 			xDirection = GLToy_Maths::Rotate_2D( xDirection, GLToy_Maths::Random( -m_xWeapon.GetSpread(), m_xWeapon.GetSpread() ) );
 			pxProjectile->SetDirection( GLToy_Vector_3( xDirection.x, xDirection.y, 0.0f ) );
+
+			pxProjectile->SetRadius( m_xWeapon.GetSize() );
 		}
+		else
+		{
+			GLToy_Vector_3 xDirection = GLToy_Vector_3( -m_xWeapon.GetSpread(), 1.0f, 0.0f );
+			const GLToy_Vector_3 xIncrement = GLToy_Vector_3( 2.0f * m_xWeapon.GetSpread() / static_cast< float >( m_xWeapon.GetNumProjectiles() - 1 ), 0.0f, 0.0f );
+			for( int i = 0 ; i < m_xWeapon.GetNumProjectiles(); ++i )
+			{
+				X_Entity_Projectile* pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
+				pxProjectile->SetPosition( GetPosition() );
+				GLToy_Vector_3 xNormalisedDirection = xDirection;
+				xNormalisedDirection.Normalise();
+				pxProjectile->SetDirection( xNormalisedDirection );
+				xDirection += xIncrement;
+
+				pxProjectile->SetRadius( m_xWeapon.GetSize() );
+			}
+		}
+
 		m_fShootTimer = m_xWeapon.GetRate();
 	}
 

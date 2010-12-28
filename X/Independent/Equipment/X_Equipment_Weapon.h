@@ -14,6 +14,7 @@ class X_Equipment_Weapon
 		~X_Equipment_Weapon();
 
 		void RandomGenerate( float fDamageMax );
+		void Boost( float fBoost );
 
 		float GetDamage();
 		float GetSpeed();

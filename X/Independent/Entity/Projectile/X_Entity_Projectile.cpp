@@ -104,13 +104,13 @@ const GLToy_Vector_3& xPosition = GetPosition();
 		
     GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
 	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
-	GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] - GetRadius(), xPosition[ 1 ] + GetRadius(), xPosition[ 2 ] ); 
     GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 0.0f ) );
-	GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] + GetRadius(), xPosition[ 1 ] + GetRadius(), xPosition[ 2 ] ); 
 	GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 1.0f ) );
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] + GetRadius(), xPosition[ 1 ] - GetRadius(), xPosition[ 2 ] );
 	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 1.0f ) );
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] - GetRadius(), xPosition[ 1 ] - GetRadius(), xPosition[ 2 ] );
 	
     GLToy_Render::EndSubmit();
 

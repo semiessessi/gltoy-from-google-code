@@ -155,7 +155,7 @@ public:
     virtual const GLToy_Vector_3& GetPosition() const { return m_xBoundingSphere.GetPosition(); }
     
     virtual void SetRadius( const float fRadius ) { return m_xBoundingSphere.SetRadius( fRadius ); }
-    virtual float GetRadius() { return m_xBoundingSphere.GetRadius(); }
+    virtual float GetRadius() const { return m_xBoundingSphere.GetRadius(); }
 
     void SetBoundingSphereToPoint( const GLToy_Vector_3& xPosition ) { m_xBoundingSphere.SetToPoint( xPosition ); }
     void GrowBoundingSphereByPoint( const GLToy_Vector_3& xPosition ) { m_xBoundingSphere.GrowByPoint( xPosition ); }
