@@ -6,6 +6,9 @@
 
 #include <Maths/GLToy_Vector.h>
 
+static const float fX_EQUIP_WEAPON_MIN_SIZE = 0.01f;
+static const float fX_EQUIP_WEAPON_MAX_SIZE = 0.04f;
+
 class X_Equipment_Weapon
 {
 	public:

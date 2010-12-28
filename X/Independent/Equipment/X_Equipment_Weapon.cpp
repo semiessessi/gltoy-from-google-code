@@ -32,9 +32,6 @@ static const float fX_EQUIP_WEAPON_MAX_SPEED = 0.025f;
 static const float fX_EQUIP_WEAPON_MIN_RATE = 0.03f;
 static const float fX_EQUIP_WEAPON_MAX_RATE = 0.5f;
 
-static const float fX_EQUIP_WEAPON_MIN_SIZE = 0.01f;
-static const float fX_EQUIP_WEAPON_MAX_SIZE = 0.04f;
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////

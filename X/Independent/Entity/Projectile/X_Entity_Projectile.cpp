@@ -47,8 +47,12 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static const float fSPEED = 3.0f;
-static const float fSIZE = 0.02f;
-static const GLToy_Hash xPROJECTILE_TEXTURE = GLToy_Hash_Constant( "Sprites/Projectile/Projectile1.png" );
+
+static const GLToy_Hash xPROJECTILE_TEXTURE[] = { GLToy_Hash_Constant( "Sprites/Projectile/Projectile1.png" ),
+												  GLToy_Hash_Constant( "Sprites/Projectile/Projectile2.png" ),
+												  GLToy_Hash_Constant( "Sprites/Projectile/Projectile3.png" ),
+												  GLToy_Hash_Constant( "Sprites/Projectile/Projectile4.png" ),
+												  GLToy_Hash_Constant( "Sprites/Projectile/Projectile5.png" ) };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -56,8 +60,9 @@ static const GLToy_Hash xPROJECTILE_TEXTURE = GLToy_Hash_Constant( "Sprites/Proj
 
 X_Entity_Projectile::X_Entity_Projectile( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
+, m_uTexture( 0 )
 {
-    m_xBoundingSphere.SetRadius( fSIZE );
+    m_xBoundingSphere.SetRadius( 0.0f );
 	m_xDirection[1] = 1.0f;
 }
 
@@ -98,7 +103,7 @@ const GLToy_Vector_3& xPosition = GetPosition();
     GLToy_Render::EnableBlending();
     GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
 
-    GLToy_Texture_System::BindTexture( xPROJECTILE_TEXTURE );
+	GLToy_Texture_System::BindTexture( xPROJECTILE_TEXTURE[ m_uTexture ] );
 
     GLToy_Render::StartSubmittingQuads();
 		

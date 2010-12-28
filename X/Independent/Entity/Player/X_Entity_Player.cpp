@@ -207,6 +207,8 @@ void X_Entity_Player::Shoot()
 {
 	if( m_fShootTimer == 0.0f )
 	{
+		const u_int uWeaponTexture = static_cast<u_int>( ( ( m_xWeapon.GetSize() - fX_EQUIP_WEAPON_MIN_SIZE ) / ( fX_EQUIP_WEAPON_MAX_SIZE - fX_EQUIP_WEAPON_MIN_SIZE ) ) * uX_ENTITY_PROJECTILE_NUM_TEXTURES );
+
 		if( m_xWeapon.GetNumProjectiles() == 1 )
 		{
 			X_Entity_Projectile* pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
@@ -217,6 +219,7 @@ void X_Entity_Player::Shoot()
 			pxProjectile->SetDirection( GLToy_Vector_3( xDirection.x, xDirection.y, 0.0f ) );
 
 			pxProjectile->SetRadius( m_xWeapon.GetSize() );
+			pxProjectile->SetTexture( uWeaponTexture );
 		}
 		else
 		{
@@ -232,6 +235,7 @@ void X_Entity_Player::Shoot()
 				xDirection += xIncrement;
 
 				pxProjectile->SetRadius( m_xWeapon.GetSize() );
+				pxProjectile->SetTexture( uWeaponTexture );
 			}
 		}
 
