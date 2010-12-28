@@ -66,6 +66,8 @@ u_int& GLToy_Render::s_uCurrentBuffer = GLToy_Render::s_uSwapBuffer;
 u_int& GLToy_Render::s_uCurrentTexture = GLToy_Render::s_uSwapTexture;
 GLToy_BinaryTree< const GLToy_Renderable*, float > GLToy_Render::s_xTransparents;
 
+static bool g_bDebugClear = false;
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,6 +94,7 @@ bool GLToy_Render::Initialise()
         return false;
     }
 
+	GLToy_Console::RegisterVariable( "debugclear", &g_bDebugClear );
     GLToy_Console::RegisterVariable( "showfps", &s_bDrawFPS );
     GLToy_Console::RegisterVariable( "showtimers", &s_bDrawTimers );
     GLToy_Console::RegisterCommand( "vsync", SetVsyncEnabled );
@@ -230,6 +233,11 @@ void GLToy_Render::BeginRender()
     SetDepthFunction( DEPTH_LEQUAL );
 
     Platform_BeginRender();
+
+	if( g_bDebugClear )
+	{
+		Platform_GLToy_Render::ClearColour( GLToy_Vector_4( 1.0f, 0.0f, 1.0f, 1.0f ) );
+	}
 
     GLToy_Camera::ApplyTransforms();
 }

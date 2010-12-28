@@ -67,6 +67,11 @@ static const float fX_COLLECTIBLE_INTERVAL = 10.0f;
 static void Debug_MakeWeapon()
 {
 	GLToy_Array< X_Entity_Player* >& xList = X_Entity_Player::GetList();
+	if( xList.IsEmpty() )
+	{
+		return;
+	}
+
 	X_Equipment_Weapon xWeapon;
 	xWeapon.RandomGenerate( 10.0f );
 	xList[0]->SetWeapon( xWeapon );
