@@ -28,22 +28,30 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <File/BSP/GLToy_BSP29.cpp>
-#include <File/BSP/GLToy_BSP30.cpp>
-#include <File/BSP/GLToy_BSP38.cpp>
-#include <File/BSP/GLToy_BSP46.cpp>
-#include <File/BSP/GLToy_VBSP19.cpp>
-#include <File/BSP/GLToy_VBSP20.cpp>
-#include <File/BSP/GLToy_VBSP21.cpp>
-#include <File/GLToy_3DSFile.cpp>
-#include <File/GLToy_EntityFile.cpp>
-#include <File/GLToy_EnvironmentFile.cpp>
-#include <File/GLToy_File.cpp>
-#include <File/GLToy_File_System.cpp>
-#include <File/GLToy_KeyValueFile.cpp>
-#include <File/GLToy_LWOFile.cpp>
-#include <File/GLToy_MD2File.cpp>
-#include <File/GLToy_OBJFile.cpp>
-#include <File/GLToy_PTXFile.cpp>
-#include <File/GLToy_TextFile.cpp>
-#include <File/GLToy_WaveFile.cpp>
+#include <Core/GLToy.h>
+
+// This file's header
+#include <File/GLToy_KeyValueFile.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F U N C T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+GLToy_Array< GLToy_Pair< GLToy_String, GLToy_String > > GLToy_KeyValueFile::LoadValues()
+{
+    GLToy_Array< GLToy_Pair< GLToy_String, GLToy_String > > xReturnValue;
+
+    GLToy_String szData = GetString();
+
+    while( szData.GetLength() > 0 )
+    {
+        GLToy_String szValue = szData.RemoveFirstLine();
+        if( szValue.Contains( L'=' ) )
+        {
+            GLToy_String szKey = szValue.RemoveUpTo( L'=' );
+            xReturnValue.Append( GLToy_Pair< GLToy_String, GLToy_String >( szKey, szValue ) );
+        }
+    }
+
+    return xReturnValue;
+}

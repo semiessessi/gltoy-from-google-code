@@ -36,8 +36,9 @@
 // GLToy
 #include <Core/GLToy_UpdateFunctor.h>
 #include <Core/Data Structures/GLToy_HashMap.h>
-#include <File/GLToy_TextFile.h>
 #include <File/GLToy_File_System.h>
+#include <File/GLToy_KeyValueFile.h>
+#include <File/GLToy_TextFile.h>
 #include <Particle/GLToy_ParticleSource.h>
 #include <Particle/GLToy_PFX.h>
 #include <Render/GLToy_RenderFunctor.h>
@@ -170,33 +171,23 @@ bool GLToy_PFX_System::InitialisePFXProperties()
         szName.RemoveFromEnd( 4 ); // remove ".pfx"
 
         GLToy_DebugOutput( "   - Found PFX \"%S\".\r\n", szName.GetWideString() );
-        
-        GLToy_TextFile xFile( szPath );
-
-        GLToy_String szData = xFile.GetString();
 
         GLToy_PFXProperties xPFXProperties;
-        while( szData.GetLength() > 0 )
-        {
-            GLToy_String szValue = szData.RemoveFirstLine();
-            if( szValue.Contains( L'=' ) )
-            {
-                GLToy_String szKey = szValue.RemoveUpTo( L'=' );
-                if( szValue[ 0 ] == L'=' )
-                {
-                    szKey.RemoveAt( 0 );
-                }
+        GLToy_KeyValueFile xFile( szPath );
+        GLToy_Array< GLToy_Pair< GLToy_String > > xValues = xFile.LoadValues();
 
-                if( szKey == "NewSource" )
-                {
-                    xPFXProperties.Append( szValue.GetHash() );
-                }
-                else if( szKey == "Lifetime" )
-                {
-                    xPFXProperties.m_fLifetime = szValue.ExtractFloat();
-                }
+        GLToy_ConstIterate( GLToy_Pair< GLToy_String >, xKeyValue, xValues )
+            const GLToy_String& szKey = xKeyValue.First();
+            const GLToy_String& szValue = xKeyValue.Second();
+            if( szKey == "NewSource" )
+            {
+                xPFXProperties.Append( szValue.GetHash() );
             }
-        }
+            else if( szKey == "Lifetime" )
+            {
+                xPFXProperties.m_fLifetime = szValue.ExtractFloat();
+            }
+        GLToy_Iterate_End;
 
         s_xPFXProperties.AddNode( xPFXProperties, szName.GetHash() );
     GLToy_Iterate_End;
@@ -216,45 +207,35 @@ bool GLToy_PFX_System::InitialiseSourceProperties()
         szName.RemoveFromEnd( 7 ); // remove ".source"
 
         GLToy_DebugOutput( "   - Found particle source \"%S\".\r\n", szName.GetWideString() );
-        
-        GLToy_TextFile xFile( szPath );
 
-        GLToy_String szData = xFile.GetString();
+        GLToy_ParticleSourceProperties xSourceProperties;
+        GLToy_KeyValueFile xFile( szPath );
+        GLToy_Array< GLToy_Pair< GLToy_String > > xValues = xFile.LoadValues();
 
-        GLToy_ParticleSourceProperties xSourceProperties;;
-        while( szData.GetLength() > 0 )
-        {
-            GLToy_String szValue = szData.RemoveFirstLine();
-            if( szValue.Contains( L'=' ) )
+        GLToy_ConstIterate( GLToy_Pair< GLToy_String >, xKeyValue, xValues )
+            const GLToy_String& szKey = xKeyValue.First();
+            const GLToy_String& szValue = xKeyValue.Second();
+            if( szKey == "ReleaseRate" )
             {
-                GLToy_String szKey = szValue.RemoveUpTo( L'=' );
-                if( szValue[ 0 ] == L'=' )
-                {
-                    szKey.RemoveAt( 0 );
-                }
-
-                if( szKey == "ReleaseRate" )
-                {
-                    xSourceProperties.m_fReleaseRate = szValue.ExtractFloat();
-                }
-                else if( szKey == "Lifetime" )
-                {
-                    xSourceProperties.m_fLifetime = szValue.ExtractFloat();
-                }
-                else if( szKey == "Particle" )
-                {
-                    xSourceProperties.m_uParticleHash = szValue.GetHash();
-                }
-                else if( szKey == "RandomDirection" )
-                {
-                    xSourceProperties.m_bRandomDirection = !szValue.MeansFalse();
-                }
-                else if( szKey == "Speed" )
-                {
-                    xSourceProperties.m_fSpeed = szValue.ExtractFloat();
-                }
+                xSourceProperties.m_fReleaseRate = szValue.ExtractFloat();
             }
-        }
+            else if( szKey == "Lifetime" )
+            {
+                xSourceProperties.m_fLifetime = szValue.ExtractFloat();
+            }
+            else if( szKey == "Particle" )
+            {
+                xSourceProperties.m_uParticleHash = szValue.GetHash();
+            }
+            else if( szKey == "RandomDirection" )
+            {
+                xSourceProperties.m_bRandomDirection = !szValue.MeansFalse();
+            }
+            else if( szKey == "Speed" )
+            {
+                xSourceProperties.m_fSpeed = szValue.ExtractFloat();
+            }
+        GLToy_Iterate_End;
 
         s_xSourceProperties.AddNode( xSourceProperties, szName.GetHash() );
     GLToy_Iterate_End;
@@ -275,56 +256,46 @@ bool GLToy_PFX_System::InitialiseParticleProperties()
 
         GLToy_DebugOutput( "   - Found particle \"%S\".\r\n", szName.GetWideString() );
         
-        GLToy_TextFile xFile( szPath );
-
-        GLToy_String szData = xFile.GetString();
-
         GLToy_ParticleProperties xParticleProperties;
-        while( szData.GetLength() > 0 )
-        {
-            GLToy_String szValue = szData.RemoveFirstLine();
-            if( szValue.Contains( L'=' ) )
-            {
-                GLToy_String szKey = szValue.RemoveUpTo( L'=' );
-                if( szValue[ 0 ] == L'=' )
-                {
-                    szKey.RemoveAt( 0 );
-                }
+        GLToy_KeyValueFile xFile( szPath );
+        GLToy_Array< GLToy_Pair< GLToy_String > > xValues = xFile.LoadValues();
 
-                if( szKey == "Texture" )
-                {
-                    xParticleProperties.m_uTextureHash = szValue.GetHash();
-                }
-                else if( szKey == "Size" )
-                {
-                    xParticleProperties.m_fSize = szValue.ExtractFloat();
-                }
-                else if( szKey == "Lifetime" )
-                {
-                    xParticleProperties.m_fLifetime = szValue.ExtractFloat();
-                }
-                else if( szKey == "GrowthRate" )
-                {
-                    xParticleProperties.m_fGrowthRate = szValue.ExtractFloat();
-                }
-                else if( szKey == "FadeTime" )
-                {
-                    xParticleProperties.m_fFadeTime = szValue.ExtractFloat();
-                }
-                else if( szKey == "RotationRate" )
-                {
-                    xParticleProperties.m_fRotationRate = szValue.ExtractFloat();
-                }
-                else if( szKey == "RandomAngle" )
-                {
-                    xParticleProperties.m_bRandomAngle = !szValue.MeansFalse();
-                }
-                else if( szKey == "Additive" )
-                {
-                    xParticleProperties.m_bAdditive = !szValue.MeansFalse();
-                }
+        GLToy_ConstIterate( GLToy_Pair< GLToy_String >, xKeyValue, xValues )
+            const GLToy_String& szKey = xKeyValue.First();
+            const GLToy_String& szValue = xKeyValue.Second();
+            if( szKey == "Texture" )
+            {
+                xParticleProperties.m_uTextureHash = szValue.GetHash();
             }
-        }
+            else if( szKey == "Size" )
+            {
+                xParticleProperties.m_fSize = szValue.ExtractFloat();
+            }
+            else if( szKey == "Lifetime" )
+            {
+                xParticleProperties.m_fLifetime = szValue.ExtractFloat();
+            }
+            else if( szKey == "GrowthRate" )
+            {
+                xParticleProperties.m_fGrowthRate = szValue.ExtractFloat();
+            }
+            else if( szKey == "FadeTime" )
+            {
+                xParticleProperties.m_fFadeTime = szValue.ExtractFloat();
+            }
+            else if( szKey == "RotationRate" )
+            {
+                xParticleProperties.m_fRotationRate = szValue.ExtractFloat();
+            }
+            else if( szKey == "RandomAngle" )
+            {
+                xParticleProperties.m_bRandomAngle = !szValue.MeansFalse();
+            }
+            else if( szKey == "Additive" )
+            {
+                xParticleProperties.m_bAdditive = !szValue.MeansFalse();
+            }
+        GLToy_Iterate_End;
 
         s_xParticleProperties.AddNode( xParticleProperties, szName.GetHash() );
     GLToy_Iterate_End;

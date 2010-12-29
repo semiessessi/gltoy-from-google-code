@@ -549,6 +549,9 @@
     <ClCompile Include="Independent\Entity\GLToy_Entity_SCU.cpp">
       <Filter>Independent\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\File\GLToy_KeyValueFile.cpp">
+      <Filter>Independent\File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
@@ -964,6 +967,9 @@
     </ClInclude>
     <ClInclude Include="Win32\Sound\Platform_GLToy_Sound_Voice.h">
       <Filter>Win32\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\File\GLToy_KeyValueFile.h">
+      <Filter>Independent\File</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

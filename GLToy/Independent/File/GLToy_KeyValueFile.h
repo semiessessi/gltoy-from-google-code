@@ -24,26 +24,39 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __GLTOY_KEYVALUEFILE_H_
+#define __GLTOY_KEYVALUEFILE_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <File/BSP/GLToy_BSP29.cpp>
-#include <File/BSP/GLToy_BSP30.cpp>
-#include <File/BSP/GLToy_BSP38.cpp>
-#include <File/BSP/GLToy_BSP46.cpp>
-#include <File/BSP/GLToy_VBSP19.cpp>
-#include <File/BSP/GLToy_VBSP20.cpp>
-#include <File/BSP/GLToy_VBSP21.cpp>
-#include <File/GLToy_3DSFile.cpp>
-#include <File/GLToy_EntityFile.cpp>
-#include <File/GLToy_EnvironmentFile.cpp>
-#include <File/GLToy_File.cpp>
-#include <File/GLToy_File_System.cpp>
-#include <File/GLToy_KeyValueFile.cpp>
-#include <File/GLToy_LWOFile.cpp>
-#include <File/GLToy_MD2File.cpp>
-#include <File/GLToy_OBJFile.cpp>
-#include <File/GLToy_PTXFile.cpp>
-#include <File/GLToy_TextFile.cpp>
-#include <File/GLToy_WaveFile.cpp>
+// Parent
+#include <File/GLToy_TextFile.h>
+
+// GLToy
+#include <Core/Data Structures/GLToy_Array.h>
+#include <Core/Data Structures/GLToy_Pair.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C L A S S E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+class GLToy_KeyValueFile
+: public GLToy_TextFile
+{
+
+    typedef GLToy_TextFile GLToy_Parent;
+
+public:
+    
+    GLToy_KeyValueFile( const GLToy_String& szFilename ) : GLToy_Parent( szFilename ) {}
+    virtual ~GLToy_KeyValueFile() {}
+
+    GLToy_Array< GLToy_Pair< GLToy_String > > LoadValues();
+
+protected:
+
+};
+
+#endif
