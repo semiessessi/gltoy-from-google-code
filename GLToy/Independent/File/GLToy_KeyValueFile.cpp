@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -49,6 +49,8 @@ GLToy_Array< GLToy_Pair< GLToy_String, GLToy_String > > GLToy_KeyValueFile::Load
         if( szValue.Contains( L'=' ) )
         {
             GLToy_String szKey = szValue.RemoveUpTo( L'=' );
+            szKey.TrimWhiteSpace();
+            szValue.TrimWhiteSpace();
             xReturnValue.Append( GLToy_Pair< GLToy_String, GLToy_String >( szKey, szValue ) );
         }
     }
