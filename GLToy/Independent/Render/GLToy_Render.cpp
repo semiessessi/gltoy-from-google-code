@@ -37,6 +37,7 @@
 // GLToy
 #include <Core/Console/GLToy_Console.h>
 #include <Core/Data Structures/GLToy_BinaryTree.h>
+#include <Core/Data Structures/GLToy_List.h>
 #include <Core/GLToy_Timer.h>
 #include <Maths/GLToy_Maths.h>
 #include <Maths/GLToy_Vector.h>
@@ -55,6 +56,7 @@ float GLToy_Render::s_fFOV = 90.0f;
 float GLToy_Render::s_fAspectRatio = 1.0f;
 bool GLToy_Render::s_bDrawFPS = GLToy_IsDebugBuild();
 bool GLToy_Render::s_bDrawTimers = GLToy_IsDebugBuild();
+bool GLToy_Render::s_bDrawBuffers = false;
 bool GLToy_Render::s_bVsync = true;
 bool GLToy_Render::s_bClearFrame = true;
 u_int GLToy_Render::s_uDepthBuffer = 0xFFFFFFFF;
@@ -62,9 +64,14 @@ u_int GLToy_Render::s_uFrameBuffer = 0xFFFFFFFF;
 u_int GLToy_Render::s_uFrameTexture = 0xFFFFFFFF;
 u_int GLToy_Render::s_uSwapBuffer = 0xFFFFFFFF;
 u_int GLToy_Render::s_uSwapTexture = 0xFFFFFFFF;
-u_int& GLToy_Render::s_uCurrentBuffer = GLToy_Render::s_uSwapBuffer;
-u_int& GLToy_Render::s_uCurrentTexture = GLToy_Render::s_uSwapTexture;
+u_int* GLToy_Render::s_puCurrentBuffer = &GLToy_Render::s_uSwapBuffer;
+u_int* GLToy_Render::s_puCurrentTexture = &GLToy_Render::s_uSwapTexture;
+u_int GLToy_Render::s_uDeferredBuffer = 0xFFFFFFFF;
+u_int GLToy_Render::s_uDiffuseTexture = 0xFFFFFFFF;
+u_int GLToy_Render::s_uNormalTexture = 0xFFFFFFFF;
+//u_int GLToy_Render::s_uSpecularTexture = 0xFFFFFFFF;
 GLToy_BinaryTree< const GLToy_Renderable*, float > GLToy_Render::s_xTransparents;
+GLToy_List< const GLToy_Renderable* > GLToy_Render::s_xDeferredRenderables;
 
 static bool g_bDebugClear = false;
 
@@ -97,6 +104,7 @@ bool GLToy_Render::Initialise()
 	GLToy_Console::RegisterVariable( "debugclear", &g_bDebugClear );
     GLToy_Console::RegisterVariable( "showfps", &s_bDrawFPS );
     GLToy_Console::RegisterVariable( "showtimers", &s_bDrawTimers );
+    GLToy_Console::RegisterVariable( "showbuffers", &s_bDrawBuffers );
     GLToy_Console::RegisterCommand( "vsync", SetVsyncEnabled );
 
     SetVsyncEnabled( s_bVsync );
@@ -171,6 +179,53 @@ bool GLToy_Render::Initialise()
         GLToy_DebugOutput( "Framebuffer not created!" );
     }
 
+    // initialise deferred buffers
+    if( Platform_GLToy_Render::SupportFramebuffer() )
+    {
+        // set up framebuffer
+        GenFramebuffers( 1, &s_uDeferredBuffer );
+        BindFramebuffer( FRAMEBUFFER, s_uDeferredBuffer );
+        BindRenderbuffer( RENDERBUFFER, s_uDepthBuffer );
+        FramebufferRenderbuffer( FRAMEBUFFER, DEPTH_ATTACHMENT, RENDERBUFFER, s_uDepthBuffer );
+        GLToy_Texture_System::CreateFrameBufferTexture( s_uDiffuseTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+        GLToy_Texture_System::CreateFrameBufferTexture( s_uNormalTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+        FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT0, TEXTURE_2D, s_uDiffuseTexture, 0 );
+        FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT1, TEXTURE_2D, s_uNormalTexture, 0 );
+        //FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT2, TEXTURE_2D, s_uSpecularTexture, 0 );
+
+        if( CheckFramebufferStatus( FRAMEBUFFER ) != FRAMEBUFFER_COMPLETE )
+        {
+            if( s_uDeferredBuffer != 0xFFFFFFFF )
+            {
+                DeleteFramebuffers( 1, &s_uDeferredBuffer );
+                s_uDeferredBuffer = 0xFFFFFFFF;
+            }
+
+            if( s_uDiffuseTexture != 0xFFFFFFFF )
+            {
+                GLToy_Texture_System::DestroyFrameBufferTexture( s_uDiffuseTexture );
+                s_uDiffuseTexture = 0xFFFFFFFF;
+            }
+
+            if( s_uNormalTexture != 0xFFFFFFFF )
+            {
+                GLToy_Texture_System::DestroyFrameBufferTexture( s_uNormalTexture );
+                s_uNormalTexture = 0xFFFFFFFF;
+            }
+        }
+
+        BindFramebuffer( FRAMEBUFFER, 0 );
+    }
+
+    if( HasDeferredBuffer() )
+    {
+        GLToy_DebugOutput( "Deferred buffer created successfully." );
+    }
+    else
+    {
+        GLToy_DebugOutput( "Deferred buffer not created!" );
+    }
+
     return true;
 }
 
@@ -200,10 +255,28 @@ void GLToy_Render::Shutdown()
         s_uSwapBuffer = 0xFFFFFFFF;
     }
 
+    if( s_uDeferredBuffer != 0xFFFFFFFF )
+    {
+        DeleteFramebuffers( 1, &s_uDeferredBuffer );
+        s_uDeferredBuffer = 0xFFFFFFFF;
+    }
+
     if( s_uSwapTexture != 0xFFFFFFFF )
     {
         GLToy_Texture_System::DestroyFrameBufferTexture( s_uSwapTexture );
         s_uSwapTexture = 0xFFFFFFFF;
+    }
+
+    if( s_uDiffuseTexture != 0xFFFFFFFF )
+    {
+        GLToy_Texture_System::DestroyFrameBufferTexture( s_uDiffuseTexture );
+        s_uDiffuseTexture = 0xFFFFFFFF;
+    }
+
+    if( s_uNormalTexture != 0xFFFFFFFF )
+    {
+        GLToy_Texture_System::DestroyFrameBufferTexture( s_uNormalTexture );
+        s_uNormalTexture = 0xFFFFFFFF;
     }
     
     Project_Shutdown();
@@ -222,7 +295,7 @@ void GLToy_Render::BeginRender()
 
     if( HasFrameBuffer() )
     {
-        BindFramebuffer( FRAMEBUFFER, s_uCurrentBuffer );
+        BindFramebuffer( FRAMEBUFFER, *s_puCurrentBuffer );
         SetViewport( 0, 0, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
         // u_int uBuffer = COLOR_ATTACHMENT0;
         // GLToy_Render::DrawBuffers( 1, &uBuffer );
@@ -253,6 +326,33 @@ void GLToy_Render::Render()
 {
     Project_Render();
 
+    // everything up to here should have been forward rendered into the framebuffer/depth buffer (TODO: z-prepass?)
+    
+    // do the deferred render
+    if( HasDeferredBuffer() )
+    {
+        BindFramebuffer( FRAMEBUFFER, s_uDeferredBuffer );
+        SetViewport( 0, 0, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+        const u_int auBuffers[] =
+        {
+            COLOR_ATTACHMENT0,
+            COLOR_ATTACHMENT1,
+        };
+
+        GLToy_Render::DrawBuffers( sizeof( auBuffers ) / sizeof( u_int ), auBuffers );
+        
+        s_xDeferredRenderables.Traverse( GLToy_IndirectRenderDeferredFunctor< const GLToy_Renderable >() );
+
+        BindFramebuffer( FRAMEBUFFER, *s_puCurrentBuffer );
+
+        // now accumulate lighting into the frame buffer from the deferred buffers...
+    }
+    else
+    {
+        s_xDeferredRenderables.Traverse( GLToy_IndirectRenderFunctor< const GLToy_Renderable >() );
+
+    }
+
     // here we render the transparent object tree ...
     EnableBlending();
     EnableDepthTesting();
@@ -263,6 +363,7 @@ void GLToy_Render::Render()
     s_xTransparents.Traverse( xFunctor );
 
     // clean up for next frame
+    s_xDeferredRenderables.Clear();
     s_xTransparents.Clear();
 
     if( HasFrameBuffer() )
@@ -275,11 +376,32 @@ void GLToy_Render::Render()
         DisableDepthTesting();
         DisableBlending();
 
-        GLToy_Texture_System::BindFrameBufferTexture( s_uCurrentTexture );
+        GLToy_Texture_System::BindFrameBufferTexture( *s_puCurrentTexture );
         StartSubmittingQuads();
         SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
         SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), -1.0f ), GLToy_Vector_2( GLToy_Render::Get2DWidth(), 2.0f ), 0.0f, 1.0f, 1.0f, 0.0f );
         EndSubmit();
+
+        if( s_bDrawBuffers && HasDeferredBuffer() )
+        {
+            GLToy_Texture_System::BindFrameBufferTexture( *s_puCurrentTexture );
+            StartSubmittingQuads();
+            SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+            SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), 0.5f ), GLToy_Vector_2( 0.25f * GLToy_Render::Get2DWidth(), 0.5f ), 0.0f, 1.0f, 1.0f, 0.0f );
+            EndSubmit();
+
+            GLToy_Texture_System::BindFrameBufferTexture( s_uDiffuseTexture );
+            StartSubmittingQuads();
+            SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+            SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), 0.0f ), GLToy_Vector_2( 0.25f * GLToy_Render::Get2DWidth(), 0.5f ), 0.0f, 1.0f, 1.0f, 0.0f );
+            EndSubmit();
+
+            GLToy_Texture_System::BindFrameBufferTexture( s_uNormalTexture );
+            StartSubmittingQuads();
+            SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+            SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), -0.5f ), GLToy_Vector_2( 0.25f * GLToy_Render::Get2DWidth(), 0.5f ), 0.0f, 1.0f, 1.0f, 0.0f );
+            EndSubmit();
+        }
 
         SetPerspectiveProjectionMatrix();
         PopViewMatrix();
@@ -291,7 +413,7 @@ void GLToy_Render::Render2D()
     // Project_Render2D();
 
 #ifndef GLTOY_DEM0
-	if( s_bDrawFPS || s_bDrawTimers )
+	if( s_bDrawFPS || s_bDrawTimers || ( s_bDrawBuffers && HasDeferredBuffer() ) )
     {
         UseProgram( 0 );
         // draw fps counter, we should have the console's font by now
@@ -319,6 +441,16 @@ void GLToy_Render::Render2D()
                 szString.SetToFormatString( "Sync: %.3fms", GLToy::GetSyncProfileTimer() * 1000.0f );
                 pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.7f - pxFont->GetHeight() );
             }
+
+            if( s_bDrawBuffers && HasDeferredBuffer() )
+            {
+                szString = "Frame buffer";
+                pxFont->RenderString( szString, GLToy_Render::GetMinX(), 1.0f - pxFont->GetHeight() );
+                szString = "Diffuse buffer";
+                pxFont->RenderString( szString, GLToy_Render::GetMinX(), 0.5f - pxFont->GetHeight() );
+                szString = "Normal buffer";
+                pxFont->RenderString( szString, GLToy_Render::GetMinX(), 0.0f - pxFont->GetHeight() );
+            }
         }
     }
 #endif
@@ -331,6 +463,11 @@ void GLToy_Render::EndRender()
     Flush();
 
     Platform_EndRender();
+}
+
+void GLToy_Render::RegisterDeferred( const GLToy_Renderable* const pxDeferred )
+{
+    s_xDeferredRenderables.Append( pxDeferred );
 }
 
 void GLToy_Render::RegisterTransparent( const GLToy_Renderable* const pxTransparent, const float fSquaredDistanceFromCamera )
@@ -356,20 +493,20 @@ void GLToy_Render::BindFrameBufferNoCopy( const u_int uTextureUnit )
     {
         BindFramebuffer( FRAMEBUFFER, 0 );
         
-        GLToy_Texture_System::BindFrameBufferTexture( s_uCurrentTexture );
+        GLToy_Texture_System::BindFrameBufferTexture( *s_puCurrentTexture );
 
-        if( &s_uCurrentBuffer == &s_uFrameBuffer )
+        if( s_puCurrentBuffer == &s_uFrameBuffer )
         {
-            s_uCurrentBuffer = s_uSwapBuffer;
-            s_uCurrentTexture = s_uSwapTexture;
+            s_puCurrentBuffer = &s_uSwapBuffer;
+            s_puCurrentTexture = &s_uSwapTexture;
         }
         else
         {
-            s_uCurrentBuffer = s_uFrameBuffer;
-            s_uCurrentTexture = s_uFrameTexture;
+            s_puCurrentBuffer = &s_uFrameBuffer;
+            s_puCurrentTexture = &s_uFrameTexture;
         }
 
-        BindFramebuffer( FRAMEBUFFER, s_uCurrentBuffer );
+        BindFramebuffer( FRAMEBUFFER, *s_puCurrentBuffer );
     }
 }
 
@@ -377,9 +514,7 @@ void GLToy_Render::BindLastFrameBufferTexture( const u_int uTextureUnit )
 {
     if( HasFrameBuffer() )
     {        
-        GLToy_Texture_System::BindFrameBufferTexture( s_uCurrentTexture );
-
-        if( &s_uCurrentBuffer == &s_uFrameBuffer )
+        if( s_puCurrentBuffer == &s_uFrameBuffer )
         {
             GLToy_Texture_System::BindFrameBufferTexture( s_uSwapTexture );
         }
@@ -387,6 +522,22 @@ void GLToy_Render::BindLastFrameBufferTexture( const u_int uTextureUnit )
         {
             GLToy_Texture_System::BindFrameBufferTexture( s_uFrameTexture );
         }
+    }
+}
+
+void GLToy_Render::BindDiffuseTexture( const u_int uTextureUnit )
+{
+    if( HasDeferredBuffer() )
+    {        
+        GLToy_Texture_System::BindFrameBufferTexture( s_uDiffuseTexture );
+    }
+}
+
+void GLToy_Render::BindNormalTexture( const u_int uTextureUnit )
+{
+    if( HasDeferredBuffer() )
+    {        
+        GLToy_Texture_System::BindFrameBufferTexture( s_uNormalTexture );
     }
 }
 

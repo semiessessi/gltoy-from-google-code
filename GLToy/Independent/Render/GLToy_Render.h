@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2009-2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -172,9 +172,11 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template < class DataType, class KeyType > class GLToy_BinaryTree;
+template < class T > class GLToy_List;
 class GLToy_Matrix_3;
 class GLToy_Renderable;
 template < class T > class GLToy_RenderFunctor;
+template < class T > class GLToy_RenderDeferredFunctor;
 template < class T > class GLToy_RenderTransparentFunctor;
 class GLToy_Vector_2;
 class GLToy_Vector_3;
@@ -197,21 +199,26 @@ public:
     static void SetClearFrame( const bool bClear = true ) { s_bClearFrame = bClear; }
     static bool GetClearFrame() { return s_bClearFrame; }
     static bool HasFrameBuffer() { return s_uSwapBuffer != 0xFFFFFFFF; }
+    static bool HasDeferredBuffer() { return s_uDeferredBuffer != 0xFFFFFFFF; }
 
     static bool Initialise();
     static void Shutdown();
-
+    
     static void BeginRender();
     static void BeginRender2D();
     static void Render();
     static void Render2D();
     static void EndRender();
 
+    static void RegisterDeferred( const GLToy_Renderable* const pxDeferred );
     static void RegisterTransparent( const GLToy_Renderable* const pxTransparent, const float fSquaredDistanceFromCamera );
 
     static void BindFrameBuffer( const u_int uTextureUnit = 0 );
     static void BindFrameBufferNoCopy( const u_int uTextureUnit = 0 );
     static void BindLastFrameBufferTexture( const u_int uTextureUnit = 0 );
+
+    static void BindDiffuseTexture( const u_int uTextureUnit = 0 );
+    static void BindNormalTexture( const u_int uTextureUnit = 0 );
 
     // GL interface
     static u_int GetError();
@@ -363,16 +370,26 @@ private:
     static float s_fAspectRatio;
     static bool s_bDrawFPS;
     static bool s_bDrawTimers;
+    static bool s_bDrawBuffers;
     static bool s_bVsync;
     static bool s_bClearFrame;
+
+    // frame buffer + depth buffer
     static u_int s_uDepthBuffer;
     static u_int s_uFrameBuffer;
     static u_int s_uFrameTexture;
     static u_int s_uSwapBuffer;
     static u_int s_uSwapTexture;
-    static u_int& s_uCurrentBuffer;
-    static u_int& s_uCurrentTexture;
+    static u_int* s_puCurrentBuffer;
+    static u_int* s_puCurrentTexture;
 
+    // deferred buffers
+    static u_int s_uDeferredBuffer;
+    static u_int s_uDiffuseTexture;
+    static u_int s_uNormalTexture;
+    //static u_int s_uSpecularTexture;
+
+    static GLToy_List< const GLToy_Renderable* > s_xDeferredRenderables;
     static GLToy_BinaryTree< const GLToy_Renderable*, float > s_xTransparents;
 
 };

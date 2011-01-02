@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -60,6 +60,19 @@ public:
     virtual void operator ()( const T* const pxRenderable )
     {
         pxRenderable->Render2D();
+    }
+};
+
+template < class T >
+class GLToy_RenderDeferredFunctor
+: public GLToy_ConstFunctor< T >
+{
+
+public:
+
+    virtual void operator ()( const T* const pxRenderable )
+    {
+        pxRenderable->RenderDeferred();
     }
 };
 
@@ -141,6 +154,19 @@ public:
         ( *pxRenderable )->Render2D();
     }
 
+};
+
+template < class T >
+class GLToy_IndirectRenderDeferredFunctor
+: public GLToy_ConstFunctor< T* >
+{
+
+public:
+
+    virtual void operator ()( T* const* const pxRenderable )
+    {
+        ( *pxRenderable )->RenderDeferred();
+    }
 };
 
 template < class T >

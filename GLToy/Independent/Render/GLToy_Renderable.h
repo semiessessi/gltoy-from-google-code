@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -49,9 +49,7 @@ public:
     virtual void Render2D() const {}
     
     // for deferred shading
-    virtual void RenderDepth() const {}
-    virtual void RenderNormals() const {}
-    virtual void RenderSpecular() const {}
+    virtual void RenderDeferred() const {}
 
     // transparent render pass
     virtual void RenderTransparent() const {}
