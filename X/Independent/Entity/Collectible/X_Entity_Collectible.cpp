@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -36,7 +36,7 @@
 // GLToy
 #include <Core/GLToy_Timer.h>
 #include <Render/GLToy_Render.h>
-#include <Render/GLToy_Texture.h>
+#include <Render/GLToy_Texture_System.h>
 
 // X
 #include <Entity/Enemy/X_Entity_Enemy.h>

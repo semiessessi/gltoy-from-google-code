@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -38,7 +38,7 @@
 #include <Core/State/GLToy_State_System.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Render/GLToy_Render.h>
-#include <Render/GLToy_Texture.h>
+#include <Render/GLToy_Texture_System.h>
 
 // X
 #include <Entity/X_EntityTypes.h>

@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -36,7 +36,7 @@
 // GLToy
 #include <Core/Data Structures/GLToy_Pair.h>
 #include <Core/Data Structures/GLToy_Stack.h>
-#include <Render/GLToy_Texture.h>
+#include <Render/GLToy_Texture_System.h>
 
 // Win32
 #include <Windows.h>

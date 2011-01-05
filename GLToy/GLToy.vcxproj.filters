@@ -222,9 +222,6 @@
     <ClCompile Include="Independent\Render\GLToy_Sprite.cpp">
       <Filter>Independent\Render</Filter>
     </ClCompile>
-    <ClCompile Include="Independent\Render\GLToy_Texture.cpp">
-      <Filter>Independent\Render</Filter>
-    </ClCompile>
     <ClCompile Include="Independent\Render\Font\GLToy_Font.cpp">
       <Filter>Independent\Render\Font</Filter>
     </ClCompile>
@@ -552,6 +549,12 @@
     <ClCompile Include="Independent\File\GLToy_KeyValueFile.cpp">
       <Filter>Independent\File</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Render\GLToy_Light_System.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\GLToy_Texture_System.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
@@ -669,9 +672,6 @@
       <Filter>Independent\Render</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Render\GLToy_Sprite.h">
-      <Filter>Independent\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent\Render\GLToy_Texture.h">
       <Filter>Independent\Render</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Render\Font\GLToy_Font.h">
@@ -970,6 +970,12 @@
     </ClInclude>
     <ClInclude Include="Independent\File\GLToy_KeyValueFile.h">
       <Filter>Independent\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\GLToy_Light_System.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\GLToy_Texture_System.h">
+      <Filter>Independent\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

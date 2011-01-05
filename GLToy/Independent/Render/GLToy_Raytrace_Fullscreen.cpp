@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -37,7 +37,7 @@
 #include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
-#include <Render/GLToy_Texture.h>
+#include <Render/GLToy_Texture_System.h>
 #include <Render/Shader/GLToy_Shader.h>
 #include <Render/Shader/GLToy_Shader_System.h>
 #include <String/GLToy_String.h> 

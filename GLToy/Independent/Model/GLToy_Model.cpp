@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2009-2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -38,7 +38,7 @@
 #include <Maths/GLToy_Matrix.h>
 #include <Maths/GLToy_Vector.h>
 #include <Render/GLToy_Render.h>
-#include <Render/GLToy_Texture.h>
+#include <Render/GLToy_Texture_System.h>
 
 // C/C++
 #include <stdio.h>

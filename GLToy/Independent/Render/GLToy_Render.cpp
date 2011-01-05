@@ -43,9 +43,10 @@
 #include <Maths/GLToy_Vector.h>
 #include <Render/Font/GLToy_Font.h>
 #include <Render/GLToy_Camera.h>
+#include <Render/GLToy_Light_System.h>
 #include <Render/GLToy_Renderable.h>
 #include <Render/GLToy_RenderFunctor.h>
-#include <Render/GLToy_Texture.h>
+#include <Render/GLToy_Texture_System.h>
 #include <Render/Shader/GLToy_Shader_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,6 +90,7 @@ bool GLToy_Render::Initialise()
     GLToy_InitialiserCall( GLToy_Camera );
     GLToy_InitialiserCall( GLToy_Texture_System );
     GLToy_InitialiserCall( GLToy_Shader_System );
+    GLToy_InitialiserCall( GLToy_Light_System );
     // SE - 13/10/2010 - a material system would sit here, so we can materialise fonts why not... :)
     // but actually, just commenting because my original rationale for the texture system initialising after shaders
     // was to allow shader based materials...
@@ -280,9 +282,12 @@ void GLToy_Render::Shutdown()
     }
     
     Project_Shutdown();
+
 #ifndef GLTOY_DEMO
     GLToy_Font_System::Shutdown();
 #endif
+
+    GLToy_Light_System::Shutdown();
     GLToy_Texture_System::Shutdown();
     GLToy_Shader_System::Shutdown();
 

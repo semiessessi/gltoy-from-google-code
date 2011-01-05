@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -43,7 +43,7 @@
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_RenderFunctor.h>
 #include <Render/GLToy_Render.h>
-#include <Render/GLToy_Texture.h>
+#include <Render/GLToy_Texture_System.h>
 #include <UI/GLToy_Dialog.h>
 #include <UI/GLToy_Widget.h>
 #include <UI/GLToy_Widget_EditorMenu.h>

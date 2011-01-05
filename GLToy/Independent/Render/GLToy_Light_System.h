@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010, 2011 Semi Essessi
+// ©Copyright 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,35 +24,57 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __GLTOY_LIGHT_SYSTEM_H_
+#define __GLTOY_LIGHT_SYSTEM_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy.h>
-
-// this file's header
-#include <UI/GLToy_Widget_Image.h>
-
 // GLToy
-#include <Maths/GLToy_Maths.h>
-#include <Render/GLToy_Render.h>
-#include <Render/GLToy_Texture_System.h>
+#include <Core/GLToy_Updateable.h>
+#include <Maths/GLToy_Vector.h>
+#include <Render/GLToy_Renderable.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Widget_Image::Render2D() const
+template < class DataType, class KeyType > class GLToy_BinaryTree;
+template < class DataType > class GLToy_HashMap;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C L A S S E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+class GLToy_Light
+: public GLToy_Renderable
+, public GLToy_Updateable
 {
-    GLToy_Render::EnableBlending();
-    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+};
 
-    GLToy_Texture_System::BindTexture( m_uTextureHash );
+class GLToy_Point_Light
+: public GLToy_Light
+{
+};
 
-    GLToy_Render::StartSubmittingQuads();
-    GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-    GLToy_Render::SubmitTexturedQuad2D( GetX(), GetY(), GetWidth(), GetHeight() );
-    GLToy_Render::EndSubmit();
+class GLToy_Projector_Light
+: public GLToy_Light
+{
+};
 
-    GLToy_Render::DisableBlending();
-}
+class GLToy_Light_System
+{
+
+public:
+
+    static bool Initialise();
+    static void Shutdown();
+
+private:
+
+    static GLToy_HashMap< GLToy_Light* > s_xLights;
+
+};
+
+#endif

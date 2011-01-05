@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010, 2011 Semi Essessi
+// ©Copyright 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -30,29 +30,25 @@
 
 #include <Core/GLToy.h>
 
-// this file's header
-#include <UI/GLToy_Widget_Image.h>
+// This file's header
+#include <Render/GLToy_Light_System.h>
 
-// GLToy
-#include <Maths/GLToy_Maths.h>
-#include <Render/GLToy_Render.h>
-#include <Render/GLToy_Texture_System.h>
+/////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+GLToy_HashMap< GLToy_Light* > GLToy_Light_System::s_xLights;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_Widget_Image::Render2D() const
+bool GLToy_Light_System::Initialise()
 {
-    GLToy_Render::EnableBlending();
-    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+    return true;
+}
 
-    GLToy_Texture_System::BindTexture( m_uTextureHash );
-
-    GLToy_Render::StartSubmittingQuads();
-    GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-    GLToy_Render::SubmitTexturedQuad2D( GetX(), GetY(), GetWidth(), GetHeight() );
-    GLToy_Render::EndSubmit();
-
-    GLToy_Render::DisableBlending();
+void GLToy_Light_System::Shutdown()
+{
+    s_xLights.DeleteAll();
 }

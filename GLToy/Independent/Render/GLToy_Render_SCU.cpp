@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -34,8 +34,9 @@
 #include <Render/Shader/GLToy_Shader_System.cpp>
 #include <Render/TGA/GLToy_TGA.cpp>
 #include <Render/GLToy_Camera.cpp>
+#include <Render/GLToy_Light_System.cpp>
 #include <Render/GLToy_Raytrace_Fullscreen.cpp>
 #include <Render/GLToy_Render.cpp>
 #include <Render/GLToy_Sprite.cpp>
-#include <Render/GLToy_Texture.cpp>
+#include <Render/GLToy_Texture_System.cpp>
 #include <Render/GLToy_Texture_Procedural.cpp>

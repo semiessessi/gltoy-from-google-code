@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -31,7 +31,7 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <Render/GLToy_Texture.h>
+#include <Render/GLToy_Texture_System.h>
 
 // GLToy
 #include <Core/Data Structures/GLToy_HashMap.h>
