@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2009-2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -144,6 +144,19 @@ class GLToy_Destroyable
 public:
 
     ~GLToy_Destroyable() { static_cast< T* >( this )->Destroy(); }
+
+};
+
+template< class T >
+class GLToy_CopyableStruct
+{
+
+public:
+
+    GLToy_CopyableStruct( const GLToy_CopyableStruct& xStruct )
+    {
+        GLToy_Memory::Copy( this, &xStruct, sizeof( T ) );
+    }
 
 };
 

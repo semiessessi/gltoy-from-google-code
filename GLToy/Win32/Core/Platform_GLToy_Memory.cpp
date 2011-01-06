@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -72,4 +72,18 @@ void GLToy_Memory::Platform_Swap_32Bytes( void* const px1, void* const px2 )
         movdqu px2, xmm1
         movdqu px1, xmm2
     }
+}
+
+void GLToy_Memory::Platform_Copy( void* const pxDestination, const void* const pxSource, const u_int uBytes )
+{
+    for( u_int u = 0; u < uBytes; ++u )
+    {
+        reinterpret_cast< char* const >( pxDestination )[ u ]
+            = reinterpret_cast< const char* const >( pxSource )[ u ];
+    }
+    // TODO: some clever SSE crap with unrolled loops etc.
+    //__asm
+    //{
+    //    movdqu xmm1, pxMemory...
+    //}
 }

@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -77,6 +77,8 @@ public:
 
     static GLToy_ForceInline void MarkUninitialised( void* const pxMemory, const u_int uBytes ) { Set( pxMemory, uBytes, 0xCC ); }
     static GLToy_ForceInline void MarkDestroyed( void* const pxMemory, const u_int uBytes ) { Set( pxMemory, uBytes, 0xDD ); }
+    
+    static GLToy_ForceInline void Copy( void* const pxDestination, const void* const pxSource, const u_int uBytes ) { Platform_Copy( pxDestination, pxSource, uBytes ); }
     static GLToy_ForceInline void Zero( void* const pxMemory, const u_int uBytes ) { Set( pxMemory, uBytes, 0 ); }
 
     static void* Platform_Allocate( const u_int uSize );
@@ -84,6 +86,8 @@ public:
 
     static void Platform_Swap_16Bytes( void* const px1, void* const px2 );
     static void Platform_Swap_32Bytes( void* const px1, void* const px2 );
+
+    static void Platform_Copy( void* const pxDestination, const void* const pxSource, const u_int uBytes );
 
 };
 

@@ -33,6 +33,12 @@
 // This file's header
 #include <Render/GLToy_Light_System.h>
 
+// GLToy
+#include <Core/Data Structures/GLToy_HashMap.h>
+#include <Core/GLToy_UpdateFunctor.h>
+#include <Render/GLToy_Render.h>
+#include <Render/GLToy_RenderFunctor.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,4 +57,35 @@ bool GLToy_Light_System::Initialise()
 void GLToy_Light_System::Shutdown()
 {
     s_xLights.DeleteAll();
+}
+
+void GLToy_Light_System::AddPointLight( const GLToy_Hash uHash, const GLToy_Light_PointProperties& xProperties )
+{
+    s_xLights.AddNode( new GLToy_Light_Point( xProperties ), uHash );
+}
+
+void GLToy_Light_System::AddProjectorLight( const GLToy_Hash uHash, const GLToy_Light_ProjectorProperties& xProperties )
+{
+    s_xLights.AddNode( new GLToy_Light_Projector( xProperties ), uHash );
+}
+
+void GLToy_Light_System::DestroyLight( const GLToy_Hash uHash )
+{
+    GLToy_Light** ppxLight = s_xLights.FindData( uHash );
+    if( ppxLight )
+    {
+        delete *ppxLight;
+        s_xLights.Remove( uHash );
+    }
+}
+
+void GLToy_Light_System::Render()
+{
+    s_xLights.Traverse( GLToy_IndirectRenderFunctor< GLToy_Light >() );
+}
+
+// SE - TODO: hook up somewhere
+void GLToy_Light_System::Update()
+{
+    s_xLights.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Light >() );
 }

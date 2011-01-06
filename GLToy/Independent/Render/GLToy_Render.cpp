@@ -351,6 +351,8 @@ void GLToy_Render::Render()
         BindFramebuffer( FRAMEBUFFER, *s_puCurrentBuffer );
 
         // now accumulate lighting into the frame buffer from the deferred buffers...
+
+        GLToy_Light_System::Render();
     }
     else
     {
