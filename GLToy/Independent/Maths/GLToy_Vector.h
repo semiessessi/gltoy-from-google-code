@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2009-2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -180,6 +180,8 @@ class GLToy_Vector_4
 public:
 
     GLToy_Vector_4();
+    GLToy_Vector_4( const GLToy_Vector_2& xXY, const GLToy_Vector_2& xWZ );
+    GLToy_Vector_4( const GLToy_Vector_2& xXY, const float fZ = 0.0f, const float fW = 1.0f  );
     GLToy_Vector_4( const GLToy_Vector_3& xVector, const float fW = 1.0f );
     GLToy_Vector_4( float fX, float fY, float fZ, float fW );
     GLToy_Vector_4( const u_int uRGBA );

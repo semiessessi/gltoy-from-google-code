@@ -54,6 +54,9 @@ public:
     // transparent render pass
     virtual void RenderTransparent() const {}
 
+    // to allow renderables to register with a shader
+    virtual GLToy_Hash GetShaderHash() const { return uGLTOY_BAD_HASH; }
+
 };
 
 #endif

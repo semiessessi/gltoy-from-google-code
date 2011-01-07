@@ -207,8 +207,8 @@ void GLToy_Texture_System::Platform_CreateFrameBufferTexture( u_int& uID, const 
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
-    GLToy_Render::GenerateMipmap( GL_TEXTURE_2D );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    //GLToy_Render::GenerateMipmap( GL_TEXTURE_2D );
 }
 
 void GLToy_Texture_System::Platform_DestroyFrameBufferTexture( u_int& uID )

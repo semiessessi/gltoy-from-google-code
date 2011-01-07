@@ -267,6 +267,7 @@ public:
     static void SubmitColour( const GLToy_Vector_4& xColour );
     static void SubmitUV( const GLToy_Vector_2& xUV, const u_int uTextureUnit = 0 );
     static void SubmitUV( const GLToy_Vector_3& xUV, const u_int uTextureUnit = 0 );
+    static void SubmitUV( const GLToy_Vector_4& xUV, const u_int uTextureUnit = 0 );
 
     static void Flush();
 

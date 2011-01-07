@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -86,6 +86,7 @@ public:
     , m_xUV()
     , m_xLightmapUV()
     , m_xNormal()
+    , m_xTangent()
     , m_xColour()
     {
     }
@@ -95,6 +96,7 @@ public:
     , m_xUV( xVertex.m_xUV )
     , m_xLightmapUV( xVertex.m_xLightmapUV )
     , m_xNormal( xVertex.m_xNormal )
+    , m_xTangent( xVertex.m_xTangent )
     , m_xColour( xVertex.m_xColour )
     {
     }
@@ -117,6 +119,7 @@ public:
             && ( m_xUV == xVertex.m_xUV )
             && ( m_xLightmapUV == xVertex.m_xLightmapUV )
             && ( m_xNormal == xVertex.m_xNormal )
+            && ( m_xTangent == xVertex.m_xTangent )
             && ( m_xColour == xVertex.m_xColour );
     }
 
@@ -124,6 +127,7 @@ public:
     GLToy_Vector_2 m_xUV;
     GLToy_Vector_2 m_xLightmapUV;
     GLToy_Vector_3 m_xNormal;
+    GLToy_Vector_3 m_xTangent;
     GLToy_Vector_4 m_xColour;
 
 };
@@ -218,6 +222,7 @@ public:
     }
 
     virtual void Render() const;
+    virtual void RenderDeferred() const;
     virtual void RenderLightmap() const;
     virtual void RenderDebugFaceInfo() const;
 
@@ -266,8 +271,11 @@ public:
     virtual void Shutdown();    
     
     virtual void Render() const;
+    virtual void RenderDeferred() const;
     virtual void RenderLightmap() const;
     virtual void Update();
+
+    virtual GLToy_Hash GetShaderHash() const { return GLToy_Hash_Constant( "Deferred_DiffuseOnly" ); }
 
     virtual void Render2D() const;
 

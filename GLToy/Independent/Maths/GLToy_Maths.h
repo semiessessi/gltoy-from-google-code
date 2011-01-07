@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2009-2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -190,6 +190,10 @@ public:
     // TODO: ...
     //static GLToy_Vector_3 SolveCubic( const float fA, const float fB, const float fC, const float fD );
     //static GLToy_Vector_3 SolveQuartic( const float fA, const float fB, const float fC, const float fD, const float fE );
+
+    static GLToy_Inline GLToy_Vector_2 StereographicProjection( const GLToy_Vector_3& xNormalised ) { return GLToy_Vector_2( xNormalised.x, xNormalised.y ) / ( 1.0f - xNormalised.z ); }
+    static GLToy_Inline GLToy_Vector_3 InverseStereographicProjection( const GLToy_Vector_2& xProjected ) { float fSumOfSquares = xProjected * xProjected; return GLToy_Vector_3( 2.0f * xProjected.x, 2.0f * xProjected.y, fSumOfSquares - 1.0f ) / ( 1.0f + fSumOfSquares ); }
+
 
 private:
     

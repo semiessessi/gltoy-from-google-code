@@ -199,6 +199,7 @@ private:
     static void SubmitColour( const GLToy_Vector_4& xColour );
     static void SubmitUV( const GLToy_Vector_2& xUV, const u_int uTextureUnit );
     static void SubmitUV( const GLToy_Vector_3& xUV, const u_int uTextureUnit );
+    static void SubmitUV( const GLToy_Vector_4& xUV, const u_int uTextureUnit );
 
     static void ActiveTexture( const u_int uTextureUnit );
 
@@ -213,6 +214,7 @@ private:
     static void ( __stdcall* s_pfnActiveTexture )( u_int );
     static void ( __stdcall* s_pfnMultiTexCoord2fv )( u_int, const float* const );
     static void ( __stdcall* s_pfnMultiTexCoord3fv )( u_int, const float* const );
+    static void ( __stdcall* s_pfnMultiTexCoord4fv )( u_int, const float* const );
     // framebuffer functions
     static bool ( __stdcall* s_pfnIsRenderbuffer )( const u_int );
     static void ( __stdcall* s_pfnBindRenderbuffer )( const u_int, const u_int );

@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2009-2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -296,6 +296,22 @@ GLToy_Vector_4::GLToy_Vector_4()
         = m_fComponents[ 2 ]
         = m_fComponents[ 3 ]
         = 0.0f;
+}
+
+GLToy_Vector_4::GLToy_Vector_4( const GLToy_Vector_2& xXY, const GLToy_Vector_2& xZW )
+{
+    m_fComponents[ 0 ] = xXY[ 0 ];
+    m_fComponents[ 1 ] = xXY[ 1 ];
+    m_fComponents[ 2 ] = xZW[ 0 ];
+    m_fComponents[ 3 ] = xZW[ 1 ];
+}
+
+GLToy_Vector_4::GLToy_Vector_4( const GLToy_Vector_2& xXY, const float fX, const float fW )
+{
+    m_fComponents[ 0 ] = xXY[ 0 ];
+    m_fComponents[ 1 ] = xXY[ 1 ];
+    m_fComponents[ 2 ] = fX;
+    m_fComponents[ 3 ] = fW;
 }
 
 GLToy_Vector_4::GLToy_Vector_4( const GLToy_Vector_3& xVector, const float fW )

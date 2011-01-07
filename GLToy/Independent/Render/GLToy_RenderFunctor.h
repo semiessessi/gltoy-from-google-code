@@ -31,7 +31,9 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// GLToy
 #include <Core/GLToy_Functor.h>
+#include <Render/Shader/GLToy_Shader_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -72,6 +74,12 @@ public:
 
     virtual void operator ()( const T* const pxRenderable )
     {
+        const GLToy_Hash uShaderHash = pxRenderable->GetShaderHash();
+        if( uShaderHash )
+        {
+            GLToy_Shader_System::BindShaderProgram( uShaderHash );
+        }
+
         pxRenderable->RenderDeferred();
     }
 };
@@ -165,6 +173,12 @@ public:
 
     virtual void operator ()( T* const* const pxRenderable )
     {
+        const GLToy_Hash uShaderHash = ( *pxRenderable )->GetShaderHash();
+        if( uShaderHash )
+        {
+            GLToy_Shader_System::BindShaderProgram( uShaderHash );
+        }
+
         ( *pxRenderable )->RenderDeferred();
     }
 };

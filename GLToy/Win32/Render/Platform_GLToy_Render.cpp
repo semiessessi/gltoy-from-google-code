@@ -65,6 +65,7 @@ void ( __stdcall* Platform_GLToy_Render::s_pfnDrawBuffers )( const int, const u_
 void ( __stdcall* Platform_GLToy_Render::s_pfnActiveTexture )( u_int ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnMultiTexCoord2fv )( u_int, const float* const ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnMultiTexCoord3fv )( u_int, const float* const ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnMultiTexCoord4fv )( u_int, const float* const ) = 0;
 bool ( __stdcall* Platform_GLToy_Render::s_pfnIsRenderbuffer )( const u_int ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnBindRenderbuffer )( const u_int, const u_int ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnDeleteRenderbuffers )( const int, u_int* const ) = 0;
@@ -183,6 +184,7 @@ bool Platform_GLToy_Render::Initialise()
     s_pfnActiveTexture                      = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glActiveTexture" ) );
     s_pfnMultiTexCoord2fv                   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(                                                     wglGetProcAddress( "glMultiTexCoord2fv" ) );
     s_pfnMultiTexCoord3fv                   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(                                                     wglGetProcAddress( "glMultiTexCoord3fv" ) );
+    s_pfnMultiTexCoord4fv                   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(                                                     wglGetProcAddress( "glMultiTexCoord4fv" ) );
 
     s_pfnIsRenderbuffer                     = reinterpret_cast< bool ( __stdcall* )( const u_int ) >(                                                                   wglGetProcAddress( "glIsRenderbufferEXT" ) );
     s_pfnBindRenderbuffer                   = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int ) >(                                                      wglGetProcAddress( "glBindRenderbufferEXT" ) );
@@ -481,6 +483,18 @@ void Platform_GLToy_Render::SubmitUV( const GLToy_Vector_3& xUV, const u_int uTe
     else if( s_pfnMultiTexCoord3fv )
     {
         s_pfnMultiTexCoord3fv( TEXTURE0 + uTextureUnit, xUV.GetFloatPointer() );
+    }
+}
+
+void Platform_GLToy_Render::SubmitUV( const GLToy_Vector_4& xUV, const u_int uTextureUnit )
+{
+    if( uTextureUnit == 0 )
+    {
+        glTexCoord4fv( xUV.GetFloatPointer() );
+    }
+    else if( s_pfnMultiTexCoord4fv )
+    {
+        s_pfnMultiTexCoord4fv( TEXTURE0 + uTextureUnit, xUV.GetFloatPointer() );
     }
 }
 

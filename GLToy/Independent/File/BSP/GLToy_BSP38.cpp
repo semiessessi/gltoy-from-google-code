@@ -513,6 +513,14 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
                     pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 0 ] / static_cast< float >( uTexWidth ),
                     -( pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 1 ] / static_cast< float >( uTexHeight ) ) );
 
+            xVertex.m_xTangent = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis;
+            xVertex.m_xTangent.Normalise();
+
+            // TODO: i think this might need sign flipping
+            xVertex.m_xNormal = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis;
+            xVertex.m_xNormal.Normalise();
+            xVertex.m_xNormal = xVertex.m_xNormal.Cross( xVertex.m_xTangent );
+
             ++uCurrentVertex;
         }
     GLToy_Iterate_End;

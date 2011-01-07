@@ -191,6 +191,7 @@ bool GLToy_Render::Initialise()
         FramebufferRenderbuffer( FRAMEBUFFER, DEPTH_ATTACHMENT, RENDERBUFFER, s_uDepthBuffer );
         GLToy_Texture_System::CreateFrameBufferTexture( s_uDiffuseTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
         GLToy_Texture_System::CreateFrameBufferTexture( s_uNormalTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+        //GLToy_Texture_System::CreateFrameBufferTexture( s_uSpecularTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
         FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT0, TEXTURE_2D, s_uDiffuseTexture, 0 );
         FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT1, TEXTURE_2D, s_uNormalTexture, 0 );
         //FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT2, TEXTURE_2D, s_uSpecularTexture, 0 );
@@ -347,6 +348,8 @@ void GLToy_Render::Render()
         GLToy_Render::DrawBuffers( sizeof( auBuffers ) / sizeof( u_int ), auBuffers );
         
         s_xDeferredRenderables.Traverse( GLToy_IndirectRenderDeferredFunctor< const GLToy_Renderable >() );
+
+        UseProgram( 0 );
 
         BindFramebuffer( FRAMEBUFFER, *s_puCurrentBuffer );
 
@@ -777,6 +780,11 @@ void GLToy_Render::SubmitUV( const GLToy_Vector_2& xUV, const u_int uTextureUnit
 }
 
 void GLToy_Render::SubmitUV( const GLToy_Vector_3& xUV, const u_int uTextureUnit )
+{
+    Platform_GLToy_Render::SubmitUV( xUV, uTextureUnit );
+}
+
+void GLToy_Render::SubmitUV( const GLToy_Vector_4& xUV, const u_int uTextureUnit )
 {
     Platform_GLToy_Render::SubmitUV( xUV, uTextureUnit );
 }

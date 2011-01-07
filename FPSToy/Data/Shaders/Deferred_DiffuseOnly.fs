@@ -1,0 +1,35 @@
+varying vec2 xTexCoord;
+varying vec3 xNormal;
+varying vec3 xTangent;
+varying vec3 xBinormal;
+
+uniform sampler2D xDiffuseSampler;
+
+vec3 InverseStereographicProjection( vec2 xProjected )
+{
+	float fSumOfSquares = dot( xProjected, xProjected );
+	return vec3( 2.0 * xProjected.x, 2.0 * xProjected.y, fSumOfSquares - 1.0 ) / ( 1.0 + fSumOfSquares );
+}
+
+vec2 StereographicProjection( vec3 xNormalised )
+{
+	return xNormalised.xy / ( 1.0 - xNormalised.z );
+}
+
+void main()
+{
+	// TODO - use the spare components for:
+	// fresnel specular term
+	// fog alpha
+	// heightmap?
+	
+	// diffuse + spare component (fresnel term)
+	gl_FragData[ 0 ] = vec4( texture2D( xDiffuseSampler, xTexCoord ).xyz, 0.0 );
+	
+	// TODO: transform a normal map with the basis vectors and encode the result
+	// normal and two spare components (fog alpha + heightmap?)
+	gl_FragData[ 1 ] = vec4( 0.5 * StereographicProjection( xNormal ), 0.0, 0.0 );
+	
+	// TODO: specular
+	// gl_FragData[ 2 ] = texture2D( xSpecularSampler, xTexCoord );
+}
