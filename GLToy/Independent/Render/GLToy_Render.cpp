@@ -339,6 +339,7 @@ void GLToy_Render::Render()
     {
         BindFramebuffer( FRAMEBUFFER, s_uDeferredBuffer );
         SetViewport( 0, 0, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+                
         const u_int auBuffers[] =
         {
             COLOR_ATTACHMENT0,
@@ -350,11 +351,18 @@ void GLToy_Render::Render()
         s_xDeferredRenderables.Traverse( GLToy_IndirectRenderDeferredFunctor< const GLToy_Renderable >() );
 
         UseProgram( 0 );
+        GLToy_Render::DrawBuffers( 1, auBuffers );
 
         BindFramebuffer( FRAMEBUFFER, *s_puCurrentBuffer );
 
         // now accumulate lighting into the frame buffer from the deferred buffers...
+        BindDiffuseTexture( 1 );
+        BindNormalTexture( 2 );
 
+        EnableBlending();
+        DisableDepthWrites();
+        SetBlendFunction( BLEND_ONE, BLEND_ONE );
+        
         GLToy_Light_System::Render();
     }
     else
@@ -365,6 +373,7 @@ void GLToy_Render::Render()
 
     // here we render the transparent object tree ...
     EnableBlending();
+    SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
     EnableDepthTesting();
     DisableDepthWrites();
 
@@ -503,7 +512,7 @@ void GLToy_Render::BindFrameBufferNoCopy( const u_int uTextureUnit )
     {
         BindFramebuffer( FRAMEBUFFER, 0 );
         
-        GLToy_Texture_System::BindFrameBufferTexture( *s_puCurrentTexture );
+        GLToy_Texture_System::BindFrameBufferTexture( *s_puCurrentTexture, uTextureUnit );
 
         if( s_puCurrentBuffer == &s_uFrameBuffer )
         {
@@ -526,11 +535,11 @@ void GLToy_Render::BindLastFrameBufferTexture( const u_int uTextureUnit )
     {        
         if( s_puCurrentBuffer == &s_uFrameBuffer )
         {
-            GLToy_Texture_System::BindFrameBufferTexture( s_uSwapTexture );
+            GLToy_Texture_System::BindFrameBufferTexture( s_uSwapTexture, uTextureUnit );
         }
         else
         {
-            GLToy_Texture_System::BindFrameBufferTexture( s_uFrameTexture );
+            GLToy_Texture_System::BindFrameBufferTexture( s_uFrameTexture, uTextureUnit );
         }
     }
 }
@@ -539,7 +548,7 @@ void GLToy_Render::BindDiffuseTexture( const u_int uTextureUnit )
 {
     if( HasDeferredBuffer() )
     {        
-        GLToy_Texture_System::BindFrameBufferTexture( s_uDiffuseTexture );
+        GLToy_Texture_System::BindFrameBufferTexture( s_uDiffuseTexture, uTextureUnit );
     }
 }
 
@@ -547,7 +556,7 @@ void GLToy_Render::BindNormalTexture( const u_int uTextureUnit )
 {
     if( HasDeferredBuffer() )
     {        
-        GLToy_Texture_System::BindFrameBufferTexture( s_uNormalTexture );
+        GLToy_Texture_System::BindFrameBufferTexture( s_uNormalTexture, uTextureUnit );
     }
 }
 

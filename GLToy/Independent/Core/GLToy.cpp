@@ -235,8 +235,6 @@ bool GLToy::Initialise()
 
     GLToy_InitialiserCall( GLToy_Timer ); // always initialise last
 
-	GLToy_Console::ExecuteFile( "autoexec.console" );
-
     GLToy_DebugOutput( "\r\nGLToy::Initialise() - Completed successfully.\r\n" );
 
     return true;
@@ -343,6 +341,14 @@ bool GLToy::MainLoop()
 
         GLToy_Render::DeleteQueries( 1, &uQueryID );
     }
+
+    // and if we are the first frame load the console autoexec
+    static bool ls_bFirst = true;
+    if( ls_bFirst )
+    {
+        GLToy_Console::ExecuteFile( "autoexec.console" );
+    }
+    ls_bFirst = false;
 #endif
 
     return true;

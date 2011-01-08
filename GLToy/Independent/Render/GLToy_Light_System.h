@@ -182,13 +182,16 @@ public:
     static void Render();
     static void Update();
 
-    void AddPointLight( const GLToy_Hash uHash, const GLToy_Light_PointProperties& xProperties );
-    void AddProjectorLight( const GLToy_Hash uHash, const GLToy_Light_ProjectorProperties& xProperties );
-    void DestroyLight( const GLToy_Hash uHash );
+    static void AddPointLight( const GLToy_Hash uHash, const GLToy_Light_PointProperties& xProperties );
+    static void AddProjectorLight( const GLToy_Hash uHash, const GLToy_Light_ProjectorProperties& xProperties );
+    static void DestroyLight( const GLToy_Hash uHash );
+
+    static void RegisterLightSource( const GLToy_Renderable* const pxLightSource );
 
 private:
 
     static GLToy_HashMap< GLToy_Light* > s_xLights;
+    static GLToy_Array< const GLToy_Renderable* > s_xOtherLightSources;
 
 };
 

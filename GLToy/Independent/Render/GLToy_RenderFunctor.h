@@ -85,6 +85,19 @@ public:
 };
 
 template < class T >
+class GLToy_RenderLightingFunctor
+: public GLToy_ConstFunctor< T >
+{
+
+public:
+
+    virtual void operator ()( const T* const pxRenderable )
+    {
+        pxRenderable->RenderLighting();
+    }
+};
+
+template < class T >
 class GLToy_RenderTransparentFunctor
 : public GLToy_ConstFunctor< T >
 {
@@ -176,10 +189,28 @@ public:
         const GLToy_Hash uShaderHash = ( *pxRenderable )->GetShaderHash();
         if( uShaderHash )
         {
-            GLToy_Shader_System::BindShaderProgram( uShaderHash );
+            GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( uShaderHash );
+            if( pxShader )
+            {
+                pxShader->Bind();
+                pxShader->SetUniform( "xDiffuseSampler", 0 );
+            }
         }
 
         ( *pxRenderable )->RenderDeferred();
+    }
+};
+
+template < class T >
+class GLToy_IndirectRenderLightingFunctor
+: public GLToy_ConstFunctor< T* >
+{
+
+public:
+
+    virtual void operator ()( T* const* const pxRenderable )
+    {
+        ( *pxRenderable )->RenderLighting();
     }
 };
 

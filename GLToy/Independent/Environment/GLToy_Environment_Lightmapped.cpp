@@ -39,6 +39,7 @@
 #include <Physics/GLToy_Physics_System.h>
 #include <Render/Font/GLToy_Font.h>
 #include <Render/GLToy_Camera.h>
+#include <Render/GLToy_Light_System.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture_System.h>
 #include <Render/Shader/GLToy_Shader.h>
@@ -87,8 +88,9 @@ void GLToy_Environment_Lightmapped::Render() const
     if( GLToy_Render::HasDeferredBuffer() )
     {
         GLToy_Render::RegisterDeferred( this );
+        GLToy_Light_System::RegisterLightSource( this );
         // TODO: make this viable to uncomment
-        //return;
+        return;
     }
 
     GLToy_Render::EnableBackFaceCulling();
@@ -241,6 +243,42 @@ void GLToy_Environment_Lightmapped::RenderLightmap() const
 
             GLToy_Render::EndSubmit();
         GLToy_Iterate_End;
+    }
+}
+
+void GLToy_Environment_Lightmapped::RenderLighting() const
+{
+    GLToy_EnvironmentLeaf_Lightmapped* pxLeaf = static_cast< GLToy_EnvironmentLeaf_Lightmapped* >( GetLeafData( GLToy_Camera::GetPosition() ) );
+    if( !IsEmpty() && pxLeaf && pxLeaf->m_uCluster != 0xFFFF )
+    {
+        GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Lightmap_Simple" ) );
+        GLToy_Assert( pxShader != NULL, "Lightmap shader not found!" );
+        if( !pxShader )
+        {
+            return;
+        }
+
+        pxShader->Bind();
+        pxShader->SetUniform( "xLightmapSampler", 0 );
+        pxShader->SetUniform( "xDiffuseSampler", 1 );
+
+        GLToy_Render::BindDiffuseTexture( 1 );
+
+        const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
+        const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
+
+        pxShader->SetUniform( "xSize", xSize );
+        pxShader->SetUniform( "xOneOverSize", xOneOverSize );
+
+        GLToy_ConstIterate( u_int, uClusterIndex, m_xClusters[ pxLeaf->m_uCluster ].m_xPVS )
+            GLToy_Assert( uClusterIndex < m_xClusters.GetCount(), "Cluster index is too large!" );
+            
+            GLToy_ConstIterate( u_int, uLeafIndex, m_xClusters[ uClusterIndex ].m_xIndices )
+                m_xLeaves[ uLeafIndex ].RenderLighting();
+            GLToy_Iterate_End;
+        GLToy_Iterate_End;
+
+        GLToy_Render::UseProgram( 0 );
     }
 }
 
@@ -497,6 +535,38 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderLightmap() const
         GLToy_Render::StartSubmittingPolygon();
 
         GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+
+        GLToy_ConstIterate( u_int, uIndex, xFace.m_xIndices )
+            const GLToy_Environment_LightmappedFaceVertex& xVertex = m_pxParent->m_xVertices[ uIndex ];
+
+            GLToy_Render::SubmitUV( xVertex.m_xLightmapUV );
+            GLToy_Render::SubmitVertex( xVertex.m_xPosition );
+        GLToy_Iterate_End;
+
+        GLToy_Render::EndSubmit();
+    GLToy_Iterate_End;
+}
+
+void GLToy_EnvironmentLeaf_Lightmapped::RenderLighting() const
+{
+    if( !m_pxParent )
+    {
+        return;
+    }
+
+    GLToy_ConstIterate( u_int, uFaceIndex, m_xIndices )
+        const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ uFaceIndex ];
+
+        if( !xFace.m_bVisible || xFace.m_bRenderedLightmap )
+        {
+            continue;
+        }
+
+        xFace.m_bRenderedLightmap = true;
+
+        GLToy_Texture_System::BindTexture( xFace.m_uLightmapHash );
+
+        GLToy_Render::StartSubmittingPolygon();
 
         GLToy_ConstIterate( u_int, uIndex, xFace.m_xIndices )
             const GLToy_Environment_LightmappedFaceVertex& xVertex = m_pxParent->m_xVertices[ uIndex ];

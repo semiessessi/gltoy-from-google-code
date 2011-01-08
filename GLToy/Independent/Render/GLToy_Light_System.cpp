@@ -44,6 +44,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 GLToy_HashMap< GLToy_Light* > GLToy_Light_System::s_xLights;
+GLToy_Array< const GLToy_Renderable* > GLToy_Light_System::s_xOtherLightSources;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -51,12 +52,15 @@ GLToy_HashMap< GLToy_Light* > GLToy_Light_System::s_xLights;
 
 bool GLToy_Light_System::Initialise()
 {
+    s_xOtherLightSources.Clear();
+
     return true;
 }
 
 void GLToy_Light_System::Shutdown()
 {
     s_xLights.DeleteAll();
+    s_xOtherLightSources.Clear();
 }
 
 void GLToy_Light_System::AddPointLight( const GLToy_Hash uHash, const GLToy_Light_PointProperties& xProperties )
@@ -79,9 +83,24 @@ void GLToy_Light_System::DestroyLight( const GLToy_Hash uHash )
     }
 }
 
+void GLToy_Light_System::RegisterLightSource( const GLToy_Renderable* const pxLightSource )
+{
+    s_xOtherLightSources.Append( pxLightSource );
+}
+
 void GLToy_Light_System::Render()
 {
+    //GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( uShaderHash );
+    //if( pxShader )
+    //{
+    //    pxShader->Bind();
+    //    pxShader->SetUniform( "xDiffuseSampler", 0 );
+    //}
+
     s_xLights.Traverse( GLToy_IndirectRenderFunctor< GLToy_Light >() );
+
+    s_xOtherLightSources.Traverse( GLToy_IndirectRenderLightingFunctor< const GLToy_Renderable >() );
+    s_xOtherLightSources.Clear();
 }
 
 // SE - TODO: hook up somewhere

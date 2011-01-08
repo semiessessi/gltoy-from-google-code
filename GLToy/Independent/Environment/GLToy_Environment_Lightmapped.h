@@ -224,6 +224,7 @@ public:
     virtual void Render() const;
     virtual void RenderDeferred() const;
     virtual void RenderLightmap() const;
+    virtual void RenderLighting() const;
     virtual void RenderDebugFaceInfo() const;
 
     const GLToy_Array< u_int >& GetIndices() const;
@@ -273,6 +274,7 @@ public:
     virtual void Render() const;
     virtual void RenderDeferred() const;
     virtual void RenderLightmap() const;
+    virtual void RenderLighting() const;
     virtual void Update();
 
     virtual GLToy_Hash GetShaderHash() const { return GLToy_Hash_Constant( "Deferred_DiffuseOnly" ); }

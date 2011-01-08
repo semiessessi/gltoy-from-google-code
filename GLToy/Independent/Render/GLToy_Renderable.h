@@ -50,6 +50,7 @@ public:
     
     // for deferred shading
     virtual void RenderDeferred() const {}
+    virtual void RenderLighting() const {}
 
     // transparent render pass
     virtual void RenderTransparent() const {}

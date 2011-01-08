@@ -490,6 +490,14 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
             GLToy_Vector_2(
                 pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 0 ] / static_cast< float >( uTexWidth ),
                 -( pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 1 ] / static_cast< float >( uTexHeight ) ) );
+
+        pxEnv->m_xVertices[ uCurrentVertex ].m_xTangent = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis;
+        pxEnv->m_xVertices[ uCurrentVertex ].m_xTangent.Normalise();
+
+        // TODO: i think this might need sign flipping
+        pxEnv->m_xVertices[ uCurrentVertex ].m_xNormal = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis;
+        pxEnv->m_xVertices[ uCurrentVertex ].m_xNormal.Normalise();
+        pxEnv->m_xVertices[ uCurrentVertex ].m_xNormal = pxEnv->m_xVertices[ uCurrentVertex ].m_xNormal.Cross( pxEnv->m_xVertices[ uCurrentVertex ].m_xTangent );
         
         // work out the verts from the edges
         ++uCurrentVertex;
