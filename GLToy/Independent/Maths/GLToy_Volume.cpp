@@ -34,6 +34,7 @@
 #include <Maths/GLToy_Volume.h>
 
 // GLToy
+#include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture_System.h>
 
@@ -118,74 +119,93 @@ void GLToy_AABB::Render() const
 
 void GLToy_AABB::RenderFlat() const
 {
-    // TODO: only draw the three facing quads by testing the view matrix...
-
+    // TODO: fix backface culling
     GLToy_Render::StartSubmittingQuads();
 
     GLToy_Vector_3 xVertex;
 
-    // min x
-    xVertex = m_xPointMin;
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 1 ] = m_xPointMax[ 1 ];
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 2 ] = m_xPointMax[ 2 ];
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 1 ] = m_xPointMin[ 1 ];
-    GLToy_Render::SubmitVertex( xVertex );
+    const bool bInside = IsInside( GLToy_Camera::GetPosition() );
 
-    // max x
-    xVertex[ 0 ] = m_xPointMax[ 0 ];
-    xVertex[ 2 ] = m_xPointMin[ 2 ];
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 1 ] = m_xPointMax[ 1 ];
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 2 ] = m_xPointMax[ 2 ];
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 1 ] = m_xPointMin[ 1 ];
-    GLToy_Render::SubmitVertex( xVertex );
+    if( bInside || ( GLToy_Camera::GetDirection()[ 0 ] > 0.0f ) )
+    {
+        // min x
+        xVertex = m_xPointMin;
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 1 ] = m_xPointMax[ 1 ];
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 2 ] = m_xPointMax[ 2 ];
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 1 ] = m_xPointMin[ 1 ];
+        GLToy_Render::SubmitVertex( xVertex );
+    }
+    
+    if( bInside || ( GLToy_Camera::GetDirection()[ 0 ] <= 0.0f ) )
+    {
+        // max x
+        xVertex = m_xPointMin;
+        xVertex[ 0 ] = m_xPointMax[ 0 ];
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 1 ] = m_xPointMax[ 1 ];
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 2 ] = m_xPointMax[ 2 ];
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 1 ] = m_xPointMin[ 1 ];
+        GLToy_Render::SubmitVertex( xVertex );
+    }
 
-    // min y
-    xVertex = m_xPointMin;
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 2 ] = m_xPointMax[ 2 ];
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 0 ] = m_xPointMax[ 0 ];
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 2 ] = m_xPointMin[ 2 ];
-    GLToy_Render::SubmitVertex( xVertex );
+    if( bInside || ( GLToy_Camera::GetDirection()[ 1 ] > 0.0f ) )
+    {
+        // min y
+        xVertex = m_xPointMin;
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 2 ] = m_xPointMax[ 2 ];
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 0 ] = m_xPointMax[ 0 ];
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 2 ] = m_xPointMin[ 2 ];
+        GLToy_Render::SubmitVertex( xVertex );
+    }
 
-    // max y
-    xVertex[ 1 ] = m_xPointMax[ 1 ];
-    xVertex[ 0 ] = m_xPointMin[ 0 ];
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 2 ] = m_xPointMax[ 2 ];
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 0 ] = m_xPointMax[ 0 ];
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 2 ] = m_xPointMin[ 2 ];
-    GLToy_Render::SubmitVertex( xVertex );
+    if( bInside || ( GLToy_Camera::GetDirection()[ 1 ] <= 0.0f ) )
+    {
+        // max y
+        xVertex = m_xPointMin;
+        xVertex[ 1 ] = m_xPointMax[ 1 ];
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 2 ] = m_xPointMax[ 2 ];
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 0 ] = m_xPointMax[ 0 ];
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 2 ] = m_xPointMin[ 2 ];
+        GLToy_Render::SubmitVertex( xVertex );
+    }
 
-    // min z
-    xVertex = m_xPointMin;
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 0 ] = m_xPointMax[ 0 ];
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 1 ] = m_xPointMax[ 1 ];
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 0 ] = m_xPointMin[ 0 ];
-    GLToy_Render::SubmitVertex( xVertex );
+    if( bInside || ( GLToy_Camera::GetDirection()[ 2 ] > 0.0f ) )
+    {
+        // min z
+        xVertex = m_xPointMin;
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 0 ] = m_xPointMax[ 0 ];
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 1 ] = m_xPointMax[ 1 ];
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 0 ] = m_xPointMin[ 0 ];
+        GLToy_Render::SubmitVertex( xVertex );
+    }
 
-    // max z
-    xVertex[ 2 ] = m_xPointMax[ 2 ];
-    xVertex[ 1 ] = m_xPointMin[ 1 ];
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 0 ] = m_xPointMax[ 0 ];
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 1 ] = m_xPointMax[ 1 ];
-    GLToy_Render::SubmitVertex( xVertex );
-    xVertex[ 0 ] = m_xPointMin[ 0 ];
-    GLToy_Render::SubmitVertex( xVertex );
+    if( bInside || ( GLToy_Camera::GetDirection()[ 2 ] <= 0.0f ) )
+    {
+        // max z
+        xVertex = m_xPointMin;
+        xVertex[ 2 ] = m_xPointMax[ 2 ];
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 0 ] = m_xPointMax[ 0 ];
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 1 ] = m_xPointMax[ 1 ];
+        GLToy_Render::SubmitVertex( xVertex );
+        xVertex[ 0 ] = m_xPointMin[ 0 ];
+        GLToy_Render::SubmitVertex( xVertex );
+    }
 
     GLToy_Render::EndSubmit();
 }

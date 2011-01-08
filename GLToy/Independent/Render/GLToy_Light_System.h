@@ -107,6 +107,7 @@ class GLToy_Light
 public:
 
     virtual void Render() const {}
+    virtual void RenderDebug() const {}
     virtual void Update() {}
 
     const GLToy_Vector_3& GetColour() const { return m_pxProperties->m_xColour; }
@@ -146,6 +147,7 @@ public:
     {
     }
 
+    virtual void RenderDebug() const;
     virtual void RenderLighting() const;
 
 private:
@@ -193,6 +195,8 @@ public:
     static void SpawnPointLight_Console();
 
 private:
+
+    static bool s_bRenderLightBoxes;
 
     static GLToy_HashMap< GLToy_Light* > s_xLights;
     static GLToy_HashMap< GLToy_Light_Point* > s_xPointLights;

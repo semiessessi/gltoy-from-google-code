@@ -219,6 +219,7 @@ public:
 
     static void BindDiffuseTexture( const u_int uTextureUnit = 0 );
     static void BindNormalTexture( const u_int uTextureUnit = 0 );
+    static void BindDepthTexture( const u_int uTextureUnit = 0 );
 
     // GL interface
     static u_int GetError();
@@ -376,7 +377,8 @@ private:
     static bool s_bClearFrame;
 
     // frame buffer + depth buffer
-    static u_int s_uDepthBuffer;
+    //static u_int s_uDepthBuffer;
+    static u_int s_uDepthTexture;
     static u_int s_uFrameBuffer;
     static u_int s_uFrameTexture;
     static u_int s_uSwapBuffer;

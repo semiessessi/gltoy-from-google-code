@@ -45,6 +45,8 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+bool GLToy_Light_System::s_bRenderLightBoxes = false;
+
 GLToy_HashMap< GLToy_Light* > GLToy_Light_System::s_xLights;
 GLToy_HashMap< GLToy_Light_Point* > GLToy_Light_System::s_xPointLights;
 GLToy_HashMap< GLToy_Light_Projector* > GLToy_Light_System::s_xProjectorLights;
@@ -57,6 +59,8 @@ GLToy_Array< const GLToy_Renderable* > GLToy_Light_System::s_xOtherLightSources;
 bool GLToy_Light_System::Initialise()
 {
     GLToy_Console::RegisterCommand( "spawn.pointlight", SpawnPointLight_Console );
+
+    GLToy_Console::RegisterVariable( "render.lightboxes", &s_bRenderLightBoxes );
 
     return true;
 }
@@ -106,7 +110,7 @@ void GLToy_Light_System::SpawnPointLight_Console()
     xProperties.m_xPosition = GLToy_Camera::GetPosition();
     xProperties.m_xColour = GLToy_Vector_3( 1.0f, 1.0f, 1.0f );
     xProperties.m_uFlags = 0;
-    xProperties.m_fSphereRadius = 400.0f;
+    xProperties.m_fSphereRadius = 100.0f;
     AddPointLight( GLToy_Random_Hash(), xProperties );
 }
 
@@ -118,7 +122,20 @@ void GLToy_Light_System::Render()
         pxShader->Bind();
         pxShader->SetUniform( "xDiffuseSampler", 1 );
         pxShader->SetUniform( "xNormalSampler", 2 );
+        pxShader->SetUniform( "xDepthSampler", 3 );
+
+        pxShader->SetUniform( "xCameraPosition", GLToy_Camera::GetPosition() );
+        pxShader->SetUniform( "xViewVector", GLToy_Camera::GetDirection() );
+
+        const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
+        const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
+
+        pxShader->SetUniform( "xSize", xSize );
+        pxShader->SetUniform( "xOneOverSize", xOneOverSize );
     }
+
+    GLToy_Render::DisableDepthTesting();
+    GLToy_Render::DisableDepthWrites();
 
     s_xPointLights.Traverse( GLToy_IndirectRenderLightingFunctor< GLToy_Light_Point >() );
 
@@ -129,14 +146,35 @@ void GLToy_Light_System::Render()
         pxProjectorShader->SetUniform( "xTextureSampler", 0 );
         pxProjectorShader->SetUniform( "xDiffuseSampler", 1 );
         pxProjectorShader->SetUniform( "xNormalSampler", 2 );
+        pxProjectorShader->SetUniform( "xDepthSampler", 3 );
+
+        pxProjectorShader->SetUniform( "xCameraPosition", GLToy_Camera::GetPosition() );
+        pxProjectorShader->SetUniform( "xViewVector", GLToy_Camera::GetDirection() );
+
+        const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
+        const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
+
+        pxProjectorShader->SetUniform( "xSize", xSize );
+        pxProjectorShader->SetUniform( "xOneOverSize", xOneOverSize );
     }
 
     s_xProjectorLights.Traverse( GLToy_IndirectRenderLightingFunctor< GLToy_Light_Projector >() );
 
     GLToy_Render::UseProgram( 0 );
 
+    GLToy_Render::EnableDepthTesting();
+
     s_xOtherLightSources.Traverse( GLToy_IndirectRenderLightingFunctor< const GLToy_Renderable >() );
     s_xOtherLightSources.Clear();
+
+    if( s_bRenderLightBoxes )
+    {
+        GLToy_Render::UseProgram( 0 );
+
+        GLToy_ConstIterate( GLToy_Light*, pxLight, s_xLights )
+            pxLight->RenderDebug();
+        GLToy_Iterate_End;
+    }
 }
 
 // SE - TODO: hook up somewhere
@@ -145,8 +183,23 @@ void GLToy_Light_System::Update()
     s_xLights.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Light >() );
 }
 
+void GLToy_Light_Point::RenderDebug() const
+{
+    GLToy_AABB xBox( GetPosition(), m_xProperties.m_fSphereRadius, m_xProperties.m_fSphereRadius, m_xProperties.m_fSphereRadius );
+    xBox.Render();
+}
+
 void GLToy_Light_Point::RenderLighting() const
 {
+    // TODO: cache this, looking up for each light is... stupid
+    GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Point" ) );
+    if( pxShader )
+    {
+        pxShader->SetUniform( "fLightRadius", m_xProperties.m_fSphereRadius );
+        pxShader->SetUniform( "xLightColour", m_xProperties.m_xColour );
+        pxShader->SetUniform( "xLightPosition", m_xProperties.m_xPosition );
+    }
+
     GLToy_AABB xBox( GetPosition(), m_xProperties.m_fSphereRadius, m_xProperties.m_fSphereRadius, m_xProperties.m_fSphereRadius );
     xBox.RenderFlat();
 }

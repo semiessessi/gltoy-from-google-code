@@ -248,6 +248,9 @@ void GLToy_Environment_Lightmapped::RenderLightmap() const
 
 void GLToy_Environment_Lightmapped::RenderLighting() const
 {
+    GLToy_Render::EnableBackFaceCulling();
+    GLToy_Render::SetCWFaceWinding();
+
     GLToy_EnvironmentLeaf_Lightmapped* pxLeaf = static_cast< GLToy_EnvironmentLeaf_Lightmapped* >( GetLeafData( GLToy_Camera::GetPosition() ) );
     if( !IsEmpty() && pxLeaf && pxLeaf->m_uCluster != 0xFFFF )
     {
@@ -280,6 +283,8 @@ void GLToy_Environment_Lightmapped::RenderLighting() const
 
         GLToy_Render::UseProgram( 0 );
     }
+
+    GLToy_Render::DisableBackFaceCulling();
 }
 
 void GLToy_Environment_Lightmapped::Update()

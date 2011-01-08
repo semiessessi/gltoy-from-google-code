@@ -145,6 +145,7 @@ public:
     static void BindWhite( const u_int uTextureUnit = 0 );
 
     static void CreateFrameBufferTexture( u_int& uID, const int iWidth, const int iHeight ) { Platform_CreateFrameBufferTexture( uID, iWidth, iHeight ); }
+    static void CreateDepthBufferTexture( u_int& uID, const int iWidth, const int iHeight ) { Platform_CreateDepthBufferTexture( uID, iWidth, iHeight ); }
     static void DestroyFrameBufferTexture( u_int& uID ) { Platform_DestroyFrameBufferTexture( uID ); }
     static void BindFrameBufferTexture( const u_int uID, const u_int uTextureUnit = 0 ) { Platform_BindFrameBufferTexture( uID, uTextureUnit ); }
 
@@ -164,6 +165,7 @@ private:
     static void Platform_SaveTextureTGA( const GLToy_String& szName, u_int* const puData, const u_int uWidth, const u_int uHeight );
 
     static void Platform_CreateFrameBufferTexture( u_int& uID, const int iWidth, const int iHeight );
+    static void Platform_CreateDepthBufferTexture( u_int& uID, const int iWidth, const int iHeight );
     static void Platform_DestroyFrameBufferTexture( u_int& uID );
     static void Platform_BindFrameBufferTexture( const u_int uID, const u_int uTextureUnit );
 

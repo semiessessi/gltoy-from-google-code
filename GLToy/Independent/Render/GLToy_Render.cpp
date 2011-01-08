@@ -60,7 +60,8 @@ bool GLToy_Render::s_bDrawTimers = GLToy_IsDebugBuild();
 bool GLToy_Render::s_bDrawBuffers = false;
 bool GLToy_Render::s_bVsync = true;
 bool GLToy_Render::s_bClearFrame = true;
-u_int GLToy_Render::s_uDepthBuffer = 0xFFFFFFFF;
+//u_int GLToy_Render::s_uDepthBuffer = 0xFFFFFFFF;
+u_int GLToy_Render::s_uDepthTexture = 0xFFFFFFFF;
 u_int GLToy_Render::s_uFrameBuffer = 0xFFFFFFFF;
 u_int GLToy_Render::s_uFrameTexture = 0xFFFFFFFF;
 u_int GLToy_Render::s_uSwapBuffer = 0xFFFFFFFF;
@@ -116,12 +117,14 @@ bool GLToy_Render::Initialise()
         // set up framebuffer
         GenFramebuffers( 1, &s_uFrameBuffer );
         BindFramebuffer( FRAMEBUFFER, s_uFrameBuffer );
-        GenRenderbuffers( 1, &s_uDepthBuffer );
-        BindRenderbuffer( RENDERBUFFER, s_uDepthBuffer );
-        RenderbufferStorage( RENDERBUFFER, DEPTH_COMPONENT24, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
-        FramebufferRenderbuffer( FRAMEBUFFER, DEPTH_ATTACHMENT, RENDERBUFFER, s_uDepthBuffer );
+        //GenRenderbuffers( 1, &s_uDepthBuffer );
+        //BindRenderbuffer( RENDERBUFFER, s_uDepthBuffer );
+        //RenderbufferStorage( RENDERBUFFER, DEPTH_COMPONENT24, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+        //FramebufferRenderbuffer( FRAMEBUFFER, DEPTH_ATTACHMENT, RENDERBUFFER, s_uDepthBuffer );
         GLToy_Texture_System::CreateFrameBufferTexture( s_uFrameTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+        GLToy_Texture_System::CreateDepthBufferTexture( s_uDepthTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
         FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT0, TEXTURE_2D, s_uFrameTexture, 0 );
+        FramebufferTexture2D( FRAMEBUFFER, DEPTH_ATTACHMENT, TEXTURE_2D, s_uDepthTexture, 0 );
 
         if( CheckFramebufferStatus( FRAMEBUFFER ) != FRAMEBUFFER_COMPLETE )
         {
@@ -131,10 +134,16 @@ bool GLToy_Render::Initialise()
                 s_uFrameBuffer = 0xFFFFFFFF;
             }
 
-            if( s_uDepthBuffer != 0xFFFFFFFF )
+            //if( s_uDepthBuffer != 0xFFFFFFFF )
+            //{
+            //    DeleteRenderbuffers( 1, &s_uDepthBuffer );
+            //    s_uDepthBuffer = 0xFFFFFFFF;
+            //}
+
+            if( s_uDepthTexture != 0xFFFFFFFF )
             {
-                DeleteRenderbuffers( 1, &s_uDepthBuffer );
-                s_uDepthBuffer = 0xFFFFFFFF;
+                GLToy_Texture_System::DestroyFrameBufferTexture( s_uDepthTexture );
+                s_uDepthTexture = 0xFFFFFFFF;
             }
 
             if( s_uFrameTexture != 0xFFFFFFFF )
@@ -148,10 +157,11 @@ bool GLToy_Render::Initialise()
             // set up framebuffer
             GenFramebuffers( 1, &s_uSwapBuffer );
             BindFramebuffer( FRAMEBUFFER, s_uSwapBuffer );
-            RenderbufferStorage( RENDERBUFFER, DEPTH_COMPONENT24, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
-            FramebufferRenderbuffer( FRAMEBUFFER, DEPTH_ATTACHMENT, RENDERBUFFER, s_uDepthBuffer );
+            //RenderbufferStorage( RENDERBUFFER, DEPTH_COMPONENT24, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+            //FramebufferRenderbuffer( FRAMEBUFFER, DEPTH_ATTACHMENT, RENDERBUFFER, s_uDepthBuffer );
             GLToy_Texture_System::CreateFrameBufferTexture( s_uSwapTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
             FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT0, TEXTURE_2D, s_uSwapTexture, 0 );
+            FramebufferTexture2D( FRAMEBUFFER, DEPTH_ATTACHMENT, TEXTURE_2D, s_uDepthTexture, 0 );
 
             if( CheckFramebufferStatus( FRAMEBUFFER ) != FRAMEBUFFER_COMPLETE )
             {
@@ -187,14 +197,15 @@ bool GLToy_Render::Initialise()
         // set up framebuffer
         GenFramebuffers( 1, &s_uDeferredBuffer );
         BindFramebuffer( FRAMEBUFFER, s_uDeferredBuffer );
-        BindRenderbuffer( RENDERBUFFER, s_uDepthBuffer );
-        FramebufferRenderbuffer( FRAMEBUFFER, DEPTH_ATTACHMENT, RENDERBUFFER, s_uDepthBuffer );
+        //BindRenderbuffer( RENDERBUFFER, s_uDepthBuffer );
+        //FramebufferRenderbuffer( FRAMEBUFFER, DEPTH_ATTACHMENT, RENDERBUFFER, s_uDepthBuffer );
         GLToy_Texture_System::CreateFrameBufferTexture( s_uDiffuseTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
         GLToy_Texture_System::CreateFrameBufferTexture( s_uNormalTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
         //GLToy_Texture_System::CreateFrameBufferTexture( s_uSpecularTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
         FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT0, TEXTURE_2D, s_uDiffuseTexture, 0 );
         FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT1, TEXTURE_2D, s_uNormalTexture, 0 );
         //FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT2, TEXTURE_2D, s_uSpecularTexture, 0 );
+        FramebufferTexture2D( FRAMEBUFFER, DEPTH_ATTACHMENT, TEXTURE_2D, s_uDepthTexture, 0 );
 
         if( CheckFramebufferStatus( FRAMEBUFFER ) != FRAMEBUFFER_COMPLETE )
         {
@@ -240,10 +251,16 @@ void GLToy_Render::Shutdown()
         s_uFrameBuffer = 0xFFFFFFFF;
     }
 
-    if( s_uDepthBuffer != 0xFFFFFFFF )
+    //if( s_uDepthBuffer != 0xFFFFFFFF )
+    //{
+    //    DeleteRenderbuffers( 1, &s_uDepthBuffer );
+    //    s_uDepthBuffer = 0xFFFFFFFF;
+    //}
+
+    if( s_uDepthTexture != 0xFFFFFFFF )
     {
-        DeleteRenderbuffers( 1, &s_uDepthBuffer );
-        s_uDepthBuffer = 0xFFFFFFFF;
+        GLToy_Texture_System::DestroyFrameBufferTexture( s_uDepthTexture );
+        s_uDepthTexture = 0xFFFFFFFF;
     }
 
     if( s_uFrameTexture != 0xFFFFFFFF )
@@ -358,6 +375,7 @@ void GLToy_Render::Render()
         // now accumulate lighting into the frame buffer from the deferred buffers...
         BindDiffuseTexture( 1 );
         BindNormalTexture( 2 );
+        BindDepthTexture( 3 );
 
         EnableBlending();
         DisableDepthWrites();
@@ -420,6 +438,12 @@ void GLToy_Render::Render()
             SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
             SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), -0.5f ), GLToy_Vector_2( 0.25f * GLToy_Render::Get2DWidth(), 0.5f ), 0.0f, 1.0f, 1.0f, 0.0f );
             EndSubmit();
+
+            GLToy_Texture_System::BindFrameBufferTexture( s_uDepthTexture );
+            StartSubmittingQuads();
+            SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+            SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), -1.0f ), GLToy_Vector_2( 0.25f * GLToy_Render::Get2DWidth(), 0.5f ), 0.0f, 1.0f, 1.0f, 0.0f );
+            EndSubmit();
         }
 
         SetPerspectiveProjectionMatrix();
@@ -469,6 +493,8 @@ void GLToy_Render::Render2D()
                 pxFont->RenderString( szString, GLToy_Render::GetMinX(), 0.5f - pxFont->GetHeight() );
                 szString = "Normal buffer";
                 pxFont->RenderString( szString, GLToy_Render::GetMinX(), 0.0f - pxFont->GetHeight() );
+                szString = "Depth buffer";
+                pxFont->RenderString( szString, GLToy_Render::GetMinX(), -0.5f - pxFont->GetHeight() );
             }
         }
     }
@@ -557,6 +583,14 @@ void GLToy_Render::BindNormalTexture( const u_int uTextureUnit )
     if( HasDeferredBuffer() )
     {        
         GLToy_Texture_System::BindFrameBufferTexture( s_uNormalTexture, uTextureUnit );
+    }
+}
+
+void GLToy_Render::BindDepthTexture( const u_int uTextureUnit )
+{
+    if( HasFrameBuffer() )
+    {        
+        GLToy_Texture_System::BindFrameBufferTexture( s_uDepthTexture, uTextureUnit );
     }
 }
 
