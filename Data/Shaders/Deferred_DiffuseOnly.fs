@@ -31,7 +31,9 @@ void main()
 	// NOTE: this only encodes less than 3/4 of the sphere (but more than 1/2)...
 	// TODO: work out how to get this into view space...
 	//vec3 xViewNormal = ...;
-	gl_FragData[ 1 ] = vec4( 0.25 * StereographicProjection( xNormal ) + 0.5, 0.0, 0.0 );
+	//gl_FragData[ 1 ] = vec4( 0.25 * StereographicProjection( xNormal ) + 0.5, 0.0, 0.0 );
+	// actually, put out world space normals for now and get the fancy compression working later...
+	gl_FragData[ 1 ] = vec4( 0.5 * xNormal + 0.5, 0.0 );
 	
 	// TODO: specular
 	// gl_FragData[ 2 ] = texture2D( xSpecularSampler, xTexCoord );
