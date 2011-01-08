@@ -116,6 +116,80 @@ void GLToy_AABB::Render() const
     GLToy_Render::EndSubmit();
 }
 
+void GLToy_AABB::RenderFlat() const
+{
+    // TODO: only draw the three facing quads by testing the view matrix...
+
+    GLToy_Render::StartSubmittingQuads();
+
+    GLToy_Vector_3 xVertex;
+
+    // min x
+    xVertex = m_xPointMin;
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 1 ] = m_xPointMax[ 1 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 2 ] = m_xPointMax[ 2 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 1 ] = m_xPointMin[ 1 ];
+    GLToy_Render::SubmitVertex( xVertex );
+
+    // max x
+    xVertex[ 0 ] = m_xPointMax[ 0 ];
+    xVertex[ 2 ] = m_xPointMin[ 2 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 1 ] = m_xPointMax[ 1 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 2 ] = m_xPointMax[ 2 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 1 ] = m_xPointMin[ 1 ];
+    GLToy_Render::SubmitVertex( xVertex );
+
+    // min y
+    xVertex = m_xPointMin;
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 2 ] = m_xPointMax[ 2 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 0 ] = m_xPointMax[ 0 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 2 ] = m_xPointMin[ 2 ];
+    GLToy_Render::SubmitVertex( xVertex );
+
+    // max y
+    xVertex[ 1 ] = m_xPointMax[ 1 ];
+    xVertex[ 0 ] = m_xPointMin[ 0 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 2 ] = m_xPointMax[ 2 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 0 ] = m_xPointMax[ 0 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 2 ] = m_xPointMin[ 2 ];
+    GLToy_Render::SubmitVertex( xVertex );
+
+    // min z
+    xVertex = m_xPointMin;
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 0 ] = m_xPointMax[ 0 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 1 ] = m_xPointMax[ 1 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 0 ] = m_xPointMin[ 0 ];
+    GLToy_Render::SubmitVertex( xVertex );
+
+    // max z
+    xVertex[ 2 ] = m_xPointMax[ 2 ];
+    xVertex[ 1 ] = m_xPointMin[ 1 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 0 ] = m_xPointMax[ 0 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 1 ] = m_xPointMax[ 1 ];
+    GLToy_Render::SubmitVertex( xVertex );
+    xVertex[ 0 ] = m_xPointMin[ 0 ];
+    GLToy_Render::SubmitVertex( xVertex );
+
+    GLToy_Render::EndSubmit();
+}
+
 void GLToy_Sphere::Render() const
 {
     GLToy_Texture_System::BindWhite();

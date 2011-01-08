@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -61,6 +61,8 @@ public:
     static GLToy_ShaderProgram* LookUpShader( const GLToy_String& szName );
 
 	static void CreateShaderFromStrings( const GLToy_String& szName, const GLToy_String& szFragmentShader, const GLToy_String& szVertexShader );
+
+    static void ReloadShaders() { Shutdown(); Initialise(); }
 
 private:
 

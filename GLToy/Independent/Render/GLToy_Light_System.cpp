@@ -34,8 +34,10 @@
 #include <Render/GLToy_Light_System.h>
 
 // GLToy
+#include <Core/Console/GLToy_Console.h>
 #include <Core/Data Structures/GLToy_HashMap.h>
 #include <Core/GLToy_UpdateFunctor.h>
+#include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_RenderFunctor.h>
 
@@ -44,6 +46,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 GLToy_HashMap< GLToy_Light* > GLToy_Light_System::s_xLights;
+GLToy_HashMap< GLToy_Light_Point* > GLToy_Light_System::s_xPointLights;
+GLToy_HashMap< GLToy_Light_Projector* > GLToy_Light_System::s_xProjectorLights;
 GLToy_Array< const GLToy_Renderable* > GLToy_Light_System::s_xOtherLightSources;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,7 +56,7 @@ GLToy_Array< const GLToy_Renderable* > GLToy_Light_System::s_xOtherLightSources;
 
 bool GLToy_Light_System::Initialise()
 {
-    s_xOtherLightSources.Clear();
+    GLToy_Console::RegisterCommand( "spawn.pointlight", SpawnPointLight_Console );
 
     return true;
 }
@@ -61,16 +65,22 @@ void GLToy_Light_System::Shutdown()
 {
     s_xLights.DeleteAll();
     s_xOtherLightSources.Clear();
+    s_xPointLights.Clear();
+    s_xProjectorLights.Clear();
 }
 
 void GLToy_Light_System::AddPointLight( const GLToy_Hash uHash, const GLToy_Light_PointProperties& xProperties )
 {
-    s_xLights.AddNode( new GLToy_Light_Point( xProperties ), uHash );
+    GLToy_Light_Point* const pxPointLight = new GLToy_Light_Point( xProperties );
+    s_xLights.AddNode( pxPointLight, uHash );
+    s_xPointLights.AddNode( pxPointLight, uHash );
 }
 
 void GLToy_Light_System::AddProjectorLight( const GLToy_Hash uHash, const GLToy_Light_ProjectorProperties& xProperties )
 {
-    s_xLights.AddNode( new GLToy_Light_Projector( xProperties ), uHash );
+    GLToy_Light_Projector* const pxProjector = new GLToy_Light_Projector( xProperties );
+    s_xLights.AddNode( pxProjector, uHash );
+    s_xProjectorLights.AddNode( pxProjector, uHash );
 }
 
 void GLToy_Light_System::DestroyLight( const GLToy_Hash uHash )
@@ -80,6 +90,8 @@ void GLToy_Light_System::DestroyLight( const GLToy_Hash uHash )
     {
         delete *ppxLight;
         s_xLights.Remove( uHash );
+        s_xPointLights.Remove( uHash );
+        s_xProjectorLights.Remove( uHash );
     }
 }
 
@@ -88,16 +100,40 @@ void GLToy_Light_System::RegisterLightSource( const GLToy_Renderable* const pxLi
     s_xOtherLightSources.Append( pxLightSource );
 }
 
+void GLToy_Light_System::SpawnPointLight_Console()
+{
+    GLToy_Light_PointProperties xProperties;
+    xProperties.m_xPosition = GLToy_Camera::GetPosition();
+    xProperties.m_xColour = GLToy_Vector_3( 1.0f, 1.0f, 1.0f );
+    xProperties.m_uFlags = 0;
+    xProperties.m_fSphereRadius = 400.0f;
+    AddPointLight( GLToy_Random_Hash(), xProperties );
+}
+
 void GLToy_Light_System::Render()
 {
-    //GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( uShaderHash );
-    //if( pxShader )
-    //{
-    //    pxShader->Bind();
-    //    pxShader->SetUniform( "xDiffuseSampler", 0 );
-    //}
+    GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Point" ) );
+    if( pxShader )
+    {
+        pxShader->Bind();
+        pxShader->SetUniform( "xDiffuseSampler", 1 );
+        pxShader->SetUniform( "xNormalSampler", 2 );
+    }
 
-    s_xLights.Traverse( GLToy_IndirectRenderFunctor< GLToy_Light >() );
+    s_xPointLights.Traverse( GLToy_IndirectRenderLightingFunctor< GLToy_Light_Point >() );
+
+    GLToy_ShaderProgram* const pxProjectorShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Projector" ) );
+    if( pxProjectorShader )
+    {
+        pxProjectorShader->Bind();
+        pxProjectorShader->SetUniform( "xTextureSampler", 0 );
+        pxProjectorShader->SetUniform( "xDiffuseSampler", 1 );
+        pxProjectorShader->SetUniform( "xNormalSampler", 2 );
+    }
+
+    s_xProjectorLights.Traverse( GLToy_IndirectRenderLightingFunctor< GLToy_Light_Projector >() );
+
+    GLToy_Render::UseProgram( 0 );
 
     s_xOtherLightSources.Traverse( GLToy_IndirectRenderLightingFunctor< const GLToy_Renderable >() );
     s_xOtherLightSources.Clear();
@@ -107,4 +143,10 @@ void GLToy_Light_System::Render()
 void GLToy_Light_System::Update()
 {
     s_xLights.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Light >() );
+}
+
+void GLToy_Light_Point::RenderLighting() const
+{
+    GLToy_AABB xBox( GetPosition(), m_xProperties.m_fSphereRadius, m_xProperties.m_fSphereRadius, m_xProperties.m_fSphereRadius );
+    xBox.RenderFlat();
 }

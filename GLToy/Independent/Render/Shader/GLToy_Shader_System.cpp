@@ -34,6 +34,7 @@
 #include <Render/Shader/GLToy_Shader_System.h>
 
 // GLToy
+#include <Core/Console/GLToy_Console.h>
 #include <Core/Data Structures/GLToy_HashMap.h>
 #include <File/GLToy_TextFile.h>
 #include <File/GLToy_File_System.h>
@@ -369,6 +370,8 @@ bool GLToy_Shader_System::Initialise()
             GLToy_DebugOutput( "   - Success!\r\n" );
         }
     GLToy_Iterate_End;
+
+    GLToy_Console::RegisterCommand( "reload.shaders", ReloadShaders );
 
 #endif
 

@@ -477,6 +477,25 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         u_int uFaceEdge = xBSPFace.m_uFirstEdge;
         int iEdge = xFaceEdges[ uFaceEdge ];
         xFace.m_xIndices[ 0 ] = uCurrentVertex;
+
+        GLToy_Vector_3 xTangent = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis;
+        xTangent.Normalise();
+
+        GLToy_Vector_3 xNormal = GLToy_Maths::ZeroVector3;
+        u_int uFirstEdge = xBSPFace.m_uFirstEdge;
+        // this crashes if there are degenerate faces...
+        while( xNormal.MagnitudeSquared() < 0.00001f )
+        {
+            int iEdge1 = xFaceEdges[ uFirstEdge ];
+            int iEdge2 = xFaceEdges[ uFirstEdge + 1 ];
+            const GLToy_Vector_3& xVertex1 = xVertices[ ( iEdge1 < 0 ) ? xEdges[ -iEdge1 ].m_usVertex2 : xEdges[ iEdge1 ].m_usVertex1 ];
+            const GLToy_Vector_3& xVertex2 = xVertices[ ( iEdge2 < 0 ) ? xEdges[ -iEdge2 ].m_usVertex2 : xEdges[ iEdge2 ].m_usVertex1 ];
+            const GLToy_Vector_3& xVertex3 = xVertices[ ( iEdge2 < 0 ) ? xEdges[ -iEdge2 ].m_usVertex1 : xEdges[ iEdge2 ].m_usVertex2 ];
+            xNormal = ( xVertex1 - xVertex2 ).Cross( xVertex3 - xVertex2 );
+            ++uFirstEdge;
+        }
+        
+        xNormal.Normalise();
         
         pxEnv->m_xVertices[ uCurrentVertex ].m_xPosition = xVertices[ ( iEdge < 0 ) ? xEdges[ -iEdge ].m_usVertex2 : xEdges[ iEdge ].m_usVertex1 ];
 
@@ -491,13 +510,8 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
                 pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 0 ] / static_cast< float >( uTexWidth ),
                 -( pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 1 ] / static_cast< float >( uTexHeight ) ) );
 
-        pxEnv->m_xVertices[ uCurrentVertex ].m_xTangent = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis;
-        pxEnv->m_xVertices[ uCurrentVertex ].m_xTangent.Normalise();
-
-        // TODO: i think this might need sign flipping
-        pxEnv->m_xVertices[ uCurrentVertex ].m_xNormal = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis;
-        pxEnv->m_xVertices[ uCurrentVertex ].m_xNormal.Normalise();
-        pxEnv->m_xVertices[ uCurrentVertex ].m_xNormal = pxEnv->m_xVertices[ uCurrentVertex ].m_xNormal.Cross( pxEnv->m_xVertices[ uCurrentVertex ].m_xTangent );
+        pxEnv->m_xVertices[ uCurrentVertex ].m_xNormal = xNormal;
+        pxEnv->m_xVertices[ uCurrentVertex ].m_xTangent = xTangent;
         
         // work out the verts from the edges
         ++uCurrentVertex;
@@ -521,13 +535,8 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
                     pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 0 ] / static_cast< float >( uTexWidth ),
                     -( pxEnv->m_xVertices[ uCurrentVertex ].m_xLightmapUV[ 1 ] / static_cast< float >( uTexHeight ) ) );
 
-            xVertex.m_xTangent = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis;
-            xVertex.m_xTangent.Normalise();
-
-            // TODO: i think this might need sign flipping
-            xVertex.m_xNormal = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xVAxis;
-            xVertex.m_xNormal.Normalise();
-            xVertex.m_xNormal = xVertex.m_xNormal.Cross( xVertex.m_xTangent );
+            xVertex.m_xNormal = xNormal;
+            xVertex.m_xTangent = xTangent;
 
             ++uCurrentVertex;
         }

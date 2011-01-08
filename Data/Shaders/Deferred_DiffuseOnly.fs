@@ -28,7 +28,10 @@ void main()
 	
 	// TODO: transform a normal map with the basis vectors and encode the result
 	// normal and two spare components (fog alpha + heightmap?)
-	gl_FragData[ 1 ] = vec4( 0.5 * StereographicProjection( xNormal ), 0.0, 0.0 );
+	// NOTE: this only encodes less than 3/4 of the sphere (but more than 1/2)...
+	// TODO: work out how to get this into view space...
+	//vec3 xViewNormal = ...;
+	gl_FragData[ 1 ] = vec4( 0.25 * StereographicProjection( xNormal ) + 0.5, 0.0, 0.0 );
 	
 	// TODO: specular
 	// gl_FragData[ 2 ] = texture2D( xSpecularSampler, xTexCoord );

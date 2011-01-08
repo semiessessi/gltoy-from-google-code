@@ -153,6 +153,7 @@ class GLToy_CopyableStruct
 
 public:
 
+    GLToy_CopyableStruct() {}
     GLToy_CopyableStruct( const GLToy_CopyableStruct& xStruct )
     {
         GLToy_Memory::Copy( this, &xStruct, sizeof( T ) );

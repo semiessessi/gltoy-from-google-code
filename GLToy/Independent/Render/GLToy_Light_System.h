@@ -146,6 +146,8 @@ public:
     {
     }
 
+    virtual void RenderLighting() const;
+
 private:
     
     GLToy_Light_PointProperties m_xProperties;
@@ -188,9 +190,13 @@ public:
 
     static void RegisterLightSource( const GLToy_Renderable* const pxLightSource );
 
+    static void SpawnPointLight_Console();
+
 private:
 
     static GLToy_HashMap< GLToy_Light* > s_xLights;
+    static GLToy_HashMap< GLToy_Light_Point* > s_xPointLights;
+    static GLToy_HashMap< GLToy_Light_Projector* > s_xProjectorLights;
     static GLToy_Array< const GLToy_Renderable* > s_xOtherLightSources;
 
 };
