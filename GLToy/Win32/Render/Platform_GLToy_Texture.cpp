@@ -206,9 +206,11 @@ void GLToy_Texture_System::Platform_CreateFrameBufferTexture( u_int& uID, const 
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB8, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+	// SE - 14/01/2010 - GL_NEAREST would be faster, but I want to be able to do hacky refraction and blurs etc. for which
+	// it would look ugly with nearest neighbour sampling - it might actually be ugly like this since there are no mipmaps
+	// they can be generated on the fly, but I would much rather not have to
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    //GLToy_Render::GenerateMipmap( GL_TEXTURE_2D );
 }
 
 void GLToy_Texture_System::Platform_CreateDepthBufferTexture( u_int& uID, const int iWidth, const int iHeight )
@@ -218,9 +220,9 @@ void GLToy_Texture_System::Platform_CreateDepthBufferTexture( u_int& uID, const 
     glTexImage2D( GL_TEXTURE_2D, 0, DEPTH_COMPONENT24, iWidth, iHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    //GLToy_Render::GenerateMipmap( GL_TEXTURE_2D );
+	// SE - 14/01/2010 - GL_NEAREST is the only one that really makes sense for the depth texture ...
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
 }
 
 void GLToy_Texture_System::Platform_DestroyFrameBufferTexture( u_int& uID )
