@@ -167,6 +167,13 @@
 #define QUERY_RESULT                                        0x8866
 #define QUERY_RESULT_AVAILABLE                              0x8867
 
+#define TEXTURE_DEPTH_SIZE                                  0x884A
+#define DEPTH_TEXTURE_MODE                                  0x884B
+
+#define TEXTURE_COMPARE_MODE                                0x884C
+#define TEXTURE_COMPARE_FUNC                                0x884D
+#define COMPARE_R_TO_TEXTURE                                0x884E
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////

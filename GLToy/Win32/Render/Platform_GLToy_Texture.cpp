@@ -223,6 +223,9 @@ void GLToy_Texture_System::Platform_CreateDepthBufferTexture( u_int& uID, const 
 	// SE - 14/01/2010 - GL_NEAREST is the only one that really makes sense for the depth texture ...
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+    // disable compare mode so we can use texture2D in shaders
+    glTexParameteri( GL_TEXTURE_2D, TEXTURE_COMPARE_MODE, GL_NONE );
+    glTexParameteri( GL_TEXTURE_2D, DEPTH_TEXTURE_MODE, GL_LUMINANCE );  
 }
 
 void GLToy_Texture_System::Platform_DestroyFrameBufferTexture( u_int& uID )
