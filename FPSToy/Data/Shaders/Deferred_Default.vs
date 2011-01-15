@@ -2,6 +2,8 @@ varying vec2 xTexCoord;
 varying vec3 xNormal;
 varying vec3 xTangent;
 varying vec3 xBinormal;
+varying vec3 xPosition;
+varying vec3 xViewPosition;
 
 vec3 InverseStereographicProjection( vec2 xProjected )
 {
@@ -22,6 +24,9 @@ void main()
 	xNormal = InverseStereographicProjection( gl_MultiTexCoord1.xy );
 	xTangent = InverseStereographicProjection( gl_MultiTexCoord1.zw );
 	xBinormal = cross( xNormal, xTangent );
+	
+	xPosition = gl_Vertex.xyz;
+	xViewPosition = ( gl_Vertex * gl_ModelViewMatrix ).xyz;
 	
 	gl_Position = ftransform();
 }

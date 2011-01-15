@@ -116,6 +116,8 @@ void GLToy_Light_System::SpawnPointLight_Console()
 
 void GLToy_Light_System::Render()
 {
+    GLToy_Render::StartSamplingDepth();
+
     GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Point" ) );
     if( pxShader )
     {
@@ -160,6 +162,7 @@ void GLToy_Light_System::Render()
 
     s_xProjectorLights.Traverse( GLToy_IndirectRenderLightingFunctor< GLToy_Light_Projector >() );
 
+    GLToy_Render::StopSamplingDepth();
     GLToy_Render::UseProgram( 0 );
 
     GLToy_Render::EnableDepthTesting();

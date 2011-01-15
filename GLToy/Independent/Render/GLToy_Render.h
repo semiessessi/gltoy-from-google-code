@@ -205,8 +205,8 @@ public:
     static float Get2DWidth() { return 2.0f * GetAspectRatio(); }
     static void SetClearFrame( const bool bClear = true ) { s_bClearFrame = bClear; }
     static bool GetClearFrame() { return s_bClearFrame; }
-    static bool HasFrameBuffer() { return s_uSwapBuffer != 0xFFFFFFFF; }
-    static bool HasDeferredBuffer() { return s_uDeferredBuffer != 0xFFFFFFFF; }
+    static bool HasFrameBuffer() { return s_uSwapBuffer != GLToy_MaxUint; }
+    static bool HasDeferredBuffer() { return s_uDeferredBuffer != GLToy_MaxUint; }
 
     static bool Initialise();
     static void Shutdown();
@@ -227,6 +227,9 @@ public:
     static void BindDiffuseTexture( const u_int uTextureUnit = 0 );
     static void BindNormalTexture( const u_int uTextureUnit = 0 );
     static void BindDepthTexture( const u_int uTextureUnit = 0 );
+
+    static void StartSamplingDepth();
+    static void StopSamplingDepth();
 
     // GL interface
     static u_int GetError();
@@ -393,6 +396,9 @@ private:
     static u_int s_uSwapTexture;
     static u_int* s_puCurrentBuffer;
     static u_int* s_puCurrentTexture;
+    static u_int s_uFrameBufferNoDepth;
+    static u_int s_uSwapBufferNoDepth;
+    static u_int* s_puCurrentBufferNoDepth;
 
     // deferred buffers
     static u_int s_uDeferredBuffer;

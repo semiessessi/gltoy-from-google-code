@@ -16,8 +16,10 @@ void main()
 {
 	// TODO: fix this up
 	vec3 xDiffuse = texture2D( xDiffuseSampler, gl_FragCoord.xy * xOneOverSize ).xyz;
-	// this depth value is bollocks
-	vec3 xPosition = xCameraPosition + xViewVector * texture2D( xDepthSampler, gl_FragCoord.xy * xOneOverSize ).x;
+	// HACK: crappy depth in alpha...
+	vec4 xNormal = texture2D( xNormalSampler, gl_FragCoord.xy * xOneOverSize ).xyz;
+	// depth still not working :/
+	vec3 xPosition = xCameraPosition + xViewVector * xNormal.w * 1000.0;
 	vec3 xLightVector = xPosition - xLightPosition;
 	float fAttenuation = 1.0f - dot( xLightVector, xLightVector ) / ( fLightRadius * fLightRadius );
 	float fNormalDot = 1.0; // TODO...

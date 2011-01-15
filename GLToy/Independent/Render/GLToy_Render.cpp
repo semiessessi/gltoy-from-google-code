@@ -60,18 +60,21 @@ bool GLToy_Render::s_bDrawTimers = GLToy_IsDebugBuild();
 bool GLToy_Render::s_bDrawBuffers = false;
 bool GLToy_Render::s_bVsync = true;
 bool GLToy_Render::s_bClearFrame = true;
-//u_int GLToy_Render::s_uDepthBuffer = 0xFFFFFFFF;
-u_int GLToy_Render::s_uDepthTexture = 0xFFFFFFFF;
-u_int GLToy_Render::s_uFrameBuffer = 0xFFFFFFFF;
-u_int GLToy_Render::s_uFrameTexture = 0xFFFFFFFF;
-u_int GLToy_Render::s_uSwapBuffer = 0xFFFFFFFF;
-u_int GLToy_Render::s_uSwapTexture = 0xFFFFFFFF;
+//u_int GLToy_Render::s_uDepthBuffer = GLToy_MaxUint;
+u_int GLToy_Render::s_uDepthTexture = GLToy_MaxUint;
+u_int GLToy_Render::s_uFrameBuffer = GLToy_MaxUint;
+u_int GLToy_Render::s_uFrameTexture = GLToy_MaxUint;
+u_int GLToy_Render::s_uSwapBuffer = GLToy_MaxUint;
+u_int GLToy_Render::s_uSwapTexture = GLToy_MaxUint;
 u_int* GLToy_Render::s_puCurrentBuffer = &GLToy_Render::s_uSwapBuffer;
 u_int* GLToy_Render::s_puCurrentTexture = &GLToy_Render::s_uSwapTexture;
-u_int GLToy_Render::s_uDeferredBuffer = 0xFFFFFFFF;
-u_int GLToy_Render::s_uDiffuseTexture = 0xFFFFFFFF;
-u_int GLToy_Render::s_uNormalTexture = 0xFFFFFFFF;
-//u_int GLToy_Render::s_uSpecularTexture = 0xFFFFFFFF;
+u_int GLToy_Render::s_uDeferredBuffer = GLToy_MaxUint;
+u_int GLToy_Render::s_uDiffuseTexture = GLToy_MaxUint;
+u_int GLToy_Render::s_uNormalTexture = GLToy_MaxUint;
+//u_int GLToy_Render::s_uSpecularTexture = GLToy_MaxUint;
+u_int GLToy_Render::s_uFrameBufferNoDepth = GLToy_MaxUint;
+u_int GLToy_Render::s_uSwapBufferNoDepth = GLToy_MaxUint;
+u_int* GLToy_Render::s_puCurrentBufferNoDepth = &GLToy_Render::s_uSwapBufferNoDepth;
 GLToy_BinaryTree< const GLToy_Renderable*, float > GLToy_Render::s_xTransparents;
 GLToy_List< const GLToy_Renderable* > GLToy_Render::s_xDeferredRenderables;
 
@@ -128,53 +131,83 @@ bool GLToy_Render::Initialise()
 
         if( CheckFramebufferStatus( FRAMEBUFFER ) != FRAMEBUFFER_COMPLETE )
         {
-            if( s_uFrameBuffer != 0xFFFFFFFF )
+            if( s_uFrameBuffer != GLToy_MaxUint )
             {
                 DeleteFramebuffers( 1, &s_uFrameBuffer );
-                s_uFrameBuffer = 0xFFFFFFFF;
+                s_uFrameBuffer = GLToy_MaxUint;
             }
 
-            //if( s_uDepthBuffer != 0xFFFFFFFF )
+            //if( s_uDepthBuffer != GLToy_MaxUint )
             //{
             //    DeleteRenderbuffers( 1, &s_uDepthBuffer );
-            //    s_uDepthBuffer = 0xFFFFFFFF;
+            //    s_uDepthBuffer = GLToy_MaxUint;
             //}
 
-            if( s_uDepthTexture != 0xFFFFFFFF )
+            if( s_uDepthTexture != GLToy_MaxUint )
             {
                 GLToy_Texture_System::DestroyFrameBufferTexture( s_uDepthTexture );
-                s_uDepthTexture = 0xFFFFFFFF;
+                s_uDepthTexture = GLToy_MaxUint;
             }
 
-            if( s_uFrameTexture != 0xFFFFFFFF )
+            if( s_uFrameTexture != GLToy_MaxUint )
             {
                 GLToy_Texture_System::DestroyFrameBufferTexture( s_uFrameTexture );
-                s_uFrameTexture = 0xFFFFFFFF;
+                s_uFrameTexture = GLToy_MaxUint;
             }
         }
         else
         {
-            // set up framebuffer
+            // set up swap buffer
             GenFramebuffers( 1, &s_uSwapBuffer );
             BindFramebuffer( FRAMEBUFFER, s_uSwapBuffer );
-            //RenderbufferStorage( RENDERBUFFER, DEPTH_COMPONENT24, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
-            //FramebufferRenderbuffer( FRAMEBUFFER, DEPTH_ATTACHMENT, RENDERBUFFER, s_uDepthBuffer );
             GLToy_Texture_System::CreateFrameBufferTexture( s_uSwapTexture, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
             FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT0, TEXTURE_2D, s_uSwapTexture, 0 );
             FramebufferTexture2D( FRAMEBUFFER, DEPTH_ATTACHMENT, TEXTURE_2D, s_uDepthTexture, 0 );
 
             if( CheckFramebufferStatus( FRAMEBUFFER ) != FRAMEBUFFER_COMPLETE )
             {
-                if( s_uSwapBuffer != 0xFFFFFFFF )
+                if( s_uSwapBuffer != GLToy_MaxUint )
                 {
                     DeleteFramebuffers( 1, &s_uSwapBuffer );
-                    s_uSwapBuffer = 0xFFFFFFFF;
+                    s_uSwapBuffer = GLToy_MaxUint;
                 }
 
-                if( s_uSwapTexture != 0xFFFFFFFF )
+                if( s_uSwapTexture != GLToy_MaxUint )
                 {
                     GLToy_Texture_System::DestroyFrameBufferTexture( s_uSwapTexture );
-                    s_uSwapTexture = 0xFFFFFFFF;
+                    s_uSwapTexture = GLToy_MaxUint;
+                }
+            }
+        }
+
+        // set up framebuffer with no depth
+        GenFramebuffers( 1, &s_uFrameBufferNoDepth );
+        BindFramebuffer( FRAMEBUFFER, s_uFrameBufferNoDepth );
+        FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT0, TEXTURE_2D, s_uFrameTexture, 0 );
+
+        if( CheckFramebufferStatus( FRAMEBUFFER ) != FRAMEBUFFER_COMPLETE )
+        {
+            if( s_uFrameBufferNoDepth != GLToy_MaxUint )
+            {
+                DeleteFramebuffers( 1, &s_uFrameBufferNoDepth );
+                s_uFrameBufferNoDepth = GLToy_MaxUint;
+            }
+        }
+        else
+        {
+            // set up swap buffer with no depth
+            GenFramebuffers( 1, &s_uSwapBufferNoDepth );
+            BindFramebuffer( FRAMEBUFFER, s_uSwapBufferNoDepth );
+            //RenderbufferStorage( RENDERBUFFER, DEPTH_COMPONENT24, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+            //FramebufferRenderbuffer( FRAMEBUFFER, DEPTH_ATTACHMENT, RENDERBUFFER, s_uDepthBuffer );
+            FramebufferTexture2D( FRAMEBUFFER, COLOR_ATTACHMENT0, TEXTURE_2D, s_uSwapTexture, 0 );
+
+            if( CheckFramebufferStatus( FRAMEBUFFER ) != FRAMEBUFFER_COMPLETE )
+            {
+                if( s_uSwapBufferNoDepth != GLToy_MaxUint )
+                {
+                    DeleteFramebuffers( 1, &s_uSwapBufferNoDepth );
+                    s_uSwapBufferNoDepth = GLToy_MaxUint;
                 }
             }
         }
@@ -209,22 +242,22 @@ bool GLToy_Render::Initialise()
 
         if( CheckFramebufferStatus( FRAMEBUFFER ) != FRAMEBUFFER_COMPLETE )
         {
-            if( s_uDeferredBuffer != 0xFFFFFFFF )
+            if( s_uDeferredBuffer != GLToy_MaxUint )
             {
                 DeleteFramebuffers( 1, &s_uDeferredBuffer );
-                s_uDeferredBuffer = 0xFFFFFFFF;
+                s_uDeferredBuffer = GLToy_MaxUint;
             }
 
-            if( s_uDiffuseTexture != 0xFFFFFFFF )
+            if( s_uDiffuseTexture != GLToy_MaxUint )
             {
                 GLToy_Texture_System::DestroyFrameBufferTexture( s_uDiffuseTexture );
-                s_uDiffuseTexture = 0xFFFFFFFF;
+                s_uDiffuseTexture = GLToy_MaxUint;
             }
 
-            if( s_uNormalTexture != 0xFFFFFFFF )
+            if( s_uNormalTexture != GLToy_MaxUint )
             {
                 GLToy_Texture_System::DestroyFrameBufferTexture( s_uNormalTexture );
-                s_uNormalTexture = 0xFFFFFFFF;
+                s_uNormalTexture = GLToy_MaxUint;
             }
         }
 
@@ -245,58 +278,70 @@ bool GLToy_Render::Initialise()
 
 void GLToy_Render::Shutdown()
 {
-    if( s_uFrameBuffer != 0xFFFFFFFF )
+    if( s_uFrameBuffer != GLToy_MaxUint )
     {
         DeleteFramebuffers( 1, &s_uFrameBuffer );
-        s_uFrameBuffer = 0xFFFFFFFF;
+        s_uFrameBuffer = GLToy_MaxUint;
     }
 
-    //if( s_uDepthBuffer != 0xFFFFFFFF )
+    //if( s_uDepthBuffer != GLToy_MaxUint )
     //{
     //    DeleteRenderbuffers( 1, &s_uDepthBuffer );
-    //    s_uDepthBuffer = 0xFFFFFFFF;
+    //    s_uDepthBuffer = GLToy_MaxUint;
     //}
 
-    if( s_uDepthTexture != 0xFFFFFFFF )
+    if( s_uDepthTexture != GLToy_MaxUint )
     {
         GLToy_Texture_System::DestroyFrameBufferTexture( s_uDepthTexture );
-        s_uDepthTexture = 0xFFFFFFFF;
+        s_uDepthTexture = GLToy_MaxUint;
     }
 
-    if( s_uFrameTexture != 0xFFFFFFFF )
+    if( s_uFrameTexture != GLToy_MaxUint )
     {
         GLToy_Texture_System::DestroyFrameBufferTexture( s_uFrameTexture );
-        s_uFrameTexture = 0xFFFFFFFF;
+        s_uFrameTexture = GLToy_MaxUint;
     }
 
-    if( s_uSwapBuffer != 0xFFFFFFFF )
+    if( s_uSwapBuffer != GLToy_MaxUint )
     {
         DeleteFramebuffers( 1, &s_uSwapBuffer );
-        s_uSwapBuffer = 0xFFFFFFFF;
+        s_uSwapBuffer = GLToy_MaxUint;
     }
 
-    if( s_uDeferredBuffer != 0xFFFFFFFF )
+    if( s_uDeferredBuffer != GLToy_MaxUint )
     {
         DeleteFramebuffers( 1, &s_uDeferredBuffer );
-        s_uDeferredBuffer = 0xFFFFFFFF;
+        s_uDeferredBuffer = GLToy_MaxUint;
     }
 
-    if( s_uSwapTexture != 0xFFFFFFFF )
+    if( s_uSwapTexture != GLToy_MaxUint )
     {
         GLToy_Texture_System::DestroyFrameBufferTexture( s_uSwapTexture );
-        s_uSwapTexture = 0xFFFFFFFF;
+        s_uSwapTexture = GLToy_MaxUint;
     }
 
-    if( s_uDiffuseTexture != 0xFFFFFFFF )
+    if( s_uDiffuseTexture != GLToy_MaxUint )
     {
         GLToy_Texture_System::DestroyFrameBufferTexture( s_uDiffuseTexture );
-        s_uDiffuseTexture = 0xFFFFFFFF;
+        s_uDiffuseTexture = GLToy_MaxUint;
     }
 
-    if( s_uNormalTexture != 0xFFFFFFFF )
+    if( s_uNormalTexture != GLToy_MaxUint )
     {
         GLToy_Texture_System::DestroyFrameBufferTexture( s_uNormalTexture );
-        s_uNormalTexture = 0xFFFFFFFF;
+        s_uNormalTexture = GLToy_MaxUint;
+    }
+
+    if( s_uFrameBufferNoDepth != GLToy_MaxUint )
+    {
+        DeleteFramebuffers( 1, &s_uFrameBufferNoDepth );
+        s_uFrameBufferNoDepth = GLToy_MaxUint;
+    }
+
+    if( s_uSwapBufferNoDepth != GLToy_MaxUint )
+    {
+        DeleteFramebuffers( 1, &s_uSwapBufferNoDepth );
+        s_uSwapBufferNoDepth = GLToy_MaxUint;
     }
     
     Project_Shutdown();
@@ -379,9 +424,12 @@ void GLToy_Render::Render()
 
         EnableBlending();
         DisableDepthWrites();
+        DisableDepthTesting();
         SetBlendFunction( BLEND_ONE, BLEND_ONE );
-        
+
         GLToy_Light_System::Render();
+
+        BindFramebuffer( FRAMEBUFFER, *s_puCurrentBuffer );
     }
     else
     {
@@ -543,11 +591,13 @@ void GLToy_Render::BindFrameBufferNoCopy( const u_int uTextureUnit )
         if( s_puCurrentBuffer == &s_uFrameBuffer )
         {
             s_puCurrentBuffer = &s_uSwapBuffer;
+            s_puCurrentBufferNoDepth = &s_uSwapBufferNoDepth;
             s_puCurrentTexture = &s_uSwapTexture;
         }
         else
         {
             s_puCurrentBuffer = &s_uFrameBuffer;
+            s_puCurrentBufferNoDepth = &s_uFrameBufferNoDepth;
             s_puCurrentTexture = &s_uFrameTexture;
         }
 
@@ -592,6 +642,17 @@ void GLToy_Render::BindDepthTexture( const u_int uTextureUnit )
     {        
         GLToy_Texture_System::BindFrameBufferTexture( s_uDepthTexture, uTextureUnit );
     }
+}
+
+void GLToy_Render::StartSamplingDepth()
+{
+    BindFramebuffer( FRAMEBUFFER, 0 );
+    BindFramebuffer( FRAMEBUFFER, *s_puCurrentBufferNoDepth );
+}
+
+void GLToy_Render::StopSamplingDepth()
+{
+    BindFramebuffer( FRAMEBUFFER, *s_puCurrentBuffer );
 }
 
 bool GLToy_Render::Platform_Initialise()
