@@ -311,7 +311,7 @@ bool GLToy_Shader_System::Initialise()
         //xFSFile.GetRawString( pcFSString );
 
         GLToy_String szFSString = xFSFile.GetString();
-        szFSString = ( GLToy_Render::IsIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szFSString;
+        szFSString = ( GLToy_Render::IsExtraCrappyIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szFSString;
         char* pcFSString = szFSString.CreateANSIString();
 
         GLToy_Render::ShaderSource( uFSID, 1, &pcFSString, 0 );
@@ -335,7 +335,7 @@ bool GLToy_Shader_System::Initialise()
         }
 
         GLToy_String szVSString = xVSFile.GetString();
-        szVSString = ( GLToy_Render::IsIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szVSString;
+        szVSString = ( GLToy_Render::IsExtraCrappyIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szVSString;
         char* pcVSString = szVSString.CreateANSIString();
 
         GLToy_Render::ShaderSource( uVSID, 1, &pcVSString, 0 );
@@ -432,7 +432,7 @@ void GLToy_Shader_System::CreateShaderFromStrings( const GLToy_String& szName, c
         return;
     }
 
-    char* pcFSString = ( ( GLToy_Render::IsIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szFragmentShader ).CreateANSIString();
+    char* pcFSString = ( ( GLToy_Render::IsExtraCrappyIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szFragmentShader ).CreateANSIString();
 
 
     GLToy_Render::ShaderSource( uFSID, 1, &pcFSString, 0 );
@@ -455,7 +455,7 @@ void GLToy_Shader_System::CreateShaderFromStrings( const GLToy_String& szName, c
         GLToy_DebugOutput( "   - Success!\r\n" );
     }
 
-    char* pcVSString = ( ( GLToy_Render::IsIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szVertexShader ).CreateANSIString();
+    char* pcVSString = ( ( GLToy_Render::IsExtraCrappyIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szVertexShader ).CreateANSIString();
 
     GLToy_Render::ShaderSource( uVSID, 1, &pcVSString, 0 );
     GLToy_Render::CompileShader( uVSID );

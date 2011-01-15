@@ -59,6 +59,7 @@
 
 u_int Platform_GLToy_Render::s_uVersion = 0;
 bool Platform_GLToy_Render::s_bIntel = false;
+bool Platform_GLToy_Render::s_bExtraCrappyIntel = false;
 
 void ( __stdcall* Platform_GLToy_Render::s_pfnSwapInterval )( u_int ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnDrawBuffers )( const int, const u_int* const ) = 0;
@@ -169,7 +170,14 @@ bool Platform_GLToy_Render::Initialise()
         return false;
     }
 
+    s_bExtraCrappyIntel = ( s_uVersion < 300 ) && s_bIntel;
+
     GLToy_DebugOutput( "\r\n  OpenGL %d.%d is available\r\n", s_uVersion / 100, s_uVersion % 100 );
+
+    if( s_bIntel )
+    {
+        GLToy_DebugOutput( "\r\n  Intel graphics card detected\r\n" );
+    }
 
     if( !s_uVersion )
     {

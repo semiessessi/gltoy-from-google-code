@@ -126,7 +126,7 @@ void GLToy_AABB::RenderFlat() const
 
     const bool bInside = IsInside( GLToy_Camera::GetPosition() );
 
-    if( bInside || ( GLToy_Camera::GetDirection()[ 0 ] > 0.0f ) )
+    if( bInside || ( ( GLToy_Camera::GetPosition()[ 0 ] - m_xPointMin[ 0 ] ) > 0.0f ) )
     {
         // min x
         xVertex = m_xPointMin;
@@ -139,7 +139,7 @@ void GLToy_AABB::RenderFlat() const
         GLToy_Render::SubmitVertex( xVertex );
     }
     
-    if( bInside || ( GLToy_Camera::GetDirection()[ 0 ] <= 0.0f ) )
+    if( bInside || ( ( GLToy_Camera::GetPosition()[ 0 ] - m_xPointMax[ 0 ] ) <= 0.0f ) )
     {
         // max x
         xVertex = m_xPointMin;
@@ -153,7 +153,7 @@ void GLToy_AABB::RenderFlat() const
         GLToy_Render::SubmitVertex( xVertex );
     }
 
-    if( bInside || ( GLToy_Camera::GetDirection()[ 1 ] > 0.0f ) )
+    if( bInside || ( ( GLToy_Camera::GetPosition()[ 1 ] - m_xPointMin[ 1 ] ) > 0.0f ) )
     {
         // min y
         xVertex = m_xPointMin;
@@ -166,7 +166,7 @@ void GLToy_AABB::RenderFlat() const
         GLToy_Render::SubmitVertex( xVertex );
     }
 
-    if( bInside || ( GLToy_Camera::GetDirection()[ 1 ] <= 0.0f ) )
+    if( bInside || ( ( GLToy_Camera::GetPosition()[ 1 ] - m_xPointMax[ 1 ] ) <= 0.0f ) )
     {
         // max y
         xVertex = m_xPointMin;
@@ -180,7 +180,7 @@ void GLToy_AABB::RenderFlat() const
         GLToy_Render::SubmitVertex( xVertex );
     }
 
-    if( bInside || ( GLToy_Camera::GetDirection()[ 2 ] > 0.0f ) )
+    if( bInside || ( ( GLToy_Camera::GetPosition()[ 2 ] - m_xPointMin[ 2 ] ) > 0.0f ) )
     {
         // min z
         xVertex = m_xPointMin;
@@ -193,7 +193,7 @@ void GLToy_AABB::RenderFlat() const
         GLToy_Render::SubmitVertex( xVertex );
     }
 
-    if( bInside || ( GLToy_Camera::GetDirection()[ 2 ] <= 0.0f ) )
+    if( bInside || ( ( GLToy_Camera::GetPosition()[ 2 ] - m_xPointMax[ 2 ] ) <= 0.0f ) )
     {
         // max z
         xVertex = m_xPointMin;

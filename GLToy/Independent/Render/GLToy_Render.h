@@ -361,6 +361,7 @@ public:
     static void GetQueryObject( u_int uID, u_int uParameterName, unsigned long long* pullParameters );
 
     static bool IsIntelGraphicsCard();
+    static bool IsExtraCrappyIntelGraphicsCard();
 
 private:
 

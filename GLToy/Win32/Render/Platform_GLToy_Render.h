@@ -135,6 +135,7 @@ public:
     static void GetQueryObject( u_int uID, u_int uParameterName, int* piParameters );
     static void GetQueryObject( u_int uID, u_int uParameterName, unsigned long long* pullParameters );
 
+    static bool IsExtraCrappyIntelGraphicsCard() { return s_bExtraCrappyIntel; }
     static bool IsIntelGraphicsCard() { return s_bIntel; }
 
 private:
@@ -205,6 +206,7 @@ private:
 
     static u_int s_uVersion;
 	static bool s_bIntel;
+    static bool s_bExtraCrappyIntel;
 
     // wgl functions
     static void ( __stdcall* s_pfnSwapInterval )( u_int );

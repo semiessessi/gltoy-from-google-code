@@ -1195,3 +1195,8 @@ bool GLToy_Render::IsIntelGraphicsCard()
 {
     return Platform_GLToy_Render::IsIntelGraphicsCard();
 }
+
+bool GLToy_Render::IsExtraCrappyIntelGraphicsCard()
+{
+    return Platform_GLToy_Render::IsExtraCrappyIntelGraphicsCard();
+}
