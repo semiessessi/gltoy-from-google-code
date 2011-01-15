@@ -119,7 +119,6 @@ void GLToy_AABB::Render() const
 
 void GLToy_AABB::RenderFlat() const
 {
-    // TODO: fix backface culling
     GLToy_Render::StartSubmittingQuads();
 
     GLToy_Vector_3 xVertex;
