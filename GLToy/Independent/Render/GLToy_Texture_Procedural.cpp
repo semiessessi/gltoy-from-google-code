@@ -1507,7 +1507,7 @@ void GLToy_Texture_Procedural::CreateTexture( const GLToy_String& szName, const 
     // all the allocation/deallocation is a serious concern and the layer operations
     // themselves are pretty slow - aligned vectors might help that but part of the
     // problem is that these are intrinsically slow operations
-    u_int* const puData = CreateRGBA_4xSS( uWidth, uHeight );
+    u_int* const puData = CreateRGBA/*_4xSS*/( uWidth, uHeight );
 
     GLToy_Texture_System::CreateTextureFromRGBAData( szName.GetHash(), puData, uWidth, uHeight );
 

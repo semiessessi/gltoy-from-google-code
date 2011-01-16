@@ -44,6 +44,7 @@
 #include <Environment/GLToy_Environment.h>
 #include <Environment/GLToy_Environment_Lightmapped.h>
 #include <Environment/GLToy_Environment_System.h>
+#include <Material/GLToy_Material_System.h>
 #include <Render/GLToy_Texture_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -463,13 +464,25 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         GLToy_Texture* pxTexture = GLToy_Texture_System::LookUpTextureNoExt( xTexInfos[ xBSPFace.m_usTextureInfo ].m_szTextureName );
         xFace.m_uTextureHash = pxTexture ? pxTexture->GetHash() : uGLTOY_BAD_HASH;
 
+        u_int uTexWidth = pxTexture ? pxTexture->GetWidth() : uBSP38_TCSCALE;
+        u_int uTexHeight = pxTexture ? pxTexture->GetHeight() : uBSP38_TCSCALE;
+
         if( pxTexture )
         {
             pxTexture->Create();
         }
+        else
+        {
+            GLToy_Material* pxMaterial = GLToy_Material_System::LookUpMaterialNoExt( xTexInfos[ xBSPFace.m_usTextureInfo ].m_szTextureName ); 
+            if( pxMaterial )
+            {
+                xFace.m_uTextureHash = pxMaterial->GetHash();
+                pxMaterial->Initialise();
 
-        const u_int uTexWidth = pxTexture ? pxTexture->GetWidth() : uBSP38_TCSCALE;
-        const u_int uTexHeight = pxTexture ? pxTexture->GetHeight() : uBSP38_TCSCALE;
+                uTexWidth = pxMaterial->GetWidth();
+                uTexHeight = pxMaterial->GetHeight();
+            }
+        }
 
         xFace.m_xIndices.Resize( xBSPFace.m_usEdgeCount );
 

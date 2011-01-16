@@ -56,12 +56,14 @@ public:
 
     GLToy_Hash GetHash() const { return m_uHash; }
     GLToy_Hash GetShaderHash() const { return m_uShader; }
+    u_int GetWidth() const;
+    u_int GetHeight() const;
 
     bool IsDeferred() const { return m_bDeferred; }
     bool IsForward() const { return !m_bDeferred && !m_bTransparent; }
     bool IsTransparent() const { return m_bTransparent; }
-
     bool IsReady() const;
+
     void Initialise();
 
     void SetShaderHash( const GLToy_Hash uHash ) { m_uShader = uHash; }
@@ -109,6 +111,7 @@ public:
 
     static GLToy_Material* FindMaterial( const GLToy_Hash uHash );
     static GLToy_Material* LookUpMaterial( const GLToy_String& szName );
+    static GLToy_Material* LookUpMaterialNoExt( const GLToy_String& szName );
     static void BindMaterial( const GLToy_Hash uHash );
     static void BindMaterial( const GLToy_String& szName );
 

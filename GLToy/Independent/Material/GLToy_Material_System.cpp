@@ -103,6 +103,18 @@ bool GLToy_Material::IsReady() const
     return true;
 }
 
+u_int GLToy_Material::GetWidth() const
+{
+    // TODO: something better
+    return 512;
+}
+
+u_int GLToy_Material::GetHeight() const
+{
+    // TODO: something better
+    return 512;
+}
+
 void GLToy_Material::Initialise()
 {
     for( u_int u = 0; u < 4; ++u )
@@ -243,4 +255,46 @@ GLToy_Material* GLToy_Material_System::FindMaterial( const GLToy_Hash uHash )
 GLToy_Material* GLToy_Material_System::LookUpMaterial( const GLToy_String& szName )
 {    
     return FindMaterial( szName.GetHash() );
+}
+
+GLToy_Material* GLToy_Material_System::LookUpMaterialNoExt( const GLToy_String& szName )
+{    
+    GLToy_Material* pxMaterial = FindMaterial( szName.GetHash() );
+
+    if( !pxMaterial )
+    {
+        pxMaterial = LookUpMaterial( szName + ".wal" );
+    }
+
+    if( !pxMaterial )
+    {
+        pxMaterial = LookUpMaterial( szName + ".tga" );
+    }
+
+    if( !pxMaterial )
+    {
+        pxMaterial = LookUpMaterial( szName + ".png" );
+    }
+
+    if( !pxMaterial )
+    {
+        pxMaterial = LookUpMaterial( szName + ".jpg" );
+    }
+
+    if( !pxMaterial )
+    {
+        pxMaterial = LookUpMaterial( szName + ".bmp" );
+    }
+
+    if( !pxMaterial )
+    {
+        pxMaterial = LookUpMaterial( szName + ".pcx" );
+    }
+
+    if( !pxMaterial )
+    {
+        pxMaterial = LookUpMaterial( szName + ".ptx" );
+    }
+
+    return pxMaterial;
 }

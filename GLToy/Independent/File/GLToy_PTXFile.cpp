@@ -59,7 +59,7 @@ void GLToy_PTXFile::LoadTexture() const
 
     xTexture.CreateTexture( szName, 512, 512 );
 
-    GLToy_DebugOutput_Release( "   - Loaded PTX file \"%S\" successfully", m_szFilename.GetWideString() );
+    GLToy_DebugOutput_Release( "   - Loaded PTX file \"%S\" successfully\r\n", m_szFilename.GetWideString() );
 }
 
 void GLToy_PTXFile::SaveTexture( const GLToy_Texture_Procedural& xTexture )
