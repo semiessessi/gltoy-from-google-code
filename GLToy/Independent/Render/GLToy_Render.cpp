@@ -39,6 +39,7 @@
 #include <Core/Data Structures/GLToy_BinaryTree.h>
 #include <Core/Data Structures/GLToy_List.h>
 #include <Core/GLToy_Timer.h>
+#include <Material/GLToy_Material_System.h>
 #include <Maths/GLToy_Maths.h>
 #include <Maths/GLToy_Vector.h>
 #include <Render/Font/GLToy_Font.h>
@@ -95,9 +96,7 @@ bool GLToy_Render::Initialise()
     GLToy_InitialiserCall( GLToy_Texture_System );
     GLToy_InitialiserCall( GLToy_Shader_System );
     GLToy_InitialiserCall( GLToy_Light_System );
-    // SE - 13/10/2010 - a material system would sit here, so we can materialise fonts why not... :)
-    // but actually, just commenting because my original rationale for the texture system initialising after shaders
-    // was to allow shader based materials...
+    GLToy_InitialiserCall( GLToy_Material_System );
 #ifndef GLTOY_DEMO
     GLToy_InitialiserCall( GLToy_Font_System );
 #endif
@@ -350,6 +349,7 @@ void GLToy_Render::Shutdown()
     GLToy_Font_System::Shutdown();
 #endif
 
+    GLToy_Material_System::Shutdown();
     GLToy_Light_System::Shutdown();
     GLToy_Texture_System::Shutdown();
     GLToy_Shader_System::Shutdown();

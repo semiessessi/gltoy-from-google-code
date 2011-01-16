@@ -36,6 +36,7 @@
 // GLToy
 #include <Core/Console/GLToy_Console.h>
 #include <Environment/GLToy_Environment_System.h>
+#include <Material/GLToy_Material_System.h>
 #include <Physics/GLToy_Physics_System.h>
 #include <Render/Font/GLToy_Font.h>
 #include <Render/GLToy_Camera.h>
@@ -195,10 +196,6 @@ void GLToy_Environment_Lightmapped::RenderDeferred() const
                 m_xLeaves[ uCluster ].RenderDeferred();
             GLToy_Iterate_End;
         GLToy_Iterate_End;
-    }
-    else
-    {
-        // ... actually this should never happen
     }
 
     GLToy_Render::DisableBackFaceCulling();
@@ -496,7 +493,8 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderDeferred() const
 
         xFace.m_bRendered = true;
 
-        GLToy_Texture_System::BindTexture( xFace.m_uTextureHash );
+        GLToy_Material_System::BindMaterial( xFace.m_uTextureHash );
+        //GLToy_Texture_System::BindTexture( xFace.m_uTextureHash );
 
         GLToy_Render::StartSubmittingPolygon();
 

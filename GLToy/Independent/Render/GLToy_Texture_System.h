@@ -130,6 +130,7 @@ public:
     static bool Initialise();
     static void Shutdown();
 
+    static const GLToy_HashMap< GLToy_Texture >& GetMap(){ return s_xTextures; }
     static GLToy_Texture* FindTexture( const GLToy_Hash uHash );
     static GLToy_Texture* LookUpTexture( const GLToy_String& szName );
     static GLToy_Texture* LookUpTextureNoExt( const GLToy_String& szName );

@@ -154,6 +154,9 @@
     <Filter Include="Independent\Trace">
       <UniqueIdentifier>{ae59a446-2a72-4426-a7ac-fdc576178a9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Material">
+      <UniqueIdentifier>{7308a0a6-9c70-4279-94d1-0028255b5c4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_GLToy.cpp">
@@ -554,6 +557,9 @@
     </ClCompile>
     <ClCompile Include="Independent\Render\GLToy_Texture_System.cpp">
       <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Material\GLToy_Material_System.cpp">
+      <Filter>Independent\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -977,9 +983,36 @@
     <ClInclude Include="Independent\Render\GLToy_Texture_System.h">
       <Filter>Independent\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\Material\GLToy_Material_System.h">
+      <Filter>Independent\Material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\Default.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Deferred_Default.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Deferred_DiffuseOnly.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Deferred_DiffuseOnly.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Light.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Light_Point.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Light_Point.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Lightmap_Simple.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Lightmap_Simple.shader">
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Data\Shaders\Raytrace_Bounded.vs">
