@@ -277,7 +277,7 @@ public:
     virtual void RenderLighting() const;
     virtual void Update();
 
-    virtual GLToy_Hash GetShaderHash() const { return GLToy_Hash_Constant( "Deferred_DiffuseOnly" ); }
+    //virtual GLToy_Hash GetShaderHash() const { return GLToy_Hash_Constant( "Deferred_DiffuseOnly" ); }
 
     virtual void Render2D() const;
 

@@ -193,7 +193,7 @@ public:
             if( pxShader )
             {
                 pxShader->Bind();
-                pxShader->SetUniform( "xDiffuseSampler", 0 );
+                pxShader->SetUniform( "DiffuseMap", 0 );
             }
         }
 
