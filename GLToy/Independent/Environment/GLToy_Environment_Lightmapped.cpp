@@ -261,8 +261,10 @@ void GLToy_Environment_Lightmapped::RenderLighting() const
         pxShader->Bind();
         pxShader->SetUniform( "xLightmapSampler", 0 );
         pxShader->SetUniform( "xDiffuseSampler", 1 );
+        pxShader->SetUniform( "xNormalSampler", 2 );
 
         GLToy_Render::BindDiffuseTexture( 1 );
+        GLToy_Render::BindNormalTexture( 2 );
 
         const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
         const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
