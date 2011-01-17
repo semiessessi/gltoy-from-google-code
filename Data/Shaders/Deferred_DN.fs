@@ -7,7 +7,7 @@ varying vec3 xPosition;
 varying vec3 xViewPosition;
 
 uniform sampler2D DiffuseMap;
-uniform sampler2D NormalsMap;
+uniform sampler2D NormalMap;
 
 vec3 InverseStereographicProjection( vec2 xProjected )
 {
@@ -35,10 +35,12 @@ void main()
 	// NOTE: this only encodes less than 3/4 of the sphere (but more than 1/2)...
 	// TODO: work out how to get this into view space...
 	//vec3 xViewNormal = ...;
-	//gl_FragData[ 1 ] = vec4( 0.25 * StereographicProjection( xNormal ) + 0.5, 0.0, 0.0 );
+	vec3 xNormalSample = 2.0 * texture2D( NormalMap, xTexCoord ).xyz - 1.0;
+	vec3 xWorldNormal = xBinormal * xNormalSample.x + xTangent * xNormalSample.y + xNormal * xNormalSample.z;
+	//gl_FragData[ 1 ] = vec4( 0.25 * StereographicProjection( xWorldNormal ) + 0.5, 0.0, 0.0 );
 	// actually, put out world space normals for now and get the fancy compression working later...
 	// HACK: crappy depth in alpha...
-	gl_FragData[ 1 ] = vec4( 0.5 * xNormal + 0.5, xViewPosition.z / 1000.0 );
+	gl_FragData[ 1 ] = vec4( 0.5 * xWorldNormal + 0.5, xViewPosition.z / 1000.0 );
 	
 	// TODO: specular
 	// gl_FragData[ 2 ] = texture2D( xSpecularSampler, xTexCoord );
