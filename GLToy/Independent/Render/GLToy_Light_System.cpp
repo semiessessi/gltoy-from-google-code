@@ -60,6 +60,7 @@ GLToy_Array< const GLToy_GlobalLight_Directional* > GLToy_Light_System::s_xDirec
 bool GLToy_Light_System::Initialise()
 {
     GLToy_Console::RegisterCommand( "spawn.pointlight", SpawnPointLight_Console );
+	GLToy_Console::RegisterCommand( "test.directionallight", TestDirectionalLight_Console );
 
     GLToy_Console::RegisterVariable( "render.lightboxes", &s_bRenderLightBoxes );
 
@@ -175,6 +176,8 @@ void GLToy_Light_System::Render()
 
     s_xProjectorLights.Traverse( GLToy_IndirectRenderLightingFunctor< GLToy_Light_Projector >() );
 
+	s_xDirectionalLights.Traverse( GLToy_IndirectRenderLightingFunctor< const GLToy_GlobalLight_Directional >() );
+
     GLToy_Render::StopSamplingDepth();
     GLToy_Render::UseProgram( 0 );
 
@@ -182,8 +185,6 @@ void GLToy_Light_System::Render()
 
     s_xOtherLightSources.Traverse( GLToy_IndirectRenderLightingFunctor< const GLToy_Renderable >() );
     s_xOtherLightSources.Clear();
-
-	// s_xDirectionalLights.Traverse( GLToy_IndirectRenderLightingFunctor< const GLToy_Renderable >() );
 
     if( s_bRenderLightBoxes )
     {
@@ -220,4 +221,34 @@ void GLToy_Light_Point::RenderLighting() const
 
     GLToy_AABB xBox( GetPosition(), m_xProperties.m_fSphereRadius, m_xProperties.m_fSphereRadius, m_xProperties.m_fSphereRadius );
     xBox.RenderFlat();
+}
+
+void GLToy_GlobalLight_Directional::RenderLighting() const
+{
+	// TODO: allow multiple directional lights to be fast by:
+	// *	don't rebind shader
+	// *	batch 8/16 per shader pass
+	GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Directional" ) );
+    if( pxShader )
+    {
+		pxShader->Bind();
+        pxShader->SetUniform( "xDiffuseSampler", 1 );
+        pxShader->SetUniform( "xNormalSampler", 2 );
+        pxShader->SetUniform( "xLightColour", GetColour() );
+        pxShader->SetUniform( "xLightDirection", GetDirection() );
+
+		const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
+        const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
+
+        pxShader->SetUniform( "xSize", xSize );
+        pxShader->SetUniform( "xOneOverSize", xOneOverSize );
+    }
+
+	// render a fullscreen pass...
+	GLToy_Render::StartSubmittingQuads();
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( -1.0f, -1.0f, 0.0f ) );
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( 1.0f, -1.0f, 0.0f ) );
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( 1.0f, 1.0f, 0.0f ) );
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( -1.0f, 1.0f, 0.0f ) );
+    GLToy_Render::EndSubmit();
 }

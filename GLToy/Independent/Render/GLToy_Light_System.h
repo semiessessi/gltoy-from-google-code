@@ -189,6 +189,8 @@ public:
 	const GLToy_Vector_3& GetDirection() const { return m_xDirection; }
 	const GLToy_Vector_3& GetColour() const { return m_xColour; }
 
+	void RenderLighting() const;
+
 private:
 
 	const GLToy_Vector_3 m_xDirection;
