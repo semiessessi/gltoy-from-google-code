@@ -115,7 +115,7 @@ void GLToy_Light_System::RegisterLightSource( const GLToy_Renderable* const pxLi
 
 void GLToy_Light_System::TestDirectionalLight_Console()
 {
-    AddGlobalDirectionalLight( GLToy_Vector_3( 0.8660254f, 0.8660254f, 0.8660254f ), GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+    AddGlobalDirectionalLight( GLToy_Vector_3( 0.8660254f, 0.8660254f, 0.8660254f ), GLToy_Vector_3( 1.0f, 0.2f, 0.2f ) );
 }
 
 void GLToy_Light_System::SpawnPointLight_Console()
@@ -176,10 +176,10 @@ void GLToy_Light_System::Render()
 
     s_xProjectorLights.Traverse( GLToy_IndirectRenderLightingFunctor< GLToy_Light_Projector >() );
 
-	s_xDirectionalLights.Traverse( GLToy_IndirectRenderLightingFunctor< const GLToy_GlobalLight_Directional >() );
-
     GLToy_Render::StopSamplingDepth();
     GLToy_Render::UseProgram( 0 );
+
+	s_xDirectionalLights.Traverse( GLToy_IndirectRenderLightingFunctor< const GLToy_GlobalLight_Directional >() );
 
     GLToy_Render::EnableDepthTesting();
 

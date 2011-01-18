@@ -79,6 +79,10 @@ u_int* GLToy_Render::s_puCurrentBufferNoDepth = &GLToy_Render::s_uSwapBufferNoDe
 GLToy_BinaryTree< const GLToy_Renderable*, float > GLToy_Render::s_xTransparents;
 GLToy_List< const GLToy_Renderable* > GLToy_Render::s_xDeferredRenderables;
 
+#ifdef GLTOY_DEBUG
+GLToy_Render::DebugStateType GLToy_Render::DebugState;
+#endif
+
 static bool g_bDebugClear = false;
 
 /////////////////////////////////////////////////////////////////////////////////////////////

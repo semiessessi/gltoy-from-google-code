@@ -514,16 +514,20 @@ void Platform_GLToy_Render::Flush()
 void Platform_GLToy_Render::DisableBlending()
 {
     glDisable( GL_BLEND );
+    GLToy_Render_DebugState( bBlendingEnabled, false );
 }
 
 void Platform_GLToy_Render::EnableBlending()
 {
     glEnable( GL_BLEND );
+    GLToy_Render_DebugState( bBlendingEnabled, true );
 }
 
 void Platform_GLToy_Render::SetBlendFunction( const u_int uSourceBlend, const u_int uDestinationBlend )
 {
     glBlendFunc( uSourceBlend, uDestinationBlend );
+    GLToy_Render_DebugState( uSourceBlendFunction, uSourceBlend );
+    GLToy_Render_DebugState( uDestinationBlendFunction, uDestinationBlend );
 }
 
 void Platform_GLToy_Render::DisableDepthTesting()
@@ -550,22 +554,27 @@ void Platform_GLToy_Render::EnableDepthWrites()
 void Platform_GLToy_Render::EnableBackFaceCulling()
 {
     glEnable( GL_CULL_FACE );
+    GLToy_Render_DebugState( bCullingEnabled, true );
     glCullFace( GL_BACK );
+    GLToy_Render_DebugState( bCullBackFaces, true );
 }
 
 void Platform_GLToy_Render::DisableBackFaceCulling()
 {
     glDisable( GL_CULL_FACE );
+    GLToy_Render_DebugState( bCullingEnabled, false );
 }
 
 void Platform_GLToy_Render::SetCCWFaceWinding()
 {
     glFrontFace( s_bIntel ? GL_CW : GL_CCW );
+    GLToy_Render_DebugState( bCCWFrontFaces, true );
 }
 
 void Platform_GLToy_Render::SetCWFaceWinding()
 {
     glFrontFace( s_bIntel ? GL_CCW : GL_CW );
+    GLToy_Render_DebugState( bCCWFrontFaces, false );
 }
 
 void Platform_GLToy_Render::SetVsyncEnabled( const bool bEnabled )

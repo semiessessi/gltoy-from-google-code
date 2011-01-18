@@ -189,6 +189,11 @@ class GLToy_Vector_2;
 class GLToy_Vector_3;
 class GLToy_Vector_4;
 
+#ifdef GLTOY_DEBUG
+#define GLToy_Render_DebugState( xStateName, xState ) GLToy_Render::DebugState.m_##xStateName = xState;
+#else
+#define GLToy_Render_DebugState( xStateName, xState )
+#endif
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -408,6 +413,22 @@ private:
 
     static GLToy_List< const GLToy_Renderable* > s_xDeferredRenderables;
     static GLToy_BinaryTree< const GLToy_Renderable*, float > s_xTransparents;
+
+#ifdef GLTOY_DEBUG
+
+public:
+
+    static struct DebugStateType
+    {
+        bool m_bBlendingEnabled;
+        bool m_bCullingEnabled;
+        bool m_bCullBackFaces;
+        bool m_bCCWFrontFaces;
+        u_int m_uSourceBlendFunction;
+        u_int m_uDestinationBlendFunction;
+    } DebugState;
+
+#endif
 
 };
 
