@@ -175,6 +175,27 @@ private:
 
 };
 
+class GLToy_GlobalLight_Directional
+{
+
+public:
+
+	GLToy_GlobalLight_Directional( const GLToy_Vector_3& xDirection, const GLToy_Vector_3& xColour )
+	: m_xDirection( xDirection )
+	, m_xColour( xColour )
+	{
+	}
+
+	const GLToy_Vector_3& GetDirection() const { return m_xDirection; }
+	const GLToy_Vector_3& GetColour() const { return m_xColour; }
+
+private:
+
+	const GLToy_Vector_3 m_xDirection;
+	const GLToy_Vector_3 m_xColour;
+
+};
+
 class GLToy_Light_System
 {
 
@@ -186,13 +207,15 @@ public:
     static void Render();
     static void Update();
 
+	static void AddGlobalDirectionalLight( const GLToy_Vector_3& xDirection, const GLToy_Vector_3& xColour );
     static void AddPointLight( const GLToy_Hash uHash, const GLToy_Light_PointProperties& xProperties );
     static void AddProjectorLight( const GLToy_Hash uHash, const GLToy_Light_ProjectorProperties& xProperties );
     static void DestroyLight( const GLToy_Hash uHash );
 
     static void RegisterLightSource( const GLToy_Renderable* const pxLightSource );
 
-    static void SpawnPointLight_Console();
+    static void TestDirectionalLight_Console();
+	static void SpawnPointLight_Console();
 
 private:
 
@@ -202,6 +225,7 @@ private:
     static GLToy_HashMap< GLToy_Light_Point* > s_xPointLights;
     static GLToy_HashMap< GLToy_Light_Projector* > s_xProjectorLights;
     static GLToy_Array< const GLToy_Renderable* > s_xOtherLightSources;
+	static GLToy_Array< const GLToy_GlobalLight_Directional* > s_xDirectionalLights;
 
 };
 

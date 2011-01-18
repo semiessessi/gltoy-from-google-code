@@ -51,6 +51,7 @@ GLToy_HashMap< GLToy_Light* > GLToy_Light_System::s_xLights;
 GLToy_HashMap< GLToy_Light_Point* > GLToy_Light_System::s_xPointLights;
 GLToy_HashMap< GLToy_Light_Projector* > GLToy_Light_System::s_xProjectorLights;
 GLToy_Array< const GLToy_Renderable* > GLToy_Light_System::s_xOtherLightSources;
+GLToy_Array< const GLToy_GlobalLight_Directional* > GLToy_Light_System::s_xDirectionalLights;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -71,6 +72,13 @@ void GLToy_Light_System::Shutdown()
     s_xOtherLightSources.Clear();
     s_xPointLights.Clear();
     s_xProjectorLights.Clear();
+	s_xDirectionalLights.DeleteAll();
+}
+
+void GLToy_Light_System::AddGlobalDirectionalLight( const GLToy_Vector_3& xDirection, const GLToy_Vector_3& xColour )
+{
+	GLToy_GlobalLight_Directional* pxDirectionalLight = new GLToy_GlobalLight_Directional( xDirection, xColour );
+	s_xDirectionalLights.Append( pxDirectionalLight );
 }
 
 void GLToy_Light_System::AddPointLight( const GLToy_Hash uHash, const GLToy_Light_PointProperties& xProperties )
@@ -102,6 +110,11 @@ void GLToy_Light_System::DestroyLight( const GLToy_Hash uHash )
 void GLToy_Light_System::RegisterLightSource( const GLToy_Renderable* const pxLightSource )
 {
     s_xOtherLightSources.Append( pxLightSource );
+}
+
+void GLToy_Light_System::TestDirectionalLight_Console()
+{
+    AddGlobalDirectionalLight( GLToy_Vector_3( 0.8660254f, 0.8660254f, 0.8660254f ), GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
 }
 
 void GLToy_Light_System::SpawnPointLight_Console()
@@ -169,6 +182,8 @@ void GLToy_Light_System::Render()
 
     s_xOtherLightSources.Traverse( GLToy_IndirectRenderLightingFunctor< const GLToy_Renderable >() );
     s_xOtherLightSources.Clear();
+
+	// s_xDirectionalLights.Traverse( GLToy_IndirectRenderLightingFunctor< const GLToy_Renderable >() );
 
     if( s_bRenderLightBoxes )
     {
