@@ -52,6 +52,32 @@ GLToy_HashMap< GLToy_ShaderProgram* > GLToy_Shader_System::s_xPrograms;
 
 static const GLToy_String szVersionPrefix = "#version 120\r\n";
 
+static const GLToy_String szCommonHeader =
+"vec3 InverseStereographicProjection( vec2 xProjected )"
+"{"
+	"float fSumOfSquares = dot( xProjected, xProjected );"
+	"return vec3( 2.0 * xProjected.x, 2.0 * xProjected.y, fSumOfSquares - 1.0 ) / ( 1.0 + fSumOfSquares );"
+"}"
+
+"vec2 StereographicProjection( vec3 xNormalised )"
+"{"
+	"return xNormalised.xy / ( 1.0 - xNormalised.z );"
+"}"
+
+"vec3 ReconstructNormal( vec2 xCompressed )"
+"{"
+	"float fIntermediaryValue = xCompressed.y * 2.0 - 1.0;"
+	"vec3 xReturnValue = vec3( xCompressed.x - 0.5, abs( fIntermediaryValue ) - 0.5, sign( fIntermediaryValue ) );"
+	"return xReturnValue * vec3( 2.0, 2.0, 1.0 - sqrt( dot( xReturnValue.xy, xReturnValue.xy ) ) );"
+"}"
+
+"vec2 CompressNormal( vec3 xNormalised )"
+"{"
+	"vec2 xReturnValue = 0.5 * xNormalised.xy + 0.5;"
+	"xNormalised.y = 0.5 * sign( xNormalised.z ) * xNormalised.y + 0.5;"
+"}"
+;
+
 static const GLToy_String szNoiseShader =
 "uniform sampler2D xNoiseTexture;"
 "vec2 rotate( vec2 xValue, float fAngle )"
@@ -311,7 +337,7 @@ bool GLToy_Shader_System::Initialise()
         //xFSFile.GetRawString( pcFSString );
 
         GLToy_String szFSString = xFSFile.GetString();
-        szFSString = ( GLToy_Render::IsExtraCrappyIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szFSString;
+        szFSString = ( GLToy_Render::IsExtraCrappyIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szCommonHeader + szFSString;
         char* pcFSString = szFSString.CreateANSIString();
 
         GLToy_Render::ShaderSource( uFSID, 1, &pcFSString, 0 );
@@ -335,7 +361,7 @@ bool GLToy_Shader_System::Initialise()
         }
 
         GLToy_String szVSString = xVSFile.GetString();
-        szVSString = ( GLToy_Render::IsExtraCrappyIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szVSString;
+        szVSString = ( GLToy_Render::IsExtraCrappyIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szCommonHeader + szVSString;
         char* pcVSString = szVSString.CreateANSIString();
 
         GLToy_Render::ShaderSource( uVSID, 1, &pcVSString, 0 );
@@ -432,7 +458,7 @@ void GLToy_Shader_System::CreateShaderFromStrings( const GLToy_String& szName, c
         return;
     }
 
-    char* pcFSString = ( ( GLToy_Render::IsExtraCrappyIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szFragmentShader ).CreateANSIString();
+    char* pcFSString = ( ( GLToy_Render::IsExtraCrappyIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szCommonHeader + szFragmentShader ).CreateANSIString();
 
 
     GLToy_Render::ShaderSource( uFSID, 1, &pcFSString, 0 );
@@ -455,7 +481,7 @@ void GLToy_Shader_System::CreateShaderFromStrings( const GLToy_String& szName, c
         GLToy_DebugOutput( "   - Success!\r\n" );
     }
 
-    char* pcVSString = ( ( GLToy_Render::IsExtraCrappyIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szVertexShader ).CreateANSIString();
+    char* pcVSString = ( ( GLToy_Render::IsExtraCrappyIntelGraphicsCard() ? "" : szVersionPrefix ) + szNoiseShader + szCommonHeader + szVertexShader ).CreateANSIString();
 
     GLToy_Render::ShaderSource( uVSID, 1, &pcVSString, 0 );
     GLToy_Render::CompileShader( uVSID );

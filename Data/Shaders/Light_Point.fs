@@ -16,8 +16,7 @@ void main()
 {
 	// TODO: fix this up
 	vec3 xDiffuse = texture2D( xDiffuseSampler, gl_FragCoord.xy * xOneOverSize ).xyz;
-	// HACK: crappy depth in alpha...
-	vec4 xNormal = texture2D( xNormalSampler, gl_FragCoord.xy * xOneOverSize );
+	vec3 xNormal = ReconstructNormal( texture2D( xNormalSampler, gl_FragCoord.xy * xOneOverSize ).xy );
 	// depth still not working :/
 	vec3 xPosition = xCameraPosition + xViewVector * xNormal.w * 1000.0;
 	vec3 xLightVector = xPosition - xLightPosition;
