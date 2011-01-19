@@ -200,13 +200,11 @@ public:
 	//	return xReturnValue * vec3( 2.0, 2.0, 1.0 - sqrt( dot( xReturnValue.xy, xReturnValue.xy ) ) );
 	//}
 
-	//vec2 CompressNormal( vec3 xNormalised )
-	//{
-	//	vec2 xReturnValue = 0.5 * xNormalised.xy + 0.5;
-	//	xReturnValue.y = 0.5 * sign( xNormalised.z ) * xReturnValue.y + 0.5;
-	//	return xReturnValue;
-	//}
-	//static GLToy_Inline GLToy_Vector_2 CompressNormal( const GLToy_Vector_3& xNormalised ) { return GLToy_Vector_2( 0.0f, 0.0f ); }
+	static GLToy_Inline GLToy_Vector_2 CompressNormal( const GLToy_Vector_3& xNormalised )
+	{
+		float fY = ( ( xNormalised.z >= 0.0f ) ? 0.5f : -0.5f ) * ( xNormalised.y + 1.0f );
+		return GLToy_Vector_2( 0.5f * xNormalised.x + 0.5f, 0.5f * fY + 0.5f );
+	}
     //static GLToy_Inline GLToy_Vector_3 ReconstructNormal( const GLToy_Vector_2& xCompressed ) { return GLToy_Vector_3( 0.0f, 0.0f, 0.0f ); }
 
 

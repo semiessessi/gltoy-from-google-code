@@ -508,8 +508,8 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderDeferred() const
             GLToy_Render::SubmitUV( xVertex.m_xUV * ( bQuadRes ? 4.0f : 1.0f ) );
             GLToy_Render::SubmitUV(
                 GLToy_Vector_4(
-                    GLToy_Maths::StereographicProjection( xVertex.m_xNormal ),
-                    GLToy_Maths::StereographicProjection( xVertex.m_xTangent ) ),
+                    GLToy_Maths::CompressNormal( xVertex.m_xNormal ),
+                    GLToy_Maths::CompressNormal( xVertex.m_xTangent ) ),
                 1 );
             GLToy_Render::SubmitVertex( xVertex.m_xPosition );
         GLToy_Iterate_End;
