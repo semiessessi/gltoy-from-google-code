@@ -57,7 +57,7 @@ void GLToy_PTXFile::LoadTexture() const
     GLToy_String szName = m_szFilename;
     szName.RemoveAt( 0, 9 ); // remove "textures/"
 
-    xTexture.CreateTexture( szName, 512, 512 );
+    xTexture.CreateTexture( szName, 256, 256 );
 
     GLToy_DebugOutput_Release( "   - Loaded PTX file \"%S\" successfully\r\n", m_szFilename.GetWideString() );
 }

@@ -106,13 +106,13 @@ bool GLToy_Material::IsReady() const
 u_int GLToy_Material::GetWidth() const
 {
     // TODO: something better
-    return 512;
+    return 256;
 }
 
 u_int GLToy_Material::GetHeight() const
 {
     // TODO: something better
-    return 512;
+    return 256;
 }
 
 void GLToy_Material::Initialise()

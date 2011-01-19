@@ -67,8 +67,8 @@ static const GLToy_String szCommonHeader =
 "vec3 ReconstructNormal( vec2 xCompressed )"
 "{"
 	"float fIntermediaryValue = xCompressed.y * 2.0 - 1.0;"
-	"vec3 xReturnValue = vec3( xCompressed.x - 0.5, abs( fIntermediaryValue ) - 0.5, sign( fIntermediaryValue ) );"
-	"return xReturnValue * vec3( 2.0, 2.0, 1.0 - sqrt( dot( xReturnValue.xy, xReturnValue.xy ) ) );"
+	"vec2 xIntermediaryVector = 2.0 * vec2( xCompressed.x, abs( fIntermediaryValue ) ) - 1.0;"
+	"return vec3( xIntermediaryVector, sign( fIntermediaryValue ) * sqrt( 1.0 - dot( xIntermediaryVector, xIntermediaryVector ) ) );"
 "}"
 
 "vec2 CompressNormal( vec3 xNormalised )"
