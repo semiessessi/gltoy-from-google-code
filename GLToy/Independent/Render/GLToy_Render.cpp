@@ -59,6 +59,7 @@ float GLToy_Render::s_fAspectRatio = 1.0f;
 bool GLToy_Render::s_bDrawFPS = GLToy_IsDebugBuild();
 bool GLToy_Render::s_bDrawTimers = GLToy_IsDebugBuild();
 bool GLToy_Render::s_bDrawBuffers = false;
+bool GLToy_Render::s_bDrawNormals = false;
 bool GLToy_Render::s_bVsync = true;
 bool GLToy_Render::s_bClearFrame = true;
 //u_int GLToy_Render::s_uDepthBuffer = GLToy_MaxUint;
@@ -114,6 +115,7 @@ bool GLToy_Render::Initialise()
     GLToy_Console::RegisterVariable( "showfps", &s_bDrawFPS );
     GLToy_Console::RegisterVariable( "showtimers", &s_bDrawTimers );
     GLToy_Console::RegisterVariable( "showbuffers", &s_bDrawBuffers );
+    GLToy_Console::RegisterVariable( "shownormals", &s_bDrawNormals );
     GLToy_Console::RegisterCommand( "vsync", SetVsyncEnabled );
 
     SetVsyncEnabled( s_bVsync );
@@ -470,6 +472,15 @@ void GLToy_Render::Render()
         SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
         SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), -1.0f ), GLToy_Vector_2( GLToy_Render::Get2DWidth(), 2.0f ), 0.0f, 1.0f, 1.0f, 0.0f );
         EndSubmit();
+
+        if( s_bDrawNormals && HasDeferredBuffer() )
+        {
+            GLToy_Texture_System::BindFrameBufferTexture( s_uNormalTexture );
+            StartSubmittingQuads();
+            SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+            SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), -1.0f ), GLToy_Vector_2( GLToy_Render::Get2DWidth(), 2.0f ), 0.0f, 1.0f, 1.0f, 0.0f );
+            EndSubmit();
+        }
 
         if( s_bDrawBuffers && HasDeferredBuffer() )
         {
