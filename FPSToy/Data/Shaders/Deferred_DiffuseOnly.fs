@@ -8,17 +8,6 @@ varying vec3 xViewPosition;
 
 uniform sampler2D DiffuseMap;
 
-vec3 InverseStereographicProjection( vec2 xProjected )
-{
-	float fSumOfSquares = dot( xProjected, xProjected );
-	return vec3( 2.0 * xProjected.x, 2.0 * xProjected.y, fSumOfSquares - 1.0 ) / ( 1.0 + fSumOfSquares );
-}
-
-vec2 StereographicProjection( vec3 xNormalised )
-{
-	return xNormalised.xy / ( 1.0 - xNormalised.z );
-}
-
 void main()
 {
 	// TODO - use the spare components for:
