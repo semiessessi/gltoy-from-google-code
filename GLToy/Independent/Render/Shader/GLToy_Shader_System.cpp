@@ -74,7 +74,7 @@ static const GLToy_String szCommonHeader =
 "vec2 CompressNormal( vec3 xNormalised )"
 "{"
 	"vec2 xReturnValue = 0.5 * xNormalised.xy + 0.5;"
-	"xNormalised.y = 0.5 * sign( xNormalised.z ) * xNormalised.y + 0.5;"
+	"xReturnValue.y = 0.5 * sign( xNormalised.z ) * xNormalised.y + 0.5;"
     "return xReturnValue;"
 "}"
 
@@ -83,12 +83,12 @@ static const GLToy_String szCommonHeader =
 	"return xClipPlanes.x / ( xClipPlanes.y - fDepth * ( xClipPlanes.y - xClipPlanes.x ) ) * xClipPlanes.y;"
 "}"
 
-"vec3 ViewPositionFromDepth( float fDepth, vec4 xFragCoord, vec2 xOneOverScreenSize )"
+"vec3 ViewPositionFromDepth( float fDepth, vec2 xClipPlanes, vec4 xFragCoord, vec2 xOneOverScreenSize )"
 "{"
 	"vec3 xReturnValue;"
 	"xReturnValue = vec3(	 ( ( xFragCoord.x * xOneOverScreenSize.x ) - 0.5 ) * 2.0,"
 							"( ( -xFragCoord.y * xOneOverScreenSize.y ) + 0.5) * 2.0 * ( xOneOverScreenSize.x / xOneOverScreenSize.y ),"
-							"ScreenSpaceZFromDepth( fDepth ) );"
+							"ViewZFromDepth( fDepth, xClipPlanes ) );"
 	"xReturnValue.x *= xReturnValue.z; xReturnValue.y *= -xReturnValue.z;"
 	"return xReturnValue;"
 "}"

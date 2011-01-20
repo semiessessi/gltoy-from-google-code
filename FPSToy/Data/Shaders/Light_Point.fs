@@ -11,6 +11,7 @@ uniform vec3 xViewVector;
 
 uniform vec2 xSize;
 uniform vec2 xOneOverSize;
+uniform vec2 xClipPlanes;
 
 void main()
 {
@@ -18,7 +19,7 @@ void main()
 	vec3 xDiffuse = texture2D( xDiffuseSampler, gl_FragCoord.xy * xOneOverSize ).xyz;
 	vec3 xNormal = ReconstructNormal( texture2D( xNormalSampler, gl_FragCoord.xy * xOneOverSize ).xy );
 	// depth still not working :/
-	vec3 xPosition = xCameraPosition + xViewVector * texture2D( xNormalSampler, gl_FragCoord.xy * xOneOverSize ).z * 1000.0;
+	vec3 xPosition = xCameraPosition + xViewVector * ViewZFromDepth( texture2D( xDepthSampler, gl_FragCoord.xy * xOneOverSize ).a, xClipPlanes );
 	vec3 xLightVector = xPosition - xLightPosition;
 	float fAttenuation = 1.0f - dot( xLightVector, xLightVector ) / ( fLightRadius * fLightRadius );
 	float fNormalDot = 1.0; // TODO...

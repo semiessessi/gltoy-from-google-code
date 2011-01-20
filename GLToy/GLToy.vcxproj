@@ -1988,9 +1988,14 @@
     <None Include="..\Data\Shaders\Deferred_Default.vs" />
     <None Include="..\Data\Shaders\Deferred_DiffuseOnly.fs" />
     <None Include="..\Data\Shaders\Deferred_DiffuseOnly.shader" />
+    <None Include="..\Data\Shaders\Deferred_DN.fs" />
+    <None Include="..\Data\Shaders\Deferred_DN.shader" />
     <None Include="..\Data\Shaders\Light.vs" />
     <None Include="..\Data\Shaders\Lightmap_Simple.fs" />
     <None Include="..\Data\Shaders\Lightmap_Simple.shader" />
+    <None Include="..\Data\Shaders\Light_Directional.fs" />
+    <None Include="..\Data\Shaders\Light_Directional.shader" />
+    <None Include="..\Data\Shaders\Light_Fullscreen.vs" />
     <None Include="..\Data\Shaders\Light_Point.fs" />
     <None Include="..\Data\Shaders\Light_Point.shader" />
     <None Include="..\Data\Shaders\Raytrace_Bounded.vs" />

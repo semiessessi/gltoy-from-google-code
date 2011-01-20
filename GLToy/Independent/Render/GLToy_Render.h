@@ -28,6 +28,13 @@
 #define __GLTOY_RENDER_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// I N C L U D E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+// GLToy
+#include <Maths/GLToy_Vector.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // M A C R O S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -201,6 +208,8 @@ class GLToy_Vector_4;
 class GLToy_Render
 {
 
+    friend class Platform_GLToy_Render;
+
 public:
 
     static float GetFOV() { return s_fFOV; }
@@ -371,7 +380,11 @@ public:
     static bool IsIntelGraphicsCard();
     static bool IsExtraCrappyIntelGraphicsCard();
 
+    static const GLToy_Vector_2& GetClipPlanes() { return s_xClipPlanes; }
+
 private:
+
+    static void SetClipPlanes( const GLToy_Vector_2& xClipPlanes ) { s_xClipPlanes = xClipPlanes; }
 
     static bool Project_Initialise();
     static void Project_Shutdown();
@@ -405,6 +418,8 @@ private:
     static u_int s_uFrameBufferNoDepth;
     static u_int s_uSwapBufferNoDepth;
     static u_int* s_puCurrentBufferNoDepth;
+
+    static GLToy_Vector_2 s_xClipPlanes;
 
     // deferred buffers
     static u_int s_uDeferredBuffer;

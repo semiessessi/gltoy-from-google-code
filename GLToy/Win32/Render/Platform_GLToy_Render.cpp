@@ -318,6 +318,7 @@ void Platform_GLToy_Render::SetPerspectiveProjectionMatrix( const float fFOV, co
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
     gluPerspective( fFOV, fAspectRatio, 0.01f, 1048576.0f );
+    GLToy_Render::SetClipPlanes( GLToy_Vector_2( 0.01f, 1048576.0f ) );
 }
 
 void Platform_GLToy_Render::SetOrthogonalProjectionMatrix( const float fAspectRatio )
@@ -325,6 +326,7 @@ void Platform_GLToy_Render::SetOrthogonalProjectionMatrix( const float fAspectRa
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
     glOrtho( -fAspectRatio, fAspectRatio, -1.0f, 1.0f, -4.0f, 4.0f );
+    GLToy_Render::SetClipPlanes( GLToy_Vector_2( -4.0f, 4.0f ) );
 }
 
 void Platform_GLToy_Render::SetIdentityViewMatrix()

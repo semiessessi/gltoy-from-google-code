@@ -77,6 +77,9 @@ u_int GLToy_Render::s_uNormalTexture = GLToy_MaxUint;
 u_int GLToy_Render::s_uFrameBufferNoDepth = GLToy_MaxUint;
 u_int GLToy_Render::s_uSwapBufferNoDepth = GLToy_MaxUint;
 u_int* GLToy_Render::s_puCurrentBufferNoDepth = &GLToy_Render::s_uSwapBufferNoDepth;
+
+GLToy_Vector_2 GLToy_Render::s_xClipPlanes = GLToy_Maths::ZeroVector2;
+
 GLToy_BinaryTree< const GLToy_Renderable*, float > GLToy_Render::s_xTransparents;
 GLToy_List< const GLToy_Renderable* > GLToy_Render::s_xDeferredRenderables;
 

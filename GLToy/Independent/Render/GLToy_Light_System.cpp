@@ -149,6 +149,7 @@ void GLToy_Light_System::Render()
 
         s_pxCurrentShader->SetUniform( "xSize", xSize );
         s_pxCurrentShader->SetUniform( "xOneOverSize", xOneOverSize );
+        s_pxCurrentShader->SetUniform( "xClipPlanes", GLToy_Render::GetClipPlanes() );
     }
 
     GLToy_Render::DisableDepthTesting();
@@ -173,6 +174,7 @@ void GLToy_Light_System::Render()
 
         s_pxCurrentShader->SetUniform( "xSize", xSize );
         s_pxCurrentShader->SetUniform( "xOneOverSize", xOneOverSize );
+        s_pxCurrentShader->SetUniform( "xClipPlanes", GLToy_Render::GetClipPlanes() );
     }
 
     s_xProjectorLights.Traverse( GLToy_IndirectRenderLightingFunctor< GLToy_Light_Projector >() );
