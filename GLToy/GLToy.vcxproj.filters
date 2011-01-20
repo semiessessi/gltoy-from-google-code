@@ -988,6 +988,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Data\Shaders\Raytrace_Sphere.shader">
+      <Filter>Shaders</Filter>
+    </None>
     <None Include="..\Data\Shaders\Default.vs">
       <Filter>Shaders</Filter>
     </None>
@@ -1000,7 +1003,22 @@
     <None Include="..\Data\Shaders\Deferred_DiffuseOnly.shader">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="..\Data\Shaders\Deferred_DN.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Deferred_DN.shader">
+      <Filter>Shaders</Filter>
+    </None>
     <None Include="..\Data\Shaders\Light.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Light_Directional.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Light_Directional.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Light_Fullscreen.vs">
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Data\Shaders\Light_Point.fs">
@@ -1028,9 +1046,6 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Data\Shaders\Raytrace_Sphere.fs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\Raytrace_Sphere.shader">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

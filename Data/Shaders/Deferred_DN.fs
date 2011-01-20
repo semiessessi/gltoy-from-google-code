@@ -20,7 +20,7 @@ void main()
 	gl_FragData[ 0 ] = vec4( texture2D( DiffuseMap, xTexCoord ).xyz, 0.0 );
 	
 	vec3 xNormalSample = 2.0 * texture2D( NormalMap, xTexCoord ).xyz - 1.0;
-	vec3 xWorldNormal = xBinormal * xNormalSample.x + xTangent * xNormalSample.y + xNormal * xNormalSample.z;
+	vec3 xWorldNormal = xTangent * xNormalSample.x + xBinormal * xNormalSample.y + xNormal * xNormalSample.z;
 
 	gl_FragData[ 1 ] = vec4( CompressNormal( xWorldNormal ), xViewPosition.z / 1000.0, 0.0 );
 	
