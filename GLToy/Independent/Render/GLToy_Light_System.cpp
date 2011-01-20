@@ -46,6 +46,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 bool GLToy_Light_System::s_bRenderLightBoxes = false;
+GLToy_ShaderProgram* GLToy_Light_System::s_pxCurrentShader = NULL;
 
 GLToy_HashMap< GLToy_Light* > GLToy_Light_System::s_xLights;
 GLToy_HashMap< GLToy_Light_Point* > GLToy_Light_System::s_xPointLights;
@@ -132,22 +133,22 @@ void GLToy_Light_System::Render()
 {
     GLToy_Render::StartSamplingDepth();
 
-    GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Point" ) );
-    if( pxShader )
+    /*GLToy_ShaderProgram* const pxShader*/s_pxCurrentShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Point" ) );
+    if( s_pxCurrentShader )
     {
-        pxShader->Bind();
-        pxShader->SetUniform( "xDiffuseSampler", 1 );
-        pxShader->SetUniform( "xNormalSampler", 2 );
-        pxShader->SetUniform( "xDepthSampler", 3 );
+        s_pxCurrentShader->Bind();
+        s_pxCurrentShader->SetUniform( "xDiffuseSampler", 1 );
+        s_pxCurrentShader->SetUniform( "xNormalSampler", 2 );
+        s_pxCurrentShader->SetUniform( "xDepthSampler", 3 );
 
-        pxShader->SetUniform( "xCameraPosition", GLToy_Camera::GetPosition() );
-        pxShader->SetUniform( "xViewVector", GLToy_Camera::GetDirection() );
+        s_pxCurrentShader->SetUniform( "xCameraPosition", GLToy_Camera::GetPosition() );
+        s_pxCurrentShader->SetUniform( "xViewVector", GLToy_Camera::GetDirection() );
 
         const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
         const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
 
-        pxShader->SetUniform( "xSize", xSize );
-        pxShader->SetUniform( "xOneOverSize", xOneOverSize );
+        s_pxCurrentShader->SetUniform( "xSize", xSize );
+        s_pxCurrentShader->SetUniform( "xOneOverSize", xOneOverSize );
     }
 
     GLToy_Render::DisableDepthTesting();
@@ -155,32 +156,47 @@ void GLToy_Light_System::Render()
 
     s_xPointLights.Traverse( GLToy_IndirectRenderLightingFunctor< GLToy_Light_Point >() );
 
-    GLToy_ShaderProgram* const pxProjectorShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Projector" ) );
-    if( pxProjectorShader )
+    /*GLToy_ShaderProgram* const pxProjectorShader*/s_pxCurrentShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Projector" ) );
+    if( s_pxCurrentShader )
     {
-        pxProjectorShader->Bind();
-        pxProjectorShader->SetUniform( "xTextureSampler", 0 );
-        pxProjectorShader->SetUniform( "xDiffuseSampler", 1 );
-        pxProjectorShader->SetUniform( "xNormalSampler", 2 );
-        pxProjectorShader->SetUniform( "xDepthSampler", 3 );
+        s_pxCurrentShader->Bind();
+        s_pxCurrentShader->SetUniform( "xTextureSampler", 0 );
+        s_pxCurrentShader->SetUniform( "xDiffuseSampler", 1 );
+        s_pxCurrentShader->SetUniform( "xNormalSampler", 2 );
+        s_pxCurrentShader->SetUniform( "xDepthSampler", 3 );
 
-        pxProjectorShader->SetUniform( "xCameraPosition", GLToy_Camera::GetPosition() );
-        pxProjectorShader->SetUniform( "xViewVector", GLToy_Camera::GetDirection() );
+        s_pxCurrentShader->SetUniform( "xCameraPosition", GLToy_Camera::GetPosition() );
+        s_pxCurrentShader->SetUniform( "xViewVector", GLToy_Camera::GetDirection() );
 
         const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
         const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
 
-        pxProjectorShader->SetUniform( "xSize", xSize );
-        pxProjectorShader->SetUniform( "xOneOverSize", xOneOverSize );
+        s_pxCurrentShader->SetUniform( "xSize", xSize );
+        s_pxCurrentShader->SetUniform( "xOneOverSize", xOneOverSize );
     }
 
     s_xProjectorLights.Traverse( GLToy_IndirectRenderLightingFunctor< GLToy_Light_Projector >() );
 
-    GLToy_Render::StopSamplingDepth();
-    GLToy_Render::UseProgram( 0 );
+	GLToy_Render::StopSamplingDepth();
+
+	s_pxCurrentShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Directional" ) );
+    if( s_pxCurrentShader )
+    {
+        s_pxCurrentShader->Bind();
+		s_pxCurrentShader->SetUniform( "xDiffuseSampler", 1 );
+        s_pxCurrentShader->SetUniform( "xNormalSampler", 2 );
+
+		const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
+        const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
+
+        s_pxCurrentShader->SetUniform( "xSize", xSize );
+        s_pxCurrentShader->SetUniform( "xOneOverSize", xOneOverSize );
+	}
 
 	s_xDirectionalLights.Traverse( GLToy_IndirectRenderLightingFunctor< const GLToy_GlobalLight_Directional >() );
 
+	s_pxCurrentShader = NULL;
+	GLToy_Render::UseProgram( 0 );
     GLToy_Render::EnableDepthTesting();
 
     s_xOtherLightSources.Traverse( GLToy_IndirectRenderLightingFunctor< const GLToy_Renderable >() );
@@ -210,8 +226,7 @@ void GLToy_Light_Point::RenderDebug() const
 
 void GLToy_Light_Point::RenderLighting() const
 {
-    // TODO: cache this, looking up for each light is... stupid
-    GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Point" ) );
+    GLToy_ShaderProgram* const pxShader = GLToy_Light_System::GetCurrentShader();
     if( pxShader )
     {
         pxShader->SetUniform( "fLightRadius", m_xProperties.m_fSphereRadius );
@@ -225,23 +240,12 @@ void GLToy_Light_Point::RenderLighting() const
 
 void GLToy_GlobalLight_Directional::RenderLighting() const
 {
-	// TODO: allow multiple directional lights to be fast by:
-	// *	don't rebind shader
-	// *	batch 8/16 per shader pass
-	GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Directional" ) );
+	// TODO: allow multiple directional lights to be stupidly fast by batching 8 or 16 per shader pass
+	GLToy_ShaderProgram* const pxShader = GLToy_Light_System::GetCurrentShader();
     if( pxShader )
     {
-		pxShader->Bind();
-        pxShader->SetUniform( "xDiffuseSampler", 1 );
-        pxShader->SetUniform( "xNormalSampler", 2 );
         pxShader->SetUniform( "xLightColour", GetColour() );
         pxShader->SetUniform( "xLightDirection", GetDirection() );
-
-		const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
-        const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
-
-        pxShader->SetUniform( "xSize", xSize );
-        pxShader->SetUniform( "xOneOverSize", xOneOverSize );
     }
 
 	// render a fullscreen pass...

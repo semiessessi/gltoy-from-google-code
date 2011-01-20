@@ -43,6 +43,7 @@
 
 template < class DataType, class KeyType > class GLToy_BinaryTree;
 template < class DataType > class GLToy_HashMap;
+class GLToy_ShaderProgram;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -214,6 +215,8 @@ public:
     static void AddProjectorLight( const GLToy_Hash uHash, const GLToy_Light_ProjectorProperties& xProperties );
     static void DestroyLight( const GLToy_Hash uHash );
 
+	static GLToy_ShaderProgram* GetCurrentShader() { return s_pxCurrentShader; }
+
     static void RegisterLightSource( const GLToy_Renderable* const pxLightSource );
 
     static void TestDirectionalLight_Console();
@@ -222,6 +225,7 @@ public:
 private:
 
     static bool s_bRenderLightBoxes;
+	static GLToy_ShaderProgram* s_pxCurrentShader;
 
     static GLToy_HashMap< GLToy_Light* > s_xLights;
     static GLToy_HashMap< GLToy_Light_Point* > s_xPointLights;
