@@ -77,8 +77,14 @@ static const GLToy_String szCommonHeader =
 	"xNormalised.y = 0.5 * sign( xNormalised.z ) * xNormalised.y + 0.5;"
     "return xReturnValue;"
 "}"
+
+"float ScreenSpaceZFromDepth( float fDepth, vec2 xClipPlanes )"
+"{"
+	"return xClipPlanes.x / ( xClipPlanes.y - fDepth * ( xClipPlanes.y - xClipPlanes.x ) ) * xClipPlanes.y;"
+"}"
 ;
 
+// TODO: versions for non-shit cards...
 static const GLToy_String szNoiseShader =
 "uniform sampler2D xNoiseTexture;"
 "vec2 rotate( vec2 xValue, float fAngle )"
