@@ -86,7 +86,7 @@ void GLToy_Environment_Lightmapped::Shutdown()
 // * single pass lightmapping with shader - although it will need its own pass anyway when there is a deferred renderer
 void GLToy_Environment_Lightmapped::Render() const
 {
-    if( GLToy_Render::HasDeferredBuffer() )
+    if( GLToy_Render::HasDeferredBuffer() && !GLToy_Environment_System::IsRenderingLightmapOnly() )
     {
         GLToy_Render::RegisterDeferred( this );
         GLToy_Light_System::RegisterLightSource( this );

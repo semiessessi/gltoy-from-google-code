@@ -17,10 +17,7 @@ void main()
 	
 	// diffuse + spare component (fresnel term)
 	gl_FragData[ 0 ] = vec4( texture2D( DiffuseMap, xTexCoord ).xyz, 0.0 );
-	
 	// HACK: crappy depth in alpha...
 	gl_FragData[ 1 ] = vec4( CompressNormal( xNormal ), xViewPosition.z / 1000.0, 0.0 );
-	
-	// TODO: specular
-	// gl_FragData[ 2 ] = texture2D( xSpecularSampler, xTexCoord );
+	// gl_FragData[ 2 ] = vec4( 0.0, 0.0, 0.0, 0.0 );
 }

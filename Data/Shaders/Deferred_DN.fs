@@ -11,6 +11,9 @@ uniform sampler2D NormalMap;
 
 void main()
 {
+	vec3 xNormalSample = 2.0 * texture2D( NormalMap, xTexCoord ).xyz - 1.0;
+	vec3 xWorldNormal = xTangent * xNormalSample.x + xBinormal * xNormalSample.y + xNormal * xNormalSample.z;
+
 	// TODO - use the spare components for:
 	// fresnel specular term
 	// fog alpha
@@ -18,12 +21,7 @@ void main()
 	
 	// diffuse + spare component (fresnel term)
 	gl_FragData[ 0 ] = vec4( texture2D( DiffuseMap, xTexCoord ).xyz, 0.0 );
-	
-	vec3 xNormalSample = 2.0 * texture2D( NormalMap, xTexCoord ).xyz - 1.0;
-	vec3 xWorldNormal = xTangent * xNormalSample.x + xBinormal * xNormalSample.y + xNormal * xNormalSample.z;
-
+	// HACK: crappy depth in alpha...
 	gl_FragData[ 1 ] = vec4( CompressNormal( xWorldNormal ), xViewPosition.z / 1000.0, 0.0 );
-	
-	// TODO: specular
-	// gl_FragData[ 2 ] = texture2D( xSpecularSampler, xTexCoord );
+	// gl_FragData[ 2 ] = vec4( 0.0, 0.0, 0.0, 0.0 );
 }
