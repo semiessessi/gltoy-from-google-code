@@ -78,9 +78,19 @@ static const GLToy_String szCommonHeader =
     "return xReturnValue;"
 "}"
 
-"float ScreenSpaceZFromDepth( float fDepth, vec2 xClipPlanes )"
+"float ViewZFromDepth( float fDepth, vec2 xClipPlanes )"
 "{"
 	"return xClipPlanes.x / ( xClipPlanes.y - fDepth * ( xClipPlanes.y - xClipPlanes.x ) ) * xClipPlanes.y;"
+"}"
+
+"vec3 ViewPositionFromDepth( float fDepth, vec4 xFragCoord, vec2 xOneOverScreenSize )"
+"{"
+	"vec3 xReturnValue;"
+	"xReturnValue = vec3(	 ( ( xFragCoord.x * xOneOverScreenSize.x ) - 0.5 ) * 2.0,"
+							"( ( -xFragCoord.y * xOneOverScreenSize.y ) + 0.5) * 2.0 * ( xOneOverScreenSize.x / xOneOverScreenSize.y ),"
+							"ScreenSpaceZFromDepth( fDepth ) );"
+	"xReturnValue.x *= xReturnValue.z; xReturnValue.y *= -xReturnValue.z;"
+	"return xReturnValue;"
 "}"
 ;
 
