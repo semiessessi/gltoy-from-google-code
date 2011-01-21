@@ -119,6 +119,7 @@ public:
     static void SetUniform( u_int uUniformID, float fValue1, float fValue2 );
     static void SetUniform( u_int uUniformID, float fValue1, float fValue2, float fValue3 );
     static void SetUniform( u_int uUniformID, float fValue1, float fValue2, float fValue3, float fValue4 );
+    static void SetUniform( u_int uUniformID, const GLToy_Matrix_4& xValue );
     static void SetAttribute( u_int uAttributeID, int iValue );
     static void SetAttribute( u_int uAttributeID, int iValue1, int iValue2 );
     static void SetAttribute( u_int uAttributeID, int iValue1, int iValue2, int iValue3 );
@@ -261,6 +262,7 @@ private:
     static void ( __stdcall* s_pfnSetUniform2f )( u_int uUniformID, float fValue1, float fValue2 );
     static void ( __stdcall* s_pfnSetUniform3f )( u_int uUniformID, float fValue1, float fValue2, float fValue3 );
     static void ( __stdcall* s_pfnSetUniform4f )( u_int uUniformID, float fValue1, float fValue2, float fValue3, float fValue4 );
+    static void ( __stdcall* s_pfnSetUniformMatrix4fv )( u_int uUniformID, int iSize, bool bTranspose, const float* pfValue );
     static void ( __stdcall* s_pfnSetAttribute1i )( u_int uAttributeID, int iValue );
     static void ( __stdcall* s_pfnSetAttribute2i )( u_int uAttributeID, int iValue1, int iValue2 );
     static void ( __stdcall* s_pfnSetAttribute3i )( u_int uAttributeID, int iValue1, int iValue2, int iValue3 );

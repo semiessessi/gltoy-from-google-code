@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2009-2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -290,16 +290,6 @@ GLToy_Vector_3 GLToy_Maths::Rotate_AxisAngle( const GLToy_Vector_3& xVector, con
     {
         return xVector;
     }
-
-    // TODO: this can be optimised a load...
-    const float fXSquared = xAxis[ 0 ] * xAxis[ 0 ];
-    const float fYSquared = xAxis[ 1 ] * xAxis[ 1 ];
-    const float fZSquared = xAxis[ 2 ] * xAxis[ 2 ];
-    const float fXY = xAxis[ 0 ] * xAxis[ 1 ];
-    const float fYZ = xAxis[ 1 ] * xAxis[ 2 ];
-    const float fZX = xAxis[ 2 ] * xAxis[ 0 ];
-    const float fC = Cos( fAngle );
-    const float fS = Sin( fAngle );
 
     return xVector * Matrix_AxisAngleRotation( xAxis, fAngle );
 }

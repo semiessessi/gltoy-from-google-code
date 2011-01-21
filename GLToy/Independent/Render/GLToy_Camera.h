@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2009-2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -58,8 +58,10 @@ public:
     static const GLToy_Vector_3& GetDirection() { return s_xDirection; }
     static const GLToy_Vector_3& GetUp() { return s_xUp; }
     static const GLToy_Vector_3 GetRight() { return s_xUp.Cross( s_xDirection ); }
-    static GLToy_Matrix_3 GetOrientation() { return s_xOrientation; }
-    static GLToy_Matrix_3 GetInverseOrientation() { return s_xInverseOrientation; }
+    static const GLToy_Matrix_3& GetOrientation() { return s_xOrientation; }
+    static const GLToy_Matrix_3& GetInverseOrientation() { return s_xInverseOrientation; }
+    static const GLToy_Matrix_4& GetViewMatrix() { return s_xViewMatrix; }
+    static const GLToy_Matrix_4& GetInverseViewMatrix() { return s_xInverseViewMatrix; }
 
     static void Set( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection, const GLToy_Vector_3& xUp ) { s_xPosition = xPosition; s_xDirection = xDirection; s_xUp = xUp; }
     static void SetEuler( const float fX, const float fY, const float fZ );
@@ -91,6 +93,9 @@ private:
 
     static GLToy_Matrix_3 s_xOrientation;
     static GLToy_Matrix_3 s_xInverseOrientation;
+
+    static GLToy_Matrix_4 s_xViewMatrix;
+    static GLToy_Matrix_4 s_xInverseViewMatrix;
 
     static bool s_bLockedCam;
     static bool s_bFlyCam;

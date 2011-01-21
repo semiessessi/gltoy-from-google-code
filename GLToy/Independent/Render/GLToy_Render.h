@@ -188,6 +188,7 @@
 template < class DataType, class KeyType > class GLToy_BinaryTree;
 template < class T > class GLToy_List;
 class GLToy_Matrix_3;
+class GLToy_Matrix_4;
 class GLToy_Renderable;
 template < class T > class GLToy_RenderFunctor;
 template < class T > class GLToy_RenderDeferredFunctor;
@@ -361,6 +362,7 @@ public:
     static void SetUniform( u_int uUniformID, float fValue1, float fValue2 );
     static void SetUniform( u_int uUniformID, float fValue1, float fValue2, float fValue3 );
     static void SetUniform( u_int uUniformID, float fValue1, float fValue2, float fValue3, float fValue4 );
+    static void SetUniform( u_int uUniformID, const GLToy_Matrix_4& xValue );
     static void SetAttribute( u_int uAttributeID, int iValue );
     static void SetAttribute( u_int uAttributeID, int iValue1, int iValue2 );
     static void SetAttribute( u_int uAttributeID, int iValue1, int iValue2, int iValue3 );

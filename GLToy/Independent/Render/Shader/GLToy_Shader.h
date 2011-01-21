@@ -70,6 +70,9 @@ public:
     void SetUniform( const GLToy_String& szName, const GLToy_Vector_3& xValue ) const;
     void SetUniform( const GLToy_String& szName, const GLToy_Vector_4& xValue ) const;
 
+    void SetViewMatrix( const GLToy_String& szName ) const;
+    void SetInverseViewMatrix( const GLToy_String& szName ) const;
+
 protected:
 
     u_int m_uID;

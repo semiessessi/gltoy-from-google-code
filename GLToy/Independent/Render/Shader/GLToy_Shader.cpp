@@ -35,8 +35,11 @@
 
 // GLToy
 #include <Maths/GLToy_Vector.h>
+#include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture_System.h>
+
+// TODO: optimise the crap out of parameter passing
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -143,6 +146,22 @@ void GLToy_ShaderProgram::SetUniform( const GLToy_String& szName, const GLToy_Ve
     u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
     delete[] szString;
     GLToy_Render::SetUniform( uUniformID, xValue[ 0 ], xValue[ 1 ], xValue[ 2 ], xValue[ 3 ] );
+}
+
+void GLToy_ShaderProgram::SetViewMatrix( const GLToy_String& szName ) const
+{
+    char* szString = szName.CreateANSIString();
+    u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
+    delete[] szString;
+    GLToy_Render::SetUniform( uUniformID, GLToy_Camera::GetViewMatrix() );
+}
+
+void GLToy_ShaderProgram::SetInverseViewMatrix( const GLToy_String& szName ) const
+{
+    char* szString = szName.CreateANSIString();
+    u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
+    delete[] szString;
+    GLToy_Render::SetUniform( uUniformID, GLToy_Camera::GetInverseViewMatrix() );
 }
 
 void GLToy_ShaderProgram::SetUseNoise( const bool bUseNoise )

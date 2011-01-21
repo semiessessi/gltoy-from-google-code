@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2009-2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -62,8 +62,10 @@ GLToy_Vector_3 GLToy_Camera::s_xDirection = GLToy_Vector_3( 0.0f, 0.0f, 1.0f );
 GLToy_Vector_3 GLToy_Camera::s_xUp = GLToy_Vector_3( 0.0f, 1.0f, 0.0f );
 float GLToy_Camera::s_fRX = 0.0f;
 float GLToy_Camera::s_fRY = 0.0f;
-GLToy_Matrix_3 GLToy_Camera::s_xOrientation;
-GLToy_Matrix_3 GLToy_Camera::s_xInverseOrientation;
+GLToy_Matrix_3 GLToy_Camera::s_xOrientation = GLToy_Maths::IdentityMatrix3;
+GLToy_Matrix_3 GLToy_Camera::s_xInverseOrientation = GLToy_Maths::IdentityMatrix3;
+GLToy_Matrix_4 GLToy_Camera::s_xViewMatrix = GLToy_Maths::IdentityMatrix4;
+GLToy_Matrix_4 GLToy_Camera::s_xInverseViewMatrix = GLToy_Maths::IdentityMatrix4;
 bool GLToy_Camera::s_bFlyCam = true;
 bool GLToy_Camera::s_bLockedCam = false;
 bool GLToy_Camera::s_bControllerCam = false;
@@ -91,6 +93,11 @@ void GLToy_Camera::Update()
     s_xOrientation = GLToy_Matrix_3( GetRight(), s_xUp, s_xDirection );
     s_xInverseOrientation = s_xOrientation;
     s_xInverseOrientation.InvertTransformationMatrix();
+
+    s_xViewMatrix = s_xOrientation;
+    s_xViewMatrix[ 3 ] = s_xPosition;
+    s_xInverseViewMatrix = s_xViewMatrix;
+    s_xInverseViewMatrix.InvertTransformationMatrix();
 
     if( s_bFlyCam || s_bControllerCam )
     {

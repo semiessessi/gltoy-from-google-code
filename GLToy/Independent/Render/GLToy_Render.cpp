@@ -1200,6 +1200,11 @@ void GLToy_Render::SetUniform( u_int uUniformID, float fValue1, float fValue2, f
     Platform_GLToy_Render::SetUniform( uUniformID, fValue1, fValue2, fValue3, fValue4 );
 }
 
+void GLToy_Render::SetUniform( u_int uUniformID, const GLToy_Matrix_4& xValue )
+{
+    Platform_GLToy_Render::SetUniform( uUniformID, xValue );
+}
+
 void GLToy_Render::SetAttribute( u_int uAttributeID, int iValue )
 {
     Platform_GLToy_Render::SetAttribute( uAttributeID, iValue );

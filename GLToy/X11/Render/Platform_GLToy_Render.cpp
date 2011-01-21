@@ -103,6 +103,7 @@ void ( * Platform_GLToy_Render::s_pfnSetUniform1f )( u_int uUniformID, float fVa
 void ( * Platform_GLToy_Render::s_pfnSetUniform2f )( u_int uUniformID, float fValue1, float fValue2 ) = 0;
 void ( * Platform_GLToy_Render::s_pfnSetUniform3f )( u_int uUniformID, float fValue1, float fValue2, float fValue3 ) = 0;
 void ( * Platform_GLToy_Render::s_pfnSetUniform4f )( u_int uUniformID, float fValue1, float fValue2, float fValue3, float fValue4 ) = 0;
+void ( * Platform_GLToy_Render::s_pfnSetUniformMatrix4fv )( u_int uUniformID, int iSize, bool bTranspose, const float* pfValue ) = 0;
 void ( * Platform_GLToy_Render::s_pfnSetAttribute1i )( u_int uAttributeID, int iValue ) = 0;
 void ( * Platform_GLToy_Render::s_pfnSetAttribute2i )( u_int uAttributeID, int iValue1, int iValue2 ) = 0;
 void ( * Platform_GLToy_Render::s_pfnSetAttribute3i )( u_int uAttributeID, int iValue1, int iValue2, int iValue3 ) = 0;
@@ -209,6 +210,7 @@ bool Platform_GLToy_Render::Initialise()
     s_pfnSetUniform2f                       = reinterpret_cast< void ( * )( u_int, float, float ) >(                                                           glXGetProcAddress( "glUniform2f" ) );
     s_pfnSetUniform3f                       = reinterpret_cast< void ( * )( u_int, float, float, float ) >(                                                    glXGetProcAddress( "glUniform3f" ) );
     s_pfnSetUniform4f                       = reinterpret_cast< void ( * )( u_int, float, float, float, float ) >(                                             glXGetProcAddress( "glUniform4f" ) );
+    s_pfnSetUniformMatrix4fv                = reinterpret_cast< void ( * )( u_int, int, bool, const float* ) >(                                                glXGetProcAddress( "glUniformMatrix4fv" ) );
     s_pfnSetAttribute1i                     = reinterpret_cast< void ( * )( u_int, int ) >(                                                                    glXGetProcAddress( "glVertexAttrib1i" ) );
     s_pfnSetAttribute2i                     = reinterpret_cast< void ( * )( u_int, int, int ) >(                                                               glXGetProcAddress( "glVertexAttrib2i" ) );
     s_pfnSetAttribute3i                     = reinterpret_cast< void ( * )( u_int, int, int, int ) >(                                                          glXGetProcAddress( "glVertexAttrib3i" ) );
@@ -856,6 +858,11 @@ void Platform_GLToy_Render::SetUniform( u_int uUniformID, float fValue1, float f
 void Platform_GLToy_Render::SetUniform( u_int uUniformID, float fValue1, float fValue2, float fValue3, float fValue4 )
 {
     s_pfnSetUniform4f( uUniformID, fValue1, fValue2, fValue3, fValue4 );
+}
+
+void Platform_GLToy_Render::SetUniform( u_int uUniformID, const GLToy_Matrix_4& xValue )
+{
+    s_pfnSetUniformMatrix4fv( uUniformID, 1, true, &( xValue[ 0 ][ 0 ] ) );
 }
 
 void Platform_GLToy_Render::SetAttribute( u_int uAttributeID, int iValue )

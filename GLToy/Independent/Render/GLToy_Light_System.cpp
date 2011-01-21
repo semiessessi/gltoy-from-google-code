@@ -150,6 +150,8 @@ void GLToy_Light_System::Render()
         s_pxCurrentShader->SetUniform( "xSize", xSize );
         s_pxCurrentShader->SetUniform( "xOneOverSize", xOneOverSize );
         s_pxCurrentShader->SetUniform( "xClipPlanes", GLToy_Render::GetClipPlanes() );
+        s_pxCurrentShader->SetViewMatrix( "xViewMatrix" );
+        s_pxCurrentShader->SetInverseViewMatrix( "xInverseViewMatrix" );
     }
 
     GLToy_Render::DisableDepthTesting();
@@ -175,6 +177,8 @@ void GLToy_Light_System::Render()
         s_pxCurrentShader->SetUniform( "xSize", xSize );
         s_pxCurrentShader->SetUniform( "xOneOverSize", xOneOverSize );
         s_pxCurrentShader->SetUniform( "xClipPlanes", GLToy_Render::GetClipPlanes() );
+        s_pxCurrentShader->SetViewMatrix( "xViewMatrix" );
+        s_pxCurrentShader->SetInverseViewMatrix( "xInverseViewMatrix" );
     }
 
     s_xProjectorLights.Traverse( GLToy_IndirectRenderLightingFunctor< GLToy_Light_Projector >() );
@@ -193,6 +197,8 @@ void GLToy_Light_System::Render()
 
         s_pxCurrentShader->SetUniform( "xSize", xSize );
         s_pxCurrentShader->SetUniform( "xOneOverSize", xOneOverSize );
+        s_pxCurrentShader->SetViewMatrix( "xViewMatrix" );
+        s_pxCurrentShader->SetInverseViewMatrix( "xInverseViewMatrix" );
 	}
 
 	s_xDirectionalLights.Traverse( GLToy_IndirectRenderLightingFunctor< const GLToy_GlobalLight_Directional >() );

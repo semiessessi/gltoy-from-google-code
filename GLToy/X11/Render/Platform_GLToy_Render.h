@@ -241,6 +241,7 @@ private:
     static void ( * s_pfnSetUniform2f )( u_int uUniformID, float fValue1, float fValue2 );
     static void ( * s_pfnSetUniform3f )( u_int uUniformID, float fValue1, float fValue2, float fValue3 );
     static void ( * s_pfnSetUniform4f )( u_int uUniformID, float fValue1, float fValue2, float fValue3, float fValue4 );
+    static void ( * s_pfnSetUniformMatrix4fv )( u_int uUniformID, float fValue1, float fValue2, float fValue3, float fValue4 );
     static void ( * s_pfnSetAttribute1i )( u_int uAttributeID, int iValue );
     static void ( * s_pfnSetAttribute2i )( u_int uAttributeID, int iValue1, int iValue2 );
     static void ( * s_pfnSetAttribute3i )( u_int uAttributeID, int iValue1, int iValue2, int iValue3 );

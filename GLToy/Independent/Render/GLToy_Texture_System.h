@@ -170,6 +170,9 @@ private:
     static void Platform_DestroyFrameBufferTexture( u_int& uID );
     static void Platform_BindFrameBufferTexture( const u_int uID, const u_int uTextureUnit );
 
+#ifdef GLTOY_PLATFORM_WIN32
+	__declspec( align( 4 ) )
+#endif
     static GLToy_HashMap< GLToy_Texture > s_xTextures;
 
     static GLToy_Texture* s_pxBlackTexture;

@@ -436,7 +436,5 @@ void GLToy_Matrix_4::InvertTransformationMatrix()
     m_xComponents[ 1 ] = GLToy_Vector_4( xTopLeft[ 1 ], 0.0f );
     m_xComponents[ 2 ] = GLToy_Vector_4( xTopLeft[ 2 ], 0.0f );
 
-    m_xComponents[ 3 ][ 0 ] = xTranslation[ 0 ];
-    m_xComponents[ 3 ][ 1 ] = xTranslation[ 1 ];
-    m_xComponents[ 3 ][ 2 ] = xTranslation[ 2 ];
+    m_xComponents[ 3 ] = xTranslation;
 }

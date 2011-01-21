@@ -561,6 +561,12 @@
     <ClCompile Include="Independent\Material\GLToy_Material_System.cpp">
       <Filter>Independent\Material</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Environment\GLToy_Environment_SCU.cpp">
+      <Filter>Independent\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Physics\GLToy_Physics_SCU.cpp">
+      <Filter>Independent\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
