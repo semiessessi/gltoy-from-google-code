@@ -219,6 +219,8 @@ public:
 		return true;
 	}
 
+	GLToy_Matrix_3 GetUpper3x3() const { return GLToy_Matrix_3( m_xComponents[ 0 ], m_xComponents[ 1 ], m_xComponents[ 2 ] ); }
+
     GLToy_Matrix_RoundOut( GLToy_Matrix_4 )
 
 private:

@@ -184,6 +184,9 @@ bool GLToy_Maths_Matrix4FastInverseTest()
 	for( u_int u = 0; u < 10; ++u )
 	{
 		GLToy_Matrix_4 xTest = GLToy_Maths::Matrix_AxisAngleRotation( GLToy_Maths::RandomDirection(), GLToy_Maths::Random( 0.0f, GLToy_Maths::Pi * 2.0f ) );
+		xTest[ 3 ][ 0 ] = GLToy_Maths::Random( -100.0f, 100.0f );
+		xTest[ 3 ][ 1 ] = GLToy_Maths::Random( -100.0f, 100.0f );
+		xTest[ 3 ][ 2 ] = GLToy_Maths::Random( -100.0f, 100.0f );
 		GLToy_Matrix_4 xInverse = xTest;
 		xInverse.InvertTransformationMatrix();
 		GLToy_Matrix_4 xShouldBeIdentity = xTest * xInverse;

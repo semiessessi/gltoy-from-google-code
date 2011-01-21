@@ -425,14 +425,18 @@ void GLToy_Matrix_4::Transpose()
 
 void GLToy_Matrix_4::InvertTransformationMatrix()
 {
-    GLToy_Matrix_3 xTopLeft( m_xComponents[ 0 ], m_xComponents[ 1 ], m_xComponents[ 2 ] );
+    GLToy_Matrix_3 xTopLeft( GetUpper3x3() );
+
+	GLToy_Vector_3 xTranslation( m_xComponents[ 3 ] );
+	xTranslation = -xTranslation * xTopLeft;
 
     xTopLeft.Transpose();
 
-    m_xComponents[ 0 ] = xTopLeft[ 0 ];
-    m_xComponents[ 1 ] = xTopLeft[ 1 ];
-    m_xComponents[ 2 ] = xTopLeft[ 2 ];
-    m_xComponents[ 3 ][ 0 ] = -m_xComponents[ 3 ][ 0 ];
-    m_xComponents[ 3 ][ 1 ] = -m_xComponents[ 3 ][ 1 ];
-    m_xComponents[ 3 ][ 2 ] = -m_xComponents[ 3 ][ 2 ];
+    m_xComponents[ 0 ] = GLToy_Vector_4( xTopLeft[ 0 ], 0.0f );
+    m_xComponents[ 1 ] = GLToy_Vector_4( xTopLeft[ 1 ], 0.0f );
+    m_xComponents[ 2 ] = GLToy_Vector_4( xTopLeft[ 2 ], 0.0f );
+
+    m_xComponents[ 3 ][ 0 ] = xTranslation[ 0 ];
+    m_xComponents[ 3 ][ 1 ] = xTranslation[ 1 ];
+    m_xComponents[ 3 ][ 2 ] = xTranslation[ 2 ];
 }

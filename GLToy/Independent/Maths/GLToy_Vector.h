@@ -222,7 +222,7 @@ public:
     GLToy_ForceInline friend GLToy_Vector_4 operator *( const float fFloat, const GLToy_Vector_4& xVector ) { return xVector * fFloat; }
 
 	float MagnitudeSquared() const { return *this * *this; }
-	bool ApproximatelyEqual( const GLToy_Vector_3& xVector, const float fThreshold = 0.0001f ) { return ( *this - xVector ).MagnitudeSquared() < fThreshold; }
+	bool ApproximatelyEqual( const GLToy_Vector_4& xVector, const float fThreshold = 0.0001f ) { return ( *this - xVector ).MagnitudeSquared() < fThreshold; }
 
     u_int GetRGBA() const;
 
