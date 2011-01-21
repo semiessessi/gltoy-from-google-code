@@ -112,7 +112,8 @@ int GLToy::EntryPoint()
     GLToy_DebugOutput( "\r\nGLToy::EntryPoint() - Running tests.\r\n" );
 
 #ifndef GLTOY_FINAL
-    GLToy_Test_System::RunTests();
+	const bool bTestsPassed = GLToy_Test_System::RunTests();
+    GLToy_Assert( bTestsPassed, "Tests failed!" );
 #endif
 
     GLToy_Console::RegisterCommand( "quit", Quit );

@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -322,6 +322,14 @@ GLToy_Matrix_4::GLToy_Matrix_4( const GLToy_Matrix_4& xMatrix )
     m_xComponents[ 1 ] = xMatrix.m_xComponents[ 1 ];
     m_xComponents[ 2 ] = xMatrix.m_xComponents[ 2 ];
     m_xComponents[ 3 ] = xMatrix.m_xComponents[ 3 ];
+}
+
+GLToy_Matrix_4::GLToy_Matrix_4( const GLToy_Matrix_3& xMatrix )
+{
+    m_xComponents[ 0 ] = GLToy_Vector_4( xMatrix[ 0 ], 0.0f );
+    m_xComponents[ 1 ] = GLToy_Vector_4( xMatrix[ 1 ], 0.0f );
+    m_xComponents[ 2 ] = GLToy_Vector_4( xMatrix[ 2 ], 0.0f );
+    m_xComponents[ 3 ] = GLToy_Vector_4( 0.0f, 0.0f, 0.0f, 1.0f );
 }
 
 void GLToy_Matrix_4::ReadFromBitStream( const GLToy_BitStream& xStream )

@@ -161,6 +161,42 @@ bool GLToy_Maths_AlignedVectorSpeedTest()
     return true;
 }
 
+bool GLToy_Maths_Matrix3FastInverseTest()
+{
+	for( u_int u = 0; u < 10; ++u )
+	{
+		GLToy_Matrix_3 xTest = GLToy_Maths::Matrix_AxisAngleRotation( GLToy_Maths::RandomDirection(), GLToy_Maths::Random( 0.0f, GLToy_Maths::Pi * 2.0f ) );
+		GLToy_Matrix_3 xInverse = xTest;
+		xInverse.InvertTransformationMatrix();
+		GLToy_Matrix_3 xShouldBeIdentity = xTest * xInverse;
+
+		if( !xShouldBeIdentity.ApproximatelyEqual( GLToy_Maths::IdentityMatrix3 ) )
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool GLToy_Maths_Matrix4FastInverseTest()
+{
+	for( u_int u = 0; u < 10; ++u )
+	{
+		GLToy_Matrix_4 xTest = GLToy_Maths::Matrix_AxisAngleRotation( GLToy_Maths::RandomDirection(), GLToy_Maths::Random( 0.0f, GLToy_Maths::Pi * 2.0f ) );
+		GLToy_Matrix_4 xInverse = xTest;
+		xInverse.InvertTransformationMatrix();
+		GLToy_Matrix_4 xShouldBeIdentity = xTest * xInverse;
+
+		if( !xShouldBeIdentity.ApproximatelyEqual( GLToy_Maths::IdentityMatrix4 ) )
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,6 +209,8 @@ bool GLToy_Maths::Initialise()
     GLToy_Test_System::RegisterTest( GLToy_Maths_DotTest, "Dot product accurate to 0.05%" );
     GLToy_Test_System::RegisterTest( GLToy_Maths_QuadraticSolverTest, "Quadratic solver accurate to 0.05%" );
     GLToy_Test_System::RegisterTest( GLToy_Maths_AlignedVectorSpeedTest, "Aligned vector is faster than unaligned vector" );
+	GLToy_Test_System::RegisterTest( GLToy_Maths_Matrix3FastInverseTest, "3x3 transformation matrix inversion is more than 1% accurate" );
+	GLToy_Test_System::RegisterTest( GLToy_Maths_Matrix4FastInverseTest, "4x4 transformation matrix inversion is more than 1% accurate" );
 
     return Platform_Initialise();
 }
@@ -260,7 +298,27 @@ GLToy_Vector_3 GLToy_Maths::Rotate_AxisAngle( const GLToy_Vector_3& xVector, con
     const float fC = Cos( fAngle );
     const float fS = Sin( fAngle );
 
-    return xVector * GLToy_Matrix_3( 
+    return xVector * Matrix_AxisAngleRotation( xAxis, fAngle );
+}
+
+GLToy_Matrix_3 GLToy_Maths::Matrix_AxisAngleRotation( const GLToy_Vector_3& xAxis, const float fAngle )
+{
+    if( fAngle == 0.0f )
+    {
+        return GLToy_Maths::IdentityMatrix3;
+    }
+
+    // TODO: this can be optimised a load...
+    const float fXSquared = xAxis[ 0 ] * xAxis[ 0 ];
+    const float fYSquared = xAxis[ 1 ] * xAxis[ 1 ];
+    const float fZSquared = xAxis[ 2 ] * xAxis[ 2 ];
+    const float fXY = xAxis[ 0 ] * xAxis[ 1 ];
+    const float fYZ = xAxis[ 1 ] * xAxis[ 2 ];
+    const float fZX = xAxis[ 2 ] * xAxis[ 0 ];
+    const float fC = Cos( fAngle );
+    const float fS = Sin( fAngle );
+
+    return GLToy_Matrix_3( 
 
             fXSquared + ( 1.0f - fXSquared ) * fC,     fXY * ( 1.0f - fC ) - xAxis[ 2 ] * fS,       fZX * ( 1.0f - fC ) + xAxis[ 1 ] * fS,
 

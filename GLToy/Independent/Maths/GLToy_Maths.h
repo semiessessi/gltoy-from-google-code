@@ -182,6 +182,7 @@ public:
     static GLToy_Vector_2 Rotate_2D( const GLToy_Vector_2& xVector, const float fAngle );
     static GLToy_Vector_2 Rotate_2D_FromCosSin( const GLToy_Vector_2& xVector, const float fCos, const float fSin );
     static GLToy_Vector_3 Rotate_AxisAngle( const GLToy_Vector_3& xVector, const GLToy_Vector_3& xAxis, const float fAngle );
+	static GLToy_Matrix_3 Matrix_AxisAngleRotation( const GLToy_Vector_3& xAxis, const float fAngle );
 	static GLToy_Matrix_3 Orientation_FromDirection( const GLToy_Vector_3& xDirection );
     static GLToy_Matrix_3 Orientation_FromDirectionAndUp( const GLToy_Vector_3& xDirection, const GLToy_Vector_3 xUp = GLToy_Vector_3( 0.0f, 1.0f, 0.0f ) );
 

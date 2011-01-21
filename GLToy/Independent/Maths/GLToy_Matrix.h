@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -86,6 +86,18 @@ public:
 
     void Identity();
     void Transpose();
+	bool ApproximatelyEqual( const GLToy_Matrix_2& xMatrix, const float fThreshold = 0.0001f )
+	{
+		for( u_int u = 0; u < 2; ++u )
+		{
+			if( !m_xComponents[ u ].ApproximatelyEqual( xMatrix.m_xComponents[ u ] ) )
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 
     GLToy_Matrix_RoundOut( GLToy_Matrix_2 )
 
@@ -131,8 +143,19 @@ public:
     void Identity();
     void Transpose();
     void Orthonormalise();
+	GLToy_ForceInline void InvertTransformationMatrix() { Transpose(); }
+	bool ApproximatelyEqual( const GLToy_Matrix_3& xMatrix, const float fThreshold = 0.0001f )
+	{
+		for( u_int u = 0; u < 3; ++u )
+		{
+			if( !m_xComponents[ u ].ApproximatelyEqual( xMatrix.m_xComponents[ u ] ) )
+			{
+				return false;
+			}
+		}
 
-    GLToy_ForceInline void InvertTransformationMatrix() { Transpose(); }
+		return true;
+	}
 
     GLToy_Matrix_RoundOut( GLToy_Matrix_3 )
 
@@ -156,6 +179,7 @@ public:
         const float f10, const float f11, const float f12, const float f13,
         const float f20, const float f21, const float f22, const float f23,
         const float f30, const float f31, const float f32, const float f33 );
+	GLToy_Matrix_4( const GLToy_Matrix_3& xMatrix );
     GLToy_Matrix_4( const GLToy_Matrix_4& xMatrix );
 
     ~GLToy_Matrix_4() {}
@@ -181,8 +205,19 @@ public:
 
     void Identity();
     void Transpose();
-
     void InvertTransformationMatrix();
+	bool ApproximatelyEqual( const GLToy_Matrix_4& xMatrix, const float fThreshold = 0.0001f )
+	{
+		for( u_int u = 0; u < 4; ++u )
+		{
+			if( !m_xComponents[ u ].ApproximatelyEqual( xMatrix.m_xComponents[ u ] ) )
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 
     GLToy_Matrix_RoundOut( GLToy_Matrix_4 )
 
