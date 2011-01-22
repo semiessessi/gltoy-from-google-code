@@ -212,8 +212,8 @@ bool GLToy_Maths::Initialise()
     GLToy_Test_System::RegisterTest( GLToy_Maths_DotTest, "Dot product accurate to 0.05%" );
     GLToy_Test_System::RegisterTest( GLToy_Maths_QuadraticSolverTest, "Quadratic solver accurate to 0.05%" );
     GLToy_Test_System::RegisterTest( GLToy_Maths_AlignedVectorSpeedTest, "Aligned vector is faster than unaligned vector" );
-	GLToy_Test_System::RegisterTest( GLToy_Maths_Matrix3FastInverseTest, "3x3 transformation matrix inversion is more than 1% accurate" );
-	GLToy_Test_System::RegisterTest( GLToy_Maths_Matrix4FastInverseTest, "4x4 transformation matrix inversion is more than 1% accurate" );
+	GLToy_Test_System::RegisterTest( GLToy_Maths_Matrix3FastInverseTest, "3x3 transformation matrix inversion is accurate" );
+	GLToy_Test_System::RegisterTest( GLToy_Maths_Matrix4FastInverseTest, "4x4 transformation matrix inversion is accurate" );
 
     return Platform_Initialise();
 }
