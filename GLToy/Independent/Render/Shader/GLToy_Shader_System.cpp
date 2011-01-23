@@ -74,7 +74,7 @@ static const GLToy_String szCommonHeader =
 "vec2 CompressNormal( vec3 xNormalised )"
 "{"
 	"vec2 xReturnValue = 0.5 * xNormalised.xy + 0.5;"
-	"xReturnValue.y = 0.5 * sign( xNormalised.z ) * xNormalised.y + 0.5;"
+	"xReturnValue.y = 0.5 * sign( xNormalised.z ) * xReturnValue.y + 0.5;"
     "return xReturnValue;"
 "}"
 
