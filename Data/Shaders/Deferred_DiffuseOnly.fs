@@ -1,3 +1,18 @@
+// the plan for the buffers is...
+//
+// D = diffuse
+// N = normals
+// Sm = specular mask
+// Sp = specular power
+// Sf = specular fresnel term
+// H = heightmap
+// SD = surface depth (for subsurface effects)
+// AO = ambient occlusion
+//
+// gl_FragData[ 0 ] = Dr Dg Db Fog
+// gl_FragData[ 1 ] = Nx Ny H  AO
+// gl_FragData[ 2 ] = Sm Sp Sf SD
+
 varying vec2 xTexCoord;
 varying vec3 xNormal;
 varying vec3 xTangent;
@@ -10,12 +25,6 @@ uniform sampler2D DiffuseMap;
 
 void main()
 {
-	// TODO - use the spare components for:
-	// fresnel specular term
-	// fog alpha
-	// heightmap?
-	
-	// diffuse + spare component (fresnel term)
 	gl_FragData[ 0 ] = vec4( texture2D( DiffuseMap, xTexCoord ).xyz, 0.0 );
 	gl_FragData[ 1 ] = vec4( CompressNormal( xNormal ), 0.0, 0.0 );
 	// gl_FragData[ 2 ] = vec4( 0.0, 0.0, 0.0, 0.0 );

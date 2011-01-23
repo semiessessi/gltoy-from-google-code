@@ -13,6 +13,9 @@ uniform vec2 xSize;
 uniform vec2 xOneOverSize;
 uniform vec2 xClipPlanes;
 
+uniform mat4x4 xViewMatrix;
+uniform mat4x4 xInverseViewMatrix;
+
 void main()
 {
 	// TODO: fix this up
