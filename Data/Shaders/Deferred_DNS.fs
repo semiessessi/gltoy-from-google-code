@@ -23,6 +23,7 @@ varying vec3 xViewPosition;
 
 uniform sampler2D DiffuseMap;
 uniform sampler2D NormalMap;
+uniform sampler2D SpecularMap;
 
 void main()
 {
@@ -32,5 +33,5 @@ void main()
 	float fFog = ( xViewPosition.z - 1000.0 ) * 0.01;
 	gl_FragData[ 0 ] = vec4( texture2D( DiffuseMap, xTexCoord ).xyz, fFog );
 	gl_FragData[ 1 ] = vec4( CompressNormal( xWorldNormal ), 0.0, 0.0 );
-	gl_FragData[ 2 ] = vec4( 0.0, 0.0, 0.0, 0.0 );
+	gl_FragData[ 2 ] = vec4( texture2D( SpecularMap, xTexCoord ).xyz, 0.0 );
 }

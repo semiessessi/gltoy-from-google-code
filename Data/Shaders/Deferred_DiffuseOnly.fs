@@ -25,7 +25,9 @@ uniform sampler2D DiffuseMap;
 
 void main()
 {
-	gl_FragData[ 0 ] = vec4( texture2D( DiffuseMap, xTexCoord ).xyz, 0.0 );
+	// TODO: fog from parameters
+	float fFog = ( xViewPosition.z - 1000.0 ) * 0.01;
+	gl_FragData[ 0 ] = vec4( texture2D( DiffuseMap, xTexCoord ).xyz, fFog);
 	gl_FragData[ 1 ] = vec4( CompressNormal( xNormal ), 0.0, 0.0 );
-	// gl_FragData[ 2 ] = vec4( 0.0, 0.0, 0.0, 0.0 );
+	gl_FragData[ 2 ] = vec4( 0.0, 0.0, 0.0, 0.0 );
 }
