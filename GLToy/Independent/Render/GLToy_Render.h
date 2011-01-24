@@ -241,6 +241,7 @@ public:
 
     static void BindDiffuseTexture( const u_int uTextureUnit = 0 );
     static void BindNormalTexture( const u_int uTextureUnit = 0 );
+    static void BindSpecularTexture( const u_int uTextureUnit = 0 );
     static void BindDepthTexture( const u_int uTextureUnit = 0 );
 
     static void StartSamplingDepth();
@@ -427,7 +428,7 @@ private:
     static u_int s_uDeferredBuffer;
     static u_int s_uDiffuseTexture;
     static u_int s_uNormalTexture;
-    //static u_int s_uSpecularTexture;
+    static u_int s_uSpecularTexture;
 
     static GLToy_List< const GLToy_Renderable* > s_xDeferredRenderables;
     static GLToy_BinaryTree< const GLToy_Renderable*, float > s_xTransparents;
