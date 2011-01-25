@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2009-2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -53,6 +53,7 @@
 #include <Physics/GLToy_Physics_System.h>
 #endif
 #include <Render/GLToy_Camera.h>
+#include <Render/GLToy_Light_System.h>
 #include <Render/GLToy_Render.h>
 #ifndef GLTOY_DEMO
 #include <Sound/GLToy_Sound_System.h>
@@ -376,6 +377,8 @@ void GLToy::Update()
     Project_Update();
 
     //GLToy_Camera::Update();
+
+    GLToy_Light_System::Update();
 
     //GLToy_Render::EndRender();
 }

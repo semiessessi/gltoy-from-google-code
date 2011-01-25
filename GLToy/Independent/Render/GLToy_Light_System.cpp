@@ -210,30 +210,32 @@ void GLToy_Light_System::Render()
     s_xOtherLightSources.Traverse( GLToy_IndirectRenderLightingFunctor< const GLToy_Renderable >() );
     s_xOtherLightSources.Clear();
 
-    // TODO: find out why this doesn't blend correctly :/
+    // TODO: work out why this doesn't blend properly :/
     // render fog ...
- //   GLToy_Render::EnableBlending();
- //   GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+    /*
+    GLToy_Render::EnableBlending();
+    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
 
- //   s_pxCurrentShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Fog" ) );
- //   if( s_pxCurrentShader )
- //   {
- //       s_pxCurrentShader->Bind();
-	//	s_pxCurrentShader->SetUniform( "xDiffuseSampler", 1 );
+    s_pxCurrentShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Fog" ) );
+    if( s_pxCurrentShader )
+    {
+        s_pxCurrentShader->Bind();
+		s_pxCurrentShader->SetUniform( "xDiffuseSampler", 1 );
 
-	//	const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
- //       const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
+		const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
+        const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
 
- //       s_pxCurrentShader->SetUniform( "xOneOverSize", xOneOverSize );
-	//}
+        s_pxCurrentShader->SetUniform( "xOneOverSize", xOneOverSize );
+	}
 
-	//// ... as a fullscreen pass
-	//GLToy_Render::StartSubmittingQuads();
- //   GLToy_Render::SubmitVertex( GLToy_Vector_3( -1.0f, -1.0f, 0.0f ) );
- //   GLToy_Render::SubmitVertex( GLToy_Vector_3( 1.0f, -1.0f, 0.0f ) );
- //   GLToy_Render::SubmitVertex( GLToy_Vector_3( 1.0f, 1.0f, 0.0f ) );
- //   GLToy_Render::SubmitVertex( GLToy_Vector_3( -1.0f, 1.0f, 0.0f ) );
- //   GLToy_Render::EndSubmit();
+	// ... as a fullscreen pass
+	GLToy_Render::StartSubmittingQuads();
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( -1.0f, -1.0f, 0.0f ) );
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( 1.0f, -1.0f, 0.0f ) );
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( 1.0f, 1.0f, 0.0f ) );
+    GLToy_Render::SubmitVertex( GLToy_Vector_3( -1.0f, 1.0f, 0.0f ) );
+    GLToy_Render::EndSubmit();
+    */
 
     GLToy_Render::SetBlendFunction( BLEND_ONE, BLEND_ONE );
 
@@ -247,9 +249,13 @@ void GLToy_Light_System::Render()
     }
 }
 
-// SE - TODO: hook up somewhere
 void GLToy_Light_System::Update()
 {
+    if( GLToy_Input_System::GetDebouncedMouseMiddle() )
+    {
+        GLToy_Render::NextDebugBuffer();
+    }
+
     s_xLights.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Light >() );
 }
 

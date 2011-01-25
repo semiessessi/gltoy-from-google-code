@@ -203,7 +203,7 @@ void GLToy_Texture_System::Platform_CreateFrameBufferTexture( u_int& uID, const 
 {
     glGenTextures( 1, &uID );
     glBindTexture( GL_TEXTURE_2D, uID );
-    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB8, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
 	// SE - 14/01/2010 - GL_NEAREST would be faster, but I want to be able to do hacky refraction and blurs etc. for which
@@ -225,7 +225,7 @@ void GLToy_Texture_System::Platform_CreateDepthBufferTexture( u_int& uID, const 
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
     // disable compare mode so we can use texture2D in shaders
     glTexParameteri( GL_TEXTURE_2D, TEXTURE_COMPARE_MODE, GL_NONE );
-    glTexParameteri( GL_TEXTURE_2D, DEPTH_TEXTURE_MODE, GL_LUMINANCE );  
+    glTexParameteri( GL_TEXTURE_2D, DEPTH_TEXTURE_MODE, GL_INTENSITY );  
 }
 
 void GLToy_Texture_System::Platform_DestroyFrameBufferTexture( u_int& uID )

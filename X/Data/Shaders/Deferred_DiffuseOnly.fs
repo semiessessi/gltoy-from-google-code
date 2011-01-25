@@ -17,17 +17,15 @@ varying vec2 xTexCoord;
 varying vec3 xNormal;
 varying vec3 xTangent;
 varying vec3 xBinormal;
-
 varying vec3 xPosition;
 varying vec3 xViewPosition;
+varying float fFog;
 
 uniform sampler2D DiffuseMap;
 
 void main()
 {
-	// TODO: fog from parameters
-	float fFog = clamp( ( xViewPosition.z - 4000.0 ) * 0.01, 0.0, 1.0 );
-	gl_FragData[ 0 ] = vec4( texture2D( DiffuseMap, xTexCoord ).xyz, fFog);
+	gl_FragData[ 0 ] = vec4( texture2D( DiffuseMap, xTexCoord ).xyz, fFog );
 	gl_FragData[ 1 ] = vec4( CompressNormal( xNormal ), 0.0, 0.0 );
 	gl_FragData[ 2 ] = vec4( 0.0, 0.0, 0.0, 0.0 );
 }

@@ -385,6 +385,9 @@ public:
 
     static const GLToy_Vector_2& GetClipPlanes() { return s_xClipPlanes; }
 
+    static void NextDebugBuffer() { ++s_uCurrentDebugBuffer; s_uCurrentDebugBuffer %= 11; }
+    static void PreviousDebugBuffer() { --s_uCurrentDebugBuffer; s_uCurrentDebugBuffer %= 11; }
+
 private:
 
     static void SetClipPlanes( const GLToy_Vector_2& xClipPlanes ) { s_xClipPlanes = xClipPlanes; }
@@ -429,6 +432,8 @@ private:
     static u_int s_uDiffuseTexture;
     static u_int s_uNormalTexture;
     static u_int s_uSpecularTexture;
+
+    static u_int s_uCurrentDebugBuffer;
 
     static GLToy_List< const GLToy_Renderable* > s_xDeferredRenderables;
     static GLToy_BinaryTree< const GLToy_Renderable*, float > s_xTransparents;

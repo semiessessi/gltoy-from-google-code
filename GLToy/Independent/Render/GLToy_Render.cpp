@@ -74,6 +74,7 @@ u_int GLToy_Render::s_uDeferredBuffer = GLToy_MaxUint;
 u_int GLToy_Render::s_uDiffuseTexture = GLToy_MaxUint;
 u_int GLToy_Render::s_uNormalTexture = GLToy_MaxUint;
 u_int GLToy_Render::s_uSpecularTexture = GLToy_MaxUint;
+u_int GLToy_Render::s_uCurrentDebugBuffer = 0;
 u_int GLToy_Render::s_uFrameBufferNoDepth = GLToy_MaxUint;
 u_int GLToy_Render::s_uSwapBufferNoDepth = GLToy_MaxUint;
 u_int* GLToy_Render::s_puCurrentBufferNoDepth = &GLToy_Render::s_uSwapBufferNoDepth;
@@ -118,6 +119,7 @@ bool GLToy_Render::Initialise()
     GLToy_Console::RegisterVariable( "showfps", &s_bDrawFPS );
     GLToy_Console::RegisterVariable( "showtimers", &s_bDrawTimers );
     GLToy_Console::RegisterVariable( "showbuffers", &s_bDrawBuffers );
+    GLToy_Console::RegisterVariable( "buffer", &s_uCurrentDebugBuffer );
     GLToy_Console::RegisterVariable( "shownormals", &s_bDrawNormals );
     GLToy_Console::RegisterCommand( "vsync", SetVsyncEnabled );
 
@@ -416,11 +418,17 @@ void GLToy_Render::Render()
     {
         BindFramebuffer( FRAMEBUFFER, s_uDeferredBuffer );
         SetViewport( 0, 0, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+
+        SetBlendFunction( BLEND_ONE, BLEND_ZERO );
+        DisableBlending();
+        EnableDepthWrites();
+        EnableDepthTesting();
                 
         const u_int auBuffers[] =
         {
             COLOR_ATTACHMENT0,
             COLOR_ATTACHMENT1,
+            COLOR_ATTACHMENT2,
         };
 
         GLToy_Render::DrawBuffers( sizeof( auBuffers ) / sizeof( u_int ), auBuffers );
@@ -493,49 +501,51 @@ void GLToy_Render::Render()
 
         if( s_bDrawBuffers && HasDeferredBuffer() )
         {
-            // TODO: something to scroll through different buffers/channels...
+            switch( s_uCurrentDebugBuffer )
+            {
+                case 0: GLToy_Texture_System::BindFrameBufferTexture( *s_puCurrentTexture ); break;
+                case 1:
+                case 7: BindDiffuseTexture(); break;
+                case 2:
+                case 8: BindNormalTexture(); break;
+                case 9:
+                case 3: BindDepthTexture(); break;
+                case 4:
+                case 5:
+                case 6: 
+                case 10: BindSpecularTexture(); break;
+                default: break;
+            }
 
-            GLToy_Texture_System::BindFrameBufferTexture( *s_puCurrentTexture );
-            StartSubmittingQuads();
-            SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-            SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), 0.5f ), GLToy_Vector_2( 0.25f * GLToy_Render::Get2DWidth(), 0.5f ), 0.0f, 1.0f, 1.0f, 0.0f );
-            EndSubmit();
+            GLToy_Hash uShaderHash = 0;
+            switch( s_uCurrentDebugBuffer )
+            {
+                case 1: uShaderHash = GLToy_Hash_Constant( "Debug_Diffuse" ); break;
+                case 2: uShaderHash = GLToy_Hash_Constant( "Debug_Normals" ); break;
+                case 3: uShaderHash = GLToy_Hash_Constant( "Debug_Depth" ); break;
+                case 4: uShaderHash = GLToy_Hash_Constant( "Debug_SpecularMask" ); break;
+                case 5: uShaderHash = GLToy_Hash_Constant( "Debug_SpecularPower" ); break;
+                case 6: uShaderHash = GLToy_Hash_Constant( "Debug_SpecularFresnel" ); break;
+                case 7: uShaderHash = GLToy_Hash_Constant( "Debug_Fog" ); break;
+                case 8: uShaderHash = GLToy_Hash_Constant( "Debug_Height" ); break;
+                case 9: uShaderHash = GLToy_Hash_Constant( "Debug_AO" ); break;
+                case 10: uShaderHash = GLToy_Hash_Constant( "Debug_SubsurfaceDepth" ); break;
 
-            BindDiffuseTexture();
-            GLToy_ShaderProgram* pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Debug_Diffuse" ) );
+                default: break;
+            }
+
+            GLToy_ShaderProgram* pxShader = GLToy_Shader_System::FindShader( uShaderHash );
             if( pxShader )
             {
                 pxShader->Bind();
                 pxShader->SetUniform( "xSampler", 0 );
             }
+            
             StartSubmittingQuads();
-            SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-            SubmitTexturedQuad2D( GLToy_Vector_2( -1.0f, 0.0f ), GLToy_Vector_2( 0.5f, 0.5f ), 0.0f, 1.0f, 1.0f, 0.0f );
+            SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * ( ( s_uCurrentDebugBuffer == 0 ) ? GLToy_Render::Get2DWidth() : 2.0f ), -1.0f ), GLToy_Vector_2( 0.25f * ( ( s_uCurrentDebugBuffer == 0 ) ? GLToy_Render::Get2DWidth() : 2.0f ), 0.5f ), 0.0f, 1.0f, 1.0f, 0.0f );
             EndSubmit();
 
-            BindNormalTexture();
-            pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Debug_Normals" ) );
-            if( pxShader )
-            {
-                pxShader->Bind();
-                pxShader->SetUniform( "xSampler", 0 );
-            }
-            StartSubmittingQuads();
-            SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-            SubmitTexturedQuad2D( GLToy_Vector_2( -1.0f, -0.5f ), GLToy_Vector_2( 0.5f, 0.5f ), 0.0f, 1.0f, 1.0f, 0.0f );
-            EndSubmit();
-
-            pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Debug_Depth" ) );
-            if( pxShader )
-            {
-                pxShader->Bind();
-                pxShader->SetUniform( "xSampler", 0 );
-            }
-            BindDepthTexture();
-            StartSubmittingQuads();
-            SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-            SubmitTexturedQuad2D( GLToy_Vector_2( -1.0f, -1.0f ), GLToy_Vector_2( 0.5f, 0.5f ), 0.0f, 1.0f, 1.0f, 0.0f );
-            EndSubmit();
+            UseProgram( 0 );
         }
 
         SetPerspectiveProjectionMatrix();
@@ -580,13 +590,21 @@ void GLToy_Render::Render2D()
             if( s_bDrawBuffers && HasDeferredBuffer() )
             {
                 // TODO: something to scroll through different buffers/channels...
-                szString = "Frame buffer";
-                pxFont->RenderString( szString, GLToy_Render::GetMinX(), 1.0f - pxFont->GetHeight() );
-                szString = "Diffuse buffer";
-                pxFont->RenderString( szString, GLToy_Render::GetMinX(), 0.5f - pxFont->GetHeight() );
-                szString = "Normal buffer";
-                pxFont->RenderString( szString, GLToy_Render::GetMinX(), 0.0f - pxFont->GetHeight() );
-                szString = "Depth buffer";
+                switch( s_uCurrentDebugBuffer )
+                {
+                    case 0: szString = "Frame buffer"; break;
+                    case 1: szString = "Diffuse"; break;
+                    case 2: szString = "Normals"; break;
+                    case 3: szString = "Depth buffer"; break;
+                    case 4: szString = "Specular mask"; break;
+                    case 5: szString = "Specular power"; break;
+                    case 6: szString = "Fresnel term"; break;
+                    case 7: szString = "Fog"; break;
+                    case 8: szString = "Height"; break;
+                    case 9: szString = "Ambient occlusion"; break;
+                    case 10: szString = "Subsurface depth"; break;
+                }
+                    
                 pxFont->RenderString( szString, GLToy_Render::GetMinX(), -0.5f - pxFont->GetHeight() );
             }
         }
