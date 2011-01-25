@@ -501,7 +501,7 @@ void GLToy_Render::Render()
             SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), 0.5f ), GLToy_Vector_2( 0.25f * GLToy_Render::Get2DWidth(), 0.5f ), 0.0f, 1.0f, 1.0f, 0.0f );
             EndSubmit();
 
-            GLToy_Texture_System::BindFrameBufferTexture( s_uDiffuseTexture );
+            BindDiffuseTexture();
             GLToy_ShaderProgram* pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Debug_Diffuse" ) );
             if( pxShader )
             {
@@ -513,7 +513,7 @@ void GLToy_Render::Render()
             SubmitTexturedQuad2D( GLToy_Vector_2( -1.0f, 0.0f ), GLToy_Vector_2( 0.5f, 0.5f ), 0.0f, 1.0f, 1.0f, 0.0f );
             EndSubmit();
 
-            GLToy_Texture_System::BindFrameBufferTexture( s_uNormalTexture );
+            BindNormalTexture();
             pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Debug_Normals" ) );
             if( pxShader )
             {
@@ -525,13 +525,13 @@ void GLToy_Render::Render()
             SubmitTexturedQuad2D( GLToy_Vector_2( -1.0f, -0.5f ), GLToy_Vector_2( 0.5f, 0.5f ), 0.0f, 1.0f, 1.0f, 0.0f );
             EndSubmit();
 
-            //pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Debug_Depth" ) );
-            //if( pxShader )
-            //{
-            //    pxShader->Bind();
-            //    pxShader->SetUniform( "xSampler", 0 );
-            //}
-            GLToy_Texture_System::BindFrameBufferTexture( s_uDepthTexture );
+            pxShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Debug_Depth" ) );
+            if( pxShader )
+            {
+                pxShader->Bind();
+                pxShader->SetUniform( "xSampler", 0 );
+            }
+            BindDepthTexture();
             StartSubmittingQuads();
             SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
             SubmitTexturedQuad2D( GLToy_Vector_2( -1.0f, -1.0f ), GLToy_Vector_2( 0.5f, 0.5f ), 0.0f, 1.0f, 1.0f, 0.0f );
