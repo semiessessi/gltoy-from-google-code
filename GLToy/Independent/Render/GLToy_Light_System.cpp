@@ -116,7 +116,7 @@ void GLToy_Light_System::RegisterLightSource( const GLToy_Renderable* const pxLi
 
 void GLToy_Light_System::TestDirectionalLight_Console()
 {
-    AddGlobalDirectionalLight( GLToy_Vector_3( 0.8660254f, 0.8660254f, 0.8660254f ), GLToy_Vector_3( 1.0f, 0.2f, 0.2f ) );
+    AddGlobalDirectionalLight( GLToy_Vector_3( 0.8660254f, 0.8660254f, 0.8660254f ), GLToy_Vector_3( 0.3f, 0.25f, 0.2f ) );
 }
 
 void GLToy_Light_System::SpawnPointLight_Console()
