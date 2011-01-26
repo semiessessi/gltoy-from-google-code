@@ -212,9 +212,13 @@ void GLToy_Light_System::Render()
 
     // TODO: work out why this doesn't blend properly :/
     // render fog ...
-    /*
+    ///*
     GLToy_Render::EnableBlending();
     GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+    GLToy_Render::DisableDepthTesting();
+    GLToy_Render::DisableDepthWrites();
+
+    GLToy_Render::BindDiffuseTexture( 1 );
 
     s_pxCurrentShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Fog" ) );
     if( s_pxCurrentShader )
@@ -235,14 +239,16 @@ void GLToy_Light_System::Render()
     GLToy_Render::SubmitVertex( GLToy_Vector_3( 1.0f, 1.0f, 0.0f ) );
     GLToy_Render::SubmitVertex( GLToy_Vector_3( -1.0f, 1.0f, 0.0f ) );
     GLToy_Render::EndSubmit();
-    */
+    //*/
 
     GLToy_Render::SetBlendFunction( BLEND_ONE, BLEND_ONE );
 
+    GLToy_Render::UseProgram( 0 );
+    GLToy_Render::EnableDepthTesting();
+    GLToy_Render::EnableDepthWrites();
+
     if( s_bRenderLightBoxes )
     {
-        GLToy_Render::UseProgram( 0 );
-
         GLToy_ConstIterate( GLToy_Light*, pxLight, s_xLights )
             pxLight->RenderDebug();
         GLToy_Iterate_End;

@@ -148,12 +148,13 @@ void GLToy_ShaderProgram::SetUniform( const GLToy_String& szName, const GLToy_Ve
     GLToy_Render::SetUniform( uUniformID, xValue[ 0 ], xValue[ 1 ], xValue[ 2 ], xValue[ 3 ] );
 }
 
+// TODO: get to the bottom of the view matrix swapping
 void GLToy_ShaderProgram::SetViewMatrix( const GLToy_String& szName ) const
 {
     char* szString = szName.CreateANSIString();
     u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
     delete[] szString;
-    GLToy_Render::SetUniform( uUniformID, GLToy_Camera::GetViewMatrix() );
+    GLToy_Render::SetUniform( uUniformID, GLToy_Camera::GetInverseViewMatrix() );
 }
 
 void GLToy_ShaderProgram::SetInverseViewMatrix( const GLToy_String& szName ) const
@@ -161,7 +162,7 @@ void GLToy_ShaderProgram::SetInverseViewMatrix( const GLToy_String& szName ) con
     char* szString = szName.CreateANSIString();
     u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
     delete[] szString;
-    GLToy_Render::SetUniform( uUniformID, GLToy_Camera::GetInverseViewMatrix() );
+    GLToy_Render::SetUniform( uUniformID, GLToy_Camera::GetViewMatrix() );
 }
 
 void GLToy_ShaderProgram::SetUseNoise( const bool bUseNoise )

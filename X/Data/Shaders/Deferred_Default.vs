@@ -6,6 +6,9 @@ varying vec3 xPosition;
 varying vec3 xViewPosition;
 varying float fFog;
 
+uniform mat4x4 xViewMatrix;
+uniform mat4x4 xInverseViewMatrix;
+
 void main()
 {
 	xTexCoord = gl_MultiTexCoord0.xy;
@@ -16,8 +19,8 @@ void main()
 	xBinormal = cross( xNormal, xTangent );
 	
 	xPosition = gl_Vertex.xyz;
-	xViewPosition = ( gl_Vertex * gl_ModelViewMatrix ).xyz;
-	fFog = ( -xViewPosition.z - 400.0f ) * 0.001f ;
+	xViewPosition = ( gl_Vertex * xViewMatrix ).xyz;
+	fFog = ( length( xViewPosition.xyz ) - 200.0f ) * 0.003f ;
 	
 	gl_Position = ftransform();
 }

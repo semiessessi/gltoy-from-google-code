@@ -87,6 +87,9 @@ void GLToy_Material::Bind() const
         GLToy_Texture_System::BindTexture( m_auTextures[ u ], u );
         pxShader->SetUniform( m_aszTextureNames[ u ], static_cast< int >( u ) );
     }
+
+    pxShader->SetViewMatrix( "xViewMatrix" );
+    pxShader->SetInverseViewMatrix( "xInverseViewMatrix" );
 }
 
 bool GLToy_Material::IsReady() const

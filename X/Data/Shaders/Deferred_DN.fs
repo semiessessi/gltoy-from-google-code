@@ -21,6 +21,9 @@ varying vec3 xPosition;
 varying vec3 xViewPosition;
 varying float fFog;
 
+uniform mat4x4 xViewMatrix;
+uniform mat4x4 xInverseViewMatrix;
+
 uniform sampler2D DiffuseMap;
 uniform sampler2D NormalMap;
 
