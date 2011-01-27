@@ -494,8 +494,20 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         GLToy_Vector_3 xTangent = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis;
         xTangent.Normalise();
 
-
-        GLToy_Vector_3 xNormal = xPlanes[ xBSPFace.m_usPlane ].m_xPlane.GetNormal();        
+        GLToy_Vector_3 xNormal = GLToy_Maths::ZeroVector3;
+        u_int uFirstEdge = xBSPFace.m_uFirstEdge;
+        // this crashes if there are degenerate faces...
+        while( xNormal.MagnitudeSquared() < 0.00001f )
+        {
+            int iEdge1 = xFaceEdges[ uFirstEdge ];
+            int iEdge2 = xFaceEdges[ uFirstEdge + 1 ];
+            const GLToy_Vector_3& xVertex1 = xVertices[ ( iEdge1 < 0 ) ? xEdges[ -iEdge1 ].m_usVertex2 : xEdges[ iEdge1 ].m_usVertex1 ];
+            const GLToy_Vector_3& xVertex2 = xVertices[ ( iEdge2 < 0 ) ? xEdges[ -iEdge2 ].m_usVertex1 : xEdges[ iEdge2 ].m_usVertex2 ];
+            const GLToy_Vector_3& xVertex3 = xVertices[ ( iEdge2 < 0 ) ? xEdges[ -iEdge2 ].m_usVertex2 : xEdges[ iEdge2 ].m_usVertex1 ];
+            xNormal = ( xVertex3 - xVertex2 ).Cross( xVertex1 - xVertex2 );
+            ++uFirstEdge;
+        }
+        
         xNormal.Normalise();
         
         pxEnv->m_xVertices[ uCurrentVertex ].m_xPosition = xVertices[ ( iEdge < 0 ) ? xEdges[ -iEdge ].m_usVertex2 : xEdges[ iEdge ].m_usVertex1 ];
@@ -546,6 +558,8 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
     // re-orient vertices - this must be done after setting up the faces to ensure UVs are generated correctly
     GLToy_Iterate( GLToy_Environment_LightmappedFaceVertex, xCurrent, pxEnv->m_xVertices )
         xCurrent.m_xPosition = GLToy_Vector_3( -( xCurrent.m_xPosition[ 1 ] ), xCurrent.m_xPosition[ 2 ], xCurrent.m_xPosition[ 0 ] );
+        xCurrent.m_xNormal = GLToy_Vector_3( -( xCurrent.m_xNormal[ 1 ] ), xCurrent.m_xNormal[ 2 ], xCurrent.m_xNormal[ 0 ] );
+        xCurrent.m_xTangent = GLToy_Vector_3( -( xCurrent.m_xTangent[ 1 ] ), xCurrent.m_xTangent[ 2 ], xCurrent.m_xTangent[ 0 ] );
     GLToy_Iterate_End;
 
     // create the lightmap textures

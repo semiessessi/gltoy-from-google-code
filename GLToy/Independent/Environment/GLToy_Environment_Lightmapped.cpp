@@ -656,18 +656,22 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderDebugNormals() const
         // render basis vectors...
         GLToy_ConstIterate( u_int, uFaceIndex, m_xIndices )
             GLToy_ConstIterate( u_int, uIndex, xFace.m_xIndices )
-                GLToy_Render::StartSubmittingLines();
                     const GLToy_Environment_LightmappedFaceVertex& xVertex = m_pxParent->m_xVertices[ uIndex ];
                     GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+                    GLToy_Render::StartSubmittingLines();
                     GLToy_Render::SubmitVertex( xVertex.m_xPosition );
                     GLToy_Render::SubmitVertex( xVertex.m_xPosition + 20.0f * xVertex.m_xNormal );
+                    GLToy_Render::EndSubmit();
                     GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 0.0f, 0.0f ) );
+                    GLToy_Render::StartSubmittingLines();
                     GLToy_Render::SubmitVertex( xVertex.m_xPosition );
                     GLToy_Render::SubmitVertex( xVertex.m_xPosition + 20.0f * xVertex.m_xTangent );
+                    GLToy_Render::EndSubmit();
                     GLToy_Render::SubmitColour( GLToy_Vector_3( 0.0f, 0.0f, 1.0f ) );
+                    GLToy_Render::StartSubmittingLines();
                     GLToy_Render::SubmitVertex( xVertex.m_xPosition );
                     GLToy_Render::SubmitVertex( xVertex.m_xPosition + 20.0f * xVertex.m_xNormal.Cross( xVertex.m_xTangent ) );
-                GLToy_Render::EndSubmit();
+                    GLToy_Render::EndSubmit();
             GLToy_Iterate_End;
         GLToy_Iterate_End;
     GLToy_Iterate_End;

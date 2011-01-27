@@ -13,9 +13,9 @@ void main()
 {
 	xTexCoord = gl_MultiTexCoord0.xy;
 	
-	// decode normal basis using stereographic projection
-	xNormal = ReconstructNormal( gl_MultiTexCoord1.xy );
-	xTangent = ReconstructNormal( gl_MultiTexCoord1.zw );
+	// decode normal basis and move into view space...
+	xNormal = ( vec4( ReconstructNormal( gl_MultiTexCoord1.xy ), 0.0 ) * xViewMatrix ).xyz;
+	xTangent = ( vec4( ReconstructNormal( gl_MultiTexCoord1.zw ), 0.0 ) * xViewMatrix ).xyz;
 	xBinormal = cross( xNormal, xTangent );
 	
 	xPosition = gl_Vertex.xyz;

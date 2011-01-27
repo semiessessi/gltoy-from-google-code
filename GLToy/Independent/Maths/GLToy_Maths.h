@@ -194,20 +194,12 @@ public:
 
     static GLToy_Inline GLToy_Vector_2 StereographicProjection( const GLToy_Vector_3& xNormalised ) { return GLToy_Vector_2( xNormalised.x, xNormalised.y ) / ( 1.0f - xNormalised.z ); }
     static GLToy_Inline GLToy_Vector_3 InverseStereographicProjection( const GLToy_Vector_2& xProjected ) { float fSumOfSquares = xProjected * xProjected; return GLToy_Vector_3( 2.0f * xProjected.x, 2.0f * xProjected.y, fSumOfSquares - 1.0f ) / ( 1.0f + fSumOfSquares ); }
-	//vec3 ReconstructNormal( vec2 xCompressed )
-	//{
-	//	float fIntermediaryValue = xCompressed.y * 2.0 - 1.0;
-	//	vec3 xReturnValue = vec3( xCompressed.x - 0.5, abs( fIntermediaryValue ) - 0.5, sign( fIntermediaryValue ) );
-	//	return xReturnValue * vec3( 2.0, 2.0, 1.0 - sqrt( dot( xReturnValue.xy, xReturnValue.xy ) ) );
-	//}
 
 	static GLToy_Inline GLToy_Vector_2 CompressNormal( const GLToy_Vector_3& xNormalised )
 	{
-		float fY = ( ( xNormalised.z >= 0.0f ) ? 0.5f : -0.5f ) * ( xNormalised.y + 1.0f );
-		return GLToy_Vector_2( 0.5f * xNormalised.x + 0.5f, 0.5f * fY + 0.5f );
+		const float fY = 0.5f * xNormalised.y + 0.5f;
+		return 0.5f * GLToy_Vector_2( xNormalised.x + 1.0f, ( ( xNormalised.z >= 0.0f ) ? fY : -fY ) + 1.0f );
 	}
-    //static GLToy_Inline GLToy_Vector_3 ReconstructNormal( const GLToy_Vector_2& xCompressed ) { return GLToy_Vector_3( 0.0f, 0.0f, 0.0f ); }
-
 
 private:
     

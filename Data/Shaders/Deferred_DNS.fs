@@ -31,8 +31,8 @@ uniform sampler2D SpecularMap;
 void main()
 {
 	vec3 xNormalSample = 2.0 * texture2D( NormalMap, xTexCoord ).xyz - 1.0;
-	vec3 xWorldNormal = xTangent * xNormalSample.x + xBinormal * xNormalSample.y + xNormal * xNormalSample.z;
+	vec3 xViewNormal = xTangent * xNormalSample.x + xBinormal * xNormalSample.y + xNormal * xNormalSample.z;
 	gl_FragData[ 0 ] = vec4( texture2D( DiffuseMap, xTexCoord ).xyz, fFog );
-	gl_FragData[ 1 ] = vec4( CompressNormal( normalize( xWorldNormal ) ), 0.0, 0.0 );
+	gl_FragData[ 1 ] = vec4( StereographicProjection( normalize( xViewNormal ) ), 0.0, 0.0 );
 	gl_FragData[ 2 ] = vec4( texture2D( SpecularMap, xTexCoord ).xyz, 0.0 );
 }
