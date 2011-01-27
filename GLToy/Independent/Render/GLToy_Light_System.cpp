@@ -131,9 +131,33 @@ void GLToy_Light_System::SpawnPointLight_Console()
 
 void GLToy_Light_System::Render()
 {
+    // the buffers are arranged out like this (on Wintel)
+    //
+    //              R       G       B       A
+    // Diffuse      Dr      Dg      Db      Fog
+    // Nomals       Nx      Ny      Height  AO
+    // Specular     Sm      Sp      Sf      SS
+    //
+    // Diffuse colour       Dr, Dg, Db
+    // Encoded normal       Nx, Ny
+    // Specularity mask     Sm
+    // Specularity power    Sp
+    // Fresnel term         Sf
+    // Ambient occlusion    AO
+    // Subsurface depth     SS
+    //
+    // ... most of it does nothing right now, and the architecture needs a bit more thought
+    // e.g. the subsurface stuff needs an extra buffer to put light into - like hdr, both can
+    // in fact be done in a single pass (with further passes for a bloom)
+    //
+    // there are no specular materials atm, and no specular lights
+    // the directional light works but has crap precision from my doubly compressing the normals...
+    // once as the basis is passed in as a 4 component texture coordinate, and a second time when stored
+    // the precision should be fine if i can implement view space normals with stereographic projection
+
     GLToy_Render::StartSamplingDepth();
 
-    /*GLToy_ShaderProgram* const pxShader*/s_pxCurrentShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Point" ) );
+    s_pxCurrentShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Point" ) );
     if( s_pxCurrentShader )
     {
         s_pxCurrentShader->Bind();
@@ -142,7 +166,6 @@ void GLToy_Light_System::Render()
         s_pxCurrentShader->SetUniform( "xDepthSampler", 3 );
 
         s_pxCurrentShader->SetUniform( "xCameraPosition", GLToy_Camera::GetPosition() );
-        s_pxCurrentShader->SetUniform( "xViewVector", GLToy_Camera::GetDirection() );
 
         const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
         const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
@@ -159,7 +182,7 @@ void GLToy_Light_System::Render()
 
     s_xPointLights.Traverse( GLToy_IndirectRenderLightingFunctor< GLToy_Light_Point >() );
 
-    /*GLToy_ShaderProgram* const pxProjectorShader*/s_pxCurrentShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Projector" ) );
+    s_pxCurrentShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Projector" ) );
     if( s_pxCurrentShader )
     {
         s_pxCurrentShader->Bind();
@@ -210,9 +233,7 @@ void GLToy_Light_System::Render()
     s_xOtherLightSources.Traverse( GLToy_IndirectRenderLightingFunctor< const GLToy_Renderable >() );
     s_xOtherLightSources.Clear();
 
-    // TODO: work out why this doesn't blend properly :/
-    // render fog ...
-    ///*
+    // render fog ..
     GLToy_Render::EnableBlending();
     GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
     GLToy_Render::DisableDepthTesting();

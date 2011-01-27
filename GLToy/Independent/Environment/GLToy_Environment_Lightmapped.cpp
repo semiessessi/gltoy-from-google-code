@@ -92,16 +92,39 @@ void GLToy_Environment_Lightmapped::Render() const
         {
             GLToy_Render::RegisterDeferred( this );
             GLToy_Light_System::RegisterLightSource( this );
-            return;
         }
     }
+    else
+    {
+        GLToy_Render::EnableBackFaceCulling();
+        GLToy_Render::SetCWFaceWinding();
+    }
 
-    GLToy_Render::EnableBackFaceCulling();
-    GLToy_Render::SetCWFaceWinding();
     GLToy_Render::DisableBlending();
     GLToy_Render::EnableDepthTesting();
     GLToy_Render::EnableDepthWrites();
     GLToy_Render::UseProgram( 0 );
+
+    if( GLToy_Environment_System::IsDebugRenderNormals() )
+    {
+        GLToy_Texture_System::BindWhite();
+        GLToy_EnvironmentLeaf_Lightmapped* pxLeaf = static_cast< GLToy_EnvironmentLeaf_Lightmapped* >( GetLeafData( GLToy_Camera::GetPosition() ) );
+        if( !IsEmpty() && pxLeaf && pxLeaf->m_uCluster != 0xFFFF )
+        {
+            GLToy_ConstIterate( u_int, uClusterIndex, m_xClusters[ pxLeaf->m_uCluster ].m_xPVS )
+                GLToy_Assert( uClusterIndex < m_xClusters.GetCount(), "Cluster index is too large!" );
+                
+                GLToy_ConstIterate( u_int, uCluster, m_xClusters[ uClusterIndex ].m_xIndices )
+                    m_xLeaves[ uCluster ].RenderDebugNormals();
+                GLToy_Iterate_End;
+            GLToy_Iterate_End;
+        }
+    }
+
+    if( GLToy_Render::HasDeferredBuffer() )
+    {
+        return;
+    }
 
     GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xFace, m_xFaces )
         xFace.m_uRenderFlags = 0;
@@ -617,6 +640,36 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderDebugFaceInfo() const
             GLToy_Console::GetFont()->RenderString( xFaceString, xPoint[ 0 ], xPoint[ 1 ] );
             GLToy_Console::GetFont()->RenderString( xClusterString, xPoint[ 0 ], xPoint[ 1 ] + GLToy_Console::GetFont()->GetHeight() );
         }
+    GLToy_Iterate_End;
+}
+
+void GLToy_EnvironmentLeaf_Lightmapped::RenderDebugNormals() const
+{
+    GLToy_ConstIterate( u_int, uFaceIndex, m_xIndices )
+        const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ uFaceIndex ];
+
+        if( !xFace.m_bVisible )
+        {
+            continue;
+        }
+
+        // render basis vectors...
+        GLToy_ConstIterate( u_int, uFaceIndex, m_xIndices )
+            GLToy_ConstIterate( u_int, uIndex, xFace.m_xIndices )
+                GLToy_Render::StartSubmittingLines();
+                    const GLToy_Environment_LightmappedFaceVertex& xVertex = m_pxParent->m_xVertices[ uIndex ];
+                    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+                    GLToy_Render::SubmitVertex( xVertex.m_xPosition );
+                    GLToy_Render::SubmitVertex( xVertex.m_xPosition + 20.0f * xVertex.m_xNormal );
+                    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 0.0f, 0.0f ) );
+                    GLToy_Render::SubmitVertex( xVertex.m_xPosition );
+                    GLToy_Render::SubmitVertex( xVertex.m_xPosition + 20.0f * xVertex.m_xTangent );
+                    GLToy_Render::SubmitColour( GLToy_Vector_3( 0.0f, 0.0f, 1.0f ) );
+                    GLToy_Render::SubmitVertex( xVertex.m_xPosition );
+                    GLToy_Render::SubmitVertex( xVertex.m_xPosition + 20.0f * xVertex.m_xNormal.Cross( xVertex.m_xTangent ) );
+                GLToy_Render::EndSubmit();
+            GLToy_Iterate_End;
+        GLToy_Iterate_End;
     GLToy_Iterate_End;
 }
 

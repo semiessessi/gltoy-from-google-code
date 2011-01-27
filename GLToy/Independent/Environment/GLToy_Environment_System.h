@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -86,6 +86,7 @@ public:
 
     static bool IsBSPQuadRes() { return s_bBSPQuadRes; }
     static bool IsDebugRender() { return s_bDebugRender; }
+    static bool IsDebugRenderNormals() { return s_bDebugRenderNormals; }
 
     static void SetProjectCreateCallback( GLToy_Environment* ( *pfnCreateFromType )( const u_int ) ) { s_pfnProject_CreateFromType = pfnCreateFromType; }
 
@@ -98,6 +99,7 @@ private:
     static bool s_bRenderLightmapOnly;
     static bool s_bBSPQuadRes;
     static bool s_bDebugRender;
+    static bool s_bDebugRenderNormals;
     static GLToy_Environment* s_pxCurrentEnvironment;
 
 #ifdef GLTOY_PLATFORM_WIN32

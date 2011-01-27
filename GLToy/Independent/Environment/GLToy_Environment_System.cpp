@@ -57,6 +57,7 @@ bool GLToy_Environment_System::s_bRenderLightmap = true;
 bool GLToy_Environment_System::s_bRenderLightmapOnly = false;
 bool GLToy_Environment_System::s_bBSPQuadRes = true;
 bool GLToy_Environment_System::s_bDebugRender = false;
+bool GLToy_Environment_System::s_bDebugRenderNormals = false;
 GLToy_Environment* ( *GLToy_Environment_System::s_pfnProject_CreateFromType )( const u_int ) = NULL;
 GLToy_HashMap< GLToy_EnvironmentFile* > GLToy_Environment_System::s_xEnvironments;
 
@@ -70,6 +71,7 @@ bool GLToy_Environment_System::Initialise()
 
     GLToy_Console::RegisterVariable( "render.env", &s_bRender );
     GLToy_Console::RegisterVariable( "render.env.debug", &s_bDebugRender );
+    GLToy_Console::RegisterVariable( "render.env.normals", &s_bDebugRenderNormals );
     GLToy_Console::RegisterVariable( "render.lightmap", &s_bRenderLightmap );
     GLToy_Console::RegisterVariable( "render.lightmaponly", &s_bRenderLightmapOnly );
 

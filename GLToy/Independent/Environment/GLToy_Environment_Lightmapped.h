@@ -226,6 +226,7 @@ public:
     virtual void RenderLightmap() const;
     virtual void RenderLighting() const;
     virtual void RenderDebugFaceInfo() const;
+    virtual void RenderDebugNormals() const;
 
     const GLToy_Array< u_int >& GetIndices() const;
     const u_int GetFaceCount() const { return m_xIndices.GetCount(); }

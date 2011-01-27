@@ -10,7 +10,7 @@ uniform vec2 xOneOverSize;
 void main()
 {
 	vec3 xDiffuse = texture2D( xDiffuseSampler, gl_FragCoord.xy * xOneOverSize ).xyz;
-	vec3 xNormal = normalize( ReconstructNormal( texture2D( xNormalSampler, gl_FragCoord.xy * xOneOverSize ).xy ) );
+	vec3 xNormal = ReconstructNormal( texture2D( xNormalSampler, gl_FragCoord.xy * xOneOverSize ).xy );
 	vec3 xColour = xLightColour * xDiffuse * dot( xNormal, xLightDirection );
 	gl_FragColor = vec4( xColour, 1.0 );
 }
