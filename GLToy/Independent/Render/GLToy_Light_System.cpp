@@ -192,7 +192,6 @@ void GLToy_Light_System::Render()
         s_pxCurrentShader->SetUniform( "xDepthSampler", 3 );
 
         s_pxCurrentShader->SetUniform( "xCameraPosition", GLToy_Camera::GetPosition() );
-        s_pxCurrentShader->SetUniform( "xViewVector", GLToy_Camera::GetDirection() );
 
         const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
         const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
