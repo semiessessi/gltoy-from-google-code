@@ -491,7 +491,7 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
         int iEdge = xFaceEdges[ uFaceEdge ];
         xFace.m_xIndices[ 0 ] = uCurrentVertex;
 
-        GLToy_Vector_3 xTangent = xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis;
+        GLToy_Vector_3 xTangent = -xTexInfos[ xBSPFace.m_usTextureInfo ].m_xUAxis;
         xTangent.Normalise();
 
         GLToy_Vector_3 xNormal = GLToy_Maths::ZeroVector3;

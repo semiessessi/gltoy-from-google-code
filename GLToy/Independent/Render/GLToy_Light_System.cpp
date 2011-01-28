@@ -123,7 +123,7 @@ void GLToy_Light_System::SpawnPointLight_Console()
 {
     GLToy_Light_PointProperties xProperties;
     xProperties.m_xPosition = GLToy_Camera::GetPosition();
-    xProperties.m_xColour = GLToy_Vector_3( 1.0f, 1.0f, 1.0f );
+    xProperties.m_xColour = GLToy_Vector_3( 0.5f, 0.5f, 0.5f );
     xProperties.m_uFlags = 0;
     xProperties.m_fSphereRadius = 100.0f;
     AddPointLight( GLToy_Random_Hash(), xProperties );
