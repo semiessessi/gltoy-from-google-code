@@ -170,7 +170,7 @@ bool GLToy_Maths_Matrix3FastInverseTest()
 		xInverse.InvertTransformationMatrix();
 		GLToy_Matrix_3 xShouldBeIdentity = xTest * xInverse;
 
-		if( !xShouldBeIdentity.ApproximatelyEqual( GLToy_Maths::IdentityMatrix3 ) )
+		if( !xShouldBeIdentity.ApproximatelyEqual( GLToy_Maths::IdentityMatrix3, 0.001f ) )
 		{
 			return false;
 		}
@@ -191,7 +191,7 @@ bool GLToy_Maths_Matrix4FastInverseTest()
 		xInverse.InvertTransformationMatrix();
 		GLToy_Matrix_4 xShouldBeIdentity = xTest * xInverse;
 
-		if( !xShouldBeIdentity.ApproximatelyEqual( GLToy_Maths::IdentityMatrix4 ) )
+		if( !xShouldBeIdentity.ApproximatelyEqual( GLToy_Maths::IdentityMatrix4, 0.001f ) )
 		{
 			return false;
 		}
@@ -205,7 +205,7 @@ bool GLToy_Maths_StereographicProjectionTest()
 	for( u_int u = 0; u < 20; ++u )
 	{
 		const GLToy_Vector_3 xDirection( GLToy_Maths::RandomDirection() );
-        if( !( GLToy_Maths::InverseStereographicProjection( GLToy_Maths::StereographicProjection( xDirection ) ).ApproximatelyEqual( xDirection ) ) )
+        if( !( GLToy_Maths::InverseStereographicProjection( GLToy_Maths::StereographicProjection( xDirection ) ).ApproximatelyEqual( xDirection, 0.001f ) ) )
         {
             return false;
         }
@@ -228,7 +228,7 @@ bool GLToy_Maths::Initialise()
     GLToy_Test_System::RegisterTest( GLToy_Maths_AlignedVectorSpeedTest, "Aligned vector speed test" );
 	GLToy_Test_System::RegisterTest( GLToy_Maths_Matrix3FastInverseTest, "3x3 transformation matrix inversion test" );
 	GLToy_Test_System::RegisterTest( GLToy_Maths_Matrix4FastInverseTest, "4x4 transformation matrix inversion test" );
-    GLToy_Test_System::RegisterTest( GLToy_Maths_Matrix4FastInverseTest, "Stereographic projection test" );
+    GLToy_Test_System::RegisterTest( GLToy_Maths_StereographicProjectionTest, "Stereographic projection test" );
 
     return Platform_Initialise();
 }
@@ -398,7 +398,8 @@ float GLToy_Maths::Random( const float fLower, const float fHigher )
 GLToy_Vector_3 GLToy_Maths::RandomDirection()
 {
     GLToy_Vector_3 xReturnValue( Random( -1.0f ), Random( -1.0f ), 0.0f );
-    xReturnValue.z = ( ( Random( -1.0f ) > 0.0f  ) ? -1.0f : 1.0f ) * Sqrt( 1.0f - xReturnValue.MagnitudeSquared() );
+    xReturnValue.z = ( ( Random( -1.0f ) > 0.0f  ) ? -1.0f : 1.0f ) * Sqrt( Clamp( 1.0f - xReturnValue.MagnitudeSquared() ) );
+    xReturnValue.Normalise();
     return xReturnValue;
 }
 
