@@ -6,8 +6,6 @@ uniform float fLightRadius;
 uniform vec3 xCameraPosition;
 uniform vec3 xLightPosition;
 uniform vec3 xLightColour;
-// this view vector is not good enough... it should be a varying
-uniform vec3 xViewVector;
 
 uniform vec2 xSize;
 uniform vec2 xOneOverSize;
