@@ -132,7 +132,7 @@ bool GLToy_Texture_System::Initialise()
     s_xTextures.AddNode( GLToy_Texture( "cyan", 0xFFFFFF00 ), GLToy_Hash_Constant( "cyan" ) );
     s_xTextures.AddNode( GLToy_Texture( "magenta", 0xFFFF00FF ), GLToy_Hash_Constant( "magenta" ) );
     s_xTextures.AddNode( GLToy_Texture( "defaultnormal", 0xFFFF7F7F ), GLToy_Hash_Constant( "defaultnormal" ) );
-    s_xTextures.AddNode( GLToy_Texture( "defaultspecular", 0x003F01FF ), GLToy_Hash_Constant( "defaultspecular" ) );
+    s_xTextures.AddNode( GLToy_Texture( "defaultspecular", 0x007F013F ), GLToy_Hash_Constant( "defaultspecular" ) );
     s_pxBlackTexture = s_xTextures.FindData( GLToy_Hash_Constant( "black" ) );
     s_xTextures.AddNode( GLToy_Texture( "transparent", 0x00000000 ), GLToy_Hash_Constant( "transparent" ) );
 

@@ -17,9 +17,8 @@ uniform mat4x4 xInverseViewMatrix;
 
 void main()
 {
-	// TODO: fix this up
 	vec3 xDiffuse = texture2D( xDiffuseSampler, gl_FragCoord.xy * xOneOverSize ).xyz;
-	vec3 xNormal = ( vec4( InverseStereographicProjection( 4.0 * texture2D( xNormalSampler, gl_FragCoord.xy * xOneOverSize ).xy - 2.0 ), 0.0 ) * xInverseViewMatrix ).xyz;
+	vec3 xNormal = normalize( ( vec4( InverseStereographicProjection( 4.0 * texture2D( xNormalSampler, gl_FragCoord.xy * xOneOverSize ).xy - 2.0 ), 0.0 ) * xInverseViewMatrix ).xyz );
 	vec4 xSpecularSample = texture2D( xSpecularSampler, gl_FragCoord.xy * xOneOverSize );
 	vec3 xPosition = 
 		( vec4( ViewPositionFromDepth(
