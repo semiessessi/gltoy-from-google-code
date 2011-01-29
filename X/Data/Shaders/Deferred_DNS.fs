@@ -34,5 +34,6 @@ void main()
 	vec3 xViewNormal = xTangent * xNormalSample.x + xBinormal * xNormalSample.y + xNormal * xNormalSample.z;
 	gl_FragData[ 0 ] = vec4( texture2D( DiffuseMap, xTexCoord ).xyz, fFog );
 	gl_FragData[ 1 ] = vec4( 0.25 * StereographicProjection( normalize( xViewNormal ) ) + 0.5, 0.0, 0.0 );
+	// TODO: the zero is just so i can use the white texture for now...
 	gl_FragData[ 2 ] = vec4( texture2D( SpecularMap, xTexCoord ).xyz, 0.0 );
 }

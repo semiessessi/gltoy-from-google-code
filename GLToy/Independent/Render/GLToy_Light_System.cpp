@@ -156,11 +156,13 @@ void GLToy_Light_System::Render()
     // the precision should be fine if i can implement view space normals with stereographic projection
 
     GLToy_Render::StartSamplingDepth();
+    GLToy_Render::BindSpecularTexture();
 
     s_pxCurrentShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Point" ) );
     if( s_pxCurrentShader )
     {
         s_pxCurrentShader->Bind();
+        s_pxCurrentShader->SetUniform( "xSpecularSampler", 0 );
         s_pxCurrentShader->SetUniform( "xDiffuseSampler", 1 );
         s_pxCurrentShader->SetUniform( "xNormalSampler", 2 );
         s_pxCurrentShader->SetUniform( "xDepthSampler", 3 );

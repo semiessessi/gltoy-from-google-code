@@ -1,0 +1,5 @@
+Deferred=true
+Shader=Deferred_DNS
+DiffuseMap=e1u1/c_met5_1_d.ptx
+NormalMap=e1u1/c_met5_1_n.ptx
+SpecularMap=Yellow

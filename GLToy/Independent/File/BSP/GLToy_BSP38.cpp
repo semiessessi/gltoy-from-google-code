@@ -39,6 +39,7 @@
 #include <File/GLToy_EnvironmentFile.h>
 
 // GLToy
+#include <Core/Data Structures/GLToy_HashMap.h>
 #include <Core/Data Structures/GLToy_Pair.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment.h>
@@ -197,6 +198,13 @@ public:
         xStream >> m_uValue;
         for( u_int u = 0; u < 32; ++u ) { xStream >> m_szTextureName[ u ]; }
         xStream >> m_uNextTextureInfo;
+#ifdef GLTOY_DEBUG
+        const GLToy_Hash uHash = GLToy_String( m_szTextureName ).GetHash();
+        if( !s_xTextureNames.FindData( uHash ) )
+        {
+            s_xTextureNames.AddNode( m_szTextureName, uHash );
+        }
+#endif
     }
 
     void WriteToBitStream( GLToy_BitStream& xStream ) const
@@ -220,7 +228,15 @@ public:
     char m_szTextureName[ 32 ];
     u_int m_uNextTextureInfo;
 
+#ifdef GLTOY_DEBUG
+    static GLToy_HashMap< GLToy_String > s_xTextureNames;
+#endif
+
 };
+
+#ifdef GLTOY_DEBUG
+GLToy_HashMap< GLToy_String > GLToy_BSP38_TextureInfo::s_xTextureNames;
+#endif
 
 class GLToy_BSP38_VisOffset
 : public GLToy_SimpleSerialisable< GLToy_BSP38_VisOffset >
@@ -288,6 +304,7 @@ public:
 
 void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 {
+    GLToy_BSP38_TextureInfo::s_xTextureNames.Clear();
     GLToy_Environment_Lightmapped* pxEnv = static_cast< GLToy_Environment_Lightmapped* >( GLToy_Environment_System::CreateEnvironmentFromType( ENV_LIGHTMAPPED ) );
 
     if( !pxEnv )

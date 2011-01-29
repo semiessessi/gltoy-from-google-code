@@ -125,6 +125,13 @@ bool GLToy_Texture_System::Initialise()
     s_pxWhiteTexture = s_xTextures.FindData( GLToy_Hash_Constant( "white" ) );
     s_xTextures.AddNode( GLToy_Texture( "black", 0xFF000000 ), GLToy_Hash_Constant( "black" ) );
     s_pxBlackTexture = s_xTextures.FindData( GLToy_Hash_Constant( "black" ) );
+    s_xTextures.AddNode( GLToy_Texture( "red", 0xFF0000FF ), GLToy_Hash_Constant( "red" ) );
+    s_xTextures.AddNode( GLToy_Texture( "green", 0xFF00FF00 ), GLToy_Hash_Constant( "green" ) );
+    s_xTextures.AddNode( GLToy_Texture( "blue", 0xFFFF0000 ), GLToy_Hash_Constant( "blue" ) );
+    s_xTextures.AddNode( GLToy_Texture( "yellow", 0xFF00FFFF ), GLToy_Hash_Constant( "yellow" ) );
+    s_xTextures.AddNode( GLToy_Texture( "cyan", 0xFFFFFF00 ), GLToy_Hash_Constant( "cyan" ) );
+    s_xTextures.AddNode( GLToy_Texture( "magenta", 0xFFFF00FF ), GLToy_Hash_Constant( "magenta" ) );
+    s_pxBlackTexture = s_xTextures.FindData( GLToy_Hash_Constant( "black" ) );
     s_xTextures.AddNode( GLToy_Texture( "transparent", 0x00000000 ), GLToy_Hash_Constant( "transparent" ) );
 
     CreateTexture( "white" );
