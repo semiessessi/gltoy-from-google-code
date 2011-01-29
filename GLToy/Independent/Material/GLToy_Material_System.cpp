@@ -203,8 +203,10 @@ bool GLToy_Material_System::Initialise()
 
         GLToy_Material xMaterial( xTexture.GetHash() );
         xMaterial.SetDeferred();
-        xMaterial.SetShaderHash( GLToy_Hash_Constant( "Deferred_DiffuseOnly" ) );
+        xMaterial.SetShaderHash( GLToy_Hash_Constant( "Deferred_DNS" ) );
         xMaterial.AddTexture( xTexture.GetHash(), "DiffuseMap" );
+        xMaterial.AddTexture( GLToy_Hash_Constant( "DefaultNormal" ), "NormalMap" );
+        xMaterial.AddTexture( GLToy_Hash_Constant( "DefaultSpecular" ), "SpecularMap" );
 
         s_xMaterials.AddNode( xMaterial, xTexture.GetHash() );
 

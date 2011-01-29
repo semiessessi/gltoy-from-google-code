@@ -270,6 +270,11 @@ void GLToy_Environment_Lightmapped::RenderLightmap() const
 
 void GLToy_Environment_Lightmapped::RenderLighting() const
 {
+    if( !GLToy_Environment_System::IsRenderingLightmap() )
+    {
+        return;
+    }
+
     GLToy_Render::EnableBackFaceCulling();
     GLToy_Render::SetCWFaceWinding();
 

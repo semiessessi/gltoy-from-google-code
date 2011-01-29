@@ -37,12 +37,12 @@ void main()
 	float fAttenuation = clamp( 1.0 - dot( xLightVector, xLightVector ) / ( fLightRadius * fLightRadius ), 0.0, 1.0 );
 	float fNormalDot = clamp( -dot( xNormal, normalize( xLightVector ) ), 0.0, 1.0 );
 	float fSpecularDot = clamp( dot( xViewVector, xReflectedLightVector ), 0.0, 1.0 );
-	//float fFresnelDot = clamp( dot( -xViewVector, xNormal ), 0.0, 1.0 );
+	float fFresnelDot = clamp( dot( -xViewVector, xNormal ), 0.0, 1.0 );
 	
 	vec3 xDiffuseComponent = xLightColour * fNormalDot * xDiffuse;
-	float fSpecularComponent = fBrightness * xSpecularSample.x * pow( fSpecularDot, 1.0 + xSpecularSample.y * 2048.0 );
-				//* pow( 1.0 - fFresnelDot, 0.01 + xSpecularSample.z * 16.0 );
+	float fSpecularComponent = fBrightness * xSpecularSample.x * pow( fSpecularDot, 1.0 + xSpecularSample.y * 2048.0 )
+				* pow( 1.0 - fFresnelDot, 0.01 + xSpecularSample.z * 16.0 );
 	
 	vec3 xColour = fAttenuation * ( xDiffuseComponent + fSpecularComponent );
-	gl_FragColor = vec4( xColour.xy, xSpecularSample.x * pow( fSpecularDot, xSpecularSample.y * 2048.0 ), 1.0 );
+	gl_FragColor = vec4( xColour, 1.0 );
 }
