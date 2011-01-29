@@ -304,7 +304,9 @@ public:
 
 void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 {
+#ifdef GLTOY_DEBUG
     GLToy_BSP38_TextureInfo::s_xTextureNames.Clear();
+#endif
     GLToy_Environment_Lightmapped* pxEnv = static_cast< GLToy_Environment_Lightmapped* >( GLToy_Environment_System::CreateEnvironmentFromType( ENV_LIGHTMAPPED ) );
 
     if( !pxEnv )
