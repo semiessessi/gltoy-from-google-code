@@ -147,7 +147,7 @@ static void HK_CALL GLToy_Havok_ErrorReport( const char* szMessage, void* pData 
 
 void GLToy_Havok_MarkForRead()
 {
-
+#ifdef GLTOY_DEBUG
 #ifdef HK_DEBUG
 
     if( g_pxHavokWorld )
@@ -156,12 +156,13 @@ void GLToy_Havok_MarkForRead()
     }
 
 #endif
+#endif
 
 }
 
 void GLToy_Havok_MarkForWrite()
 {
-
+#ifdef GLTOY_DEBUG
 #ifdef HK_DEBUG
 
     if( g_pxHavokWorld )
@@ -170,12 +171,13 @@ void GLToy_Havok_MarkForWrite()
     }
 
 #endif
+#endif
 
 }
 
 void GLToy_Havok_UnmarkForRead()
 {
-
+#ifdef GLTOY_DEBUG
 #ifdef HK_DEBUG
 
     if( g_pxHavokWorld )
@@ -184,12 +186,12 @@ void GLToy_Havok_UnmarkForRead()
     }
 
 #endif
-
+#endif
 }
 
 void GLToy_Havok_UnmarkForWrite()
 {
-
+#ifdef GLTOY_DEBUG
 #ifdef HK_DEBUG
 
     if( g_pxHavokWorld )
@@ -197,6 +199,7 @@ void GLToy_Havok_UnmarkForWrite()
         g_pxHavokWorld->unmarkForWrite();
     }
 
+#endif
 #endif
 
 }
