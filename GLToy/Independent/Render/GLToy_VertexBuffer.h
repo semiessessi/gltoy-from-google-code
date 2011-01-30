@@ -68,11 +68,15 @@ protected:
 struct GLToy_Vertex_Deferred
 {
     GLToy_Vector_4 m_xPosition;
+    GLToy_Vector_4 m_xUV;
+
     struct
     {
         GLToy_Vector_2 m_xEncodedNormal;
         GLToy_Vector_2 m_xEncodedTangent;
     } m_xBasisVectors;
+
+    GLToy_Vector_4 m_xPadding;
 };
 
 class GLToy_VertexBuffer_Deferred

@@ -144,6 +144,7 @@ public:
     , m_xIndices()
     , m_uFlags( 0 )
     , m_uRenderFlags( 0 )
+    , m_ullVBD( 0 )
     {
     }
 
@@ -153,7 +154,20 @@ public:
     GLToy_Hash m_uTextureHash;
     GLToy_Hash m_uLightmapHash;
     GLToy_Array< u_int > m_xIndices;
-    
+
+    union
+    {
+        struct
+        {
+            u_short m_usMaxIndex;
+            u_short m_usMinIndex;
+            u_short m_usOffset;
+            u_short m_usCount;
+        } m_xVertexBufferData;
+
+        unsigned long long m_ullVBD;
+    };
+
     union
     {
 

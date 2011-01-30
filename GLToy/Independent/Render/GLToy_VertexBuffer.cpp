@@ -86,6 +86,8 @@ void GLToy_IndexBuffer::SubmitPolygon( const u_int uStart, const u_int uEnd, con
 
 GLToy_VertexBuffer_Deferred* GLToy_VertexBuffer_Deferred::Create( const u_int uCount, const GLToy_Vertex_Deferred* const pxVertices )
 {
+    GLToy_Assert( sizeof( GLToy_Vertex_Deferred ) == 64, "GLToy_Vertex_Deferred has wrong size!" );
+
     u_int uID;
     GLToy_Render::GenBuffers( 1, &uID );
     GLToy_Render::BindBuffer( ARRAY_BUFFER, uID );
@@ -107,6 +109,7 @@ void GLToy_VertexBuffer_Deferred::Destroy()
 void GLToy_VertexBuffer_Deferred::Bind()
 {
     GLToy_Render::BindBuffer( ARRAY_BUFFER, m_uID );
-    GLToy_Render::VertexPointer( 3, 32, VERTEXBUFFER_OFFSET( 0 ) );
-    GLToy_Render::TexCoordPointer( 4, 32, VERTEXBUFFER_OFFSET( 16 ) );
+    GLToy_Render::VertexPointer( 3, 64, VERTEXBUFFER_OFFSET( 0 ) );
+    GLToy_Render::TexCoordPointer( 4, 64, VERTEXBUFFER_OFFSET( 16 ) );
+    GLToy_Render::TexCoordPointer( 4, 64, VERTEXBUFFER_OFFSET( 32 ) );
 }
