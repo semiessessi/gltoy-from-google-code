@@ -80,6 +80,27 @@ protected:
 
 };
 
+class GLToy_ConsoleVariable_Float
+: public GLToy_ConsoleCommand_Float
+{
+    typedef GLToy_ConsoleCommand_Float GLToy_Parent;
+
+public:
+    
+    GLToy_ConsoleVariable_Float( const GLToy_String& szName, float* pfVariable )
+    : GLToy_Parent( szName, NULL )
+    , m_pfVariable( pfVariable )
+    {
+    }
+
+    virtual void Execute( const GLToy_String& szParameterString );
+
+protected:
+
+    float* m_pfVariable;
+
+};
+
 class GLToy_ConsoleVariable_String
 : public GLToy_ConsoleCommand_String
 {

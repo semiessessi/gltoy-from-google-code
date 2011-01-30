@@ -801,10 +801,12 @@ void Platform_GLToy_Render::DrawTriangles( const u_int uStart, const u_int uEnd,
 
 void Platform_GLToy_Render::DrawTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
 {
+    s_pfnDrawRangeElements( GL_TRIANGLE_STRIP, uStart, uEnd, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< void* >( uOffset ) ); 
 }
 
 void Platform_GLToy_Render::DrawPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
 {
+    s_pfnDrawRangeElements( GL_POLYGON, uStart, uEnd, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< void* >( uOffset ) ); 
 }
 
 bool Platform_GLToy_Render::IsShader( const u_int uID )

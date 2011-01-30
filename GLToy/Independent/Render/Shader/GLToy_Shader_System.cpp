@@ -87,7 +87,7 @@ static const GLToy_String szCommonHeader =
 "{"
 	"vec3 xReturnValue;"
 	"xReturnValue = vec3(	 ( ( xFragCoord.x * xOneOverScreenSize.x ) - 0.5 ) * 2.0,"
-							"( ( -xFragCoord.y * xOneOverScreenSize.y ) + 0.5) * 2.0 * ( xOneOverScreenSize.x / xOneOverScreenSize.y ),"
+							"( ( -xFragCoord.y * xOneOverScreenSize.y ) + 0.5 ) * 2.0 * ( xOneOverScreenSize.x / xOneOverScreenSize.y ),"
 							"ViewZFromDepth( fDepth, xClipPlanes ) );"
 	"xReturnValue.x *= xReturnValue.z; xReturnValue.y *= -xReturnValue.z;"
 	"return xReturnValue;"

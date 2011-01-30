@@ -78,6 +78,7 @@ public:
 
     static void RegisterVariable( const GLToy_String& szName, bool* pbVariable );
     static void RegisterVariable( const GLToy_String& szName, u_int* puVariable );
+    static void RegisterVariable( const GLToy_String& szName, float* pfVariable );
 
 private:
 

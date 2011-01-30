@@ -121,6 +121,7 @@ bool GLToy_Render::Initialise()
     GLToy_Console::RegisterVariable( "showbuffers", &s_bDrawBuffers );
     GLToy_Console::RegisterVariable( "buffer", &s_uCurrentDebugBuffer );
     GLToy_Console::RegisterVariable( "shownormals", &s_bDrawNormals );
+    GLToy_Console::RegisterVariable( "render.fov", &s_fFOV );
     GLToy_Console::RegisterCommand( "vsync", SetVsyncEnabled );
 
     SetVsyncEnabled( s_bVsync );

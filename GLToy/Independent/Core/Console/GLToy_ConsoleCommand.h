@@ -131,6 +131,28 @@ protected:
 
 };
 
+class GLToy_ConsoleCommand_Float
+: public GLToy_ConsoleCommand
+{
+
+    typedef GLToy_ConsoleCommand GLToy_Parent;
+
+public:
+
+    GLToy_ConsoleCommand_Float( const GLToy_String& szName, void ( *pfnFunction )( const float ) )
+    : GLToy_Parent( szName )
+    , m_pfnFunction( pfnFunction )
+    {
+    }
+
+    virtual void Execute( const GLToy_String& szParameterString );
+
+protected:
+
+    void ( *m_pfnFunction )( const float );
+
+};
+
 class GLToy_ConsoleCommand_String
 : public GLToy_ConsoleCommand
 {

@@ -51,3 +51,8 @@ void GLToy_ConsoleCommand_Uint::Execute( const GLToy_String& szParameterString )
 {
     m_pfnFunction( szParameterString.ExtractUnsignedInt() );
 }
+
+void GLToy_ConsoleCommand_Float::Execute( const GLToy_String& szParameterString )
+{
+    m_pfnFunction( szParameterString.ExtractFloat() );
+}

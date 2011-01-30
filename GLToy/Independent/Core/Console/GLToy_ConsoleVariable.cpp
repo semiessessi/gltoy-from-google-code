@@ -54,14 +54,40 @@ void GLToy_ConsoleVariable_Bool::Execute( const GLToy_String& szParameterString 
 
 void GLToy_ConsoleVariable_Uint::Execute( const GLToy_String& szParameterString )
 {
+    if( szParameterString.GetLength() == 0 )
+    {
+        GLToy_Console::Print( m_szName + " is set to " + ( *m_puVariable ) );
+        return;
+    }
+
     *m_puVariable = szParameterString.ExtractUnsignedInt();
     GLToy_String szU;
     szU.SetToFormatString( "%u", *m_puVariable );
     GLToy_Console::Print( m_szName + " set to " + szU );
 }
 
+void GLToy_ConsoleVariable_Float::Execute( const GLToy_String& szParameterString )
+{
+    if( szParameterString.GetLength() == 0 )
+    {
+        GLToy_Console::Print( m_szName + " is set to " + ( *m_pfVariable ) );
+        return;
+    }
+
+    *m_pfVariable = szParameterString.ExtractFloat();
+    GLToy_String szF;
+    szF.SetToFormatString( "%f", *m_pfVariable );
+    GLToy_Console::Print( m_szName + " set to " + szF );
+}
+
 void GLToy_ConsoleVariable_String::Execute( const GLToy_String& szParameterString )
 {
+    if( szParameterString.GetLength() == 0 )
+    {
+        GLToy_Console::Print( m_szName + " is set to " + ( *m_pszVariable ) );
+        return;
+    }
+
     *m_pszVariable = szParameterString;
     GLToy_Console::Print( m_szName + " set to \"" + *m_pszVariable + "\"" );
 }
