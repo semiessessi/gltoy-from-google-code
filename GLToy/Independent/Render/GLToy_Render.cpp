@@ -729,7 +729,9 @@ void GLToy_Render::StopSamplingDepth()
 
 bool GLToy_Render::Platform_Initialise()
 {
-    return Platform_GLToy_Render::Initialise();
+    bool bOK = Platform_GLToy_Render::Initialise();
+
+    return bOK;
 }
 
 void GLToy_Render::Platform_Shutdown()
@@ -1034,6 +1036,26 @@ void GLToy_Render::SetVsyncEnabled( const bool bEnabled )
     Platform_GLToy_Render::SetVsyncEnabled( bEnabled );
 }
 
+void GLToy_Render::EnableVertexBuffers()
+{
+    Platform_GLToy_Render::EnableVertexBuffers();
+}
+
+void GLToy_Render::EnableIndexBuffers()
+{
+    Platform_GLToy_Render::EnableIndexBuffers();
+}
+
+void GLToy_Render::DisableVertexBuffers()
+{
+    Platform_GLToy_Render::DisableVertexBuffers();
+}
+
+void GLToy_Render::DisableIndexBuffers()
+{
+    Platform_GLToy_Render::DisableIndexBuffers();
+}
+
 void GLToy_Render::DrawBuffers( const int iCount, const u_int* const puBuffers )
 {
     Platform_GLToy_Render::DrawBuffers( iCount, puBuffers );
@@ -1167,6 +1189,11 @@ void GLToy_Render::DrawTriangleStrip( const u_int uStart, const u_int uEnd, cons
 void GLToy_Render::DrawPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
 {
     Platform_GLToy_Render::DrawPolygon( uStart, uEnd, uCount, uOffset );
+}
+
+void GLToy_Render::ClientActiveTexture( const u_int uTextureUnit )
+{
+    return Platform_GLToy_Render::ClientActiveTexture( uTextureUnit );
 }
 
 bool GLToy_Render::IsShader( const u_int uID )

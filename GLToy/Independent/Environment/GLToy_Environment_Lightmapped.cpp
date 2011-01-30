@@ -75,7 +75,7 @@ void GLToy_Environment_Lightmapped::Initialise()
 
     GLToy_ConstIterate( GLToy_Environment_LightmappedFaceVertex, xVertex, m_xVertices )
         pxVertices[ xIterator.Index() ].m_xPosition = xVertex.m_xPosition;
-        pxVertices[ xIterator.Index() ].m_xUV = GLToy_Vector_4( xVertex.m_xUV, 0.0f, 0.0f );
+        pxVertices[ xIterator.Index() ].m_xUV = GLToy_Vector_4( xVertex.m_xUV * /*( bQuadRes ?*/ 4.0f/* : 1.0f )*/, 0.0f, 0.0f );
         pxVertices[ xIterator.Index() ].m_xBasisVectors.m_xEncodedNormal = GLToy_Maths::CompressNormal( xVertex.m_xNormal );
         pxVertices[ xIterator.Index() ].m_xBasisVectors.m_xEncodedTangent = GLToy_Maths::CompressNormal( xVertex.m_xTangent );
     GLToy_Iterate_End;
@@ -89,7 +89,7 @@ void GLToy_Environment_Lightmapped::Initialise()
     GLToy_Iterate( GLToy_Environment_LightmappedFace, xFace, m_xFaces )
         
         xFace.m_xVertexBufferData.m_usCount = xFace.m_xIndices.GetCount();
-        xFace.m_xVertexBufferData.m_usOffset = xIndices.GetCount() - 1;
+        xFace.m_xVertexBufferData.m_usOffset = xIndices.GetCount();
 
         u_short usStart = 0xFFFF;
         u_short usEnd = 0;
@@ -264,8 +264,11 @@ void GLToy_Environment_Lightmapped::RenderDeferred() const
     GLToy_Iterate_End;
 
     // ###
-    m_pxVertexBuffer->Bind();
-    m_pxIndexBuffer->Bind();
+    //m_pxVertexBuffer->Bind();
+    //m_pxIndexBuffer->Bind();
+    // ###
+    //GLToy_Render::EnableVertexBuffers();
+    //GLToy_Render::EnableIndexBuffers();
 
     GLToy_EnvironmentLeaf_Lightmapped* pxLeaf = static_cast< GLToy_EnvironmentLeaf_Lightmapped* >( GetLeafData( GLToy_Camera::GetPosition() ) );
     if( !IsEmpty() && pxLeaf && pxLeaf->m_uCluster != 0xFFFF )
@@ -278,7 +281,9 @@ void GLToy_Environment_Lightmapped::RenderDeferred() const
             GLToy_Iterate_End;
         GLToy_Iterate_End;
     }
-
+    // ###
+    //GLToy_Render::DisableVertexBuffers();
+    //GLToy_Render::DisableIndexBuffers();
     GLToy_Render::DisableBackFaceCulling();
 }
 
@@ -590,7 +595,6 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderDeferred() const
         //        xFace.m_xVertexBufferData.m_usOffset
         //    );
         // ###
-        //GLToy_Texture_System::BindTexture( xFace.m_uTextureHash );
 
         GLToy_Render::StartSubmittingPolygon();
 

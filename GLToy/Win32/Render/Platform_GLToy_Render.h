@@ -104,6 +104,11 @@ public:
     static void DrawTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
     static void DrawPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
 
+    static void EnableVertexBuffers();
+    static void EnableIndexBuffers();
+    static void DisableVertexBuffers();
+    static void DisableIndexBuffers();
+
     // shader functions
     static bool IsShader( const u_int uID );
     static u_int CreateFragmentShader();
@@ -216,6 +221,7 @@ private:
     static void SubmitUV( const GLToy_Vector_4& xUV, const u_int uTextureUnit );
 
     static void ActiveTexture( const u_int uTextureUnit );
+    static void ClientActiveTexture( const u_int uTextureUnit );
 
     static u_int s_uVersion;
 	static bool s_bIntel;
@@ -227,6 +233,7 @@ private:
     static void ( __stdcall* s_pfnDrawBuffers )( const int iCount, const u_int* const puBuffers );
     // multitexture functions
     static void ( __stdcall* s_pfnActiveTexture )( u_int );
+    static void ( __stdcall* s_pfnClientActiveTexture )( u_int );
     static void ( __stdcall* s_pfnMultiTexCoord2fv )( u_int, const float* const );
     static void ( __stdcall* s_pfnMultiTexCoord3fv )( u_int, const float* const );
     static void ( __stdcall* s_pfnMultiTexCoord4fv )( u_int, const float* const );

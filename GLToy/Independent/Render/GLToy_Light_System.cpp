@@ -116,8 +116,8 @@ void GLToy_Light_System::RegisterLightSource( const GLToy_Renderable* const pxLi
 
 void GLToy_Light_System::TestDirectionalLight_Console()
 {
-    AddGlobalDirectionalLight( GLToy_Vector_3( 0.8660254f, 0.8660254f, 0.8660254f ), GLToy_Vector_3( 0.3f, 0.25f, 0.2f ) );
-    AddGlobalDirectionalLight( GLToy_Vector_3( -0.8660254f, -0.8660254f, -0.8660254f ), GLToy_Vector_3( 0.275, 0.2f, 0.2f ) );
+    AddGlobalDirectionalLight( GLToy_Vector_3( -0.8660254f, -0.8660254f, -0.8660254f ), GLToy_Vector_3( 0.3f, 0.25f, 0.2f ) );
+    AddGlobalDirectionalLight( GLToy_Vector_3( 0.8660254f, 0.8660254f, 0.8660254f ), GLToy_Vector_3( 0.275, 0.2f, 0.2f ) );
 }
 
 void GLToy_Light_System::SpawnPointLight_Console()
@@ -209,19 +209,25 @@ void GLToy_Light_System::Render()
     s_xProjectorLights.Traverse( GLToy_IndirectRenderLightingFunctor< GLToy_Light_Projector >() );
 
 	GLToy_Render::StopSamplingDepth();
+    GLToy_Render::BindSpecularTexture();
 
 	s_pxCurrentShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Directional" ) );
     if( s_pxCurrentShader )
     {
         s_pxCurrentShader->Bind();
-		s_pxCurrentShader->SetUniform( "xDiffuseSampler", 1 );
+        s_pxCurrentShader->SetUniform( "xSpecularSampler", 0 );
+        s_pxCurrentShader->SetUniform( "xDiffuseSampler", 1 );
         s_pxCurrentShader->SetUniform( "xNormalSampler", 2 );
+        s_pxCurrentShader->SetUniform( "xDepthSampler", 3 );
 
-		const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
+		s_pxCurrentShader->SetUniform( "xCameraPosition", GLToy_Camera::GetPosition() );
+
+        const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
         const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
 
         s_pxCurrentShader->SetUniform( "xSize", xSize );
         s_pxCurrentShader->SetUniform( "xOneOverSize", xOneOverSize );
+        s_pxCurrentShader->SetUniform( "xClipPlanes", GLToy_Render::GetClipPlanes() );
         s_pxCurrentShader->SetViewMatrix( "xViewMatrix" );
         s_pxCurrentShader->SetInverseViewMatrix( "xInverseViewMatrix" );
 	}

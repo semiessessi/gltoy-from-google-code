@@ -49,7 +49,7 @@ GLToy_IndexBuffer* GLToy_IndexBuffer::Create( const u_int uCount, const u_short*
     u_int uID;
     GLToy_Render::GenBuffers( 1, &uID );
     GLToy_Render::BindBuffer( ELEMENT_ARRAY_BUFFER, uID );
-    GLToy_Render::BufferData( ELEMENT_ARRAY_BUFFER, uCount * 2, pusIndices, STATIC_DRAW );
+    GLToy_Render::BufferData( ELEMENT_ARRAY_BUFFER, uCount * sizeof( u_short ), pusIndices, STATIC_DRAW );
 
     return new GLToy_IndexBuffer( uID, uCount );
 }
@@ -110,6 +110,8 @@ void GLToy_VertexBuffer_Deferred::Bind()
 {
     GLToy_Render::BindBuffer( ARRAY_BUFFER, m_uID );
     GLToy_Render::VertexPointer( 3, 64, VERTEXBUFFER_OFFSET( 0 ) );
+    GLToy_Render::ClientActiveTexture( TEXTURE0 );
     GLToy_Render::TexCoordPointer( 4, 64, VERTEXBUFFER_OFFSET( 16 ) );
+    GLToy_Render::ClientActiveTexture( TEXTURE0 + 1 );
     GLToy_Render::TexCoordPointer( 4, 64, VERTEXBUFFER_OFFSET( 32 ) );
 }

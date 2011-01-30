@@ -64,6 +64,7 @@ bool Platform_GLToy_Render::s_bExtraCrappyIntel = false;
 void ( __stdcall* Platform_GLToy_Render::s_pfnSwapInterval )( u_int ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnDrawBuffers )( const int, const u_int* const ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnActiveTexture )( u_int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnClientActiveTexture )( u_int ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnMultiTexCoord2fv )( u_int, const float* const ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnMultiTexCoord3fv )( u_int, const float* const ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnMultiTexCoord4fv )( u_int, const float* const ) = 0;
@@ -198,6 +199,7 @@ bool Platform_GLToy_Render::Initialise()
     s_pfnDrawBuffers                        = reinterpret_cast< void ( __stdcall* )( const int, const u_int* const ) >(                                                         wglGetProcAddress( "glDrawBuffers" ) );
 
     s_pfnActiveTexture                      = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                                 wglGetProcAddress( "glActiveTexture" ) );
+    s_pfnClientActiveTexture                = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                                 wglGetProcAddress( "glClientActiveTexture" ) );
     s_pfnMultiTexCoord2fv                   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(                                                             wglGetProcAddress( "glMultiTexCoord2fv" ) );
     s_pfnMultiTexCoord3fv                   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(                                                             wglGetProcAddress( "glMultiTexCoord3fv" ) );
     s_pfnMultiTexCoord4fv                   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(                                                             wglGetProcAddress( "glMultiTexCoord4fv" ) );
@@ -622,6 +624,14 @@ void Platform_GLToy_Render::ActiveTexture( const u_int uTextureUnit )
     }
 }
 
+void Platform_GLToy_Render::ClientActiveTexture( const u_int uTextureUnit )
+{
+    if( s_pfnClientActiveTexture )
+    {
+        s_pfnClientActiveTexture( uTextureUnit );
+    }
+}
+
 bool Platform_GLToy_Render::IsRenderbuffer( const u_int uRenderBuffer )
 {
     if( s_pfnIsRenderbuffer )
@@ -807,6 +817,28 @@ void Platform_GLToy_Render::DrawTriangleStrip( const u_int uStart, const u_int u
 void Platform_GLToy_Render::DrawPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
 {
     s_pfnDrawRangeElements( GL_POLYGON, uStart, uEnd, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< void* >( uOffset ) ); 
+}
+
+void Platform_GLToy_Render::EnableVertexBuffers()
+{
+    glEnableClientState( GL_VERTEX_ARRAY );
+    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+}
+
+void Platform_GLToy_Render::EnableIndexBuffers()
+{
+    glEnableClientState( GL_INDEX_ARRAY );
+}
+
+void Platform_GLToy_Render::DisableVertexBuffers()
+{
+    glDisableClientState( GL_VERTEX_ARRAY );
+    glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+}
+
+void Platform_GLToy_Render::DisableIndexBuffers()
+{
+    glDisableClientState( GL_INDEX_ARRAY );
 }
 
 bool Platform_GLToy_Render::IsShader( const u_int uID )

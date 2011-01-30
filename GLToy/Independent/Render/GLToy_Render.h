@@ -376,6 +376,12 @@ public:
     static void DrawTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset = 0 );
     static void DrawPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset = 0 );
 
+    static void ClientActiveTexture( const u_int uTextureUnit );
+    static void EnableVertexBuffers();
+    static void EnableIndexBuffers();
+    static void DisableVertexBuffers();
+    static void DisableIndexBuffers();
+
     // shader functions
     static bool IsShader( const u_int uID );
     static u_int CreateFragmentShader();
