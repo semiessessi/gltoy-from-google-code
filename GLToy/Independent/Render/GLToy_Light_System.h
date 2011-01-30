@@ -214,6 +214,7 @@ public:
     static void AddPointLight( const GLToy_Hash uHash, const GLToy_Light_PointProperties& xProperties );
     static void AddProjectorLight( const GLToy_Hash uHash, const GLToy_Light_ProjectorProperties& xProperties );
     static void DestroyLight( const GLToy_Hash uHash );
+    static GLToy_Light* FindLight( const GLToy_Hash uHash );
 
 	static GLToy_ShaderProgram* GetCurrentShader() { return s_pxCurrentShader; }
 

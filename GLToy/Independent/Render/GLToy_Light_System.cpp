@@ -109,6 +109,12 @@ void GLToy_Light_System::DestroyLight( const GLToy_Hash uHash )
     }
 }
 
+GLToy_Light* GLToy_Light_System::FindLight( const GLToy_Hash uHash )
+{
+    GLToy_Light** const ppxLight = s_xLights.FindData( uHash );
+    return ppxLight ? *ppxLight : NULL;
+}
+
 void GLToy_Light_System::RegisterLightSource( const GLToy_Renderable* const pxLightSource )
 {
     s_xOtherLightSources.Append( pxLightSource );

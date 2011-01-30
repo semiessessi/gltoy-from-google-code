@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -81,6 +81,7 @@ protected:
 
     GLToy_Hash m_uOwnerEntityHash;
     GLToy_Hash m_uWeaponTypeHash;
+    GLToy_Hash m_uLightHash;
     GLToy_Physics_Object* m_pxPhysicsObject;
     GLToy_Sprite* m_pxSprite;
     mutable GLToy_Vector_3 m_xPosition; // TODO - get rid of this

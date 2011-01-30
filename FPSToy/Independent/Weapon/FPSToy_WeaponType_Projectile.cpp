@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -88,5 +88,9 @@ void FPSToy_WeaponType_Projectile::SetKeyValuePair( const GLToy_String& szKey, c
     else if( szKey == "DetonationPFX" )
     {
         SetDetonationPFX( szValue.GetHash() );
+    }
+    else if( szKey == "EmitLight" )
+    {
+        m_bEmitLight = !szValue.MeansFalse();
     }
 }

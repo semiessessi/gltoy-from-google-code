@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -38,6 +38,7 @@
 #include <Particle/GLToy_PFX_System.h>
 #include <Physics/GLToy_Physics_Object.h>
 #include <Physics/GLToy_Physics_System.h>
+#include <Render/GLToy_Light_System.h>
 #include <Render/GLToy_Sprite.h>
 
 // FPSToy
@@ -54,6 +55,7 @@ FPSToy_Entity_Projectile::FPSToy_Entity_Projectile( const GLToy_Hash uHash, cons
 , m_xPosition( GLToy_Maths::ZeroVector3 )
 , m_uOwnerEntityHash( uGLTOY_BAD_HASH )
 , m_uWeaponTypeHash( uGLTOY_BAD_HASH )
+, m_uLightHash( uGLTOY_BAD_HASH )
 , m_pxPhysicsObject( NULL )
 , m_pxSprite( NULL )
 {
@@ -99,6 +101,15 @@ void FPSToy_Entity_Projectile::Update()
         m_pxSprite->SetPosition( m_pxPhysicsObject->GetPosition() );
     }
 
+    if( m_uLightHash != uGLTOY_BAD_HASH )
+    {
+        GLToy_Light* const pxLight = GLToy_Light_System::FindLight( m_uLightHash );
+        if( pxLight )
+        {
+            pxLight->SetPosition( m_pxPhysicsObject->GetPosition() );
+        }
+    }
+
     const FPSToy_WeaponType_Projectile* const pxProjectileType = GetWeaponType();
 
     if( !pxProjectileType )
@@ -128,6 +139,12 @@ void FPSToy_Entity_Projectile::Destroy()
 {
     GLToy_Parent::Destroy();
 
+    if( m_uLightHash != uGLTOY_BAD_HASH )
+    {
+        GLToy_Light_System::DestroyLight( m_uLightHash );
+        m_uLightHash = uGLTOY_BAD_HASH;
+    }
+
     if( m_pxPhysicsObject )
     {
         GLToy_Physics_System::DestroyPhysicsObject( m_pxPhysicsObject->GetHash() );
@@ -150,6 +167,18 @@ void FPSToy_Entity_Projectile::Spawn( const GLToy_Vector_3& xPosition, const GLT
     xVelocity *= pxProjectileType->GetInitialSpeed(); // TODO - something better here
     m_pxPhysicsObject = GLToy_Physics_System::CreatePhysicsSphere( GetHash(), pxProjectileType->GetRadius(), xPosition, xVelocity );
     SetSprite( pxProjectileType->GetSpriteHash(), pxProjectileType->GetRadius() );
+
+    // create a light if needed
+    if( pxProjectileType->GetEmitLight() )
+    {
+        m_uLightHash = GLToy_Random_Hash();
+        GLToy_Light_PointProperties xProperties;
+        xProperties.m_xPosition = xPosition;
+        xProperties.m_xColour = GLToy_Vector_3( 0.5f, 0.5f, 0.5f );
+        xProperties.m_fSphereRadius = 150.0f;
+        xProperties.m_uFlags = 0;
+        GLToy_Light_System::AddPointLight( m_uLightHash, xProperties );
+    }
 }
 
 void FPSToy_Entity_Projectile::Detonate( const GLToy_Hash uVictimEntityHash )
@@ -166,6 +195,12 @@ void FPSToy_Entity_Projectile::Detonate( const GLToy_Hash uVictimEntityHash )
     GLToy_PFX_System::CreatePFX( pxProjectileType->GetDetonationPFX(), GetPosition() );
 
     FPSToy_Damage_System::ApplyDamage( m_uOwnerEntityHash, uVictimEntityHash, 20.0f );
+
+    if( m_uLightHash != uGLTOY_BAD_HASH )
+    {
+        GLToy_Light_System::DestroyLight( m_uLightHash );
+        m_uLightHash = uGLTOY_BAD_HASH;
+    }
 
     GLToy_Entity_System::DestroyEntity( GetHash() );
 }

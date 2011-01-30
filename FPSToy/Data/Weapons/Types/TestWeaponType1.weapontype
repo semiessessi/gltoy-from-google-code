@@ -4,3 +4,4 @@ Burst=1
 Sprite=Sprites/Star.png
 Radius=4
 DetonationPFX=TestPFX1
+EmitLight=true

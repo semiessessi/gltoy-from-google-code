@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -67,6 +67,7 @@ public:
     GLToy_Inline GLToy_Hash GetDetonationPFX() const { return m_uDetonationPFXHash; }
     GLToy_Inline bool GetMaintainSpeed() const { return m_bMaintainSpeed; }
     GLToy_Inline bool GetContactDetonation() const { return m_bContactDetonation; }
+    GLToy_Inline bool GetEmitLight() const { return m_bEmitLight; }
 
     GLToy_Inline void SetInitialSpeed( const float fSpeed ) { m_fInitialSpeed = fSpeed; }
     GLToy_Inline void SetRadius( const float fRadius ) { m_fRadius = fRadius; }
@@ -74,6 +75,7 @@ public:
     GLToy_Inline void SetDetonationPFX( const GLToy_Hash uHash ) { m_uDetonationPFXHash = uHash; }
     GLToy_Inline void SetMaintainSpeed( const bool bMaintainSpeed ) { m_bMaintainSpeed = bMaintainSpeed; }
     GLToy_Inline void SetContactDetonation( const bool bContactDetonation ) { m_bContactDetonation = bContactDetonation; }
+    GLToy_Inline void SetEmitLight( const bool bEmitLight ) { m_bEmitLight = bEmitLight; }
 
 protected:
 
@@ -88,6 +90,7 @@ protected:
         {
             u_int m_bMaintainSpeed : 1;
             u_int m_bContactDetonation : 1;
+            u_int m_bEmitLight : 1;
         };
 
         u_int m_uFlags;
