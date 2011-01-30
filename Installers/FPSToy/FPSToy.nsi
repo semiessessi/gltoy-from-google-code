@@ -1,47 +1,71 @@
+!define UninstallKey "Software\Microsoft\Windows\CurrentVersion\Uninstall\FPSToy"
+
 Name "FPSToy"
 
-OutFile "FPSToy.exe"
+OutFile "FPSToy_Installer.exe"
 
-InstallDir "$PROGRAMFILES\FPSToy"
+InstallDir "$PROGRAMFILES\GLToy\FPSToy"
+
+LicenseData "FPSToy.license.txt"
 
 ; Request application privileges for Windows Vista
 RequestExecutionLevel user
 
+Page license
 Page directory
 Page instfiles
 
 Section ""
 
-  SetOutPath $INSTDIR
-  File ..\..\Data\FPSToy.exe
-  File ..\..\Data\licensing.txt
-  File ..\..\Data\lgpl.license.txt
-  File ..\..\Data\cc.license.txt
-  File ..\..\Data\FridgeScript.dll
-  File ..\..\Data\FSAssembler.dll
+	SetOutPath "$INSTDIR"
+	File ..\..\FPSToy\Data\FPSToy.exe
+	File ..\..\FPSToy\Data\licensing.txt
+	File ..\..\FPSToy\Data\mit.license.txt
+	File ..\..\FPSToy\Data\cc.license.txt
+	File ..\..\FPSToy\Data\autoexec.console
+
+	SetOutPath "$INSTDIR\Environments\"
+	File /r /x .svn ..\..\FPSToy\Data\Environments\*.bsp
+
+	SetOutPath "$INSTDIR\Fonts"
+	File ..\..\FPSToy\Data\Fonts\Console.font
+
+	SetOutPath "$INSTDIR\Materials\"
+	File /r /x .svn ..\..\FPSToy\Data\Materials\*.*
+
+	SetOutPath "$INSTDIR\PFX"
+	File /r /x .svn ..\..\FPSToy\Data\PFX\*.*
+
+	SetOutPath "$INSTDIR\Shaders"
+	File /r /x .svn ..\..\FPSToy\Data\Shaders\*.*
+
+	SetOutPath "$INSTDIR\Textures\"
+	File /r /x .svn ..\..\FPSToy\Data\Textures\*.*
+
+	SetOutPath "$INSTDIR\Weapons\"
+	File /r /x .svn ..\..\FPSToy\Data\Weapons\*.*
+
+	SetOutPath "$INSTDIR"
+	CreateDirectory "$SMPROGRAMS\GLToy\FPSToy"
+	CreateShortCut "$SMPROGRAMS\GLToy\FPSToy\FPSToy.lnk" "$INSTDIR\FPSToy.exe" "" "$INSTDIR\FPSToy.exe" 0
+	CreateShortCut "$SMPROGRAMS\GLToy\FPSToy\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
+    
+	WriteUninstaller $INSTDIR\uninstall.exe
+	  
+	WriteRegStr HKLM "${UninstallKey}" "DisplayName" "FPSToy"
+    WriteRegStr HKLM "${UninstallKey}" "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
+    WriteRegStr HKLM "${UninstallKey}" "QuietUninstallString" "$\"$INSTDIR\uninstall.exe$\" /S"
+    WriteRegStr HKLM "${UninstallKey}" "Install Location" $INSTDIR
+    WriteRegDWORD HKLM "${UninstallKey}" "EstimatedSize" 15000000 ;about 15MB?
   
-  SetOutPath $INSTDIR\Fonts
-  File ..\..\Data\Fonts\Console.font
-  
-  SetOutPath $INSTDIR\Shaders
-  File ..\..\Data\Shaders\Raytrace_Plane.shader
-  File ..\..\Data\Shaders\Raytrace_Plane.fs
-  File ..\..\Data\Shaders\Raytrace_Fullscreen.vs
-  
-  SetOutPath $INSTDIR\Textures\Fonts
-  File ..\..\Data\Textures\Fonts\Console.png
-  
-  SetOutPath $INSTDIR\Textures\Generic
-  File ..\..\Data\Textures\Generic\Grid1.png
-  File ..\..\Data\Textures\Generic\Grid2.png
-  
-  SetOutPath $INSTDIR\Textures\Widgets
-  File ..\..\Data\Textures\Widgets\SplashBanner.png
-  File ..\..\Data\Textures\Widgets\SplashBanner.license.txt
-  
-  SetOutPath $INSTDIR
-  
-  CreateDirectory "$SMPROGRAMS\FPSToy"
-  CreateShortCut "$SMPROGRAMS\FPSToy\FPSToy.lnk" "$INSTDIR\FPSToy.exe" "" "$INSTDIR\FPSToy.exe" 0
-  
+SectionEnd
+
+Section "Uninstall"
+
+    RMDir /r "$SMPROGRAMS\GLToy\FPSToy"
+
+    RMDir /r $INSTDIR
+    
+    DeleteRegKey HKLM "${UninstallKey}"
+
 SectionEnd
