@@ -1123,6 +1123,51 @@ void GLToy_Render::GenerateMipmap( const u_int uTarget )
     Platform_GLToy_Render::GenerateMipmap( uTarget );
 }
 
+void GLToy_Render::GenBuffers( const u_int uCount, u_int* const puIDs )
+{
+    Platform_GLToy_Render::GenBuffers( uCount, puIDs );
+}
+
+void GLToy_Render::DeleteBuffers( const u_int uCount, u_int* const puIDs )
+{
+    Platform_GLToy_Render::DeleteBuffers( uCount, puIDs );
+}
+
+void GLToy_Render::BindBuffer( const u_int uTarget, const u_int uID )
+{
+    Platform_GLToy_Render::BindBuffer( uTarget, uID );
+}
+
+void GLToy_Render::BufferData( const u_int uTarget, const u_int uSizeInBytes, const void* const pData, const u_int uType )
+{
+    Platform_GLToy_Render::BufferData( uTarget, uSizeInBytes, pData, uType );
+}
+
+void GLToy_Render::VertexPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset )
+{
+    Platform_GLToy_Render::VertexPointer( uComponentCount, /*uType,*/ uStride, pOffset );
+}
+
+void GLToy_Render::TexCoordPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset )
+{
+    Platform_GLToy_Render::TexCoordPointer( uComponentCount, /*uType,*/ uStride, pOffset );
+}
+
+void GLToy_Render::DrawTriangles( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
+{
+    Platform_GLToy_Render::DrawTriangles( uStart, uEnd, uCount, uOffset );
+}
+
+void GLToy_Render::DrawTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
+{
+    Platform_GLToy_Render::DrawTriangleStrip( uStart, uEnd, uCount, uOffset );
+}
+
+void GLToy_Render::DrawPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
+{
+    Platform_GLToy_Render::DrawPolygon( uStart, uEnd, uCount, uOffset );
+}
+
 bool GLToy_Render::IsShader( const u_int uID )
 {
     return Platform_GLToy_Render::IsShader( uID );

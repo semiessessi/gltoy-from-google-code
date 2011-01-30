@@ -170,6 +170,34 @@
 #define FRAMEBUFFER_BINDING									0x8CA6
 #define DRAW_FRAMEBUFFER_BINDING							FRAMEBUFFER_BINDING
 
+#define BUFFER_SIZE                                         0x8764
+#define BUFFER_USAGE                                        0x8765
+#define QUERY_COUNTER_BITS                                  0x8864
+#define CURRENT_QUERY                                       0x8865
+#define QUERY_RESULT                                        0x8866
+#define QUERY_RESULT_AVAILABLE                              0x8867
+#define ARRAY_BUFFER                                        0x8892
+#define ELEMENT_ARRAY_BUFFER                                0x8893
+#define ARRAY_BUFFER_BINDING                                0x8894
+#define ELEMENT_ARRAY_BUFFER_BINDING                        0x8895
+#define VERTEX_ATTRIB_ARRAY_BUFFER_BINDING                  0x889F
+#define READ_ONLY                                           0x88B8
+#define WRITE_ONLY                                          0x88B9
+#define READ_WRITE                                          0x88BA
+#define BUFFER_ACCESS                                       0x88BB
+#define BUFFER_MAPPED                                       0x88BC
+#define BUFFER_MAP_POINTER                                  0x88BD
+#define STREAM_DRAW                                         0x88E0
+#define STREAM_READ                                         0x88E1
+#define STREAM_COPY                                         0x88E2
+#define STATIC_DRAW                                         0x88E4
+#define STATIC_READ                                         0x88E5
+#define STATIC_COPY                                         0x88E6
+#define DYNAMIC_DRAW                                        0x88E8
+#define DYNAMIC_READ                                        0x88E9
+#define DYNAMIC_COPY                                        0x88EA
+#define SAMPLES_PASSED                                      0x8914
+
 #define TIME_ELAPSED                                        0x88BF
 #define QUERY_RESULT                                        0x8866
 #define QUERY_RESULT_AVAILABLE                              0x8867
@@ -335,6 +363,18 @@ public:
     static void FramebufferRenderbuffer( const u_int uTarget, const u_int uAttachment, const u_int uRenderBufferTarget, const u_int uRenderBuffer );
     static void GetFramebufferAttachmentParameter( const u_int uTarget, const u_int uAttachment, const u_int uPName, int* const piParams );
     static void GenerateMipmap( const u_int uTarget );
+
+    // vertex buffer functions
+    static void GenBuffers( const u_int uCount, u_int* const puIDs );
+    static void DeleteBuffers( const u_int uCount, u_int* const puIDs );
+    static void BindBuffer( const u_int uTarget, const u_int uID );
+    static void BufferData( const u_int uTarget, const u_int uSizeInBytes, const void* const pData, const u_int uType );
+    static void VertexPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset );
+    static void TexCoordPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset );
+
+    static void DrawTriangles( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset = 0 );
+    static void DrawTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset = 0 );
+    static void DrawPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset = 0 );
 
     // shader functions
     static bool IsShader( const u_int uID );

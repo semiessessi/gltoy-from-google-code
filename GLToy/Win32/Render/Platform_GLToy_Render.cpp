@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2009-2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -84,6 +84,13 @@ void ( __stdcall* Platform_GLToy_Render::s_pfnFramebufferTexture3D )( const u_in
 void ( __stdcall* Platform_GLToy_Render::s_pfnFramebufferRenderbuffer )( const u_int, const u_int, const u_int, const u_int ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnGetFramebufferAttachmentParameter )( const u_int, const u_int, const u_int, int* const ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnGenerateMipmap )( const u_int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnGenBuffers )( const u_int, u_int* const ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnDeleteBuffers )( const u_int, u_int* const ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnBindBuffer )( const u_int, const u_int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnBufferData )( const u_int, const u_int, const void* const, const u_int ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnVertexPointer )( const u_int, const u_int, const u_int, const void* const ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnTexCoordPointer )( const u_int, const u_int, const u_int, const void* const ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnDrawRangeElements )( const u_int, const u_int, const u_int, const u_int, const u_int, const void* const ) = 0;
 u_int ( __stdcall* Platform_GLToy_Render::s_pfnIsShader )( u_int ) = 0;
 u_int ( __stdcall* Platform_GLToy_Render::s_pfnCreateShader )( u_int ) = 0;
 u_int ( __stdcall* Platform_GLToy_Render::s_pfnCreateProgram )() = 0;
@@ -186,74 +193,82 @@ bool Platform_GLToy_Render::Initialise()
     }
 
     // fill extensions - they should be set to null if unsupported...
-    s_pfnSwapInterval                       = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "wglSwapIntervalEXT" ) );
+    s_pfnSwapInterval                       = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                                 wglGetProcAddress( "wglSwapIntervalEXT" ) );
 
-    s_pfnDrawBuffers                        = reinterpret_cast< void ( __stdcall* )( const int, const u_int* const ) >(                                                 wglGetProcAddress( "glDrawBuffers" ) );
+    s_pfnDrawBuffers                        = reinterpret_cast< void ( __stdcall* )( const int, const u_int* const ) >(                                                         wglGetProcAddress( "glDrawBuffers" ) );
 
-    s_pfnActiveTexture                      = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glActiveTexture" ) );
-    s_pfnMultiTexCoord2fv                   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(                                                     wglGetProcAddress( "glMultiTexCoord2fv" ) );
-    s_pfnMultiTexCoord3fv                   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(                                                     wglGetProcAddress( "glMultiTexCoord3fv" ) );
-    s_pfnMultiTexCoord4fv                   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(                                                     wglGetProcAddress( "glMultiTexCoord4fv" ) );
+    s_pfnActiveTexture                      = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                                 wglGetProcAddress( "glActiveTexture" ) );
+    s_pfnMultiTexCoord2fv                   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(                                                             wglGetProcAddress( "glMultiTexCoord2fv" ) );
+    s_pfnMultiTexCoord3fv                   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(                                                             wglGetProcAddress( "glMultiTexCoord3fv" ) );
+    s_pfnMultiTexCoord4fv                   = reinterpret_cast< void ( __stdcall* )( u_int, const float* const ) >(                                                             wglGetProcAddress( "glMultiTexCoord4fv" ) );
 
-    s_pfnIsRenderbuffer                     = reinterpret_cast< bool ( __stdcall* )( const u_int ) >(                                                                   wglGetProcAddress( "glIsRenderbufferEXT" ) );
-    s_pfnBindRenderbuffer                   = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int ) >(                                                      wglGetProcAddress( "glBindRenderbufferEXT" ) );
-    s_pfnDeleteRenderbuffers                = reinterpret_cast< void ( __stdcall* )( const int, u_int* const ) >(                                                       wglGetProcAddress( "glDeleteRenderbuffersEXT" ) );
-    s_pfnGenRenderbuffers                   = reinterpret_cast< void ( __stdcall* )( const int, u_int* const ) >(                                                       wglGetProcAddress( "glGenRenderbuffersEXT" ) );
-    s_pfnRenderbufferStorage                = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const int, const int ) >(                                wglGetProcAddress( "glRenderbufferStorageEXT" ) );
-    s_pfnGetRenderbufferParameter           = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, int* const ) >(                                          wglGetProcAddress( "glGetRenderbufferParameterivEXT" ) );
-    s_pfnIsFramebuffer                      = reinterpret_cast< bool ( __stdcall* )( const u_int ) >(                                                                   wglGetProcAddress( "glIsFramebufferEXT" ) );
-    s_pfnBindFramebuffer                    = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int ) >(                                                      wglGetProcAddress( "glBindFramebufferEXT" ) );
-    s_pfnDeleteFramebuffers                 = reinterpret_cast< void ( __stdcall* )( const int, u_int* const ) >(                                                       wglGetProcAddress( "glDeleteFramebuffersEXT" ) );
-    s_pfnGenFramebuffers                    = reinterpret_cast< void ( __stdcall* )( const int, u_int* const ) >(                                                       wglGetProcAddress( "glGenFramebuffersEXT" ) );
-    s_pfnCheckFramebufferStatus             = reinterpret_cast< u_int ( __stdcall* )( const u_int ) >(                                                                  wglGetProcAddress( "glCheckFramebufferStatusEXT" ) );
-    s_pfnFramebufferTexture1D               = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const u_int, const int ) >(                 wglGetProcAddress( "glFramebufferTexture1DEXT" ) );
-    s_pfnFramebufferTexture2D               = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const u_int, const int ) >(                 wglGetProcAddress( "glFramebufferTexture2DEXT" ) );
-    s_pfnFramebufferTexture3D               = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const u_int, const int, const int ) >(      wglGetProcAddress( "glFramebufferTexture3DEXT" ) );
-    s_pfnFramebufferRenderbuffer            = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const u_int ) >(                            wglGetProcAddress( "glFramebufferRenderbufferEXT" ) );
-    s_pfnGetFramebufferAttachmentParameter  = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, int* const ) >(                             wglGetProcAddress( "glGetFramebufferAttachmentParameterivEXT" ) );
-    s_pfnGenerateMipmap                     = reinterpret_cast< void ( __stdcall* )( const u_int ) >(                                                                   wglGetProcAddress( "glGenerateMipmapEXT" ) );
+    s_pfnIsRenderbuffer                     = reinterpret_cast< bool ( __stdcall* )( const u_int ) >(                                                                           wglGetProcAddress( "glIsRenderbufferEXT" ) );
+    s_pfnBindRenderbuffer                   = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int ) >(                                                              wglGetProcAddress( "glBindRenderbufferEXT" ) );
+    s_pfnDeleteRenderbuffers                = reinterpret_cast< void ( __stdcall* )( const int, u_int* const ) >(                                                               wglGetProcAddress( "glDeleteRenderbuffersEXT" ) );
+    s_pfnGenRenderbuffers                   = reinterpret_cast< void ( __stdcall* )( const int, u_int* const ) >(                                                               wglGetProcAddress( "glGenRenderbuffersEXT" ) );
+    s_pfnRenderbufferStorage                = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const int, const int ) >(                                        wglGetProcAddress( "glRenderbufferStorageEXT" ) );
+    s_pfnGetRenderbufferParameter           = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, int* const ) >(                                                  wglGetProcAddress( "glGetRenderbufferParameterivEXT" ) );
+    s_pfnIsFramebuffer                      = reinterpret_cast< bool ( __stdcall* )( const u_int ) >(                                                                           wglGetProcAddress( "glIsFramebufferEXT" ) );
+    s_pfnBindFramebuffer                    = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int ) >(                                                              wglGetProcAddress( "glBindFramebufferEXT" ) );
+    s_pfnDeleteFramebuffers                 = reinterpret_cast< void ( __stdcall* )( const int, u_int* const ) >(                                                               wglGetProcAddress( "glDeleteFramebuffersEXT" ) );
+    s_pfnGenFramebuffers                    = reinterpret_cast< void ( __stdcall* )( const int, u_int* const ) >(                                                               wglGetProcAddress( "glGenFramebuffersEXT" ) );
+    s_pfnCheckFramebufferStatus             = reinterpret_cast< u_int ( __stdcall* )( const u_int ) >(                                                                          wglGetProcAddress( "glCheckFramebufferStatusEXT" ) );
+    s_pfnFramebufferTexture1D               = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const u_int, const int ) >(                         wglGetProcAddress( "glFramebufferTexture1DEXT" ) );
+    s_pfnFramebufferTexture2D               = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const u_int, const int ) >(                         wglGetProcAddress( "glFramebufferTexture2DEXT" ) );
+    s_pfnFramebufferTexture3D               = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const u_int, const int, const int ) >(              wglGetProcAddress( "glFramebufferTexture3DEXT" ) );
+    s_pfnFramebufferRenderbuffer            = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const u_int ) >(                                    wglGetProcAddress( "glFramebufferRenderbufferEXT" ) );
+    s_pfnGetFramebufferAttachmentParameter  = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, int* const ) >(                                     wglGetProcAddress( "glGetFramebufferAttachmentParameterivEXT" ) );
+    s_pfnGenerateMipmap                     = reinterpret_cast< void ( __stdcall* )( const u_int ) >(                                                                           wglGetProcAddress( "glGenerateMipmapEXT" ) );
 
-    s_pfnIsShader                           = reinterpret_cast< u_int ( __stdcall* )( u_int ) >(                                                                        wglGetProcAddress( "glIsShader" ) );
-    s_pfnCreateShader                       = reinterpret_cast< u_int ( __stdcall* )( u_int ) >(                                                                        wglGetProcAddress( "glCreateShader" ) );
-    s_pfnCreateProgram                      = reinterpret_cast< u_int ( __stdcall* )() >(                                                                               wglGetProcAddress( "glCreateProgram" ) );
-    s_pfnDeleteShader                       = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glDeleteShader" ) );
-    s_pfnDeleteProgram                      = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glDeleteProgram" ) );
-    s_pfnValidateProgram                    = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glValidateProgram" ) );
-    s_pfnCompileShader                      = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glCompileShader" ) );
-    s_pfnLinkProgram                        = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glLinkProgram" ) );
-    s_pfnUseProgram                         = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glUseProgram" ) );
-    s_pfnAttachShader                       = reinterpret_cast< void ( __stdcall* )( u_int, u_int ) >(                                                                  wglGetProcAddress( "glAttachShader" ) );
-    s_pfnDetachShader                       = reinterpret_cast< void ( __stdcall* )( u_int, u_int ) >(                                                                  wglGetProcAddress( "glDetachShader" ) );
-    s_pfnShaderSource                       = reinterpret_cast< void ( __stdcall* )( u_int, int, char**, const int* ) >(                                                wglGetProcAddress( "glShaderSource" ) );
-    s_pfnGetProgramInfoLog                  = reinterpret_cast< void ( __stdcall* )( u_int, int, int*, char* ) >(                                                       wglGetProcAddress( "glGetProgramInfoLog" ) );
-    s_pfnGetShaderInfoLog                   = reinterpret_cast< void ( __stdcall* )( u_int, int, int*, char* ) >(                                                       wglGetProcAddress( "glGetShaderInfoLog" ) );
-    s_pfnGetUniformID                       = reinterpret_cast< u_int ( __stdcall* )( u_int, const char* ) >(                                                           wglGetProcAddress( "glGetUniformLocation" ) );
-    s_pfnGetAttributeID                     = reinterpret_cast< u_int ( __stdcall* )( u_int, const char* ) >(                                                           wglGetProcAddress( "glGetAttribLocation" ) );
-    s_pfnBindAttributeID                    = reinterpret_cast< void ( __stdcall* )( u_int, u_int, const char* ) >(                                                     wglGetProcAddress( "glBindAttribLocation" ) );
-    s_pfnSetUniform1i                       = reinterpret_cast< void ( __stdcall* )( u_int, int ) >(                                                                    wglGetProcAddress( "glUniform1i" ) );
-    s_pfnSetUniform2i                       = reinterpret_cast< void ( __stdcall* )( u_int, int, int ) >(                                                               wglGetProcAddress( "glUniform2i" ) );
-    s_pfnSetUniform3i                       = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int ) >(                                                          wglGetProcAddress( "glUniform3i" ) );
-    s_pfnSetUniform4i                       = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int, int ) >(                                                     wglGetProcAddress( "glUniform4i" ) );
-    s_pfnSetUniform1f                       = reinterpret_cast< void ( __stdcall* )( u_int, float ) >(                                                                  wglGetProcAddress( "glUniform1f" ) );
-    s_pfnSetUniform2f                       = reinterpret_cast< void ( __stdcall* )( u_int, float, float ) >(                                                           wglGetProcAddress( "glUniform2f" ) );
-    s_pfnSetUniform3f                       = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float ) >(                                                    wglGetProcAddress( "glUniform3f" ) );
-    s_pfnSetUniform4f                       = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float, float ) >(                                             wglGetProcAddress( "glUniform4f" ) );
-    s_pfnSetUniformMatrix4fv                = reinterpret_cast< void ( __stdcall* )( u_int, int, bool, const float* ) >(                                                wglGetProcAddress( "glUniformMatrix4fv" ) );
-    s_pfnSetAttribute1i                     = reinterpret_cast< void ( __stdcall* )( u_int, int ) >(                                                                    wglGetProcAddress( "glVertexAttrib1i" ) );
-    s_pfnSetAttribute2i                     = reinterpret_cast< void ( __stdcall* )( u_int, int, int ) >(                                                               wglGetProcAddress( "glVertexAttrib2i" ) );
-    s_pfnSetAttribute3i                     = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int ) >(                                                          wglGetProcAddress( "glVertexAttrib3i" ) );
-    s_pfnSetAttribute4i                     = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int, int ) >(                                                     wglGetProcAddress( "glVertexAttrib4i" ) );
-    s_pfnSetAttribute1f                     = reinterpret_cast< void ( __stdcall* )( u_int, float ) >(                                                                  wglGetProcAddress( "glVertexAttrib1f" ) );
-    s_pfnSetAttribute2f                     = reinterpret_cast< void ( __stdcall* )( u_int, float, float ) >(                                                           wglGetProcAddress( "glVertexAttrib2f" ) );
-    s_pfnSetAttribute3f                     = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float ) >(                                                    wglGetProcAddress( "glVertexAttrib3f" ) );
-    s_pfnSetAttribute4f                     = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float, float ) >(                                             wglGetProcAddress( "glVertexAttrib4f" ) );
+    s_pfnGenBuffers                         = reinterpret_cast< void ( __stdcall* )( const u_int, u_int* const ) >(                                                             wglGetProcAddress( "glGenBuffers" ) );
+    s_pfnDeleteBuffers                      = reinterpret_cast< void ( __stdcall* )( const u_int, u_int* const ) >(                                                             wglGetProcAddress( "glDeleteBuffers" ) );
+    s_pfnBindBuffer                         = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int ) >(                                                              wglGetProcAddress( "glBindBuffer" ) );
+    s_pfnBufferData                         = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const void* const, const u_int ) >(                              wglGetProcAddress( "glBufferData" ) );
+    s_pfnVertexPointer                      = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const void* const ) >(                              wglGetProcAddress( "glVertexPointer" ) );
+    s_pfnTexCoordPointer                    = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const void* const ) >(                              wglGetProcAddress( "glTexCoordPointer" ) );
+    s_pfnDrawRangeElements                  = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const u_int, const u_int, const void* const ) >(    wglGetProcAddress( "glDrawRangeElements" ) );
 
-    s_pfnBeginQuery                         = reinterpret_cast< void ( __stdcall* )( u_int, u_int ) >(                                                                  wglGetProcAddress( "glBeginQuery" ) );
-    s_pfnEndQuery                           = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                         wglGetProcAddress( "glEndQuery" ) );
-    s_pfnGenQueries                         = reinterpret_cast< void ( __stdcall* )( u_int, u_int* ) >(                                                                 wglGetProcAddress( "glGenQueries" ) );
-    s_pfnDeleteQueries                      = reinterpret_cast< void ( __stdcall* )( u_int, const u_int* ) >(                                                           wglGetProcAddress( "glDeleteQueries" ) );
-    s_pfnGetQueryObjectiv                   = reinterpret_cast< void ( __stdcall* )( u_int, u_int, int* ) >(                                                            wglGetProcAddress( "glGetQueryObjectiv" ) );
-    s_pfnGetQueryObjectui64v                = reinterpret_cast< void ( __stdcall* )( u_int, u_int, unsigned long long* ) >(                                             wglGetProcAddress( "glGetQueryObjectui64vEXT" ) );
+    s_pfnIsShader                           = reinterpret_cast< u_int ( __stdcall* )( u_int ) >(                                                                                wglGetProcAddress( "glIsShader" ) );
+    s_pfnCreateShader                       = reinterpret_cast< u_int ( __stdcall* )( u_int ) >(                                                                                wglGetProcAddress( "glCreateShader" ) );
+    s_pfnCreateProgram                      = reinterpret_cast< u_int ( __stdcall* )() >(                                                                                       wglGetProcAddress( "glCreateProgram" ) );
+    s_pfnDeleteShader                       = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                                 wglGetProcAddress( "glDeleteShader" ) );
+    s_pfnDeleteProgram                      = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                                 wglGetProcAddress( "glDeleteProgram" ) );
+    s_pfnValidateProgram                    = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                                 wglGetProcAddress( "glValidateProgram" ) );
+    s_pfnCompileShader                      = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                                 wglGetProcAddress( "glCompileShader" ) );
+    s_pfnLinkProgram                        = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                                 wglGetProcAddress( "glLinkProgram" ) );
+    s_pfnUseProgram                         = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                                 wglGetProcAddress( "glUseProgram" ) );
+    s_pfnAttachShader                       = reinterpret_cast< void ( __stdcall* )( u_int, u_int ) >(                                                                          wglGetProcAddress( "glAttachShader" ) );
+    s_pfnDetachShader                       = reinterpret_cast< void ( __stdcall* )( u_int, u_int ) >(                                                                          wglGetProcAddress( "glDetachShader" ) );
+    s_pfnShaderSource                       = reinterpret_cast< void ( __stdcall* )( u_int, int, char**, const int* ) >(                                                        wglGetProcAddress( "glShaderSource" ) );
+    s_pfnGetProgramInfoLog                  = reinterpret_cast< void ( __stdcall* )( u_int, int, int*, char* ) >(                                                               wglGetProcAddress( "glGetProgramInfoLog" ) );
+    s_pfnGetShaderInfoLog                   = reinterpret_cast< void ( __stdcall* )( u_int, int, int*, char* ) >(                                                               wglGetProcAddress( "glGetShaderInfoLog" ) );
+    s_pfnGetUniformID                       = reinterpret_cast< u_int ( __stdcall* )( u_int, const char* ) >(                                                                   wglGetProcAddress( "glGetUniformLocation" ) );
+    s_pfnGetAttributeID                     = reinterpret_cast< u_int ( __stdcall* )( u_int, const char* ) >(                                                                   wglGetProcAddress( "glGetAttribLocation" ) );
+    s_pfnBindAttributeID                    = reinterpret_cast< void ( __stdcall* )( u_int, u_int, const char* ) >(                                                             wglGetProcAddress( "glBindAttribLocation" ) );
+    s_pfnSetUniform1i                       = reinterpret_cast< void ( __stdcall* )( u_int, int ) >(                                                                            wglGetProcAddress( "glUniform1i" ) );
+    s_pfnSetUniform2i                       = reinterpret_cast< void ( __stdcall* )( u_int, int, int ) >(                                                                       wglGetProcAddress( "glUniform2i" ) );
+    s_pfnSetUniform3i                       = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int ) >(                                                                  wglGetProcAddress( "glUniform3i" ) );
+    s_pfnSetUniform4i                       = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int, int ) >(                                                             wglGetProcAddress( "glUniform4i" ) );
+    s_pfnSetUniform1f                       = reinterpret_cast< void ( __stdcall* )( u_int, float ) >(                                                                          wglGetProcAddress( "glUniform1f" ) );
+    s_pfnSetUniform2f                       = reinterpret_cast< void ( __stdcall* )( u_int, float, float ) >(                                                                   wglGetProcAddress( "glUniform2f" ) );
+    s_pfnSetUniform3f                       = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float ) >(                                                            wglGetProcAddress( "glUniform3f" ) );
+    s_pfnSetUniform4f                       = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float, float ) >(                                                     wglGetProcAddress( "glUniform4f" ) );
+    s_pfnSetUniformMatrix4fv                = reinterpret_cast< void ( __stdcall* )( u_int, int, bool, const float* ) >(                                                        wglGetProcAddress( "glUniformMatrix4fv" ) );
+    s_pfnSetAttribute1i                     = reinterpret_cast< void ( __stdcall* )( u_int, int ) >(                                                                            wglGetProcAddress( "glVertexAttrib1i" ) );
+    s_pfnSetAttribute2i                     = reinterpret_cast< void ( __stdcall* )( u_int, int, int ) >(                                                                       wglGetProcAddress( "glVertexAttrib2i" ) );
+    s_pfnSetAttribute3i                     = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int ) >(                                                                  wglGetProcAddress( "glVertexAttrib3i" ) );
+    s_pfnSetAttribute4i                     = reinterpret_cast< void ( __stdcall* )( u_int, int, int, int, int ) >(                                                             wglGetProcAddress( "glVertexAttrib4i" ) );
+    s_pfnSetAttribute1f                     = reinterpret_cast< void ( __stdcall* )( u_int, float ) >(                                                                          wglGetProcAddress( "glVertexAttrib1f" ) );
+    s_pfnSetAttribute2f                     = reinterpret_cast< void ( __stdcall* )( u_int, float, float ) >(                                                                   wglGetProcAddress( "glVertexAttrib2f" ) );
+    s_pfnSetAttribute3f                     = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float ) >(                                                            wglGetProcAddress( "glVertexAttrib3f" ) );
+    s_pfnSetAttribute4f                     = reinterpret_cast< void ( __stdcall* )( u_int, float, float, float, float ) >(                                                     wglGetProcAddress( "glVertexAttrib4f" ) );
+
+    s_pfnBeginQuery                         = reinterpret_cast< void ( __stdcall* )( u_int, u_int ) >(                                                                          wglGetProcAddress( "glBeginQuery" ) );
+    s_pfnEndQuery                           = reinterpret_cast< void ( __stdcall* )( u_int ) >(                                                                                 wglGetProcAddress( "glEndQuery" ) );
+    s_pfnGenQueries                         = reinterpret_cast< void ( __stdcall* )( u_int, u_int* ) >(                                                                         wglGetProcAddress( "glGenQueries" ) );
+    s_pfnDeleteQueries                      = reinterpret_cast< void ( __stdcall* )( u_int, const u_int* ) >(                                                                   wglGetProcAddress( "glDeleteQueries" ) );
+    s_pfnGetQueryObjectiv                   = reinterpret_cast< void ( __stdcall* )( u_int, u_int, int* ) >(                                                                    wglGetProcAddress( "glGetQueryObjectiv" ) );
+    s_pfnGetQueryObjectui64v                = reinterpret_cast< void ( __stdcall* )( u_int, u_int, unsigned long long* ) >(                                                     wglGetProcAddress( "glGetQueryObjectui64vEXT" ) );
 
     return true;
 }
@@ -747,6 +762,49 @@ void Platform_GLToy_Render::GenerateMipmap( const u_int uTarget )
     {
         s_pfnGenerateMipmap( uTarget );
     }
+}
+
+void Platform_GLToy_Render::GenBuffers( const u_int uCount, u_int* const puIDs )
+{
+    s_pfnGenBuffers( uCount, puIDs );
+}
+
+void Platform_GLToy_Render::DeleteBuffers( const u_int uCount, u_int* const puIDs )
+{
+    s_pfnDeleteBuffers( uCount, puIDs );
+}
+
+void Platform_GLToy_Render::BindBuffer( const u_int uTarget, const u_int uID )
+{
+    s_pfnBindBuffer( uTarget, uID );
+}
+
+void Platform_GLToy_Render::BufferData( const u_int uTarget, const u_int uSizeInBytes, const void* const pData, const u_int uType )
+{
+    s_pfnBufferData( uTarget, uSizeInBytes, pData, uType );
+}
+
+void Platform_GLToy_Render::VertexPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset )
+{
+    s_pfnVertexPointer( uComponentCount, GL_FLOAT, uStride, pOffset );
+}
+
+void Platform_GLToy_Render::TexCoordPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset )
+{
+    s_pfnTexCoordPointer( uComponentCount, GL_FLOAT, uStride, pOffset );
+}
+
+void Platform_GLToy_Render::DrawTriangles( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
+{
+    s_pfnDrawRangeElements( GL_TRIANGLES, uStart, uEnd, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< void* >( uOffset ) ); 
+}
+
+void Platform_GLToy_Render::DrawTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
+{
+}
+
+void Platform_GLToy_Render::DrawPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
+{
 }
 
 bool Platform_GLToy_Render::IsShader( const u_int uID )

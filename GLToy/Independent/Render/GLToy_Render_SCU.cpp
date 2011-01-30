@@ -40,3 +40,4 @@
 #include <Render/GLToy_Sprite.cpp>
 #include <Render/GLToy_Texture_System.cpp>
 #include <Render/GLToy_Texture_Procedural.cpp>
+#include <Render/GLToy_VertexBuffer.cpp>

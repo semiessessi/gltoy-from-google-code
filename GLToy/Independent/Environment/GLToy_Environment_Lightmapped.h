@@ -40,6 +40,8 @@
 
 class GLToy_EnvironmentFile;
 class GLToy_Environment_Lightmapped;
+class GLToy_IndexBuffer;
+class GLToy_VertexBuffer_Deferred;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -260,6 +262,8 @@ public:
     , m_xClusters()
     , m_xBrushes()
     , m_xLightmapData()
+    , m_pxVertexBuffer( NULL )
+    , m_pxIndexBuffer( NULL )
     {
     }
 
@@ -304,6 +308,8 @@ protected:
     GLToy_Array< GLToy_Environment_LightmappedCluster > m_xClusters;
     GLToy_Array< GLToy_Environment_LightmappedBrush > m_xBrushes;
     GLToy_SerialisableArray< u_char > m_xLightmapData;
+    GLToy_VertexBuffer_Deferred* m_pxVertexBuffer;
+    GLToy_IndexBuffer* m_pxIndexBuffer;
 
 };
 

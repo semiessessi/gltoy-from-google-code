@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2009-2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -91,6 +91,18 @@ public:
     static void FramebufferRenderbuffer( const u_int uTarget, const u_int uAttachment, const u_int uRenderBufferTarget, const u_int uRenderBuffer );
     static void GetFramebufferAttachmentParameter( const u_int uTarget, const u_int uAttachment, const u_int uPName, int* const piParams );
     static void GenerateMipmap( const u_int uTarget );
+
+    // vertex buffer functions
+    static void GenBuffers( const u_int uCount, u_int* const puIDs );
+    static void DeleteBuffers( const u_int uCount, u_int* const puIDs );
+    static void BindBuffer( const u_int uTarget, const u_int uID );
+    static void BufferData( const u_int uTarget, const u_int uSizeInBytes, const void* const pData, const u_int uType );
+    static void VertexPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset );
+    static void TexCoordPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset );
+
+    static void DrawTriangles( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
+    static void DrawTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
+    static void DrawPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
 
     // shader functions
     static bool IsShader( const u_int uID );
@@ -236,6 +248,14 @@ private:
     static void ( __stdcall* s_pfnFramebufferRenderbuffer )( const u_int, const u_int, const u_int, const u_int );
     static void ( __stdcall* s_pfnGetFramebufferAttachmentParameter )( const u_int, const u_int, const u_int, int* const );
     static void ( __stdcall* s_pfnGenerateMipmap )( const u_int );
+    // vertex buffer functions
+    static void ( __stdcall* s_pfnGenBuffers )( const u_int, u_int* const );
+    static void ( __stdcall* s_pfnDeleteBuffers )( const u_int, u_int* const );
+    static void ( __stdcall* s_pfnBindBuffer )( const u_int, const u_int );
+    static void ( __stdcall* s_pfnBufferData )( const u_int, const u_int, const void* const, const u_int );
+    static void ( __stdcall* s_pfnVertexPointer )( const u_int, const u_int, const u_int, const void* const );
+    static void ( __stdcall* s_pfnTexCoordPointer )( const u_int, const u_int, const u_int, const void* const );
+    static void ( __stdcall* s_pfnDrawRangeElements )( const u_int, const u_int, const u_int, const u_int, const u_int, const void* const );
     // shader functions
     static u_int ( __stdcall* s_pfnIsShader )( u_int );
     static u_int ( __stdcall* s_pfnCreateShader )( u_int );

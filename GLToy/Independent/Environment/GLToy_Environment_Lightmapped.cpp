@@ -43,6 +43,7 @@
 #include <Render/GLToy_Light_System.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture_System.h>
+#include <Render/GLToy_VertexBuffer.h>
 #include <Render/Shader/GLToy_Shader.h>
 #include <Render/Shader/GLToy_Shader_System.h>
 
@@ -66,11 +67,28 @@ void GLToy_Environment_Lightmapped::WriteToBitStream( GLToy_BitStream& xStream )
 
 void GLToy_Environment_Lightmapped::Initialise()
 {
+    // initialise physics
     m_pxPhysicsObject = GLToy_Physics_System::CreatePhysicsEnvironment( GLToy_Hash_Constant( "Environment" ), *this );
+
+    // create a vertex buffer
+    GLToy_Vertex_Deferred* pxVertices = new GLToy_Vertex_Deferred[ m_xVertices.GetCount() ];
+
+    GLToy_ConstIterate( GLToy_Environment_LightmappedFaceVertex, xVertex, m_xVertices )
+        pxVertices[ xIterator.Index() ].m_xPosition = xVertex.m_xPosition;
+        pxVertices[ xIterator.Index() ].m_xBasisVectors.m_xEncodedNormal = GLToy_Maths::CompressNormal( xVertex.m_xNormal );
+        pxVertices[ xIterator.Index() ].m_xBasisVectors.m_xEncodedTangent = GLToy_Maths::CompressNormal( xVertex.m_xTangent );
+    GLToy_Iterate_End;
+
+    m_pxVertexBuffer = GLToy_VertexBuffer_Deferred::Create( m_xVertices.GetCount(), pxVertices );
+
+    delete[] pxVertices;
 }
 
 void GLToy_Environment_Lightmapped::Shutdown()
 {
+    // clean up vertex buffer
+    delete m_pxVertexBuffer;
+
     // clean up lightmap textures
     GLToy_ConstIterate( GLToy_Environment_LightmappedFace, xFace, m_xFaces )
         if( xFace.m_uLightmapHash != GLToy_Hash_Constant( "White" ) )
