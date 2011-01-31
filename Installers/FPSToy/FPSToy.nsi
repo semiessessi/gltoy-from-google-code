@@ -2,14 +2,14 @@
 
 Name "FPSToy"
 
+LicenseData "FPSToy.license.txt"
+
 OutFile "FPSToy_Installer.exe"
 
 InstallDir "$PROGRAMFILES\GLToy\FPSToy"
 
-LicenseData "FPSToy.license.txt"
-
-; Request application privileges for Windows Vista
-RequestExecutionLevel user
+; Request application privileges for Windows Vista - we need admin for the vc redist
+RequestExecutionLevel admin
 
 Page license
 Page directory
@@ -23,6 +23,13 @@ Section ""
 	File ..\..\FPSToy\Data\mit.license.txt
 	File ..\..\FPSToy\Data\cc.license.txt
 	File ..\..\FPSToy\Data\autoexec.console
+	
+    ; VC 2010 run-time installer - sadly necessary
+    File ..\TextureTool\vcredist_x86.exe
+
+    ExecWait "$INSTDIR\vcredist_x86.exe /q"
+
+    Delete $INSTDIR\vcredist_x86.exe
 
 	SetOutPath "$INSTDIR\Environments\"
 	File /r /x .svn ..\..\FPSToy\Data\Environments\*.bsp
