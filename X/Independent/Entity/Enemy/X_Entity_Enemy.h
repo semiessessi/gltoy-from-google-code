@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -53,6 +53,7 @@ public:
     virtual ~X_Entity_Enemy();
 
     virtual void Render() const;
+    virtual void RenderDeferred() const;
 	virtual void Update();
 
     static GLToy_Array< X_Entity_Enemy* >& GetList() { return s_xList; }

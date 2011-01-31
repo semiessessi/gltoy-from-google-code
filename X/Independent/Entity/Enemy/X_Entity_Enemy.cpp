@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010, 2011 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi, Thomas Young
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -35,6 +35,7 @@
 
 // GLToy
 #include <Core/GLToy_Timer.h>
+#include <Material/GLToy_Material_System.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture_System.h>
 
@@ -100,6 +101,12 @@ void X_Entity_Enemy::Update()
 
 void X_Entity_Enemy::Render() const
 {
+    //if( GLToy_Render::HasDeferredBuffer() )
+    //{
+    //    GLToy_Render::RegisterDeferred( this );
+    //    return;
+    //}
+
 	const GLToy_Vector_3& xPosition = GetPosition();
 
     GLToy_Render::EnableBlending();
@@ -122,4 +129,33 @@ void X_Entity_Enemy::Render() const
     GLToy_Render::EndSubmit();
 
 	GLToy_Render::DisableBlending();
+}
+
+void X_Entity_Enemy::RenderDeferred() const
+{
+    const GLToy_Vector_3& xPosition = GetPosition();
+
+    GLToy_Material* const pxMaterial = GLToy_Material_System::FindMaterial( xENEMY_SHIP_TEXTURE );
+    if( pxMaterial )
+    {
+        pxMaterial->Bind();
+    }
+
+    GLToy_Render::StartSubmittingQuads();
+		
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
+    GLToy_Render::SubmitUV(
+        GLToy_Vector_4(
+            GLToy_Maths::CompressNormal( GLToy_Vector_3( 0.0f, 0.0f, 1.0f ) ),
+            GLToy_Maths::CompressNormal( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ) ) ),
+        1 );
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+    GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 0.0f ) );
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 1.0f ) );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 1.0f ) );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+	
+    GLToy_Render::EndSubmit();
 }

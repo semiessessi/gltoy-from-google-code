@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -41,6 +41,7 @@
 #include <Input/GLToy_Input_System.h>
 #include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Camera.h>
+#include <Render/GLToy_Light_System.h>
 #include <Render/GLToy_Render.h>
 #include <Render/Font/GLToy_Font.h>
 #include <UI/GLToy_UI_System.h>
@@ -94,6 +95,7 @@ void X_State_Game::Initialise()
 	GLToy_Camera::SetPosition( GLToy_Vector_3( 0.0f, 0.0f, -1.0f ) );
 	GLToy_Camera::SetOrientation( GLToy_Maths::IdentityMatrix3 );
 
+    GLToy_Entity_System::DestroyEntities();
     GLToy_Entity_System::SetRender( true );
 
 	// create our player's entity
@@ -102,12 +104,16 @@ void X_State_Game::Initialise()
     m_fEnemyTimer = 0.0f;
     m_fCollectibleTimer = fX_COLLECTIBLE_INTERVAL * 2.0f;
 	m_fStateTimer = 0.0f;
+
+    GLToy_Light_System::Reset();
+    GLToy_Light_System::AddGlobalDirectionalLight( GLToy_Vector_3( 0.1f, 0.1f, -0.99f ), GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
 	
     s_uScore = 0;
 }
 
 void X_State_Game::Shutdown()
 {
+    GLToy_Light_System::Reset();
 	GLToy_Entity_System::DestroyEntities();
 	m_pxPlayer = NULL;
 }
