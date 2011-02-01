@@ -422,8 +422,6 @@ void GLToy_Render::Render()
 
         SetBlendFunction( BLEND_ONE, BLEND_ZERO );
         DisableBlending();
-        EnableDepthWrites();
-        EnableDepthTesting();
                 
         const u_int auBuffers[] =
         {
@@ -433,6 +431,20 @@ void GLToy_Render::Render()
         };
 
         GLToy_Render::DrawBuffers( sizeof( auBuffers ) / sizeof( u_int ), auBuffers );
+
+        GLToy_Shader_System::BindShaderProgram( GLToy_Hash_Constant( "Deferred_Clear" ) );
+
+        DisableDepthWrites();
+        DisableDepthTesting();
+        
+        StartSubmittingQuads();
+        SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), -1.0f ), GLToy_Vector_2( GLToy_Render::Get2DWidth(), 2.0f ), 0.0f, 1.0f, 1.0f, 0.0f );
+        EndSubmit();
+
+        EnableDepthWrites();
+        EnableDepthTesting();
+
+        UseProgram( 0 );
         
         s_xDeferredRenderables.Traverse( GLToy_IndirectRenderDeferredFunctor< const GLToy_Renderable >() );
 

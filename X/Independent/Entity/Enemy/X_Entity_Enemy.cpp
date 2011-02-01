@@ -101,11 +101,11 @@ void X_Entity_Enemy::Update()
 
 void X_Entity_Enemy::Render() const
 {
-    //if( GLToy_Render::HasDeferredBuffer() )
-    //{
-    //    GLToy_Render::RegisterDeferred( this );
-    //    return;
-    //}
+    if( GLToy_Render::HasDeferredBuffer() )
+    {
+        GLToy_Render::RegisterDeferred( this );
+        return;
+    }
 
 	const GLToy_Vector_3& xPosition = GetPosition();
 

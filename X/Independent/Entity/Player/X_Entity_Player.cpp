@@ -156,11 +156,11 @@ void X_Entity_Player::Update()
 
 void X_Entity_Player::Render() const
 {
-    //if( GLToy_Render::HasDeferredBuffer() )
-    //{
-    //    GLToy_Render::RegisterDeferred( this );
-    //    return;
-    //}
+    if( GLToy_Render::HasDeferredBuffer() )
+    {
+        GLToy_Render::RegisterDeferred( this );
+        return;
+    }
 
     const GLToy_Vector_3& xPosition = GetPosition();
 
