@@ -28,7 +28,13 @@ uniform sampler2D DiffuseMap;
 
 void main()
 {
-	gl_FragData[ 0 ] = vec4( texture2D( DiffuseMap, xTexCoord ).xyz, fFog );
+	vec4 xDiffuseSample = texture2D( DiffuseMap, xTexCoord );
+	if( xDiffuseSample.a < 0.95 )
+	{
+		discard;
+	}
+	
+	gl_FragData[ 0 ] = vec4( xDiffuseSample.xyz, fFog );
 	gl_FragData[ 1 ] = vec4( 0.25 * StereographicProjection( normalize( xNormal ) ) + 0.5, 0.0, 0.0 );
 	gl_FragData[ 2 ] = vec4( 0.0, 0.0, 0.0, 0.0 );
 }
