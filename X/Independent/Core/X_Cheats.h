@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010, 2011 Semi Essessi
+// ©Copyright 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,49 +24,30 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-// I N C L U D E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-// This file's header
-#include <Core/X.h>
-
-// GLToy
-#include <Core/State/GLToy_State_System.h>
-#include <Entity/GLToy_Entity_System.h>
-
-// X
-#include <Core/X_Cheats.h>
-#include <Core/State/X_State_Game.h>
-#include <Core/State/X_State_GameOver.h>
-#include <Core/State/X_State_MainMenu.h>
-#include <Entity/X_EntityTypes.h>
+#ifndef __X_CHEATS_H_
+#define __X_CHEATS_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool X::Initialise()
+class X_Cheats
 {
-    GLToy::ChangeWindowTitle( "X" );
+public:
 
-	GLToy_Entity_System::SetProjectEntityCreateCallback( X_CreateEntity );
+    static bool Initialise();
+    //static void Shutdown();
 
-    GLToy_InitialiserCall( X_Cheats );
+    //static void Update();
 
-	GLToy_State_System::RegisterState( new X_State_Game() );
-    GLToy_State_System::RegisterState( new X_State_GameOver() );
-    GLToy_State_System::RegisterState( new X_State_MainMenu() );
+    static bool IsGodMode() { return s_bGodMode; }
+    static bool IsNoClip() { return s_bNoClip; }
 
-    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "MainMenu" ) );
+private:
 
-    return true;
-}
+    static bool s_bGodMode;
+    static bool s_bNoClip;
 
-void X::Shutdown()
-{
-}
+};
 
-void X::Update()
-{
-}
+#endif

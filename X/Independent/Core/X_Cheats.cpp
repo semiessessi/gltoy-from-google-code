@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010, 2011 Semi Essessi
+// ©Copyright 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -28,45 +28,29 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <Core/GLToy.h>
+
 // This file's header
-#include <Core/X.h>
+#include <Core/X_Cheats.h>
 
 // GLToy
-#include <Core/State/GLToy_State_System.h>
-#include <Entity/GLToy_Entity_System.h>
+#include <Core/Console/GLToy_Console.h>
 
-// X
-#include <Core/X_Cheats.h>
-#include <Core/State/X_State_Game.h>
-#include <Core/State/X_State_GameOver.h>
-#include <Core/State/X_State_MainMenu.h>
-#include <Entity/X_EntityTypes.h>
+/////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+bool X_Cheats::s_bGodMode = false;
+bool X_Cheats::s_bNoClip = false;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool X::Initialise()
+bool X_Cheats::Initialise()
 {
-    GLToy::ChangeWindowTitle( "X" );
-
-	GLToy_Entity_System::SetProjectEntityCreateCallback( X_CreateEntity );
-
-    GLToy_InitialiserCall( X_Cheats );
-
-	GLToy_State_System::RegisterState( new X_State_Game() );
-    GLToy_State_System::RegisterState( new X_State_GameOver() );
-    GLToy_State_System::RegisterState( new X_State_MainMenu() );
-
-    GLToy_State_System::ChangeState( GLToy_Hash_Constant( "MainMenu" ) );
+    GLToy_Console::RegisterVariable( "god", &s_bGodMode );
+    GLToy_Console::RegisterVariable( "noclip", &s_bNoClip );
 
     return true;
-}
-
-void X::Shutdown()
-{
-}
-
-void X::Update()
-{
 }

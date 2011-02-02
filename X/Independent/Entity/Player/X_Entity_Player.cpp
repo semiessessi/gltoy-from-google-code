@@ -42,6 +42,7 @@
 #include <Render/GLToy_Texture_System.h>
 
 // X
+#include <Core/X_Cheats.h>
 #include <Entity/X_EntityTypes.h>
 #include <Entity/Projectile/X_Entity_Projectile.h>
 #include <Entity/Collectible/X_Entity_Collectible.h>
@@ -118,19 +119,25 @@ void X_Entity_Player::Update()
     static X_Entity_Player* ls_pxThis;
     ls_pxThis = this;
     // check for collisions:
-    GLToy_QuickFunctor( CollisionFunctor, X_Entity_Enemy*, ppxEnemy,
+    if( !X_Cheats::IsNoClip() )
+    {
+        GLToy_QuickFunctor( CollisionFunctor, X_Entity_Enemy*, ppxEnemy,
 
-        if( ppxEnemy && !( *ppxEnemy )->IsDead() && ( *ppxEnemy )->GetBoundingSphere().IntersectsWithSphere( ls_pxThis->m_xBoundingSphere ) )
-        {
-            --( ls_pxThis->m_uLives );
-            ( *ppxEnemy )->Kill();
-        }
+            if( ppxEnemy && !( *ppxEnemy )->IsDead() && ( *ppxEnemy )->GetBoundingSphere().IntersectsWithSphere( ls_pxThis->m_xBoundingSphere ) )
+            {
+                if( !X_Cheats::IsGodMode() )
+                {
+                    --( ls_pxThis->m_uLives );
+                }
 
-    );
+                ( *ppxEnemy )->Kill();
+            }
 
-    X_Entity_Enemy::GetList().Traverse( CollisionFunctor() );
+        );
+    
+        X_Entity_Enemy::GetList().Traverse( CollisionFunctor() );
 
-	GLToy_QuickFunctor( CollectFunctor, X_Entity_Collectible*, ppxCollectible,
+        GLToy_QuickFunctor( CollectFunctor, X_Entity_Collectible*, ppxCollectible,
 
         if( ppxCollectible && ( *ppxCollectible )->GetBoundingSphere().IntersectsWithSphere( ls_pxThis->m_xBoundingSphere ) )
         {
@@ -138,11 +145,12 @@ void X_Entity_Player::Update()
             ( *ppxCollectible )->Destroy();
         }
 
-    );
+        );
 
-    X_Entity_Collectible::GetList().Traverse( CollectFunctor() );
+        X_Entity_Collectible::GetList().Traverse( CollectFunctor() );
+    }
 
-    if( m_uLives == 0xFFFFFFFF )
+    if( !X_Cheats::IsGodMode() && ( m_uLives == 0xFFFFFFFF ) )
     {
         GLToy_State_System::ChangeState( GLToy_Hash_Constant( "GameOver" ) );
     }

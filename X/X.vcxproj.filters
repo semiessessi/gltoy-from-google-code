@@ -90,6 +90,9 @@
     <ClCompile Include="Independent\Equipment\X_Equipment_Weapon.cpp">
       <Filter>Independent\Equipment</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Core\X_Cheats.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_X.h">
@@ -130,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Equipment\X_Equipment_Weapon.h">
       <Filter>Independent\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\X_Cheats.h">
+      <Filter>Independent\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
