@@ -29,7 +29,8 @@ uniform sampler2D NormalMap;
 uniform sampler2D SpecularMap;
 
 void main()
-{	vec4 xDiffuseSample = texture2D( DiffuseMap, xTexCoord );
+{
+	vec4 xDiffuseSample = texture2D( DiffuseMap, xTexCoord );
 	if( xDiffuseSample.a < 0.95 )
 	{
 		discard;
