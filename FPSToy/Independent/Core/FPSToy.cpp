@@ -55,15 +55,13 @@ bool FPSToy::Initialise()
 
     GLToy_Entity_System::SetProjectEntityCreateCallback( FPSToy_CreateEntity );
 
-    GLToy_Environment_System::CreateTestEnvironment();
-
     GLToy_State_System::ChangeState( GLToy_Hash_Constant( "Splash" ) );
     GLToy_State_System::SetNextState( GLToy_Hash_Constant( "Editor" ) );
 
     GLToy::ChangeWindowTitle( "FPSToy" );
     GLToy::ChangeWindowIcon( "Icons/FPSToy_24x24.png" );
 
-    // TODO - something better here
+    // in case we don't load an environment for whatever reason...
     FPSToy_Player::Spawn( GLToy_Vector_3( 0.0f, 100.0f, 0.0f ), GLToy_Maths::IdentityMatrix3 );
 
     return true;

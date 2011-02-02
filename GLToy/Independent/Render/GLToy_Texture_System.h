@@ -123,6 +123,7 @@ protected:
 class GLToy_Texture_System
 {
 
+    friend class GLToy_Raytrace_Fullscreen;
     friend class GLToy_Texture_Procedural;
 
 public:
@@ -132,6 +133,7 @@ public:
 
     static const GLToy_HashMap< GLToy_Texture >& GetMap(){ return s_xTextures; }
     static GLToy_Texture* FindTexture( const GLToy_Hash uHash );
+    static GLToy_Texture* FindTextureInternal( const GLToy_Hash uHash );
     static GLToy_Texture* LookUpTexture( const GLToy_String& szName );
     static GLToy_Texture* LookUpTextureNoExt( const GLToy_String& szName );
     static void CreateTexture( const GLToy_Hash uHash );

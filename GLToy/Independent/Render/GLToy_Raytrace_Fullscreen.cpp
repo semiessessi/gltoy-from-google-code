@@ -68,7 +68,7 @@ void GLToy_Raytrace_Fullscreen::Render() const
 
     for( u_int u = 0; u < 8; ++u )
     {
-        GLToy_Texture* pxTexture = ( m_axTextures[ u ].First().First() == uGLTOY_BAD_HASH ) ? NULL : GLToy_Texture_System::FindTexture( m_axTextures[ u ].First().First() );
+        GLToy_Texture* pxTexture = ( m_axTextures[ u ].First().First() == uGLTOY_BAD_HASH ) ? NULL : GLToy_Texture_System::FindTextureInternal( m_axTextures[ u ].First().First() );
 
         if( pxTexture )
         {

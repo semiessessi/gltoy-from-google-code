@@ -189,12 +189,40 @@ void GLToy_Texture_System::Shutdown()
 
 GLToy_Texture* GLToy_Texture_System::FindTexture( const GLToy_Hash uHash )
 {
+// TODO: make this crap fast enough to use...
+//#ifdef GLTOY_DEBUG
+//    GLToy_Texture* const pxTexture = s_xTextures.FindData( uHash );
+//    if( !pxTexture )
+//    {
+//        GLToy_DebugOutput( "Unable to find texture 0x%X\r\n", uHash );
+//        return NULL;
+//    }
+//
+//    return pxTexture;
+//#else
+    return s_xTextures.FindData( uHash );
+//#endif
+}
+
+GLToy_Texture* GLToy_Texture_System::FindTextureInternal( const GLToy_Hash uHash )
+{
     return s_xTextures.FindData( uHash );
 }
 
 GLToy_Texture* GLToy_Texture_System::LookUpTexture( const GLToy_String& szName )
-{    
-    return FindTexture( szName.GetHash() );
+{ 
+#ifdef GLTOY_DEBUG
+    GLToy_Texture* const pxTexture = FindTextureInternal( szName.GetHash() );
+    if( pxTexture )
+    {
+        GLToy_DebugOutput( "Unable to look up texture \"%S\"\r\n", szName.GetWideString() );
+        return pxTexture;
+    }
+
+    return NULL;
+#else
+    return FindTextureInternal( szName.GetHash() );
+#endif
 }
 
 GLToy_Texture* GLToy_Texture_System::LookUpTextureNoExt( const GLToy_String& szName )
@@ -268,7 +296,7 @@ void GLToy_Texture_System::DestroyTexture( const GLToy_String& szName )
 
 void GLToy_Texture_System::DestroyTexture( const GLToy_Hash uHash )
 {
-    GLToy_Texture* pxTexture = FindTexture( uHash );
+    GLToy_Texture* pxTexture = FindTextureInternal( uHash );
     if( pxTexture && pxTexture->IsReadyForUse() )
     {
         pxTexture->Destroy();
@@ -333,7 +361,7 @@ void GLToy_Texture_System::BindWhite( const u_int uTextureUnit )
 
 void GLToy_Texture_System::CreateTextureFromRGBAData( const GLToy_Hash uHash, u_int *const puData, const u_int uWidth, const u_int uHeight )
 {
-    GLToy_Texture* pxTexture = FindTexture( uHash );
+    GLToy_Texture* pxTexture = FindTextureInternal( uHash );
     if( !pxTexture )
     {
         // texture doesn't already exist so create it
@@ -357,12 +385,12 @@ void GLToy_Texture_System::CreateTextureFromRGBAData( const GLToy_Hash uHash, u_
 
 void GLToy_Texture_System::CreateTextureFromRGBData( const GLToy_Hash uHash, u_char *const pucData, const u_int uWidth, const u_int uHeight )
 {
-    GLToy_Texture* pxTexture = FindTexture( uHash );
+    GLToy_Texture* pxTexture = FindTextureInternal( uHash );
     if( !pxTexture )
     {
         // texture doesn't already exist so create it
         s_xTextures.AddNode( GLToy_Texture( "" ), uHash );
-        pxTexture = FindTexture( uHash );
+        pxTexture = FindTextureInternal( uHash );
     }
 
     GLToy_Assert( pxTexture != NULL, "Something went really wrong and we have a null pointer where we shoudln't!" );

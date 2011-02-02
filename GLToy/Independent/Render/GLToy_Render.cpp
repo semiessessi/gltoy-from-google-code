@@ -454,6 +454,8 @@ void GLToy_Render::Render()
         BindFramebuffer( FRAMEBUFFER, *s_puCurrentBuffer );
 
         // now accumulate lighting into the frame buffer from the deferred buffers...
+        // TODO: use a seperate buffer so that it can be combined with the current framebuffer properly
+        // and with bloom and HDR if there is a good enough card to perform well with it
         BindDiffuseTexture( 1 );
         BindNormalTexture( 2 );
         BindDepthTexture( 3 );
