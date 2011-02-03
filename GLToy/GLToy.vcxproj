@@ -632,6 +632,18 @@
     </ClCompile>
     <ClCompile Include="Independent\Model\GLToy_Model_SCU.cpp" />
     <ClCompile Include="Independent\Physics\GLToy_Physics_SCU.cpp" />
+    <ClCompile Include="Independent\Render\GLToy_FSFX_System.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (Bullet)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (No Memory Debugging)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (No Physics)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Crinkler + No Havok)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Demo)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (No Physics)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Havok)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (Havok)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (No Physics)|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Independent\Render\GLToy_Light_System.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (Bullet)|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (No Memory Debugging)|Win32'">true</ExcludedFromBuild>
@@ -1884,6 +1896,7 @@
     <ClInclude Include="Independent\Maths\GLToy_OrientedSpline.h" />
     <ClInclude Include="Independent\Maths\GLToy_Spline.h" />
     <ClInclude Include="Independent\Model\GLToy_Model_FlatMaterials.h" />
+    <ClInclude Include="Independent\Render\GLToy_FSFX_System.h" />
     <ClInclude Include="Independent\Render\GLToy_Light_System.h" />
     <ClInclude Include="Independent\Render\GLToy_Raytrace_Fullscreen.h" />
     <ClInclude Include="Independent\Render\GLToy_Texture_Procedural.h" />

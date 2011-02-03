@@ -570,6 +570,9 @@
     <ClCompile Include="Independent\Render\GLToy_VertexBuffer.cpp">
       <Filter>Independent\Render</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Render\GLToy_FSFX_System.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
@@ -996,6 +999,9 @@
       <Filter>Independent\Material</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Render\GLToy_VertexBuffer.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\GLToy_FSFX_System.h">
       <Filter>Independent\Render</Filter>
     </ClInclude>
   </ItemGroup>
