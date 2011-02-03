@@ -408,74 +408,8 @@ void GLToy_Render::BeginRender2D()
     SetIdentityViewMatrix();
 }
 
-void GLToy_Render::Render()
+void GLToy_Render::TransparentPass()
 {
-    Project_Render();
-
-    // everything up to here should have been forward rendered into the framebuffer/depth buffer (TODO: z-prepass?)
-    
-    // do the deferred render
-    if( HasDeferredBuffer() )
-    {
-        BindFramebuffer( FRAMEBUFFER, s_uDeferredBuffer );
-        SetViewport( 0, 0, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
-
-        SetBlendFunction( BLEND_ONE, BLEND_ZERO );
-        DisableBlending();
-                
-        const u_int auBuffers[] =
-        {
-            COLOR_ATTACHMENT0,
-            COLOR_ATTACHMENT1,
-            COLOR_ATTACHMENT2,
-        };
-
-        GLToy_Render::DrawBuffers( sizeof( auBuffers ) / sizeof( u_int ), auBuffers );
-
-        GLToy_Shader_System::BindShaderProgram( GLToy_Hash_Constant( "Deferred_Clear" ) );
-
-        DisableDepthWrites();
-        DisableDepthTesting();
-        
-        StartSubmittingQuads();
-        SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), -1.0f ), GLToy_Vector_2( GLToy_Render::Get2DWidth(), 2.0f ), 0.0f, 1.0f, 1.0f, 0.0f );
-        EndSubmit();
-
-        EnableDepthWrites();
-        EnableDepthTesting();
-
-        UseProgram( 0 );
-        
-        s_xDeferredRenderables.Traverse( GLToy_IndirectRenderDeferredFunctor< const GLToy_Renderable >() );
-
-        UseProgram( 0 );
-        GLToy_Render::DrawBuffers( 1, auBuffers );
-
-        BindFramebuffer( FRAMEBUFFER, *s_puCurrentBuffer );
-
-        // now accumulate lighting into the frame buffer from the deferred buffers...
-        // TODO: use a seperate buffer so that it can be combined with the current framebuffer properly
-        // and with bloom and HDR if there is a good enough card to perform well with it
-        BindDiffuseTexture( 1 );
-        BindNormalTexture( 2 );
-        BindDepthTexture( 3 );
-
-        EnableBlending();
-        DisableDepthWrites();
-        DisableDepthTesting();
-        SetBlendFunction( BLEND_ONE, BLEND_ONE );
-
-        GLToy_Light_System::Render();
-
-        BindFramebuffer( FRAMEBUFFER, *s_puCurrentBuffer );
-    }
-    else
-    {
-        s_xDeferredRenderables.Traverse( GLToy_IndirectRenderFunctor< const GLToy_Renderable >() );
-
-    }
-
-    // here we render the transparent object tree ...
     EnableBlending();
     SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
     EnableDepthTesting();
@@ -566,6 +500,80 @@ void GLToy_Render::Render()
         SetPerspectiveProjectionMatrix();
         PopViewMatrix();
     }
+}
+
+void GLToy_Render::DeferredPass()
+{
+    if( HasDeferredBuffer() )
+    {
+        BindFramebuffer( FRAMEBUFFER, s_uDeferredBuffer );
+        SetViewport( 0, 0, GLToy::GetWindowViewportWidth(), GLToy::GetWindowViewportHeight() );
+
+        SetBlendFunction( BLEND_ONE, BLEND_ZERO );
+        DisableBlending();
+                
+        const u_int auBuffers[] =
+        {
+            COLOR_ATTACHMENT0,
+            COLOR_ATTACHMENT1,
+            COLOR_ATTACHMENT2,
+        };
+
+        GLToy_Render::DrawBuffers( sizeof( auBuffers ) / sizeof( u_int ), auBuffers );
+
+        GLToy_Shader_System::BindShaderProgram( GLToy_Hash_Constant( "Deferred_Clear" ) );
+
+        DisableDepthWrites();
+        DisableDepthTesting();
+        
+        StartSubmittingQuads();
+        SubmitTexturedQuad2D( GLToy_Vector_2( -0.5f * GLToy_Render::Get2DWidth(), -1.0f ), GLToy_Vector_2( GLToy_Render::Get2DWidth(), 2.0f ), 0.0f, 1.0f, 1.0f, 0.0f );
+        EndSubmit();
+
+        EnableDepthWrites();
+        EnableDepthTesting();
+
+        UseProgram( 0 );
+        
+        s_xDeferredRenderables.Traverse( GLToy_IndirectRenderDeferredFunctor< const GLToy_Renderable >() );
+
+        UseProgram( 0 );
+        GLToy_Render::DrawBuffers( 1, auBuffers );
+
+        BindFramebuffer( FRAMEBUFFER, *s_puCurrentBuffer );
+
+        // now accumulate lighting into the frame buffer from the deferred buffers...
+        // TODO: use a seperate buffer so that it can be combined with the current framebuffer properly
+        // and with bloom and HDR if there is a good enough card to perform well with it
+        BindDiffuseTexture( 1 );
+        BindNormalTexture( 2 );
+        BindDepthTexture( 3 );
+
+        EnableBlending();
+        DisableDepthWrites();
+        DisableDepthTesting();
+        SetBlendFunction( BLEND_ONE, BLEND_ONE );
+
+        GLToy_Light_System::Render();
+
+        BindFramebuffer( FRAMEBUFFER, *s_puCurrentBuffer );
+    }
+    else
+    {
+        s_xDeferredRenderables.Traverse( GLToy_IndirectRenderFunctor< const GLToy_Renderable >() );
+
+    }
+}
+
+void GLToy_Render::Render()
+{
+    Project_Render();
+
+    // everything up to here should have been forward rendered into the framebuffer/depth buffer (TODO: z-prepass?)
+
+    DeferredPass();
+
+    TransparentPass();
 }
 
 void GLToy_Render::Render2D()

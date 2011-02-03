@@ -275,6 +275,10 @@ public:
     static void StartSamplingDepth();
     static void StopSamplingDepth();
 
+    // the forward pass is implicit
+    static void DeferredPass();
+    static void TransparentPass();
+
     // GL interface
     static u_int GetError();
 
