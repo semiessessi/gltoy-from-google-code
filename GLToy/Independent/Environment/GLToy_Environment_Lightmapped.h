@@ -235,6 +235,7 @@ public:
     , m_xIndices()
     , m_pxParent( pxParent )
     , m_xBatches()
+    , m_xBoundingSphere()
     {
     }
 
@@ -279,6 +280,7 @@ protected:
     };
 
     GLToy_Array< MaterialBatch > m_xBatches;
+    GLToy_Sphere m_xBoundingSphere;
 
 };
 

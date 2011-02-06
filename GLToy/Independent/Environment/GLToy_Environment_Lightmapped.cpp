@@ -116,15 +116,23 @@ void GLToy_Environment_Lightmapped::Initialise()
 
     m_pxIndexBuffer = GLToy_IndexBuffer::Create( xIndices.GetCount(), xIndices.GetDataPointer() );
 
-    // optimise for material batching
+    // optimise for material batching and frustum culling
     GLToy_Iterate( GLToy_EnvironmentLeaf_Lightmapped, xLeaf, m_xLeaves )
-        
+
+        if( xLeaf.m_xIndices.GetCount() == 0 )
+        {
+            continue;
+        }
+
+        xLeaf.m_xBoundingSphere.SetToPoint( m_xVertices[ m_xFaces[ xLeaf.m_xIndices[ 0 ] ].m_xIndices[ 0 ] ].m_xPosition );
         GLToy_ConstIterate( u_int, uFaceIndex, xLeaf.m_xIndices )
+
+            const GLToy_Environment_LightmappedFace& xFace = xLeaf.GetFace( xIterator.Index() );
 
             bool bFound = false;
             for( u_int v = 0; v < xLeaf.m_xBatches.GetCount(); ++v )
             {
-                if( xLeaf.m_xBatches[ v ].m_uHash == xLeaf.GetFace( xIterator.Index() ).m_uTextureHash )
+                if( xLeaf.m_xBatches[ v ].m_uHash == xFace.m_uTextureHash )
                 {
                     bFound = true;
                     xLeaf.m_xBatches[ v ].m_xFaces.Append( uFaceIndex );
@@ -135,9 +143,14 @@ void GLToy_Environment_Lightmapped::Initialise()
             if( !bFound )
             {
                 xLeaf.m_xBatches.Append( GLToy_EnvironmentLeaf_Lightmapped::MaterialBatch() );
-                xLeaf.m_xBatches.End().m_uHash = xLeaf.GetFace( xIterator.Index() ).m_uTextureHash;
+                xLeaf.m_xBatches.End().m_uHash = xFace.m_uTextureHash;
                 xLeaf.m_xBatches.End().m_xFaces.Append( uFaceIndex );
             }
+
+            GLToy_ConstIterate( u_int, uIndex, xFace.m_xIndices )
+                xLeaf.m_xBoundingSphere.GrowByPoint( m_xVertices[ xFace.m_xIndices[ 0 ] ].m_xPosition );
+            GLToy_Iterate_End;
+
         GLToy_Iterate_End;
     GLToy_Iterate_End;
 }
@@ -292,6 +305,8 @@ void GLToy_Environment_Lightmapped::RenderDeferred() const
     m_pxVertexBuffer->Bind();
     m_pxIndexBuffer->Bind();
 
+    // TODO: Make GLToy_Trace_System into GLToy_Visiblity_System and do something a lot better than this
+    // which can be used by lights, sounds and entities as well
     GLToy_EnvironmentLeaf_Lightmapped* pxLeaf = static_cast< GLToy_EnvironmentLeaf_Lightmapped* >( GetLeafData( GLToy_Camera::GetPosition() ) );
     if( !IsEmpty() && pxLeaf && pxLeaf->m_uCluster != 0xFFFF )
     {
@@ -299,7 +314,29 @@ void GLToy_Environment_Lightmapped::RenderDeferred() const
             GLToy_Assert( uClusterIndex < m_xClusters.GetCount(), "Cluster index is too large!" );
                 
             GLToy_ConstIterate( u_int, uCluster, m_xClusters[ uClusterIndex ].m_xIndices )
+                
+                if( m_xLeaves[ uCluster ].m_xIndices.GetCount() == 0 )
+                {
+                    continue;
+                }
+
+                // TODO: some frustum culling   
+                //if( m_xLeaves[ uCluster ].m_xBoundingSphere.IsOutside( GLToy_Camera::GetPosition() ) )
+                //{
+                //    const GLToy_Vector_2 xTestPoint =
+                //        GLToy_Camera::WorldSpaceToScreenSpace(
+                //            m_xLeaves[ uCluster ].m_xBoundingSphere.GetPosition()
+                //            + GLToy_Camera::GetDirection() * m_xLeaves[ uCluster ].m_xBoundingSphere.GetRadius()
+                //        );
+
+                //    if( xTestPoint == GLToy_Maths::LargeVector2 )
+                //    {
+                //        continue;
+                //    }
+                //}
+
                 m_xLeaves[ uCluster ].RenderDeferred();
+
             GLToy_Iterate_End;
         GLToy_Iterate_End;
     }

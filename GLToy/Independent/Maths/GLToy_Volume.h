@@ -67,22 +67,10 @@ public:
 
     GLToy_ForceInline const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
 
-    //virtual float GetSurfaceArea() const = 0;
-    //virtual float GetVolume() const = 0;
-
-    //virtual bool IsInside( const GLToy_Vector_3& xPosition ) const = 0;
     GLToy_ForceInline bool IsOutside( const GLToy_Vector_3& xPosition ) const
     {
         return !( static_cast< const Derived* const >( this )->IsInside( xPosition ) );
     }
-
-    //bool HasBoundingSphere() const { return false; }
-    //bool HasBoundingAABB() const { return false; }
-    //GLToy_Sphere GetBoundingSphere() const;
-    //GLToy_AABB GetBoundingAABB() const;
-
-    //virtual void SetToPoint( const GLToy_Vector_3& xPosition ) = 0;
-    //virtual void GrowByPoint( const GLToy_Vector_3& xPosition ) = 0;
 
     void ReadFromBitStream( const GLToy_BitStream& xStream );
     void WriteToBitStream( GLToy_BitStream& xStream ) const;
@@ -95,7 +83,6 @@ protected:
 
 class GLToy_AABB
 : public GLToy_Volume< GLToy_AABB >
-//, public GLToy_Renderable
 {
 
     typedef GLToy_Volume< GLToy_AABB > GLToy_Parent;
@@ -201,8 +188,6 @@ public:
 
 	GLToy_Plane GetPlane( int iIndex ) const;
 
-//protected:
-
     GLToy_Vector_3 m_xPointMax;
     GLToy_Vector_3 m_xPointMin;
 
@@ -210,7 +195,6 @@ public:
 
 class GLToy_Sphere
 : public GLToy_Volume< GLToy_Sphere >
-//, public GLToy_Renderable
 {
   
     typedef GLToy_Volume< GLToy_Sphere > GLToy_Parent;
@@ -243,7 +227,7 @@ public:
 
     bool IsInside( const GLToy_Vector_3& xPosition ) const
     {
-        return ( xPosition - m_xPosition ).Magnitude() < m_fRadius;
+        return ( xPosition - m_xPosition ).MagnitudeSquared() < m_fRadius * m_fRadius;
     }
 
     bool HasBoundingSphere() const { return true; }
@@ -287,7 +271,6 @@ protected:
 
 class GLToy_OBB
 : public GLToy_Volume< GLToy_OBB >
-//, public GLToy_Renderable
 {
 
     typedef GLToy_Volume< GLToy_OBB > GLToy_Parent;

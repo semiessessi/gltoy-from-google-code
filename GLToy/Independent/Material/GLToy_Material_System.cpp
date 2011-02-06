@@ -83,18 +83,13 @@ void GLToy_Material::Bind() const
 
     for( u_int u = 0; u < 4; ++u )
     {
-        if( !m_auTextures[ u ] )
+        if( m_auTextures[ u ] )
         {
-            break;
+            GLToy_Texture_System::BindTexture( m_auTextures[ u ], u );
+            pxShader->SetUniform( m_aiSamplerHandles[ u ], static_cast< int >( u ) );
         }
-
-        GLToy_Texture_System::BindTexture( m_auTextures[ u ], u );
-        //pxShader->SetUniform( m_aszTextureNames[ u ], static_cast< int >( u ) );
-        pxShader->SetUniform( m_aiSamplerHandles[ u ], static_cast< int >( u ) );
     }
 
-    //pxShader->SetViewMatrix( "xViewMatrix" );
-    //pxShader->SetInverseViewMatrix( "xInverseViewMatrix" );
     pxShader->SetViewMatrix( m_aiViewMatrixHandles[ 0 ] );
     pxShader->SetInverseViewMatrix( m_aiViewMatrixHandles[ 1 ] );
 }

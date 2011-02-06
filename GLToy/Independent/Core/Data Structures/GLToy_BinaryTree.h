@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -129,36 +129,44 @@ protected:
 
     GLToy_BinaryTreeNode* FindNode( const KeyType xKey )
     {
-        if( xKey > m_xKey )
-        {
-            GLToy_Assert( m_pxHigher != this, "Get ready for a stack overflow, we have a loop in our tree!" );
-            return m_pxHigher ? m_pxHigher->FindNode( xKey ) : NULL;
-        }
-
-        if( xKey < m_xKey )
-        {
-            GLToy_Assert( m_pxLower != this, "Get ready for a stack overflow, we have a loop in our tree!" );
-            return m_pxLower ? m_pxLower->FindNode( xKey ) : NULL;
-        }
-
-        return this;
+        GLToy_Assert( m_pxHigher != this, "Get ready for a stack overflow, we have a loop in our tree!" );
+        GLToy_Assert( m_pxLower != this, "Get ready for a stack overflow, we have a loop in our tree!" );
+        
+        return ( xKey < m_xKey ) ?
+            ( m_pxLower ? m_pxLower->FindNode( xKey ) : NULL ) :
+            ( ( xKey > m_xKey ) ?
+                ( m_pxHigher ? m_pxHigher->FindNode( xKey ) : NULL )
+                : this );
     }
 
     const GLToy_BinaryTreeNode* FindNode( const KeyType xKey ) const
     {
-        if( xKey > m_xKey )
-        {
-            GLToy_Assert( m_pxHigher != this, "Get ready for a stack overflow, we have a loop in our tree!" );
-            return m_pxHigher ? m_pxHigher->FindNode( xKey ) : NULL;
-        }
+        GLToy_Assert( m_pxHigher != this, "Get ready for a stack overflow, we have a loop in our tree!" );
+        GLToy_Assert( m_pxLower != this, "Get ready for a stack overflow, we have a loop in our tree!" );
+        
+        return ( xKey < m_xKey ) ?
+            ( m_pxLower ? m_pxLower->FindNode( xKey ) : NULL ) :
+            ( ( xKey > m_xKey ) ?
+                ( m_pxHigher ? m_pxHigher->FindNode( xKey ) : NULL )
+                : this );
+    }
 
-        if( xKey < m_xKey )
-        {
-            GLToy_Assert( m_pxLower != this, "Get ready for a stack overflow, we have a loop in our tree!" );
-            return m_pxLower ? m_pxLower->FindNode( xKey ) : NULL;
-        }
+    GLToy_BinaryTreeNode* FindNode_CrashIfFail( const KeyType xKey )
+    {        
+        return ( xKey < m_xKey ) ?
+            m_pxLower->FindNode( xKey ) :
+            ( ( xKey > m_xKey ) ?
+                m_pxHigher->FindNode( xKey )
+                : this );
+    }
 
-        return this;
+    const GLToy_BinaryTreeNode* FindNode_CrashIfFail( const KeyType xKey ) const
+    {
+        return ( xKey < m_xKey ) ?
+            m_pxLower->FindNode( xKey ) :
+            ( ( xKey > m_xKey ) ?
+                m_pxHigher->FindNode( xKey )
+                : this );
     }
 
     virtual void Traverse( GLToy_Functor< DataType >& xFunctor )
@@ -277,6 +285,16 @@ public:
         GLToy_BinaryTreeNode< DataType, KeyType >* pxNode = m_pxHead->FindNode( xKey );
 
         return pxNode ? pxNode->GetDataPointer() : NULL;
+    }
+
+    GLToy_ForceInline DataType* FindData_CrashIfFail( const KeyType xKey )
+    {
+        return m_pxHead->FindNode_CrashIfFail( xKey )->GetDataPointer();
+    }
+
+    GLToy_ForceInline const DataType* FindData_CrashIfFail( const KeyType xKey ) const
+    {
+        return m_pxHead->FindNode_CrashIfFail( xKey )->GetDataPointer();
     }
 
     virtual void Traverse( GLToy_Functor< DataType >& xFunctor )
