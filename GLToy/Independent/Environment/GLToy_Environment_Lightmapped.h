@@ -234,6 +234,7 @@ public:
     : m_uCluster( 0xFFFFFFFF )
     , m_xIndices()
     , m_pxParent( pxParent )
+    , m_xBatches()
     {
     }
 
@@ -255,6 +256,29 @@ protected:
     u_int m_uCluster;
     GLToy_Array< u_int > m_xIndices;
     const GLToy_Environment_Lightmapped* m_pxParent;
+
+    class MaterialBatch
+    {
+    public:
+
+        MaterialBatch()
+        : m_uHash( uGLTOY_BAD_HASH )
+        , m_xFaces()
+        {
+        }
+        
+        MaterialBatch& operator= ( const MaterialBatch& xMaterialBatch )
+        {
+            m_uHash = xMaterialBatch.m_uHash;
+            m_xFaces = xMaterialBatch.m_xFaces;
+            return *this;
+        }
+
+        GLToy_Hash m_uHash;
+        GLToy_Array< u_short > m_xFaces;
+    };
+
+    GLToy_Array< MaterialBatch > m_xBatches;
 
 };
 

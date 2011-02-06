@@ -115,6 +115,31 @@ void GLToy_Environment_Lightmapped::Initialise()
     GLToy_Iterate_End;
 
     m_pxIndexBuffer = GLToy_IndexBuffer::Create( xIndices.GetCount(), xIndices.GetDataPointer() );
+
+    // optimise for material batching
+    GLToy_Iterate( GLToy_EnvironmentLeaf_Lightmapped, xLeaf, m_xLeaves )
+        
+        GLToy_ConstIterate( u_int, uFaceIndex, xLeaf.m_xIndices )
+
+            bool bFound = false;
+            for( u_int v = 0; v < xLeaf.m_xBatches.GetCount(); ++v )
+            {
+                if( xLeaf.m_xBatches[ v ].m_uHash == xLeaf.GetFace( xIterator.Index() ).m_uTextureHash )
+                {
+                    bFound = true;
+                    xLeaf.m_xBatches[ v ].m_xFaces.Append( uFaceIndex );
+                    break;
+                }
+            }
+
+            if( !bFound )
+            {
+                xLeaf.m_xBatches.Append( GLToy_EnvironmentLeaf_Lightmapped::MaterialBatch() );
+                xLeaf.m_xBatches.End().m_uHash = xLeaf.GetFace( xIterator.Index() ).m_uTextureHash;
+                xLeaf.m_xBatches.End().m_xFaces.Append( uFaceIndex );
+            }
+        GLToy_Iterate_End;
+    GLToy_Iterate_End;
 }
 
 void GLToy_Environment_Lightmapped::Shutdown()
@@ -574,27 +599,52 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderDeferred() const
     }
 
     const bool bQuadRes = GLToy_Environment_System::IsBSPQuadRes();
-    GLToy_ConstIterate( u_int, uFaceIndex, m_xIndices )
-        GLToy_Assert( uFaceIndex < m_pxParent->m_xFaces.GetCount(), "Bad face index: %d (max: %d)", uFaceIndex, m_pxParent->m_xFaces.GetCount() - 1 );
 
-        const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ uFaceIndex ];
+    GLToy_ConstIterate( MaterialBatch, xBatch, m_xBatches )
+        
+        GLToy_Material_System::BindMaterial( xBatch.m_uHash );
 
-        if( !xFace.m_bVisible || xFace.m_bRendered )
-        {
-            continue;
-        }
+        GLToy_ConstIterate( u_short, uFaceIndex, xBatch.m_xFaces )
+            GLToy_Assert( uFaceIndex < m_pxParent->m_xFaces.GetCount(), "Bad face index: %d (max: %d)", uFaceIndex, m_pxParent->m_xFaces.GetCount() - 1 );
 
-        xFace.m_bRendered = true;
+            const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ uFaceIndex ];
 
-        GLToy_Material_System::BindMaterial( xFace.m_uTextureHash );
+            if( !xFace.m_bVisible || xFace.m_bRendered )
+            {
+                continue;
+            }
 
-        m_pxParent->m_pxIndexBuffer->SubmitPolygon(
-                xFace.m_xVertexBufferData.m_usMinIndex,
-                xFace.m_xVertexBufferData.m_usMaxIndex,
-                xFace.m_xVertexBufferData.m_usCount,
-                xFace.m_xVertexBufferData.m_usOffset
-            );
+            xFace.m_bRendered = true;
+
+            m_pxParent->m_pxIndexBuffer->SubmitPolygon(
+                    xFace.m_xVertexBufferData.m_usMinIndex,
+                    xFace.m_xVertexBufferData.m_usMaxIndex,
+                    xFace.m_xVertexBufferData.m_usCount,
+                    xFace.m_xVertexBufferData.m_usOffset
+                );
+        GLToy_Iterate_End;
     GLToy_Iterate_End;
+    //GLToy_ConstIterate( u_int, uFaceIndex, m_xIndices )
+    //    GLToy_Assert( uFaceIndex < m_pxParent->m_xFaces.GetCount(), "Bad face index: %d (max: %d)", uFaceIndex, m_pxParent->m_xFaces.GetCount() - 1 );
+
+    //    const GLToy_Environment_LightmappedFace& xFace = m_pxParent->m_xFaces[ uFaceIndex ];
+
+    //    if( !xFace.m_bVisible || xFace.m_bRendered )
+    //    {
+    //        continue;
+    //    }
+
+    //    xFace.m_bRendered = true;
+
+    //    GLToy_Material_System::BindMaterial( xFace.m_uTextureHash );
+
+    //    m_pxParent->m_pxIndexBuffer->SubmitPolygon(
+    //            xFace.m_xVertexBufferData.m_usMinIndex,
+    //            xFace.m_xVertexBufferData.m_usMaxIndex,
+    //            xFace.m_xVertexBufferData.m_usCount,
+    //            xFace.m_xVertexBufferData.m_usOffset
+    //        );
+    //GLToy_Iterate_End;
 }
 
 void GLToy_EnvironmentLeaf_Lightmapped::RenderLightmap() const
