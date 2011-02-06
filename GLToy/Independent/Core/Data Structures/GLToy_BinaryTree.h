@@ -102,12 +102,26 @@ protected:
     {
         if( xKey > m_xKey )
         {
-            return ( m_pxHigher->GetKey() == xKey ) ? this : m_pxHigher->FindParentNode( xKey );
+            if( m_pxHigher )
+            {
+                return ( m_pxHigher->GetKey() == xKey ) ? this : m_pxHigher->FindParentNode( xKey );
+            }
+            else
+            {
+                return NULL;
+            }
         }
 
         if( xKey < m_xKey )
         {
-            return ( m_pxLower->GetKey() == xKey ) ? this : m_pxLower->FindParentNode( xKey );
+            if( m_pxLower )
+            {
+                return ( m_pxLower->GetKey() == xKey ) ? this : m_pxLower->FindParentNode( xKey );
+            }
+            else
+            {
+                return NULL;
+            }
         }
 
         return NULL;

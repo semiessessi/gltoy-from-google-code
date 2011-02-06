@@ -232,6 +232,7 @@ private:
 
     static GLToy_HashMap< GLToy_Light* > s_xLights;
     static GLToy_HashMap< GLToy_Light_Point* > s_xPointLights;
+    static GLToy_HashMap< GLToy_Light_Point* > s_xPointLightsNoSpecular;
     static GLToy_HashMap< GLToy_Light_Projector* > s_xProjectorLights;
     static GLToy_Array< const GLToy_Renderable* > s_xOtherLightSources;
 	static GLToy_Array< const GLToy_GlobalLight_Directional* > s_xDirectionalLights;

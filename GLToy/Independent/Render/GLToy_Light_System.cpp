@@ -50,6 +50,7 @@ GLToy_ShaderProgram* GLToy_Light_System::s_pxCurrentShader = NULL;
 
 GLToy_HashMap< GLToy_Light* > GLToy_Light_System::s_xLights;
 GLToy_HashMap< GLToy_Light_Point* > GLToy_Light_System::s_xPointLights;
+GLToy_HashMap< GLToy_Light_Point* > GLToy_Light_System::s_xPointLightsNoSpecular;
 GLToy_HashMap< GLToy_Light_Projector* > GLToy_Light_System::s_xProjectorLights;
 GLToy_Array< const GLToy_Renderable* > GLToy_Light_System::s_xOtherLightSources;
 GLToy_Array< const GLToy_GlobalLight_Directional* > GLToy_Light_System::s_xDirectionalLights;
@@ -73,6 +74,7 @@ void GLToy_Light_System::Shutdown()
     s_xLights.DeleteAll();
     s_xOtherLightSources.Clear();
     s_xPointLights.Clear();
+    s_xPointLightsNoSpecular.Clear();
     s_xProjectorLights.Clear();
 	s_xDirectionalLights.DeleteAll();
 }
@@ -87,7 +89,14 @@ void GLToy_Light_System::AddPointLight( const GLToy_Hash uHash, const GLToy_Ligh
 {
     GLToy_Light_Point* const pxPointLight = new GLToy_Light_Point( xProperties );
     s_xLights.AddNode( pxPointLight, uHash );
-    s_xPointLights.AddNode( pxPointLight, uHash );
+    if( xProperties.m_bSpecular )
+    {
+        s_xPointLights.AddNode( pxPointLight, uHash );
+    }
+    else
+    {
+        s_xPointLightsNoSpecular.AddNode( pxPointLight, uHash );
+    }
 }
 
 void GLToy_Light_System::AddProjectorLight( const GLToy_Hash uHash, const GLToy_Light_ProjectorProperties& xProperties )
@@ -105,6 +114,7 @@ void GLToy_Light_System::DestroyLight( const GLToy_Hash uHash )
         delete *ppxLight;
         s_xLights.Remove( uHash );
         s_xPointLights.Remove( uHash );
+        s_xPointLightsNoSpecular.Remove( uHash );
         s_xProjectorLights.Remove( uHash );
     }
 }
@@ -132,6 +142,7 @@ void GLToy_Light_System::SpawnPointLight_Console()
     xProperties.m_xPosition = GLToy_Camera::GetPosition();
     xProperties.m_xColour = GLToy_Vector_3( 0.5f, 0.5f, 0.5f );
     xProperties.m_uFlags = 0;
+    xProperties.m_bSpecular = true;
     xProperties.m_fSphereRadius = 100.0f;
     AddPointLight( GLToy_Random_Hash(), xProperties );
 }
@@ -190,6 +201,29 @@ void GLToy_Light_System::Render()
     GLToy_Render::DisableDepthWrites();
 
     s_xPointLights.Traverse( GLToy_IndirectRenderLightingFunctor< GLToy_Light_Point >() );
+
+    s_pxCurrentShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Point_NoSpecular" ) );
+    if( s_pxCurrentShader )
+    {
+        s_pxCurrentShader->Bind();
+        s_pxCurrentShader->SetUniform( "xSpecularSampler", 0 );
+        s_pxCurrentShader->SetUniform( "xDiffuseSampler", 1 );
+        s_pxCurrentShader->SetUniform( "xNormalSampler", 2 );
+        s_pxCurrentShader->SetUniform( "xDepthSampler", 3 );
+
+        s_pxCurrentShader->SetUniform( "xCameraPosition", GLToy_Camera::GetPosition() );
+
+        const GLToy_Vector_2 xSize( static_cast< float >( GLToy::GetWindowViewportWidth() ), static_cast< float >( GLToy::GetWindowViewportHeight() ) );
+        const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
+
+        s_pxCurrentShader->SetUniform( "xSize", xSize );
+        s_pxCurrentShader->SetUniform( "xOneOverSize", xOneOverSize );
+        s_pxCurrentShader->SetUniform( "xClipPlanes", GLToy_Render::GetClipPlanes() );
+        s_pxCurrentShader->SetViewMatrix( "xViewMatrix" );
+        s_pxCurrentShader->SetInverseViewMatrix( "xInverseViewMatrix" );
+    }
+
+    s_xPointLightsNoSpecular.Traverse( GLToy_IndirectRenderLightingFunctor< GLToy_Light_Point >() );
 
     s_pxCurrentShader = GLToy_Shader_System::FindShader( GLToy_Hash_Constant( "Light_Projector" ) );
     if( s_pxCurrentShader )

@@ -1,0 +1,2 @@
+Light_Point_NoSpecular
+Light
