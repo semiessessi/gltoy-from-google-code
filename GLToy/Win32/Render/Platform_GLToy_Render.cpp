@@ -806,32 +806,32 @@ void Platform_GLToy_Render::TexCoordPointer( const u_int uComponentCount, /*cons
 
 void Platform_GLToy_Render::DrawTriangles( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
 {
-    s_pfnDrawRangeElements( GL_TRIANGLES, uStart, uEnd, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< void* >( uOffset ) ); 
+    s_pfnDrawRangeElements( GL_TRIANGLES, uStart, uEnd, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< void* >( uOffset * sizeof( u_short ) ) ); 
 }
 
 void Platform_GLToy_Render::DrawTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
 {
-    s_pfnDrawRangeElements( GL_TRIANGLE_STRIP, uStart, uEnd, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< void* >( uOffset ) ); 
+    s_pfnDrawRangeElements( GL_TRIANGLE_STRIP, uStart, uEnd, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< void* >( uOffset * sizeof( u_short ) ) ); 
 }
 
 void Platform_GLToy_Render::DrawPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
 {
-    s_pfnDrawRangeElements( GL_POLYGON, uStart, uEnd, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< void* >( uOffset ) ); 
+    s_pfnDrawRangeElements( GL_POLYGON, uStart, uEnd, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< void* >( uOffset * sizeof( u_short ) ) ); 
 }
 
 void Platform_GLToy_Render::DrawTrianglesNoRange( const u_int uCount, const u_int uOffset )
 {
-    glDrawElements( GL_TRIANGLES, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< const void* >( uOffset ) ); 
+    glDrawElements( GL_TRIANGLES, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< const void* >( uOffset * sizeof( u_short ) ) ); 
 }
 
 void Platform_GLToy_Render::DrawTriangleStripNoRange( const u_int uCount, const u_int uOffset )
 {
-    glDrawElements( GL_TRIANGLE_STRIP, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< const void* >( uOffset ) ); 
+    glDrawElements( GL_TRIANGLE_STRIP, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< const void* >( uOffset * sizeof( u_short ) ) ); 
 }
 
 void Platform_GLToy_Render::DrawPolygonNoRange( const u_int uCount, const u_int uOffset )
 {
-    glDrawElements( GL_POLYGON, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< const void* >( uOffset ) ); 
+    glDrawElements( GL_POLYGON, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< const void* >( uOffset * sizeof( u_short ) ) ); 
 }
 
 void Platform_GLToy_Render::DrawTrianglesNoIndexBuffer( const u_int uCount, const u_int uOffset )

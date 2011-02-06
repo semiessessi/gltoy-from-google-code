@@ -263,11 +263,9 @@ void GLToy_Environment_Lightmapped::RenderDeferred() const
         xFace.m_uRenderFlags = 0;
     GLToy_Iterate_End;
 
-    // ###
     GLToy_Render::EnableVertexBuffers();
     GLToy_Render::EnableIndexBuffers();
 
-    // ###
     m_pxVertexBuffer->Bind();
     m_pxIndexBuffer->Bind();
 
@@ -282,9 +280,10 @@ void GLToy_Environment_Lightmapped::RenderDeferred() const
             GLToy_Iterate_End;
         GLToy_Iterate_End;
     }
-    // ###
+
     GLToy_Render::DisableVertexBuffers();
     GLToy_Render::DisableIndexBuffers();
+
     GLToy_Render::DisableBackFaceCulling();
 }
 
@@ -595,25 +594,6 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderDeferred() const
                 xFace.m_xVertexBufferData.m_usCount,
                 xFace.m_xVertexBufferData.m_usOffset
             );
-        // ###
-
-        //GLToy_Render::StartSubmittingPolygon();
-
-        //GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-
-        //GLToy_ConstIterate( u_int, uIndex, xFace.m_xIndices )
-        //    const GLToy_Environment_LightmappedFaceVertex& xVertex = m_pxParent->m_xVertices[ uIndex ];
-
-        //    GLToy_Render::SubmitUV( xVertex.m_xUV * ( bQuadRes ? 4.0f : 1.0f ) );
-        //    GLToy_Render::SubmitUV(
-        //        GLToy_Vector_4(
-        //            GLToy_Maths::CompressNormal( xVertex.m_xNormal ),
-        //            GLToy_Maths::CompressNormal( xVertex.m_xTangent ) ),
-        //        1 );
-        //    GLToy_Render::SubmitVertex( xVertex.m_xPosition );
-        //GLToy_Iterate_End;
-
-        //GLToy_Render::EndSubmit();
     GLToy_Iterate_End;
 }
 

@@ -81,8 +81,7 @@ void GLToy_IndexBuffer::SubmitTriangleStrip( const u_int uStart, const u_int uEn
 
 void GLToy_IndexBuffer::SubmitPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
 {
-    //GLToy_Render::DrawPolygon( uStart, uEnd, uCount, uOffset );
-    GLToy_Render::DrawPolygonNoIndexBuffer( uCount, uOffset );
+    GLToy_Render::DrawPolygon( uStart, uEnd, uCount, uOffset );
 }
 
 GLToy_VertexBuffer_Deferred* GLToy_VertexBuffer_Deferred::Create( const u_int uCount, const GLToy_Vertex_Deferred* const pxVertices )
