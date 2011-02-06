@@ -573,6 +573,9 @@
     <ClCompile Include="Independent\Render\GLToy_FSFX_System.cpp">
       <Filter>Independent\Render</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Core\GLToy_Final_SCU.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">

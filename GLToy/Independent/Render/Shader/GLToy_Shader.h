@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -33,15 +33,8 @@
 
 // GLToy
 #include <Core/GLToy_Hash.h>
+#include <Maths/GLToy_Vector.h>
 #include <String/GLToy_String.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-class GLToy_Vector_2;
-class GLToy_Vector_3;
-class GLToy_Vector_4;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -61,17 +54,31 @@ public:
 
     void SetUseNoise( const bool bUseNoise );
 
+    GLToy_Handle GetUniformHandle( const GLToy_String& szName ) const;
+
     void SetUniform( const GLToy_String& szName, const int iValue ) const;
     void SetUniform( const GLToy_String& szName, const float fValue ) const;
     void SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2 ) const;
     void SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2, const float fValue3 ) const;
     void SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2, const float fValue3, const float fValue4 ) const;
-    void SetUniform( const GLToy_String& szName, const GLToy_Vector_2& xValue ) const;
-    void SetUniform( const GLToy_String& szName, const GLToy_Vector_3& xValue ) const;
-    void SetUniform( const GLToy_String& szName, const GLToy_Vector_4& xValue ) const;
+    GLToy_ForceInline void SetUniform( const GLToy_String& szName, const GLToy_Vector_2& xValue ) const { SetUniform( szName, xValue[ 0 ], xValue[ 1 ] ); }
+    GLToy_ForceInline void SetUniform( const GLToy_String& szName, const GLToy_Vector_3& xValue ) const { SetUniform( szName, xValue[ 0 ], xValue[ 1 ], xValue[ 2 ] ); }
+    GLToy_ForceInline void SetUniform( const GLToy_String& szName, const GLToy_Vector_4& xValue ) const { SetUniform( szName, xValue[ 0 ], xValue[ 1 ], xValue[ 2 ], xValue[ 3 ] ); }
+
+    void SetUniform( const GLToy_Handle iID, const int iValue ) const;
+    void SetUniform( const GLToy_Handle iID, const float fValue ) const;
+    void SetUniform( const GLToy_Handle iID, const float fValue1, const float fValue2 ) const;
+    void SetUniform( const GLToy_Handle iID, const float fValue1, const float fValue2, const float fValue3 ) const;
+    void SetUniform( const GLToy_Handle iID, const float fValue1, const float fValue2, const float fValue3, const float fValue4 ) const;
+    GLToy_ForceInline void SetUniform( const GLToy_Handle iID, const GLToy_Vector_2& xValue ) const { SetUniform( iID, xValue[ 0 ], xValue[ 1 ] ); }
+    GLToy_ForceInline void SetUniform( const GLToy_Handle iID, const GLToy_Vector_3& xValue ) const { SetUniform( iID, xValue[ 0 ], xValue[ 1 ], xValue[ 2 ] ); }
+    GLToy_ForceInline void SetUniform( const GLToy_Handle iID, const GLToy_Vector_4& xValue ) const { SetUniform( iID, xValue[ 0 ], xValue[ 1 ], xValue[ 2 ], xValue[ 3 ] ); }
 
     void SetViewMatrix( const GLToy_String& szName ) const;
     void SetInverseViewMatrix( const GLToy_String& szName ) const;
+
+    void SetViewMatrix( const GLToy_Handle iID ) const;
+    void SetInverseViewMatrix( const GLToy_Handle iID ) const;
 
 protected:
 

@@ -84,85 +84,98 @@ void GLToy_ShaderProgram::Bind() const
     }
 }
 
+GLToy_Handle GLToy_ShaderProgram::GetUniformHandle( const GLToy_String& szName ) const
+{
+    char* szString = szName.CreateANSIString();
+    const GLToy_Handle iReturnValue = static_cast< GLToy_Handle >( GLToy_Render::GetUniformID( m_uID, szString ) );
+    delete[] szString;
+    return iReturnValue;
+}
+
 void GLToy_ShaderProgram::SetUniform( const GLToy_String& szName, const int iValue ) const
 {
     char* szString = szName.CreateANSIString();
-    u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
+    GLToy_Render::SetUniform( GetUniformHandle( szString ), iValue );
     delete[] szString;
-    GLToy_Render::SetUniform( uUniformID, iValue );
 }
 
 void GLToy_ShaderProgram::SetUniform( const GLToy_String& szName, const float fValue ) const
 {
     char* szString = szName.CreateANSIString();
-    u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
+    GLToy_Render::SetUniform( GetUniformHandle( szString ), fValue );
     delete[] szString;
-    GLToy_Render::SetUniform( uUniformID, fValue );
 }
 
 void GLToy_ShaderProgram::SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2 ) const
 {
     char* szString = szName.CreateANSIString();
-    u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
+    GLToy_Render::SetUniform( GetUniformHandle( szString ), fValue1, fValue2 );
     delete[] szString;
-    GLToy_Render::SetUniform( uUniformID, fValue1, fValue2 );
 }
 
 void GLToy_ShaderProgram::SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2, const float fValue3 ) const
 {
     char* szString = szName.CreateANSIString();
-    u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
+    GLToy_Render::SetUniform( GetUniformHandle( szString ), fValue1, fValue2, fValue3 );
     delete[] szString;
-    GLToy_Render::SetUniform( uUniformID, fValue1, fValue2, fValue3 );
 }
 
 void GLToy_ShaderProgram::SetUniform( const GLToy_String& szName, const float fValue1, const float fValue2, const float fValue3, const float fValue4 ) const
 {
     char* szString = szName.CreateANSIString();
-    u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
+    GLToy_Render::SetUniform( GetUniformHandle( szString ), fValue1, fValue2, fValue3, fValue4 );
     delete[] szString;
-    GLToy_Render::SetUniform( uUniformID, fValue1, fValue2, fValue3, fValue4 );
 }
 
-void GLToy_ShaderProgram::SetUniform( const GLToy_String& szName, const GLToy_Vector_2& xValue ) const
+void GLToy_ShaderProgram::SetUniform( const GLToy_Handle iID, const int iValue ) const
 {
-    char* szString = szName.CreateANSIString();
-    u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
-    delete[] szString;
-    GLToy_Render::SetUniform( uUniformID, xValue[ 0 ], xValue[ 1 ] );
+    GLToy_Render::SetUniform( iID, iValue );
 }
 
-void GLToy_ShaderProgram::SetUniform( const GLToy_String& szName, const GLToy_Vector_3& xValue ) const
+void GLToy_ShaderProgram::SetUniform( const GLToy_Handle iID, const float fValue ) const
 {
-    char* szString = szName.CreateANSIString();
-    u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
-    delete[] szString;
-    GLToy_Render::SetUniform( uUniformID, xValue[ 0 ], xValue[ 1 ], xValue[ 2 ] );
+    GLToy_Render::SetUniform( iID, fValue );
 }
 
-void GLToy_ShaderProgram::SetUniform( const GLToy_String& szName, const GLToy_Vector_4& xValue ) const
+void GLToy_ShaderProgram::SetUniform( const GLToy_Handle iID, const float fValue1, const float fValue2 ) const
 {
-    char* szString = szName.CreateANSIString();
-    u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
-    delete[] szString;
-    GLToy_Render::SetUniform( uUniformID, xValue[ 0 ], xValue[ 1 ], xValue[ 2 ], xValue[ 3 ] );
+    GLToy_Render::SetUniform( iID, fValue1, fValue2 );
+}
+
+void GLToy_ShaderProgram::SetUniform( const GLToy_Handle iID, const float fValue1, const float fValue2, const float fValue3 ) const
+{
+    GLToy_Render::SetUniform( iID, fValue1, fValue2, fValue3 );
+}
+
+
+void GLToy_ShaderProgram::SetUniform( const GLToy_Handle iID, const float fValue1, const float fValue2, const float fValue3, const float fValue4 ) const
+{
+    GLToy_Render::SetUniform( iID, fValue1, fValue2, fValue3, fValue4 );
 }
 
 // TODO: get to the bottom of the view matrix swapping
 void GLToy_ShaderProgram::SetViewMatrix( const GLToy_String& szName ) const
 {
     char* szString = szName.CreateANSIString();
-    u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
+    GLToy_Render::SetUniform( GetUniformHandle( szString ), GLToy_Camera::GetInverseViewMatrix() );
     delete[] szString;
-    GLToy_Render::SetUniform( uUniformID, GLToy_Camera::GetInverseViewMatrix() );
 }
 
 void GLToy_ShaderProgram::SetInverseViewMatrix( const GLToy_String& szName ) const
 {
     char* szString = szName.CreateANSIString();
-    u_int uUniformID = GLToy_Render::GetUniformID( m_uID, szString );
+    GLToy_Render::SetUniform( GetUniformHandle( szString ), GLToy_Camera::GetViewMatrix() );
     delete[] szString;
-    GLToy_Render::SetUniform( uUniformID, GLToy_Camera::GetViewMatrix() );
+}
+
+void GLToy_ShaderProgram::SetViewMatrix( const GLToy_Handle iID ) const
+{
+    GLToy_Render::SetUniform( iID, GLToy_Camera::GetInverseViewMatrix() );
+}
+
+void GLToy_ShaderProgram::SetInverseViewMatrix( const GLToy_Handle iID ) const
+{
+    GLToy_Render::SetUniform( iID, GLToy_Camera::GetViewMatrix() );
 }
 
 void GLToy_ShaderProgram::SetUseNoise( const bool bUseNoise )

@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,52 +24,16 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_WAVEFILE_H_
-#define __GLTOY_WAVEFILE_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// GLToy
-#include <File/GLToy_File.h>
-
-// CRT
-#include <stdio.h>
-
-// SE - THIS NEEDS TO GO - IT BREAKS PLATFORMNESS...!!!
-
-// Windows
-#include <windows.h>
-
-// SE - ugly hack to fix GLToy_Final_SCU
-#undef CreateDialog
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-class GLToy_WaveFile : public GLToy_File
-{
-
-	public:
-    
-		GLToy_WaveFile( const GLToy_String& szFilename );
-		virtual ~GLToy_WaveFile();
-		
-		bool Load();
-
-		const WAVEFORMATEX& GetWaveFormat();
-		void GetBuffer( void*& pBuffer, unsigned int& uBufferSize );
-
-	protected:
-
-		bool ParseChunk( FILE* pxFile );
-
-		u_int m_uBufferSize;
-		void* m_pBuffer;
-
-		WAVEFORMATEX m_xFormat;
-};
-
-#endif
+#include <Core/GLToy_Core_SCU.cpp>
+#include <Entity/GLToy_Entity_SCU.cpp>
+#include <Environment/GLToy_Environment_SCU.cpp>
+#include <File/GLToy_File_SCU.cpp>
+#include <Maths/GLToy_Maths_SCU.cpp>
+#include <Model/GLToy_Model_SCU.cpp>
+#include <Physics/GLToy_Physics_SCU.cpp>
+#include <Render/GLToy_Render_SCU.cpp>
+#include <UI/GLToy_UI_SCU.cpp>

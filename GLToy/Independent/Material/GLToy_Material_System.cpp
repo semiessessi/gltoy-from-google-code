@@ -64,7 +64,11 @@ GLToy_Material::GLToy_Material( const GLToy_Hash uHash )
     {
         m_auTextures[ u ] = uGLTOY_BAD_HASH;
         m_aszTextureNames[ u ] = "";
+        m_aiSamplerHandles[ u ] = -1;
     }
+
+    m_aiViewMatrixHandles[ 0 ] =
+    m_aiViewMatrixHandles[ 1 ] = -1;
 }
 
 void GLToy_Material::Bind() const
@@ -85,11 +89,14 @@ void GLToy_Material::Bind() const
         }
 
         GLToy_Texture_System::BindTexture( m_auTextures[ u ], u );
-        pxShader->SetUniform( m_aszTextureNames[ u ], static_cast< int >( u ) );
+        //pxShader->SetUniform( m_aszTextureNames[ u ], static_cast< int >( u ) );
+        pxShader->SetUniform( m_aiSamplerHandles[ u ], static_cast< int >( u ) );
     }
 
-    pxShader->SetViewMatrix( "xViewMatrix" );
-    pxShader->SetInverseViewMatrix( "xInverseViewMatrix" );
+    //pxShader->SetViewMatrix( "xViewMatrix" );
+    //pxShader->SetInverseViewMatrix( "xInverseViewMatrix" );
+    pxShader->SetViewMatrix( m_aiViewMatrixHandles[ 0 ] );
+    pxShader->SetInverseViewMatrix( m_aiViewMatrixHandles[ 1 ] );
 }
 
 bool GLToy_Material::IsReady() const
@@ -124,6 +131,20 @@ void GLToy_Material::Initialise()
     {
         GLToy_Texture_System::CreateTexture( m_auTextures[ u ] );
     }
+
+    GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( m_uShader );
+    if( !pxShader )
+    {
+        return;
+    }
+
+    for( u_int u = 0; u < 4; ++u )
+    {
+        m_aiSamplerHandles[ u ] = pxShader->GetUniformHandle( m_aszTextureNames[ u ] );
+    }
+
+    m_aiViewMatrixHandles[ 0 ] = pxShader->GetUniformHandle( "xViewMatrix" );
+    m_aiViewMatrixHandles[ 1 ] = pxShader->GetUniformHandle( "xInverseViewMatrix" );
 }
 
 bool GLToy_Material_System::Initialise()

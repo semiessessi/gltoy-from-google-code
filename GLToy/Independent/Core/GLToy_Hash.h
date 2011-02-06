@@ -65,6 +65,20 @@ GLToy_ForceInline GLToy_Hash GLToy_GetHash( const wchar_t* wszString )
     return uHash;
 }
 
+GLToy_ForceInline GLToy_Hash GLToy_ExtendHash( const GLToy_Hash uStartHash, const char* szString )
+{
+    GLToy_Hash uHash = uStartHash;
+
+    while( *szString )
+    {
+        uHash += uHash << 5;
+        uHash += ( *szString < 'a' ) ? *szString : ( *szString - 'a' + 'A' );
+        ++szString;
+    }
+
+    return uHash;
+}
+
 //
 // This version is designed to compile out
 //
