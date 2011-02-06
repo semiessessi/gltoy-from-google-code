@@ -81,7 +81,8 @@ void GLToy_IndexBuffer::SubmitTriangleStrip( const u_int uStart, const u_int uEn
 
 void GLToy_IndexBuffer::SubmitPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
 {
-    GLToy_Render::DrawPolygon( uStart, uEnd, uCount, uOffset );
+    //GLToy_Render::DrawPolygon( uStart, uEnd, uCount, uOffset );
+    GLToy_Render::DrawPolygonNoIndexBuffer( uCount, uOffset );
 }
 
 GLToy_VertexBuffer_Deferred* GLToy_VertexBuffer_Deferred::Create( const u_int uCount, const GLToy_Vertex_Deferred* const pxVertices )
@@ -109,9 +110,9 @@ void GLToy_VertexBuffer_Deferred::Destroy()
 void GLToy_VertexBuffer_Deferred::Bind()
 {
     GLToy_Render::BindBuffer( ARRAY_BUFFER, m_uID );
-    GLToy_Render::VertexPointer( 3, 64, VERTEXBUFFER_OFFSET( 0 ) );
+    GLToy_Render::VertexPointer( 4, sizeof( GLToy_Vertex_Deferred ), VERTEXBUFFER_OFFSET( 0 ) );
     GLToy_Render::ClientActiveTexture( TEXTURE0 );
-    GLToy_Render::TexCoordPointer( 4, 64, VERTEXBUFFER_OFFSET( 16 ) );
+    GLToy_Render::TexCoordPointer( 4, sizeof( GLToy_Vertex_Deferred ), VERTEXBUFFER_OFFSET( 16 ) );
     GLToy_Render::ClientActiveTexture( TEXTURE0 + 1 );
-    GLToy_Render::TexCoordPointer( 4, 64, VERTEXBUFFER_OFFSET( 32 ) );
+    GLToy_Render::TexCoordPointer( 4, sizeof( GLToy_Vertex_Deferred ), VERTEXBUFFER_OFFSET( 32 ) );
 }

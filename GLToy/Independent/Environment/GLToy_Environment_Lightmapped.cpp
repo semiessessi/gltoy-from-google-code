@@ -264,11 +264,12 @@ void GLToy_Environment_Lightmapped::RenderDeferred() const
     GLToy_Iterate_End;
 
     // ###
-    //m_pxVertexBuffer->Bind();
-    //m_pxIndexBuffer->Bind();
+    GLToy_Render::EnableVertexBuffers();
+    GLToy_Render::EnableIndexBuffers();
+
     // ###
-    //GLToy_Render::EnableVertexBuffers();
-    //GLToy_Render::EnableIndexBuffers();
+    m_pxVertexBuffer->Bind();
+    m_pxIndexBuffer->Bind();
 
     GLToy_EnvironmentLeaf_Lightmapped* pxLeaf = static_cast< GLToy_EnvironmentLeaf_Lightmapped* >( GetLeafData( GLToy_Camera::GetPosition() ) );
     if( !IsEmpty() && pxLeaf && pxLeaf->m_uCluster != 0xFFFF )
@@ -282,8 +283,8 @@ void GLToy_Environment_Lightmapped::RenderDeferred() const
         GLToy_Iterate_End;
     }
     // ###
-    //GLToy_Render::DisableVertexBuffers();
-    //GLToy_Render::DisableIndexBuffers();
+    GLToy_Render::DisableVertexBuffers();
+    GLToy_Render::DisableIndexBuffers();
     GLToy_Render::DisableBackFaceCulling();
 }
 
@@ -588,31 +589,31 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderDeferred() const
 
         GLToy_Material_System::BindMaterial( xFace.m_uTextureHash );
 
-        //m_pxParent->m_pxIndexBuffer->SubmitPolygon(
-        //        xFace.m_xVertexBufferData.m_usMinIndex,
-        //        xFace.m_xVertexBufferData.m_usMaxIndex,
-        //        xFace.m_xVertexBufferData.m_usCount,
-        //        xFace.m_xVertexBufferData.m_usOffset
-        //    );
+        m_pxParent->m_pxIndexBuffer->SubmitPolygon(
+                xFace.m_xVertexBufferData.m_usMinIndex,
+                xFace.m_xVertexBufferData.m_usMaxIndex,
+                xFace.m_xVertexBufferData.m_usCount,
+                xFace.m_xVertexBufferData.m_usOffset
+            );
         // ###
 
-        GLToy_Render::StartSubmittingPolygon();
+        //GLToy_Render::StartSubmittingPolygon();
 
-        GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+        //GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-        GLToy_ConstIterate( u_int, uIndex, xFace.m_xIndices )
-            const GLToy_Environment_LightmappedFaceVertex& xVertex = m_pxParent->m_xVertices[ uIndex ];
+        //GLToy_ConstIterate( u_int, uIndex, xFace.m_xIndices )
+        //    const GLToy_Environment_LightmappedFaceVertex& xVertex = m_pxParent->m_xVertices[ uIndex ];
 
-            GLToy_Render::SubmitUV( xVertex.m_xUV * ( bQuadRes ? 4.0f : 1.0f ) );
-            GLToy_Render::SubmitUV(
-                GLToy_Vector_4(
-                    GLToy_Maths::CompressNormal( xVertex.m_xNormal ),
-                    GLToy_Maths::CompressNormal( xVertex.m_xTangent ) ),
-                1 );
-            GLToy_Render::SubmitVertex( xVertex.m_xPosition );
-        GLToy_Iterate_End;
+        //    GLToy_Render::SubmitUV( xVertex.m_xUV * ( bQuadRes ? 4.0f : 1.0f ) );
+        //    GLToy_Render::SubmitUV(
+        //        GLToy_Vector_4(
+        //            GLToy_Maths::CompressNormal( xVertex.m_xNormal ),
+        //            GLToy_Maths::CompressNormal( xVertex.m_xTangent ) ),
+        //        1 );
+        //    GLToy_Render::SubmitVertex( xVertex.m_xPosition );
+        //GLToy_Iterate_End;
 
-        GLToy_Render::EndSubmit();
+        //GLToy_Render::EndSubmit();
     GLToy_Iterate_End;
 }
 

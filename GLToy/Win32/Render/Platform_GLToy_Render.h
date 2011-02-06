@@ -104,6 +104,14 @@ public:
     static void DrawTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
     static void DrawPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
 
+    static void DrawTrianglesNoRange( const u_int uCount, const u_int uOffset );
+    static void DrawTriangleStripNoRange( const u_int uCount, const u_int uOffset );
+    static void DrawPolygonNoRange( const u_int uCount, const u_int uOffset );
+
+    static void DrawTrianglesNoIndexBuffer( const u_int uCount, const u_int uOffset );
+    static void DrawTriangleStripNoIndexBuffer( const u_int uCount, const u_int uOffset );
+    static void DrawPolygonNoIndexBuffer( const u_int uCount, const u_int uOffset );
+
     static void EnableVertexBuffers();
     static void EnableIndexBuffers();
     static void DisableVertexBuffers();

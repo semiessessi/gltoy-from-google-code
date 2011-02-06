@@ -49,7 +49,7 @@ public:
     GLToy_FSFX( const GLToy_Hash uHash )
     : m_xShaderPasses()
     , m_uHash( uHash )
-    , m_bEnabled( false )
+    , m_ucFlags( 0 )
     {
     }
 
@@ -68,7 +68,19 @@ public:
 
     GLToy_Array< GLToy_Hash > m_xShaderPasses;
     GLToy_Hash m_uHash;
-    bool m_bEnabled;
+    union
+    {
+        struct
+        {
+            bool m_bEnabled                 : 1;
+            bool m_bTwoPassConvolution      : 1;
+            bool m_bUseDepthBuffer          : 1;
+
+            u_char m_ucSortHint             : 4;
+        };
+
+        u_char m_ucFlags;
+    };
 
 };
 
@@ -116,14 +128,20 @@ void GLToy_FSFX_System::Shutdown()
 void GLToy_FSFX_System::Render()
 {
     GLToy_ConstIterate( const GLToy_FSFX*, pxFSFX, s_xRenderList )
-        pxFSFX->Render();
+        if( pxFSFX->m_bEnabled )
+        {
+            pxFSFX->Render();
+        }
     GLToy_Iterate_End;
 }
 
 void GLToy_FSFX_System::Update()
 {
     GLToy_Iterate( GLToy_FSFX, xFSFX, s_xFSFX )
-        xFSFX.Update();
+        if( xFSFX.m_bEnabled )
+        {
+            xFSFX.Update();
+        }
     GLToy_Iterate_End;
 }
 

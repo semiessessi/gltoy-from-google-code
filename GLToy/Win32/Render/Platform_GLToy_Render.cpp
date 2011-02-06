@@ -819,6 +819,36 @@ void Platform_GLToy_Render::DrawPolygon( const u_int uStart, const u_int uEnd, c
     s_pfnDrawRangeElements( GL_POLYGON, uStart, uEnd, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< void* >( uOffset ) ); 
 }
 
+void Platform_GLToy_Render::DrawTrianglesNoRange( const u_int uCount, const u_int uOffset )
+{
+    glDrawElements( GL_TRIANGLES, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< const void* >( uOffset ) ); 
+}
+
+void Platform_GLToy_Render::DrawTriangleStripNoRange( const u_int uCount, const u_int uOffset )
+{
+    glDrawElements( GL_TRIANGLE_STRIP, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< const void* >( uOffset ) ); 
+}
+
+void Platform_GLToy_Render::DrawPolygonNoRange( const u_int uCount, const u_int uOffset )
+{
+    glDrawElements( GL_POLYGON, uCount, GL_UNSIGNED_SHORT, reinterpret_cast< const void* >( uOffset ) ); 
+}
+
+void Platform_GLToy_Render::DrawTrianglesNoIndexBuffer( const u_int uCount, const u_int uOffset )
+{
+    glDrawArrays( GL_TRIANGLES, uOffset, uCount ); 
+}
+
+void Platform_GLToy_Render::DrawTriangleStripNoIndexBuffer( const u_int uCount, const u_int uOffset )
+{
+    glDrawArrays( GL_TRIANGLE_STRIP, uOffset, uCount ); 
+}
+
+void Platform_GLToy_Render::DrawPolygonNoIndexBuffer( const u_int uCount, const u_int uOffset )
+{
+    glDrawArrays( GL_POLYGON, uOffset, uCount ); 
+}
+
 void Platform_GLToy_Render::EnableVertexBuffers()
 {
     glEnableClientState( GL_VERTEX_ARRAY );
@@ -827,7 +857,7 @@ void Platform_GLToy_Render::EnableVertexBuffers()
 
 void Platform_GLToy_Render::EnableIndexBuffers()
 {
-    glEnableClientState( GL_INDEX_ARRAY );
+    //glEnableClientState( GL_INDEX_ARRAY );
 }
 
 void Platform_GLToy_Render::DisableVertexBuffers()
@@ -838,7 +868,7 @@ void Platform_GLToy_Render::DisableVertexBuffers()
 
 void Platform_GLToy_Render::DisableIndexBuffers()
 {
-    glDisableClientState( GL_INDEX_ARRAY );
+    //glDisableClientState( GL_INDEX_ARRAY );
 }
 
 bool Platform_GLToy_Render::IsShader( const u_int uID )

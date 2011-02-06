@@ -1221,6 +1221,36 @@ void GLToy_Render::DrawPolygon( const u_int uStart, const u_int uEnd, const u_in
     Platform_GLToy_Render::DrawPolygon( uStart, uEnd, uCount, uOffset );
 }
 
+void GLToy_Render::DrawTrianglesNoRange( const u_int uCount, const u_int uOffset )
+{
+    Platform_GLToy_Render::DrawTrianglesNoRange( uCount, uOffset );
+}
+
+void GLToy_Render::DrawTriangleStripNoRange( const u_int uCount, const u_int uOffset )
+{
+    Platform_GLToy_Render::DrawTriangleStripNoRange( uCount, uOffset );
+}
+
+void GLToy_Render::DrawPolygonNoRange( const u_int uCount, const u_int uOffset )
+{
+    Platform_GLToy_Render::DrawPolygonNoRange( uCount, uOffset );
+}
+
+void GLToy_Render::DrawTrianglesNoIndexBuffer( const u_int uCount, const u_int uOffset )
+{
+    Platform_GLToy_Render::DrawTrianglesNoIndexBuffer( uCount, uOffset );
+}
+
+void GLToy_Render::DrawTriangleStripNoIndexBuffer( const u_int uCount, const u_int uOffset )
+{
+    Platform_GLToy_Render::DrawTriangleStripNoIndexBuffer( uCount, uOffset );
+}
+
+void GLToy_Render::DrawPolygonNoIndexBuffer( const u_int uCount, const u_int uOffset )
+{
+    Platform_GLToy_Render::DrawPolygonNoIndexBuffer( uCount, uOffset );
+}
+
 void GLToy_Render::ClientActiveTexture( const u_int uTextureUnit )
 {
     return Platform_GLToy_Render::ClientActiveTexture( uTextureUnit );

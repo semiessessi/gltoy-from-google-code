@@ -61,10 +61,10 @@ class GLToy_ShaderProgram;
         u_int m_uFlags;\
         struct\
         {\
-            bool            m_bSpecular;\
-            bool            m_bShadow;\
-            bool            m_bGlow;\
-            bool            m_bLensFlare;\
+            bool            m_bSpecular : 1;\
+            bool            m_bShadow : 1;\
+            bool            m_bGlow : 1;\
+            bool            m_bLensFlare : 1;\
         };\
     }
 
