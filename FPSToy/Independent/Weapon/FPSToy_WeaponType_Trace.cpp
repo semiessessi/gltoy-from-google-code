@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -35,7 +35,7 @@
 
 // GLToy
 #include <Maths/GLToy_Maths.h>
-#include <Trace/GLToy_Trace_System.h>
+#include <Visibility/GLToy_Visibility_System.h>
 
 // FPSToy
 #include <Damage/FPSToy_Damage_System.h>
@@ -46,7 +46,7 @@
 
 void FPSToy_WeaponType_Trace::Fire( const GLToy_Hash uOwnerEntityHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xDirection ) const
 {
-    const GLToy_Hash uHitEntity = GLToy_Trace_System::TraceEntity( GLToy_Ray( xPosition, xDirection ) );
+    const GLToy_Hash uHitEntity = GLToy_Visibility_System::TraceEntity( GLToy_Ray( xPosition, xDirection ) );
 
     FPSToy_Damage_System::ApplyDamage( uOwnerEntityHash, uHitEntity, 20.0f );
 }

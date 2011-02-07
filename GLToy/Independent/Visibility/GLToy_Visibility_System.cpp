@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -31,18 +31,53 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <Trace/GLToy_Trace_System.h>
+#include <Visibility/GLToy_Visibility_System.h>
 
 // GLToy
 #include <Entity/GLToy_Entity_System.h>
+#include <Environment/GLToy_Environment.h>
 #include <Environment/GLToy_Environment_System.h>
 #include <Maths/GLToy_Maths.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+GLToy_Array< GLToy_Visibility_System::PVS_Cluster > GLToy_Visibility_System::s_xPVS;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-bool GLToy_Trace_System::LineOfSightTest( const GLToy_Ray& xRay, const float fLimitingDistance )
+void GLToy_Visibility_System::RegisterCluster( const GLToy_Array< u_int >& xPVS, const GLToy_Array< u_int >& xLeaves )
+{
+    s_xPVS.Append( PVS_Cluster( xPVS, xLeaves ) );
+
+    const GLToy_Environment* const pxEnvironment = GLToy_Environment_System::GetCurrentEnvironment();
+    if( !pxEnvironment )
+    {
+        return;
+    }
+}
+
+int GLToy_Visibility_System::GetCluster( const GLToy_Vector_3& xPosition )
+{
+    const GLToy_Environment* const pxEnvironment = GLToy_Environment_System::GetCurrentEnvironment();
+    if( !pxEnvironment )
+    {
+        return -1;
+    }
+    
+    const GLToy_EnvironmentLeaf* const pxEnvironmentLeaf = pxEnvironment->GetLeafData( xPosition );
+    if( !pxEnvironmentLeaf )
+    {
+        return -1;
+    }
+
+    return pxEnvironmentLeaf->GetCluster();
+}
+
+bool GLToy_Visibility_System::LineOfSightTest( const GLToy_Ray& xRay, const float fLimitingDistance )
 {
     // TODO: make this take advantage of how some of the raytraces can detect a hit without finding
     // the actual parameter - actually all the traces i have implemented so far can do this (plane, aabb, sphere)
@@ -60,7 +95,7 @@ bool GLToy_Trace_System::LineOfSightTest( const GLToy_Ray& xRay, const float fLi
     return true;
 }
 
-float GLToy_Trace_System::Trace( const GLToy_Ray& xRay, const float fLimitingDistance )
+float GLToy_Visibility_System::Trace( const GLToy_Ray& xRay, const float fLimitingDistance )
 {
     // would be nice if these could be made to interact and optimise each other somehow...
     const float fEnvDistance = GLToy_Environment_System::Trace( xRay, fLimitingDistance );
@@ -69,7 +104,7 @@ float GLToy_Trace_System::Trace( const GLToy_Ray& xRay, const float fLimitingDis
     return GLToy_Maths::Min( fEnvDistance, fEntDistance );
 }
 
-GLToy_Hash GLToy_Trace_System::TraceEntity( const GLToy_Ray& xRay, const float fLimitingDistance )
+GLToy_Hash GLToy_Visibility_System::TraceEntity( const GLToy_Ray& xRay, const float fLimitingDistance )
 {
     GLToy_Hash uHitEntity = uGLTOY_BAD_HASH;
     const float fEnvLimit = GLToy_Environment_System::Trace( xRay, fLimitingDistance );
@@ -77,7 +112,7 @@ GLToy_Hash GLToy_Trace_System::TraceEntity( const GLToy_Ray& xRay, const float f
     return uHitEntity;
 }
 
-GLToy_Trace_Result GLToy_Trace_System::FullTrace( const GLToy_Ray& xRay, const float fLimitingDistance )
+GLToy_Trace_Result GLToy_Visibility_System::FullTrace( const GLToy_Ray& xRay, const float fLimitingDistance )
 {
     // TODO: position and normal, maybe more (environment material/texture? or 'strip' index or something?)
     GLToy_Trace_Result xReturnValue =

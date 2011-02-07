@@ -251,6 +251,7 @@ public:
     const GLToy_Environment_LightmappedFace& GetFace( const u_int uFace ) const;
     const GLToy_Environment_LightmappedFaceVertex& GetFaceVertex( const u_int uFace, const u_int uVertex ) const;
 
+    virtual int GetCluster() const { return m_uCluster; }
 
 protected:
     
@@ -298,7 +299,7 @@ public:
     : GLToy_Parent()
     , m_xVertices()
     , m_xFaces()
-    , m_xLeaves()
+    //, m_xLeaves()
     , m_xClusters()
     , m_xBrushes()
     , m_xLightmapData()
@@ -344,7 +345,7 @@ protected:
 
     GLToy_Array< GLToy_Environment_LightmappedFaceVertex > m_xVertices;
     GLToy_Array< GLToy_Environment_LightmappedFace > m_xFaces;
-    GLToy_Array< GLToy_EnvironmentLeaf_Lightmapped > m_xLeaves;
+    //GLToy_Array< GLToy_EnvironmentLeaf_Lightmapped > m_xLeaves;
     GLToy_Array< GLToy_Environment_LightmappedCluster > m_xClusters;
     GLToy_Array< GLToy_Environment_LightmappedBrush > m_xBrushes;
     GLToy_SerialisableArray< u_char > m_xLightmapData;

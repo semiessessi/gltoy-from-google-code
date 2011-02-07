@@ -46,6 +46,7 @@
 #include <Render/GLToy_VertexBuffer.h>
 #include <Render/Shader/GLToy_Shader.h>
 #include <Render/Shader/GLToy_Shader_System.h>
+#include <Visibility/GLToy_Visibility_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -67,6 +68,12 @@ void GLToy_Environment_Lightmapped::WriteToBitStream( GLToy_BitStream& xStream )
 
 void GLToy_Environment_Lightmapped::Initialise()
 {
+    // register PVS with visiblity system
+    GLToy_Visibility_System::ClearPVS();
+    GLToy_ConstIterate( GLToy_Environment_LightmappedCluster, xCluster, m_xClusters )
+        GLToy_Visibility_System::RegisterCluster( xCluster.m_xPVS, xCluster.m_xIndices );
+    GLToy_Iterate_End;
+
     // initialise physics
     m_pxPhysicsObject = GLToy_Physics_System::CreatePhysicsEnvironment( GLToy_Hash_Constant( "Environment" ), *this );
 
@@ -117,7 +124,9 @@ void GLToy_Environment_Lightmapped::Initialise()
     m_pxIndexBuffer = GLToy_IndexBuffer::Create( xIndices.GetCount(), xIndices.GetDataPointer() );
 
     // optimise for material batching and frustum culling
-    GLToy_Iterate( GLToy_EnvironmentLeaf_Lightmapped, xLeaf, m_xLeaves )
+    for( u_int u = 0; u < m_xLeaves.GetCount(); ++u )
+    {
+        GLToy_EnvironmentLeaf_Lightmapped& xLeaf = *static_cast< GLToy_EnvironmentLeaf_Lightmapped* >( &m_xLeaves[ u ] );
 
         if( xLeaf.m_xIndices.GetCount() == 0 )
         {
@@ -152,7 +161,7 @@ void GLToy_Environment_Lightmapped::Initialise()
             GLToy_Iterate_End;
 
         GLToy_Iterate_End;
-    GLToy_Iterate_End;
+    }
 }
 
 void GLToy_Environment_Lightmapped::Shutdown()
@@ -203,7 +212,7 @@ void GLToy_Environment_Lightmapped::Render() const
                 GLToy_Assert( uClusterIndex < m_xClusters.GetCount(), "Cluster index is too large!" );
                 
                 GLToy_ConstIterate( u_int, uCluster, m_xClusters[ uClusterIndex ].m_xIndices )
-                    m_xLeaves[ uCluster ].RenderDebugNormals();
+                    GetLeaf< GLToy_EnvironmentLeaf_Lightmapped >( uCluster )->RenderDebugNormals();
                 GLToy_Iterate_End;
             GLToy_Iterate_End;
         }
@@ -305,7 +314,7 @@ void GLToy_Environment_Lightmapped::RenderDeferred() const
     m_pxVertexBuffer->Bind();
     m_pxIndexBuffer->Bind();
 
-    // TODO: Make GLToy_Trace_System into GLToy_Visiblity_System and do something a lot better than this
+    // TODO: Finish GLToy_Visiblity_System and do something a lot better than this
     // which can be used by lights, sounds and entities as well
     GLToy_EnvironmentLeaf_Lightmapped* pxLeaf = static_cast< GLToy_EnvironmentLeaf_Lightmapped* >( GetLeafData( GLToy_Camera::GetPosition() ) );
     if( !IsEmpty() && pxLeaf && pxLeaf->m_uCluster != 0xFFFF )
@@ -315,7 +324,7 @@ void GLToy_Environment_Lightmapped::RenderDeferred() const
                 
             GLToy_ConstIterate( u_int, uCluster, m_xClusters[ uClusterIndex ].m_xIndices )
                 
-                if( m_xLeaves[ uCluster ].m_xIndices.GetCount() == 0 )
+                if( GetLeaf< GLToy_EnvironmentLeaf_Lightmapped >( uCluster )->m_xIndices.GetCount() == 0 )
                 {
                     continue;
                 }
@@ -335,7 +344,7 @@ void GLToy_Environment_Lightmapped::RenderDeferred() const
                 //    }
                 //}
 
-                m_xLeaves[ uCluster ].RenderDeferred();
+                GetLeaf< GLToy_EnvironmentLeaf_Lightmapped >( uCluster )->RenderDeferred();
 
             GLToy_Iterate_End;
         GLToy_Iterate_End;
@@ -356,7 +365,7 @@ void GLToy_Environment_Lightmapped::RenderLightmap() const
             GLToy_Assert( uClusterIndex < m_xClusters.GetCount(), "Cluster index is too large!" );
             
             GLToy_ConstIterate( u_int, uLeafIndex, m_xClusters[ uClusterIndex ].m_xIndices )
-                m_xLeaves[ uLeafIndex ].RenderLightmap();
+                GetLeaf< GLToy_EnvironmentLeaf_Lightmapped >( uLeafIndex )->RenderLightmap();
             GLToy_Iterate_End;
         GLToy_Iterate_End;
     }
@@ -451,7 +460,7 @@ void GLToy_Environment_Lightmapped::Render2D() const
             GLToy_Assert( uClusterIndex < m_xClusters.GetCount(), "Cluster index is too large!" );
             
             GLToy_ConstIterate( u_int, uLeafIndex, m_xClusters[ uClusterIndex ].m_xIndices )
-                m_xLeaves[ uLeafIndex ].RenderDebugFaceInfo();
+                GetLeaf< GLToy_EnvironmentLeaf_Lightmapped >( uLeafIndex )->RenderDebugFaceInfo();
             GLToy_Iterate_End;
         GLToy_Iterate_End;
     }

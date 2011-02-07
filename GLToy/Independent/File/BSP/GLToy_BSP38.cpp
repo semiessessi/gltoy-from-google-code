@@ -650,13 +650,15 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
     // create leaves and clusters
     if( xLeaves.GetCount() > 0 )
     {
-        pxEnv->m_xLeaves.Resize( xLeaves.GetCount() );
+        pxEnv->m_xLeaves.Clear();
         pxEnv->m_xClusters.Resize( uNumClusters );
         for( u_int u = 0; u < xLeaves.GetCount(); ++u )
         {
-            pxEnv->m_xLeaves[ u ].m_pxParent = pxEnv;
-            pxEnv->m_xLeaves[ u ].m_xIndices.Resize( xLeaves[ u ].m_usLeafFaceCount );
-            pxEnv->m_xLeaves[ u ].m_uCluster = xLeaves[ u ].m_usCluster;
+            pxEnv->m_xLeaves.Append( new GLToy_EnvironmentLeaf_Lightmapped() );
+            GLToy_EnvironmentLeaf_Lightmapped& xLeaf = *( pxEnv->GetLeaf< GLToy_EnvironmentLeaf_Lightmapped >( u ) );
+            xLeaf.m_pxParent = pxEnv;
+            xLeaf.m_xIndices.Resize( xLeaves[ u ].m_usLeafFaceCount );
+            xLeaf.m_uCluster = xLeaves[ u ].m_usCluster;
             if( xLeaves[ u ].m_usCluster != 0xFFFF )
             {
                 pxEnv->m_xClusters[ xLeaves[ u ].m_usCluster ].m_xIndices.Append( u );
@@ -664,7 +666,7 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 
             for( u_int v = 0; v < xLeaves[ u ].m_usLeafFaceCount; ++v )
             {
-                pxEnv->m_xLeaves[ u ].m_xIndices[ v ] = xLeafFaces[ xLeaves[ u ].m_usFirstLeafFace + v ];
+                xLeaf.m_xIndices[ v ] = xLeafFaces[ xLeaves[ u ].m_usFirstLeafFace + v ];
             }
         }
 

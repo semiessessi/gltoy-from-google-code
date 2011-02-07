@@ -34,8 +34,11 @@
 // Parents
 #include <Core/Data Structures/GLToy_BSPTree.h>
 #include <Core/GLToy_Updateable.h>
-#include <Model/GLToy_Model.h>
 #include <Render/GLToy_Renderable.h>
+
+// GLToy
+#include <Core/Data Structures/GLToy_Array.h>
+#include <Model/GLToy_Model.h>
 #include <String/GLToy_String.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,6 +55,10 @@ class GLToy_Ray;
 class GLToy_EnvironmentLeaf
 : public GLToy_Renderable
 {
+public:
+
+    virtual int GetCluster() const { return -1; }
+
 };
 
 class GLToy_Environment
@@ -61,6 +68,7 @@ class GLToy_Environment
 {
 
     friend class GLToy_Environment_System;
+    friend class GLToy_Visibility_System;
 
     typedef GLToy_BSPTree< GLToy_EnvironmentLeaf > GLToy_DataParent;
 
@@ -80,15 +88,24 @@ public:
     // raytrace function - takes a ray and returns the intersection parameter or a negative value if there is no intersection
     virtual float Trace( const GLToy_Ray& xRay, const float fLimitingDistance = -1.0f ) const = 0;
 
+    template< class T >
+    T* GetLeaf( const u_int uIndex ) { return static_cast< T* >( &( m_xLeaves[ uIndex ] ) ); }
+
+    template< class T >
+    const T* GetLeaf( const u_int uIndex ) const { return static_cast< const T* >( &( m_xLeaves[ uIndex ] ) ); }
+
 protected:
 
     GLToy_Environment()
     : GLToy_BSPTree< GLToy_EnvironmentLeaf >()
     , m_pxPhysicsObject( NULL )
+    , m_xLeaves()
     {
     }
 
     GLToy_Physics_Object* m_pxPhysicsObject;
+
+    GLToy_IndirectArray< GLToy_EnvironmentLeaf > m_xLeaves;
     
 };
 

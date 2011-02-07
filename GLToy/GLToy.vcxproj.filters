@@ -151,11 +151,11 @@
     <Filter Include="Win32\Sound">
       <UniqueIdentifier>{82f465b4-2ab0-4bd7-bae5-fc6fb4110914}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Independent\Trace">
-      <UniqueIdentifier>{ae59a446-2a72-4426-a7ac-fdc576178a9e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Independent\Material">
       <UniqueIdentifier>{7308a0a6-9c70-4279-94d1-0028255b5c4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Visibility">
+      <UniqueIdentifier>{ae59a446-2a72-4426-a7ac-fdc576178a9e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -495,9 +495,6 @@
     <ClCompile Include="Independent\Model\GLToy_Model_FlatMaterials.cpp">
       <Filter>Independent\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Independent\Trace\GLToy_Trace_System.cpp">
-      <Filter>Independent\Trace</Filter>
-    </ClCompile>
     <ClCompile Include="Independent\Input\GLToy_Input_System.cpp">
       <Filter>Independent\Input</Filter>
     </ClCompile>
@@ -575,6 +572,9 @@
     </ClCompile>
     <ClCompile Include="Independent\Core\GLToy_Final_SCU.cpp">
       <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Visibility\GLToy_Visibility_System.cpp">
+      <Filter>Independent\Visibility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -962,9 +962,6 @@
     <ClInclude Include="Independent\Model\GLToy_Model_FlatMaterials.h">
       <Filter>Independent\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Trace\GLToy_Trace_System.h">
-      <Filter>Independent\Trace</Filter>
-    </ClInclude>
     <ClInclude Include="Independent\Input\GLToy_Input_System.h">
       <Filter>Independent\Input</Filter>
     </ClInclude>
@@ -1006,6 +1003,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Render\GLToy_FSFX_System.h">
       <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Visibility\GLToy_Visibility_System.h">
+      <Filter>Independent\Visibility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
