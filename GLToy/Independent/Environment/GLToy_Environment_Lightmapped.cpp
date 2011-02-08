@@ -322,9 +322,9 @@ void GLToy_Environment_Lightmapped::RenderDeferred() const
         GLToy_ConstIterate( u_int, uClusterIndex, m_xClusters[ pxLeaf->m_uCluster ].m_xPVS )
             GLToy_Assert( uClusterIndex < m_xClusters.GetCount(), "Cluster index is too large!" );
                 
-            GLToy_ConstIterate( u_int, uCluster, m_xClusters[ uClusterIndex ].m_xIndices )
+            GLToy_ConstIterate( u_int, uLeaf, m_xClusters[ uClusterIndex ].m_xIndices )
                 
-                if( GetLeaf< GLToy_EnvironmentLeaf_Lightmapped >( uCluster )->m_xIndices.GetCount() == 0 )
+                if( GetLeaf< GLToy_EnvironmentLeaf_Lightmapped >( uLeaf )->m_xIndices.GetCount() == 0 )
                 {
                     continue;
                 }
@@ -344,7 +344,7 @@ void GLToy_Environment_Lightmapped::RenderDeferred() const
                 //    }
                 //}
 
-                GetLeaf< GLToy_EnvironmentLeaf_Lightmapped >( uCluster )->RenderDeferred();
+                GetLeaf< GLToy_EnvironmentLeaf_Lightmapped >( uLeaf )->RenderDeferred();
 
             GLToy_Iterate_End;
         GLToy_Iterate_End;

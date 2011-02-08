@@ -222,6 +222,19 @@ public:
 
     static void RegisterLightSource( const GLToy_Renderable* const pxLightSource );
 
+    static void SetFogParameters( const float fStartDistance, const float fEndDistance, const float fExponent, const GLToy_Vector_4& xColour )
+    {
+        s_fFogStartDistance = fStartDistance;
+        s_fFogEndDistance = fEndDistance;
+        s_fFogExponent = fExponent;
+        s_xFogColour = xColour;
+    }
+
+    static float GetFogStartDistance() { return s_fFogStartDistance; }
+    static float GetFogEndDistance() { return s_fFogEndDistance; }
+    static float GetFogExponent() { return s_fFogExponent; }
+    static const GLToy_Vector_4& GetFogColour() { return s_xFogColour; }
+
     static void TestDirectionalLight_Console();
 	static void SpawnPointLight_Console();
 
@@ -236,6 +249,11 @@ private:
     static GLToy_HashMap< GLToy_Light_Projector* > s_xProjectorLights;
     static GLToy_Array< const GLToy_Renderable* > s_xOtherLightSources;
 	static GLToy_Array< const GLToy_GlobalLight_Directional* > s_xDirectionalLights;
+    
+    static float s_fFogStartDistance;
+    static float s_fFogEndDistance;
+    static float s_fFogExponent;
+    static GLToy_Vector_4 s_xFogColour;
 
 };
 

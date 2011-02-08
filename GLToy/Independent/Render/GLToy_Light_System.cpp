@@ -55,6 +55,11 @@ GLToy_HashMap< GLToy_Light_Projector* > GLToy_Light_System::s_xProjectorLights;
 GLToy_Array< const GLToy_Renderable* > GLToy_Light_System::s_xOtherLightSources;
 GLToy_Array< const GLToy_GlobalLight_Directional* > GLToy_Light_System::s_xDirectionalLights;
 
+float GLToy_Light_System::s_fFogStartDistance;
+float GLToy_Light_System::s_fFogEndDistance;
+float GLToy_Light_System::s_fFogExponent;
+GLToy_Vector_4 GLToy_Light_System::s_xFogColour = GLToy_Vector_4( 0.4f, 0.3f, 0.25f, 1.0f );
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,6 +70,14 @@ bool GLToy_Light_System::Initialise()
 	GLToy_Console::RegisterCommand( "test.directionallight", TestDirectionalLight_Console );
 
     GLToy_Console::RegisterVariable( "render.lightboxes", &s_bRenderLightBoxes );
+
+    GLToy_Console::RegisterVariable( "fog.r", &( s_xFogColour[ 0 ] ) );
+    GLToy_Console::RegisterVariable( "fog.g", &( s_xFogColour[ 1 ] ) );
+    GLToy_Console::RegisterVariable( "fog.b", &( s_xFogColour[ 2 ] ) );
+    GLToy_Console::RegisterVariable( "fog.a", &( s_xFogColour[ 3 ] ) );
+    GLToy_Console::RegisterVariable( "fog.start", &s_fFogStartDistance );
+    GLToy_Console::RegisterVariable( "fog.end", &s_fFogEndDistance );
+    GLToy_Console::RegisterVariable( "fog.exponent", &s_fFogExponent );
 
     return true;
 }
@@ -299,6 +312,7 @@ void GLToy_Light_System::Render()
         const GLToy_Vector_2 xOneOverSize( 1.0f / xSize[ 0 ], 1.0f / xSize[ 1 ] );
 
         s_pxCurrentShader->SetUniform( "xOneOverSize", xOneOverSize );
+        s_pxCurrentShader->SetUniform( "xFogColour", GetFogColour() );
 	}
 
 	// ... as a fullscreen pass

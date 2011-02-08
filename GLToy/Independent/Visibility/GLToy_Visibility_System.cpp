@@ -58,6 +58,11 @@ void GLToy_Visibility_System::RegisterCluster( const GLToy_Array< u_int >& xPVS,
     {
         return;
     }
+
+    // TODO: get bounds
+    //GLToy_ConstIterate( u_int, uLeaf, xLeaves )
+    //    pxEnvironment->GetLeaf( uLeaf );
+    //GLToy_Iterate_End;
 }
 
 int GLToy_Visibility_System::GetCluster( const GLToy_Vector_3& xPosition )
