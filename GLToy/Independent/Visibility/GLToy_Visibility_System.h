@@ -24,6 +24,25 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+//  V I S I B I L I T Y   S Y S T E M
+/////////////////////////////////////////////////////////////////////////////////////////////
+//
+//  This PVS currently comes from the Quake 2 toolset... it can come from anywhere though
+//  It is however heavily inspired by Quakes, but dirtied with the friendlyness of GLToy
+//
+//  This does however mean that the BSP tree lives in the environment and is loaded there
+//  the PVS accesses it through the environment system, but this allows me to add whatever
+//  else I like to the PVS... lights, entities, sounds etc.
+//
+//  The general idea is that this should grow into a central system, driving lots of things
+//  eventually all but the 2d stuff should be rendered through the visibility system, lights,
+//  sounds and entities can be updated based on visibility - etc.
+//
+//  However, it also needs to handle the null case effectively...
+// 
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 #ifndef __GLTOY_VISIBILITY_SYSTEM_H_
 #define __GLTOY_VISIBILITY_SYSTEM_H_
 
@@ -100,25 +119,18 @@ public:
 
     GLToy_Visibility_System_VectorPairOverload( GLToy_Trace_Result, FullTrace )
 
-private:
+    static void RenderForward();
+    static void RenderDeferred();
+    static void RenderTransparent();
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-//  P V S
-/////////////////////////////////////////////////////////////////////////////////////////////
-//
-//  This PVS currently comes from the Quake 2 toolset... it can come from anywhere though
-//  It is however heavily inspired by Quakes, but dirtied with the friendlyness of GLToy
-//
-//  This does however mean that the BSP tree lives in the environment and is loaded there
-//  the PVS accesses it through the environment system, but this allows me to add whatever
-//  else I like to the PVS... lights, entities, sounds etc.
-// 
-/////////////////////////////////////////////////////////////////////////////////////////////
+    static void Update();
+
+private:
     
     ////////////////
     // PVS cluster
     ////////////////
-    // NOTE: const array references are used for the static things, lists for the dynamics
+    // NOTE: const array pointers are used for the static things, lists for the dynamics
     class PVS_Cluster
     {
 

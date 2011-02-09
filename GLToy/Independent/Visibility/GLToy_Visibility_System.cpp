@@ -84,6 +84,7 @@ int GLToy_Visibility_System::GetCluster( const GLToy_Vector_3& xPosition )
 
 bool GLToy_Visibility_System::LineOfSightTest( const GLToy_Ray& xRay, const float fLimitingDistance )
 {
+    // TODO: optimise to use PVS
     // TODO: make this take advantage of how some of the raytraces can detect a hit without finding
     // the actual parameter - actually all the traces i have implemented so far can do this (plane, aabb, sphere)
     // but won't because of how the system level trace functions work
@@ -102,6 +103,7 @@ bool GLToy_Visibility_System::LineOfSightTest( const GLToy_Ray& xRay, const floa
 
 float GLToy_Visibility_System::Trace( const GLToy_Ray& xRay, const float fLimitingDistance )
 {
+    // TODO: optimise to use PVS
     // would be nice if these could be made to interact and optimise each other somehow...
     const float fEnvDistance = GLToy_Environment_System::Trace( xRay, fLimitingDistance );
     const float fEntDistance = GLToy_Entity_System::Trace( xRay, fLimitingDistance );
@@ -111,6 +113,7 @@ float GLToy_Visibility_System::Trace( const GLToy_Ray& xRay, const float fLimiti
 
 GLToy_Hash GLToy_Visibility_System::TraceEntity( const GLToy_Ray& xRay, const float fLimitingDistance )
 {
+    // TODO: optimise to use PVS
     GLToy_Hash uHitEntity = uGLTOY_BAD_HASH;
     const float fEnvLimit = GLToy_Environment_System::Trace( xRay, fLimitingDistance );
     GLToy_Entity_System::Trace( xRay, fEnvLimit, &uHitEntity );
@@ -119,6 +122,7 @@ GLToy_Hash GLToy_Visibility_System::TraceEntity( const GLToy_Ray& xRay, const fl
 
 GLToy_Trace_Result GLToy_Visibility_System::FullTrace( const GLToy_Ray& xRay, const float fLimitingDistance )
 {
+    // TODO: optimise to use PVS
     // TODO: position and normal, maybe more (environment material/texture? or 'strip' index or something?)
     GLToy_Trace_Result xReturnValue =
     {

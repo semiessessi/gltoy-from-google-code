@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -37,6 +37,7 @@
 // GLToy
 #include <Maths/GLToy_Plane.h>
 #include <Maths/GLToy_Vector.h>
+#include <Maths/GLToy_Volume.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
@@ -133,6 +134,28 @@ public:
         }
 
         return GetChild( xPosition )->FindLeaf( xPosition );
+    }
+
+    const void FindLeavesTouchingSphere( const GLToy_Sphere& xSphere, GLToy_Array< T* >& xResults ) const
+    {
+        if( m_pData )
+        {
+            xResults.Append( m_pData );
+            return;
+        }
+
+        const bool bNegative = SignedDistance( xSphere.GetPosition() ) < xSphere.GetRadius();
+        const bool bPositive = SignedDistance( xSphere.GetPosition() ) > -( xSphere.GetRadius() );
+
+        if( bNegative )
+        {
+            pxNegative->FindLeavesTouchingSphere( xSphere, xResults );
+        }
+
+        if( bPositive )
+        {
+            pxPositive->FindLeavesTouchingSphere( xSphere, xResults );
+        }
     }
 
     GLToy_BSPNode* AddLeaf( const GLToy_Vector_3& xPosition, T* const pData )
@@ -332,8 +355,10 @@ class GLToy_BSPTree
 public:
 
     GLToy_BSPTree()
-    : m_pxHead( NULL )
+    : m_xSphereQuery()
+    , m_pxHead( NULL )
     {
+        m_xSphereQuery.Resize( 256 ); // who could ever want more than 256? :P
     }
 
     virtual ~GLToy_BSPTree()
@@ -458,7 +483,21 @@ public:
         m_pxHead = NULL;
     }
 
+    const GLToy_Array< T* >& SphereQuery( const GLToy_Sphere& xSphere ) const
+    {
+        m_xSphereQuery.Clear();
+
+        if( m_pxHead )
+        {
+            m_pxHead->FindLeavesTouchingSphere( xSphere, m_xSphereQuery );
+        }
+
+        return m_xSphereQuery;
+    }
+
 protected:
+
+    mutable GLToy_Array< T* > m_xSphereQuery;
 
     GLToy_BSPNode< T >* m_pxHead;
 
