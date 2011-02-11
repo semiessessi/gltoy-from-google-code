@@ -47,8 +47,11 @@
 #include <UI/GLToy_UI_System.h>
 
 // X
+#include "AI/X_Enemy_Brain.h"
+#include "AI/X_Enemy_Brain_Types.h"
 #include <Entity/X_EntityTypes.h>
 #include <Entity/Collectible/X_Entity_Collectible.h>
+#include <Entity/Enemy/X_Entity_Enemy.h>
 #include <Entity/Player/X_Entity_Player.h>
 #include <Entity/Projectile/X_Entity_Projectile.h>
 #include <Equipment/X_Equipment_Weapon.h>
@@ -106,8 +109,17 @@ void X_State_Game::Initialise()
 	m_fStateTimer = 0.0f;
 
     GLToy_Light_System::Reset();
-    GLToy_Light_System::AddGlobalDirectionalLight( GLToy_Vector_3( 0.1f, 0.1f, -0.99f ), GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
-	
+    GLToy_Light_System::AddGlobalDirectionalLight( GLToy_Vector_3( 0.308f, 0.308f, -0.9f ), GLToy_Vector_3( 0.3f, 0.3f, 0.3f ) );
+	GLToy_Light_PointProperties xProps;
+	xProps.m_fSphereRadius = 4.0f;
+	xProps.m_uFlags = 0;
+	xProps.m_xColour[0] = 1.0f;
+	xProps.m_xColour[1] = 1.0f;
+	xProps.m_xColour[2] = 1.0f;
+	xProps.m_xPosition = GLToy_Maths::ZeroVector3;
+	xProps.m_xPosition.z -= 1.0f;
+	GLToy_Light_System::AddPointLight( 1, xProps );
+
     s_uScore = 0;
 }
 
@@ -136,8 +148,10 @@ void X_State_Game::Update()
 
     if( m_fEnemyTimer < 0.0f )
     {
-        GLToy_Entity_Sphere* const pxEntity = static_cast< GLToy_Entity_Sphere* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_ENEMY ) );
-        pxEntity->SetPosition( GLToy_Vector_3( GLToy_Maths::Random( -1.0f, 1.0f ), 1.5f, 0.0f ) );
+		const GLToy_Hash uEnemyHash = GLToy_Random_Hash();
+		X_Entity_Enemy* pxEnemy = static_cast< X_Entity_Enemy* >( GLToy_Entity_System::CreateEntity( uEnemyHash, X_ENTITY_ENEMY ) );
+        pxEnemy->SetPosition( GLToy_Vector_3( GLToy_Maths::Random( -1.0f, 1.0f ), 1.5f, 0.0f ) );
+		pxEnemy->SetBrain( X_Enemy_Brain_Factory::CreateBrain( xENEMY_BRAIN_SUICIDE, uEnemyHash ) );
 
         m_fEnemyTimer = GLToy_Maths::ClampedLerp( 1.0f, 0.1f, m_fStateTimer * 0.01f );
     }

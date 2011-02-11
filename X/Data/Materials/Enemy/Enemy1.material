@@ -1,0 +1,4 @@
+Deferred=true
+Shader=Deferred_DN
+DiffuseMap=Sprites/Enemy/Enemy1_Diffuse.png
+NormalMap=Sprites/Enemy/Enemy1_Normal.png

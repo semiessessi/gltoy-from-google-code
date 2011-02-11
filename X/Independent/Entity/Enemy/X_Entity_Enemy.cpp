@@ -37,9 +37,10 @@
 #include <Core/GLToy_Timer.h>
 #include <Material/GLToy_Material_System.h>
 #include <Render/GLToy_Render.h>
-#include <Render/GLToy_Texture_System.h>
+#include <Material/GLToy_Material_System.h>
 
 // X
+#include "AI/X_Enemy_Brain.h"
 #include <Core/State/X_State_Game.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +51,8 @@ static const float fSPEED = 0.8f;
 static const float fWIGGLE_SPEED = 0.5f;
 static const float fWIGGLE_RANGE = 0.0025f;
 static const float fSIZE = 0.1f;
-static const GLToy_Hash xENEMY_SHIP_TEXTURE = GLToy_Hash_Constant( "Sprites/Enemy/Enemy1.png" );
+static const GLToy_Hash xENEMY_SHIP_MATERIAL = GLToy_Hash_Constant( "Enemy/Enemy1" );
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -64,10 +66,15 @@ GLToy_Array< X_Entity_Enemy* > X_Entity_Enemy::s_xList;
 
 X_Entity_Enemy::X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
+, m_pxBrain( 0 )
+, m_fSpeed( 0.0f )
 {
     m_xBoundingSphere.SetRadius( fSIZE );
 
 	SetHealth( 40.0f );
+
+	m_xDirection = GLToy_Maths::ZeroVector2;
+	m_xDirection[1] = 1.0f;
 
     s_xList.Append( this );
 }
@@ -79,11 +86,15 @@ X_Entity_Enemy::~X_Entity_Enemy()
 
 void X_Entity_Enemy::Update()
 {
-    GLToy_Vector_3 xPosition = GetPosition();
-    xPosition -= GLToy_Vector_3( 0.0f, fSPEED * GLToy_Timer::GetFrameTime(), 0.0f );
-	xPosition[0] += GLToy_Maths::Sin( GLToy_Timer::GetTime() * fWIGGLE_SPEED + static_cast<float>( GetHash() ) * 0.0001f ) * fWIGGLE_RANGE; // dont ask me about this mess
+	if( m_pxBrain )
+	{
+		m_pxBrain->Update();
+	}
 
-    SetPosition( xPosition );
+	GLToy_Vector_3 xPosition = GetPosition();
+	xPosition.x += m_xDirection.x * m_fSpeed * GLToy_Timer::GetFrameTime();
+	xPosition.y -= m_xDirection.y * m_fSpeed * GLToy_Timer::GetFrameTime();
+	SetPosition( xPosition );
 
     if( xPosition[ 1 ] < -1.5f )
     {
@@ -112,7 +123,7 @@ void X_Entity_Enemy::Render() const
     GLToy_Render::EnableBlending();
     GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
 
-    GLToy_Texture_System::BindTexture( xENEMY_SHIP_TEXTURE );
+    GLToy_Material_System::BindMaterial( xENEMY_SHIP_MATERIAL );
 
     GLToy_Render::StartSubmittingQuads();
 		
@@ -135,7 +146,7 @@ void X_Entity_Enemy::RenderDeferred() const
 {
     const GLToy_Vector_3& xPosition = GetPosition();
 
-    GLToy_Material* const pxMaterial = GLToy_Material_System::FindMaterial( xENEMY_SHIP_TEXTURE );
+    GLToy_Material* const pxMaterial = GLToy_Material_System::FindMaterial( xENEMY_SHIP_MATERIAL );
     if( pxMaterial )
     {
         pxMaterial->Bind();

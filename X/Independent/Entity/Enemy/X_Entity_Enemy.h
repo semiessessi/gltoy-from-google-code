@@ -41,6 +41,8 @@
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+class X_Enemy_Brain;
+
 class X_Entity_Enemy
 : public GLToy_Entity_Sphere
 {
@@ -56,12 +58,24 @@ public:
     virtual void RenderDeferred() const;
 	virtual void Update();
 
+	const GLToy_Vector_2& GetDirection() { return m_xDirection; }
+	void SetDirection( const GLToy_Vector_2& xDirection ) { m_xDirection = xDirection; }
+
+	float GetSpeed() { return m_fSpeed; }
+	void SetSpeed( float fSpeed ) { m_fSpeed = fSpeed; }
+
+	void SetBrain( X_Enemy_Brain* pxBrain ) { m_pxBrain = pxBrain; }
+	
     static GLToy_Array< X_Entity_Enemy* >& GetList() { return s_xList; }
 
 private:
 
     static GLToy_Array< X_Entity_Enemy* > s_xList;
 
+	GLToy_Vector_2 m_xDirection;
+	float m_fSpeed;
+
+	X_Enemy_Brain* m_pxBrain;
 };
 
 #endif

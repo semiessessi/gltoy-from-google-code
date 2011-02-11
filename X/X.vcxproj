@@ -147,10 +147,13 @@ upx.exe $(TargetPath) --best</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Independent\AI\X_Enemy_Brain.cpp" />
+    <ClCompile Include="Independent\AI\X_Enemy_Brain_Types.cpp" />
     <ClCompile Include="Independent\Core\State\X_State_Game.cpp" />
     <ClCompile Include="Independent\Core\State\X_State_GameOver.cpp" />
     <ClCompile Include="Independent\Core\State\X_State_MainMenu.cpp" />
     <ClCompile Include="Independent\Core\X_Cheats.cpp" />
+    <ClCompile Include="Independent\Core\X_Spawner.cpp" />
     <ClCompile Include="Independent\Entity\Collectible\X_Entity_Collectible.cpp" />
     <ClCompile Include="Independent\Entity\Enemy\X_Entity_Enemy.cpp" />
     <ClCompile Include="Independent\Entity\Player\X_Entity_Player.cpp" />
@@ -169,10 +172,13 @@ upx.exe $(TargetPath) --best</Command>
     <ClCompile Include="Independent\Core\Project_GLToy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Independent\AI\X_Enemy_Brain.h" />
+    <ClInclude Include="Independent\AI\X_Enemy_Brain_Types.h" />
     <ClInclude Include="Independent\Core\State\X_State_Game.h" />
     <ClInclude Include="Independent\Core\State\X_State_GameOver.h" />
     <ClInclude Include="Independent\Core\State\X_State_MainMenu.h" />
     <ClInclude Include="Independent\Core\X_Cheats.h" />
+    <ClInclude Include="Independent\Core\X_Spawner.h" />
     <ClInclude Include="Independent\Entity\Collectible\X_Entity_Collectible.h" />
     <ClInclude Include="Independent\Entity\Enemy\X_Entity_Enemy.h" />
     <ClInclude Include="Independent\Entity\Player\X_Entity_Player.h" />

@@ -43,6 +43,9 @@
     <Filter Include="Independent\Equipment">
       <UniqueIdentifier>{7a4e6e9e-4dcf-442d-9348-de9100eb7726}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\AI">
+      <UniqueIdentifier>{a139aeab-0981-471d-a47c-ddb91597d70f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_X.cpp">
@@ -93,6 +96,15 @@
     <ClCompile Include="Independent\Core\X_Cheats.cpp">
       <Filter>Independent\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\AI\X_Enemy_Brain.cpp">
+      <Filter>Independent\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\AI\X_Enemy_Brain_Types.cpp">
+      <Filter>Independent\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\X_Spawner.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_X.h">
@@ -135,6 +147,15 @@
       <Filter>Independent\Equipment</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Core\X_Cheats.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\AI\X_Enemy_Brain.h">
+      <Filter>Independent\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\AI\X_Enemy_Brain_Types.h">
+      <Filter>Independent\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\X_Spawner.h">
       <Filter>Independent\Core</Filter>
     </ClInclude>
   </ItemGroup>
