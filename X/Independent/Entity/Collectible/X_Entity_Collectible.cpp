@@ -35,6 +35,7 @@
 
 // GLToy
 #include <Core/GLToy_Timer.h>
+#include <Material/GLToy_Material_System.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture_System.h>
 
@@ -93,6 +94,12 @@ void X_Entity_Collectible::Update()
 
 void X_Entity_Collectible::Render() const
 {
+    if( GLToy_Render::HasDeferredBuffer() )
+    {
+        GLToy_Render::RegisterDeferred( this );
+        return;
+    }
+
 	const GLToy_Vector_3& xPosition = GetPosition();
 
     GLToy_Render::EnableBlending();
@@ -126,5 +133,40 @@ void X_Entity_Collectible::Render() const
     GLToy_Render::EndSubmit();
 
 	GLToy_Render::DisableBlending();
+}
 
+void X_Entity_Collectible::RenderDeferred() const
+{
+	const GLToy_Vector_3& xPosition = GetPosition();
+
+	if( GetCollectType() == X_COLLECTIBLE_TYPE_LIFE )
+	{
+		GLToy_Material_System::BindMaterial( xCOLLECTIBLE_LIFE_TEXTURE );
+	}
+	else if( GetCollectType() == X_COLLECTIBLE_TYPE_WEAPON )
+	{
+		GLToy_Material_System::BindMaterial( xCOLLECTIBLE_WEAPON_TEXTURE );
+	}
+	else if( GetCollectType() == X_COLLECTIBLE_TYPE_BOOST )
+	{
+		GLToy_Material_System::BindMaterial( xCOLLECTIBLE_BOOST_TEXTURE );
+	}
+    
+    GLToy_Render::StartSubmittingQuads();
+		
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
+    GLToy_Render::SubmitUV(
+        GLToy_Vector_4(
+            GLToy_Maths::CompressNormal( GLToy_Vector_3( 0.0f, 0.0f, 1.0f ) ),
+            GLToy_Maths::CompressNormal( GLToy_Vector_3( 0.0f, 1.0f, 0.0f ) ) ),
+        1 );
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+    GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 0.0f ) );
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 1.0f ) );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 1.0f ) );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+	
+    GLToy_Render::EndSubmit();
 }

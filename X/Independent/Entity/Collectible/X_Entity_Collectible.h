@@ -63,6 +63,7 @@ public:
 	virtual ~X_Entity_Collectible();
 
     virtual void Render() const;
+	virtual void RenderDeferred() const;
 	virtual void Update();
 
 	void SetCollectType( GLToy_Hash xCollectType ) { m_xCollectType = xCollectType; }
