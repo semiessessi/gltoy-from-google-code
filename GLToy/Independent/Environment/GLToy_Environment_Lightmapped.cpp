@@ -42,6 +42,7 @@
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Light_System.h>
 #include <Render/GLToy_Render.h>
+#include <Render/GLToy_Render_Metrics.h>
 #include <Render/GLToy_Texture_System.h>
 #include <Render/GLToy_VertexBuffer.h>
 #include <Render/Shader/GLToy_Shader.h>

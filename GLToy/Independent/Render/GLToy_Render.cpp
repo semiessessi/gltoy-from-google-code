@@ -46,6 +46,7 @@
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_FSFX_System.h>
 #include <Render/GLToy_Light_System.h>
+#include <Render/GLToy_Render_Metrics.h>
 #include <Render/GLToy_Renderable.h>
 #include <Render/GLToy_RenderFunctor.h>
 #include <Render/GLToy_Texture_System.h>
@@ -79,6 +80,10 @@ u_int GLToy_Render::s_uCurrentDebugBuffer = 0;
 u_int GLToy_Render::s_uFrameBufferNoDepth = GLToy_MaxUint;
 u_int GLToy_Render::s_uSwapBufferNoDepth = GLToy_MaxUint;
 u_int* GLToy_Render::s_puCurrentBufferNoDepth = &GLToy_Render::s_uSwapBufferNoDepth;
+
+u_int GLToy_Render_Metrics::s_uTriangleCount = 0;
+u_int GLToy_Render_Metrics::s_uLightCount = 0;
+u_int GLToy_Render_Metrics::s_uMaterialSwitchCount = 0;
 
 GLToy_Vector_2 GLToy_Render::s_xClipPlanes = GLToy_Maths::ZeroVector2;
 

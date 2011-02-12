@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010, 2011 Semi Essessi
+// ©Copyright 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,41 +24,29 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __X_H_
-#define __X_H_
+#ifndef __GLTOY_RENDER_METRICS_H_
+#define __GLTOY_RENDER_METRICS_H_
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-// I N C L U D E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-#include <Core/GLToy.h>
-
-#include <Core/Platform_X.h>
-
-// GLToy
-#include <Maths/GLToy_Maths.h>
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// C O N S T A N T S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-static const GLToy_Vector_4 xCOMPRESSED_NORMAL_BASIS = GLToy_Vector_4(
-            GLToy_Maths::CompressNormal( GLToy_Vector_3( 0.0f, 0.0f, -1.0f ) ),
-            GLToy_Maths::CompressNormal( GLToy_Vector_3( -1.0f, 0.0f, 0.0f ) ) );
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-class X
+class GLToy_Render_Metrics
 {
 
 public:
 
-    static bool Initialise();
-    static void Shutdown();
+    static void IncrementTriangleCount() { ++s_uTriangleCount; }
+    static void IncrementLightCount() { ++s_uLightCount; }
+    static void IncrementMaterialSwitchCount() { ++s_uMaterialSwitchCount; }
 
-    static void Update();
+    static void ResetCounters() { s_uTriangleCount = s_uLightCount = s_uMaterialSwitchCount = 0; }
+
+private:
+
+    static u_int s_uTriangleCount;
+    static u_int s_uLightCount;
+    static u_int s_uMaterialSwitchCount;
+
+    static const u_int uGLTOY_IDEAL_TRIANGLE_LIMIT = 50000;
+    static const u_int uGLTOY_IDEAL_LIGHT_LIMIT = 50;
+    static const u_int uGLTOY_IDEAL_MATERIAL_SWITCH_LIMIT = 200;
 
 };
 

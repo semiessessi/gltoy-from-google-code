@@ -1007,6 +1007,9 @@
     <ClInclude Include="Independent\Visibility\GLToy_Visibility_System.h">
       <Filter>Independent\Visibility</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\Render\GLToy_Render_Metrics.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\Raytrace_Sphere.shader">

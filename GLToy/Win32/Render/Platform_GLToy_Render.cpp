@@ -146,6 +146,10 @@ bool Platform_GLToy_Render::Initialise()
 
     GLToy_DebugOutput( "\r\nPlatform_GLToy_Render::Initialise() - Initialising Graphics\r\n" );
 
+    // try and make things faster, but still nice with hints...
+    glHint( GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST );
+    glHint( 0x84EF /*GL_TEXTURE_COMPRESSION_HINT*/, GL_FASTEST );
+
     glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
     glClearDepth( 1.0f );
     glClearStencil( 0 );

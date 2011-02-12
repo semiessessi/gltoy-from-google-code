@@ -1928,6 +1928,7 @@
     <ClInclude Include="Independent\Render\GLToy_FSFX_System.h" />
     <ClInclude Include="Independent\Render\GLToy_Light_System.h" />
     <ClInclude Include="Independent\Render\GLToy_Raytrace_Fullscreen.h" />
+    <ClInclude Include="Independent\Render\GLToy_Render_Metrics.h" />
     <ClInclude Include="Independent\Render\GLToy_Texture_Procedural.h" />
     <ClInclude Include="Independent\Render\GLToy_Texture_Renderable.h" />
     <ClInclude Include="Independent\Render\GLToy_Texture_System.h" />

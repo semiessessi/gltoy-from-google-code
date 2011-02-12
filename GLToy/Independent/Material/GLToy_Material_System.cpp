@@ -71,8 +71,13 @@ GLToy_Material::GLToy_Material( const GLToy_Hash uHash )
     m_aiViewMatrixHandles[ 1 ] = -1;
 }
 
-void GLToy_Material::Bind() const
+void GLToy_Material::Bind()
 {
+    if( !m_bInitialised )
+    {
+        Initialise();
+    }
+
     GLToy_ShaderProgram* const pxShader = GLToy_Shader_System::FindShader( m_uShader );
     if( !pxShader )
     {
@@ -140,6 +145,8 @@ void GLToy_Material::Initialise()
 
     m_aiViewMatrixHandles[ 0 ] = pxShader->GetUniformHandle( "xViewMatrix" );
     m_aiViewMatrixHandles[ 1 ] = pxShader->GetUniformHandle( "xInverseViewMatrix" );
+
+    m_bInitialised = true;
 }
 
 bool GLToy_Material_System::Initialise()
