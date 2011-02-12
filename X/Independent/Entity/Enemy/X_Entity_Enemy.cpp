@@ -93,7 +93,7 @@ void X_Entity_Enemy::Update()
 
 	GLToy_Vector_3 xPosition = GetPosition();
 	xPosition.x += m_xDirection.x * m_fSpeed * GLToy_Timer::GetFrameTime();
-	xPosition.y -= m_xDirection.y * m_fSpeed * GLToy_Timer::GetFrameTime();
+	xPosition.y += m_xDirection.y * m_fSpeed * GLToy_Timer::GetFrameTime();
 	SetPosition( xPosition );
 
     if( xPosition[ 1 ] < -1.5f )
@@ -144,7 +144,7 @@ void X_Entity_Enemy::Render() const
 
 void X_Entity_Enemy::RenderDeferred() const
 {
-    const GLToy_Vector_3& xPosition = GetPosition();
+    GLToy_Vector_3 xPosition = m_xBoundingSphere.GetPosition();
 
     GLToy_Material* const pxMaterial = GLToy_Material_System::FindMaterial( xENEMY_SHIP_MATERIAL );
     if( pxMaterial )

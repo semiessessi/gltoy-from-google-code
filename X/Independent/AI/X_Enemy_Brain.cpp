@@ -50,7 +50,6 @@ void X_Enemy_Brain::TurnTowards( GLToy_Vector_2 xPosition, float fTurnSpeed )
 {
 	X_Entity_Enemy* pxEntity = GetEntity();
 	GLToy_Vector_2 xEntityDir = pxEntity->GetDirection();
-	GLToy_Vector_2 xEntityPos = pxEntity->GetPosition();
 
 	xEntityDir.Normalise();
 	
