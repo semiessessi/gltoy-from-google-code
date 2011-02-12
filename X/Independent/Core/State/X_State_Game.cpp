@@ -109,7 +109,7 @@ void X_State_Game::Initialise()
 	m_fStateTimer = 0.0f;
 
     GLToy_Light_System::Reset();
-    GLToy_Light_System::AddGlobalDirectionalLight( GLToy_Vector_3( 0.308f, 0.308f, -0.9f ), GLToy_Vector_3( 0.3f, 0.3f, 0.3f ) );
+    GLToy_Light_System::AddGlobalDirectionalLight( GLToy_Vector_3( 0.308f, 0.308f, -0.9f ), GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
 	GLToy_Light_PointProperties xProps;
 	xProps.m_fSphereRadius = 4.0f;
 	xProps.m_uFlags = 0;
