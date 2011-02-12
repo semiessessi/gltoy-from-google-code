@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -60,6 +60,8 @@ void GLToy_PFX::Update()
 
     const float fFrameTime = GLToy_Timer::GetFrameTime();
     m_fLifetime -= fFrameTime;
+
+    m_xPosition += m_xVelocity * fFrameTime;
 
     // remove any sources we can
     for( u_int u = 0; u < m_xSources.GetCount(); ++u )

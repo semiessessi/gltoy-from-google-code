@@ -68,6 +68,8 @@ public:
 	
     static GLToy_Array< X_Entity_Enemy* >& GetList() { return s_xList; }
 
+    GLToy_Vector_3 GetVelocity() const { return GLToy_Vector_3( m_xDirection * m_fSpeed, 0.0f ); }
+
 private:
 
     static GLToy_Array< X_Entity_Enemy* > s_xList;

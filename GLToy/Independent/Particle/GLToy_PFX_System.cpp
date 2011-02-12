@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -109,7 +109,7 @@ void GLToy_PFX_System::Update()
     }
 }
 
-GLToy_PFX* GLToy_PFX_System::CreatePFX( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition )
+GLToy_PFX* GLToy_PFX_System::CreatePFX( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3 xVelocity )
 {
     if( uHash == uGLTOY_BAD_HASH )
     {
@@ -127,7 +127,7 @@ GLToy_PFX* GLToy_PFX_System::CreatePFX( const GLToy_Hash uHash, const GLToy_Vect
     GLToy_String szName;
     szName.SetToFormatString( "PFX%d", uCount );
 
-    GLToy_PFX* const pxPFX = new GLToy_PFX( szName.GetHash(), xPosition, pxProperties->m_fLifetime );
+    GLToy_PFX* const pxPFX = new GLToy_PFX( szName.GetHash(), xPosition, xVelocity, pxProperties->m_fLifetime );
 
     // create sources
     GLToy_ConstIterate( GLToy_Hash, uHash, *pxProperties )

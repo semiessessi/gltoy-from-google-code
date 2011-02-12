@@ -85,7 +85,7 @@ void X_Entity_Projectile::Update()
 
         if( ppxEnemy && !( *ppxEnemy )->IsDead() && ( *ppxEnemy )->GetBoundingSphere().IntersectsWithSphere( ls_pxThis->m_xBoundingSphere ) )
         {
-			GLToy_PFX_System::CreatePFX( GLToy_GetHash("Shot_Hit1" ), ls_pxThis->GetPosition() );
+			GLToy_PFX_System::CreatePFX( GLToy_GetHash("Shot_Hit1" ), ls_pxThis->GetPosition(), ( *ppxEnemy )->GetVelocity() );
 			( *ppxEnemy )->Hurt( 0, 10.0f );
 			ls_pxThis->Destroy();
         }

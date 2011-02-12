@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -52,9 +52,10 @@ struct GLToy_ParticleProperties
     , m_fGrowthRate( 0.0f )
     , m_fFadeTime( 0.5f )
     , m_fRotationRate( 0.0f )
+    , m_uTextureHash( uGLTOY_BAD_HASH )
     , m_bRandomAngle( false )
     , m_bAdditive( false )
-    , m_uTextureHash( uGLTOY_BAD_HASH )
+    , m_bInheritVelocity( true )
     {
     }
 
@@ -65,9 +66,10 @@ struct GLToy_ParticleProperties
     float m_fGrowthRate;
     float m_fFadeTime;
     float m_fRotationRate;
+    GLToy_Hash m_uTextureHash;
     bool m_bRandomAngle;
     bool m_bAdditive;
-    GLToy_Hash m_uTextureHash;
+    bool m_bInheritVelocity;
 
 };
 

@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -65,9 +65,10 @@ class GLToy_PFX
 
 public:
 
-    GLToy_PFX( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const float fLifetime )
+    GLToy_PFX( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity, const float fLifetime )
     : m_uHash( uHash )
     , m_xPosition( xPosition )
+    , m_xVelocity( xVelocity )
     , m_xSources()
     , m_fLifetime( fLifetime )
     {
@@ -80,6 +81,7 @@ public:
 
     GLToy_ForceInline GLToy_Hash GetHash() const { return m_uHash; }
     GLToy_ForceInline const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
+    GLToy_ForceInline const GLToy_Vector_3& GetVelocity() const { return m_xVelocity; }
 
     GLToy_ForceInline float GetLifetime() const { return m_fLifetime; }
     GLToy_ForceInline void SetLifetime( const float fLifetime ) { m_fLifetime = fLifetime; }
@@ -91,6 +93,7 @@ protected:
 
     GLToy_Hash m_uHash;
     GLToy_Vector_3 m_xPosition;
+    GLToy_Vector_3 m_xVelocity;
     float m_fLifetime;
 
     GLToy_List< GLToy_ParticleSource* > m_xSources;

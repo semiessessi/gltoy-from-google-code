@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -84,6 +84,9 @@ void GLToy_ParticleSource::Update()
     }
 #endif
 
+    // TODO: allow position to be independent of parent PFX
+    m_xParticleProperties.m_xPosition = m_pxParent->GetPosition();
+
     const float fFrameTime = GLToy_Timer::GetFrameTime();
     m_fLifetime -= fFrameTime;
 
@@ -97,6 +100,10 @@ void GLToy_ParticleSource::Update()
             for( u_int u = 0; u < uCount; ++u )
             {
                 m_xParticleProperties.m_xVelocity = m_bRandomDirection ? ( GLToy_Maths::RandomDirection() * m_fSpeed ) : m_xParticleProperties.m_xVelocity;
+                if( m_xParticleProperties.m_bInheritVelocity )
+                {
+                    m_xParticleProperties.m_xVelocity += m_pxParent->GetVelocity();
+                }
                 m_xParticles.Append( new GLToy_Particle( m_xParticleProperties, m_pxParent->GetPosition() + m_xParticleProperties.m_xVelocity * m_fReleaseRate * static_cast< float >( u ) ) );
             }
 

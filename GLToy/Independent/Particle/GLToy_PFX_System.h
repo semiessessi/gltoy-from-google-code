@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -32,6 +32,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // GLToy
+#include <Maths/GLToy_Maths.h>
 #include <Particle/GLToy_Particle.h>
 #include <Particle/GLToy_ParticleSource.h>
 #include <Particle/GLToy_PFX.h>
@@ -41,7 +42,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 template< class T > class GLToy_HashMap;
-class GLToy_Vector_3;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -58,7 +58,7 @@ public:
     static void Render();
     static void Update();
 
-    static GLToy_PFX* CreatePFX( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition );
+    static GLToy_PFX* CreatePFX( const GLToy_Hash uHash, const GLToy_Vector_3& xPosition, const GLToy_Vector_3 xVelocity = GLToy_Maths::ZeroVector3 );
     static void DestroyPFX( const GLToy_Hash uPFXHash );
     static const GLToy_ParticleProperties* GetParticleProperties( const GLToy_Hash uHash );
 

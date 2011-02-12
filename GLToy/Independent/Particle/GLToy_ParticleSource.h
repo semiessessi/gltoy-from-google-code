@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -68,6 +68,7 @@ struct GLToy_ParticleSourceProperties
     {
     }
 
+    // TODO: allow position to be independent of parent PFX
     GLToy_Vector_3 m_xPosition;
     float m_fReleaseRate;
     float m_fLifetime;
@@ -94,6 +95,8 @@ public:
 
     // TODO : getters and setters, or okay to leave public for now?
     // maybe protected with friends specified?
+
+    // TODO: allow velocity to be independent of parent PFX
 
     GLToy_ParticleProperties m_xParticleProperties;
     GLToy_List< GLToy_Particle* > m_xParticles;
