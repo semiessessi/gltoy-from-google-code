@@ -69,8 +69,8 @@ public:
     : m_uHash( uHash )
     , m_xPosition( xPosition )
     , m_xVelocity( xVelocity )
-    , m_xSources()
     , m_fLifetime( fLifetime )
+    , m_xSources()
     {
     }
 

@@ -84,9 +84,6 @@ void GLToy_ParticleSource::Update()
     }
 #endif
 
-    // TODO: allow position to be independent of parent PFX
-    m_xParticleProperties.m_xPosition = m_pxParent->GetPosition();
-
     const float fFrameTime = GLToy_Timer::GetFrameTime();
     m_fLifetime -= fFrameTime;
 
@@ -105,6 +102,7 @@ void GLToy_ParticleSource::Update()
                     // TODO: allow velocity to be independent of parent PFX
                     m_xParticleProperties.m_xVelocity += m_pxParent->GetVelocity();
                 }
+                // TODO: allow position to be independent of parent PFX
                 m_xParticles.Append( new GLToy_Particle( m_xParticleProperties, m_pxParent->GetPosition() + m_xParticleProperties.m_xVelocity * m_fReleaseRate * static_cast< float >( u ) ) );
             }
 
