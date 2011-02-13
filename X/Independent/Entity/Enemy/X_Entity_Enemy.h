@@ -76,6 +76,7 @@ private:
 
 	GLToy_Vector_2 m_xDirection;
 	float m_fSpeed;
+    GLToy_Hash m_uLight;
 
 	X_Enemy_Brain* m_pxBrain;
 };

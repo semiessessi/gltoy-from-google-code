@@ -36,8 +36,8 @@
 // GLToy
 #include <Core/GLToy_Timer.h>
 #include <Material/GLToy_Material_System.h>
+#include <Render/GLToy_Light_System.h>
 #include <Render/GLToy_Render.h>
-#include <Material/GLToy_Material_System.h>
 
 // X
 #include "AI/X_Enemy_Brain.h"
@@ -66,8 +66,9 @@ GLToy_Array< X_Entity_Enemy* > X_Entity_Enemy::s_xList;
 
 X_Entity_Enemy::X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
-, m_pxBrain( 0 )
 , m_fSpeed( 0.0f )
+, m_uLight( GLToy_Random_Hash() )
+, m_pxBrain( 0 )
 {
     m_xBoundingSphere.SetRadius( fSIZE );
 
@@ -77,10 +78,17 @@ X_Entity_Enemy::X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType )
 	m_xDirection[1] = 1.0f;
 
     s_xList.Append( this );
+
+    GLToy_Light_PointProperties xProperties;
+    xProperties.m_fSphereRadius = 0.35f;
+    xProperties.m_xColour = GLToy_Vector_3( 1.5f, 0.5f, 0.3f );
+    GLToy_Light_System::AddPointLight( m_uLight, xProperties );
 }
 
 X_Entity_Enemy::~X_Entity_Enemy()
 {
+    GLToy_Light_System::DestroyLight( m_uLight );
+
     s_xList.RemoveByValue( this );
 }
 
@@ -99,6 +107,12 @@ void X_Entity_Enemy::Update()
     if( xPosition[ 1 ] < -1.5f )
     {
         Destroy();
+    }
+
+    GLToy_Light* const pxLight = GLToy_Light_System::FindLight( m_uLight );
+    if( pxLight )
+    {
+        pxLight->SetPosition( xPosition + GLToy_Vector_3( 0.0f, 0.5f * fSIZE, -0.1f ) );
     }
 
     if( IsDead() )

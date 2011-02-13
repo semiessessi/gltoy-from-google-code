@@ -67,7 +67,7 @@ X_Entity_Projectile::X_Entity_Projectile( const GLToy_Hash uHash, const u_int uT
     m_xBoundingSphere.SetRadius( 0.0f );
 	m_xDirection[1] = 1.0f;
     GLToy_Light_PointProperties xProperties;
-    xProperties.m_fSphereRadius = 0.4f;
+    xProperties.m_fSphereRadius = 0.3f;
     xProperties.m_xColour = GLToy_Vector_3( 1.5f, 1.5f, 1.5f );
     GLToy_Light_System::AddPointLight( m_uLight, xProperties );
 }
