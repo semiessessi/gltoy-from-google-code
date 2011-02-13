@@ -34,6 +34,7 @@
 #include <Particle/GLToy_PFX_System.h>
 
 // GLToy
+#include <Core/Console/GLToy_Console.h>
 #include <Core/GLToy_UpdateFunctor.h>
 #include <Core/Data Structures/GLToy_HashMap.h>
 #include <File/GLToy_File_System.h>
@@ -73,6 +74,8 @@ bool GLToy_PFX_System::Initialise()
     {
         return false;
     }
+
+    GLToy_Console::RegisterCommand( "reload.pfx", Reset );
 
     return true;
 }

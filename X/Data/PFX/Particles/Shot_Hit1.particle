@@ -1,8 +1,8 @@
 Texture=Sprites/PFX/P9_Sprite1.png
-Size=0.01
-Lifetime=1
-GrowthRate=0.02
-FadeTime=1
+Size=0.005
+Lifetime=1.0
+GrowthRate=0.01
+FadeTime=1.0
 RotationRate=0.5
 RandomAngle=true
 Additive=true

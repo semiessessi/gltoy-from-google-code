@@ -55,6 +55,8 @@ public:
     static bool Initialise();
     static void Shutdown();
 
+    static void Reset() { Shutdown(); Initialise(); }
+
     static void Render();
     static void Update();
 

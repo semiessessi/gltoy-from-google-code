@@ -102,6 +102,7 @@ void GLToy_ParticleSource::Update()
                 m_xParticleProperties.m_xVelocity = m_bRandomDirection ? ( GLToy_Maths::RandomDirection() * m_fSpeed ) : m_xParticleProperties.m_xVelocity;
                 if( m_xParticleProperties.m_bInheritVelocity )
                 {
+                    // TODO: allow velocity to be independent of parent PFX
                     m_xParticleProperties.m_xVelocity += m_pxParent->GetVelocity();
                 }
                 m_xParticles.Append( new GLToy_Particle( m_xParticleProperties, m_pxParent->GetPosition() + m_xParticleProperties.m_xVelocity * m_fReleaseRate * static_cast< float >( u ) ) );

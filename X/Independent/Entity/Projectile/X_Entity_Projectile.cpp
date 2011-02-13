@@ -98,7 +98,7 @@ void X_Entity_Projectile::Update()
 
 void X_Entity_Projectile::Render() const
 {
-const GLToy_Vector_3& xPosition = GetPosition();
+    const GLToy_Vector_3& xPosition = GetPosition();
 
     GLToy_Render::EnableBlending();
     GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
