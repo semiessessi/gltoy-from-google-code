@@ -36,6 +36,7 @@
 // GLToy
 #include <Core/GLToy_Timer.h>
 #include <Particle/GLToy_PFX_System.h>
+#include <Render/GLToy_Light_System.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture_System.h>
 
@@ -61,9 +62,19 @@ static const GLToy_Hash xPROJECTILE_TEXTURE[] = { GLToy_Hash_Constant( "Sprites/
 X_Entity_Projectile::X_Entity_Projectile( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
 , m_uTexture( 0 )
+, m_uLight( GLToy_Random_Hash() )
 {
     m_xBoundingSphere.SetRadius( 0.0f );
 	m_xDirection[1] = 1.0f;
+    GLToy_Light_PointProperties xProperties;
+    xProperties.m_fSphereRadius = 0.4f;
+    xProperties.m_xColour = GLToy_Vector_3( 1.5f, 1.5f, 1.5f );
+    GLToy_Light_System::AddPointLight( m_uLight, xProperties );
+}
+
+X_Entity_Projectile::~X_Entity_Projectile()
+{
+    GLToy_Light_System::DestroyLight( m_uLight );
 }
 
 void X_Entity_Projectile::Update()
@@ -76,6 +87,12 @@ void X_Entity_Projectile::Update()
     if( xPosition[ 1 ] > 1.5f )
     {
         Destroy();
+    }
+
+    GLToy_Light* const pxLight = GLToy_Light_System::FindLight( m_uLight );
+    if( pxLight )
+    {
+        pxLight->SetPosition( xPosition + GLToy_Vector_3( 0.0f, 0.0f, -0.1f ) );
     }
 
     static X_Entity_Projectile* ls_pxThis;

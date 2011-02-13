@@ -56,6 +56,7 @@ class X_Entity_Projectile
 public:
 
 	X_Entity_Projectile( const GLToy_Hash uHash, const u_int uType );
+    virtual ~X_Entity_Projectile();
 
     virtual void Render() const;
 	virtual void Update();
@@ -67,6 +68,7 @@ private:
 
 	GLToy_Vector_3 m_xDirection;
 	u_int m_uTexture;
+    GLToy_Hash m_uLight;
 };
 
 #endif
