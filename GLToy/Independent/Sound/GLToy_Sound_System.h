@@ -33,6 +33,7 @@
 
 // GLToy
 #include <Core/GLToy_Hash.h>
+#include "Maths/GLToy_Maths.h"
 #include <String/GLToy_String.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,7 +42,7 @@
 
 //template < class T > class GLToy_Array;
 //template < class T > class GLToy_HashMap;
-//class GLToy_Vector_3;
+class GLToy_Vector_3;
 //class GLToy_Sound_Source;
 //class GLToy_SoundFile;
 
@@ -55,23 +56,40 @@ class GLToy_Sound_Voice
 {  
 	public:
 
-		GLToy_Sound_Voice( GLToy_Hash uWave ) 
+		enum SPEAKER_MAPPING
 		{
-			m_uWave = uWave;
-			m_bReleased = false;
+			SM_DIRECT,
+			SM_SPACIAL
 		};
+
+		GLToy_Sound_Voice( GLToy_Hash uWave );
 		virtual ~GLToy_Sound_Voice() {};
 
 		virtual void Play() = 0;
-		virtual bool IsPlaying() = 0;
+		virtual bool IsPlaying() const = 0;
 
 		void Release()    { m_bReleased = true; }
-		bool IsReleased() { return m_bReleased; }
+		bool IsReleased() const { return m_bReleased; }
+
+		void SetSpeakerMapping( SPEAKER_MAPPING eMapping ) { m_eSpeakerMapping = eMapping; }
+		void SetPosition( const GLToy_Vector_3& xPosition ) { m_xPosition = xPosition; m_bIsPositional = true; }
+		void SetRadius( const float fRadius ) { m_fRadius = fRadius; }
+
+		bool IsPositional() const { return m_bIsPositional; }
 
 	protected:
 
-		bool m_bReleased;
+		float GetSpeakerAmplitude( u_int uSpeaker );
+
 		GLToy_Hash m_uWave;
+		SPEAKER_MAPPING m_eSpeakerMapping;
+
+		bool m_bIsPositional;
+		GLToy_Vector_3 m_xPosition;
+		float m_fRadius;
+				
+		bool m_bReleased;
+		
 };
 
 // ______________________________ GLToy_Sound_System _________________________________________

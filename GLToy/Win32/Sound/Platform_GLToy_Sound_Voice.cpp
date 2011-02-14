@@ -78,6 +78,8 @@ void Platform_GLToy_Sound_Voice::Play()
 		return;
 	}
 
+	
+
 	XAUDIO2_BUFFER xBuffer;
 	memset( &xBuffer, 0, sizeof( XAUDIO2_BUFFER ) );
 	
@@ -93,7 +95,7 @@ void Platform_GLToy_Sound_Voice::Play()
 	m_pxSourceVoice->Start();
 }
 
-bool Platform_GLToy_Sound_Voice::IsPlaying()
+bool Platform_GLToy_Sound_Voice::IsPlaying() const
 {
 	if( m_pxSourceVoice )
 	{
@@ -110,6 +112,19 @@ bool Platform_GLToy_Sound_Voice::IsPlaying()
 
 void Platform_GLToy_Sound_Voice::Update()
 {
+	XAUDIO2_VOICE_DETAILS xVoiceDetails;
+	m_pxSourceVoice->GetVoiceDetails( &xVoiceDetails );
+	const u_int uNumInChans = xVoiceDetails.InputChannels;
+
+	float afMatrix[32];
+	memset( afMatrix, 0, sizeof( float ) * 32 );
+
+	for( u_int uInChan = 0; uInChan < 2; ++uInChan )
+	{
+		afMatrix[ uInChan ] = GetSpeakerAmplitude( uInChan );
+	}
+
+	m_pxSourceVoice->SetOutputMatrix( 0, uNumInChans, 2, afMatrix );
 }
 
 // eof

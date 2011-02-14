@@ -34,6 +34,8 @@
 #include <Sound/GLToy_Sound_System.h>
 #include <Sound/Platform_GLToy_Sound_System.h>
 
+#include "Maths/GLToy_Maths.h"
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,6 +68,43 @@ GLToy_Sound_Voice* GLToy_Sound_System::GetVoice( const GLToy_Handle iHandle )
 void GLToy_Sound_System::DestroyVoice( const GLToy_Handle iHandle )
 {
 	return Platform_GLToy_Sound_System::DestroyVoice( iHandle );
+}
+
+// __________________________________________________________________________________________________
+
+GLToy_Sound_Voice::GLToy_Sound_Voice( GLToy_Hash uWave )
+: m_uWave( uWave )
+, m_xPosition( GLToy_Maths::ZeroVector2 )
+, m_fRadius( 0.0f )
+, m_eSpeakerMapping( SM_DIRECT )
+, m_bReleased( false )
+, m_bIsPositional( false )
+{
+}
+
+float GLToy_Sound_Voice::GetSpeakerAmplitude( u_int uSpeaker )
+{
+	/*GLToy_Camera::
+
+	float fAmplitude = 1.0f;
+	if( IsPositional() )
+	{
+		fAmplitude = 
+	}
+
+	// We just use stereo at the moment
+	if( m_eSpeakerMapping == SM_DIRECT )
+	{
+		
+		else
+		{
+		}
+	}
+	else
+	{
+	}*/
+
+	return 0.0f;
 }
 
 //eof

@@ -40,7 +40,7 @@ class Platform_GLToy_Sound_Voice : public GLToy_Sound_Voice
 	public:
 
 		void Play();
-		bool IsPlaying();
+		bool IsPlaying() const;
 
 	protected:
 
