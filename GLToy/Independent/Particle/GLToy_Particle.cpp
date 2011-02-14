@@ -61,9 +61,10 @@ void GLToy_Particle::Update()
 {
     const float fFrameTime = GLToy_Timer::GetFrameTime();
     m_fLifetime -= fFrameTime;
+    m_xVelocity *= GLToy_Maths::Pow( 1.0f - m_fDamping, fFrameTime );
     SetPosition( GetPosition() + m_xVelocity * fFrameTime );
     SetSize( m_fGrowthRate * fFrameTime + GetSize() );
-    SetAlphaMultiplier( GLToy_Maths::Min( 1.0f, ( m_fLifetime - m_fFadeTime ) / m_fFadeTime ) );
+    SetAlphaMultiplier( GLToy_Maths::Min( 1.0f, m_fLifetime / m_fFadeTime ) );
     if( m_fRotationRate != 0.0f )
     {
         Rotate( fFrameTime * m_fRotationRate );

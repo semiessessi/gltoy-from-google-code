@@ -112,7 +112,7 @@ void GLToy_Sprite::RenderTransparent() const
     {
         case ucSPRITE_BLEND_ADDITIVE:
         {
-            GLToy_Render::SetBlendFunction( BLEND_ONE, BLEND_ONE );
+            GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE );
             break;
         }
 

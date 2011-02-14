@@ -64,6 +64,7 @@ struct GLToy_ParticleSourceProperties
     , m_fLifetime( 3.0f )
     , m_uParticleHash( uGLTOY_BAD_HASH )
     , m_fSpeed( 32.0f )
+    , m_fDelay( 0.0f )
     , m_bRandomDirection( false )
     {
     }
@@ -74,6 +75,7 @@ struct GLToy_ParticleSourceProperties
     float m_fLifetime;
     GLToy_Hash m_uParticleHash;
     float m_fSpeed;
+    float m_fDelay;
 
     bool m_bRandomDirection;
 
@@ -105,7 +107,8 @@ public:
     float m_fReleaseRate;
     float m_fReleaseTimer;
     float m_fLifetime;
-    float m_fSpeed;    
+    float m_fSpeed;
+    float m_fDelay;
 
     bool m_bRandomDirection;
 

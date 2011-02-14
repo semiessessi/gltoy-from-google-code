@@ -52,6 +52,7 @@ struct GLToy_ParticleProperties
     , m_fGrowthRate( 0.0f )
     , m_fFadeTime( 0.5f )
     , m_fRotationRate( 0.0f )
+    , m_fDamping( 0.0f )
     , m_uTextureHash( uGLTOY_BAD_HASH )
     , m_bRandomAngle( false )
     , m_bAdditive( false )
@@ -66,6 +67,7 @@ struct GLToy_ParticleProperties
     float m_fGrowthRate;
     float m_fFadeTime;
     float m_fRotationRate;
+    float m_fDamping;
     GLToy_Hash m_uTextureHash;
     bool m_bRandomAngle;
     bool m_bAdditive;
@@ -88,6 +90,7 @@ public:
     , m_fGrowthRate( xProperties.m_fGrowthRate )
     , m_fFadeTime( xProperties.m_fFadeTime )
     , m_fRotationRate( xProperties.m_fRotationRate )
+    , m_fDamping( xProperties.m_fDamping )
     {
         SetPosition( xPosition + xProperties.m_xPosition );
         SetSize( xProperties.m_fSize );
@@ -118,6 +121,7 @@ public:
     float m_fGrowthRate;
     float m_fFadeTime;
     float m_fRotationRate;
+    float m_fDamping;
 
 };
 

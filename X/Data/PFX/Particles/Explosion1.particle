@@ -1,0 +1,8 @@
+Texture=Sprites/PFX/Explosion1.ptx
+Size=0.01
+Lifetime=0.75
+GrowthRate=0.2
+FadeTime=1.2
+RotationRate=0.75
+RandomAngle=true
+Additive=true

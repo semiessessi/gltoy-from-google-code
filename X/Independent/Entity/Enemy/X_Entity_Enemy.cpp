@@ -36,6 +36,7 @@
 // GLToy
 #include <Core/GLToy_Timer.h>
 #include <Material/GLToy_Material_System.h>
+#include <Particle/GLToy_PFX_System.h>
 #include <Render/GLToy_Light_System.h>
 #include <Render/GLToy_Render.h>
 
@@ -117,6 +118,7 @@ void X_Entity_Enemy::Update()
 
     if( IsDead() )
     {
+        GLToy_PFX_System::CreatePFX( GLToy_Hash_Constant( "Explosion1" ), xPosition, GetVelocity() );
         X_State_Game::AddScore( 10 );
         Destroy();
     }

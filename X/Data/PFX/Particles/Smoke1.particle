@@ -1,0 +1,8 @@
+Texture=Sprites/PFX/Smoke1.png
+Size=0.1
+Lifetime=1.7
+GrowthRate=0.2
+FadeTime=4
+RotationRate=0.5
+RandomAngle=true
+Damping=0.9

@@ -238,6 +238,10 @@ bool GLToy_PFX_System::InitialiseSourceProperties()
             {
                 xSourceProperties.m_fSpeed = szValue.ExtractFloat();
             }
+            else if( szKey == "Delay" )
+            {
+                xSourceProperties.m_fDelay = szValue.ExtractFloat();
+            }
         GLToy_Iterate_End;
 
         s_xSourceProperties.AddNode( xSourceProperties, szName.GetHash() );
@@ -297,6 +301,10 @@ bool GLToy_PFX_System::InitialiseParticleProperties()
             else if( szKey == "Additive" )
             {
                 xParticleProperties.m_bAdditive = !szValue.MeansFalse();
+            }
+            else if( szKey == "Damping" )
+            {
+                xParticleProperties.m_fDamping = szValue.ExtractFloat();
             }
         GLToy_Iterate_End;
 

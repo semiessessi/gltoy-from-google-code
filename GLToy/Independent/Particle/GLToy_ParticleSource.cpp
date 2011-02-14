@@ -53,6 +53,7 @@ GLToy_ParticleSource::GLToy_ParticleSource( const GLToy_ParticleSourceProperties
 , m_fReleaseTimer( 0.0f )
 , m_fLifetime( xProperties.m_fLifetime )
 , m_fSpeed( xProperties.m_fSpeed )
+, m_fDelay( xProperties.m_fDelay )
 , m_bRandomDirection( xProperties.m_bRandomDirection )
 {
     const GLToy_ParticleProperties* const pxParticleProperties = GLToy_PFX_System::GetParticleProperties( xProperties.m_uParticleHash );
@@ -85,6 +86,13 @@ void GLToy_ParticleSource::Update()
 #endif
 
     const float fFrameTime = GLToy_Timer::GetFrameTime();
+    
+    m_fDelay -= fFrameTime;
+    if( m_fDelay > 0.0f )
+    {
+        return;
+    }
+
     m_fLifetime -= fFrameTime;
 
     if( IsEmitting() )
