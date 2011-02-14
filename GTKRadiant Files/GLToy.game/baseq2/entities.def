@@ -209,206 +209,26 @@ model="models/items/armor/shield/tris.md2"
 */
 
 
-/*QUAKED weapon_shotgun (.3 .3 1) (-16 -16 -16) (16 16 16)
+/*QUAKED weapon_??? (.3 .3 1) (-16 -16 -16) (16 16 16)
 -------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
 model="models/weapons/g_shotg/tris.md2"
 */
 
 
-/*QUAKED weapon_supershotgun (.3 .3 1) (-16 -16 -16) (16 16 16)
--------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
-model="models/weapons/g_shotg2/tris.md2"
-*/
-
-
-/*QUAKED weapon_machinegun (.3 .3 1) (-16 -16 -16) (16 16 16)
--------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
-model="models/weapons/g_machn/tris.md2"
-*/
-
-
-/*QUAKED weapon_chaingun (.3 .3 1) (-16 -16 -16) (16 16 16)
--------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
-model="models/weapons/g_chain/tris.md2"
-*/
-
-
-/*QUAKED weapon_grenadelauncher (.3 .3 1) (-16 -16 -16) (16 16 16)
--------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
-model="models/weapons/g_launch/tris.md2"
-*/
-
-
-/*QUAKED weapon_rocketlauncher (.3 .3 1) (-16 -16 -16) (16 16 16)
--------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
-model="models/weapons/g_rocket/tris.md2"
-*/
-
-
-/*QUAKED weapon_hyperblaster (.3 .3 1) (-16 -16 -16) (16 16 16)
--------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
-model="models/weapons/g_blast/tris.md2"
-*/
-
-
-/*QUAKED weapon_railgun (.3 .3 1) (-16 -16 -16) (16 16 16)
--------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
-model="models/weapons/g_rail/tris.md2"
-*/
-
-
-/*QUAKED weapon_bfg (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/weapons/g_bfg/tris.md2"
-*/
-
-
-/*QUAKED ammo_shells (.3 .3 1) (-16 -16 -16) (16 16 16)
+/*QUAKED ammo_??? (.3 .3 1) (-16 -16 -16) (16 16 16)
 model="models/items/ammo/shells/medium/tris.md2"
 */
 
 
-/*QUAKED ammo_bullets (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/items/ammo/bullets/medium/tris.md2"
-*/
 
-
-/*QUAKED ammo_cells (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/items/ammo/cells/medium/tris.md2"
-*/
-
-
-/*QUAKED ammo_grenades (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/items/ammo/grenades/medium/tris.md2"
-*/
-
-
-/*QUAKED ammo_rockets (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/items/ammo/rockets/medium/tris.md2"
-*/
-
-
-/*QUAKED ammo_slugs (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/items/ammo/slugs/medium/tris.md2"
-*/
-
-
-/*QUAKED item_quad (.3 .3 1) (-16 -16 -16) (16 16 16)
+/*QUAKED item_??? (.3 .3 1) (-16 -16 -16) (16 16 16)
 model="models/items/quaddama/tris.md2"
 */
 
 
-/*QUAKED item_invulnerability (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/items/invulner/tris.md2"
-*/
-
-
-/*QUAKED item_silencer (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/items/silencer/tris.md2"
-*/
-
-
-/*QUAKED item_breather (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/items/breather/tris.md2"
-*/
-
-
-/*QUAKED item_enviro (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/items/enviro/tris.md2"
-*/
-
-
-/*QUAKED item_ancient_head (.3 .3 1) (-16 -16 -16) (16 16 16)
-Special item that gives +2 to maximum health
-model="models/items/c_head/tris.md2"
-*/
-
-
-/*QUAKED item_adrenaline (.3 .3 1) (-16 -16 -16) (16 16 16)
-gives +1 to maximum health
-model="models/items/adrenal/tris.md2"
-*/
-
-
-/*QUAKED item_bandolier (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/items/band/tris.md2"
-*/
-
-
-/*QUAKED item_pack (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/items/pack/tris.md2"
-*/
-
-
-/*QUAKED key_data_cd (0 .5 .8) (-16 -16 -16) (16 16 16)
+/*QUAKED key_??? (0 .5 .8) (-16 -16 -16) (16 16 16)
 key for computer centers
 model="models/items/keys/data_cd/tris.md2"
-*/
-
-
-/*QUAKED key_power_cube (0 .5 .8) (-16 -16 -16) (16 16 16) TRIGGER_SPAWN NO_TOUCH
-warehouse circuits
-model="models/items/keys/power/tris.md2"
-*/
-
-
-/*QUAKED key_pyramid (0 .5 .8) (-16 -16 -16) (16 16 16)
-key for the entrance of jail3
-model="models/items/keys/pyramid/tris.md2"
-*/
-
-
-/*QUAKED key_data_spinner (0 .5 .8) (-16 -16 -16) (16 16 16)
-key for the city computer
-model="models/items/keys/spinner/tris.md2"
-*/
-
-
-/*QUAKED key_pass (0 .5 .8) (-16 -16 -16) (16 16 16)
-security pass for the security level
-model="models/items/keys/pass/tris.md2"
-*/
-
-
-/*QUAKED key_blue_key (0 .5 .8) (-16 -16 -16) (16 16 16)
-normal door key - blue
-model="models/items/keys/key/tris.md2"
-*/
-
-
-/*QUAKED key_red_key (0 .5 .8) (-16 -16 -16) (16 16 16)
-normal door key - red
-model="models/items/keys/red_key/tris.md2"
-*/
-
-
-/*QUAKED key_commander_head (0 .5 .8) (-16 -16 -16) (16 16 16)
-tank commander's head
-model="models/items/c_head/tris.md2"
-*/
-
-
-/*QUAKED key_airstrike_target (0 .5 .8) (-16 -16 -16) (16 16 16)
-model="models/items/keys/target/tris.md2"
-*/
-
-
-/*QUAKED item_health (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/items/healing/medium/tris.md2"
-*/
-
-
-/*QUAKED item_health_small (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/items/healing/stimpack/tris.md2"
-*/
-
-
-/*QUAKED item_health_large (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/items/healing/large/tris.md2"
-*/
-
-
-/*QUAKED item_health_mega (.3 .3 1) (-16 -16 -16) (16 16 16)
-model="models/items/mega_h/tris.md2"
 */
 
 
@@ -424,19 +244,6 @@ areas that are seperated when this portal is not activated.
 Usually enclosed in the middle of a door.
 */
 
-
-/*QUAKED path_corner (.5 .3 0) (-8 -8 -8) (8 8 8) TELEPORT
-Target: next path corner
-Pathtarget: gets used when an entity that has
-	this path_corner targeted touches it
-*/
-
-
-/*QUAKED point_combat (0.5 0.3 0) (-8 -8 -8) (8 8 8) Hold
-Makes this the target of a monster and it will head here
-when first activated before going after the activator.  If
-hold is selected, it will stay here.
-*/
 
 
 /*QUAKED viewthing (0 .5 .8) (-8 -8 -8) (8 8 8)
@@ -498,115 +305,10 @@ one small chunk per 25 of mass (up to 16).  So 800 gives the most.
 */
 
 
-/*QUAKED misc_explobox (0 .5 .8) (-16 -16 0) (16 16 40)
-Large exploding box.  You can override its mass (100),
-health (80), and dmg (150).
-model="models/objects/barrels/tris.md2"
-*/
-
-
-/*QUAKED misc_blackhole (1 .5 0) (-8 -8 -8) (8 8 8)
-model="models/objects/black/tris.md2"
-*/
-
-
-/*QUAKED misc_eastertank (1 .5 0) (-32 -32 -16) (32 32 32)
-model="models/monsters/tank/tris.md2"
-*/
-
-
-/*QUAKED misc_easterchick (1 .5 0) (-32 -32 0) (32 32 32)
-model="models/monsters/bitch/tris.md2"
-*/
-
-
-/*QUAKED misc_easterchick2 (1 .5 0) (-32 -32 0) (32 32 32)
-model="models/monsters/bitch/tris.md2"
-*/
-
-
-/*QUAKED monster_commander_body (1 .5 0) (-32 -32 0) (32 32 48)
+/*QUAKED monster_??? (1 .5 0) (-32 -32 0) (32 32 48)
 Not really a monster, this is the Tank Commander's decapitated body.
 There should be a item_commander_head that has this as it's target.
 model="models/monsters/commandr/tris.md2"
-*/
-
-
-/*QUAKED misc_banner (1 .5 0) (-4 -4 -4) (4 4 4)
-The origin is the bottom of the banner.
-The banner is 128 tall.
-model="models/objects/banner/tris.md2"
-*/
-
-
-/*QUAKED misc_deadsoldier (1 .5 0) (-16 -16 0) (16 16 16) ON_BACK ON_STOMACH BACK_DECAP FETAL_POS SIT_DECAP IMPALED
-This is the dead player model. Comes in 6 exciting different poses!
-model="models/deadbods/dude/tris.md2"
-*/
-
-
-/*QUAKED misc_viper (1 .5 0) (-16 -16 0) (16 16 32)
-This is the Viper for the flyby bombing.
-It is trigger_spawned, so you must have something use it for it to show up.
-There must be a path for it to follow once it is activated.
-
-"speed"		How fast the Viper should fly
-model="models/ships/viper/tris.md2"
-*/
-
-
-/*QUAKED misc_bigviper (1 .5 0) (-176 -120 -24) (176 120 72) 
-This is a large stationary viper as seen in Paul's intro
-model="models/ships/bigviper/tris.md2"
-*/
-
-
-/*QUAKED misc_viper_bomb (1 0 0) (-8 -8 -8) (8 8 8)
-"dmg"	how much boom should the bomb make?
-model="models/objects/bomb/tris.md2"
-*/
-
-
-/*QUAKED misc_strogg_ship (1 .5 0) (-16 -16 0) (16 16 32)
-This is a Storgg ship for the flybys.
-It is trigger_spawned, so you must have something use it for it to show up.
-There must be a path for it to follow once it is activated.
-
-"speed"		How fast it should fly
-model="models/ships/strogg1/tris.md2"
-*/
-
-
-/*QUAKED misc_satellite_dish (1 .5 0) (-64 -64 0) (64 64 128)
-model="models/objects/satellite/tris.md2"
-*/
-
-
-/*QUAKED light_mine1 (0 1 0) (-2 -2 -12) (2 2 12)
-model="models/objects/minelite/light1/tris.md2"
-*/
-
-
-/*QUAKED light_mine2 (0 1 0) (-2 -2 -12) (2 2 12)
-model="models/objects/minelite/light2/tris.md2"
-*/
-
-
-/*QUAKED misc_gib_arm (1 0 0) (-8 -8 -8) (8 8 8)
-Intended for use with the target_spawner
-model="models/objects/gibs/arm/tris.md2"
-*/
-
-
-/*QUAKED misc_gib_leg (1 0 0) (-8 -8 -8) (8 8 8)
-Intended for use with the target_spawner
-model="models/objects/gibs/leg/tris.md2"
-*/
-
-
-/*QUAKED misc_gib_head (1 0 0) (-8 -8 -8) (8 8 8)
-Intended for use with the target_spawner
-model="models/objects/gibs/head/tris.md2"
 */
 
 
