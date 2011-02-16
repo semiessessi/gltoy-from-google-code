@@ -94,8 +94,8 @@ void X_Equipment_Weapon::RandomGenerate()
 	m_fSpread = static_cast< float >( uWeaponType ) * 0.333333f;
 
 	// Speed
-	m_xSpeed[1] = GLToy_Maths::ClampedLerp( fX_EQUIP_WEAPON_MIN_SPEED, fX_EQUIP_WEAPON_MAX_SPEED, 1.0f - static_cast< float >( uWeaponType ) * 0.333333f );
-	m_xSpeed[0] = m_xSpeed[1] * 0.25f;
+	m_xSpeed[1] = GLToy_Maths::ClampedLerp( fX_EQUIP_WEAPON_MIN_SPEED, fX_EQUIP_WEAPON_MAX_SPEED, static_cast< float >( uWeaponType ) * 0.333333f );
+	m_xSpeed[0] = m_xSpeed[1] * 0.125f;
 
 	// Fire rate
 	m_xRate[1] = ( uWeaponType < 2 ) ? fX_EQUIP_WEAPON_MIN_RATE : fX_EQUIP_WEAPON_MAX_RATE;
