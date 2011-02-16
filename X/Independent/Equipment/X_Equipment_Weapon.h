@@ -16,7 +16,7 @@ class X_Equipment_Weapon
 		X_Equipment_Weapon();
 		~X_Equipment_Weapon();
 
-		void RandomGenerate( float fDamageMax );
+		void RandomGenerate();
 		void Boost( float fBoost );
 
 		float GetDamage();
@@ -24,6 +24,7 @@ class X_Equipment_Weapon
 		float GetRate();
 		float GetSize();
 		float GetSpread();
+        float GetBoost() const { return m_fBoost; }
 		int GetNumProjectiles();
 		bool IsWavey();
 		

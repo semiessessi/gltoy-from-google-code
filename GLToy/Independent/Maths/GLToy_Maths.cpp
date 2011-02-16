@@ -387,12 +387,28 @@ float GLToy_Maths::Random( const float fLower, const float fHigher )
 {
     static u_int uWorkingValue = 0xA183E191;
 
-    u_int u = uWorkingValue;
+    u_int u = uWorkingValue + static_cast< u_int >( GLToy_Timer::GetTime() );
     u ^= u << 24;
     u -= ~( u << 6 );
     uWorkingValue = u * 16807 + 2147483647;
 
     return fLower + ( ( fHigher - fLower ) * uWorkingValue ) / static_cast< float >( 0xFFFFFFFF );
+}
+
+
+u_int GLToy_Maths::RandomUint( const u_int uLower, const u_int uHigher )
+{
+    static u_int uWorkingValue = 0xA183E191;
+
+    u_int u = uWorkingValue + static_cast< u_int >( GLToy_Timer::GetTime() );
+    u ^= u << 24;
+    u -= ~( u << 6 );
+    uWorkingValue = u * 16807 + 2147483647;
+
+    static u_int uFix = 0;
+    uWorkingValue += uFix++;
+
+    return uLower + ( uWorkingValue % ( uHigher - uLower + 1 ) );
 }
 
 GLToy_Vector_3 GLToy_Maths::RandomDirection()

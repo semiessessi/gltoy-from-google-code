@@ -67,6 +67,7 @@ public:
 	
 	static GLToy_Array< X_Entity_Player* >& GetList() { return s_xList; }
 
+    const X_Equipment_Weapon& GetWeapon() const { return m_xWeapon; }
 	void SetWeapon( const X_Equipment_Weapon& xWeapon );
 
 	u_int GetLives() const { return m_uLives; }

@@ -68,7 +68,7 @@ static const float fX_COLLECTIBLE_INTERVAL = 10.0f;
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static void Debug_MakeWeapon()
+static void MakeWeapon()
 {
 	GLToy_Array< X_Entity_Player* >& xList = X_Entity_Player::GetList();
 	if( xList.IsEmpty() )
@@ -77,7 +77,8 @@ static void Debug_MakeWeapon()
 	}
 
 	X_Equipment_Weapon xWeapon;
-	xWeapon.RandomGenerate( 10.0f );
+	xWeapon.RandomGenerate();
+    xWeapon.Boost( xList[0]->GetWeapon().GetBoost() );
 	xList[0]->SetWeapon( xWeapon );
 }
 
@@ -88,7 +89,7 @@ X_State_Game::X_State_Game()
 , m_fCollectibleTimer( 0.0f )
 , m_fStateTimer( 0.0f )
 {
-	GLToy_Console::RegisterCommand( "makeweapon", Debug_MakeWeapon );
+	GLToy_Console::RegisterCommand( "makeweapon", MakeWeapon );
 }
 
 void X_State_Game::Initialise()
@@ -121,6 +122,8 @@ void X_State_Game::Initialise()
 	GLToy_Light_System::AddPointLight( 1, xProps );
 
     s_uScore = 0;
+
+    MakeWeapon();
 }
 
 void X_State_Game::Shutdown()

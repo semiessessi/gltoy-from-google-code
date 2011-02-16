@@ -52,8 +52,8 @@ static const int iX_EQUIP_WEAPON_MAX_PROJECTILES = 5;
 static const float fX_EQUIP_WEAPON_MIN_SPEED = 0.01f;
 static const float fX_EQUIP_WEAPON_MAX_SPEED = 0.025f;
 
-static const float fX_EQUIP_WEAPON_MIN_RATE = 0.03f;
-static const float fX_EQUIP_WEAPON_MAX_RATE = 0.5f;
+static const float fX_EQUIP_WEAPON_MIN_RATE = 0.05f;
+static const float fX_EQUIP_WEAPON_MAX_RATE = 0.2f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -72,58 +72,40 @@ X_Equipment_Weapon::~X_Equipment_Weapon()
 {
 }
 
-void X_Equipment_Weapon::RandomGenerate( float fDamageMax )
+void X_Equipment_Weapon::RandomGenerate()
 {
-	m_fBoost = 0.0f;
+    // decide the weapon type - lets have just 4 for now and use magic numbers...
+    const u_int uWeaponType = GLToy_Maths::RandomUint( 0, 3 );
 
 	// Base damage
-
-	m_xDamage[1] = GLToy_Maths::Random( 1.0f, fDamageMax );
-	m_xDamage[0] = GLToy_Maths::Random( m_xDamage[1] * 0.5f, m_xDamage[1] );
-
-	const float fRelativeDamage = m_xDamage[0] / fDamageMax;
+	m_xDamage[1] = ( uWeaponType & 1 ) ? 16.0f : 50.0f;
+	m_xDamage[0] = ( uWeaponType > 1 ) ? 1.0f : 8.0f;
 
 	// Use multiple projectiles?
-	
-	const bool bMultipleProjectiles = GLToy_Maths::Random() < 0.4f; // Tend to not use multiple
-
+	const bool bMultipleProjectiles = uWeaponType == 3; // Tend to not use multiple
 	m_iProjectiles = 1;
 	if( bMultipleProjectiles )
 	{
-		m_iProjectiles += static_cast<int>( GLToy_Maths::Floor( GLToy_Maths::Random() * static_cast<float>( iX_EQUIP_WEAPON_MAX_PROJECTILES ) ) );
+		m_iProjectiles = 2;
 		m_xDamage *= 1.5f; // Damage boost for multiple projectiles
 	}
 
 	// Spread
-
-	m_fSpread = GLToy_Maths::Random( 0.1f * static_cast<float>( m_iProjectiles - 1 ), 0.785f );
+	m_fSpread = static_cast< float >( uWeaponType ) * 0.333333f;
 
 	// Speed
-
-	float fSeed = ( 1.0f - fRelativeDamage ) + GLToy_Maths::Random( -0.25f, 0.25f ); // More damaging bullets tend to go slower
-
-	m_xSpeed[1] = GLToy_Maths::ClampedLerp( fX_EQUIP_WEAPON_MIN_SPEED, fX_EQUIP_WEAPON_MAX_SPEED, fSeed );
-	m_xSpeed[0] = GLToy_Maths::Random( m_xSpeed[1] * 0.5f, m_xSpeed[1] );
+	m_xSpeed[1] = GLToy_Maths::ClampedLerp( fX_EQUIP_WEAPON_MIN_SPEED, fX_EQUIP_WEAPON_MAX_SPEED, 1.0f - static_cast< float >( uWeaponType ) * 0.333333f );
+	m_xSpeed[0] = m_xSpeed[1] * 0.25f;
 
 	// Fire rate
-
-	fSeed = fRelativeDamage + GLToy_Maths::Random( -0.25f, 0.25f ); // More damaging bullets are fired less often
-	if( bMultipleProjectiles )
-	{
-		fSeed += 0.1f;
-	}
-
-	m_xRate[1] = GLToy_Maths::ClampedLerp( fX_EQUIP_WEAPON_MIN_RATE, fX_EQUIP_WEAPON_MAX_RATE, fSeed );
-	m_xRate[0] = GLToy_Maths::Random( m_xRate[1] * 0.5f, m_xRate[1] );
+	m_xRate[1] = ( uWeaponType < 2 ) ? fX_EQUIP_WEAPON_MIN_RATE : fX_EQUIP_WEAPON_MAX_RATE;
+	m_xRate[0] = ( uWeaponType > 2 ) ? m_xRate[1] * 3.0f : m_xRate[1] * 2.0f;
 
 	// Size
-
-	fSeed = fRelativeDamage + GLToy_Maths::Random( -0.25f, 0.25f ); // More damaging bullets are bigger
-	m_fSize = GLToy_Maths::ClampedLerp( fX_EQUIP_WEAPON_MIN_SIZE, fX_EQUIP_WEAPON_MAX_SIZE, fSeed );
+	m_fSize = ( uWeaponType & 1 ) ? fX_EQUIP_WEAPON_MIN_SIZE : fX_EQUIP_WEAPON_MAX_SIZE;
 
 	// Wavey?
-
-	m_bWavey = bMultipleProjectiles ? false : ( GLToy_Maths::Random() > 0.5f );
+	m_bWavey = uWeaponType == 0;
 }
 
 float X_Equipment_Weapon::GetDamage()
@@ -148,12 +130,12 @@ float X_Equipment_Weapon::GetSize()
 
 float X_Equipment_Weapon::GetSpread()
 {
-	return m_fSpread;
+	return 0.15f * m_fSpread;
 }
 
 int X_Equipment_Weapon::GetNumProjectiles()
 {
-	return m_iProjectiles;
+	return m_iProjectiles + ( m_iProjectiles ? static_cast< u_int >( 7.0f * m_fBoost ) : 0 );
 }
 
 bool X_Equipment_Weapon::IsWavey()

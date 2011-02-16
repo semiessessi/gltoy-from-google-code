@@ -75,6 +75,7 @@ public:
     static float Round( const float fValue );
 
     static float Random( const float fLower = 0.0f, const float fHigher = 1.0f );
+    static u_int RandomUint( const u_int uLower = 0, const u_int uHigher = 255 );
     static GLToy_Vector_3 RandomDirection();
 
     static float Deg2Rad( const float fDegrees );

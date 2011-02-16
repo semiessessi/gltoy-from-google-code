@@ -240,7 +240,7 @@ void X_Entity_Player::Collect( const X_Entity_Collectible* pxCollectible )
 
 		case X_COLLECTIBLE_TYPE_WEAPON:
 		{
-			m_xWeapon.RandomGenerate( 10.0f );
+			m_xWeapon.RandomGenerate();
 		}
         break;
 	}
@@ -250,7 +250,7 @@ void X_Entity_Player::Shoot()
 {
 	if( m_fShootTimer == 0.0f )
 	{
-		const u_int uWeaponTexture = static_cast<u_int>( ( ( m_xWeapon.GetSize() - fX_EQUIP_WEAPON_MIN_SIZE ) / ( fX_EQUIP_WEAPON_MAX_SIZE - fX_EQUIP_WEAPON_MIN_SIZE ) ) * uX_ENTITY_PROJECTILE_NUM_TEXTURES );
+		const u_int uWeaponTexture = static_cast< u_int >( m_xWeapon.GetSpread() * 3.0f );
 
 		if( m_xWeapon.GetNumProjectiles() == 1 )
 		{
