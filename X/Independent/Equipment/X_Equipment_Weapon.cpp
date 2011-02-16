@@ -145,7 +145,7 @@ bool X_Equipment_Weapon::IsWavey()
 
 void X_Equipment_Weapon::Boost( float fBoost )
 {
-	m_fBoost = GLToy_Maths::Min( 1.0f, m_fBoost + fBoost );
+	m_fBoost = GLToy_Maths::Min( 1.0f, m_fBoost + 0.25f * fBoost );
 }
 
 //eof
