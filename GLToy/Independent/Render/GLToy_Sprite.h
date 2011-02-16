@@ -46,6 +46,7 @@
 // TY - 26/08/2010 - Yes
 const u_char ucSPRITE_BLEND_NORMAL = 0;
 const u_char ucSPRITE_BLEND_ADDITIVE = 1;
+const u_char ucSPRITE_BLEND_ADDITIVE_SORT = 2;
 
 const u_char ucSPRITE_ORDERED_DEFAULT = 0;
 const u_char ucSPRITE_ORDERED_ALWAYS = 1;

@@ -102,7 +102,7 @@ public:
 
         if( xProperties.m_bAdditive )
         {
-            SetBlendFunction( ucSPRITE_BLEND_ADDITIVE );
+            SetBlendFunction( ucSPRITE_BLEND_ADDITIVE_SORT );
         }
     }
 

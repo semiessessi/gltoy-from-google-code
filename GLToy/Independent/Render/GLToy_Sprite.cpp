@@ -89,6 +89,7 @@ void GLToy_Sprite::Render() const
     {
         default:
         case ucSPRITE_BLEND_NORMAL:
+        case ucSPRITE_BLEND_ADDITIVE_SORT:
         {
             GLToy_Render::RegisterTransparent( this, ( m_xPosition - GLToy_Camera::GetPosition() ).MagnitudeSquared() );
             break;
@@ -111,6 +112,7 @@ void GLToy_Sprite::RenderTransparent() const
     switch( m_ucBlendFunc )
     {
         case ucSPRITE_BLEND_ADDITIVE:
+        case ucSPRITE_BLEND_ADDITIVE_SORT:
         {
             GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE );
             break;
