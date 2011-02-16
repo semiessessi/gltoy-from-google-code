@@ -135,7 +135,7 @@ float X_Equipment_Weapon::GetSpread()
 
 int X_Equipment_Weapon::GetNumProjectiles()
 {
-	return m_iProjectiles + ( m_iProjectiles ? static_cast< u_int >( 7.0f * m_fBoost ) : 0 );
+	return m_iProjectiles + ( ( m_iProjectiles > 1 ) ? static_cast< u_int >( 7.0f * m_fBoost ) : 0 );
 }
 
 bool X_Equipment_Weapon::IsWavey()
