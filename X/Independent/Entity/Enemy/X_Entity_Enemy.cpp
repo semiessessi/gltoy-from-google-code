@@ -54,7 +54,6 @@ static const float fWIGGLE_RANGE = 0.0025f;
 static const float fSIZE = 0.1f;
 static const GLToy_Hash xENEMY_SHIP_MATERIAL = GLToy_Hash_Constant( "Enemy/Enemy1" );
 
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,6 +91,15 @@ X_Entity_Enemy::~X_Entity_Enemy()
 
     s_xList.RemoveByValue( this );
 }
+
+void X_Entity_Enemy::SetDefinition( const X_Enemy_Definition& xDefinition )
+{
+	m_xDefinition = m_xDefinition;
+
+	delete m_pxBrain;
+	m_pxBrain = X_Enemy_Brain_Factory::CreateBrain( xDefinition.m_uBrain, GetHash() );
+}
+
 
 void X_Entity_Enemy::Update()
 {

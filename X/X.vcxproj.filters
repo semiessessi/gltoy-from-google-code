@@ -105,6 +105,9 @@
     <ClCompile Include="Independent\Core\X_Spawner.cpp">
       <Filter>Independent\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Core\X_Spawner_Types.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_X.h">
@@ -156,6 +159,9 @@
       <Filter>Independent\AI</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Core\X_Spawner.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\X_Spawner_Types.h">
       <Filter>Independent\Core</Filter>
     </ClInclude>
   </ItemGroup>

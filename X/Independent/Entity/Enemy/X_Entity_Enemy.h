@@ -38,10 +38,28 @@
 #include <Core/Data Structures/GLToy_Array.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// Forward declarations
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class X_Enemy_Brain;
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// C L A S S E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+class X_Enemy_Definition
+{
+	public:
+
+		X_Enemy_Definition()
+		{
+			// TODO: Use some sensible defaults
+			m_uBrain = 0;
+		}
+
+		GLToy_Hash m_uBrain;
+		// TODO: Include other things like the texture etc...
+};
 
 class X_Entity_Enemy
 : public GLToy_Entity_Sphere
@@ -64,8 +82,8 @@ public:
 	float GetSpeed() { return m_fSpeed; }
 	void SetSpeed( float fSpeed ) { m_fSpeed = fSpeed; }
 
-	void SetBrain( X_Enemy_Brain* pxBrain ) { m_pxBrain = pxBrain; }
-	
+	void SetDefinition( const X_Enemy_Definition& xDefinition );
+
     static GLToy_Array< X_Entity_Enemy* >& GetList() { return s_xList; }
 
     GLToy_Vector_3 GetVelocity() const { return GLToy_Vector_3( m_xDirection * m_fSpeed, 0.0f ); }
@@ -77,6 +95,8 @@ private:
 	GLToy_Vector_2 m_xDirection;
 	float m_fSpeed;
     GLToy_Hash m_uLight;
+
+	X_Enemy_Definition m_xDefinition;
 
 	X_Enemy_Brain* m_pxBrain;
 };

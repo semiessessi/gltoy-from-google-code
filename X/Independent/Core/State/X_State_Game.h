@@ -42,6 +42,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class X_Entity_Player;
+class X_Enemy_Spawner;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -70,8 +71,8 @@ public:
 
 protected:
 
+	X_Enemy_Spawner* m_pxTestSpawner;
 	X_Entity_Player* m_pxPlayer;
-    float m_fEnemyTimer;
     float m_fCollectibleTimer;
 	float m_fStateTimer;
 	

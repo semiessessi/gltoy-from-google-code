@@ -49,6 +49,8 @@
 // X
 #include "AI/X_Enemy_Brain.h"
 #include "AI/X_Enemy_Brain_Types.h"
+#include "Core/X_Spawner.h"
+#include "Core/X_Spawner_Types.h"
 #include <Entity/X_EntityTypes.h>
 #include <Entity/Collectible/X_Entity_Collectible.h>
 #include <Entity/Enemy/X_Entity_Enemy.h>
@@ -85,9 +87,9 @@ static void MakeWeapon()
 X_State_Game::X_State_Game()
 : GLToy_Parent()
 , m_pxPlayer( NULL )
-, m_fEnemyTimer( 0.0f )
 , m_fCollectibleTimer( 0.0f )
 , m_fStateTimer( 0.0f )
+, m_pxTestSpawner( 0 )
 {
 	GLToy_Console::RegisterCommand( "makeweapon", MakeWeapon );
 }
@@ -105,8 +107,12 @@ void X_State_Game::Initialise()
 	// create our player's entity
 	m_pxPlayer = static_cast< X_Entity_Player* >( GLToy_Entity_System::CreateEntity( GLToy_Hash_Constant( "Player" ), X_ENTITY_PLAYER ) );
 
-    m_fEnemyTimer = 0.0f;
-    m_fCollectibleTimer = fX_COLLECTIBLE_INTERVAL * 2.0f;
+	// Create a spawner
+	X_Enemy_Definition xTestDef;
+	xTestDef.m_uBrain = xENEMY_BRAIN_SUICIDE;
+	m_pxTestSpawner = X_Enemy_Spawner_Factory::CreateSpawner( xENEMY_SPAWNER_INTERVAL, xTestDef );
+
+	m_fCollectibleTimer = fX_COLLECTIBLE_INTERVAL * 2.0f;
 	m_fStateTimer = 0.0f;
 
     GLToy_Light_System::Reset();
@@ -131,11 +137,16 @@ void X_State_Game::Shutdown()
     GLToy_Light_System::Reset();
 	GLToy_Entity_System::DestroyEntities();
 	m_pxPlayer = NULL;
+	delete m_pxTestSpawner;
 }
 
 void X_State_Game::Update()
 {
-    m_fEnemyTimer -= GLToy_Timer::GetFrameTime();
+    if( m_pxTestSpawner )
+	{
+		m_pxTestSpawner->Update();
+	}
+
 	m_fCollectibleTimer -= GLToy_Timer::GetFrameTime();
     m_fStateTimer += GLToy_Timer::GetFrameTime();
 
@@ -149,15 +160,7 @@ void X_State_Game::Update()
                 ( bRight ? 1.0f : 0.0f ) + ( bLeft ? -1.0f : 0.0f ),
                 ( bUp ? 1.0f : 0.0f ) + ( bDown ? -1.0f : 0.0f ) ) );
 
-    if( m_fEnemyTimer < 0.0f )
-    {
-		const GLToy_Hash uEnemyHash = GLToy_Random_Hash();
-		X_Entity_Enemy* pxEnemy = static_cast< X_Entity_Enemy* >( GLToy_Entity_System::CreateEntity( uEnemyHash, X_ENTITY_ENEMY ) );
-        pxEnemy->SetPosition( GLToy_Vector_3( GLToy_Maths::Random( -1.0f, 1.0f ), 1.5f, 0.0f ) );
-		pxEnemy->SetBrain( X_Enemy_Brain_Factory::CreateBrain( xENEMY_BRAIN_SUICIDE, uEnemyHash ) );
-
-        m_fEnemyTimer = GLToy_Maths::ClampedLerp( 1.0f, 0.1f, m_fStateTimer * 0.01f );
-    }
+	
 
 	if( m_fCollectibleTimer < 0.0f )
 	{
