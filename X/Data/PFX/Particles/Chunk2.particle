@@ -1,0 +1,7 @@
+Texture=Sprites/PFX/Chunk2.png
+Size=0.08
+Lifetime=0.8
+GrowthRate=0.0
+FadeTime=0.2
+RotationRate=2.5
+RandomAngle=true

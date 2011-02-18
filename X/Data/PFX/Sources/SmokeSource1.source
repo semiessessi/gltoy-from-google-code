@@ -1,6 +1,5 @@
 Particle=Smoke1
-ReleaseRate=36
-Lifetime=0.3
-Speed=0.05
+ReleaseRate=2200
+Lifetime=0.2
+Speed=1.8
 RandomDirection=true
-Delay=0.1
