@@ -1,5 +1,5 @@
 Particle=Chunk1
-ReleaseRate=20
+ReleaseRate=30
 Lifetime=0.1
 Speed=0.3
 RandomDirection=true

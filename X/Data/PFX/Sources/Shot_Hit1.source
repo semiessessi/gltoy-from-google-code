@@ -1,5 +1,5 @@
 Particle=Shot_Hit1
-ReleaseRate=28
-Lifetime=0.25
-Speed=0.05
+ReleaseRate=100
+Lifetime=0.04
+Speed=1.2
 RandomDirection=true
