@@ -34,6 +34,7 @@
 #include <Render/X_Render.h>
 
 // GLToy
+#include <Core/State/GLToy_State_System.h>
 #include <Render/GLToy_Texture_System.h>
 
 // X
@@ -55,7 +56,10 @@ void X_Render::Shutdown()
 
 void X_Render::Render()
 {
-    X_Parallax_Background xBackground( GLToy_Hash_Constant( "Background_Test.png" ), GLToy_Hash_Constant( "Background_Test.png" ), 1.0f, 2.0f );
-    xBackground.Bind();
-    xBackground.Render();
+    if( GLToy_State_System::GetState() == GLToy_Hash_Constant( "Game" ) )
+    {
+        X_Parallax_Background xBackground( GLToy_Hash_Constant( "Background_Test.png" ), GLToy_Hash_Constant( "Background_Test.png" ), 1.0f, 2.0f );
+        xBackground.Bind();
+        xBackground.Render();
+    }
 }
