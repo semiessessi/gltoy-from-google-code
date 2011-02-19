@@ -8,7 +8,7 @@
 
 #include "Entity/Enemy/X_Entity_Enemy.h"
 
-#define X_SPAWNER_TYPE(X) public: static const GLToy_Hash uTYPE_HASH = X
+#define X_SPAWNER_TYPE(X) public: static const u_int uTYPE_HASH = X
 
 class X_Enemy_Spawner
 {
@@ -21,6 +21,8 @@ class X_Enemy_Spawner
 
 	protected:
 
+		void CreateEnemy( const GLToy_Vector_2& xPosition );
+
 		X_Enemy_Definition m_xDefinition;
 };
 
@@ -30,6 +32,8 @@ class X_Enemy_Spawner_Factory
 	public:
 
 		static X_Enemy_Spawner* CreateSpawner( GLToy_Hash uType, const X_Enemy_Definition& xDefinition );
+
+		static u_int GetRandomSpawnerType();
 };
 
 #endif

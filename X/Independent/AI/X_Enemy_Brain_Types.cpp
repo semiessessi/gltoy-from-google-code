@@ -69,3 +69,30 @@ void X_Enemy_Brain_Swarm::Update()
 		TurnTowards( xPos, 2.5f );
 	}*/
 }
+
+// _________________________________________________________________________________________________________
+
+
+X_Enemy_Brain_Dive::X_Enemy_Brain_Dive( GLToy_Hash uEnemy )
+: X_Enemy_Brain( uEnemy )
+{
+	X_Entity_Enemy* pxEntity = GetEntity();
+	if( pxEntity )
+	{
+		GLToy_Vector_3 xDirection = GLToy_Maths::ZeroVector3;
+		xDirection.y = -1.0f;
+		pxEntity->SetDirection( xDirection );
+		pxEntity->SetSpeed( 0.5f );
+	}
+}
+
+X_Enemy_Brain_Dive::~X_Enemy_Brain_Dive()
+{
+}
+
+void X_Enemy_Brain_Dive::Update()
+{
+	Accelerate( 0.4f, 2.5f );
+}
+
+//eof

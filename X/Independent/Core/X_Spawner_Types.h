@@ -6,12 +6,19 @@
 
 #include "X_Spawner.h"
 
-// TODO: GLToy_Hash_Constant does not represent an actual constant so cannot be used in this way
-static const GLToy_Hash xENEMY_SPAWNER_INTERVAL = 01234; // GLToy_Hash_Constant( "X_Spawner_Interval" );
+enum SPAWNER_TYPES
+{
+	eENEMY_SPAWNER_FIRST_TYPE = 0,
+
+	eENEMY_SPAWNER_INTERVAL = eENEMY_SPAWNER_FIRST_TYPE,
+	eENEMY_SPAWNER_SWEEP,
+
+	eENEMY_SPAWNER_NUM_TYPES,
+};
 
 class X_Spawner_Interval : public X_Enemy_Spawner
 {
-	X_SPAWNER_TYPE( xENEMY_SPAWNER_INTERVAL );
+	X_SPAWNER_TYPE( eENEMY_SPAWNER_INTERVAL );
 
 	public:
 
@@ -22,6 +29,24 @@ class X_Spawner_Interval : public X_Enemy_Spawner
 	protected:
 
 		float m_fTimer;
+};
+
+class X_Spawner_Sweep : public X_Enemy_Spawner
+{
+	X_SPAWNER_TYPE( eENEMY_SPAWNER_SWEEP );
+
+	public:
+
+		X_Spawner_Sweep( const X_Enemy_Definition& xDefinition );
+
+		void Update();
+
+	protected:
+
+		float m_fTimer;
+		float m_fSpawnTimer;
+		bool m_bSpawning;
+		bool m_bReverse;
 };
 
 #endif

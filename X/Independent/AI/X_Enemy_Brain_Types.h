@@ -2,13 +2,20 @@
 #include "Core\GLToy_Hash.h"
 #include "X_Enemy_Brain.h"
 
-// TODO: GLToy_Hash_Constant does not represent an actual constant so cannot be used in this way
-static const GLToy_Hash xENEMY_BRAIN_SUICIDE = 01234; // GLToy_Hash_Constant( "X_Brain_Suicide" );
-static const GLToy_Hash xENEMY_BRAIN_SWARM = 11234;
+enum BRAIN_TYPES
+{
+	eENEMY_BRAIN_FIRST_TYPE = 0,
+
+	eENEMY_BRAIN_SUICIDE = eENEMY_BRAIN_FIRST_TYPE,
+	eENEMY_BRAIN_SWARM,
+	eENEMY_BRAIN_DIVE,
+
+	eENEMY_BRAIN_NUM_TYPES,
+};
 
 class X_Enemy_Brain_Suicide : public X_Enemy_Brain
 {
-	X_BRAIN_TYPE( xENEMY_BRAIN_SUICIDE );
+	X_BRAIN_TYPE( eENEMY_BRAIN_SUICIDE );
 
 	public:
 
@@ -21,7 +28,7 @@ class X_Enemy_Brain_Suicide : public X_Enemy_Brain
 
 class X_Enemy_Brain_Swarm : public X_Enemy_Brain
 {
-	X_BRAIN_TYPE( xENEMY_BRAIN_SWARM );
+	X_BRAIN_TYPE( eENEMY_BRAIN_SWARM );
 
 	public:
 
@@ -32,4 +39,16 @@ class X_Enemy_Brain_Swarm : public X_Enemy_Brain
 
 };
 
+class X_Enemy_Brain_Dive : public X_Enemy_Brain
+{
+	X_BRAIN_TYPE( eENEMY_BRAIN_DIVE );
 
+	public:
+
+		X_Enemy_Brain_Dive( GLToy_Hash uEnemy );
+		~X_Enemy_Brain_Dive();
+
+		virtual void Update();
+};
+
+// eof

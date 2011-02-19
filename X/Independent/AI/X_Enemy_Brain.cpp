@@ -86,11 +86,18 @@ X_Enemy_Brain* X_Enemy_Brain_Factory::CreateBrain( GLToy_Hash uBrainType, GLToy_
 	switch( uBrainType )
 	{
 		CASE( X_Enemy_Brain_Suicide );
+		CASE( X_Enemy_Brain_Swarm );
+		CASE( X_Enemy_Brain_Dive );
 	}
 
 	#undef CASE
 
 	return 0;
+}
+
+u_int X_Enemy_Brain_Factory::GetRandomBrainType()
+{
+	return static_cast<u_int>( GLToy_Maths::Random() * static_cast<float>( eENEMY_BRAIN_NUM_TYPES ) );
 }
 
 
