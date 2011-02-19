@@ -40,6 +40,7 @@
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_RenderFunctor.h>
+#include <Render/GLToy_Render_Metrics.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -355,6 +356,8 @@ void GLToy_Light_Point::RenderDebug() const
 
 void GLToy_Light_Point::RenderLighting() const
 {
+    GLToy_Render_Metrics::IncrementLightCount();
+
     GLToy_ShaderProgram* const pxShader = GLToy_Light_System::GetCurrentShader();
     if( pxShader )
     {
@@ -369,6 +372,8 @@ void GLToy_Light_Point::RenderLighting() const
 
 void GLToy_GlobalLight_Directional::RenderLighting() const
 {
+    GLToy_Render_Metrics::IncrementLightCount();
+
 	// TODO: allow multiple directional lights to be stupidly fast by batching 8 or 16 per shader pass
 	GLToy_ShaderProgram* const pxShader = GLToy_Light_System::GetCurrentShader();
     if( pxShader )

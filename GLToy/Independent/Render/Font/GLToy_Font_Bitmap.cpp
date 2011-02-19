@@ -36,6 +36,7 @@
 // GLToy
 #include <Maths/GLToy_Vector.h>
 #include <Render/GLToy_Render.h>
+#include <Render/GLToy_Render_Metrics.h>
 #include <Render/GLToy_Texture_System.h>
 
 
@@ -68,6 +69,8 @@ void GLToy_Font_Bitmap::Shutdown()
 
 void GLToy_Font_Bitmap::RenderString( const GLToy_String& szString, const float fX, const float fY, const GLToy_Vector_4& xColour ) const
 {
+    GLToy_Render_Metrics::IncrementTriangleCount( 2 * szString.GetLength() );
+
     // TODO - something more sensible about the widths
     const float fTW = 1.0f / 16.0f;
     const float fW = GetHeight();

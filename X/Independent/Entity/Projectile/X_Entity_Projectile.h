@@ -59,6 +59,7 @@ public:
     virtual ~X_Entity_Projectile();
 
     virtual void Render() const;
+    virtual void RenderTransparent() const;
 	virtual void Update();
 
 	void SetDirection( const GLToy_Vector_3& xDirection ) { m_xDirection = xDirection; }

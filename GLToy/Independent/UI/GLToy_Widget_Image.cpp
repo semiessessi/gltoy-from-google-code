@@ -36,6 +36,7 @@
 // GLToy
 #include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Render.h>
+#include <Render/GLToy_Render_Metrics.h>
 #include <Render/GLToy_Texture_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,6 +45,8 @@
 
 void GLToy_Widget_Image::Render2D() const
 {
+    GLToy_Render_Metrics::IncrementTriangleCount( 2 );
+
     GLToy_Render::EnableBlending();
     GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
 

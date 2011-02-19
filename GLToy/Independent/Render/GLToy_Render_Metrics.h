@@ -43,6 +43,7 @@ public:
     static void ResetCounters() { s_uTriangleCount = s_uLightCount = s_uMaterialSwitchCount = 0; }
 
     static u_int GetTriangleCount() { return s_uTriangleCount; }
+    static u_int GetLightCount() { return s_uLightCount; }
 
 private:
 

@@ -627,8 +627,14 @@ void GLToy_Render::Render2D()
 
             if( s_bDrawCounters )
             {
+                const GLToy_Vector_4 xColourGood( 1.0f, 1.0f, 1.0f, 1.0f );
+                const GLToy_Vector_4 xColourBad( 1.0f, 0.0f, 0.0f, 1.0f );
                 szString.SetToFormatString( "Triangles: %d / %d", GLToy_Render_Metrics::GetTriangleCount(), GLToy_Render_Metrics::uGLTOY_IDEAL_TRIANGLE_LIMIT );
-                pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.65f - pxFont->GetHeight() );
+                pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.65f - pxFont->GetHeight(),
+                    ( GLToy_Render_Metrics::GetTriangleCount() <= GLToy_Render_Metrics::uGLTOY_IDEAL_TRIANGLE_LIMIT ) ? xColourGood : xColourBad );
+                szString.SetToFormatString( "Lights: %d / %d", GLToy_Render_Metrics::GetLightCount(), GLToy_Render_Metrics::uGLTOY_IDEAL_LIGHT_LIMIT );
+                pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.6f - pxFont->GetHeight(),
+                    ( GLToy_Render_Metrics::GetTriangleCount() <= GLToy_Render_Metrics::uGLTOY_IDEAL_TRIANGLE_LIMIT ) ? xColourGood : xColourBad );
             }
 
             if( s_bDrawBuffers && HasDeferredBuffer() )

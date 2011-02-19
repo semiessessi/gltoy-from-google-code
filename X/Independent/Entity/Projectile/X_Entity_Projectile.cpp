@@ -116,12 +116,15 @@ void X_Entity_Projectile::Update()
 
 void X_Entity_Projectile::Render() const
 {
+    GLToy_Render::RegisterTransparent( this, 0.0f );
+}
+
+void X_Entity_Projectile::RenderTransparent() const
+{
     GLToy_Render_Metrics::IncrementTriangleCount( 2 );
 
     const GLToy_Vector_3& xPosition = GetPosition();
 
-    GLToy_Render::EnableBlending();
-    GLToy_Render::DisableDepthTesting();
     GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
 
 	GLToy_Texture_System::BindTexture( xPROJECTILE_TEXTURE[ m_uTexture ] );
@@ -139,7 +142,4 @@ void X_Entity_Projectile::Render() const
     GLToy_Render::SubmitVertex( xPosition[ 0 ] - GetRadius(), xPosition[ 1 ] - GetRadius(), xPosition[ 2 ] );
 	
     GLToy_Render::EndSubmit();
-
-	GLToy_Render::DisableBlending();
-    GLToy_Render::EnableDepthTesting();
 }
