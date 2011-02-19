@@ -108,6 +108,9 @@
     <ClCompile Include="Independent\Core\X_Spawner_Types.cpp">
       <Filter>Independent\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Render\X_Parallax_Background.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_X.h">
@@ -163,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Core\X_Spawner_Types.h">
       <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\X_Parallax_Background.h">
+      <Filter>Independent\Render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -33,6 +33,7 @@
 
 // GLToy
 #include <Render/GLToy_Render.h>
+#include <Render/GLToy_Render_Metrics.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // M A C R O
@@ -71,16 +72,19 @@ void GLToy_IndexBuffer::Bind()
 
 void GLToy_IndexBuffer::SubmitTriangles( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
 {
+    GLToy_Render_Metrics::IncrementTriangleCount( uCount / 3 );
     GLToy_Render::DrawTriangles( uStart, uEnd, uCount, uOffset );
 }
 
 void GLToy_IndexBuffer::SubmitTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
 {
+    GLToy_Render_Metrics::IncrementTriangleCount( uCount - 2 );
     GLToy_Render::DrawTriangleStrip( uStart, uEnd, uCount, uOffset );
 }
 
 void GLToy_IndexBuffer::SubmitPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
 {
+    GLToy_Render_Metrics::IncrementTriangleCount( uCount - 2 );
     GLToy_Render::DrawPolygon( uStart, uEnd, uCount, uOffset );
 }
 

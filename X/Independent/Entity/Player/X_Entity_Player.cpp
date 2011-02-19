@@ -39,6 +39,7 @@
 #include <Entity/GLToy_Entity_System.h>
 #include <Material/GLToy_Material_System.h>
 #include <Render/GLToy_Render.h>
+#include <Render/GLToy_Render_Metrics.h>
 #include <Render/GLToy_Texture_System.h>
 
 // X
@@ -164,6 +165,8 @@ void X_Entity_Player::Update()
 
 void X_Entity_Player::Render() const
 {
+    GLToy_Render_Metrics::IncrementTriangleCount( 2 );
+
     if( GLToy_Render::HasDeferredBuffer() )
     {
         GLToy_Render::RegisterDeferred( this );

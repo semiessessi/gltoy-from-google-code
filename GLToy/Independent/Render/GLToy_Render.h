@@ -466,6 +466,7 @@ private:
     static float s_fAspectRatio;
     static bool s_bDrawFPS;
     static bool s_bDrawTimers;
+    static bool s_bDrawCounters;
     static bool s_bDrawBuffers;
     static bool s_bDrawNormals;
     static bool s_bVsync;

@@ -32,21 +32,23 @@ class GLToy_Render_Metrics
 
 public:
 
-    static void IncrementTriangleCount() { ++s_uTriangleCount; }
-    static void IncrementLightCount() { ++s_uLightCount; }
+    static const u_int uGLTOY_IDEAL_TRIANGLE_LIMIT = 50000;
+    static const u_int uGLTOY_IDEAL_LIGHT_LIMIT = 50;
+    static const u_int uGLTOY_IDEAL_MATERIAL_SWITCH_LIMIT = 200;
+
+    static void IncrementTriangleCount( const u_int uTriangles = 1 ) { s_uTriangleCount += uTriangles; }
+    static void IncrementLightCount( const u_int uLights = 1 ) { s_uLightCount += uLights; }
     static void IncrementMaterialSwitchCount() { ++s_uMaterialSwitchCount; }
 
     static void ResetCounters() { s_uTriangleCount = s_uLightCount = s_uMaterialSwitchCount = 0; }
+
+    static u_int GetTriangleCount() { return s_uTriangleCount; }
 
 private:
 
     static u_int s_uTriangleCount;
     static u_int s_uLightCount;
     static u_int s_uMaterialSwitchCount;
-
-    static const u_int uGLTOY_IDEAL_TRIANGLE_LIMIT = 50000;
-    static const u_int uGLTOY_IDEAL_LIGHT_LIMIT = 50;
-    static const u_int uGLTOY_IDEAL_MATERIAL_SWITCH_LIMIT = 200;
 
 };
 

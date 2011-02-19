@@ -36,6 +36,7 @@
 // GLToy
 #include <Render/GLToy_Camera.h>
 #include <Render/GLToy_Render.h>
+#include <Render/GLToy_Render_Metrics.h>
 #include <Render/GLToy_Texture_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,6 +69,8 @@ void GLToy_Sprite::WriteToBitStream( GLToy_BitStream& xStream ) const
 
 void GLToy_Sprite::Render() const
 {
+    GLToy_Render_Metrics::IncrementTriangleCount( 2 );
+
     if( m_ucOrdering == ucSPRITE_ORDERED_ALWAYS )
     {
         GLToy_Render::RegisterTransparent( this, ( m_xPosition - GLToy_Camera::GetPosition() ).MagnitudeSquared() );

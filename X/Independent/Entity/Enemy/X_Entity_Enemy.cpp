@@ -39,6 +39,7 @@
 #include <Particle/GLToy_PFX_System.h>
 #include <Render/GLToy_Light_System.h>
 #include <Render/GLToy_Render.h>
+#include <Render/GLToy_Render_Metrics.h>
 
 // X
 #include "AI/X_Enemy_Brain.h"
@@ -136,6 +137,8 @@ void X_Entity_Enemy::Update()
 
 void X_Entity_Enemy::Render() const
 {
+    GLToy_Render_Metrics::IncrementTriangleCount( 2 );
+
     if( GLToy_Render::HasDeferredBuffer() )
     {
         GLToy_Render::RegisterDeferred( this );

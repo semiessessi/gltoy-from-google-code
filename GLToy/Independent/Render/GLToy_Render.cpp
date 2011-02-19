@@ -60,6 +60,7 @@ float GLToy_Render::s_fFOV = 90.0f;
 float GLToy_Render::s_fAspectRatio = 1.0f;
 bool GLToy_Render::s_bDrawFPS = GLToy_IsDebugBuild();
 bool GLToy_Render::s_bDrawTimers = GLToy_IsDebugBuild();
+bool GLToy_Render::s_bDrawCounters = GLToy_IsDebugBuild();
 bool GLToy_Render::s_bDrawBuffers = false;
 bool GLToy_Render::s_bDrawNormals = false;
 bool GLToy_Render::s_bVsync = true;
@@ -125,6 +126,7 @@ bool GLToy_Render::Initialise()
 	GLToy_Console::RegisterVariable( "debugclear", &g_bDebugClear );
     GLToy_Console::RegisterVariable( "showfps", &s_bDrawFPS );
     GLToy_Console::RegisterVariable( "showtimers", &s_bDrawTimers );
+    GLToy_Console::RegisterVariable( "showtimers", &s_bDrawCounters );
     GLToy_Console::RegisterVariable( "showbuffers", &s_bDrawBuffers );
     GLToy_Console::RegisterVariable( "buffer", &s_uCurrentDebugBuffer );
     GLToy_Console::RegisterVariable( "shownormals", &s_bDrawNormals );
@@ -594,7 +596,7 @@ void GLToy_Render::Render2D()
     // Project_Render2D();
 
 #ifndef GLTOY_DEM0
-	if( s_bDrawFPS || s_bDrawTimers || ( s_bDrawBuffers && HasDeferredBuffer() ) )
+	if( s_bDrawFPS || s_bDrawTimers || s_bDrawCounters || ( s_bDrawBuffers && HasDeferredBuffer() ) )
     {
         UseProgram( 0 );
         // draw fps counter, we should have the console's font by now
@@ -621,6 +623,12 @@ void GLToy_Render::Render2D()
                 }
                 szString.SetToFormatString( "Sync: %.3fms", GLToy::GetSyncProfileTimer() * 1000.0f );
                 pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.7f - pxFont->GetHeight() );
+            }
+
+            if( s_bDrawCounters )
+            {
+                szString.SetToFormatString( "Triangles: %d / %d", GLToy_Render_Metrics::GetTriangleCount(), GLToy_Render_Metrics::uGLTOY_IDEAL_TRIANGLE_LIMIT );
+                pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.65f - pxFont->GetHeight() );
             }
 
             if( s_bDrawBuffers && HasDeferredBuffer() )
@@ -655,6 +663,8 @@ void GLToy_Render::EndRender()
     Flush();
 
     Platform_EndRender();
+
+    GLToy_Render_Metrics::ResetCounters();
 }
 
 void GLToy_Render::RegisterDeferred( const GLToy_Renderable* const pxDeferred )

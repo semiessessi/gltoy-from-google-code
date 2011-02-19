@@ -33,12 +33,19 @@
 // This file's header
 #include <Render/X_Render.h>
 
+// GLToy
+#include <Render/GLToy_Texture_System.h>
+
+// X
+#include <Render/X_Parallax_Background.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 bool X_Render::Initialise()
 {
+    GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "Background_Test.png" ) );
     return true;
 }
 
@@ -48,4 +55,7 @@ void X_Render::Shutdown()
 
 void X_Render::Render()
 {
+    X_Parallax_Background xBackground( GLToy_Hash_Constant( "Background_Test.png" ), GLToy_Hash_Constant( "Background_Test.png" ), 1.0f, 2.0f );
+    xBackground.Bind();
+    xBackground.Render();
 }

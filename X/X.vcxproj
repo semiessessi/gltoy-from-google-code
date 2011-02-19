@@ -161,6 +161,7 @@ upx.exe $(TargetPath) --best</Command>
     <ClCompile Include="Independent\Entity\Projectile\X_Entity_Projectile.cpp" />
     <ClCompile Include="Independent\Entity\X_EntityTypes.cpp" />
     <ClCompile Include="Independent\Equipment\X_Equipment_Weapon.cpp" />
+    <ClCompile Include="Independent\Render\X_Parallax_Background.cpp" />
     <ClCompile Include="X11\Core\Platform_X.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -187,6 +188,7 @@ upx.exe $(TargetPath) --best</Command>
     <ClInclude Include="Independent\Entity\Projectile\X_Entity_Projectile.h" />
     <ClInclude Include="Independent\Entity\X_EntityTypes.h" />
     <ClInclude Include="Independent\Equipment\X_Equipment_Weapon.h" />
+    <ClInclude Include="Independent\Render\X_Parallax_Background.h" />
     <ClInclude Include="X11\Core\Platform_X.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
