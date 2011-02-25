@@ -85,6 +85,8 @@ u_int* GLToy_Render::s_puCurrentBufferNoDepth = &GLToy_Render::s_uSwapBufferNoDe
 u_int GLToy_Render_Metrics::s_uTriangleCount = 0;
 u_int GLToy_Render_Metrics::s_uLightCount = 0;
 u_int GLToy_Render_Metrics::s_uMaterialSwitchCount = 0;
+u_int GLToy_Render_Metrics::s_uTrianglePeak = 0;
+float GLToy_Render_Metrics::s_fTriangleTime = 0.0f;
 
 GLToy_Vector_2 GLToy_Render::s_xClipPlanes = GLToy_Maths::ZeroVector2;
 
@@ -629,9 +631,9 @@ void GLToy_Render::Render2D()
             {
                 const GLToy_Vector_4 xColourGood( 1.0f, 1.0f, 1.0f, 1.0f );
                 const GLToy_Vector_4 xColourBad( 1.0f, 0.0f, 0.0f, 1.0f );
-                szString.SetToFormatString( "Triangles: %d / %d", GLToy_Render_Metrics::GetTriangleCount(), GLToy_Render_Metrics::uGLTOY_IDEAL_TRIANGLE_LIMIT );
+                szString.SetToFormatString( "Triangles: %d (%d) / %d", GLToy_Render_Metrics::GetTriangleCount(), GLToy_Render_Metrics::GetTrianglePeak(), GLToy_Render_Metrics::uGLTOY_IDEAL_TRIANGLE_LIMIT );
                 pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.65f - pxFont->GetHeight(),
-                    ( GLToy_Render_Metrics::GetTriangleCount() <= GLToy_Render_Metrics::uGLTOY_IDEAL_TRIANGLE_LIMIT ) ? xColourGood : xColourBad );
+                    ( GLToy_Render_Metrics::GetTrianglePeak() <= GLToy_Render_Metrics::uGLTOY_IDEAL_TRIANGLE_LIMIT ) ? xColourGood : xColourBad );
                 szString.SetToFormatString( "Lights: %d / %d", GLToy_Render_Metrics::GetLightCount(), GLToy_Render_Metrics::uGLTOY_IDEAL_LIGHT_LIMIT );
                 pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.6f - pxFont->GetHeight(),
                     ( GLToy_Render_Metrics::GetTriangleCount() <= GLToy_Render_Metrics::uGLTOY_IDEAL_TRIANGLE_LIMIT ) ? xColourGood : xColourBad );
