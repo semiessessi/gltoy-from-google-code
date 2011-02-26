@@ -39,6 +39,13 @@
 
 // X
 #include <Render/X_Parallax_Background.h>
+#include <Render/X_Starfield.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+static X_Starfield s_xStarfield;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -46,7 +53,12 @@
 
 bool X_Render::Initialise()
 {
+    GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "Background_Star_1.png" ) );
+    GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "Background_Star_2.png" ) );
+    GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "Background_Star_3.png" ) );
+    GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "Background_Star_4.png" ) );
     GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "Background_Test.png" ) );
+    X_Starfield::InitialiseData();
     return true;
 }
 
@@ -61,5 +73,8 @@ void X_Render::Render()
         X_Parallax_Background xBackground( GLToy_Hash_Constant( "Background_Test.png" ), GLToy_Hash_Constant( "Background_Test.png" ), 1.0f, 2.0f );
         xBackground.Bind();
         xBackground.Render();
+        
+        X_Starfield::Update();
+        s_xStarfield.Render();
     }
 }

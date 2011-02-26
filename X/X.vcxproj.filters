@@ -111,6 +111,9 @@
     <ClCompile Include="Independent\Render\X_Parallax_Background.cpp">
       <Filter>Independent\Render</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Render\X_Starfield.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_X.h">
@@ -168,6 +171,9 @@
       <Filter>Independent\Core</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Render\X_Parallax_Background.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\X_Starfield.h">
       <Filter>Independent\Render</Filter>
     </ClInclude>
   </ItemGroup>

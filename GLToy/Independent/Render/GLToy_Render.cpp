@@ -128,7 +128,7 @@ bool GLToy_Render::Initialise()
 	GLToy_Console::RegisterVariable( "debugclear", &g_bDebugClear );
     GLToy_Console::RegisterVariable( "showfps", &s_bDrawFPS );
     GLToy_Console::RegisterVariable( "showtimers", &s_bDrawTimers );
-    GLToy_Console::RegisterVariable( "showtimers", &s_bDrawCounters );
+    GLToy_Console::RegisterVariable( "showcounters", &s_bDrawCounters );
     GLToy_Console::RegisterVariable( "showbuffers", &s_bDrawBuffers );
     GLToy_Console::RegisterVariable( "buffer", &s_uCurrentDebugBuffer );
     GLToy_Console::RegisterVariable( "shownormals", &s_bDrawNormals );
