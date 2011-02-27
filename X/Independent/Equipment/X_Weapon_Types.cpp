@@ -31,126 +31,89 @@
 #include <Core/GLToy.h>
 
 // This file's header
-#include <Equipment/X_Equipment_Weapon.h>
+#include <Equipment/X_Weapon_Types.h>
 
 // GLToy
 #include <Maths/GLToy_Maths.h>
 #include <Core/GLToy_Timer.h>
+#include "Entity/GLToy_Entity_System.h"
 //#include <Render/GLToy_Render.h>
 //#include <Render/GLToy_Texture_System.h>
 
 // X
 #include "Entity/Enemy/X_Entity_Enemy.h"
 #include "Entity/Player/X_Entity_Player.h"
-#include <Equipment/X_Weapon_Types.h>
+#include <Entity/Projectile/X_Entity_Projectile.h>
+#include <Entity/X_EntityTypes.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-X_Weapon::X_Weapon()
-: m_bIsShooting( false )
+// ______________________________  Player Weapon Types  ____________________________________
+// _________________________________________________________________________________________
+
+X_Player_Weapon_Vulcan::X_Player_Weapon_Vulcan()
+: X_Player_Weapon()
 , m_fShootTimer( 0.0f )
 {
 }
 
-X_Weapon::~X_Weapon()
-{
-}
-
-void X_Weapon::Update()
-{
-	if( IsShooting() )
-	{
-		m_fShootTimer = m_fShootTimer + GLToy_Timer::GetFrameTime();
-	}
-}
-
-void X_Weapon::StartShooting()
-{
-	m_bIsShooting = true;
-	m_fShootTimer = 0.0f;
-}
-
-void X_Weapon::StopShooting()
-{
-	m_bIsShooting = false;
-	m_fShootTimer = 0.0f;
-}
-
-X_Entity_Player* X_Weapon::GetPlayerEntity()
-{
-	GLToy_Array<X_Entity_Player*> xList = X_Entity_Player::GetList();
-	return xList[0];
-}
-
-
-// _________________________________________________________________________________________
-// _________________________________________________________________________________________
-
-X_Player_Weapon::X_Player_Weapon() 
-: X_Weapon()
-, m_iBoost( 0 )
-{
-}
-
-X_Player_Weapon::~X_Player_Weapon()
-{
-}
-
-void X_Player_Weapon::Boost()
-{
-	m_iBoost = GLToy_Maths::Min( m_iBoost + 1, X_WEAPON_MAX_BOOST );
-}
-
-// _________________________________________________________________________________________
-// _________________________________________________________________________________________
-
-X_Enemy_Weapon::X_Enemy_Weapon( GLToy_Hash uEnemyHash )
+X_Player_Weapon_Vulcan::~X_Player_Weapon_Vulcan()
 {
 
 }
 
-X_Enemy_Weapon::~X_Enemy_Weapon()
+void X_Player_Weapon_Vulcan::StartShooting()
 {
+	X_Player_Weapon::StartShooting();
+
+	m_fShootTimer = 100.0f;
 }
 
-X_Entity_Enemy* X_Enemy_Weapon::GetEntity()
+void X_Player_Weapon_Vulcan::Update()
 {
-	GLToy_Array<X_Entity_Enemy*> xList = X_Entity_Enemy::GetList();
+	X_Player_Weapon::Update();
 	
-	for( u_int uEnemy = 0; uEnemy < xList.GetCount(); ++uEnemy )
+	X_Entity_Player* pxPlayer = GetPlayerEntity();
+
+	if( pxPlayer && IsShooting() )
 	{
-		if( xList[uEnemy]->GetHash() == m_uEnemyHash )
+		const float fShootResetMod = GetBoost() > 0 ? 0.05f : 0.1f;
+		const float fShootReset = GLToy_Maths::Max( 3.0f - GetTimeShooting(), 1.0f ) * fShootResetMod;
+
+		m_fShootTimer += GLToy_Timer::GetFrameTime();
+		if( m_fShootTimer > fShootReset )
 		{
-			return xList[uEnemy];
+			for(int i=0; i<2; ++i)
+			{ 
+				X_Entity_Projectile* pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
+				
+				GLToy_Vector_3 xPos = pxPlayer->GetPosition();
+				xPos.x += GLToy_Maths::Cos( GetTimeShooting() * 6.0f ) * 0.05f * ( i ? 1.0f : -1.0f );
+				pxProjectile->SetPosition( xPos );
+			
+				const float fSpread = GLToy_Maths::Max( 1.0f - GetTimeShooting() * 3.0f, 0.0f );
+			
+				GLToy_Vector_2 xDirection( 0.0f, 1.0f );
+			
+				//xDirection = GLToy_Maths::Rotate_2D( xDirection, fSpread * GLToy_Maths::Pi * 0.25f );
+				
+				if( i )
+				{
+					xDirection.x = -xDirection.x;
+				}
+
+				xDirection.Normalise();
+
+				pxProjectile->SetDirection( GLToy_Vector_3( xDirection.x, xDirection.y, 0.0f ) );
+			
+				pxProjectile->SetRadius( 0.015f );
+				//pxProjectile->SetTexture( uWeaponTexture );
+			}
+			m_fShootTimer = 0.0f;
 		}
 	}
-
-	return 0;
-}
-
-// _________________________________________________________________________________________
-// _________________________________________________________________________________________
-
-X_Weapon* X_Weapon_Factory::CreateWeapon( u_int uType )
-{
-	switch( uType )
-	{
-		case ePLAYER_WEAPON_VULCAN: return new X_Player_Weapon_Vulcan;
-	}
-
-	return 0;
-}
-
-X_Player_Weapon* X_Weapon_Factory::CreatePlayerWeapon( u_int uType )
-{
-	return reinterpret_cast< X_Player_Weapon* >( CreateWeapon( uType ) );
-}
-
-X_Enemy_Weapon* X_Weapon_Factory::CreateEnemyWeapon( u_int uType )
-{
-	return reinterpret_cast< X_Enemy_Weapon* >( CreateWeapon( uType ) );
 }
 
 //eof

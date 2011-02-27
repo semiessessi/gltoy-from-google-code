@@ -111,9 +111,15 @@
     <ClCompile Include="Independent\Render\X_Parallax_Background.cpp">
       <Filter>Independent\Render</Filter>
     </ClCompile>
+<<<<<<< .mine
+    <ClCompile Include="Independent\Equipment\X_Weapon_Types.cpp">
+      <Filter>Independent\Equipment</Filter>
+    </ClCompile>
+=======
     <ClCompile Include="Independent\Render\X_Starfield.cpp">
       <Filter>Independent\Render</Filter>
     </ClCompile>
+>>>>>>> .r853
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_X.h">
@@ -173,8 +179,14 @@
     <ClInclude Include="Independent\Render\X_Parallax_Background.h">
       <Filter>Independent\Render</Filter>
     </ClInclude>
+<<<<<<< .mine
+    <ClInclude Include="Independent\Equipment\X_Weapon_Types.h">
+      <Filter>Independent\Equipment</Filter>
+    </ClInclude>
+=======
     <ClInclude Include="Independent\Render\X_Starfield.h">
       <Filter>Independent\Render</Filter>
     </ClInclude>
+>>>>>>> .r853
   </ItemGroup>
 </Project>

@@ -41,6 +41,10 @@ void X_Enemy_Brain_Suicide::Update()
 
 X_Enemy_Brain_Swarm::X_Enemy_Brain_Swarm( GLToy_Hash uEnemy ) : X_Enemy_Brain( uEnemy )
 {
+	X_Entity_Player* pxPlayer = GetPlayerEntity();
+	TurnTowards( pxPlayer->GetPosition() );
+
+	m_uCurrentTarget = 0;
 }
 
 X_Enemy_Brain_Swarm::~X_Enemy_Brain_Swarm()
@@ -54,8 +58,13 @@ void X_Enemy_Brain_Swarm::Update()
 
 	GLToy_Array<X_Entity_Enemy*> xList = X_Entity_Enemy::GetList();
 	
-	GLToy_Random::
-	xList.GetCount()
+	if( GLToy_Maths::Random() < 0.2f )
+	{
+		TurnTowards( pxPlayer->GetPosition() );
+	}
+	else
+	{
+		xList.GetCount()
 
 	const float fTurnSpeed = ( pxPlayer->GetPosition() - pxEntity->GetPosition() ).Magnitude() * 2.5f;
 	if( pxEntity->GetPosition().y > pxPlayer->GetPosition().y )

@@ -34,12 +34,11 @@
 // Parents
 #include <Entity/GLToy_Entity.h>
 
-#include <Equipment/X_Equipment_Weapon.h>
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+class X_Player_Weapon;
 class X_Entity_Collectible;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,12 +62,12 @@ public:
 
 	GLToy_ForceInline void SetMovement( const GLToy_Vector_2& xMovement ) { m_xMovement = xMovement; }
 
-	void Shoot();
+	void StartShooting();
+	void StopShooting();
 	
 	static GLToy_Array< X_Entity_Player* >& GetList() { return s_xList; }
 
-    const X_Equipment_Weapon& GetWeapon() const { return m_xWeapon; }
-	void SetWeapon( const X_Equipment_Weapon& xWeapon );
+    void CreateWeapon( u_int uWeaponType );
 
 	u_int GetLives() const { return m_uLives; }
 
@@ -80,8 +79,7 @@ protected:
 	GLToy_Vector_2 m_xLerpStart;
 	float m_fAccelerationTimer;
     u_int m_uLives;
-	X_Equipment_Weapon m_xWeapon;
-	float m_fShootTimer;
+	X_Player_Weapon* m_pxWeapon;
     
 private:
 

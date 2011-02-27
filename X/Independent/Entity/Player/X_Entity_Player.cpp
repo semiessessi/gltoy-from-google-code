@@ -45,9 +45,9 @@
 // X
 #include <Core/X_Cheats.h>
 #include <Entity/X_EntityTypes.h>
-#include <Entity/Projectile/X_Entity_Projectile.h>
 #include <Entity/Collectible/X_Entity_Collectible.h>
 #include <Entity/Enemy/X_Entity_Enemy.h>
+#include "Equipment/X_Equipment_Weapon.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Static member vars
@@ -76,8 +76,7 @@ X_Entity_Player::X_Entity_Player( const GLToy_Hash uHash, const u_int uType )
 , m_xLerpStart( GLToy_Maths::ZeroVector2 )
 , m_fAccelerationTimer( 0.0f )
 , m_uLives( 3 )
-, m_xWeapon()
-, m_fShootTimer( 0.0f )
+, m_pxWeapon( 0 )
 {
     m_xBoundingSphere.SetRadius( fSIZE );
 
@@ -87,6 +86,8 @@ X_Entity_Player::X_Entity_Player( const GLToy_Hash uHash, const u_int uType )
 X_Entity_Player::~X_Entity_Player()
 {
 	s_xList.RemoveByValue( this );
+
+	delete m_pxWeapon;
 }
 
 void X_Entity_Player::Update()
@@ -116,6 +117,11 @@ void X_Entity_Player::Update()
     xPosition[ 1 ] = GLToy_Maths::Clamp( xPosition[ 1 ], -1.0f, 1.0f );
 
     SetPosition( xPosition );
+
+	if( m_pxWeapon )
+	{
+		m_pxWeapon->Update();
+	}
 
     static X_Entity_Player* ls_pxThis;
     ls_pxThis = this;
@@ -155,8 +161,6 @@ void X_Entity_Player::Update()
     {
         GLToy_State_System::ChangeState( GLToy_Hash_Constant( "GameOver" ) );
     }
-
-	m_fShootTimer = GLToy_Maths::Max( m_fShootTimer - GLToy_Timer::GetFrameTime(), 0.0f );
 
     GLToy_Parent::Update();
 
@@ -237,62 +241,41 @@ void X_Entity_Player::Collect( const X_Entity_Collectible* pxCollectible )
 
 		case X_COLLECTIBLE_TYPE_BOOST:
 		{
-			m_xWeapon.Boost( 0.5f );
+			if( m_pxWeapon )
+			{
+				m_pxWeapon->Boost();
+			}
 		}
         break;
 
 		case X_COLLECTIBLE_TYPE_WEAPON:
 		{
-			m_xWeapon.RandomGenerate();
+			// No :|
 		}
         break;
 	}
 }
 
-void X_Entity_Player::Shoot()
+void X_Entity_Player::StartShooting()
 {
-	if( m_fShootTimer == 0.0f )
+	if( m_pxWeapon )
 	{
-		const u_int uWeaponTexture = static_cast< u_int >( m_xWeapon.GetSpread() * 3.0f );
-
-		if( m_xWeapon.GetNumProjectiles() == 1 )
-		{
-			X_Entity_Projectile* pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
-            pxProjectile->SetPosition( GetPosition() );
-			
-			GLToy_Vector_2 xDirection( 0.0f, 1.0f );
-			xDirection = GLToy_Maths::Rotate_2D( xDirection, GLToy_Maths::Random( -m_xWeapon.GetSpread(), m_xWeapon.GetSpread() ) );
-			pxProjectile->SetDirection( GLToy_Vector_3( xDirection.x, xDirection.y, 0.0f ) );
-
-			pxProjectile->SetRadius( m_xWeapon.GetSize() );
-			pxProjectile->SetTexture( uWeaponTexture );
-		}
-		else
-		{
-			GLToy_Vector_3 xDirection = GLToy_Vector_3( -m_xWeapon.GetSpread(), 1.0f, 0.0f );
-			const GLToy_Vector_3 xIncrement = GLToy_Vector_3( 2.0f * m_xWeapon.GetSpread() / static_cast< float >( m_xWeapon.GetNumProjectiles() - 1 ), 0.0f, 0.0f );
-			for( int i = 0 ; i < m_xWeapon.GetNumProjectiles(); ++i )
-			{
-				X_Entity_Projectile* pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
-				pxProjectile->SetPosition( GetPosition() );
-				GLToy_Vector_3 xNormalisedDirection = xDirection;
-				xNormalisedDirection.Normalise();
-				pxProjectile->SetDirection( xNormalisedDirection );
-				xDirection += xIncrement;
-
-				pxProjectile->SetRadius( m_xWeapon.GetSize() );
-				pxProjectile->SetTexture( uWeaponTexture );
-			}
-		}
-
-		m_fShootTimer = m_xWeapon.GetRate();
+		m_pxWeapon->StartShooting();
 	}
-
 }
 
-void X_Entity_Player::SetWeapon( const X_Equipment_Weapon& xWeapon )
+void X_Entity_Player::StopShooting()
 {
-	m_xWeapon = xWeapon;
+	if( m_pxWeapon )
+	{
+		m_pxWeapon->StopShooting();
+	}
+}
+
+void X_Entity_Player::CreateWeapon( u_int uWeaponType )
+{
+	delete m_pxWeapon;
+	m_pxWeapon = X_Weapon_Factory::CreatePlayerWeapon( uWeaponType );
 }
 
 //eof

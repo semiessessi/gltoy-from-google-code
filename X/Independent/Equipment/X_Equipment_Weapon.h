@@ -1,45 +1,94 @@
 
 // Thomas Young 22.12.10
 
-#ifndef _X_EQUIPMENT_WEAPON_
-#define _X_EQUIPMENT_WEAPON_
+#ifndef _X_Weapon_
+#define _X_Weapon_
 
-#include <Maths/GLToy_Vector.h>
+#include "Core/GLToy.h"
 
-static const float fX_EQUIP_WEAPON_MIN_SIZE = 0.01f;
-static const float fX_EQUIP_WEAPON_MAX_SIZE = 0.04f;
+#define X_BRAIN_TYPE(X) public: static const u_int uTYPE_HASH = X
 
-class X_Equipment_Weapon
+#define X_WEAPON_MAX_BOOST 4
+
+class X_Entity_Enemy;
+class X_Entity_Player;
+
+class X_Weapon
 {
 	public:
 
-		X_Equipment_Weapon();
-		~X_Equipment_Weapon();
+		X_Weapon();
+		~X_Weapon();
 
-		void RandomGenerate();
-		void Boost( float fBoost );
+		virtual void StartShooting();
+		virtual void StopShooting();
+	
+		virtual void Update();
 
-		float GetDamage();
-		float GetSpeed();
-		float GetRate();
-		float GetSize();
-		float GetSpread();
-        float GetBoost() const { return m_fBoost; }
-		int GetNumProjectiles();
-		bool IsWavey();
-		
+	protected:
+
+		float GetTimeShooting() { return m_fShootTimer; }
+
+		X_Entity_Player* GetPlayerEntity();
+		bool IsShooting() const { return m_bIsShooting; }
 
 	private:
 
-		GLToy_Vector_2 m_xDamage; // Min and max damage per projectile
-		GLToy_Vector_2 m_xSpeed;  // Min and max speed per projectile
-		GLToy_Vector_2 m_xRate;   // Min and max rate of fire
-		float m_fSize;            // Projectile size
-		float m_fSpread;          // Max Spread from centre (radians)
-		int m_iProjectiles;       // Number of projectiles created per shot
-		bool m_bWavey;            // Use a sinusoidal firing pattern instead of random
-		
-		float m_fBoost;
+		bool m_bIsShooting;
+		float m_fShootTimer;
+};
+
+// _________________________________________________________________________________________
+// _________________________________________________________________________________________
+
+class X_Player_Weapon : public X_Weapon
+{
+	public:
+
+		X_Player_Weapon();
+		~X_Player_Weapon();
+
+		virtual void Boost();
+
+	protected:
+
+		int GetBoost() const { return m_iBoost; }
+
+	private:
+
+		int m_iBoost;
+};
+
+// _________________________________________________________________________________________
+// _________________________________________________________________________________________
+
+class X_Enemy_Weapon : public X_Weapon
+{
+	public:
+
+		X_Enemy_Weapon( GLToy_Hash uEnemyHash );
+		~X_Enemy_Weapon();
+
+	protected:
+
+		X_Entity_Enemy* GetEntity();
+
+	private:
+
+		GLToy_Hash m_uEnemyHash;
+};
+
+// _________________________________________________________________________________________
+// _________________________________________________________________________________________
+
+class X_Weapon_Factory
+{
+	public:
+
+		static X_Weapon* CreateWeapon( u_int uType );
+
+		static X_Player_Weapon* CreatePlayerWeapon( u_int uType );
+		static X_Enemy_Weapon* CreateEnemyWeapon( u_int uType );
 };
 
 #endif

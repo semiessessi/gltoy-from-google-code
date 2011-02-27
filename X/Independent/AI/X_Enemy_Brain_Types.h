@@ -37,6 +37,10 @@ class X_Enemy_Brain_Swarm : public X_Enemy_Brain
 
 		virtual void Update();
 
+	protected:
+
+		GLToy_Hash m_uCurrentTarget;
+
 };
 
 class X_Enemy_Brain_Dive : public X_Enemy_Brain

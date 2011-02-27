@@ -57,6 +57,7 @@
 #include <Entity/Player/X_Entity_Player.h>
 #include <Entity/Projectile/X_Entity_Projectile.h>
 #include <Equipment/X_Equipment_Weapon.h>
+#include <Equipment/X_Weapon_Types.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -70,20 +71,6 @@ static const float fX_COLLECTIBLE_INTERVAL = 10.0f;
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static void MakeWeapon()
-{
-	GLToy_Array< X_Entity_Player* >& xList = X_Entity_Player::GetList();
-	if( xList.IsEmpty() )
-	{
-		return;
-	}
-
-	X_Equipment_Weapon xWeapon;
-	xWeapon.RandomGenerate();
-    xWeapon.Boost( xList[0]->GetWeapon().GetBoost() );
-	xList[0]->SetWeapon( xWeapon );
-}
-
 X_State_Game::X_State_Game()
 : GLToy_Parent()
 , m_pxPlayer( NULL )
@@ -91,7 +78,6 @@ X_State_Game::X_State_Game()
 , m_fStateTimer( 0.0f )
 , m_pxTestSpawner( 0 )
 {
-	GLToy_Console::RegisterCommand( "makeweapon", MakeWeapon );
 }
 
 void X_State_Game::Initialise()
@@ -106,6 +92,10 @@ void X_State_Game::Initialise()
 
 	// create our player's entity
 	m_pxPlayer = static_cast< X_Entity_Player* >( GLToy_Entity_System::CreateEntity( GLToy_Hash_Constant( "Player" ), X_ENTITY_PLAYER ) );
+	if( m_pxPlayer )
+	{
+		m_pxPlayer->CreateWeapon( ePLAYER_WEAPON_VULCAN );
+	}
 
 	// Create a spawner
 	X_Enemy_Definition xTestDef;
@@ -128,8 +118,6 @@ void X_State_Game::Initialise()
 	GLToy_Light_System::AddPointLight( 1, xProps );
 
     s_uScore = 0;
-
-    MakeWeapon();
 }
 
 void X_State_Game::Shutdown()
@@ -181,11 +169,24 @@ void X_State_Game::Update()
 		m_fCollectibleTimer = fX_COLLECTIBLE_INTERVAL;
 	}
 
+	static bool bKeyDown = false;
 	GLToy_Array< X_Entity_Player* >& xList = X_Entity_Player::GetList();
 	if( GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetSpaceKey() ) )
 	{
-		xList[0]->Shoot();
+		if( !bKeyDown )
+		{
+			xList[0]->StartShooting();
+			bKeyDown = true;
+		}
     }
+	else
+	{
+		if( bKeyDown )
+		{
+			xList[0]->StopShooting();
+			bKeyDown = false;
+		}
+	}
 }
 
 void X_State_Game::Render2D() const
