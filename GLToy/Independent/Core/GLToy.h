@@ -85,6 +85,7 @@ typedef unsigned int GLToy_Hash;
 #pragma warning( disable : 4250 ) // inheritance by dominance - which I think is pretty desirable behaviour...
 #pragma warning( disable : 4258 ) // warning about for loop scopes behaving as you would expect any scope to (wtf???)
 #pragma warning( disable : 4724 ) // potential mod by zero - this should be checked with asserts - let release builds do whatever...
+#pragma warning( disable : 4985 ) // - to allow build with MS v90 toolset
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // M A C R O S
