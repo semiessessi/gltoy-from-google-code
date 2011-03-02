@@ -28,13 +28,7 @@
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/GLToy_Core_SCU.cpp>
-#include <Entity/GLToy_Entity_SCU.cpp>
-#include <Environment/GLToy_Environment_SCU.cpp>
-#include <File/GLToy_File_SCU.cpp>
-#include <Maths/GLToy_Maths_SCU.cpp>
-#include <Model/GLToy_Model_SCU.cpp>
-#include <Particle/GLToy_Particle_SCU.cpp>
-#include <Physics/GLToy_Physics_SCU.cpp>
-#include <Render/GLToy_Render_SCU.cpp>
-#include <UI/GLToy_UI_SCU.cpp>
+#include <Particle/GLToy_Particle.cpp>
+#include <Particle/GLToy_ParticleSource.cpp>
+#include <Particle/GLToy_PFX.cpp>
+#include <Particle/GLToy_PFX_System.cpp>

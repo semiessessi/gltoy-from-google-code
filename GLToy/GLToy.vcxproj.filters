@@ -576,6 +576,9 @@
     <ClCompile Include="Independent\Visibility\GLToy_Visibility_System.cpp">
       <Filter>Independent\Visibility</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Particle\GLToy_Particle_SCU.cpp">
+      <Filter>Independent\Particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
