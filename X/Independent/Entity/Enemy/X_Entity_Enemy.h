@@ -87,6 +87,8 @@ public:
     static GLToy_Array< X_Entity_Enemy* >& GetList() { return s_xList; }
 
     GLToy_Vector_3 GetVelocity() const { return GLToy_Vector_3( m_xDirection * m_fSpeed, 0.0f ); }
+	
+	void TightenCollision( const GLToy_Hash uMaterialHash );
 
 private:
 

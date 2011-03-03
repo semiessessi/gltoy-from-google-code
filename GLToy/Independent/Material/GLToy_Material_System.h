@@ -75,6 +75,8 @@ public:
     void AddTexture( const GLToy_Hash uHash, const GLToy_String& szName ) { u_int u = 0; while( ( u < 4 ) && m_auTextures[ u ] ) { ++u; } if( u < 4 ) { m_auTextures[ u ] = uHash; m_aszTextureNames[ u ] = szName; } }
 
     void Bind();
+	
+	GLToy_Hash GetTextureHash( const u_int uID ) const { return m_auTextures[ uID ]; }
 
 private:
 
