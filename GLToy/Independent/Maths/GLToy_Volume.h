@@ -174,6 +174,18 @@ public:
     GLToy_Inline GLToy_Vector_3 GetExtents() const { return m_xPointMax - m_xPointMin; }
     GLToy_Inline GLToy_Vector_3 GetHalfExtents() const { return m_xPosition - m_xPointMin; }
 
+	void SetRadius( const float fRadius )
+	{
+		m_xPointMax = m_xPosition + GLToy_Vector_3( fRadius, fRadius, fRadius );
+		m_xPointMin = m_xPosition - GLToy_Vector_3( fRadius, fRadius, fRadius );
+	}
+
+	void SetHalfExtents( const GLToy_Vector_3& xHalfExtents )
+	{
+		m_xPointMax = m_xPosition + xHalfExtents;
+		m_xPointMin = m_xPosition - xHalfExtents;
+	}
+
     bool IntersectsWithAABB( const GLToy_AABB& xAABB ) const;
 
     GLToy_AABB operator +( const GLToy_Vector_3& xVector ) const

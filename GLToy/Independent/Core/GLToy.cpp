@@ -399,6 +399,11 @@ void GLToy::Render()
     GLToy_State_System::Render();
     GLToy_Render::Render();
 
+	// debug renders go here so they don't get caught up in the deferred/lighting/transparent passes
+#ifndef GLTOY_DEMO
+	GLToy_Entity_System::DebugRender();
+#endif
+
     GLToy_Render::BeginRender2D();
 
 #ifndef GLTOY_DEMO

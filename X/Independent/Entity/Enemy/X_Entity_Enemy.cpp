@@ -72,8 +72,7 @@ X_Entity_Enemy::X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType )
 , m_uLight( GLToy_Random_Hash() )
 , m_pxBrain( 0 )
 {
-    //m_xBoundingSphere.SetRadius( fSIZE );
-	TightenCollision( xENEMY_SHIP_MATERIAL );
+    BoundsFromMaterial( xENEMY_SHIP_MATERIAL, fSIZE );
 
 	SetHealth( 40.0f );
 
@@ -173,7 +172,7 @@ void X_Entity_Enemy::Render() const
 
 void X_Entity_Enemy::RenderDeferred() const
 {
-    GLToy_Vector_3 xPosition = m_xBoundingSphere.GetPosition();
+    GLToy_Vector_3 xPosition = GetPosition();
 
     GLToy_Material* const pxMaterial = GLToy_Material_System::FindMaterial( xENEMY_SHIP_MATERIAL );
     if( pxMaterial )
@@ -197,43 +196,4 @@ void X_Entity_Enemy::RenderDeferred() const
     GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
 	
     GLToy_Render::EndSubmit();
-}
-
-void X_Entity_Enemy::TightenCollision( const GLToy_Hash uMaterialHash )
-{
-	const GLToy_Material* const pxMaterial = GLToy_Material_System::FindMaterial( uMaterialHash );
-	if( !pxMaterial )
-	{
-		m_xBoundingSphere.SetRadius( fSIZE );
-		return;
-	}
-	
-	const GLToy_Texture* const pxTexture = GLToy_Texture_System::FindTexture( pxMaterial->GetTextureHash( 0 ) );
-	if( !pxTexture )
-	{
-		m_xBoundingSphere.SetRadius( fSIZE );
-		return;
-	}
-	
-	u_int uMinX = pxTexture->GetWidth() - 1, uMaxX = 0, uMinY = pxTexture->GetHeight() - 1, uMaxY = 0;
-	for( u_int u = 0; u < pxTexture->GetWidth(); ++u )
-	for( u_int v = 0; v < pxTexture->GetHeight(); ++v )
-	{
-		// does it have non-zero alpha?
-		if( pxTexture->GetPixel( u, v ) & 0xFF000000 )
-		{
-			uMinX = ( u < uMinX ) ? u : uMinX;
-			uMaxX = ( u > uMinX ) ? u : uMaxX;
-			uMinY = ( v < uMinY ) ? v : uMinY;
-			uMaxY = ( v > uMinY ) ? v : uMaxY;
-		}
-	}
-	
-	const float fCentreX = static_cast< float >( pxTexture->GetWidth() ) * 0.5f;
-	const float fCentreY = static_cast< float >( pxTexture->GetHeight() ) * 0.5f;
-	
-	const float fDistanceX = GLToy_Maths::Max( fCentreX - static_cast< float >( uMinX ), static_cast< float >( uMaxX ) - fCentreX ) / fCentreX;
-	const float fDistanceY = GLToy_Maths::Max( fCentreY - static_cast< float >( uMinY ), static_cast< float >( uMaxY ) - fCentreY ) / fCentreY;
-	
-	m_xBoundingSphere.SetRadius( fSIZE * GLToy_Maths::Max( fDistanceX, fDistanceY ) );
 }

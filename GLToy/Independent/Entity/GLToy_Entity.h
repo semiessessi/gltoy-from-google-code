@@ -132,7 +132,7 @@ public:
 };
 
 // TODO - GLToy_Entity_OrientedSphere/OBB - I'm sure they will be needed eventually
-class GLToy_Entity_Oriented_AABB
+class GLToy_Entity_AABB
 : public GLToy_Bounded_AABB
 , public GLToy_Entity
 {
@@ -141,9 +141,35 @@ class GLToy_Entity_Oriented_AABB
 
 public:
 
-    GLToy_Entity_Oriented_AABB( const GLToy_Hash uHash, const u_int uType )
+    GLToy_Entity_AABB( const GLToy_Hash uHash, const u_int uType )
     : GLToy_Parent( uHash, uType )
     , GLToy_Bounded_AABB()
+    {
+    }
+
+    virtual ~GLToy_Entity_AABB() {}
+    
+    virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
+    virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
+
+    virtual void RenderAABB() const;
+	virtual void RenderOBB() const { RenderAABB(); }
+
+	void BoundsFromMaterial( const GLToy_Hash uMaterialHash, const float fBaseSize = 1.0f );
+
+};
+
+// TODO - GLToy_Entity_OrientedSphere/OBB - I'm sure they will be needed eventually
+class GLToy_Entity_Oriented_AABB
+: public GLToy_Entity_AABB
+{
+
+    typedef GLToy_Entity_AABB GLToy_Parent;
+
+public:
+
+    GLToy_Entity_Oriented_AABB( const GLToy_Hash uHash, const u_int uType )
+    : GLToy_Parent( uHash, uType )
     {
     }
 
@@ -152,7 +178,6 @@ public:
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream );
     virtual void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
-    virtual void RenderAABB() const;
     virtual void RenderOBB() const;
 
     virtual const GLToy_Matrix_3& GetOrientation() const { return m_xOrientation; }

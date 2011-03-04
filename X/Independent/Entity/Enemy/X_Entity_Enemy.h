@@ -62,10 +62,10 @@ class X_Enemy_Definition
 };
 
 class X_Entity_Enemy
-: public GLToy_Entity_Sphere
+: public GLToy_Entity_AABB
 {
 
-    typedef GLToy_Entity_Sphere GLToy_Parent;
+    typedef GLToy_Entity_AABB GLToy_Parent;
 
 public:
 
@@ -87,8 +87,6 @@ public:
     static GLToy_Array< X_Entity_Enemy* >& GetList() { return s_xList; }
 
     GLToy_Vector_3 GetVelocity() const { return GLToy_Vector_3( m_xDirection * m_fSpeed, 0.0f ); }
-	
-	void TightenCollision( const GLToy_Hash uMaterialHash );
 
 private:
 

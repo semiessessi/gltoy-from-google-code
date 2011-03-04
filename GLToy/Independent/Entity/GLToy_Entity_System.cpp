@@ -143,7 +143,10 @@ void GLToy_Entity_System::Render()
         GLToy_IndirectRenderFunctor< GLToy_Entity > xFunctor;
         s_xEntities.Traverse( xFunctor  );
     }
+}
 
+void GLToy_Entity_System::DebugRender()
+{
     if( s_bRenderAABBs )
     {
         GLToy_IndirectRenderAABBFunctor< GLToy_Entity > xFunctor;
