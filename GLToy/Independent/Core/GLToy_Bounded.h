@@ -95,6 +95,8 @@ public:
     GLToy_Inline GLToy_AABB& GetBB() { return m_xBoundingBox; }
     GLToy_Inline const GLToy_AABB& GetBB() const { return m_xBoundingBox; }
     GLToy_Inline void SetBB( const GLToy_AABB& xBB ) { m_xBoundingBox = xBB; }
+    GLToy_Inline float GetRadius() const { return m_xBoundingBox.GetRadius(); }
+    GLToy_Inline void SetRadius( const float fRadius ) { m_xBoundingBox.SetRadius( fRadius ); }
 
     virtual const GLToy_Vector_3& GetPosition() const { return m_xBoundingBox.GetPosition(); }
     virtual float GetDistanceToPoint( const GLToy_Vector_3& xPoint ) const

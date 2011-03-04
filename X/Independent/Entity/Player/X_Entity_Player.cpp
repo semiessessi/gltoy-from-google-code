@@ -79,7 +79,8 @@ X_Entity_Player::X_Entity_Player( const GLToy_Hash uHash, const u_int uType )
 , m_fShield( 1.0f )
 , m_pxWeapon( 0 )
 {
-    m_xBoundingSphere.SetRadius( fSIZE );
+    GLToy_Texture_System::CreateTexture( xPLAYER_SHIP_TEXTURE );
+    BoundsFromMaterial( xPLAYER_SHIP_TEXTURE, fSIZE );
 
 	s_xList.Append( this );
 }
@@ -134,7 +135,7 @@ void X_Entity_Player::Update()
     {
         GLToy_QuickFunctor( CollisionFunctor, X_Entity_Enemy*, ppxEnemy,
 
-            if( ppxEnemy && !( *ppxEnemy )->IsDead() && ( *ppxEnemy )->GetBoundingSphere().IntersectsWithSphere( ls_pxThis->m_xBoundingSphere ) )
+            if( ppxEnemy && !( *ppxEnemy )->IsDead() && ( *ppxEnemy )->GetBB().IntersectsWithAABB( ls_pxThis->GetBB() ) )
             {
                 if( !X_Cheats::IsGodMode() )
                 {
@@ -155,7 +156,7 @@ void X_Entity_Player::Update()
 
         GLToy_QuickFunctor( CollectFunctor, X_Entity_Collectible*, ppxCollectible,
 
-        if( ppxCollectible && ( *ppxCollectible )->GetBoundingSphere().IntersectsWithSphere( ls_pxThis->m_xBoundingSphere ) )
+        if( ppxCollectible && ( *ppxCollectible )->GetBoundingSphere().IntersectsWithAABB( ls_pxThis->GetBB() ) )
         {
             ls_pxThis->Collect( *ppxCollectible );
             ( *ppxCollectible )->Destroy();

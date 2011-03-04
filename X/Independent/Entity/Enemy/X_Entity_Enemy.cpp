@@ -72,6 +72,7 @@ X_Entity_Enemy::X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType )
 , m_uLight( GLToy_Random_Hash() )
 , m_pxBrain( 0 )
 {
+    GLToy_Texture_System::CreateTexture( xENEMY_SHIP_MATERIAL );
     BoundsFromMaterial( xENEMY_SHIP_MATERIAL, fSIZE );
 
 	SetHealth( 40.0f );

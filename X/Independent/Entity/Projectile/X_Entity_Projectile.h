@@ -48,10 +48,10 @@ static const u_int uX_ENTITY_PROJECTILE_NUM_TEXTURES = 5;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class X_Entity_Projectile
-: public GLToy_Entity_Sphere
+: public GLToy_Entity_AABB
 {
 
-    typedef GLToy_Entity_Sphere GLToy_Parent;
+    typedef GLToy_Entity_AABB GLToy_Parent;
 
 public:
 
@@ -63,7 +63,7 @@ public:
 	virtual void Update();
 
 	void SetDirection( const GLToy_Vector_3& xDirection ) { m_xDirection = xDirection; }
-	void SetTexture( const u_int uIndex ) { m_uTexture = uIndex; }
+	void SetTexture( const u_int uIndex );
 
 private:
 

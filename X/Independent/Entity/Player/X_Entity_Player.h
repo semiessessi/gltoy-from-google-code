@@ -46,10 +46,10 @@ class X_Entity_Collectible;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class X_Entity_Player
-: public GLToy_Entity_Sphere
+: public GLToy_Entity_AABB
 {
 
-    typedef GLToy_Entity_Sphere GLToy_Parent;
+    typedef GLToy_Entity_AABB GLToy_Parent;
 
 public:
 

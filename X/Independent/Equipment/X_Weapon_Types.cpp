@@ -109,7 +109,7 @@ void X_Player_Weapon_Vulcan::Update()
 				pxProjectile->SetDirection( GLToy_Vector_3( xDirection.x, xDirection.y, 0.0f ) );
 			
 				pxProjectile->SetRadius( 0.015f );
-				//pxProjectile->SetTexture( uWeaponTexture );
+				pxProjectile->SetTexture( 0 );
 			}
 			m_fShootTimer = 0.0f;
 		}

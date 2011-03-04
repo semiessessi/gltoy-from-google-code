@@ -49,6 +49,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static const float fSPEED = 3.0f;
+static const float fSIZE = 0.015f;
 
 static const GLToy_Hash xPROJECTILE_TEXTURE[] = { GLToy_Hash_Constant( "Sprites/Projectile/Projectile1.png" ),
 												  GLToy_Hash_Constant( "Sprites/Projectile/Projectile2.png" ),
@@ -65,7 +66,7 @@ X_Entity_Projectile::X_Entity_Projectile( const GLToy_Hash uHash, const u_int uT
 , m_uTexture( 0 )
 , m_uLight( GLToy_Random_Hash() )
 {
-    m_xBoundingSphere.SetRadius( 0.0f );
+    //m_xBoundingSphere.SetRadius( 0.0f );
 	m_xDirection[1] = 1.0f;
     GLToy_Light_PointProperties xProperties;
     xProperties.m_fSphereRadius = 0.3f;
@@ -76,6 +77,13 @@ X_Entity_Projectile::X_Entity_Projectile( const GLToy_Hash uHash, const u_int uT
 X_Entity_Projectile::~X_Entity_Projectile()
 {
     GLToy_Light_System::DestroyLight( m_uLight );
+}
+
+void X_Entity_Projectile::SetTexture( const u_int uIndex )
+{
+    m_uTexture = uIndex;
+    GLToy_Texture_System::CreateTexture( xPROJECTILE_TEXTURE[ uIndex ] );
+    BoundsFromMaterial( xPROJECTILE_TEXTURE[ uIndex ], GetRadius() );
 }
 
 void X_Entity_Projectile::Update()
@@ -101,9 +109,9 @@ void X_Entity_Projectile::Update()
     // check for collisions:
     GLToy_QuickFunctor( CollisionFunctor, X_Entity_Enemy*, ppxEnemy,
 
-        if( ppxEnemy && !( *ppxEnemy )->IsDead() && ( *ppxEnemy )->GetBoundingSphere().IntersectsWithSphere( ls_pxThis->m_xBoundingSphere ) )
+        if( ppxEnemy && !( *ppxEnemy )->IsDead() && ( *ppxEnemy )->GetBB().IntersectsWithAABB( ls_pxThis->GetBB() ) )
         {
-			GLToy_PFX_System::CreatePFX( GLToy_GetHash("Shot_Hit1" ), ls_pxThis->GetPosition(), ( *ppxEnemy )->GetVelocity() );
+			GLToy_PFX_System::CreatePFX( GLToy_GetHash("Shot_Hit1" ), ls_pxThis->GetBB().GetPosition(), ( *ppxEnemy )->GetVelocity() );
 			( *ppxEnemy )->Hurt( 0, 10.0f );
 			ls_pxThis->Destroy();
         }
@@ -133,13 +141,13 @@ void X_Entity_Projectile::RenderTransparent() const
 		
     GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
 	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
-	GLToy_Render::SubmitVertex( xPosition[ 0 ] - GetRadius(), xPosition[ 1 ] + GetRadius(), xPosition[ 2 ] ); 
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + GetRadius(), xPosition[ 2 ] ); 
     GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 0.0f ) );
-	GLToy_Render::SubmitVertex( xPosition[ 0 ] + GetRadius(), xPosition[ 1 ] + GetRadius(), xPosition[ 2 ] ); 
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + GetRadius(), xPosition[ 2 ] ); 
 	GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 1.0f ) );
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] + GetRadius(), xPosition[ 1 ] - GetRadius(), xPosition[ 2 ] );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - GetRadius(), xPosition[ 2 ] );
 	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 1.0f ) );
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] - GetRadius(), xPosition[ 1 ] - GetRadius(), xPosition[ 2 ] );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - GetRadius(), xPosition[ 2 ] );
 	
     GLToy_Render::EndSubmit();
 }
