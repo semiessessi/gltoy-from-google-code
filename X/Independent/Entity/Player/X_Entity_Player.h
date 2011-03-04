@@ -70,6 +70,7 @@ public:
     void CreateWeapon( u_int uWeaponType );
 
 	u_int GetLives() const { return m_uLives; }
+	float GetShield() const { return m_fShield; }
 
 protected:
 
@@ -79,6 +80,7 @@ protected:
 	GLToy_Vector_2 m_xLerpStart;
 	float m_fAccelerationTimer;
     u_int m_uLives;
+	float m_fShield;
 	X_Player_Weapon* m_pxWeapon;
     
 private:

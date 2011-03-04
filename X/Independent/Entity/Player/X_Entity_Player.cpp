@@ -76,6 +76,7 @@ X_Entity_Player::X_Entity_Player( const GLToy_Hash uHash, const u_int uType )
 , m_xLerpStart( GLToy_Maths::ZeroVector2 )
 , m_fAccelerationTimer( 0.0f )
 , m_uLives( 3 )
+, m_fShield( 1.0f )
 , m_pxWeapon( 0 )
 {
     m_xBoundingSphere.SetRadius( fSIZE );
@@ -107,6 +108,9 @@ void X_Entity_Player::Update()
 		m_fAccelerationTimer = 0.0f;
 	}
 
+	// SE - TODO - parameterise recharge rate - maybe allow it to be upgradable?
+	m_fShield += 0.5f * GLToy_Timer::GetFrameTime();
+	m_fShield = GLToy_Maths::Min( m_fShield, 1.0f );
 	m_fAccelerationTimer += GLToy_Timer::GetFrameTime();
 	m_xSpeed = GLToy_Maths::ClampedLerp( m_xLerpStart, m_xMovement, fACCELERATION * m_fAccelerationTimer );
 
@@ -134,7 +138,12 @@ void X_Entity_Player::Update()
             {
                 if( !X_Cheats::IsGodMode() )
                 {
-                    --( ls_pxThis->m_uLives );
+					ls_pxThis->m_fShield -= 0.5f;
+					if( ls_pxThis->m_fShield <= 0.0f )
+					{
+						ls_pxThis->m_fShield = 0.0f;
+						--( ls_pxThis->m_uLives );
+					}
                 }
 
                 ( *ppxEnemy )->Kill();

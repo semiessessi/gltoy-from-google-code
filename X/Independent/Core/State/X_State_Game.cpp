@@ -192,10 +192,13 @@ void X_State_Game::Update()
 void X_State_Game::Render2D() const
 {
     static GLToy_String szLives;
+	static GLToy_String szShield;
     static GLToy_String szScore;
     szLives.SetToFormatString( "Lives: %d", m_pxPlayer->GetLives() );
+	szShield.SetToFormatString( "Shield: %.1f%", m_pxPlayer->GetShield() );
     szScore.SetToFormatString( "Score: %d", s_uScore );
 
     GLToy_Font_System::RenderString( szLives, "FrontEnd", -GLToy_Render::GetAspectRatio(), 0.9f );
-    GLToy_Font_System::RenderString( szScore, "FrontEnd", -GLToy_Render::GetAspectRatio(), 0.8f );
+	GLToy_Font_System::RenderString( szShield, "FrontEnd", -GLToy_Render::GetAspectRatio(), 0.8f );
+    GLToy_Font_System::RenderString( szScore, "FrontEnd", -GLToy_Render::GetAspectRatio(), 0.7f );
 }
