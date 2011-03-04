@@ -167,7 +167,7 @@ void GLToy::UpdateBuffers()
 
 bool GLToy::Initialise()
 {
-    GLToy_DebugOutput( "\r\nGLToy::Initialise() - Initialising systems:\r\n" );
+    GLToy_DebugOutput_Release( "\r\nGLToy::Initialise() - Initialising systems:\r\n" );
 
     GLToy::GiveFocus();
 
@@ -246,7 +246,7 @@ void GLToy::Shutdown()
 {
     Project_Shutdown();
 
-    GLToy_DebugOutput( "\r\nGLToy::Shutdown() - Shutting down systems.\r\n" );
+    GLToy_DebugOutput_Release( "\r\nGLToy::Shutdown() - Shutting down systems.\r\n" );
 #ifndef GLTOY_DEMO
     GLToy_PFX_System::Shutdown();
     GLToy_Entity_System::Shutdown();
@@ -284,7 +284,7 @@ void GLToy::Shutdown()
 
     GLToy_Memory::Shutdown();
 
-    GLToy_DebugOutput( "\r\nGLToy::Shutdown() - Completed successfully.\r\n" );
+    GLToy_DebugOutput_Release( "\r\nGLToy::Shutdown() - Completed successfully.\r\n" );
 }
 
 bool GLToy::MainLoop()

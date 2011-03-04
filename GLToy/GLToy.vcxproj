@@ -657,6 +657,7 @@
     </ClCompile>
     <ClCompile Include="Independent\Model\GLToy_Model_SCU.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Havok)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (No Physics)|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Independent\Particle\GLToy_Particle_SCU.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Crinkler + No Havok)|Win32'">true</ExcludedFromBuild>
