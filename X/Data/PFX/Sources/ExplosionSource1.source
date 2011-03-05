@@ -1,5 +1,5 @@
 Particle=Explosion1
-ReleaseRate=500
+ReleaseRate=100
 Lifetime=0.2
 Speed=0.8
 RandomDirection=true
