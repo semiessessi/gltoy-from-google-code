@@ -745,7 +745,17 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (Havok)|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (No Physics)|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Independent\Sound\GLToy_Sound_System.cpp" />
+    <ClCompile Include="Independent\Sound\GLToy_Sound_System.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (Bullet)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (No Memory Debugging)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Crinkler + No Havok)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Demo)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (No Physics)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Havok)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (Havok)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (No Physics)|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Independent\Test\GLToy_Test_System.cpp" />
     <ClCompile Include="Independent\UI\GLToy_UI_SCU.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Havok)|Win32'">true</ExcludedFromBuild>
@@ -1972,6 +1982,7 @@
   <ItemGroup>
     <ClInclude Include="..\stb_image\stb_image.h" />
     <ClInclude Include="Independent\Core\Data Structures\GLToy_AlignedPool.h" />
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_ClassFactory.h" />
     <ClInclude Include="Independent\Core\Data Structures\GLToy_HashMap.h" />
     <ClInclude Include="Independent\Core\Data Structures\GLToy_Pool.h" />
     <ClInclude Include="Independent\Core\GLToy_Memory.h" />

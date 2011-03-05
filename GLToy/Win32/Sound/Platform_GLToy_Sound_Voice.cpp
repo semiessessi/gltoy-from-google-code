@@ -78,8 +78,6 @@ void Platform_GLToy_Sound_Voice::Play()
 		return;
 	}
 
-	
-
 	XAUDIO2_BUFFER xBuffer;
 	memset( &xBuffer, 0, sizeof( XAUDIO2_BUFFER ) );
 	
@@ -124,7 +122,7 @@ void Platform_GLToy_Sound_Voice::Update()
 		afMatrix[ uInChan ] = GetSpeakerAmplitude( uInChan );
 	}
 
-	m_pxSourceVoice->SetOutputMatrix( 0, uNumInChans, 2, afMatrix );
+  	m_pxSourceVoice->SetOutputMatrix( 0, uNumInChans, 2, afMatrix );
 }
 
 // eof

@@ -68,7 +68,7 @@ GLToy_Vector_4 GLToy_Light_System::s_xFogColour = GLToy_Vector_4( 0.4f, 0.3f, 0.
 bool GLToy_Light_System::Initialise()
 {
     GLToy_Console::RegisterCommand( "spawn.pointlight", SpawnPointLight_Console );
-	GLToy_Console::RegisterCommand( "test.directionallight", TestDirectionalLight_Console );
+	GLToy_Console::RegisterCommand( "test.dlight", TestDirectionalLight_Console );
 
     GLToy_Console::RegisterVariable( "render.lightboxes", &s_bRenderLightBoxes );
 

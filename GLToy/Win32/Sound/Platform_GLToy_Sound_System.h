@@ -49,18 +49,6 @@
 // F O R W A R D   D E C L A R A T I O N S 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-/*struct IUnknown;
-struct IXAPO;
-struct IXAudio2;
-struct IXAudio2MasteringVoice;
-struct IXAudio2SourceVoice;
-struct IXAudio2SubmixVoice;
-struct IXAudio2Voice;
-struct IXAudio2VoiceCallback;
-struct tWAVEFORMATEX;
-typedef tWAVEFORMATEX WAVEFORMATEX;
-struct XAUDIO2FX_REVERB_PARAMETERS;*/
-
 class GLToy_Sound_Voice;
 class Platform_GLToy_Sound_Voice;
 class GLToy_WaveFile;

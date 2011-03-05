@@ -1016,6 +1016,9 @@
     <ClInclude Include="Independent\Render\GLToy_Render_Metrics.h">
       <Filter>Independent\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_ClassFactory.h">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
     <ClInclude Include="Independent\UI\GLToy_Widget_StatBar.h">
       <Filter>Independent\UI</Filter>
     </ClInclude>

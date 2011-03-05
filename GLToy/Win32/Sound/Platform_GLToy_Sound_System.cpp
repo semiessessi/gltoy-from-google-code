@@ -41,6 +41,10 @@
 // Xaudio
 #include <xaudio2.h>
 
+
+// Define this to enable xaudio debugging
+// #define GLTOY_XAUDIO_DEBUG
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // S T A T I C   M E M B E R   V A R I A B L E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,11 +115,13 @@ bool Platform_GLToy_Sound_System::Initialise_XAudio2()
     s_pxEngine->SetDebugConfiguration( &xDebugConfig );
 
 	s_pxMasteringVoice = NULL;
-	xResult = s_pxEngine->CreateMasteringVoice( &s_pxMasteringVoice, 2, uGLTOY_XAUDIO_SAMPLE_RATE );
+	xResult = s_pxEngine->CreateMasteringVoice( &s_pxMasteringVoice, uGLTOY_XAUDIO_CHANNELS, uGLTOY_XAUDIO_SAMPLE_RATE );
 
 	if( FAILED( xResult ) || !s_pxMasteringVoice )
 	{
-		xResult = s_pxEngine->CreateMasteringVoice( &s_pxMasteringVoice, XAUDIO2_DEFAULT_CHANNELS, uGLTOY_XAUDIO_SAMPLE_RATE );
+		// We couldn't create a mastering voice with the properties we wanted!
+		// Try just letting the sound card work out what it supports
+		xResult = s_pxEngine->CreateMasteringVoice( &s_pxMasteringVoice, XAUDIO2_DEFAULT_CHANNELS );
 		if( FAILED( xResult ) || !s_pxMasteringVoice )
 		{
 			s_pxEngine->Release();
@@ -171,6 +177,14 @@ bool Platform_GLToy_Sound_System::Initialise_LoadSounds()
 
 void Platform_GLToy_Sound_System::Shutdown()
 {
+	for( int iVoice = 0; iVoice < uGLTOY_XAUDIO_MAX_VOICES; ++iVoice )
+	{
+		if( s_apxVoices[ iVoice ] )
+		{
+			DestroyVoice( iVoice );
+		}
+	}
+
 	if( s_pxMasteringVoice )
 	{
 		s_pxMasteringVoice->DestroyVoice();

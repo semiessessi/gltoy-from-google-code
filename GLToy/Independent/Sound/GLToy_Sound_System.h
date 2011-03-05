@@ -59,7 +59,7 @@ class GLToy_Sound_Voice
 		enum SPEAKER_MAPPING
 		{
 			SM_DIRECT,
-			SM_SPACIAL
+			SM_SPATIAL
 		};
 
 		GLToy_Sound_Voice( GLToy_Hash uWave );
@@ -74,6 +74,7 @@ class GLToy_Sound_Voice
 		void SetSpeakerMapping( SPEAKER_MAPPING eMapping ) { m_eSpeakerMapping = eMapping; }
 		void SetPosition( const GLToy_Vector_3& xPosition ) { m_xPosition = xPosition; m_bIsPositional = true; }
 		void SetRadius( const float fRadius ) { m_fRadius = fRadius; }
+		void SetAmplitude( const float fAmplitude ) { m_fAmplitude = fAmplitude; }
 
 		bool IsPositional() const { return m_bIsPositional; }
 
@@ -87,7 +88,8 @@ class GLToy_Sound_Voice
 		bool m_bIsPositional;
 		GLToy_Vector_3 m_xPosition;
 		float m_fRadius;
-				
+		float m_fAmplitude;
+
 		bool m_bReleased;
 		
 };

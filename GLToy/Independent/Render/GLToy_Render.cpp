@@ -637,6 +637,8 @@ void GLToy_Render::Render2D()
                 szString.SetToFormatString( "Lights: %d / %d", GLToy_Render_Metrics::GetLightCount(), GLToy_Render_Metrics::uGLTOY_IDEAL_LIGHT_LIMIT );
                 pxFont->RenderString( szString, GLToy_Render::GetMaxX() - szString.GetLength() * pxFont->GetWidth(), 0.6f - pxFont->GetHeight(),
                     ( GLToy_Render_Metrics::GetTriangleCount() <= GLToy_Render_Metrics::uGLTOY_IDEAL_TRIANGLE_LIMIT ) ? xColourGood : xColourBad );
+
+			
             }
 
             if( s_bDrawBuffers && HasDeferredBuffer() )
