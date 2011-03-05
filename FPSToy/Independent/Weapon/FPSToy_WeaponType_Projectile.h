@@ -52,6 +52,7 @@ public:
     , m_fRadius( 0.0f )
     , m_uSpriteHash( uGLTOY_BAD_HASH )
     , m_uDetonationPFXHash( uGLTOY_BAD_HASH )
+	, m_uDetonationSound( GLToy_Hash_Constant( "Explode" ) )
     , m_uFlags( 0 )
     {
         m_bMaintainSpeed = true;
@@ -68,6 +69,7 @@ public:
     GLToy_Inline bool GetMaintainSpeed() const { return m_bMaintainSpeed; }
     GLToy_Inline bool GetContactDetonation() const { return m_bContactDetonation; }
     GLToy_Inline bool GetEmitLight() const { return m_bEmitLight; }
+	GLToy_Inline GLToy_Hash GetDetonationSound() const { return m_uDetonationSound; }
 
     GLToy_Inline void SetInitialSpeed( const float fSpeed ) { m_fInitialSpeed = fSpeed; }
     GLToy_Inline void SetRadius( const float fRadius ) { m_fRadius = fRadius; }
@@ -83,6 +85,7 @@ protected:
     float m_fRadius;
     GLToy_Hash m_uSpriteHash;
     GLToy_Hash m_uDetonationPFXHash;
+	GLToy_Hash m_uDetonationSound;
     
     union
     {

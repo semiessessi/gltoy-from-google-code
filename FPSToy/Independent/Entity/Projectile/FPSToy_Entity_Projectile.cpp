@@ -38,6 +38,7 @@
 #include <Particle/GLToy_PFX_System.h>
 #include <Physics/GLToy_Physics_Object.h>
 #include <Physics/GLToy_Physics_System.h>
+#include <Sound/GLToy_Sound_System.h>
 #include <Render/GLToy_Light_System.h>
 #include <Render/GLToy_Sprite.h>
 
@@ -201,6 +202,17 @@ void FPSToy_Entity_Projectile::Detonate( const GLToy_Hash uVictimEntityHash )
         GLToy_Light_System::DestroyLight( m_uLightHash );
         m_uLightHash = uGLTOY_BAD_HASH;
     }
+
+	GLToy_Handle xVoice = GLToy_Sound_System::CreateVoice( pxProjectileType->GetDetonationSound() );
+	GLToy_Sound_Voice* pxVoice = GLToy_Sound_System::GetVoice( xVoice );
+	if( pxVoice )
+	{
+		pxVoice->SetSpeakerMapping( GLToy_Sound_Voice::SM_SPATIAL );
+		pxVoice->SetPosition( GetPosition() );
+		pxVoice->SetRadius( 600.0f );
+		pxVoice->Play();
+		pxVoice->Release();
+	}
 
     GLToy_Entity_System::DestroyEntity( GetHash() );
 }
