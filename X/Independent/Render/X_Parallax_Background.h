@@ -55,15 +55,19 @@ public:
     , m_uTexture2( uTexture2 )
     , m_xParams( fDistance1, fDistance2, 0.0f, 0.0f )
     {
+        BindUniform( "xParams", &m_xParams );
+        BindTexture( "xTexture1", m_uTexture1, 0 );
+        BindTexture( "xTexture2", m_uTexture2, 1 );
     }
 
-    void Bind();
+    virtual void Render() const;
+    virtual void RenderTransparent() const;
 
 private:
 
     const GLToy_Hash m_uTexture1;
     const GLToy_Hash m_uTexture2;
-    GLToy_Vector_4 m_xParams;
+    mutable GLToy_Vector_4 m_xParams;
 };
 
 #endif

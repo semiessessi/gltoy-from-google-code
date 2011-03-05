@@ -35,15 +35,24 @@
 
 // GLToy
 #include <Core/GLToy_Timer.h>
+#include <Render/GLToy_Render.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void X_Parallax_Background::Bind()
+void X_Parallax_Background::Render() const
+{
+    GLToy_Render::RegisterTransparent( this, m_xParams.y );
+}
+
+void X_Parallax_Background::RenderTransparent() const
 {
     m_xParams.z = GLToy_Timer::GetTime();
-    BindUniform( "xParams", &m_xParams );
-    BindTexture( "xTexture1", m_uTexture1, 0 );
-    BindTexture( "xTexture2", m_uTexture2, 1 );
+
+    GLToy_Render::SetBlendFunction( BLEND_ONE, BLEND_ONE );
+
+    GLToy_Parent::Render();
+
+    GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
 }

@@ -46,6 +46,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static X_Starfield s_xStarfield;
+static X_Parallax_Background s_xParallaxBackground( GLToy_Hash_Constant( "Background_Test.png" ), GLToy_Hash_Constant( "Background_Test.png" ), 1.0f, 2.0f );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -58,7 +59,9 @@ bool X_Render::Initialise()
     GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "Background_Star_3.png" ) );
     GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "Background_Star_4.png" ) );
     GLToy_Texture_System::CreateTexture( GLToy_Hash_Constant( "Background_Test.png" ) );
+    
     X_Starfield::InitialiseData();
+
     return true;
 }
 
@@ -69,12 +72,10 @@ void X_Render::Shutdown()
 void X_Render::Render()
 {
     if( GLToy_State_System::GetState() == GLToy_Hash_Constant( "Game" ) )
-    {
-        X_Parallax_Background xBackground( GLToy_Hash_Constant( "Background_Test.png" ), GLToy_Hash_Constant( "Background_Test.png" ), 1.0f, 2.0f );
-        xBackground.Bind();
-        xBackground.Render();
-        
+    {        
         X_Starfield::Update();
         s_xStarfield.Render();
+
+        s_xParallaxBackground.Render();
     }
 }

@@ -131,7 +131,7 @@ void GLToy_Raytrace_Fullscreen::Render() const
     }
 }
 
-void GLToy_Raytrace_Fullscreen::BindTexture( const GLToy_String& szUniformName, const GLToy_Hash uTextureHash, const u_int uTextureUnit )
+void GLToy_Raytrace_Fullscreen::BindTexture( const GLToy_String& szUniformName, const GLToy_Hash uTextureHash, const u_int uTextureUnit ) const
 {
     GLToy_Assert( uTextureUnit < 8, "Texture unit %d is not valid", uTextureUnit );
 
@@ -140,7 +140,7 @@ void GLToy_Raytrace_Fullscreen::BindTexture( const GLToy_String& szUniformName, 
     m_axTextures[ uTextureUnit ].Second() = szUniformName;
 }
 
-void GLToy_Raytrace_Fullscreen::BindFrameBufferTexture( const GLToy_String& szUniformName, const u_int uTextureID, const u_int uTextureUnit )
+void GLToy_Raytrace_Fullscreen::BindFrameBufferTexture( const GLToy_String& szUniformName, const u_int uTextureID, const u_int uTextureUnit ) const
 {
     GLToy_Assert( uTextureUnit < 8, "Texture unit %d is not valid", uTextureUnit );
 
@@ -149,7 +149,7 @@ void GLToy_Raytrace_Fullscreen::BindFrameBufferTexture( const GLToy_String& szUn
     m_axTextures[ uTextureUnit ].Second() = szUniformName;
 }
 
-void GLToy_Raytrace_Fullscreen::BindUniform( const GLToy_String& szUniformName, const GLToy_Vector_4* const pxVector )
+void GLToy_Raytrace_Fullscreen::BindUniform( const GLToy_String& szUniformName, const GLToy_Vector_4* const pxVector ) const
 {
 	const GLToy_Hash uHash = szUniformName.GetHash();
 	if( pxVector && !m_xVector4Uniforms.FindData( uHash ) )

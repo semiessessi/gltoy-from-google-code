@@ -61,15 +61,15 @@ public:
 
     virtual void Render() const;
 
-    void BindTexture( const GLToy_String& szUniformName, const GLToy_Hash uTextureHash, const u_int uTextureUnit = 0 );
-    void BindFrameBufferTexture( const GLToy_String& szUniformName, const u_int uTextureID, const u_int uTextureUnit = 0 );
-	void BindUniform( const GLToy_String& szUniformName, const GLToy_Vector_4* const pxVector );
+    void BindTexture( const GLToy_String& szUniformName, const GLToy_Hash uTextureHash, const u_int uTextureUnit = 0 ) const;
+    void BindFrameBufferTexture( const GLToy_String& szUniformName, const u_int uTextureID, const u_int uTextureUnit = 0 ) const;
+	void BindUniform( const GLToy_String& szUniformName, const GLToy_Vector_4* const pxVector ) const;
 
 private:
 
     GLToy_Hash m_uShader;
-    GLToy_Pair< GLToy_Pair< GLToy_Hash, u_int >, GLToy_String > m_axTextures[ 8 ];
-	GLToy_HashMap< Vector4Uniform > m_xVector4Uniforms;
+    mutable GLToy_Pair< GLToy_Pair< GLToy_Hash, u_int >, GLToy_String > m_axTextures[ 8 ];
+	mutable GLToy_HashMap< Vector4Uniform > m_xVector4Uniforms;
     const bool m_bDepthBuffered;
 
 };
