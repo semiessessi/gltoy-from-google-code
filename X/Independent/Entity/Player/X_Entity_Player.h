@@ -70,7 +70,7 @@ public:
     void CreateWeapon( u_int uWeaponType );
 
 	u_int GetLives() const { return m_uLives; }
-	float GetShield() const { return m_fShield; }
+	const float& GetShield() const { return m_fShield; }
 
 protected:
 

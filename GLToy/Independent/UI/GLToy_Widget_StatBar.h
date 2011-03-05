@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,31 +24,49 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_WIDGETTYPES_H_
-#define __GLTOY_WIDGETTYPES_H_
+#ifndef __GLTOY_WIDGET_STATBAR_H_
+#define __GLTOY_WIDGET_STATBAR_H_
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// I N C L U D E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+// Parents
+#include <UI/GLToy_Widget_Image.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-enum GLToy_WidgetType
+// SE - TODO - extend to allow dials, expanding icons and other styles of stat 'meter'
+
+class GLToy_Widget_StatBar
+: public GLToy_Widget_Image
 {
-    WIDGET_NULL = 0,
 
-    // "normal" widgets
-    WIDGET_IMAGE,
-    WIDGET_IMAGEBUTTON,
-    WIDGET_LABEL,
-    WIDGET_STATBAR,
+    typedef GLToy_Widget_Image GLToy_Parent;
 
-    // add new widgets here unless they are especially strange...
+public:
 
-    // "special" widgets
-    WIDGET_EDITORMENU = 128,
+    GLToy_Widget_StatBar( const GLToy_WidgetType eType, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f )
+    : GLToy_Parent( eType, fX, fY, fWidth, fHeight )
+    , m_pfStat( NULL )
+    , m_fInverseMax( 1.0f )
+    {
+    }
 
-    // ... new special or one off widgets go here
+    virtual ~GLToy_Widget_StatBar() {}
 
-    NUM_WIDGET_TYPES
+    virtual void Render2D() const;
+
+    GLToy_ForceInline void SetStat( const float& fStat, const float fMax = 1.0f ) { m_pfStat = &fStat; m_fInverseMax = 1.0f / fMax; }
+    GLToy_ForceInline void SetStat( const float* const pfStat, const float fMax = 1.0f ) { m_pfStat = pfStat; m_fInverseMax = 1.0f / fMax; }
+
+protected:
+
+    const float* m_pfStat;
+    float m_fInverseMax;
+
 };
 
 #endif

@@ -579,6 +579,9 @@
     <ClCompile Include="Independent\Particle\GLToy_Particle_SCU.cpp">
       <Filter>Independent\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\UI\GLToy_Widget_StatBar.cpp">
+      <Filter>Independent\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">
@@ -1012,6 +1015,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Render\GLToy_Render_Metrics.h">
       <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\UI\GLToy_Widget_StatBar.h">
+      <Filter>Independent\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

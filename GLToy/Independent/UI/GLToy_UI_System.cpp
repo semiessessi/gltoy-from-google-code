@@ -50,6 +50,7 @@
 #include <UI/GLToy_Widget_Image.h>
 #include <UI/GLToy_Widget_ImageButton.h>
 #include <UI/GLToy_Widget_Label.h>
+#include <UI/GLToy_Widget_StatBar.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
@@ -97,6 +98,10 @@ void GLToy_UI_System::Shutdown()
 
 void GLToy_UI_System::Render2D()
 {
+    // reset the depth functions etc.
+    GLToy_Render::ClearDepth( 1.0f );
+    GLToy_Render::DisableDepthTesting();
+
     GLToy_IndirectRender2DFunctor< GLToy_Widget > xWidgetFunctor;
     GLToy_IndirectRender2DFunctor< GLToy_Dialog > xDialogFunctor;
     s_xWidgets.Traverse( xWidgetFunctor );    
@@ -106,10 +111,6 @@ void GLToy_UI_System::Render2D()
     {
         s_pxCurrentModalDialog->Render2D();
     }
-
-    // reset the depth functions etc.
-    GLToy_Render::ClearDepth( 1.0f );
-    GLToy_Render::DisableDepthTesting();
 
     // render the pointer
     if( s_bShowPointer )
@@ -168,6 +169,17 @@ GLToy_Widget_Label* GLToy_UI_System::CreateLabel( const GLToy_String& szLabel, c
     return pxLabel;
 }
 
+GLToy_Widget_Image* GLToy_UI_System::CreateImage( const GLToy_String& szTexture, const float fX, const float fY, const float fWidth, const float fHeight )
+{
+    GLToy_Widget_Image* pxImage =
+        static_cast< GLToy_Widget_Image* >(
+            CreateWidget( WIDGET_IMAGE, fX, fY, fWidth, fHeight ) );
+
+    pxImage->SetTexture( szTexture );
+
+    return pxImage;
+}
+
 GLToy_Widget_ImageButton* GLToy_UI_System::CreateImageButton(
     const GLToy_String& szTexture,
     const GLToy_String& szLabel,
@@ -184,6 +196,18 @@ GLToy_Widget_ImageButton* GLToy_UI_System::CreateImageButton(
     pxImageButton->SetCallback( pfnCallback );
 
     return pxImageButton;
+}
+
+GLToy_Widget_StatBar* GLToy_UI_System::CreateStatBar( const GLToy_String& szTexture, const float& fStat, const float fMax, const float fX, const float fY, const float fWidth, const float fHeight )
+{
+    GLToy_Widget_StatBar* pxBar =
+        static_cast< GLToy_Widget_StatBar* >(
+            CreateWidget( WIDGET_STATBAR, fX, fY, fWidth, fHeight ) );
+
+    pxBar->SetTexture( szTexture );
+    pxBar->SetStat( fStat, fMax );
+
+    return pxBar;
 }
 
 GLToy_Dialog* GLToy_UI_System::CreateDialog(
@@ -274,6 +298,12 @@ GLToy_Widget* GLToy_UI_System::CreateWidget(
         case WIDGET_LABEL:
         {
             pxWidget = new GLToy_Widget_Label( eType, fX, fY, fWidth, fHeight );
+            break;
+        }
+
+        case WIDGET_STATBAR:
+        {
+            pxWidget = new GLToy_Widget_StatBar( eType, fX, fY, fWidth, fHeight );
             break;
         }
 

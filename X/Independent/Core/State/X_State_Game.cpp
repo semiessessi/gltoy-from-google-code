@@ -45,6 +45,8 @@
 #include <Render/GLToy_Render.h>
 #include <Render/Font/GLToy_Font.h>
 #include <UI/GLToy_UI_System.h>
+#include <UI/GLToy_Widget_StatBar.h>
+#include <UI/GLToy_WidgetTypes.h>
 
 // X
 #include "AI/X_Enemy_Brain.h"
@@ -117,6 +119,8 @@ void X_State_Game::Initialise()
 	xProps.m_xPosition.z -= 1.0f;
 	GLToy_Light_System::AddPointLight( 1, xProps );
 
+    GLToy_UI_System::CreateStatBar( "BarTest.ptx", m_pxPlayer->GetShield(), 1.0f, 0.5f, -0.875f, 0.5f, 0.1f );
+
     s_uScore = 0;
 }
 
@@ -126,6 +130,8 @@ void X_State_Game::Shutdown()
 	GLToy_Entity_System::DestroyEntities();
 	m_pxPlayer = NULL;
 	delete m_pxTestSpawner;
+
+    GLToy_UI_System::ClearWidgets();
 }
 
 void X_State_Game::Update()

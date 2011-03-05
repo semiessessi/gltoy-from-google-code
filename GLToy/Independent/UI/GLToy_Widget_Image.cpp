@@ -54,7 +54,7 @@ void GLToy_Widget_Image::Render2D() const
 
     GLToy_Render::StartSubmittingQuads();
     GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-    GLToy_Render::SubmitTexturedQuad2D( GetX(), GetY(), GetWidth(), GetHeight() );
+    GLToy_Render::SubmitTexturedQuad2D( GetX(), GetY(), GetX() + GetWidth(), GetY() + GetHeight() );
     GLToy_Render::EndSubmit();
 
     GLToy_Render::DisableBlending();

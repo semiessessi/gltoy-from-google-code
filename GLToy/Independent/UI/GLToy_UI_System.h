@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -47,6 +47,7 @@ class GLToy_Widget;
 class GLToy_Widget_Image;
 class GLToy_Widget_ImageButton;
 class GLToy_Widget_Label;
+class GLToy_Widget_StatBar;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -78,6 +79,8 @@ public:
         void ( * const pfnCallback )( void* const pData ),
         const float fX, const float fY,
         const float fWidth, const float fHeight );
+
+    static GLToy_Widget_StatBar* CreateStatBar( const GLToy_String& szTexture, const float& fStat, const float fMax, const float fX, const float fY, const float fWidth, const float fHeight );
 
     static GLToy_Dialog* CreateDialog( const GLToy_DialogStyle ucStyle, const float fX = 0.0f, const float fY = 0.0f, const float fWidth = 0.1f, const float fHeight = 0.1f );
     static void DestroyCurrentModalDialog();

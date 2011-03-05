@@ -34,3 +34,4 @@
 #include <UI/GLToy_Widget_Image.cpp>
 #include <UI/GLToy_Widget_ImageButton.cpp>
 #include <UI/GLToy_Widget_Label.cpp>
+#include <UI/GLToy_Widget_StatBar.cpp>

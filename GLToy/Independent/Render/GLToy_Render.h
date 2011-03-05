@@ -319,7 +319,7 @@ public:
     static void StartSubmittingPolygon();
     static void EndSubmit();
 
-    static void SubmitVertex( const float fX, const float fY, const float fZ );
+    static void SubmitVertex( const float fX, const float fY, const float fZ = 0.0f );
     static void SubmitVertex( const GLToy_Vector_2& xVertex );
     static void SubmitVertex( const GLToy_Vector_3& xVertex );
     static void SubmitNormal( const GLToy_Vector_3& xNormal );

@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,31 +24,39 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLTOY_WIDGETTYPES_H_
-#define __GLTOY_WIDGETTYPES_H_
-
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
+// I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-enum GLToy_WidgetType
+#include <Core/GLToy.h>
+
+// this file's header
+#include <UI/GLToy_Widget_StatBar.h>
+
+// GLToy
+#include <Render/GLToy_Render.h>
+#include <Render/GLToy_Texture_System.h>
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F U N C T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+void GLToy_Widget_StatBar::Render2D() const
 {
-    WIDGET_NULL = 0,
+    // render a bar behind the image
+    // SE - TODO - make it parameterisable
 
-    // "normal" widgets
-    WIDGET_IMAGE,
-    WIDGET_IMAGEBUTTON,
-    WIDGET_LABEL,
-    WIDGET_STATBAR,
+    GLToy_Render_Metrics::IncrementTriangleCount( 2 );
 
-    // add new widgets here unless they are especially strange...
+    //GLToy_Render::DisableDepthTesting();
 
-    // "special" widgets
-    WIDGET_EDITORMENU = 128,
+    GLToy_Texture_System::BindWhite();
+    GLToy_Render::StartSubmittingQuads();
+    GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    GLToy_Render::SubmitTexturedQuad2D( GetX(), GetY(), GetX() + GetWidth() * ( *m_pfStat ) * m_fInverseMax, GetY() + GetHeight() );
+    GLToy_Render::EndSubmit();
 
-    // ... new special or one off widgets go here
+    GLToy_Parent::Render2D();
 
-    NUM_WIDGET_TYPES
-};
-
-#endif
+    //GLToy_Render::EnableDepthTesting();
+}
