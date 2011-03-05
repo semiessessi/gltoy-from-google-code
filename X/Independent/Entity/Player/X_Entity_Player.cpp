@@ -143,7 +143,10 @@ void X_Entity_Player::Update()
 					if( ls_pxThis->m_fShield <= 0.0f )
 					{
 						ls_pxThis->m_fShield = 0.0f;
-						--( ls_pxThis->m_uLives );
+						if( ls_pxThis->m_uLives != 0xFFFFFFFF )
+                        {
+                            --( ls_pxThis->m_uLives );
+                        }
 					}
                 }
 
