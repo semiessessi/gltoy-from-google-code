@@ -36,6 +36,7 @@ X_Enemy_Spawner* X_Enemy_Spawner_Factory::CreateSpawner( GLToy_Hash uType, const
 	{
 		CASE( X_Spawner_Interval );
 		CASE( X_Spawner_Sweep );
+        CASE( X_Spawner_Scatter );
 	}
 
 	#undef CASE

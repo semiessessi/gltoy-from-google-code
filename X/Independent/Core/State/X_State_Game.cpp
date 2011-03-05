@@ -78,8 +78,11 @@ X_State_Game::X_State_Game()
 , m_pxPlayer( NULL )
 , m_fCollectibleTimer( 0.0f )
 , m_fStateTimer( 0.0f )
-, m_pxTestSpawner( 0 )
 {
+    for( u_int u = 0; u < uNUM_SPAWNERS; ++u )
+    {
+        m_apxSpawners[ u ] = NULL;
+    }
 }
 
 void X_State_Game::Initialise()
@@ -102,7 +105,7 @@ void X_State_Game::Initialise()
 	// Create a spawner
 	X_Enemy_Definition xTestDef;
 	xTestDef.m_uBrain = eENEMY_BRAIN_DIVE;
-	m_pxTestSpawner = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SWEEP, xTestDef );
+	m_apxSpawners[ 0 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SWEEP, xTestDef );
 
 	m_fCollectibleTimer = fX_COLLECTIBLE_INTERVAL * 2.0f;
 	m_fStateTimer = 0.0f;
@@ -129,20 +132,60 @@ void X_State_Game::Shutdown()
     GLToy_Light_System::Reset();
 	GLToy_Entity_System::DestroyEntities();
 	m_pxPlayer = NULL;
-	delete m_pxTestSpawner;
+	for( u_int u = 0; u < uNUM_SPAWNERS; ++u )
+    {
+        delete m_apxSpawners[ u ];
+        m_apxSpawners[ u ] = NULL;
+    }
 
     GLToy_UI_System::ClearWidgets();
 }
 
 void X_State_Game::Update()
 {
-    if( m_pxTestSpawner )
-	{
-		m_pxTestSpawner->Update();
-	}
+    for( u_int u = 0; u < uNUM_SPAWNERS; ++u )
+    {
+        if( m_apxSpawners[ u ] )
+	    {
+		    m_apxSpawners[ u ]->Update();
+	    }
+    }
 
 	m_fCollectibleTimer -= GLToy_Timer::GetFrameTime();
     m_fStateTimer += GLToy_Timer::GetFrameTime();
+
+    if( !( m_apxSpawners[ 1 ] ) && ( m_fStateTimer > 30.0f ) )
+    {
+        X_Enemy_Definition xTestDef;
+	    xTestDef.m_uBrain = eENEMY_BRAIN_SWARM;
+        m_apxSpawners[ 1 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SCATTER, xTestDef );
+    }
+
+    if( !( m_apxSpawners[ 2 ] ) && ( m_fStateTimer > 60.0f ) )
+    {
+        X_Enemy_Definition xTestDef;
+	    xTestDef.m_uBrain = eENEMY_BRAIN_SUICIDE;
+        m_apxSpawners[ 2 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SCATTER, xTestDef );
+    }
+
+    if( !( m_apxSpawners[ 3 ] ) && ( m_fStateTimer > 90.0f ) )
+    {
+        delete m_apxSpawners[ 0 ];
+        m_apxSpawners[ 0 ] = NULL;
+        X_Enemy_Definition xTestDef;
+	    xTestDef.m_uBrain = eENEMY_BRAIN_SUICIDE;
+        m_apxSpawners[ 3 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SWEEP, xTestDef );
+    }
+
+    if( !( m_apxSpawners[ 4 ] ) && ( m_fStateTimer > 120.0f ) )
+    {
+        for( u_int u = 4; u < uNUM_SPAWNERS; ++u )
+        {
+            X_Enemy_Definition xTestDef;
+	        xTestDef.m_uBrain = eENEMY_BRAIN_SWARM;
+            m_apxSpawners[ u ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SCATTER, xTestDef );
+        }
+    }
 
 	const bool bLeft = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() );
     const bool bRight = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetRightKey() );

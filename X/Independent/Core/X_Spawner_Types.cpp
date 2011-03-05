@@ -68,5 +68,28 @@ void X_Spawner_Sweep::Update()
 	}
 }
 
+X_Spawner_Scatter::X_Spawner_Scatter( const X_Enemy_Definition& xDefinition )
+: X_Enemy_Spawner( xDefinition )
+, m_fTimer( 0.0f )
+, m_fSpawnTimer( 0.0f )
+{
+}
+
+
+void X_Spawner_Scatter::Update()
+{
+	static float fSpawnReset = 2.0f;
+
+	m_fSpawnTimer += GLToy_Timer::GetFrameTime();
+
+	if( m_fSpawnTimer > fSpawnReset )
+	{
+		m_fSpawnTimer = 0.0f;
+        fSpawnReset = GLToy_Maths::Random( 0.5f, 2.0f );
+        GLToy_Vector_2 xPosition( GLToy_Maths::Random( -1.0f, 1.0f ), 1.1f );
+		CreateEnemy( xPosition );
+	}
+}
+
 
 //eof

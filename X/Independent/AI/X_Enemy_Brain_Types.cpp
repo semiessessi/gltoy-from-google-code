@@ -53,6 +53,7 @@ X_Enemy_Brain_Swarm::~X_Enemy_Brain_Swarm()
 
 void X_Enemy_Brain_Swarm::Update()
 {
+    Accelerate( 0.5f, 1.0f );
 	/*X_Entity_Enemy* pxEntity = GetEntity();
 	X_Entity_Player* pxPlayer = GetPlayerEntity();
 

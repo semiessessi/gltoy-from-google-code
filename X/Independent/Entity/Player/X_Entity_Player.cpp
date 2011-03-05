@@ -110,7 +110,7 @@ void X_Entity_Player::Update()
 	}
 
 	// SE - TODO - parameterise recharge rate - maybe allow it to be upgradable?
-	m_fShield += 0.5f * GLToy_Timer::GetFrameTime();
+	m_fShield += 0.3f * GLToy_Timer::GetFrameTime();
 	m_fShield = GLToy_Maths::Min( m_fShield, 1.0f );
 	m_fAccelerationTimer += GLToy_Timer::GetFrameTime();
 	m_xSpeed = GLToy_Maths::ClampedLerp( m_xLerpStart, m_xMovement, fACCELERATION * m_fAccelerationTimer );

@@ -107,6 +107,8 @@ void GLToy_UI_System::Render2D()
     s_xWidgets.Traverse( xWidgetFunctor );    
     s_xDialogs.Traverse( xDialogFunctor );
 
+    GLToy_Render::DisableDepthTesting();
+
     if( s_pxCurrentModalDialog )
     {
         s_pxCurrentModalDialog->Render2D();
@@ -115,6 +117,7 @@ void GLToy_UI_System::Render2D()
     // render the pointer
     if( s_bShowPointer )
     {
+        GLToy_Render::DisableDepthTesting();
         GLToy_Render::EnableBlending();
         GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
 
