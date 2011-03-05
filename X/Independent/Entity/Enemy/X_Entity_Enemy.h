@@ -55,10 +55,14 @@ class X_Enemy_Definition
 		{
 			// TODO: Use some sensible defaults
 			m_uBrain = 0;
+			m_uTexture = 0;
+			m_uWeapon = 0;
 		}
 
 		GLToy_Hash m_uBrain;
-		// TODO: Include other things like the texture etc...
+		GLToy_Hash m_uTexture;
+		GLToy_Hash m_uWeapon;
+		// TODO: Include other things 
 };
 
 class X_Entity_Enemy

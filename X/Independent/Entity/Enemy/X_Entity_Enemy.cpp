@@ -37,6 +37,7 @@
 #include <Core/GLToy_Timer.h>
 #include <Material/GLToy_Material_System.h>
 #include <Particle/GLToy_PFX_System.h>
+#include <Sound/GLToy_Sound_System.h>
 #include <Render/GLToy_Light_System.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Render_Metrics.h>
@@ -50,11 +51,9 @@
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const float fSPEED = 0.8f;
-static const float fWIGGLE_SPEED = 0.5f;
-static const float fWIGGLE_RANGE = 0.0025f;
 static const float fSIZE = 0.1f;
-static const GLToy_Hash xENEMY_SHIP_MATERIAL = GLToy_Hash_Constant( "Enemy/Enemy1" );
+static const GLToy_Hash xENEMY_SHIP_MATERIAL = GLToy_Hash_Constant( "Enemy/Enemy2" );
+static const GLToy_Hash xENEMY_SHIP_MATERIAL_HACK = GLToy_Hash_Constant( "Sprites/Enemy/Enemy2_diffuse.png" );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -72,7 +71,7 @@ X_Entity_Enemy::X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType )
 , m_uLight( GLToy_Random_Hash() )
 , m_pxBrain( 0 )
 {
-    GLToy_Texture_System::CreateTexture( xENEMY_SHIP_MATERIAL );
+    GLToy_Texture_System::CreateTexture( xENEMY_SHIP_MATERIAL_HACK );
     BoundsFromMaterial( xENEMY_SHIP_MATERIAL, fSIZE );
 
 	SetHealth( 40.0f );
@@ -82,15 +81,15 @@ X_Entity_Enemy::X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType )
 
     s_xList.Append( this );
 
-    GLToy_Light_PointProperties xProperties;
-    xProperties.m_fSphereRadius = 0.35f;
-    xProperties.m_xColour = GLToy_Vector_3( 1.5f, 0.5f, 0.3f );
-    GLToy_Light_System::AddPointLight( m_uLight, xProperties );
+    //GLToy_Light_PointProperties xProperties;
+    //xProperties.m_fSphereRadius = 0.35f;
+    //xProperties.m_xColour = GLToy_Vector_3( 1.5f, 0.5f, 0.3f );
+    //GLToy_Light_System::AddPointLight( m_uLight, xProperties );
 }
 
 X_Entity_Enemy::~X_Entity_Enemy()
 {
-    GLToy_Light_System::DestroyLight( m_uLight );
+    //GLToy_Light_System::DestroyLight( m_uLight );
 
     s_xList.RemoveByValue( this );
 }
@@ -119,6 +118,8 @@ void X_Entity_Enemy::Update()
     if( xPosition[ 1 ] < -1.5f )
     {
         Destroy();
+		GLToy_Parent::Update();
+		return;
     }
 
     GLToy_Light* const pxLight = GLToy_Light_System::FindLight( m_uLight );
@@ -130,7 +131,20 @@ void X_Entity_Enemy::Update()
     if( IsDead() )
     {
         GLToy_PFX_System::CreatePFX( GLToy_Hash_Constant( "Explosion1" ), xPosition, GetVelocity() );
-        X_State_Game::AddScore( 10 );
+        
+		GLToy_Handle xVoice = GLToy_Sound_System::CreateVoice( GLToy_Hash_Constant( "Explode" ) );
+		GLToy_Sound_Voice* pxVoice = GLToy_Sound_System::GetVoice( xVoice );
+		if( pxVoice )
+		{
+			pxVoice->SetSpeakerMapping( GLToy_Sound_Voice::SM_SPATIAL );
+			pxVoice->SetPosition( xPosition );
+			pxVoice->SetRadius( 600.0f );
+			pxVoice->SetAmplitude( 0.5f );
+			pxVoice->Play();
+			pxVoice->Release();
+		}
+		
+		X_State_Game::AddScore( 10 );
         Destroy();
     }
 
@@ -181,20 +195,37 @@ void X_Entity_Enemy::RenderDeferred() const
         pxMaterial->Bind();
     }
 
+	GLToy_Vector_2 xVertex1( - fSIZE, + fSIZE );
+	GLToy_Vector_2 xVertex2( + fSIZE, + fSIZE );
+	GLToy_Vector_2 xVertex3( + fSIZE, - fSIZE );
+	GLToy_Vector_2 xVertex4( - fSIZE, - fSIZE );
+
+	/*const float fAngle = 0.0f;
+
+	xVertex1 = GLToy_Maths::Rotate_2D( xVertex1, fAngle );
+	xVertex2 = GLToy_Maths::Rotate_2D( xVertex2, fAngle );
+	xVertex3 = GLToy_Maths::Rotate_2D( xVertex3, fAngle );
+	xVertex4 = GLToy_Maths::Rotate_2D( xVertex4, fAngle );
+	*/
+	xVertex1.x += xPosition.x;	xVertex1.y += xPosition.y;
+	xVertex2.x += xPosition.x;	xVertex2.y += xPosition.y;
+	xVertex3.x += xPosition.x;	xVertex3.y += xPosition.y;
+	xVertex4.x += xPosition.x;	xVertex4.y += xPosition.y;
+
     GLToy_Render::StartSubmittingQuads();
-		
+
 	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
 	GLToy_Render::SubmitUV( xCOMPRESSED_NORMAL_BASIS, 1 );
-	GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+	GLToy_Render::SubmitVertex( xVertex1.x, xVertex1.y, xPosition[ 2 ] ); 
     GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 0.0f ) );
 	GLToy_Render::SubmitUV( xCOMPRESSED_NORMAL_BASIS, 1 );
-	GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+	GLToy_Render::SubmitVertex( xVertex2.x, xVertex2.y, xPosition[ 2 ] ); 
 	GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 1.0f ) );
 	GLToy_Render::SubmitUV( xCOMPRESSED_NORMAL_BASIS, 1 );
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+    GLToy_Render::SubmitVertex( xVertex3.x, xVertex3.y, xPosition[ 2 ] );
 	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 1.0f ) );
 	GLToy_Render::SubmitUV( xCOMPRESSED_NORMAL_BASIS, 1 );
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+    GLToy_Render::SubmitVertex( xVertex4.x, xVertex4.y, xPosition[ 2 ] );
 	
     GLToy_Render::EndSubmit();
 }

@@ -40,6 +40,7 @@
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Render_Metrics.h>
 #include <Render/GLToy_Texture_System.h>
+#include <Sound/GLToy_Sound_System.h>
 
 // X
 #include <Entity/Enemy/X_Entity_Enemy.h>
@@ -113,6 +114,17 @@ void X_Entity_Projectile::Update()
         {
 			GLToy_PFX_System::CreatePFX( GLToy_GetHash("Shot_Hit1" ), ls_pxThis->GetBB().GetPosition(), ( *ppxEnemy )->GetVelocity() );
 			( *ppxEnemy )->Hurt( 0, 10.0f );
+			GLToy_Handle xVoice = GLToy_Sound_System::CreateVoice( GLToy_Hash_Constant( "Hit" ) );
+			GLToy_Sound_Voice* pxVoice = GLToy_Sound_System::GetVoice( xVoice );
+			if( pxVoice )
+			{
+				pxVoice->SetSpeakerMapping( GLToy_Sound_Voice::SM_SPATIAL );
+				pxVoice->SetPosition(  ls_pxThis->GetPosition() );
+				pxVoice->SetRadius( 600.0f );
+				pxVoice->SetAmplitude( 0.5f );
+				pxVoice->Play();
+				pxVoice->Release();
+			}
 			ls_pxThis->Destroy();
         }
     );

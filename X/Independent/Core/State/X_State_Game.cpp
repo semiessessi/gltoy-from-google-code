@@ -104,7 +104,7 @@ void X_State_Game::Initialise()
 
 	// Create a spawner
 	X_Enemy_Definition xTestDef;
-	xTestDef.m_uBrain = eENEMY_BRAIN_DIVE;
+	xTestDef.m_uBrain = eENEMY_BRAIN_SUICIDE;
 	m_apxSpawners[ 0 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SWEEP, xTestDef );
 
 	m_fCollectibleTimer = fX_COLLECTIBLE_INTERVAL * 2.0f;
