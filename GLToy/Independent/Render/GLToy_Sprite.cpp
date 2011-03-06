@@ -129,6 +129,10 @@ void GLToy_Sprite::RenderTransparent() const
         }
     }
 
+	// TODO: some way to not hammer these states...
+	GLToy_Render::EnableDepthTesting();
+    GLToy_Render::DisableDepthWrites();
+
     GLToy_Texture_System::BindTexture( m_uTextureHash );
 
     // rotate xUp and xRight around the camera direction to allow for rotating sprites

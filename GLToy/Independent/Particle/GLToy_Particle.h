@@ -104,6 +104,10 @@ public:
         {
             SetBlendFunction( ucSPRITE_BLEND_ADDITIVE_SORT );
         }
+		else
+		{
+			SetBlendFunction( ucSPRITE_BLEND_NORMAL );
+		}
     }
 
     void ReadFromBitStream( const GLToy_BitStream& xStream );
