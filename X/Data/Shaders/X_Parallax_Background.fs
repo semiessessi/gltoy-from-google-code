@@ -30,8 +30,8 @@ void main()
     
     vec4 xSample1 = texture2D( xTexture1, 0.1 * vec2( xSolution1.x, xSolution1.y ) );
     vec4 xSample2 = texture2D( xTexture2, 0.1 * vec2( xSolution2.x, xSolution2.y ) );
-	vec4 xSample3 = texture2D( xTexture3, 0.1 * vec2( xSolution3.x, xSolution4.y ) );
-	vec4 xSample4 = texture2D( xTexture4, 0.1 * vec2( xSolution3.x, xSolution4.y ) );
+	vec4 xSample3 = texture2D( xTexture3, 0.1 * vec2( xSolution3.x, xSolution3.y ) );
+	vec4 xSample4 = texture2D( xTexture4, 0.1 * vec2( xSolution4.x, xSolution4.y ) );
 
     gl_FragColor = mix( xSample1, mix( xSample2, mix( xSample3, xSample4, xSample3.a ), xSample2.a ), xSample1.a );
 	gl_FragDepth = 0.0;
