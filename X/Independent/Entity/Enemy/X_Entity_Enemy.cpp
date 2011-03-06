@@ -53,7 +53,6 @@
 
 static const float fSIZE = 0.1f;
 static const GLToy_Hash xENEMY_SHIP_MATERIAL = GLToy_Hash_Constant( "Enemy/Enemy2" );
-static const GLToy_Hash xENEMY_SHIP_MATERIAL_HACK = GLToy_Hash_Constant( "Sprites/Enemy/Enemy2_diffuse.png" );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -71,7 +70,6 @@ X_Entity_Enemy::X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType )
 , m_uLight( GLToy_Random_Hash() )
 , m_pxBrain( 0 )
 {
-    GLToy_Texture_System::CreateTexture( xENEMY_SHIP_MATERIAL_HACK );
     BoundsFromMaterial( xENEMY_SHIP_MATERIAL, fSIZE );
 
 	SetHealth( 40.0f );

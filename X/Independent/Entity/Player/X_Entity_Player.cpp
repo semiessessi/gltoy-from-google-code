@@ -79,7 +79,6 @@ X_Entity_Player::X_Entity_Player( const GLToy_Hash uHash, const u_int uType )
 , m_fShield( 1.0f )
 , m_pxWeapon( 0 )
 {
-    GLToy_Texture_System::CreateTexture( xPLAYER_SHIP_TEXTURE );
     BoundsFromMaterial( xPLAYER_SHIP_TEXTURE, fSIZE );
 
 	s_xList.Append( this );

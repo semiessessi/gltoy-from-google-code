@@ -118,12 +118,14 @@ void GLToy_Entity_Sphere::WriteToBitStream( GLToy_BitStream& xStream ) const
 
 void GLToy_Entity_AABB::BoundsFromMaterial( const GLToy_Hash uMaterialHash, const float fBaseSize )
 {
-	const GLToy_Material* const pxMaterial = GLToy_Material_System::FindMaterial( uMaterialHash );
+	GLToy_Material* const pxMaterial = GLToy_Material_System::FindMaterial( uMaterialHash );
 	if( !pxMaterial )
 	{
 		m_xBoundingBox.SetRadius( fBaseSize );
 		return;
 	}
+
+	pxMaterial->Initialise();
 	
 	const GLToy_Texture* const pxTexture = GLToy_Texture_System::FindTexture( pxMaterial->GetTextureHash( 0 ) );
 	if( !pxTexture )

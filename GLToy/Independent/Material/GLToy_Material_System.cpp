@@ -127,6 +127,11 @@ u_int GLToy_Material::GetHeight() const
 
 void GLToy_Material::Initialise()
 {
+	if( IsReady() )
+	{
+		return;
+	}
+
     for( u_int u = 0; u < 4; ++u )
     {
         GLToy_Texture_System::CreateTexture( m_auTextures[ u ] );
