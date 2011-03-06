@@ -49,15 +49,21 @@ class X_Parallax_Background
 
 public:
 
-	X_Parallax_Background( const GLToy_Hash uTexture1, const GLToy_Hash uTexture2, const float fDistance1, const float fDistance2 )
+	X_Parallax_Background( const GLToy_Hash uTexture1, const GLToy_Hash uTexture2, const GLToy_Hash uTexture3, const GLToy_Hash uTexture4, const float fDistance1, const float fDistance2, const float fDistance3, const float fDistance4 )
     : GLToy_Parent( GLToy_Hash_Constant( "X_Parallax_Background" ), false )
     , m_uTexture1( uTexture1 )
     , m_uTexture2( uTexture2 )
-    , m_xParams( fDistance1, fDistance2, 0.0f, 0.0f )
+	, m_uTexture3( uTexture3 )
+	, m_uTexture4( uTexture4 )
+    , m_xParams1( fDistance1, fDistance2, 0.0f, 0.0f )
+	, m_xParams2( fDistance3, fDistance4, 0.0f, 0.0f )
     {
-        BindUniform( "xParams", &m_xParams );
+        BindUniform( "xParams1", &m_xParams1 );
+		BindUniform( "xParams2", &m_xParams2 );
         BindTexture( "xTexture1", m_uTexture1, 0 );
         BindTexture( "xTexture2", m_uTexture2, 1 );
+		BindTexture( "xTexture3", m_uTexture3, 2 );
+		BindTexture( "xTexture4", m_uTexture4, 3 );
     }
 
     virtual void Render() const;
@@ -67,7 +73,10 @@ private:
 
     const GLToy_Hash m_uTexture1;
     const GLToy_Hash m_uTexture2;
-    mutable GLToy_Vector_4 m_xParams;
+	const GLToy_Hash m_uTexture3;
+    const GLToy_Hash m_uTexture4;
+    mutable GLToy_Vector_4 m_xParams1;
+	mutable GLToy_Vector_4 m_xParams2;
 };
 
 #endif

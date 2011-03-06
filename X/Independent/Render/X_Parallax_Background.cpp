@@ -43,16 +43,15 @@
 
 void X_Parallax_Background::Render() const
 {
-    GLToy_Render::RegisterTransparent( this, m_xParams.y );
+    GLToy_Render::RegisterTransparent( this, m_xParams2.y );
 }
 
 void X_Parallax_Background::RenderTransparent() const
 {
-    m_xParams.z = GLToy_Timer::GetTime();
+    m_xParams1.z = GLToy_Timer::GetTime();
 
-    GLToy_Render::SetBlendFunction( BLEND_ONE, BLEND_ONE );
-
-    GLToy_Parent::Render();
-
+	GLToy_Render::EnableDepthTesting();
     GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+
+    GLToy_Parent::Render();    
 }
