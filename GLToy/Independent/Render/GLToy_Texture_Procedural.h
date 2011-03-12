@@ -680,6 +680,8 @@ public:
     u_int* CreateRGBA_4xSS( const u_int uWidth, const u_int uHeight );
     u_int* CreateRGBA_16xSS( const u_int uWidth, const u_int uHeight );
     void CreateTexture( const GLToy_String& szName, const u_int uWidth, const u_int uHeight );
+
+    u_int* CreateRGBAFromBaseTexture( const u_int* const puBaseRGBAs, const u_int uWidth, const u_int uHeight );
     
     BlendMode GetBlendMode( const u_int uID ) const
     {

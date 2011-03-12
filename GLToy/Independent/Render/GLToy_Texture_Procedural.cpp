@@ -1428,6 +1428,38 @@ u_int* GLToy_Texture_Procedural::CreateRGBA( const u_int uWidth, const u_int uHe
     return puData;
 }
 
+u_int* GLToy_Texture_Procedural::CreateRGBAFromBaseTexture( const u_int* const puRGBAs, const u_int uWidth, const u_int uHeight )
+{
+    GLToy_Vector_4* pxData = new GLToy_Vector_4[ uWidth * uHeight ];
+
+    for( u_int u = 0; u < uWidth * uHeight; ++u )
+    {
+        pxData[ u ] = GLToy_Vector_4( puRGBAs[ u ] );
+    }
+
+    // initialise render state
+    LayerNode::s_xRenderStack.Push( pxData );
+    LayerNode::s_bWrap = true;
+    LayerNode::s_xLight = GLToy_Vector_3( 0.533f, 0.533f, 0.533f );
+
+    // traverse the tree
+    GLToy_Iterate( LayerNode, xNode, m_xLayers )
+        xNode.Render( uWidth, uHeight );
+    GLToy_Iterate_End;
+
+    pxData = LayerNode::s_xRenderStack.Pop();
+
+    u_int* puData = new u_int[ uWidth * uHeight ];
+    for( u_int u = 0; u < uWidth * uHeight; ++u )
+    {
+        puData[ u ] = pxData[ u ].GetRGBA();
+    }
+
+    delete[] pxData;
+
+    return puData;
+}
+
 u_int* GLToy_Texture_Procedural::CreateRGBA_4xSS( const u_int uWidth, const u_int uHeight )
 {
     const u_int uWidth2 = uWidth << 1;
