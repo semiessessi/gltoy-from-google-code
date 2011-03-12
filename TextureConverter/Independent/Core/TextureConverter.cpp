@@ -33,6 +33,7 @@
 // GLToy
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Texture_System.h>
+
 #include <Render/GLToy_Texture_Procedural.h>
 
 // C
@@ -53,7 +54,7 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-int main( const int iArgumentCount, const char* const* const pszArguments )
+int GLToy_ForceCDecl main( const int iArgumentCount, const char* const* const pszArguments )
 {
     //GLToy::SilentEntryPoint();
 
@@ -78,15 +79,10 @@ int main( const int iArgumentCount, const char* const* const pszArguments )
         return 0;
     }
 
-    GLToy_Texture_Procedural xTexture;
-
-    if( bGenerateNormalMap )
-    {
-        xTexture.AppendHeightmapToNormals();
-    }
-
     const char* const szInPath = pszArguments[ iArgumentCount - 2 ];
     const char* const szOutPath = pszArguments[ iArgumentCount - 1 ];
+
+    printf( "Loading input texture %s...\r\n", szInPath );
 
     u_int uWidth = 0;
     u_int uHeight = 0;
@@ -98,13 +94,25 @@ int main( const int iArgumentCount, const char* const* const pszArguments )
         &iComponents,
         STBI_rgb_alpha );
 
+    GLToy_Texture_Procedural xTexture;
+
+    if( bGenerateNormalMap )
+    {
+        printf( "Generating a normal map...\r\n", szInPath );
+        xTexture.AppendHeightmapToNormals();
+    }
+
     u_int* puNewData = xTexture.CreateRGBAFromBaseTexture( reinterpret_cast< u_int* >( pucData ), uWidth, uHeight );
 
     stbi_image_free( pucData );
 
+    printf( "Writing output file %s...\r\n", szOutPath );
+
     GLToy_Texture_System::SaveTextureTGA( szOutPath, puNewData, uWidth, uHeight );
 
     delete[] puNewData;
+
+    printf( "Done.\r\n\r\n" );
 
     //GLToy::SilentShutdown();
 

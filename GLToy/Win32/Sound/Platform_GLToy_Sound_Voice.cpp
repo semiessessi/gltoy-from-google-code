@@ -50,6 +50,7 @@ Platform_GLToy_Sound_Voice::~Platform_GLToy_Sound_Voice()
 
 void Platform_GLToy_Sound_Voice::Play()
 {
+#ifndef GLTOY_DEMO
 	// Find the source file
 
 	GLToy_WaveFile* pxWav = Platform_GLToy_Sound_System::GetWave( m_uWave );
@@ -91,6 +92,7 @@ void Platform_GLToy_Sound_Voice::Play()
 
 	m_pxSourceVoice->SubmitSourceBuffer( &xBuffer );
 	m_pxSourceVoice->Start();
+#endif
 }
 
 bool Platform_GLToy_Sound_Voice::IsPlaying() const

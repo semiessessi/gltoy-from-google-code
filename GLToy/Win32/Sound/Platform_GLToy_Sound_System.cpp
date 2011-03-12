@@ -151,6 +151,7 @@ bool Platform_GLToy_Sound_System::Initialise_Voices()
 
 bool Platform_GLToy_Sound_System::Initialise_LoadSounds()
 {
+#ifndef GLTOY_DEMO
 	// TODO: Probably don't want to load in every sound like this
 
 	GLToy_Array< GLToy_String > xWavePaths = GLToy_File_System::PathsFromFilter( "Sounds/", "*.wav" );
@@ -170,6 +171,7 @@ bool Platform_GLToy_Sound_System::Initialise_LoadSounds()
 		}
 		
 	GLToy_Iterate_End;
+#endif
 
 	return true;
 }
