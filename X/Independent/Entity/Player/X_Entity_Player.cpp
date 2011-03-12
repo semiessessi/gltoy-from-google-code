@@ -63,6 +63,7 @@ static const float fACCELERATION = 3.0f;
 static const float fSPEED = 2.5f;
 static const float fSIZE = 0.08f;
 static const GLToy_Hash xPLAYER_SHIP_TEXTURE = GLToy_Hash_Constant( "Sprites/Ship/Ship.png" );
+static const GLToy_Hash xPLAYER_SHIP_MATERIAL = GLToy_Hash_Constant( "Ship/Ship" );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -217,7 +218,7 @@ void X_Entity_Player::RenderDeferred() const
 {
     const GLToy_Vector_3& xPosition = GetPosition();
 
-    GLToy_Material* const pxMaterial = GLToy_Material_System::FindMaterial( xPLAYER_SHIP_TEXTURE );
+    GLToy_Material* const pxMaterial = GLToy_Material_System::FindMaterial( xPLAYER_SHIP_MATERIAL );
     if( pxMaterial )
     {
         pxMaterial->Bind();

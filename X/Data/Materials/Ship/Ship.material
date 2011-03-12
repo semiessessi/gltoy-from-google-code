@@ -1,0 +1,4 @@
+Deferred=true
+Shader=Deferred_DN
+DiffuseMap=Sprites/Ship/Ship.png
+NormalMap=Sprites/Ship/Ship_Normal.png
