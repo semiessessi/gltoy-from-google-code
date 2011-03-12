@@ -51,6 +51,16 @@
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// T Y P E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+enum Mode
+{
+    MODE_NORMALMAP,
+    MODE_HELP
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -61,22 +71,22 @@ int GLToy_ForceCDecl main( const int iArgumentCount, const char* const* const ps
     printf( "GLToy Texture Converter\r\n" );
 
     // parse parameters
-    bool bShowHelp = false;
-    bool bGenerateNormalMap = true;//( iArgumentCount == 3 );
+    Mode eMode = ( iArgumentCount <= 2 ) ? MODE_HELP : MODE_NORMALMAP;
+    bool bGenerateNormalMap = true;
 
-    if( iArgumentCount <= 2 )
+    switch( eMode )
     {
-        bShowHelp = true;
-    }
+        case MODE_HELP:
+        {
+            printf( "Usage:\r\n" );
+            printf( "  TextureConverter <input-file> <output-file>\r\n" );
+            printf( "\r\n" );
+            printf( "By default this will try to convert a heightmap to a normal map...\r\nmore options to come later\r\n" );
 
-    if( bShowHelp )
-    {
-        printf( "Usage:\r\n" );
-        printf( "  TextureConverter <input-file> <output-file>\r\n" );
-        printf( "\r\n" );
-        printf( "By default this will try to convert a heightmap to a normal map...\r\nmore options to come later\r\n" );
+            return 0;
+        }
 
-        return 0;
+        default: break;
     }
 
     const char* const szInPath = pszArguments[ iArgumentCount - 2 ];
@@ -96,10 +106,20 @@ int GLToy_ForceCDecl main( const int iArgumentCount, const char* const* const ps
 
     GLToy_Texture_Procedural xTexture;
 
-    if( bGenerateNormalMap )
+    switch( eMode )
     {
-        printf( "Generating a normal map...\r\n", szInPath );
-        xTexture.AppendHeightmapToNormals();
+        case MODE_NORMALMAP:
+        {
+            printf( "Generating a normal map...\r\n", szInPath );
+            xTexture.AppendShapingLayer( GLToy_Texture_Procedural::SHAPE_DOUBLE );
+            xTexture.AppendShapingLayer( GLToy_Texture_Procedural::SHAPE_DOUBLE );
+            xTexture.AppendShapingLayer( GLToy_Texture_Procedural::SHAPE_DOUBLE );
+            xTexture.AppendHeightmapToNormals();
+            break;
+        }
+
+        default:
+            break;
     }
 
     u_int* puNewData = xTexture.CreateRGBAFromBaseTexture( reinterpret_cast< u_int* >( pucData ), uWidth, uHeight );

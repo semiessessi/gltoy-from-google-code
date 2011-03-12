@@ -43,7 +43,7 @@
 
 void X_Parallax_Background::Render() const
 {
-    GLToy_Render::RegisterTransparent( this, m_xParams2.y );
+    GLToy_Render::RegisterTransparent( this, 99.0f );
 }
 
 void X_Parallax_Background::RenderTransparent() const

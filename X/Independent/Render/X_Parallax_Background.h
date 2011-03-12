@@ -50,7 +50,7 @@ class X_Parallax_Background
 public:
 
 	X_Parallax_Background( const GLToy_Hash uTexture1, const GLToy_Hash uTexture2, const GLToy_Hash uTexture3, const GLToy_Hash uTexture4, const float fDistance1, const float fDistance2, const float fDistance3, const float fDistance4 )
-    : GLToy_Parent( GLToy_Hash_Constant( "X_Parallax_Background" ), false )
+    : GLToy_Parent( GLToy_Hash_Constant( "X_Parallax_Background" ), true )
     , m_uTexture1( uTexture1 )
     , m_uTexture2( uTexture2 )
 	, m_uTexture3( uTexture3 )

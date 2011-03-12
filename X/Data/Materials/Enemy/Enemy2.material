@@ -1,4 +1,5 @@
 Deferred=true
-Shader=Deferred_DN
+Shader=Deferred_DNS
 DiffuseMap=Sprites/Enemy/Enemy2_Diffuse.png
 NormalMap=Sprites/Enemy/Enemy2_Normal.png
+SpecularMap=Sprites/Enemy/Enemy2_Specular.png
