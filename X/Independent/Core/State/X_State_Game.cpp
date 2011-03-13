@@ -69,6 +69,25 @@ u_int X_State_Game::s_uScore = 0;
 
 static const float fX_COLLECTIBLE_INTERVAL = 10.0f;
 
+static const GLToy_Hash xENEMY_SHIP_MATERIAL_1 = GLToy_Hash_Constant( "Enemy/Enemy1" );
+static const GLToy_Hash xENEMY_SHIP_MATERIAL_2 = GLToy_Hash_Constant( "Enemy/Enemy2" );
+
+// SE - lazy avoid touching header
+static float s_fInGameTimer = 0.0f;
+static float s_fIntervalTimer = 0.0f;
+static float s_fRespiteTimer = 0.0f;
+static float s_fFullOnTimer = 0.0f;
+
+static float s_fInterval = 30.0f;
+static float s_fRespiteTime = 7.0f;
+static float s_fFullOnTime = 10.0f;
+
+static const float s_fMinInterval = 5.0f;
+static const float s_fMinRespiteTime = 3.0f;
+
+static const float s_fIntervalDecrease = 5.0f;
+static const float s_fRespiteDecrease = 1.0f;
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,7 +123,8 @@ void X_State_Game::Initialise()
 
 	// Create a spawner
 	X_Enemy_Definition xTestDef;
-	xTestDef.m_uBrain = eENEMY_BRAIN_SUICIDE;
+	xTestDef.m_uBrain = eENEMY_BRAIN_DIVE;
+    xTestDef.m_uTexture = xENEMY_SHIP_MATERIAL_1;
 	m_apxSpawners[ 0 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SWEEP, xTestDef );
 
 	m_fCollectibleTimer = fX_COLLECTIBLE_INTERVAL * 2.0f;
@@ -158,6 +178,7 @@ void X_State_Game::Update()
     {
         X_Enemy_Definition xTestDef;
 	    xTestDef.m_uBrain = eENEMY_BRAIN_SWARM;
+        xTestDef.m_uTexture = xENEMY_SHIP_MATERIAL_2;
         m_apxSpawners[ 1 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SCATTER, xTestDef );
     }
 
@@ -165,6 +186,7 @@ void X_State_Game::Update()
     {
         X_Enemy_Definition xTestDef;
 	    xTestDef.m_uBrain = eENEMY_BRAIN_SUICIDE;
+        xTestDef.m_uTexture = xENEMY_SHIP_MATERIAL_2;
         m_apxSpawners[ 2 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SCATTER, xTestDef );
     }
 
@@ -174,6 +196,7 @@ void X_State_Game::Update()
         m_apxSpawners[ 0 ] = NULL;
         X_Enemy_Definition xTestDef;
 	    xTestDef.m_uBrain = eENEMY_BRAIN_SUICIDE;
+        xTestDef.m_uTexture = xENEMY_SHIP_MATERIAL_2;
         m_apxSpawners[ 3 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SWEEP, xTestDef );
     }
 
@@ -183,8 +206,17 @@ void X_State_Game::Update()
         {
             X_Enemy_Definition xTestDef;
 	        xTestDef.m_uBrain = eENEMY_BRAIN_SWARM;
+            xTestDef.m_uTexture = xENEMY_SHIP_MATERIAL_2;
             m_apxSpawners[ u ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SCATTER, xTestDef );
         }
+    }
+
+    if( !( m_apxSpawners[ 0 ] ) && ( m_fStateTimer > 150.0f ) )
+    {
+        X_Enemy_Definition xTestDef;
+	    xTestDef.m_uBrain = eENEMY_BRAIN_DIVE;
+        xTestDef.m_uTexture = xENEMY_SHIP_MATERIAL_1;
+        m_apxSpawners[ 0 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SWEEP, xTestDef );
     }
 
 	const bool bLeft = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() );

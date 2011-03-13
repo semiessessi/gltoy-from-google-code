@@ -94,10 +94,12 @@ X_Entity_Enemy::~X_Entity_Enemy()
 
 void X_Entity_Enemy::SetDefinition( const X_Enemy_Definition& xDefinition )
 {
-	m_xDefinition = m_xDefinition;
+	m_xDefinition = xDefinition;
 
 	delete m_pxBrain;
 	m_pxBrain = X_Enemy_Brain_Factory::CreateBrain( xDefinition.m_uBrain, GetHash() );
+
+    BoundsFromMaterial( xDefinition.m_uTexture, fSIZE );
 }
 
 
@@ -164,7 +166,7 @@ void X_Entity_Enemy::Render() const
     GLToy_Render::EnableBlending();
     GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
 
-    GLToy_Material_System::BindMaterial( xENEMY_SHIP_MATERIAL );
+    GLToy_Material_System::BindMaterial( m_xDefinition.m_uTexture );
 
     GLToy_Render::StartSubmittingQuads();
 		
@@ -187,7 +189,7 @@ void X_Entity_Enemy::RenderDeferred() const
 {
     GLToy_Vector_3 xPosition = GetPosition();
 
-    GLToy_Material* const pxMaterial = GLToy_Material_System::FindMaterial( xENEMY_SHIP_MATERIAL );
+    GLToy_Material* const pxMaterial = GLToy_Material_System::FindMaterial( m_xDefinition.m_uTexture );
     if( pxMaterial )
     {
         pxMaterial->Bind();
