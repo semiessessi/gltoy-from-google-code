@@ -28,7 +28,6 @@ void X_Enemy_Brain_Suicide::Update()
 	if( pxEntity->GetPosition().y > pxPlayer->GetPosition().y )
 	{
 		TurnTowards( pxPlayer->GetPosition(), fTurnSpeed );
-		Accelerate( 0.5f, 1.0f );
 	}
 	else
 	{
@@ -53,7 +52,6 @@ X_Enemy_Brain_Swarm::~X_Enemy_Brain_Swarm()
 
 void X_Enemy_Brain_Swarm::Update()
 {
-    Accelerate( 0.5f, 1.0f );
 	/*X_Entity_Enemy* pxEntity = GetEntity();
 	X_Entity_Player* pxPlayer = GetPlayerEntity();
 
@@ -92,7 +90,6 @@ X_Enemy_Brain_Dive::X_Enemy_Brain_Dive( GLToy_Hash uEnemy )
 		GLToy_Vector_3 xDirection = GLToy_Maths::ZeroVector3;
 		xDirection.y = -1.0f;
 		pxEntity->SetDirection( xDirection );
-		pxEntity->SetSpeed( 0.5f );
 	}
 }
 
@@ -102,7 +99,6 @@ X_Enemy_Brain_Dive::~X_Enemy_Brain_Dive()
 
 void X_Enemy_Brain_Dive::Update()
 {
-	Accelerate( 0.4f, 2.5f );
 }
 
 //eof

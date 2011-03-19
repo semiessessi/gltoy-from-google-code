@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010, 2011 Semi Essessi, Thomas Young
+// ©Copyright 2011 Thomas Young
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,62 +24,54 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __X_STATE_GAME_H_
-#define __X_STATE_GAME_H_
+#ifndef __X_WAVE_MANAGER_H_
+#define __X_WAVE_MANAGER_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// Parent
-#include <Core/State/GLToy_State.h>
+// Parents
+// #include <Entity/GLToy_Entity.h>
 
 // GLToy
-#include <String/GLToy_String.h>
+// #include <Core/Data Structures/GLToy_Array.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// C O N S T A N T S
+// Defines
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const u_int uNUM_SPAWNERS = 8;
+#define X_WAVE_MANAGER_MAX_TIMED_SPAWNERS 32
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F O R W A R D   D E C L A R A T I O N S
+// Forward declarations
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class X_Entity_Player;
-class X_Enemy_Spawner;
+// class X_Enemy_Brain;
+// class X_Enemy_Spawner;
+class X_Timed_Spawner;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class X_State_Game
-: public GLToy_State
+class X_Wave_Manager
 {
+	public:
 
-	typedef GLToy_State GLToy_Parent;
-public:
+		static void Inititalise();
+		static void Shutdown();
+		static void Update();
+		static void Render();
 
-	X_State_Game();
+	private:
 
-    virtual const GLToy_String& GetName() const { static const GLToy_String ls_szName = "Game"; return ls_szName; }
+		static void NextWave();
 
-    virtual void Initialise();
-	virtual void Shutdown();
-
-	virtual void Update();
-
-    virtual void Render2D() const;
-
-    static GLToy_ForceInline void AddScore( const u_int uAmount ) { s_uScore += uAmount; }
-    static GLToy_ForceInline u_int GetScore() { return s_uScore; }
-
-protected:
-
-	X_Entity_Player* m_pxPlayer;
-		
-    static u_int s_uScore;
+		static X_Timed_Spawner* s_apxTimedSpawners[ X_WAVE_MANAGER_MAX_TIMED_SPAWNERS ];
+		static u_int s_uWave;
+		static float s_fWaveTimer;
+		static bool s_bRestPeriod;
 };
 
 #endif

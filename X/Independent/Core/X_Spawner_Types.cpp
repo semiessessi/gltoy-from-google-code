@@ -10,6 +10,8 @@
 
 #include "Entity/X_EntityTypes.h"		// X
 
+// _____________________________________________________________
+
 X_Spawner_Interval::X_Spawner_Interval( const X_Enemy_Definition& xDefinition )
 : X_Enemy_Spawner( xDefinition )
 , m_fTimer( 0.0f )
@@ -19,14 +21,19 @@ X_Spawner_Interval::X_Spawner_Interval( const X_Enemy_Definition& xDefinition )
 
 void X_Spawner_Interval::Update()
 {
-	const float fSpawnInterval = 2.0f;
+	if( !IsActive() )
+	{
+		return;
+	}
+
+	const float fSpawnInterval = 1.0f;
 
 	m_fTimer += GLToy_Timer::GetFrameTime();
 	if( m_fTimer > fSpawnInterval )
 	{
 		GLToy_Vector_2 xPosition( GLToy_Maths::Random( -0.8f, 0.8f ), 1.1f );
 		CreateEnemy( xPosition );
-		
+
 		m_fTimer = 0.0f;
 	}
 }
@@ -45,6 +52,11 @@ X_Spawner_Sweep::X_Spawner_Sweep( const X_Enemy_Definition& xDefinition )
 
 void X_Spawner_Sweep::Update()
 {
+	if( !IsActive() )
+	{
+		return;
+	}
+
 	const float fSpawnInterval = 0.2f;
 	const float fSpawnReset = 2.0f;
 
@@ -68,6 +80,8 @@ void X_Spawner_Sweep::Update()
 	}
 }
 
+// _____________________________________________________________
+
 X_Spawner_Scatter::X_Spawner_Scatter( const X_Enemy_Definition& xDefinition )
 : X_Enemy_Spawner( xDefinition )
 , m_fTimer( 0.0f )
@@ -78,18 +92,48 @@ X_Spawner_Scatter::X_Spawner_Scatter( const X_Enemy_Definition& xDefinition )
 
 void X_Spawner_Scatter::Update()
 {
-	static float fSpawnReset = 2.0f;
+	if( !IsActive() )
+	{
+		return;
+	}
+
+	static float fSpawnReset = 0.1f;
 
 	m_fSpawnTimer += GLToy_Timer::GetFrameTime();
 
 	if( m_fSpawnTimer > fSpawnReset )
 	{
 		m_fSpawnTimer = 0.0f;
-        fSpawnReset = GLToy_Maths::Random( 0.5f, 2.0f );
-        GLToy_Vector_2 xPosition( GLToy_Maths::Random( -1.0f, 1.0f ), 1.1f );
+        fSpawnReset = GLToy_Maths::Random( 0.0f, 0.2f );
+
+        GLToy_Vector_2 xPosition( GLToy_Maths::Random( -1.0f, 1.0f ), 1.1f + GLToy_Maths::Random( 0.0f, 1.0f ) );
+		CreateEnemy( xPosition );
+		xPosition = GLToy_Vector_2( GLToy_Maths::Random( -1.0f, 1.0f ), 1.1f + GLToy_Maths::Random( 0.0f, 1.0f ) );
 		CreateEnemy( xPosition );
 	}
 }
 
+// _____________________________________________________________
+
+X_Spawner_One::X_Spawner_One( const X_Enemy_Definition& xDefinition )
+: X_Enemy_Spawner( xDefinition )
+, m_bHasSpawned( false )
+{
+}
+
+void X_Spawner_One::Update()
+{
+	if( !IsActive() )
+	{
+		return;
+	}
+
+	if( !m_bHasSpawned )
+	{
+		m_bHasSpawned = true;
+		GLToy_Vector_2 xPosition( GLToy_Maths::Random( -1.0f, 1.0f ), 1.1f );
+		CreateEnemy( xPosition );
+	}
+}
 
 //eof

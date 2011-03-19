@@ -53,6 +53,7 @@
 #include "AI/X_Enemy_Brain_Types.h"
 #include "Core/X_Spawner.h"
 #include "Core/X_Spawner_Types.h"
+#include "Core/X_Wave_Manager.h"
 #include <Entity/X_EntityTypes.h>
 #include <Entity/Collectible/X_Entity_Collectible.h>
 #include <Entity/Enemy/X_Entity_Enemy.h>
@@ -67,100 +68,18 @@
 
 u_int X_State_Game::s_uScore = 0;
 
-static const float fX_COLLECTIBLE_INTERVAL = 10.0f;
-
-static const GLToy_Hash xENEMY_SHIP_MATERIAL_1 = GLToy_Hash_Constant( "Enemy/Enemy1" );
-static const GLToy_Hash xENEMY_SHIP_MATERIAL_2 = GLToy_Hash_Constant( "Enemy/Enemy2" );
-
-// SE - lazy globals avoid touching header/declaration...
-static const float s_fInitialInterval = 30.0f;
-static const float s_fInitialRespiteTime = 7.0f;
-static const float s_fInitialFullOnTime = 10.0f;
-
-static float s_fStageTimer = 0.0f;
-static float s_fIntervalTimer = 0.0f;
-static float s_fRespiteTimer = 0.0f;
-static float s_fFullOnTimer = 0.0f;
-
-static float s_fInterval = s_fInitialInterval;
-static float s_fRespiteTime = s_fInitialRespiteTime;
-static float s_fFullOnTime = s_fInitialFullOnTime;
-
-static const float s_fMinInterval = 5.0f;
-static const float s_fMinRespiteTime = 3.0f;
-
-static const float s_fIntervalDecrease = 5.0f;
-static const float s_fRespiteDecrease = 1.0f;
-static const float s_fFullOnIncrease = 2.5f;
-
-static u_int s_uCurrentSpawner = 0;
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// SE - more lazy
-void CreateSpawner( X_Enemy_Spawner** const axSpawners )
-{
-    X_Enemy_Definition xDefinition;
-	xDefinition.m_uBrain = eENEMY_BRAIN_SWARM;
-    GLToy_Hash uSpawnType = eENEMY_SPAWNER_SCATTER;
-    switch( s_uCurrentSpawner )
-    {
-        case 0:
-        case 7:
-        {
-            xDefinition.m_uBrain == ( s_uCurrentSpawner ) ? eENEMY_BRAIN_SUICIDE : eENEMY_BRAIN_DIVE;
-            uSpawnType = eENEMY_SPAWNER_SWEEP;
-            break;
-        }
-
-        default:
-        case 1:
-        case 2:
-        case 3:
-        {
-            break;
-        }
-
-        case 4:
-        case 5:
-        case 6:
-        {
-            xDefinition.m_uBrain = eENEMY_BRAIN_SUICIDE;
-            break;
-        }
-    }
-
-    xDefinition.m_uTexture = ( xDefinition.m_uBrain == eENEMY_BRAIN_DIVE ) ? xENEMY_SHIP_MATERIAL_1 : xENEMY_SHIP_MATERIAL_2;
-    axSpawners[ s_uCurrentSpawner ] = X_Enemy_Spawner_Factory::CreateSpawner( uSpawnType, xDefinition );
-    s_uCurrentSpawner++;
-}
-
 X_State_Game::X_State_Game()
 : GLToy_Parent()
 , m_pxPlayer( NULL )
-, m_fCollectibleTimer( 0.0f )
-, m_fStateTimer( 0.0f )
 {
-    for( u_int u = 0; u < uNUM_SPAWNERS; ++u )
-    {
-        m_apxSpawners[ u ] = NULL;
-    }
 }
 
 void X_State_Game::Initialise()
 {
-    // clean up state...
-    s_fStageTimer =
-    s_fIntervalTimer =
-    s_fRespiteTimer = 
-    s_fFullOnTimer = 0.0f;
-    
-    s_fInterval = s_fInitialInterval;
-    s_fRespiteTime = s_fInitialRespiteTime;
-    s_fFullOnTime = s_fInitialFullOnTime;
-    
     GLToy_UI_System::ShowPointer( false );
     GLToy_Camera::SetLocked( true );
 	GLToy_Camera::SetPosition( GLToy_Vector_3( 0.0f, 0.0f, -1.0f ) );
@@ -169,27 +88,12 @@ void X_State_Game::Initialise()
     GLToy_Entity_System::DestroyEntities();
     GLToy_Entity_System::SetRender( true );
 
-    for( u_int u = 0; u < uNUM_SPAWNERS; ++u )
-    {
-        m_apxSpawners[ u ] = NULL;
-    }
-
 	// create our player's entity
 	m_pxPlayer = static_cast< X_Entity_Player* >( GLToy_Entity_System::CreateEntity( GLToy_Hash_Constant( "Player" ), X_ENTITY_PLAYER ) );
 	if( m_pxPlayer )
 	{
 		m_pxPlayer->CreateWeapon( ePLAYER_WEAPON_VULCAN );
 	}
-
-	// Create a spawner
-	X_Enemy_Definition xTestDef;
-	xTestDef.m_uBrain = eENEMY_BRAIN_DIVE;
-    xTestDef.m_uTexture = xENEMY_SHIP_MATERIAL_1;
-	m_apxSpawners[ 0 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SWEEP, xTestDef );
-    s_uCurrentSpawner = 1;
-
-	m_fCollectibleTimer = fX_COLLECTIBLE_INTERVAL * 2.0f;
-	m_fStateTimer = 0.0f;
 
     GLToy_Light_System::Reset();
     GLToy_Light_System::AddGlobalDirectionalLight( GLToy_Vector_3( 0.308f, 0.308f, -0.9f ), GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
@@ -206,6 +110,8 @@ void X_State_Game::Initialise()
     GLToy_UI_System::CreateStatBar( "BarTest.ptx", m_pxPlayer->GetShield(), 1.0f, 0.5f, -0.875f, 0.5f, 0.1f );
 
     s_uScore = 0;
+
+	X_Wave_Manager::Inititalise();
 }
 
 void X_State_Game::Shutdown()
@@ -213,148 +119,23 @@ void X_State_Game::Shutdown()
     GLToy_Light_System::Reset();
 	GLToy_Entity_System::DestroyEntities();
 	m_pxPlayer = NULL;
-	for( u_int u = 0; u < uNUM_SPAWNERS; ++u )
-    {
-        delete m_apxSpawners[ u ];
-        m_apxSpawners[ u ] = NULL;
-    }
+
+	X_Wave_Manager::Shutdown();
 
     GLToy_UI_System::ClearWidgets();
 }
 
 void X_State_Game::Update()
 {
-    for( u_int u = 0; u < uNUM_SPAWNERS; ++u )
-    {
-        if( m_apxSpawners[ u ] )
-	    {
-		    m_apxSpawners[ u ]->Update();
-	    }
-    }
-
-	m_fCollectibleTimer -= GLToy_Timer::GetFrameTime();
-    m_fStateTimer += GLToy_Timer::GetFrameTime();
-
-    s_fStageTimer += GLToy_Timer::GetFrameTime();
-    s_fIntervalTimer += GLToy_Timer::GetFrameTime();
-    s_fRespiteTimer += ( s_uCurrentSpawner ) ? 0.0f : GLToy_Timer::GetFrameTime();
-    s_fFullOnTimer += ( s_uCurrentSpawner != 8 ) ? 0.0f : GLToy_Timer::GetFrameTime();
-
-    // if we have been full on for the whole time stop it all...
-    if( s_fFullOnTimer > s_fFullOnTime )
-    {
-        s_fFullOnTimer = 0.0f;
-        s_fRespiteTimer = 0.0f;
-        s_uCurrentSpawner = 0;
-      	for( u_int u = 0; u < uNUM_SPAWNERS; ++u )
-        {
-            delete m_apxSpawners[ u ];
-            m_apxSpawners[ u ] = NULL;
-        }
-    }
-
-    if( s_fRespiteTimer > s_fRespiteTime )
-    {
-        // move to the next stage...
-        s_fRespiteTimer = 0.0f;
-        s_fStageTimer = 0.0f;
-
-        // start spawning again... always start with the simplest, easiest wave
-        // making it more difficult by adding more things more quickly...
-        X_Enemy_Definition xTestDef;
-	    xTestDef.m_uBrain = eENEMY_BRAIN_DIVE;
-        xTestDef.m_uTexture = xENEMY_SHIP_MATERIAL_1;
-	    m_apxSpawners[ 0 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SWEEP, xTestDef );
-        s_uCurrentSpawner = 1;
-
-        // make harder
-        s_fInterval -= ( s_fInterval > s_fMinInterval ) ? s_fIntervalDecrease : 0.0f;
-        s_fRespiteTime -= ( s_fRespiteTime > s_fMinRespiteTime ) ? s_fRespiteDecrease : 0.0f;
-        s_fFullOnTime += s_fFullOnIncrease;
-    }
-
-    if( s_uCurrentSpawner && ( s_uCurrentSpawner < 8 ) && ( s_fIntervalTimer > s_fInterval ) )
-    {
-        s_fIntervalTimer = 0.0f;
-        // fire up another spawner...
-        CreateSpawner( m_apxSpawners );
-    }
-
-    //if( !( m_apxSpawners[ 1 ] ) && ( m_fStateTimer > 30.0f ) )
-    //{
-    //    X_Enemy_Definition xTestDef;
-	   // xTestDef.m_uBrain = eENEMY_BRAIN_SWARM;
-    //    xTestDef.m_uTexture = xENEMY_SHIP_MATERIAL_2;
-    //    m_apxSpawners[ 1 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SCATTER, xTestDef );
-    //}
-
-    //if( !( m_apxSpawners[ 2 ] ) && ( m_fStateTimer > 60.0f ) )
-    //{
-    //    X_Enemy_Definition xTestDef;
-	   // xTestDef.m_uBrain = eENEMY_BRAIN_SUICIDE;
-    //    xTestDef.m_uTexture = xENEMY_SHIP_MATERIAL_2;
-    //    m_apxSpawners[ 2 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SCATTER, xTestDef );
-    //}
-
-    //if( !( m_apxSpawners[ 3 ] ) && ( m_fStateTimer > 90.0f ) )
-    //{
-    //    delete m_apxSpawners[ 0 ];
-    //    m_apxSpawners[ 0 ] = NULL;
-    //    X_Enemy_Definition xTestDef;
-	   // xTestDef.m_uBrain = eENEMY_BRAIN_SUICIDE;
-    //    xTestDef.m_uTexture = xENEMY_SHIP_MATERIAL_2;
-    //    m_apxSpawners[ 3 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SWEEP, xTestDef );
-    //}
-
-    //if( !( m_apxSpawners[ 4 ] ) && ( m_fStateTimer > 120.0f ) )
-    //{
-    //    for( u_int u = 4; u < uNUM_SPAWNERS; ++u )
-    //    {
-    //        X_Enemy_Definition xTestDef;
-	   //     xTestDef.m_uBrain = eENEMY_BRAIN_SWARM;
-    //        xTestDef.m_uTexture = xENEMY_SHIP_MATERIAL_2;
-    //        m_apxSpawners[ u ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SCATTER, xTestDef );
-    //    }
-    //}
-
-    //if( !( m_apxSpawners[ 0 ] ) && ( m_fStateTimer > 150.0f ) )
-    //{
-    //    X_Enemy_Definition xTestDef;
-	   // xTestDef.m_uBrain = eENEMY_BRAIN_DIVE;
-    //    xTestDef.m_uTexture = xENEMY_SHIP_MATERIAL_1;
-    //    m_apxSpawners[ 0 ] = X_Enemy_Spawner_Factory::CreateSpawner( eENEMY_SPAWNER_SWEEP, xTestDef );
-    //}
+	X_Wave_Manager::Update();
 
 	const bool bLeft = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() );
     const bool bRight = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetRightKey() );
     const bool bUp = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetUpKey() );
     const bool bDown = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetDownKey() );
 
-    m_pxPlayer->SetMovement(
-        GLToy_Vector_2(
-                ( bRight ? 1.0f : 0.0f ) + ( bLeft ? -1.0f : 0.0f ),
-                ( bUp ? 1.0f : 0.0f ) + ( bDown ? -1.0f : 0.0f ) ) );
-
-	
-
-	if( m_fCollectibleTimer < 0.0f )
-	{
-		GLToy_Hash xHash = X_COLLECTIBLE_TYPE_BOOST;
-		if( GLToy_Maths::Random() > 0.95f )
-		{
-			xHash = X_COLLECTIBLE_TYPE_LIFE;
-		}
-		else if( GLToy_Maths::Random() > 0.8f )
-		{
-			xHash = X_COLLECTIBLE_TYPE_WEAPON;
-		}
-
-		X_Entity_Collectible* pxEntity = static_cast<X_Entity_Collectible*>( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_COLLECTIBLE ) );
-		pxEntity->SetCollectType( xHash );
-		pxEntity->SetPosition( GLToy_Vector_3( GLToy_Maths::Random( -1.0f, 1.0f ), 1.5f, 0.0f ) );
-
-		m_fCollectibleTimer = fX_COLLECTIBLE_INTERVAL;
-	}
+    m_pxPlayer->SetMovement( GLToy_Vector_2( ( bRight ? 1.0f : 0.0f ) + ( bLeft ? -1.0f : 0.0f ),
+											 ( bUp    ? 1.0f : 0.0f ) + ( bDown ? -1.0f : 0.0f ) ) );
 
 	static bool bKeyDown = false;
 	GLToy_Array< X_Entity_Player* >& xList = X_Entity_Player::GetList();
@@ -388,4 +169,6 @@ void X_State_Game::Render2D() const
     GLToy_Font_System::RenderString( szLives, "FrontEnd", -GLToy_Render::GetAspectRatio(), 0.9f );
 	GLToy_Font_System::RenderString( szShield, "FrontEnd", -GLToy_Render::GetAspectRatio(), 0.8f );
     GLToy_Font_System::RenderString( szScore, "FrontEnd", -GLToy_Render::GetAspectRatio(), 0.7f );
+
+	X_Wave_Manager::Render();
 }

@@ -51,9 +51,6 @@
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const float fSIZE = 0.1f;
-static const GLToy_Hash xENEMY_SHIP_MATERIAL = GLToy_Hash_Constant( "Enemy/Enemy2" );
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,16 +63,11 @@ GLToy_Array< X_Entity_Enemy* > X_Entity_Enemy::s_xList;
 
 X_Entity_Enemy::X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
-, m_fSpeed( 0.0f )
 , m_uLight( GLToy_Random_Hash() )
 , m_pxBrain( 0 )
 {
-    BoundsFromMaterial( xENEMY_SHIP_MATERIAL, fSIZE );
-
-	SetHealth( 40.0f );
-
 	m_xDirection = GLToy_Maths::ZeroVector2;
-	m_xDirection[1] = 1.0f;
+	m_xDirection.y = -1.0f;
 
     s_xList.Append( this );
 
@@ -99,7 +91,9 @@ void X_Entity_Enemy::SetDefinition( const X_Enemy_Definition& xDefinition )
 	delete m_pxBrain;
 	m_pxBrain = X_Enemy_Brain_Factory::CreateBrain( xDefinition.m_uBrain, GetHash() );
 
-    BoundsFromMaterial( xDefinition.m_uTexture, fSIZE );
+    BoundsFromMaterial( xDefinition.m_uMaterial, xDefinition.m_fSize );
+
+	SetHealth( xDefinition.m_fHealth );
 }
 
 
@@ -111,22 +105,25 @@ void X_Entity_Enemy::Update()
 	}
 
 	GLToy_Vector_3 xPosition = GetPosition();
-	xPosition.x += m_xDirection.x * m_fSpeed * GLToy_Timer::GetFrameTime();
-	xPosition.y += m_xDirection.y * m_fSpeed * GLToy_Timer::GetFrameTime();
+	xPosition.x += m_xDirection.x * m_xDefinition.m_fSpeed * GLToy_Timer::GetFrameTime();
+	xPosition.y += m_xDirection.y * m_xDefinition.m_fSpeed * GLToy_Timer::GetFrameTime();
 	SetPosition( xPosition );
 
-    if( xPosition[ 1 ] < -1.5f )
+    if( ( xPosition.y < -1.5f ) ||
+		( xPosition.y > 1.5f ) ||
+		( xPosition.x < -1.5f ) ||
+		( xPosition.x > 1.5f ) )
     {
         Destroy();
 		GLToy_Parent::Update();
 		return;
     }
 
-    GLToy_Light* const pxLight = GLToy_Light_System::FindLight( m_uLight );
+    /*GLToy_Light* const pxLight = GLToy_Light_System::FindLight( m_uLight );
     if( pxLight )
     {
         pxLight->SetPosition( xPosition + GLToy_Vector_3( 0.0f, 0.5f * fSIZE, -0.1f ) );
-    }
+    }*/
 
     if( IsDead() )
     {
@@ -166,19 +163,21 @@ void X_Entity_Enemy::Render() const
     GLToy_Render::EnableBlending();
     GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
 
-    GLToy_Material_System::BindMaterial( m_xDefinition.m_uTexture );
+    GLToy_Material_System::BindMaterial( m_xDefinition.m_uMaterial );
+
+	const float fSize = m_xDefinition.m_fSize;
 
     GLToy_Render::StartSubmittingQuads();
-		
+
     GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
 	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
-	GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSize, xPosition[ 1 ] + fSize, xPosition[ 2 ] ); 
     GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 0.0f ) );
-	GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSize, xPosition[ 1 ] + fSize, xPosition[ 2 ] ); 
 	GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 1.0f ) );
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSize, xPosition[ 1 ] - fSize, xPosition[ 2 ] );
 	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 1.0f ) );
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSize, xPosition[ 1 ] - fSize, xPosition[ 2 ] );
 	
     GLToy_Render::EndSubmit();
 
@@ -189,24 +188,21 @@ void X_Entity_Enemy::RenderDeferred() const
 {
     GLToy_Vector_3 xPosition = GetPosition();
 
-    GLToy_Material* const pxMaterial = GLToy_Material_System::FindMaterial( m_xDefinition.m_uTexture );
+    GLToy_Material* const pxMaterial = GLToy_Material_System::FindMaterial( m_xDefinition.m_uMaterial );
     if( pxMaterial )
     {
         pxMaterial->Bind();
     }
 
-	GLToy_Vector_2 xVertex1( - fSIZE, + fSIZE );
-	GLToy_Vector_2 xVertex2( + fSIZE, + fSIZE );
-	GLToy_Vector_2 xVertex3( + fSIZE, - fSIZE );
-	GLToy_Vector_2 xVertex4( - fSIZE, - fSIZE );
+	const float fSize = m_xDefinition.m_fSize;
 
-	/*const float fAngle = 0.0f;
+	GLToy_Vector_2 xVertex1( - fSize, + fSize );
+	GLToy_Vector_2 xVertex2( + fSize, + fSize );
+	GLToy_Vector_2 xVertex3( + fSize, - fSize );
+	GLToy_Vector_2 xVertex4( - fSize, - fSize );
 
-	xVertex1 = GLToy_Maths::Rotate_2D( xVertex1, fAngle );
-	xVertex2 = GLToy_Maths::Rotate_2D( xVertex2, fAngle );
-	xVertex3 = GLToy_Maths::Rotate_2D( xVertex3, fAngle );
-	xVertex4 = GLToy_Maths::Rotate_2D( xVertex4, fAngle );
-	*/
+	// TY - Sorry for the mess, this was me experimenting with rotating the sprite
+
 	xVertex1.x += xPosition.x;	xVertex1.y += xPosition.y;
 	xVertex2.x += xPosition.x;	xVertex2.y += xPosition.y;
 	xVertex3.x += xPosition.x;	xVertex3.y += xPosition.y;
@@ -228,4 +224,9 @@ void X_Entity_Enemy::RenderDeferred() const
     GLToy_Render::SubmitVertex( xVertex4.x, xVertex4.y, xPosition[ 2 ] );
 	
     GLToy_Render::EndSubmit();
+}
+
+GLToy_Vector_3 X_Entity_Enemy::GetVelocity() const 
+{ 
+	return GLToy_Vector_3( m_xDirection * m_xDefinition.m_fSpeed, 0.0f ); 
 }

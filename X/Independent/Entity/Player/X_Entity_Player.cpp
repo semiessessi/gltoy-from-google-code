@@ -59,7 +59,7 @@ GLToy_Array< X_Entity_Player* > X_Entity_Player::s_xList;
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const float fACCELERATION = 3.0f;
+static const float fACCELERATION = 4.0f;
 static const float fSPEED = 2.5f;
 static const float fSIZE = 0.08f;
 static const GLToy_Hash xPLAYER_SHIP_TEXTURE = GLToy_Hash_Constant( "Sprites/Ship/Ship.png" );
@@ -110,7 +110,7 @@ void X_Entity_Player::Update()
 	}
 
 	// SE - TODO - parameterise recharge rate - maybe allow it to be upgradable?
-	m_fShield += 0.3f * GLToy_Timer::GetFrameTime();
+	m_fShield += 0.1f * GLToy_Timer::GetFrameTime();
 	m_fShield = GLToy_Maths::Min( m_fShield, 1.0f );
 	m_fAccelerationTimer += GLToy_Timer::GetFrameTime();
 	m_xSpeed = GLToy_Maths::ClampedLerp( m_xLerpStart, m_xMovement, fACCELERATION * m_fAccelerationTimer );

@@ -19,11 +19,16 @@ class X_Enemy_Spawner
 
 		virtual void Update() = 0;
 
+		void SetActive( bool bActive ) { m_bIsActive = bActive; }
+		bool IsActive() { return m_bIsActive; }
+
 	protected:
 
 		void CreateEnemy( const GLToy_Vector_2& xPosition );
 
 		X_Enemy_Definition m_xDefinition;
+
+		bool m_bIsActive;
 };
 
 

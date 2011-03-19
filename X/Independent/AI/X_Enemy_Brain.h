@@ -26,7 +26,6 @@ class X_Enemy_Brain
 		X_Entity_Player* GetPlayerEntity();
 
 		void TurnTowards( GLToy_Vector_2 xPosition, float fTurnSpeed = 100.0f );
-		void Accelerate( float fAccelSpeed, float fTopSpeed );
 
 	private:
 

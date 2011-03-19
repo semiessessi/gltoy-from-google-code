@@ -66,17 +66,6 @@ void X_Enemy_Brain::TurnTowards( GLToy_Vector_2 xPosition, float fTurnSpeed )
 }
 
 
-void X_Enemy_Brain::Accelerate( float fAccelSpeed, float fTopSpeed )
-{
-	X_Entity_Enemy* pxEntity = GetEntity();
-
-	float fSpeed = pxEntity->GetSpeed();
-
-	fSpeed = GLToy_Maths::ClampedLerp( fSpeed, fTopSpeed, GLToy_Timer::GetFrameTime() * fAccelSpeed );
-
-	pxEntity->SetSpeed( fSpeed );
-}
-
 // ____________________________________________________________________________________________________________________
 
 X_Enemy_Brain* X_Enemy_Brain_Factory::CreateBrain( GLToy_Hash uBrainType, GLToy_Hash uEnemy )

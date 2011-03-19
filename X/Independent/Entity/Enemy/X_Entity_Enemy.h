@@ -55,13 +55,18 @@ class X_Enemy_Definition
 		{
 			// TODO: Use some sensible defaults
 			m_uBrain = 0;
-			m_uTexture = 0;
+			m_uMaterial = 0;
 			m_uWeapon = 0;
+			m_fSize = 0.0f;
+			m_fSpeed = 0.0f;
 		}
 
 		GLToy_Hash m_uBrain;
-		GLToy_Hash m_uTexture;
+		GLToy_Hash m_uMaterial;
 		GLToy_Hash m_uWeapon;
+		float m_fSize;
+		float m_fHealth;
+		float m_fSpeed;
 		// TODO: Include other things 
 };
 
@@ -83,21 +88,17 @@ public:
 	const GLToy_Vector_2& GetDirection() { return m_xDirection; }
 	void SetDirection( const GLToy_Vector_2& xDirection ) { m_xDirection = xDirection; }
 
-	float GetSpeed() { return m_fSpeed; }
-	void SetSpeed( float fSpeed ) { m_fSpeed = fSpeed; }
-
 	void SetDefinition( const X_Enemy_Definition& xDefinition );
 
     static GLToy_Array< X_Entity_Enemy* >& GetList() { return s_xList; }
 
-    GLToy_Vector_3 GetVelocity() const { return GLToy_Vector_3( m_xDirection * m_fSpeed, 0.0f ); }
+    GLToy_Vector_3 GetVelocity() const;
 
 private:
 
     static GLToy_Array< X_Entity_Enemy* > s_xList;
 
 	GLToy_Vector_2 m_xDirection;
-	float m_fSpeed;
     GLToy_Hash m_uLight;
 
 	X_Enemy_Definition m_xDefinition;
