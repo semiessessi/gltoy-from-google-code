@@ -38,9 +38,9 @@
 #include <File/GLToy_File_System.h>
 #include <File/GLToy_KeyValueFile.h>
 #include <Render/GLToy_Render.h>
+#include <Render/GLToy_Light_System.h>
 #include <Render/Shader/GLToy_Shader.h>
 #include <Render/Shader/GLToy_Shader_System.h>
-#include <Render/GLToy_Texture_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
@@ -57,6 +57,7 @@ GLToy_Material* GLToy_Material_System::s_pxWhiteMaterial = NULL;
 GLToy_Material::GLToy_Material( const GLToy_Hash uHash )
 : GLToy_Parent()
 , m_uHash( uHash )
+, m_iFogParamsHandle( -1 )
 , m_uShader( uGLTOY_BAD_HASH )
 , m_uFlags( 0 )
 {
@@ -97,6 +98,8 @@ void GLToy_Material::Bind()
 
     pxShader->SetViewMatrix( m_aiViewMatrixHandles[ 0 ] );
     pxShader->SetInverseViewMatrix( m_aiViewMatrixHandles[ 1 ] );
+
+    pxShader->SetUniform( m_iFogParamsHandle, GLToy_Vector_4( GLToy_Light_System::GetFogStartDistance(), 1.0f / ( GLToy_Light_System::GetFogEndDistance() - GLToy_Light_System::GetFogStartDistance() ), 0.0f, 0.0f ) );
 }
 
 bool GLToy_Material::IsReady() const
@@ -150,6 +153,8 @@ void GLToy_Material::Initialise()
 
     m_aiViewMatrixHandles[ 0 ] = pxShader->GetUniformHandle( "xViewMatrix" );
     m_aiViewMatrixHandles[ 1 ] = pxShader->GetUniformHandle( "xInverseViewMatrix" );
+
+    m_iFogParamsHandle = pxShader->GetUniformHandle( "xFogParams" );
 
     m_bInitialised = true;
 }

@@ -46,6 +46,9 @@ Section ""
 	SetOutPath "$INSTDIR\Shaders"
 	File /r /x .svn ..\..\FPSToy\Data\Shaders\*.*
 
+	SetOutPath "$INSTDIR\Sounds"
+	File /r /x .svn ..\..\FPSToy\Data\Sounds\*.*
+
 	SetOutPath "$INSTDIR\Textures\"
 	File /r /x .svn ..\..\FPSToy\Data\Textures\*.*
 

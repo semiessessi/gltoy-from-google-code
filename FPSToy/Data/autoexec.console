@@ -1,4 +1,4 @@
 load.env warehouse
-test.directionallight
+test.dlight
 spawn.pointlight
 render.lightmap 0

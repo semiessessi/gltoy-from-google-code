@@ -235,6 +235,8 @@ public:
     static float GetFogExponent() { return s_fFogExponent; }
     static const GLToy_Vector_4& GetFogColour() { return s_xFogColour; }
 
+    static float GetConeCos() { return s_fConeCos; }
+
     static void TestDirectionalLight_Console();
 	static void SpawnPointLight_Console();
 
@@ -254,6 +256,8 @@ private:
     static float s_fFogEndDistance;
     static float s_fFogExponent;
     static GLToy_Vector_4 s_xFogColour;
+
+    static float s_fConeCos;
 
 };
 

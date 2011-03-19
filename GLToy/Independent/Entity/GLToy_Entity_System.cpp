@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -50,6 +50,7 @@
 #include <File/GLToy_File_System.h>
 #include <Maths/GLToy_Maths.h>
 #include <Render/GLToy_Camera.h>
+#include <Render/GLToy_Light_System.h>
 #include <Render/GLToy_RenderFunctor.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -488,6 +489,31 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Array< GLToy_Pair< 
     if( *pszClass == "worldspawn" )
     {
         // ... do nothing for now, maybe extract the environment name and gravity somehow?
+    }
+    else if( *pszClass == "light" )
+    {
+        // TODO: remove this special hack for lights...
+        GLToy_String* pszValueString = NULL;
+        GLToy_Light_PointProperties xLightProperties;
+        xLightProperties.m_xPosition = GLToy_Maths::ZeroVector3;
+        xLightProperties.m_xColour = GLToy_Vector_3( 0.5f, 0.5f, 0.5f );
+        xLightProperties.m_bSpecular = true;
+        pszValueString = xValueTree.FindData( GLToy_Hash_Constant( "light" ) );
+        if( pszValueString )
+        {
+            xLightProperties.m_fSphereRadius = 0.5f * pszValueString->ExtractFloat();
+        }
+        pszValueString = xValueTree.FindData( GLToy_Hash_Constant( "origin" ) );
+        if( pszValueString )
+        {
+            GLToy_Array< GLToy_String > xCoords = pszValueString->Split( L' ' );
+            if( xCoords.GetCount() == 3 )
+            {
+                xLightProperties.m_xPosition = GLToy_Vector_3( -xCoords[ 1 ].ExtractFloat(), xCoords[ 2 ].ExtractFloat(), xCoords[ 0 ].ExtractFloat() );
+            }
+        }
+
+        GLToy_Light_System::AddPointLight( szNewEntityName.GetHash(), xLightProperties );
     }
     else
     {

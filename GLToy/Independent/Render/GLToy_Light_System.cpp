@@ -56,10 +56,11 @@ GLToy_HashMap< GLToy_Light_Projector* > GLToy_Light_System::s_xProjectorLights;
 GLToy_Array< const GLToy_Renderable* > GLToy_Light_System::s_xOtherLightSources;
 GLToy_Array< const GLToy_GlobalLight_Directional* > GLToy_Light_System::s_xDirectionalLights;
 
-float GLToy_Light_System::s_fFogStartDistance;
-float GLToy_Light_System::s_fFogEndDistance;
-float GLToy_Light_System::s_fFogExponent;
+float GLToy_Light_System::s_fFogStartDistance = 100.0f;
+float GLToy_Light_System::s_fFogEndDistance = 300.0f;
+float GLToy_Light_System::s_fFogExponent = 0.0f;
 GLToy_Vector_4 GLToy_Light_System::s_xFogColour = GLToy_Vector_4( 0.4f, 0.3f, 0.25f, 1.0f );
+float GLToy_Light_System::s_fConeCos = 0.0f;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -345,6 +346,9 @@ void GLToy_Light_System::Update()
         GLToy_Render::NextDebugBuffer();
     }
 
+    // TODO: something beter...
+    s_fConeCos = GLToy_Maths::Cos( GLToy_Maths::Deg2Rad( 45.0f + GLToy_Render::GetFOV() ) );
+
     s_xLights.Traverse( GLToy_IndirectUpdateFunctor< GLToy_Light >() );
 }
 
@@ -356,6 +360,27 @@ void GLToy_Light_Point::RenderDebug() const
 
 void GLToy_Light_Point::RenderLighting() const
 {
+    const GLToy_Vector_3 xDifference = GetPosition() - GLToy_Camera::GetPosition();
+    const float fDistanceSquared = xDifference.MagnitudeSquared();
+
+    // fog culling
+    const float fFogDistance = ( GLToy_Light_System::GetFogEndDistance() + m_xProperties.m_fSphereRadius );
+    if( ( GLToy_Light_System::GetFogColour().w >= 1.0f ) && ( fDistanceSquared > fFogDistance * fFogDistance ) )
+    {
+        return;
+    }
+
+    // TODO: frustum cull with planes?
+    if( fDistanceSquared > m_xProperties.m_fSphereRadius * m_xProperties.m_fSphereRadius )
+    {
+        GLToy_Vector_3 xNormalised = xDifference;
+        xNormalised.Normalise();
+        if( ( xNormalised * GLToy_Camera::GetDirection() ) < GLToy_Light_System::GetConeCos() )
+        {
+            return;
+        }
+    }
+
     GLToy_Render_Metrics::IncrementLightCount();
 
     GLToy_ShaderProgram* const pxShader = GLToy_Light_System::GetCurrentShader();

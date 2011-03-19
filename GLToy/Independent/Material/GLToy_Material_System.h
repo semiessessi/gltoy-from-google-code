@@ -85,6 +85,7 @@ private:
     GLToy_String m_aszTextureNames[ 4 ];
     GLToy_Handle m_aiSamplerHandles[ 4 ];
     GLToy_Handle m_aiViewMatrixHandles[ 2 ];
+    GLToy_Handle m_iFogParamsHandle;
     GLToy_Hash m_uShader;
     const GLToy_Hash m_uHash;
 

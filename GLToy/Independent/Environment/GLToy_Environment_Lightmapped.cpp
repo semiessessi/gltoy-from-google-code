@@ -643,6 +643,20 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderDeferred() const
         return;
     }
 
+    const GLToy_Vector_3 xDifference = m_xBoundingSphere.GetPosition() - GLToy_Camera::GetPosition();
+    const float fDistanceSquared = xDifference.MagnitudeSquared();
+
+    // TODO: frustum cull with planes?
+    if( fDistanceSquared > m_xBoundingSphere.GetRadius() * m_xBoundingSphere.GetRadius() )
+    {
+        GLToy_Vector_3 xNormalised = xDifference;
+        xNormalised.Normalise();
+        if( ( xNormalised * GLToy_Camera::GetDirection() ) < GLToy_Light_System::GetConeCos() )
+        {
+            return;
+        }
+    }
+
     const bool bQuadRes = GLToy_Environment_System::IsBSPQuadRes();
 
     GLToy_ConstIterate( MaterialBatch, xBatch, m_xBatches )

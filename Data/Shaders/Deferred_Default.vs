@@ -9,6 +9,8 @@ varying float fFog;
 uniform mat4x4 xViewMatrix;
 uniform mat4x4 xInverseViewMatrix;
 
+uniform vec4 xFogParams;
+
 void main()
 {
 	xTexCoord = gl_MultiTexCoord0.xy;
@@ -20,7 +22,7 @@ void main()
 	
 	xPosition = gl_Vertex.xyz;
 	xViewPosition = ( gl_Vertex * xViewMatrix ).xyz;
-	fFog = ( length( xViewPosition.xyz ) - 200.0f ) * 0.003f ;
+	fFog = clamp( ( length( xViewPosition.xyz ) - xFogParams.x ) * xFogParams.y, 0.0, 1.0 );
 	
 	gl_Position = ftransform();
 }
