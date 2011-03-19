@@ -42,24 +42,8 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static void SpawnSound()
-{
-	GLToy_Handle xVoice = GLToy_Sound_System::CreateVoice( GLToy_Hash_Constant( "Explode" ) );
-	GLToy_Sound_Voice* pxVoice = GLToy_Sound_System::GetVoice( xVoice );
-	if( pxVoice )
-	{
-		pxVoice->SetSpeakerMapping( GLToy_Sound_Voice::SM_SPATIAL );
-		pxVoice->SetPosition( GLToy_Camera::GetPosition() );
-		pxVoice->SetRadius( 200.0f );
-		pxVoice->Play();
-		pxVoice->Release();
-	}
-}
-
 bool GLToy_Sound_System::Initialise()
 {
-	GLToy_Console::RegisterCommand( "spawnsound", SpawnSound );
-
 	return Platform_GLToy_Sound_System::Initialise();
 }
 
@@ -100,8 +84,6 @@ GLToy_Sound_Voice::GLToy_Sound_Voice( GLToy_Hash uWave )
 , m_fAmplitude( 1.0f )
 {
 }
-
-float ANGLY = 0.0f;
 
 float GLToy_Sound_Voice::GetSpeakerAmplitude( u_int uSpeaker )
 {

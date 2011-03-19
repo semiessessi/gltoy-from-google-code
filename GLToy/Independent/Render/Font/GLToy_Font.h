@@ -98,7 +98,7 @@ public:
     static void InitialiseFont( const GLToy_String& xName );
     static void ShutdownFont( const GLToy_String& xName );
 
-    static void RenderString( const GLToy_String& szString, const GLToy_String& xFontName, const float fX, const float fY );
+    static void RenderString( const GLToy_String& szString, const GLToy_String& xFontName, const float fX, const float fY, GLToy_Vector_4 xColour = 0xFFFFFFFF );
 
 private:
 

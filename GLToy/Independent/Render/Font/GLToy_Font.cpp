@@ -115,11 +115,11 @@ void GLToy_Font_System::ShutdownFont( const GLToy_String& xName )
     }
 }
 
-void GLToy_Font_System::RenderString( const GLToy_String& szString, const GLToy_String& xFontName, const float fX, const float fY )
+void GLToy_Font_System::RenderString( const GLToy_String& szString, const GLToy_String& xFontName, const float fX, const float fY, GLToy_Vector_4 xColour )
 {
     GLToy_Font* pxFont = LookUpFont( xFontName );
     if( pxFont )
     {
-        pxFont->RenderString( szString, fX, fY );
+        pxFont->RenderString( szString, fX, fY, xColour );
     }
 }
