@@ -123,6 +123,9 @@
     <ClCompile Include="Independent\Core\X_Wave_Manager.cpp">
       <Filter>Independent\Core\State</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Core\X_Score.cpp">
+      <Filter>Independent\Core\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_X.h">
@@ -189,6 +192,9 @@
       <Filter>Independent\Render</Filter>
     </ClInclude>
     <ClInclude Include="Independent\Core\X_Wave_Manager.h">
+      <Filter>Independent\Core\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\X_Score.h">
       <Filter>Independent\Core\State</Filter>
     </ClInclude>
   </ItemGroup>

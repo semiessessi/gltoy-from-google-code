@@ -72,14 +72,9 @@ public:
 
     virtual void Render2D() const;
 
-    static GLToy_ForceInline void AddScore( const u_int uAmount ) { s_uScore += uAmount; }
-    static GLToy_ForceInline u_int GetScore() { return s_uScore; }
-
 protected:
 
 	X_Entity_Player* m_pxPlayer;
-		
-    static u_int s_uScore;
 };
 
 #endif

@@ -51,6 +51,7 @@
 // X
 #include "AI/X_Enemy_Brain.h"
 #include "AI/X_Enemy_Brain_Types.h"
+#include "Core/X_Score.h"
 #include "Core/X_Spawner.h"
 #include "Core/X_Spawner_Types.h"
 #include "Core/X_Wave_Manager.h"
@@ -65,8 +66,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
-
-u_int X_State_Game::s_uScore = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -109,9 +108,8 @@ void X_State_Game::Initialise()
 
     GLToy_UI_System::CreateStatBar( "BarTest.ptx", m_pxPlayer->GetShield(), 1.0f, 0.5f, -0.875f, 0.5f, 0.1f );
 
-    s_uScore = 0;
-
 	X_Wave_Manager::Inititalise();
+	X_Score::Initialise();
 }
 
 void X_State_Game::Shutdown()
@@ -121,6 +119,7 @@ void X_State_Game::Shutdown()
 	m_pxPlayer = NULL;
 
 	X_Wave_Manager::Shutdown();
+	// X_Score::Shutdown(); // Still needed :/
 
     GLToy_UI_System::ClearWidgets();
 }
@@ -128,6 +127,7 @@ void X_State_Game::Shutdown()
 void X_State_Game::Update()
 {
 	X_Wave_Manager::Update();
+	X_Score::Update();
 
 	const bool bLeft = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() );
     const bool bRight = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetRightKey() );
@@ -162,13 +162,18 @@ void X_State_Game::Render2D() const
     static GLToy_String szLives;
 	static GLToy_String szShield;
     static GLToy_String szScore;
+	static GLToy_String szMultiplier;
+
     szLives.SetToFormatString( "Lives: %d", m_pxPlayer->GetLives() );
 	szShield.SetToFormatString( "Shield: %.1f%", m_pxPlayer->GetShield() );
-    szScore.SetToFormatString( "Score: %d", s_uScore );
+    szScore.SetToFormatString( "Score: %.0f", X_Score::GetScore() );
+	szMultiplier.SetToFormatString( "Multiplier: %.0f", X_Score::GetMultiplier() );
 
     GLToy_Font_System::RenderString( szLives, "FrontEnd", -GLToy_Render::GetAspectRatio(), 0.9f );
 	GLToy_Font_System::RenderString( szShield, "FrontEnd", -GLToy_Render::GetAspectRatio(), 0.8f );
     GLToy_Font_System::RenderString( szScore, "FrontEnd", -GLToy_Render::GetAspectRatio(), 0.7f );
+	GLToy_Font_System::RenderString( szMultiplier, "FrontEnd", -GLToy_Render::GetAspectRatio(), 0.6f );
 
 	X_Wave_Manager::Render();
+	X_Score::Render();
 }

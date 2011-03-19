@@ -44,6 +44,7 @@
 
 // X
 #include <Entity/Enemy/X_Entity_Enemy.h>
+#include "Core/X_Score.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
@@ -114,11 +115,12 @@ void X_Entity_Projectile::Update()
         {
 			GLToy_PFX_System::CreatePFX( GLToy_GetHash("Shot_Hit1" ), ls_pxThis->GetBB().GetPosition(), ( *ppxEnemy )->GetVelocity() );
 			( *ppxEnemy )->Hurt( 0, 10.0f );
+			X_Score::Add( 0.1f, ls_pxThis->GetBB().GetPosition() );
 			GLToy_Handle xVoice = GLToy_Sound_System::CreateVoice( GLToy_Hash_Constant( "Hit" ) );
 			GLToy_Sound_Voice* pxVoice = GLToy_Sound_System::GetVoice( xVoice );
 			if( pxVoice )
 			{
-				pxVoice->SetSpeakerMapping( GLToy_Sound_Voice::SM_SPATIAL );
+				pxVoice->SetSpeakerMapping( GLToy_Sound_Voice::SM_DIRECT );
 				pxVoice->SetPosition(  ls_pxThis->GetPosition() );
 				pxVoice->SetRadius( 600.0f );
 				pxVoice->SetAmplitude( 0.5f );

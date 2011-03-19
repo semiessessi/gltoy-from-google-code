@@ -46,6 +46,7 @@
 // X
 #include "AI/X_Enemy_Brain.h"
 #include <Core/State/X_State_Game.h>
+#include "Core/X_Score.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
@@ -141,7 +142,7 @@ void X_Entity_Enemy::Update()
 			pxVoice->Release();
 		}
 		
-		X_State_Game::AddScore( 10 );
+		X_Score::Add( m_xDefinition.m_fScore, xPosition );
         Destroy();
     }
 

@@ -137,12 +137,14 @@ void X_Wave_Manager::Inititalise()
 	xEnemy_Def_Template_Diver.m_uBrain = eENEMY_BRAIN_DIVE;
 	xEnemy_Def_Template_Diver.m_uMaterial = GLToy_Hash_Constant( "Enemy/Enemy1" );
 	xEnemy_Def_Template_Diver.m_fSpeed = 1.2f;
+	xEnemy_Def_Template_Diver.m_fScore = 1.0f;
 
 	xEnemy_Def_Template_Hunter.m_fHealth = 50.0f;
 	xEnemy_Def_Template_Hunter.m_fSize = 0.1f;
 	xEnemy_Def_Template_Hunter.m_uBrain = eENEMY_BRAIN_SUICIDE;
 	xEnemy_Def_Template_Hunter.m_uMaterial = GLToy_Hash_Constant( "Enemy/Enemy2" );
 	xEnemy_Def_Template_Hunter.m_fSpeed = 0.75f;
+	xEnemy_Def_Template_Hunter.m_fScore = 5.0f;
 }
 
 void X_Wave_Manager::Shutdown()
@@ -215,10 +217,11 @@ void X_Wave_Manager::NextWave()
 		{
 			xEnemy = xEnemy_Def_Template_Diver;
 			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_SCATTER, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.00f, fX_WAVE_MANAGER_WAVE_DURATION * 0.20f );
-			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_SCATTER, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.66f );
+			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_SCATTER, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.40f, fX_WAVE_MANAGER_WAVE_DURATION * 0.50f );
+			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_SCATTER, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.60f, fX_WAVE_MANAGER_WAVE_DURATION * 0.90f );
 
 			xEnemy = xEnemy_Def_Template_Hunter;
-			xEnemy.m_fHealth = 50.0f;
+			xEnemy.m_fHealth = 80.0f;
 			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_ONE, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.2f );
 			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_ONE, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.3f );
 			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_ONE, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.4f );
@@ -226,7 +229,7 @@ void X_Wave_Manager::NextWave()
 			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_ONE, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.6f );
 			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_ONE, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.7f );
 			xEnemy.m_fHealth = 30.0f;
-			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_INTERVAL, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.8f );
+			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_INTERVAL, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.95f );
 		}
 		break;
 	}

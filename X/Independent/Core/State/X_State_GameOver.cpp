@@ -57,7 +57,7 @@ void X_State_GameOver::Initialise()
     const float fBaseX = GLToy_Render::GetMinX() + 0.05f;
     GLToy_UI_System::CreateLabel( "G A M E   O V E R", fBaseX, 0.85f );
     GLToy_String szScore;
-    szScore.SetToFormatString( "You scored %d", X_State_Game::GetScore() );
+    szScore.SetToFormatString( "You scored %d", X_Score::GetScore() );
     GLToy_UI_System::CreateLabel( szScore, fBaseX, 0.75f );
     GLToy_UI_System::CreateLabel( "Click to continue", fBaseX, 0.65f );
 }
@@ -65,6 +65,7 @@ void X_State_GameOver::Initialise()
 void X_State_GameOver::Shutdown()
 {
     GLToy_UI_System::ClearWidgets();
+	X_Score::Shutdown(); // naff
 }
 
 void X_State_GameOver::Update()

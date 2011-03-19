@@ -59,6 +59,7 @@ class X_Enemy_Definition
 			m_uWeapon = 0;
 			m_fSize = 0.0f;
 			m_fSpeed = 0.0f;
+			m_fScore = 0.0f;
 		}
 
 		GLToy_Hash m_uBrain;
@@ -67,6 +68,7 @@ class X_Enemy_Definition
 		float m_fSize;
 		float m_fHealth;
 		float m_fSpeed;
+		float m_fScore;
 		// TODO: Include other things 
 };
 

@@ -170,6 +170,7 @@ upx.exe $(TargetPath) --best</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Independent\Core\X_Core_SCU.cpp" />
+    <ClCompile Include="Independent\Core\X_Score.cpp" />
     <ClCompile Include="Independent\Core\X_Spawner.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final|Win32'">true</ExcludedFromBuild>
@@ -216,6 +217,7 @@ upx.exe $(TargetPath) --best</Command>
     <ClInclude Include="Independent\Core\State\X_State_GameOver.h" />
     <ClInclude Include="Independent\Core\State\X_State_MainMenu.h" />
     <ClInclude Include="Independent\Core\X_Cheats.h" />
+    <ClInclude Include="Independent\Core\X_Score.h" />
     <ClInclude Include="Independent\Core\X_Spawner.h" />
     <ClInclude Include="Independent\Core\X_Spawner_Types.h" />
     <ClInclude Include="Independent\Core\X_Wave_Manager.h" />

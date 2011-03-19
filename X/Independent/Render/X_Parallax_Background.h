@@ -61,9 +61,9 @@ public:
         BindUniform( "xParams1", &m_xParams1 );
 		BindUniform( "xParams2", &m_xParams2 );
         BindTexture( "xTexture1", m_uTexture1, 0 );
-        BindTexture( "xTexture2", m_uTexture2, 1 );
-		BindTexture( "xTexture3", m_uTexture3, 2 );
-		BindTexture( "xTexture4", m_uTexture4, 3 );
+        //BindTexture( "xTexture2", m_uTexture2, 1 );
+		//BindTexture( "xTexture3", m_uTexture3, 2 );
+		//BindTexture( "xTexture4", m_uTexture4, 3 );
     }
 
     virtual void Render() const;
