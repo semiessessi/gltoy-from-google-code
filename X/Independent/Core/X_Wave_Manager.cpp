@@ -51,6 +51,12 @@
 static const float fX_WAVE_MANAGER_WAVE_DURATION = 30.0f;
 static const float fX_WAVE_MANAGER_REST_DURATION = 5.0f;
 
+static const float fX_WM_ENEMY_SPEED_EXTRA_SLOW = 0.2f;
+static const float fX_WM_ENEMY_SPEED_SLOW = 0.5f;
+static const float fX_WM_ENEMY_SPEED_NORMAL = 0.75f;
+static const float fX_WM_ENEMY_SPEED_FAST = 1.0f;
+static const float fX_WM_ENEMY_SPEED_EXTA_FAST = 1.3f;
+
 static X_Enemy_Definition xEnemy_Def_Template_Diver;
 static X_Enemy_Definition xEnemy_Def_Template_Hunter;
 
@@ -136,14 +142,14 @@ void X_Wave_Manager::Inititalise()
 	xEnemy_Def_Template_Diver.m_fSize = 0.075f;
 	xEnemy_Def_Template_Diver.m_uBrain = eENEMY_BRAIN_DIVE;
 	xEnemy_Def_Template_Diver.m_uMaterial = GLToy_Hash_Constant( "Enemy/Enemy1" );
-	xEnemy_Def_Template_Diver.m_fSpeed = 1.2f;
+	xEnemy_Def_Template_Diver.m_fSpeed = fX_WM_ENEMY_SPEED_NORMAL;
 	xEnemy_Def_Template_Diver.m_fScore = 1.0f;
 
 	xEnemy_Def_Template_Hunter.m_fHealth = 50.0f;
 	xEnemy_Def_Template_Hunter.m_fSize = 0.1f;
 	xEnemy_Def_Template_Hunter.m_uBrain = eENEMY_BRAIN_SUICIDE;
 	xEnemy_Def_Template_Hunter.m_uMaterial = GLToy_Hash_Constant( "Enemy/Enemy2" );
-	xEnemy_Def_Template_Hunter.m_fSpeed = 0.75f;
+	xEnemy_Def_Template_Hunter.m_fSpeed = fX_WM_ENEMY_SPEED_NORMAL;
 	xEnemy_Def_Template_Hunter.m_fScore = 5.0f;
 	xEnemy_Def_Template_Hunter.m_uWeapon = eENEMY_WEAPON_SINGLE;
 }
@@ -219,7 +225,9 @@ void X_Wave_Manager::NextWave()
 		{
 			xEnemy = xEnemy_Def_Template_Diver;
 			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_SCATTER, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.00f, fX_WAVE_MANAGER_WAVE_DURATION * 0.20f );
-			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_SCATTER, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.40f, fX_WAVE_MANAGER_WAVE_DURATION * 0.50f );
+			xEnemy.m_fSpeed = fX_WM_ENEMY_SPEED_SLOW;
+			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_SWEEP,   xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.20f, fX_WAVE_MANAGER_WAVE_DURATION * 0.50f );
+			xEnemy.m_fSpeed = fX_WM_ENEMY_SPEED_NORMAL;
 			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_SCATTER, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.60f, fX_WAVE_MANAGER_WAVE_DURATION * 0.90f );
 			
 			xEnemy = xEnemy_Def_Template_Hunter;

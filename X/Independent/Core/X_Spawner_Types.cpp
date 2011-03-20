@@ -57,8 +57,8 @@ void X_Spawner_Sweep::Update()
 		return;
 	}
 
-	const float fSpawnInterval = 0.2f;
-	const float fSpawnReset = 2.0f;
+	const float fSpawnInterval = 0.1f;
+	const float fSpawnReset = 1.0f;
 
 	m_fTimer += GLToy_Timer::GetFrameTime();
 	m_fSpawnTimer += GLToy_Timer::GetFrameTime();

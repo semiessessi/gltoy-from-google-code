@@ -135,7 +135,7 @@ void X_Enemy_Weapon_Single::Update()
 	
 	m_fShootTimer -= GLToy_Timer::GetFrameTime();
 
-	const float fShootInterval = 0.8f; 
+	const float fShootInterval = 2.0f; 
 
 	if( m_fShootTimer < 0.0f )
 	{
