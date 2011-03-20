@@ -47,6 +47,7 @@
 #include <Entity/X_EntityTypes.h>
 #include <Entity/Collectible/X_Entity_Collectible.h>
 #include <Entity/Enemy/X_Entity_Enemy.h>
+#include <Entity/Projectile/X_Entity_Projectile.h>
 #include "Equipment/X_Equipment_Weapon.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +60,8 @@ GLToy_Array< X_Entity_Player* > X_Entity_Player::s_xList;
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const float fACCELERATION = 4.0f;
+static const float fACCELERATION = 0.1f;
+static const float fDECCELERATION = 0.2f;
 static const float fSPEED = 2.5f;
 static const float fSIZE = 0.08f;
 static const GLToy_Hash xPLAYER_SHIP_TEXTURE = GLToy_Hash_Constant( "Sprites/Ship/Ship.png" );
@@ -74,7 +76,6 @@ X_Entity_Player::X_Entity_Player( const GLToy_Hash uHash, const u_int uType )
 , m_xMovement( GLToy_Maths::ZeroVector2 )
 , m_xPreviousMovement( GLToy_Maths::ZeroVector2 )
 , m_xSpeed( GLToy_Maths::ZeroVector2 )
-, m_xLerpStart( GLToy_Maths::ZeroVector2 )
 , m_fAccelerationTimer( 0.0f )
 , m_uLives( 3 )
 , m_fShield( 1.0f )
@@ -95,25 +96,30 @@ X_Entity_Player::~X_Entity_Player()
 void X_Entity_Player::Update()
 {
     GLToy_Vector_3 xPosition = GetPosition();
-	if( m_xMovement[ 0 ] != m_xPreviousMovement[ 0 ] )
-	{
-		m_xLerpStart[ 0 ] = 0.0f;
-		m_xLerpStart[ 1 ] = m_xSpeed[ 1 ];
-		m_fAccelerationTimer = 0.0f;
-	}
-
-	if( m_xMovement[ 1 ] != m_xPreviousMovement[ 1 ] )
-	{
-		m_xLerpStart[ 1 ] = 0.0f;
-		m_xLerpStart[ 0 ] = m_xSpeed[ 0 ];
-		m_fAccelerationTimer = 0.0f;
-	}
 
 	// SE - TODO - parameterise recharge rate - maybe allow it to be upgradable?
 	m_fShield += 0.1f * GLToy_Timer::GetFrameTime();
 	m_fShield = GLToy_Maths::Min( m_fShield, 1.0f );
 	m_fAccelerationTimer += GLToy_Timer::GetFrameTime();
-	m_xSpeed = GLToy_Maths::ClampedLerp( m_xLerpStart, m_xMovement, fACCELERATION * m_fAccelerationTimer );
+	
+	if( m_xMovement.x == 0.0f )
+	{
+		m_xSpeed.x = GLToy_Maths::ClampedLerp( m_xPreviousMovement.x, m_xMovement.x, fDECCELERATION );
+	}
+	else
+	{
+		m_xSpeed.x = GLToy_Maths::ClampedLerp( m_xPreviousMovement.x, m_xMovement.x, fACCELERATION );
+	}
+	
+	if( m_xMovement.y == 0.0f )
+	{
+		m_xSpeed.y = GLToy_Maths::ClampedLerp( m_xPreviousMovement.y, m_xMovement.y, fDECCELERATION );
+	}
+	else
+	{
+		m_xSpeed.y = GLToy_Maths::ClampedLerp( m_xPreviousMovement.y, m_xMovement.y, fACCELERATION );
+	}
+	m_xPreviousMovement = m_xSpeed;
 
     xPosition += GLToy_Vector_3( m_xSpeed, 0.0f ) * fSPEED * GLToy_Timer::GetFrameTime();
 
@@ -133,29 +139,26 @@ void X_Entity_Player::Update()
     // check for collisions:
     if( !X_Cheats::IsNoClip() )
     {
+		// TY - These quick functors are fucking ugly, srsly :|
         GLToy_QuickFunctor( CollisionFunctor, X_Entity_Enemy*, ppxEnemy,
 
             if( ppxEnemy && !( *ppxEnemy )->IsDead() && ( *ppxEnemy )->GetBB().IntersectsWithAABB( ls_pxThis->GetBB() ) )
             {
-                if( !X_Cheats::IsGodMode() )
-                {
-					ls_pxThis->m_fShield -= 0.5f;
-					if( ls_pxThis->m_fShield <= 0.0f )
-					{
-						ls_pxThis->m_fShield = 0.0f;
-						if( ls_pxThis->m_uLives != 0xFFFFFFFF )
-                        {
-                            --( ls_pxThis->m_uLives );
-                        }
-					}
-                }
-
+                ls_pxThis->Hit();
                 ( *ppxEnemy )->Kill();
             }
-
         );
-    
         X_Entity_Enemy::GetList().Traverse( CollisionFunctor() );
+
+		 GLToy_QuickFunctor( ProjectileFunctor, X_Entity_Projectile*, ppxProjectile,
+
+            if( ppxProjectile && !( *ppxProjectile )->IsFromPlayer() && ( *ppxProjectile )->GetBB().IntersectsWithAABB( ls_pxThis->GetBB() ) )
+            {
+                ls_pxThis->Hit();
+				( *ppxProjectile )->Destroy();
+            }
+        );
+        X_Entity_Projectile::GetList().Traverse( ProjectileFunctor() );
 
         GLToy_QuickFunctor( CollectFunctor, X_Entity_Collectible*, ppxCollectible,
 
@@ -176,8 +179,23 @@ void X_Entity_Player::Update()
     }
 
     GLToy_Parent::Update();
+}
 
-	m_xPreviousMovement = m_xMovement;
+void X_Entity_Player::Hit()
+{
+	if( !X_Cheats::IsGodMode() )
+    {
+		m_fShield -= 0.33f;
+		if( m_fShield <= 0.0f )
+		{
+			m_fShield = 0.0f;
+			// TODO: Remove lives, just kill the player when their shield is gone
+			if( m_uLives != 0xFFFFFFFF )
+            {
+                --m_uLives;
+            }
+		}
+    }
 }
 
 void X_Entity_Player::Render() const

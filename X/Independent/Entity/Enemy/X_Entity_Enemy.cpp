@@ -45,6 +45,9 @@
 
 // X
 #include "AI/X_Enemy_Brain.h"
+#include "Entity/Player/X_Entity_Player.h"
+#include "Equipment/X_Equipment_Weapon.h"
+#include "Equipment/X_Weapon_Types.h"
 #include <Core/State/X_State_Game.h>
 #include "Core/X_Score.h"
 
@@ -66,6 +69,7 @@ X_Entity_Enemy::X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType )
 : GLToy_Parent( uHash, uType )
 , m_uLight( GLToy_Random_Hash() )
 , m_pxBrain( 0 )
+, m_pxWeapon( 0 )
 {
 	m_xDirection = GLToy_Maths::ZeroVector2;
 	m_xDirection.y = -1.0f;
@@ -83,6 +87,9 @@ X_Entity_Enemy::~X_Entity_Enemy()
     //GLToy_Light_System::DestroyLight( m_uLight );
 
     s_xList.RemoveByValue( this );
+
+	delete m_pxBrain;
+	delete m_pxWeapon;
 }
 
 void X_Entity_Enemy::SetDefinition( const X_Enemy_Definition& xDefinition )
@@ -95,6 +102,11 @@ void X_Entity_Enemy::SetDefinition( const X_Enemy_Definition& xDefinition )
     BoundsFromMaterial( xDefinition.m_uMaterial, xDefinition.m_fSize );
 
 	SetHealth( xDefinition.m_fHealth );
+
+	if( xDefinition.m_uWeapon )
+	{
+		m_pxWeapon = X_Weapon_Factory::CreateWeapon( xDefinition.m_uWeapon, GetHash() );
+	}
 }
 
 
@@ -119,6 +131,33 @@ void X_Entity_Enemy::Update()
 		GLToy_Parent::Update();
 		return;
     }
+
+	GLToy_Array< X_Entity_Player* > xPlayerList = X_Entity_Player::GetList();
+	X_Entity_Player* pxPlayer = xPlayerList[0];
+
+	if( m_pxWeapon )
+	{
+		if( ( xPosition.y > -0.95f ) &&
+			 ( xPosition.y < 0.95f ) &&
+			 ( xPosition.x > -0.95f ) &&
+			 ( xPosition.x < 0.95f ) &&
+			 pxPlayer && 
+			 ( pxPlayer->GetPosition().y < ( GetPosition().y - 0.1f ) ) )
+		{
+			if( !m_pxWeapon->IsShooting() )
+			{
+				m_pxWeapon->StartShooting();
+			}
+		}
+		else
+		{
+			if( m_pxWeapon->IsShooting() )
+			{
+				m_pxWeapon->StopShooting();
+			}
+		}
+		m_pxWeapon->Update();
+	}
 
     /*GLToy_Light* const pxLight = GLToy_Light_System::FindLight( m_uLight );
     if( pxLight )

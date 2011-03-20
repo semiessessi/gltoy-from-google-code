@@ -6,7 +6,7 @@
 
 #include "Core/GLToy.h"
 
-#define X_BRAIN_TYPE(X) public: static const u_int uTYPE_HASH = X
+#define X_WEAPON_TYPE(X) public: static const u_int uTYPE_HASH = X
 
 #define X_WEAPON_MAX_BOOST 4
 
@@ -22,7 +22,8 @@ class X_Weapon
 
 		virtual void StartShooting();
 		virtual void StopShooting();
-	
+		bool IsShooting() const { return m_bIsShooting; }
+
 		virtual void Update();
 
 	protected:
@@ -30,7 +31,6 @@ class X_Weapon
 		float GetTimeShooting() { return m_fShootTimer; }
 
 		X_Entity_Player* GetPlayerEntity();
-		bool IsShooting() const { return m_bIsShooting; }
 
 	private:
 
@@ -85,10 +85,10 @@ class X_Weapon_Factory
 {
 	public:
 
-		static X_Weapon* CreateWeapon( u_int uType );
+		static X_Weapon* CreateWeapon( u_int uType, GLToy_Hash uEnemyHash = 0 );
 
 		static X_Player_Weapon* CreatePlayerWeapon( u_int uType );
-		static X_Enemy_Weapon* CreateEnemyWeapon( u_int uType );
+		static X_Enemy_Weapon* CreateEnemyWeapon( u_int uType, GLToy_Hash uEnemyHash );
 };
 
 #endif

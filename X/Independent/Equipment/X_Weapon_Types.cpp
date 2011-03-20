@@ -107,11 +107,55 @@ void X_Player_Weapon_Vulcan::Update()
 				xDirection.Normalise();
 
 				pxProjectile->SetDirection( GLToy_Vector_3( xDirection.x, xDirection.y, 0.0f ) );
-			
 				pxProjectile->SetRadius( 0.015f );
-				pxProjectile->SetTexture( 0 );
+				pxProjectile->SetTexture( 1 );
+				pxProjectile->SetIsFromPlayer( true );
+				pxProjectile->SetSpeed( 3.0f );
 			}
 			m_fShootTimer = 0.0f;
+		}
+	}
+}
+
+// ______________________________  Enemy Weapon Types  ____________________________________
+// _________________________________________________________________________________________
+
+X_Enemy_Weapon_Single::X_Enemy_Weapon_Single( GLToy_Hash uEnemyHash )
+: X_Enemy_Weapon( uEnemyHash )
+, m_fShootTimer( 0.0f )
+{
+}
+X_Enemy_Weapon_Single::~X_Enemy_Weapon_Single()
+{
+}
+
+void X_Enemy_Weapon_Single::Update()
+{
+	X_Enemy_Weapon::Update();
+	
+	m_fShootTimer -= GLToy_Timer::GetFrameTime();
+
+	const float fShootInterval = 0.8f; 
+
+	if( m_fShootTimer < 0.0f )
+	{
+		X_Entity_Player* pxPlayer = GetPlayerEntity();
+		X_Entity_Enemy* pxEnemy = GetEntity();
+
+		if( pxPlayer && pxEnemy && IsShooting() )
+		{
+			X_Entity_Projectile* pxProjectile = static_cast< X_Entity_Projectile* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), X_ENTITY_PROJECTILE ) );
+			GLToy_Vector_3 xDirection = ( pxPlayer->GetPosition() - pxEnemy->GetPosition() );
+			xDirection.x += GLToy_Maths::Random( - 0.1f, 0.1f );
+			xDirection.Normalise();
+			pxProjectile->SetDirection( xDirection );
+			pxProjectile->SetPosition( pxEnemy->GetPosition() );
+			pxProjectile->SetRadius( 0.008f );
+			pxProjectile->SetTexture( 0 );
+			pxProjectile->SetIsFromPlayer( false );
+			pxProjectile->SetSpeed( 1.2f );
+
+			m_fShootTimer = fShootInterval;
 		}
 	}
 }

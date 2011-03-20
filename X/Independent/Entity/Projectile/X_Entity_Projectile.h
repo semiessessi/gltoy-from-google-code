@@ -62,14 +62,24 @@ public:
     virtual void RenderTransparent() const;
 	virtual void Update();
 
+	void SetIsFromPlayer( bool bFromPlayer ) { m_bFromPlayer = bFromPlayer; }
+	bool IsFromPlayer() { return m_bFromPlayer; }
+
 	void SetDirection( const GLToy_Vector_3& xDirection ) { m_xDirection = xDirection; }
 	void SetTexture( const u_int uIndex );
+	void SetSpeed( float fSpeed ) { m_fSpeed = fSpeed; }
+
+	static GLToy_Array< X_Entity_Projectile* >& GetList() { return s_xList; }
 
 private:
+
+	static GLToy_Array< X_Entity_Projectile* > s_xList;
 
 	GLToy_Vector_3 m_xDirection;
 	u_int m_uTexture;
     GLToy_Hash m_uLight;
+	bool m_bFromPlayer;
+	float m_fSpeed;
 };
 
 #endif

@@ -72,6 +72,8 @@ public:
 	u_int GetLives() const { return m_uLives; }
 	const float& GetShield() const { return m_fShield; }
 
+	void Hit();
+
 protected:
 
 	GLToy_Vector_2 m_xMovement;

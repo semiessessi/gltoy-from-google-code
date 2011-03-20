@@ -107,6 +107,8 @@ void X_Player_Weapon::Boost()
 // _________________________________________________________________________________________
 
 X_Enemy_Weapon::X_Enemy_Weapon( GLToy_Hash uEnemyHash )
+: X_Weapon()
+, m_uEnemyHash( uEnemyHash )
 {
 
 }
@@ -133,11 +135,13 @@ X_Entity_Enemy* X_Enemy_Weapon::GetEntity()
 // _________________________________________________________________________________________
 // _________________________________________________________________________________________
 
-X_Weapon* X_Weapon_Factory::CreateWeapon( u_int uType )
+X_Weapon* X_Weapon_Factory::CreateWeapon( u_int uType, GLToy_Hash uEnemyHash )
 {
 	switch( uType )
 	{
 		case ePLAYER_WEAPON_VULCAN: return new X_Player_Weapon_Vulcan;
+
+		case eENEMY_WEAPON_SINGLE: return new X_Enemy_Weapon_Single( uEnemyHash );
 	}
 
 	return 0;
@@ -148,9 +152,9 @@ X_Player_Weapon* X_Weapon_Factory::CreatePlayerWeapon( u_int uType )
 	return reinterpret_cast< X_Player_Weapon* >( CreateWeapon( uType ) );
 }
 
-X_Enemy_Weapon* X_Weapon_Factory::CreateEnemyWeapon( u_int uType )
+X_Enemy_Weapon* X_Weapon_Factory::CreateEnemyWeapon( u_int uType, GLToy_Hash uEnemyHash )
 {
-	return reinterpret_cast< X_Enemy_Weapon* >( CreateWeapon( uType ) );
+	return reinterpret_cast< X_Enemy_Weapon* >( CreateWeapon( uType, uEnemyHash ) );
 }
 
 //eof

@@ -15,7 +15,14 @@ enum PLAYER_WEAPON_TYPES
 {
 	ePLAYER_FIRST_WEAPON_TYPE = 0,
 	
-	ePLAYER_WEAPON_VULCAN = ePLAYER_FIRST_WEAPON_TYPE
+	ePLAYER_WEAPON_VULCAN = ePLAYER_FIRST_WEAPON_TYPE,
+};
+
+enum ENEMY_WEAPON_TYPES
+{
+	eENEMY_FIRST_WEAPON_TYPE = 100,
+	
+	eENEMY_WEAPON_SINGLE = eENEMY_FIRST_WEAPON_TYPE,
 };
 
 // ______________________________  Player Weapon Types  ____________________________________
@@ -24,7 +31,7 @@ enum PLAYER_WEAPON_TYPES
 
 class X_Player_Weapon_Vulcan : public X_Player_Weapon
 {
-	X_BRAIN_TYPE( ePLAYER_WEAPON_VULCAN );
+	X_WEAPON_TYPE( ePLAYER_WEAPON_VULCAN );
 
 	public:
 
@@ -43,7 +50,21 @@ class X_Player_Weapon_Vulcan : public X_Player_Weapon
 // ______________________________  Enemy Weapon Types  _____________________________________
 // _________________________________________________________________________________________
 
+class X_Enemy_Weapon_Single : public X_Enemy_Weapon
+{
+	X_WEAPON_TYPE( eENEMY_WEAPON_SINGLE );
 
+	public:
+
+		X_Enemy_Weapon_Single( GLToy_Hash uEnemyHash );
+		~X_Enemy_Weapon_Single();
+
+		virtual void Update();
+
+	private:
+
+		float m_fShootTimer;
+};
 
 #endif
 
