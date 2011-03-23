@@ -178,6 +178,13 @@ public:
         Clear();
     }
 
+    GLToy_Inline void DeleteAllIndirect()
+    {
+        GLToy_DeleteFunctorIndirect< T > xFunctor;
+        Traverse( xFunctor );
+        Clear();
+    }
+
     virtual void Clear() = 0;
 
     virtual void Traverse( GLToy_Functor< T >& xFunctor ) = 0;

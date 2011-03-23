@@ -1986,6 +1986,7 @@
     <ClInclude Include="Independent\Core\GLToy_Profile.h" />
     <ClInclude Include="Independent\Core\State\GLToy_State_FixedCamera.h" />
     <ClInclude Include="Independent\Environment\GLToy_Environment_HeightField.h" />
+    <ClInclude Include="Independent\File\BSP\GLToy_BSP38_Types.h" />
     <ClInclude Include="Independent\File\GLToy_KeyValueFile.h" />
     <ClInclude Include="Independent\File\GLToy_PTXFile.h" />
     <ClInclude Include="Independent\File\GLToy_SoundFile.h" />

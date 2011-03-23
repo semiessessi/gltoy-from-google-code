@@ -76,6 +76,8 @@ public:
 
     virtual void Render() const;
 
+    const GLToy_Array< GLToy_3DS_Object >& Get3DSObjects() const { return m_xObjects; }
+
 protected:
 
     virtual void AddStripFromTriangle( const GLToy_Vector_3& xVertex1, const GLToy_Vector_3& xVertex2, const GLToy_Vector_3& xVertex3 ) {}

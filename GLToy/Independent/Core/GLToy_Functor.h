@@ -67,6 +67,24 @@ public:
 
 };
 
+template < class T >
+class GLToy_DeleteFunctorIndirect
+: public GLToy_Functor< T >
+{
+
+public:
+
+    GLToy_DeleteFunctorIndirect()
+    {
+    }
+
+    virtual void operator ()( T* const pxData )
+    {
+        delete pxData;
+    }
+
+};
+
 #define GLToy_QuickFunctor( xName, T, xParameter, xCode ) class xName : public GLToy_Functor< T > { public: virtual void operator()( T* const xParameter ) { xCode } };
 #define GLToy_QuickFunctorInstance( xName, T, xParameter, xCode, xInstance ) class xName : public GLToy_Functor< T > { public: virtual void operator()( T* const xParameter ) { xCode } } xInstance;
 

@@ -1022,6 +1022,9 @@
     <ClInclude Include="Independent\UI\GLToy_Widget_StatBar.h">
       <Filter>Independent\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\File\BSP\GLToy_BSP38_Types.h">
+      <Filter>Independent\File\BSP</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\Raytrace_Sphere.shader">

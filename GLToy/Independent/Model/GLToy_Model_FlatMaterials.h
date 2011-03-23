@@ -126,6 +126,12 @@ public:
 
     void SetMaterialIndex( const u_int uMaterialIndex ) { m_uMaterialIndex = uMaterialIndex; }
 
+    const GLToy_Vector_3& GetVertex( const u_int uIndex ) const { return m_pxVertices[ m_xIndices[ uIndex ][ 0 ] ]; }
+    const GLToy_Vector_3& GetNormal( const u_int uIndex ) const { return m_pxNormals[ m_xIndices[ uIndex ][ 2 ] ]; }
+    const GLToy_Vector_2& GetUV( const u_int uIndex ) const { return m_pxUVs[ m_xIndices[ uIndex ][ 1 ] ]; }
+
+    u_int GetVertexCount() const { return m_xIndices.GetCount(); }
+
 protected:
     
     u_int m_uMaterialIndex;

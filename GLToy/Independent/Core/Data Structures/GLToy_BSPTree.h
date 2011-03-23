@@ -187,6 +187,16 @@ public:
         return GetChild( xPosition )->AddLeaf( xPosition, pData );
     }
 
+    GLToy_ForceInline GLToy_BSPNode* AddPositiveLeaf( T* const pData )
+    {
+        return m_pxPositive = new GLToy_BSPNode( pData );
+    }
+
+    GLToy_ForceInline GLToy_BSPNode* AddNegativeLeaf( T* const pData )
+    {
+        return m_pxNegative = new GLToy_BSPNode( pData );
+    }
+
     void SplitLeaf( const GLToy_Vector_3& xPosition, const GLToy_Plane& xSplitPlane, T* const pDataPositive, T* const pDataNegative )
     {
         if( !m_pData )
@@ -338,6 +348,9 @@ public:
     GLToy_ForceInline GLToy_BSPNode* GetPositiveNode() const { return m_pxPositive; }
     GLToy_ForceInline GLToy_BSPNode* GetNegativeNode() const { return m_pxNegative; }
     GLToy_ForceInline const GLToy_Plane& GetPlane() const { return m_xPlane; }
+
+    GLToy_ForceInline void SetData( T* const pData ) { m_pData = pData; }
+    GLToy_ForceInline void SetPlane( const GLToy_Plane& xPlane ) { m_xPlane = xPlane; }
 
 protected:
 
