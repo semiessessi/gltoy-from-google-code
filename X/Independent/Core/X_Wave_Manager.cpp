@@ -144,7 +144,8 @@ void X_Wave_Manager::Inititalise()
 	xEnemy_Def_Template_Diver.m_uMaterial = GLToy_Hash_Constant( "Enemy/Enemy1" );
 	xEnemy_Def_Template_Diver.m_fSpeed = fX_WM_ENEMY_SPEED_NORMAL;
 	xEnemy_Def_Template_Diver.m_fScore = 1.0f;
-
+	xEnemy_Def_Template_Diver.m_fKnockBack = 0.5f;
+	
 	xEnemy_Def_Template_Hunter.m_fHealth = 50.0f;
 	xEnemy_Def_Template_Hunter.m_fSize = 0.1f;
 	xEnemy_Def_Template_Hunter.m_uBrain = eENEMY_BRAIN_SUICIDE;
@@ -152,6 +153,7 @@ void X_Wave_Manager::Inititalise()
 	xEnemy_Def_Template_Hunter.m_fSpeed = fX_WM_ENEMY_SPEED_NORMAL;
 	xEnemy_Def_Template_Hunter.m_fScore = 5.0f;
 	xEnemy_Def_Template_Hunter.m_uWeapon = eENEMY_WEAPON_SINGLE;
+	xEnemy_Def_Template_Hunter.m_fKnockBack = 0.2f;
 }
 
 void X_Wave_Manager::Shutdown()

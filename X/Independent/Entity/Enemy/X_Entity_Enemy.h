@@ -61,6 +61,7 @@ class X_Enemy_Definition
 			m_fSize = 0.0f;
 			m_fSpeed = 0.0f;
 			m_fScore = 0.0f;
+			m_fKnockBack = 0.0f;
 		}
 
 		GLToy_Hash m_uBrain;
@@ -70,6 +71,7 @@ class X_Enemy_Definition
 		float m_fHealth;
 		float m_fSpeed;
 		float m_fScore;
+		float m_fKnockBack;
 		// TODO: Include other things 
 };
 
@@ -90,6 +92,7 @@ public:
 
 	const GLToy_Vector_2& GetDirection() { return m_xDirection; }
 	void SetDirection( const GLToy_Vector_2& xDirection ) { m_xDirection = xDirection; }
+	void AddImpulse( const GLToy_Vector_2& xDirection ) { m_xImpulse = xDirection + m_xImpulse; }
 
 	void SetDefinition( const X_Enemy_Definition& xDefinition );
 
@@ -102,6 +105,7 @@ private:
     static GLToy_Array< X_Entity_Enemy* > s_xList;
 
 	GLToy_Vector_2 m_xDirection;
+	GLToy_Vector_2 m_xImpulse;
     GLToy_Hash m_uLight;
 
 	X_Enemy_Definition m_xDefinition;

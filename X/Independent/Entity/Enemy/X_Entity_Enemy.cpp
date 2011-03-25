@@ -55,6 +55,8 @@
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+const float fX_ENTITY_ENEMY_EXPLODE_RANGE = 0.5f;
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,6 +72,7 @@ X_Entity_Enemy::X_Entity_Enemy( const GLToy_Hash uHash, const u_int uType )
 , m_uLight( GLToy_Random_Hash() )
 , m_pxBrain( 0 )
 , m_pxWeapon( 0 )
+, m_xImpulse( GLToy_Maths::ZeroVector2 )
 {
 	m_xDirection = GLToy_Maths::ZeroVector2;
 	m_xDirection.y = -1.0f;
@@ -120,6 +123,14 @@ void X_Entity_Enemy::Update()
 	GLToy_Vector_3 xPosition = GetPosition();
 	xPosition.x += m_xDirection.x * m_xDefinition.m_fSpeed * GLToy_Timer::GetFrameTime();
 	xPosition.y += m_xDirection.y * m_xDefinition.m_fSpeed * GLToy_Timer::GetFrameTime();
+
+	// TODO: Make FPS independent
+	m_xImpulse.x *= 0.95f;
+	m_xImpulse.y *= 0.95f;
+	
+	xPosition.x += m_xImpulse.x * m_xDefinition.m_fKnockBack * GLToy_Timer::GetFrameTime();
+	xPosition.y += m_xImpulse.y * m_xDefinition.m_fKnockBack * GLToy_Timer::GetFrameTime();
+
 	SetPosition( xPosition );
 
     if( ( xPosition.y < -1.5f ) ||
@@ -181,6 +192,23 @@ void X_Entity_Enemy::Update()
 			pxVoice->Release();
 		}
 		
+		// Push back enemies hit by the explosion
+		GLToy_Array<X_Entity_Enemy*> xList = X_Entity_Enemy::GetList();
+		for( u_int uEnemy = 0; uEnemy < xList.GetCount(); ++uEnemy )
+		{
+			if( xList[uEnemy] != this )
+			{
+				GLToy_Vector_2 xToEnemy = xList[uEnemy]->GetPosition() - GetPosition();
+				if( xToEnemy.Magnitude() < fX_ENTITY_ENEMY_EXPLODE_RANGE )
+				{
+					const float fMaxX = xToEnemy.x > 0.0f ? 1.0f : -1.0f;
+					const float fMaxY = xToEnemy.y > 0.0f ? 1.0f : -1.0f;
+					xList[uEnemy]->AddImpulse( GLToy_Vector_2( fMaxX - xToEnemy.x / fX_ENTITY_ENEMY_EXPLODE_RANGE,
+															   fMaxY - xToEnemy.y / fX_ENTITY_ENEMY_EXPLODE_RANGE ) );
+				}
+			}
+		}
+
 		X_Score::Add( m_xDefinition.m_fScore, xPosition );
         Destroy();
     }

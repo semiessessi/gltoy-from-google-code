@@ -125,6 +125,7 @@ void X_Entity_Projectile::Update()
 			{
 				GLToy_PFX_System::CreatePFX( GLToy_GetHash("Shot_Hit1" ), ls_pxThis->GetBB().GetPosition(), ( *ppxEnemy )->GetVelocity() );
 				( *ppxEnemy )->Hurt( 0, 10.0f );
+				( *ppxEnemy )->AddImpulse( ls_pxThis->m_xDirection );
 				X_Score::Add( 0.1f, ls_pxThis->GetBB().GetPosition() );
 				GLToy_Handle xVoice = GLToy_Sound_System::CreateVoice( GLToy_Hash_Constant( "Hit" ) );
 				GLToy_Sound_Voice* pxVoice = GLToy_Sound_System::GetVoice( xVoice );
