@@ -35,6 +35,7 @@
 #include <Core/Data Structures/GLToy_Tree.h>
 
 // GLToy
+#include <Maths/GLToy_ConvexHull.h>
 #include <Maths/GLToy_Plane.h>
 #include <Maths/GLToy_Vector.h>
 #include <Maths/GLToy_Volume.h>
@@ -506,6 +507,71 @@ public:
         }
 
         return m_xSphereQuery;
+    }
+
+    GLToy_BSPNode< T >& GetNodeFromIndex( const u_int uIndex ) { return ( *this )[ uIndex ]; }
+
+    GLToy_ConvexHull GetHullForNodeFromIndex( const u_int uIndex )
+    {
+        GLToy_ConvexHull xHull;
+
+        const GLToy_BSPNode* const pxNode = &( GetNodeFromIndex( uIndex ) );
+
+        if( !pxNode || !m_pxHead )
+        {
+            return xHull;
+        }
+
+        // walk down to the node in a way I made up on the fly - there is almost certainly a better way
+        GLToy_Stack< const GLToy_BSPNode< T >* > xParents;
+        const GLToy_BSPNode< T >* pxCurrent = m_pxHead;
+
+        while( pxCurrent != pxNode )
+        {
+            // go to the positive node
+            if( pxCurrent->GetPositiveNode() )
+            {
+                xParents.Push( pxCurrent );
+                pxCurrent = pxCurrent->GetPositiveNode();
+                continue;
+            }
+
+            // otherwise the negative
+            if( pxCurrent->GetNegativeNode() )
+            {
+                xParents.Push( pxCurrent );
+                pxCurrent = pxCurrent->GetNegativeNode();
+                continue;
+            }
+
+            // otherwise try going to the first parent with a negative node
+            if( xParents.GetCount() > 0 )
+            {
+                while( xParents.Peek()->GetNegativeNode() == NULL )
+                {
+                    xParents.Pop();
+                }
+                
+                if( xParents.GetCount() > 0 )
+                {
+                    pxCurrent = xParents.Peek()->GetNegativeNode();
+                    continue;
+                }
+            }
+
+            // or maybe we are trying to do the impossible - return an empty hull
+            return xHull;
+        }
+
+        // add the parent's planes
+        GLToy_ConstIterate( GLToy_BSPNode< T >*, pxParent, xParents )
+            xHull.Append( pxParent->GetPlane() );
+        GLToy_Iterate_End;
+
+        // add the node's planes
+        xHull.Append( pxNode->GetPlane() );
+
+        return xHull;
     }
 
 protected:

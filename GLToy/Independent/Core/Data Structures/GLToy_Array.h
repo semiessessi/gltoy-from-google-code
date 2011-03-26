@@ -244,6 +244,18 @@ public:
         }
     }
 
+    bool Contains( const T& xValue ) const
+    {
+        GLToy_ConstIterate( T, xCurrent, *this )
+            if( xCurrent == xValue )
+            {
+                return true;
+            }
+        GLToy_Iterate_End;
+
+        return false;
+    }
+
 protected:
 
     u_int m_uCount;
