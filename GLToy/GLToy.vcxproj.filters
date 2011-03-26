@@ -1025,6 +1025,9 @@
     <ClInclude Include="Independent\File\BSP\GLToy_BSP38_Types.h">
       <Filter>Independent\File\BSP</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\Core\Data Structures\GLToy_Graph.h">
+      <Filter>Independent\Core\Data Structures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\Raytrace_Sphere.shader">
