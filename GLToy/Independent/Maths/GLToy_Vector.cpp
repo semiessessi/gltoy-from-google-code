@@ -56,13 +56,6 @@ GLToy_Vector_2::GLToy_Vector_2( float fX, float fY )
     m_fComponents[ 0 ] = fX;
     m_fComponents[ 1 ] = fY;
 }
-
-GLToy_Vector_2::GLToy_Vector_2( const GLToy_Vector_2& xVector )
-{
-    m_fComponents[ 0 ] = xVector[ 0 ];
-    m_fComponents[ 1 ] = xVector[ 1 ];
-}
-
 GLToy_Vector_2::GLToy_Vector_2( const GLToy_Vector_3& xVector )
 {
     m_fComponents[ 0 ] = xVector[ 0 ];
@@ -73,15 +66,6 @@ GLToy_Vector_2::GLToy_Vector_2( const GLToy_Vector_4& xVector )
 {
     m_fComponents[ 0 ] = xVector[ 0 ];
     m_fComponents[ 1 ] = xVector[ 1 ];
-}
-
-GLToy_Vector_2& GLToy_Vector_2::operator =( const GLToy_Vector_2& xVector )
-{
-    // TODO - use platform copy
-    m_fComponents[ 0 ] = xVector[ 0 ];
-    m_fComponents[ 1 ] = xVector[ 1 ];
-
-    return *this;
 }
 
 
@@ -121,13 +105,6 @@ float GLToy_Vector_2::Magnitude() const
     return GLToy_Maths::Sqrt( MagnitudeSquared() );
 }
 
-bool GLToy_Vector_2::operator ==( const GLToy_Vector_2& xVector ) const
-{
-    // TODO - use platform compare
-    return ( m_fComponents[ 0 ] == xVector[ 0 ] )
-        && ( m_fComponents[ 1 ] == xVector[ 1 ] );
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // 3 D
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -146,14 +123,6 @@ GLToy_Vector_3::GLToy_Vector_3( float fX, float fY, float fZ )
     m_fComponents[ 0 ] = fX;
     m_fComponents[ 1 ] = fY;
     m_fComponents[ 2 ] = fZ;
-}
-
-GLToy_Vector_3::GLToy_Vector_3( const GLToy_Vector_3& xVector )
-{
-    // TODO - use platform copy
-    m_fComponents[ 0 ] = xVector[ 0 ];
-    m_fComponents[ 1 ] = xVector[ 1 ];
-    m_fComponents[ 2 ] = xVector[ 2 ];
 }
 
 GLToy_Vector_3::GLToy_Vector_3( const GLToy_Vector_4& xVector )
@@ -183,16 +152,6 @@ void GLToy_Vector_3::WriteToBitStream( GLToy_BitStream& xStream ) const
     xStream << m_fComponents[ 0 ];
     xStream << m_fComponents[ 1 ];
     xStream << m_fComponents[ 2 ];
-}
-
-GLToy_Vector_3& GLToy_Vector_3::operator =( const GLToy_Vector_3& xVector )
-{
-    // TODO - use platform copy
-    m_fComponents[ 0 ] = xVector[ 0 ];
-    m_fComponents[ 1 ] = xVector[ 1 ];
-    m_fComponents[ 2 ] = xVector[ 2 ];
-
-    return *this;
 }
 
 GLToy_Vector_3 GLToy_Vector_3::operator -() const
@@ -246,14 +205,6 @@ GLToy_Vector_3 GLToy_Vector_3::operator -( const GLToy_Vector_3& xVector ) const
 GLToy_Vector_3 GLToy_Vector_3::operator *( const float fFloat ) const
 {
     return Platform_GLToy_Vector::Mul( fFloat, *this );
-}
-
-bool GLToy_Vector_3::operator ==( const GLToy_Vector_3& xVector ) const
-{
-    // TODO - use platform compare
-    return ( m_fComponents[ 0 ] == xVector[ 0 ] )
-        && ( m_fComponents[ 1 ] == xVector[ 1 ] )
-        && ( m_fComponents[ 2 ] == xVector[ 2 ] );
 }
 
 GLToy_Vector_3 GLToy_Vector_3::operator *( const GLToy_Matrix_3& xMatrix ) const
@@ -338,13 +289,6 @@ GLToy_Vector_4::GLToy_Vector_4( const u_int uRGBA )
     m_fComponents[ 3 ] = static_cast< float >( uRGBA >> 24 ) / 255.0f;
 }
 
-GLToy_Vector_4::GLToy_Vector_4( const GLToy_Vector_4& xVector )
-{
-    m_fComponents[ 0 ] = xVector[ 0 ];
-    m_fComponents[ 1 ] = xVector[ 1 ];
-    m_fComponents[ 2 ] = xVector[ 2 ];
-    m_fComponents[ 3 ] = xVector[ 3 ];
-}
 
 void GLToy_Vector_4::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
@@ -360,15 +304,6 @@ void GLToy_Vector_4::WriteToBitStream( GLToy_BitStream& xStream ) const
     xStream << m_fComponents[ 1 ];
     xStream << m_fComponents[ 2 ];
     xStream << m_fComponents[ 3 ];
-}
-
-bool GLToy_Vector_4::operator ==( const GLToy_Vector_4& xVector ) const
-{
-    // TODO - use platform compare
-    return ( m_fComponents[ 0 ] == xVector[ 0 ] )
-        && ( m_fComponents[ 1 ] == xVector[ 1 ] )
-        && ( m_fComponents[ 2 ] == xVector[ 2 ] )
-        && ( m_fComponents[ 3 ] == xVector[ 3 ] );
 }
 
 u_int GLToy_Vector_4::GetRGBA() const

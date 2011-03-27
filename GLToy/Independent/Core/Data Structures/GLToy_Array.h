@@ -227,15 +227,23 @@ public:
         Clear();
     }
 
-    void RemoveByValue( const T& xValue )
+    int Find( const T& xValue ) const
     {
         int iIndex = -1;
         GLToy_ConstIterate( T, xCurrent, *this )
             if( xCurrent == xValue )
             {
                 iIndex = xIterator.Index();
+                return iIndex;
             }
         GLToy_Iterate_End;
+
+        return -1;
+    }
+
+    void RemoveByValue( const T& xValue )
+    {
+        int iIndex = Find( xValue );
 
         //GLToy_Assert( iIndex >= 0, "Could not find item to remove from array!" );
         if( iIndex >= 0 )
@@ -244,16 +252,9 @@ public:
         }
     }
 
-    bool Contains( const T& xValue ) const
+    GLToy_ForceInline bool Contains( const T& xValue ) const
     {
-        GLToy_ConstIterate( T, xCurrent, *this )
-            if( xCurrent == xValue )
-            {
-                return true;
-            }
-        GLToy_Iterate_End;
-
-        return false;
+        return Find( xValue ) >= 0;
     }
 
 protected:

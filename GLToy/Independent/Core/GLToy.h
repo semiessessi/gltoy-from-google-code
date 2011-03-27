@@ -77,6 +77,7 @@ typedef unsigned int GLToy_Hash;
 #include <Core/GLToy_Assert.h>
 #include <Core/GLToy_Memory.h>
 #include <Core/GLToy_Memory_DebugOn.h>
+#include <Core/GLToy_CRTP.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // P R A G M A S
@@ -134,60 +135,6 @@ static const GLToy_Hash uGLTOY_BAD_HASH = 0;
 class GLToy_BitStream;
 class GLToy_String;
 class GLToy_Vector_2;
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-// C L A S S E S
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-template< class T >
-class GLToy_Destroyable
-{
-
-public:
-
-    ~GLToy_Destroyable() { static_cast< T* >( this )->Destroy(); }
-
-};
-
-template< class T >
-class GLToy_CopyableStruct
-{
-
-public:
-
-    GLToy_CopyableStruct() {}
-    GLToy_CopyableStruct( const GLToy_CopyableStruct& xStruct )
-    {
-        GLToy_Memory::Copy( this, &xStruct, sizeof( T ) );
-    }
-
-};
-
-template< class T >
-class GLToy_SimpleSerialisable
-{
-
-public:
-
-    void ReadFromBitStream( const GLToy_BitStream& xStream )
-	{
-		u_char* const pucThis = reinterpret_cast< u_char* >( this );
-		for( u_int u = 0; u < sizeof( T ); ++u )
-		{
-			xStream >> pucThis[ u ];
-		}
-	}
-
-    void WriteToBitStream( GLToy_BitStream& xStream ) const
-	{
-		const u_char* const pucThis = reinterpret_cast< const u_char* >( this );
-		for( u_int u = 0; u < sizeof( T ); ++u )
-		{
-			xStream << pucThis[ u ];
-		}
-	}
-
-};
 
 class GLToy
 {

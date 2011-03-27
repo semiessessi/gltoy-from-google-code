@@ -41,20 +41,22 @@ class GLToy_Vector_4;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Vector_2
+//: public GLToy_CopyableStruct< GLToy_Vector_2 >
+//, public GLToy_MemoryEqual< GLToy_Vector_2 >
 {
 
 public:
 
+    GLToy_CopyableStruct( GLToy_Vector_2 )
+    GLToy_MemoryEqual( GLToy_Vector_2 )
+
     GLToy_Vector_2();
     GLToy_Vector_2( float fX, float fY );
-    GLToy_Vector_2( const GLToy_Vector_2& xVector );
     GLToy_Vector_2( const GLToy_Vector_3& xVector );
     GLToy_Vector_2( const GLToy_Vector_4& xVector );
 
     void ReadFromBitStream( const GLToy_BitStream& xStream );
     void WriteToBitStream( GLToy_BitStream& xStream ) const;
-
-    GLToy_Vector_2& operator =( const GLToy_Vector_2& xVector );
 
     GLToy_Inline float& operator[] ( int i ) { return m_fComponents[ i ]; }
     GLToy_Inline const float& operator[] ( int i ) const { return m_fComponents[ i ]; }
@@ -85,9 +87,6 @@ public:
     float MagnitudeSquared() const { return *this * *this; }
 	bool ApproximatelyEqual( const GLToy_Vector_2& xVector, const float fThreshold = 0.0001f ) { return ( *this - xVector ).MagnitudeSquared() < fThreshold; }
 
-    bool operator ==( const GLToy_Vector_2& xVector ) const;
-	GLToy_ForceInline bool operator !=( const GLToy_Vector_2& xVector ) const { return !( *this == xVector ); }
-
 	union
 	{
 		float m_fComponents[ 2 ];
@@ -101,22 +100,24 @@ public:
 };
 
 class GLToy_Vector_3
+//: public GLToy_CopyableStruct< GLToy_Vector_3 >
+//, public GLToy_MemoryEqual< GLToy_Vector_3 >
 {
 
     friend class GLToy_Matrix_3;
 
 public:
 
+    GLToy_CopyableStruct( GLToy_Vector_3 )
+    GLToy_MemoryEqual( GLToy_Vector_3 )
+
     GLToy_Vector_3();
     GLToy_Vector_3( float fX, float fY, float fZ );
-    GLToy_Vector_3( const GLToy_Vector_3& xVector );
     GLToy_Vector_3( const GLToy_Vector_2& xVector, const float fZ = 1.0f );
     GLToy_Vector_3( const GLToy_Vector_4& xVector );
 
     void ReadFromBitStream( const GLToy_BitStream& xStream );
     void WriteToBitStream( GLToy_BitStream& xStream ) const;
-
-    GLToy_Vector_3& operator =( const GLToy_Vector_3& xVector );
 
     GLToy_Inline float& operator[] ( int i ) { return m_fComponents[ i ]; }
     GLToy_Inline const float& operator[] ( int i ) const { return m_fComponents[ i ]; }
@@ -161,8 +162,6 @@ public:
     float MagnitudeSquared() const { return *this * *this; }
 	bool ApproximatelyEqual( const GLToy_Vector_3& xVector, const float fThreshold = 0.0001f ) { return ( *this - xVector ).MagnitudeSquared() < fThreshold; }
 
-    bool operator ==( const GLToy_Vector_3& xVector ) const;
-
 	union
 	{
 		float m_fComponents[ 3 ];
@@ -177,9 +176,14 @@ public:
 };
 
 class GLToy_Vector_4
+//: public GLToy_CopyableStruct< GLToy_Vector_4 >
+//, public GLToy_MemoryEqual< GLToy_Vector_4 >
 {
 
 public:
+
+    GLToy_CopyableStruct( GLToy_Vector_4 )
+    GLToy_MemoryEqual( GLToy_Vector_4 )
 
     GLToy_Vector_4();
     GLToy_Vector_4( const GLToy_Vector_2& xXY, const GLToy_Vector_2& xWZ );
@@ -187,7 +191,6 @@ public:
     GLToy_Vector_4( const GLToy_Vector_3& xVector, const float fW = 1.0f );
     GLToy_Vector_4( float fX, float fY, float fZ, float fW );
     GLToy_Vector_4( const u_int uRGBA );
-    GLToy_Vector_4( const GLToy_Vector_4& xVector );
 
     void ReadFromBitStream( const GLToy_BitStream& xStream );
     void WriteToBitStream( GLToy_BitStream& xStream ) const;
@@ -199,8 +202,6 @@ public:
     const float* GetFloatPointer() const { return m_fComponents; }
 
     GLToy_Vector_4 operator -() const { return GLToy_Vector_4( -m_fComponents[ 0 ], -m_fComponents[ 1 ], -m_fComponents[ 2 ], -m_fComponents[ 3 ] ); }
-
-    bool operator ==( const GLToy_Vector_4& xVector ) const;
 
     GLToy_Inline GLToy_Vector_4& operator +=( const GLToy_Vector_4& xVector ) { return *this = ( *this + xVector ); }
     GLToy_Inline GLToy_Vector_4& operator -=( const GLToy_Vector_4& xVector ) { return *this = ( *this - xVector ); }

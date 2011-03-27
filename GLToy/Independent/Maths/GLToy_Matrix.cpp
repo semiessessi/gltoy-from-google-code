@@ -84,12 +84,6 @@ GLToy_Matrix_2::GLToy_Matrix_2( const float f00, const float f01, const float f1
     m_xComponents[ 1 ] = GLToy_Vector_2( f10, f11 );
 }
 
-GLToy_Matrix_2::GLToy_Matrix_2( const GLToy_Matrix_2& xMatrix )
-{
-    m_xComponents[ 0 ] = xMatrix.m_xComponents[ 0 ];
-    m_xComponents[ 1 ] = xMatrix.m_xComponents[ 1 ];
-}
-
 void GLToy_Matrix_2::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
     xStream >> m_xComponents[ 0 ];
@@ -100,14 +94,6 @@ void GLToy_Matrix_2::WriteToBitStream( GLToy_BitStream& xStream ) const
 {
     xStream << m_xComponents[ 0 ];
     xStream << m_xComponents[ 1 ];
-}
-
-GLToy_Matrix_2& GLToy_Matrix_2::operator =( const GLToy_Matrix_2& xMatrix )
-{
-    m_xComponents[ 0 ] = xMatrix.m_xComponents[ 0 ];
-    m_xComponents[ 1 ] = xMatrix.m_xComponents[ 1 ];
-
-    return *this;
 }
 
 GLToy_Matrix_2 GLToy_Matrix_2::operator -() const
@@ -188,13 +174,6 @@ GLToy_Matrix_3::GLToy_Matrix_3( const float f00, const float f01, const float f0
     m_xComponents[ 2 ] = GLToy_Vector_3( f20, f21, f22 );
 }
 
-GLToy_Matrix_3::GLToy_Matrix_3( const GLToy_Matrix_3& xMatrix )
-{
-    m_xComponents[ 0 ] = xMatrix.m_xComponents[ 0 ];
-    m_xComponents[ 1 ] = xMatrix.m_xComponents[ 1 ];
-    m_xComponents[ 2 ] = xMatrix.m_xComponents[ 2 ];
-}
-
 void GLToy_Matrix_3::ReadFromBitStream( const GLToy_BitStream& xStream )
 {
     xStream >> m_xComponents[ 0 ];
@@ -207,15 +186,6 @@ void GLToy_Matrix_3::WriteToBitStream( GLToy_BitStream& xStream ) const
     xStream << m_xComponents[ 0 ];
     xStream << m_xComponents[ 1 ];
     xStream << m_xComponents[ 2 ];
-}
-
-GLToy_Matrix_3& GLToy_Matrix_3::operator =( const GLToy_Matrix_3& xMatrix )
-{
-    m_xComponents[ 0 ] = xMatrix.m_xComponents[ 0 ];
-    m_xComponents[ 1 ] = xMatrix.m_xComponents[ 1 ];
-    m_xComponents[ 2 ] = xMatrix.m_xComponents[ 2 ];
-
-    return *this;
 }
 
 GLToy_Matrix_3 GLToy_Matrix_3::operator -() const
@@ -316,14 +286,6 @@ GLToy_Matrix_4::GLToy_Matrix_4(
     m_xComponents[ 3 ] = GLToy_Vector_4( f30, f31, f32, f33 );
 }
 
-GLToy_Matrix_4::GLToy_Matrix_4( const GLToy_Matrix_4& xMatrix )
-{
-    m_xComponents[ 0 ] = xMatrix.m_xComponents[ 0 ];
-    m_xComponents[ 1 ] = xMatrix.m_xComponents[ 1 ];
-    m_xComponents[ 2 ] = xMatrix.m_xComponents[ 2 ];
-    m_xComponents[ 3 ] = xMatrix.m_xComponents[ 3 ];
-}
-
 GLToy_Matrix_4::GLToy_Matrix_4( const GLToy_Matrix_3& xMatrix )
 {
     m_xComponents[ 0 ] = GLToy_Vector_4( xMatrix[ 0 ], 0.0f );
@@ -348,16 +310,6 @@ void GLToy_Matrix_4::WriteToBitStream( GLToy_BitStream& xStream ) const
     xStream << m_xComponents[ 3 ];
 }
 
-GLToy_Matrix_4& GLToy_Matrix_4::operator =( const GLToy_Matrix_4& xMatrix )
-{
-    m_xComponents[ 0 ] = xMatrix.m_xComponents[ 0 ];
-    m_xComponents[ 1 ] = xMatrix.m_xComponents[ 1 ];
-    m_xComponents[ 2 ] = xMatrix.m_xComponents[ 2 ];
-    m_xComponents[ 3 ] = xMatrix.m_xComponents[ 3 ];
-
-    return *this;
-}
-
 GLToy_Matrix_4 GLToy_Matrix_4::operator -() const
 {
     return GLToy_Matrix_4( -m_xComponents[ 0 ], -m_xComponents[ 1 ], -m_xComponents[ 2 ], -m_xComponents[ 3 ] );
@@ -378,7 +330,7 @@ GLToy_Matrix_4 GLToy_Matrix_4::operator -( const GLToy_Matrix_4& xMatrix ) const
         m_xComponents[ 0 ] - xMatrix.m_xComponents[ 0 ],
         m_xComponents[ 1 ] - xMatrix.m_xComponents[ 1 ],
         m_xComponents[ 2 ] - xMatrix.m_xComponents[ 2 ],
-        m_xComponents[ 3 ] - xMatrix.m_xComponents[ 3 ]);
+        m_xComponents[ 3 ] - xMatrix.m_xComponents[ 3 ] );
 }
 
 GLToy_Matrix_4 GLToy_Matrix_4::operator *( const GLToy_Matrix_4& xMatrix ) const

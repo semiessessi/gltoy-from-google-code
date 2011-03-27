@@ -87,5 +87,7 @@ public:
 
 #define GLToy_QuickFunctor( xName, T, xParameter, xCode ) class xName : public GLToy_Functor< T > { public: virtual void operator()( T* const xParameter ) { xCode } };
 #define GLToy_QuickFunctorInstance( xName, T, xParameter, xCode, xInstance ) class xName : public GLToy_Functor< T > { public: virtual void operator()( T* const xParameter ) { xCode } } xInstance;
+#define GLToy_QuickConstFunctor( xName, T, xParameter, xCode ) class xName : public GLToy_ConstFunctor< T > { public: virtual void operator()( const T* const xParameter ) { xCode } };
+#define GLToy_QuickConstFunctorInstance( xName, T, xParameter, xCode, xInstance ) class xName : public GLToy_ConstFunctor< T > { public: virtual void operator()( const T* const xParameter ) { xCode } } xInstance;
 
 #endif

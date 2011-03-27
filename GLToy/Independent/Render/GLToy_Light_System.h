@@ -76,8 +76,13 @@ struct GLToy_LightProperties
 };
 
 struct GLToy_Light_PointProperties
-: public GLToy_CopyableStruct< GLToy_Light_PointProperties >
+//: public GLToy_CopyableStruct< GLToy_Light_PointProperties >
 {
+
+    GLToy_CopyableStruct( GLToy_Light_PointProperties )
+    GLToy_MemoryEqual( GLToy_Light_PointProperties )
+
+    GLToy_Light_PointProperties() {}
 
     GLToy_LightPropertiesDefinition;
 
@@ -86,10 +91,15 @@ struct GLToy_Light_PointProperties
 };
 
 struct GLToy_Light_ProjectorProperties
-: public GLToy_CopyableStruct< GLToy_Light_ProjectorProperties >
+//: public GLToy_CopyableStruct< GLToy_Light_ProjectorProperties >
 {
 
+    GLToy_CopyableStruct( GLToy_Light_ProjectorProperties )
+    GLToy_MemoryEqual( GLToy_Light_ProjectorProperties )
+
     GLToy_LightPropertiesDefinition;
+
+    GLToy_Light_ProjectorProperties() {}
 
     GLToy_Matrix_3  m_xOrientation;
     float           m_fAngleX;

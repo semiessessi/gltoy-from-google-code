@@ -81,6 +81,22 @@ public:
     static GLToy_ForceInline void Copy( void* const pxDestination, const void* const pxSource, const u_int uBytes ) { Platform_Copy( pxDestination, pxSource, uBytes ); }
     static GLToy_ForceInline void Zero( void* const pxMemory, const u_int uBytes ) { Set( pxMemory, uBytes, 0 ); }
 
+    template < int iBytes >
+    static void FixedCopy( void* const pxDestination, const void* const pxSource )
+    {    
+        for( int u = 0; u < ( iBytes >> 2 ); ++u )
+        {
+            reinterpret_cast< int* const >( pxDestination )[ u ]
+                = reinterpret_cast< const int* const >( pxSource )[ u ];
+        }
+
+        for( int u = iBytes - ( iBytes & 3 ); u < iBytes; ++u )
+        {
+            reinterpret_cast< char* const >( pxDestination )[ u ]
+                = reinterpret_cast< const char* const >( pxSource )[ u ];
+        }
+    }
+
     static void* Platform_Allocate( const u_int uSize );
     static void Platform_Free( void* const pxMemory );
 

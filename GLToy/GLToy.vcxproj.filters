@@ -1028,6 +1028,9 @@
     <ClInclude Include="Independent\Core\Data Structures\GLToy_Graph.h">
       <Filter>Independent\Core\Data Structures</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_CRTP.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\Raytrace_Sphere.shader">

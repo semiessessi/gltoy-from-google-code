@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -38,9 +38,14 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Quaternion
+//: public GLToy_CopyableStruct< GLToy_Quaternion >
+//, public GLToy_MemoryEqual< GLToy_Quaternion >
 {
-
+    
 public:
+    
+    GLToy_CopyableStruct( GLToy_Quaternion )
+    GLToy_MemoryEqual( GLToy_Quaternion )
 
     GLToy_Quaternion()
     {
@@ -64,8 +69,6 @@ public:
 
 	float& operator[] ( int i ) { return m_fComponents[ i ]; }
     const float& operator[] ( int i ) const { return m_fComponents[ i ]; }
-
-	GLToy_Quaternion& operator =( const GLToy_Quaternion& xQuaternion );
 
 	GLToy_Quaternion operator +( const GLToy_Quaternion& xQuaternion ) const;
     GLToy_Quaternion operator -( const GLToy_Quaternion& xQuaternion ) const;

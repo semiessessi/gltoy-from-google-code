@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -39,8 +39,14 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Plane
+//: public GLToy_CopyableStruct< GLToy_Plane >
+//, public GLToy_MemoryEqual< GLToy_Plane >
 {
 public:
+
+    GLToy_CopyableStruct( GLToy_Plane )
+    GLToy_MemoryEqual( GLToy_Plane )
+
     GLToy_Plane()
     : m_xNormal( 0.0f, 0.0f, 0.0f )
     , m_fDistance( 0.0f )
@@ -51,19 +57,6 @@ public:
     : m_xNormal( xNormal )
     , m_fDistance( fDistance )
     {
-    }
-
-    GLToy_Plane( const GLToy_Plane& xPlane )
-    : m_xNormal( xPlane.m_xNormal )
-    , m_fDistance( xPlane.m_fDistance )
-    {
-    }
-
-    GLToy_Plane& operator =( const GLToy_Plane& xPlane )
-    {
-        m_xNormal = xPlane.m_xNormal;
-        m_fDistance = xPlane.m_fDistance;
-        return *this;
     }
 
     GLToy_Inline bool IsOnPositiveSide( const GLToy_Vector_3& xPosition ) const

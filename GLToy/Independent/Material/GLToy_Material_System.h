@@ -45,12 +45,12 @@ template < class T > class GLToy_HashMap;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Material
-: public GLToy_CopyableStruct< GLToy_Material >
+//: public GLToy_CopyableStruct< GLToy_Material >
 {
 
-    typedef GLToy_CopyableStruct< GLToy_Material > GLToy_Parent;
-
 public:
+
+    //GLToy_CopyableStruct( GLToy_Material )
 
     GLToy_Material( const GLToy_Hash uHash );
 
@@ -87,7 +87,7 @@ private:
     GLToy_Handle m_aiViewMatrixHandles[ 2 ];
     GLToy_Handle m_iFogParamsHandle;
     GLToy_Hash m_uShader;
-    const GLToy_Hash m_uHash;
+    GLToy_Hash m_uHash;
 
     union
     {

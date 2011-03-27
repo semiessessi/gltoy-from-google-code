@@ -76,7 +76,13 @@ void GLToy_Memory::Platform_Swap_32Bytes( void* const px1, void* const px2 )
 
 void GLToy_Memory::Platform_Copy( void* const pxDestination, const void* const pxSource, const u_int uBytes )
 {
-    for( u_int u = 0; u < uBytes; ++u )
+    for( u_int u = 0; u < ( uBytes >> 2 ); ++u )
+    {
+        reinterpret_cast< int* const >( pxDestination )[ u ]
+            = reinterpret_cast< const int* const >( pxSource )[ u ];
+    }
+
+    for( u_int u = uBytes - ( uBytes & 3 ); u < uBytes; ++u )
     {
         reinterpret_cast< char* const >( pxDestination )[ u ]
             = reinterpret_cast< const char* const >( pxSource )[ u ];

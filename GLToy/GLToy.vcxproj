@@ -1981,6 +1981,7 @@
     <ClInclude Include="Independent\Core\Data Structures\GLToy_Graph.h" />
     <ClInclude Include="Independent\Core\Data Structures\GLToy_HashMap.h" />
     <ClInclude Include="Independent\Core\Data Structures\GLToy_Pool.h" />
+    <ClInclude Include="Independent\Core\GLToy_CRTP.h" />
     <ClInclude Include="Independent\Core\GLToy_Memory.h" />
     <ClInclude Include="Independent\Core\GLToy_Memory_DebugOff.h" />
     <ClInclude Include="Independent\Core\GLToy_Memory_DebugOn.h" />

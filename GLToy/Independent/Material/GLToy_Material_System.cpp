@@ -55,8 +55,7 @@ GLToy_Material* GLToy_Material_System::s_pxWhiteMaterial = NULL;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 GLToy_Material::GLToy_Material( const GLToy_Hash uHash )
-: GLToy_Parent()
-, m_uHash( uHash )
+: m_uHash( uHash )
 , m_iFogParamsHandle( -1 )
 , m_uShader( uGLTOY_BAD_HASH )
 , m_uFlags( 0 )

@@ -274,7 +274,6 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
 
         GLToy_Vector_3 xNormal = GLToy_Maths::ZeroVector3;
         u_int uFirstEdge = xBSPFace.m_uFirstEdge;
-        // this crashes if there are degenerate faces...
         while( xNormal.MagnitudeSquared() < 0.00001f )
         {
             int iEdge1 = xFaceEdges[ uFirstEdge ];
@@ -284,6 +283,12 @@ void GLToy_EnvironmentFile::LoadBSP38( const GLToy_BitStream& xStream ) const
             const GLToy_Vector_3& xVertex3 = xVertices[ ( iEdge2 < 0 ) ? xEdges[ -iEdge2 ].m_usVertex2 : xEdges[ iEdge2 ].m_usVertex1 ];
             xNormal = ( xVertex3 - xVertex2 ).Cross( xVertex1 - xVertex2 );
             ++uFirstEdge;
+            if( uFirstEdge >= ( xFaceEdges.GetCount() - 1 ) )
+            {
+                GLToy_Assert( false, "Degenerate face!" );
+                xNormal = GLToy_Vector_3( 0.0f, 0.0f, 1.0f );
+                break;
+            }
         }
         
         xNormal.Normalise();
