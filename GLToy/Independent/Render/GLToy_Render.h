@@ -281,7 +281,7 @@ public:
     static void BindFrameBuffer( const u_int uTextureUnit = 0 );
     static void BindFrameBufferNoCopy( const u_int uTextureUnit = 0 );
 
-    static void BindLastFrameBufferTexture( const u_int uTextureUnit = 0 )
+    GLToy_ForceInline static void BindLastFrameBufferTexture( const u_int uTextureUnit = 0 )
     {
         if( HasFrameBuffer() )
         {        
@@ -296,7 +296,7 @@ public:
         }
     }
 
-    static void BindDiffuseTexture( const u_int uTextureUnit = 0 )
+    GLToy_ForceInline static void BindDiffuseTexture( const u_int uTextureUnit = 0 )
     {
         if( HasDeferredBuffer() )
         {        
@@ -304,7 +304,7 @@ public:
         }
     }
 
-    static void BindNormalTexture( const u_int uTextureUnit = 0 )
+    GLToy_ForceInline static void BindNormalTexture( const u_int uTextureUnit = 0 )
     {
         if( HasDeferredBuffer() )
         {        
@@ -312,7 +312,7 @@ public:
         }
     }
 
-    static void BindSpecularTexture( const u_int uTextureUnit = 0 )
+    GLToy_ForceInline static void BindSpecularTexture( const u_int uTextureUnit = 0 )
     {
         if( HasDeferredBuffer() )
         {        
@@ -320,7 +320,7 @@ public:
         }
     }
 
-    static void BindDepthTexture( const u_int uTextureUnit = 0 )
+    GLToy_ForceInline static void BindDepthTexture( const u_int uTextureUnit = 0 )
     {
         if( HasFrameBuffer() )
         {        
@@ -328,35 +328,33 @@ public:
         }
     }
 
-    static void StartSamplingDepth()
+    GLToy_ForceInline static void StartSamplingDepth()
     {
         BindFramebuffer( FRAMEBUFFER, 0 );
         BindFramebuffer( FRAMEBUFFER, *s_puCurrentBufferNoDepth );
     }
 
-    static void StopSamplingDepth()
+    GLToy_ForceInline static void StopSamplingDepth()
     {
         BindFramebuffer( FRAMEBUFFER, *s_puCurrentBuffer );
     }
 
-    static bool Platform_Initialise()
+    GLToy_ForceInline static bool Platform_Initialise()
     {
-        bool bOK = Platform_GLToy_Render::Initialise();
-
-        return bOK;
+        return Platform_GLToy_Render::Initialise();
     }
 
-    static void Platform_Shutdown()
+    GLToy_ForceInline static void Platform_Shutdown()
     {
         Platform_GLToy_Render::Shutdown();
     }
 
-    static void Platform_BeginRender()
+    GLToy_ForceInline static void Platform_BeginRender()
     {
         Platform_GLToy_Render::BeginRender();
     }
 
-    static void Platform_EndRender()
+    GLToy_ForceInline static void Platform_EndRender()
     {
         Platform_GLToy_Render::EndRender();
     }
@@ -365,101 +363,101 @@ public:
     // G L   I N T E R F A C E
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    static u_int GetError()
+    GLToy_ForceInline static u_int GetError()
     {
         return Platform_GLToy_Render::GetError();
     }
 
-    static void Clear()
+    GLToy_ForceInline static void Clear()
     {
         Platform_GLToy_Render::Clear();
     }
 
-    static void ClearColour( const GLToy_Vector_4& xColour )
+    GLToy_ForceInline static void ClearColour( const GLToy_Vector_4& xColour )
     {
         Platform_GLToy_Render::ClearColour( xColour );
     }
 
-    static void ClearDepth( const float fDepth )
+    GLToy_ForceInline static void ClearDepth( const float fDepth )
     {
         Platform_GLToy_Render::ClearDepth( fDepth );
     }
 
-    static void SetDepthFunction( const u_int uDepthFunction )
+    GLToy_ForceInline static void SetDepthFunction( const u_int uDepthFunction )
     {
         Platform_GLToy_Render::SetDepthFunction( uDepthFunction );
     }
 
-    static void SetViewport( const int iX, const int iY, const u_int uWidth, const u_int uHeight )
+    GLToy_ForceInline static void SetViewport( const int iX, const int iY, const u_int uWidth, const u_int uHeight )
     {
         s_fAspectRatio = static_cast< float >( uWidth ) / static_cast< float >( uHeight );
         Platform_GLToy_Render::SetViewport( iX, iY, uWidth, uHeight );
     }
 
-    static void SetIdentityProjectionMatrix()
+    GLToy_ForceInline static void SetIdentityProjectionMatrix()
     {
         Platform_GLToy_Render::SetIdentityProjectionMatrix();
     }
 
-    static void SetPerspectiveProjectionMatrix()
+    GLToy_ForceInline static void SetPerspectiveProjectionMatrix()
     {
         Platform_GLToy_Render::SetIdentityProjectionMatrix();
         Platform_GLToy_Render::SetPerspectiveProjectionMatrix( s_fFOV, s_fAspectRatio );
     }
 
-    static void SetOrthogonalProjectionMatrix()
+    GLToy_ForceInline static void SetOrthogonalProjectionMatrix()
     {
         Platform_GLToy_Render::SetIdentityProjectionMatrix();
         Platform_GLToy_Render::SetOrthogonalProjectionMatrix( s_fAspectRatio );
     }
 
-    static void SetIdentityViewMatrix()
+    GLToy_ForceInline static void SetIdentityViewMatrix()
     {
         Platform_GLToy_Render::SetIdentityViewMatrix();
     }
 
-    static void SetLookAtViewMatrix( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xLookAt, const GLToy_Vector_3& xUp )
+    GLToy_ForceInline static void SetLookAtViewMatrix( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xLookAt, const GLToy_Vector_3& xUp )
     {
         Platform_GLToy_Render::SetIdentityViewMatrix();
         Platform_GLToy_Render::SetLookAtViewMatrix( xPosition, xLookAt, xUp );
     }
 
-    static void Translate( const GLToy_Vector_3& xTranslation )
+    GLToy_ForceInline static void Translate( const GLToy_Vector_3& xTranslation )
     {
         Platform_GLToy_Render::Translate( xTranslation );
     }
 
-    static void Rotate( const GLToy_Vector_3& xAxis, const float fAngle )
+    GLToy_ForceInline static void Rotate( const GLToy_Vector_3& xAxis, const float fAngle )
     {
         Platform_GLToy_Render::Rotate( xAxis, fAngle );
     }
 
-    static void Transform( const GLToy_Matrix_3& xMatrix )
+    GLToy_ForceInline static void Transform( const GLToy_Matrix_3& xMatrix )
     {
         Platform_GLToy_Render::Transform( xMatrix );
     }
 
-    static void PushViewAttributes()
+    GLToy_ForceInline static void PushViewAttributes()
     {
         Platform_GLToy_Render::PushViewAttributes();
     }
 
-    static void PopViewAttributes()
+    GLToy_ForceInline static void PopViewAttributes()
     {
         Platform_GLToy_Render::PopViewAttributes();
     }
 
-    static void PushViewMatrix()
+    GLToy_ForceInline static void PushViewMatrix()
     {
         Platform_GLToy_Render::PushViewMatrix();
     }
 
-    static void PopViewMatrix()
+    GLToy_ForceInline static void PopViewMatrix()
     {
         Platform_GLToy_Render::PopViewMatrix();
     }
 
-    static void SubmitTexturedQuad2D( const float fXMin, const float fYMin, const float fXMax, const float fYMax, const float fUMin = 0.0f, const float fVMin = 0.0f, const float fUMax = 1.0f, const float fVMax = 1.0f )
+    GLToy_ForceInline static void SubmitTexturedQuad2D( const float fXMin, const float fYMin, const float fXMax, const float fYMax, const float fUMin = 0.0f, const float fVMin = 0.0f, const float fUMax = 1.0f, const float fVMax = 1.0f )
     {
         GLToy_Render::SubmitUV( GLToy_Vector_3( fUMin, fVMax, 0.0f ) );
         GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMin, fYMin, 0.0f ) );
@@ -474,7 +472,7 @@ public:
         GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMin, fYMax, 0.0f ) );
     }
 
-    static void SubmitTexturedQuad2D( const GLToy_Vector_2& xPosition, const GLToy_Vector_2& xSize, const float fUMin = 0.0f, const float fVMin = 0.0f, const float fUMax = 1.0f, const float fVMax = 1.0f )
+    GLToy_ForceInline static void SubmitTexturedQuad2D( const GLToy_Vector_2& xPosition, const GLToy_Vector_2& xSize, const float fUMin = 0.0f, const float fVMin = 0.0f, const float fUMax = 1.0f, const float fVMax = 1.0f )
     {
         GLToy_Render::SubmitUV( GLToy_Vector_3( fUMin, fVMax, 0.0f ) );
         GLToy_Render::SubmitVertex( GLToy_Vector_3( xPosition[ 0 ], xPosition[ 1 ], 0.0f ) );
@@ -489,158 +487,158 @@ public:
         GLToy_Render::SubmitVertex( GLToy_Vector_3( xPosition[ 0 ], xPosition[ 1 ] + xSize[ 1 ], 0.0f ) );
     }
 
-    static void StartSubmittingLines()
+    GLToy_ForceInline static void StartSubmittingLines()
     {
         Platform_GLToy_Render::StartSubmittingLines();
     }
 
-    static void StartSubmittingLineStrip()
+    GLToy_ForceInline static void StartSubmittingLineStrip()
     {
         Platform_GLToy_Render::StartSubmittingLineStrip();
     }
 
-    static void StartSubmittingLineLoop()
+    GLToy_ForceInline static void StartSubmittingLineLoop()
     {
         Platform_GLToy_Render::StartSubmittingLineLoop();
     }
 
-    static void StartSubmittingTriangles()
+    GLToy_ForceInline static void StartSubmittingTriangles()
     {
         Platform_GLToy_Render::StartSubmittingTriangles();
     }
 
-    static void StartSubmittingQuads()
+    GLToy_ForceInline static void StartSubmittingQuads()
     {
         Platform_GLToy_Render::StartSubmittingQuads();
     }
 
-    static void StartSubmittingTriangleStrip()
+    GLToy_ForceInline static void StartSubmittingTriangleStrip()
     {
         Platform_GLToy_Render::StartSubmittingTriangleStrip();
     }
 
-    static void StartSubmittingTriangleFan()
+    GLToy_ForceInline static void StartSubmittingTriangleFan()
     {
         Platform_GLToy_Render::StartSubmittingTriangleFan();
     }
 
-    static void StartSubmittingPolygon()
+    GLToy_ForceInline static void StartSubmittingPolygon()
     {
         Platform_GLToy_Render::StartSubmittingPolygon();
     }
 
-    static void EndSubmit()
+    GLToy_ForceInline static void EndSubmit()
     {
         Platform_GLToy_Render::EndSubmit();
     }
 
-    static void SubmitVertex( const GLToy_Vector_2& xVertex )
+    GLToy_ForceInline static void SubmitVertex( const GLToy_Vector_2& xVertex )
     {
         Platform_GLToy_Render::SubmitVertex( xVertex );
     }
 
-    static void SubmitVertex( const GLToy_Vector_3& xVertex )
+    GLToy_ForceInline static void SubmitVertex( const GLToy_Vector_3& xVertex )
     {
         Platform_GLToy_Render::SubmitVertex( xVertex );
     }
 
-    static void SubmitVertex( const float fX, const float fY, const float fZ = 0.0f )
+    GLToy_ForceInline static void SubmitVertex( const float fX, const float fY, const float fZ = 0.0f )
     {
         Platform_GLToy_Render::SubmitVertex( fX, fY, fZ );
     }
 
-    static void SubmitNormal( const GLToy_Vector_3& xNormal )
+    GLToy_ForceInline static void SubmitNormal( const GLToy_Vector_3& xNormal )
     {
         Platform_GLToy_Render::SubmitNormal( xNormal );
     }
 
-    static void SubmitColour( const GLToy_Vector_3& xColour )
+    GLToy_ForceInline static void SubmitColour( const GLToy_Vector_3& xColour )
     {
         Platform_GLToy_Render::SubmitColour( xColour );
     }
 
-    static void SubmitColour( const GLToy_Vector_4& xColour )
+    GLToy_ForceInline static void SubmitColour( const GLToy_Vector_4& xColour )
     {
         Platform_GLToy_Render::SubmitColour( xColour );
     }
 
-    static void SubmitUV( const GLToy_Vector_2& xUV, const u_int uTextureUnit = 0 )
+    GLToy_ForceInline static void SubmitUV( const GLToy_Vector_2& xUV, const u_int uTextureUnit = 0 )
     {
         Platform_GLToy_Render::SubmitUV( xUV, uTextureUnit );
     }
 
-    static void SubmitUV( const GLToy_Vector_3& xUV, const u_int uTextureUnit = 0 )
+    GLToy_ForceInline static void SubmitUV( const GLToy_Vector_3& xUV, const u_int uTextureUnit = 0 )
     {
         Platform_GLToy_Render::SubmitUV( xUV, uTextureUnit );
     }
 
-    static void SubmitUV( const GLToy_Vector_4& xUV, const u_int uTextureUnit = 0 )
+    GLToy_ForceInline static void SubmitUV( const GLToy_Vector_4& xUV, const u_int uTextureUnit = 0 )
     {
         Platform_GLToy_Render::SubmitUV( xUV, uTextureUnit );
     }
 
-    static void Flush()
+    GLToy_ForceInline static void Flush()
     {
         Platform_GLToy_Render::Flush();
     }
 
-    static void DisableBlending()
+    GLToy_ForceInline static void DisableBlending()
     {
         Platform_GLToy_Render::DisableBlending();
         SetBlendFunction( BLEND_ONE, BLEND_ZERO );
     }
 
-    static void EnableBlending()
+    GLToy_ForceInline static void EnableBlending()
     {
         Platform_GLToy_Render::EnableBlending();
     }
 
-    static void DisableDepthTesting()
+    GLToy_ForceInline static void DisableDepthTesting()
     {
         Platform_GLToy_Render::DisableDepthTesting();
     }
 
-    static void EnableDepthTesting()
+    GLToy_ForceInline static void EnableDepthTesting()
     {
         Platform_GLToy_Render::EnableDepthTesting();
     }
 
-    static void DisableDepthWrites()
+    GLToy_ForceInline static void DisableDepthWrites()
     {
         Platform_GLToy_Render::DisableDepthWrites();
     }
 
-    static void EnableDepthWrites()
+    GLToy_ForceInline static void EnableDepthWrites()
     {
         Platform_GLToy_Render::EnableDepthWrites();
     }
 
-    static void SetBlendFunction( const u_int uSourceBlend, const u_int uDestinationBlend )
+    GLToy_ForceInline static void SetBlendFunction( const u_int uSourceBlend, const u_int uDestinationBlend )
     {
         Platform_GLToy_Render::SetBlendFunction( uSourceBlend, uDestinationBlend );
     }
 
-    static void DisableBackFaceCulling()
+    GLToy_ForceInline static void DisableBackFaceCulling()
     {
         Platform_GLToy_Render::DisableBackFaceCulling();
     }
 
-    static void EnableBackFaceCulling()
+    GLToy_ForceInline static void EnableBackFaceCulling()
     {
         Platform_GLToy_Render::EnableBackFaceCulling();
     }
 
-    static void SetCCWFaceWinding()
+    GLToy_ForceInline static void SetCCWFaceWinding()
     {
         Platform_GLToy_Render::SetCCWFaceWinding();
     }
 
-    static void SetCWFaceWinding()
+    GLToy_ForceInline static void SetCWFaceWinding()
     {
         Platform_GLToy_Render::SetCWFaceWinding();
     }
 
-    static void SetVsyncEnabled( const bool bEnabled )
+    GLToy_ForceInline static void SetVsyncEnabled( const bool bEnabled )
     {
         s_bVsync = bEnabled;
         // pretend this is a console variable
@@ -648,419 +646,419 @@ public:
         Platform_GLToy_Render::SetVsyncEnabled( bEnabled );
     }
 
-    static void EnableVertexBuffers()
+    GLToy_ForceInline static void EnableVertexBuffers()
     {
         Platform_GLToy_Render::EnableVertexBuffers();
     }
 
-    static void EnableIndexBuffers()
+    GLToy_ForceInline static void EnableIndexBuffers()
     {
         Platform_GLToy_Render::EnableIndexBuffers();
     }
 
-    static void DisableVertexBuffers()
+    GLToy_ForceInline static void DisableVertexBuffers()
     {
         Platform_GLToy_Render::DisableVertexBuffers();
     }
 
-    static void DisableIndexBuffers()
+    GLToy_ForceInline static void DisableIndexBuffers()
     {
         Platform_GLToy_Render::DisableIndexBuffers();
     }
 
-    static void DrawBuffers( const int iCount, const u_int* const puBuffers )
+    GLToy_ForceInline static void DrawBuffers( const int iCount, const u_int* const puBuffers )
     {
         Platform_GLToy_Render::DrawBuffers( iCount, puBuffers );
     }
 
-    static bool IsRenderbuffer( const u_int uRenderBuffer )
+    GLToy_ForceInline static bool IsRenderbuffer( const u_int uRenderBuffer )
     {
         return Platform_GLToy_Render::IsRenderbuffer( uRenderBuffer );
     }
 
-    static void BindRenderbuffer( const u_int uTarget, const u_int uRenderBuffer )
+    GLToy_ForceInline static void BindRenderbuffer( const u_int uTarget, const u_int uRenderBuffer )
     {
         Platform_GLToy_Render::BindRenderbuffer( uTarget, uRenderBuffer );
     }
 
-    static void DeleteRenderbuffers( const int iCount, u_int* const puRenderBuffers )
+    GLToy_ForceInline static void DeleteRenderbuffers( const int iCount, u_int* const puRenderBuffers )
     {
         Platform_GLToy_Render::DeleteFramebuffers( iCount, puRenderBuffers );
     }
 
-    static void GenRenderbuffers( const int iCount, u_int* const puRenderBuffers )
+    GLToy_ForceInline static void GenRenderbuffers( const int iCount, u_int* const puRenderBuffers )
     {
         Platform_GLToy_Render::GenRenderbuffers( iCount, puRenderBuffers );
     }
 
-    static void RenderbufferStorage( const u_int uTarget, const u_int uInternalFormat, const int iWidth, const int iHeight )
+    GLToy_ForceInline static void RenderbufferStorage( const u_int uTarget, const u_int uInternalFormat, const int iWidth, const int iHeight )
     {
         Platform_GLToy_Render::RenderbufferStorage( uTarget, uInternalFormat, iWidth, iHeight );
     }
 
-    static void GetRenderbufferParameter( const u_int uTarget, const u_int uPName, int* const piParams )
+    GLToy_ForceInline static void GetRenderbufferParameter( const u_int uTarget, const u_int uPName, int* const piParams )
     {
         Platform_GLToy_Render::GetRenderbufferParameter( uTarget, uPName, piParams );
     }
 
-    static bool IsFramebuffer( const u_int uFrameBuffer )
+    GLToy_ForceInline static bool IsFramebuffer( const u_int uFrameBuffer )
     {
         return Platform_GLToy_Render::IsFramebuffer( uFrameBuffer );
     }
 
-    static void BindFramebuffer( const u_int uTarget, const u_int uFrameBuffer )
+    GLToy_ForceInline static void BindFramebuffer( const u_int uTarget, const u_int uFrameBuffer )
     {
         Platform_GLToy_Render::BindFramebuffer( uTarget, uFrameBuffer );
     }
 
-    static void DeleteFramebuffers( const int iCount, u_int* const puFrameBuffers )
+    GLToy_ForceInline static void DeleteFramebuffers( const int iCount, u_int* const puFrameBuffers )
     {
         Platform_GLToy_Render::DeleteFramebuffers( iCount, puFrameBuffers );
     }
 
-    static void GenFramebuffers( const int iCount, u_int* const puFrameBuffers )
+    GLToy_ForceInline static void GenFramebuffers( const int iCount, u_int* const puFrameBuffers )
     {
         Platform_GLToy_Render::GenFramebuffers( iCount, puFrameBuffers );
     }
 
-    static u_int CheckFramebufferStatus( const u_int uTarget )
+    GLToy_ForceInline static u_int CheckFramebufferStatus( const u_int uTarget )
     {
         return Platform_GLToy_Render::CheckFramebufferStatus( uTarget );
     }
 
-    static void FramebufferTexture1D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel )
+    GLToy_ForceInline static void FramebufferTexture1D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel )
     {
         Platform_GLToy_Render::FramebufferTexture1D( uTarget, uAttachment, uTexTarget, uTexture, iLevel );
     }
 
-    static void FramebufferTexture2D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel )
+    GLToy_ForceInline static void FramebufferTexture2D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel )
     {
         Platform_GLToy_Render::FramebufferTexture2D( uTarget, uAttachment, uTexTarget, uTexture, iLevel );
     }
 
-    static void FramebufferTexture3D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel, const int iZOffset )
+    GLToy_ForceInline static void FramebufferTexture3D( const u_int uTarget, const u_int uAttachment, const u_int uTexTarget, const u_int uTexture, const int iLevel, const int iZOffset )
     {
         Platform_GLToy_Render::FramebufferTexture3D( uTarget, uAttachment, uTexTarget, uTexture, iLevel, iZOffset );
     }
 
-    static void FramebufferRenderbuffer( const u_int uTarget, const u_int uAttachment, const u_int uRenderBufferTarget, const u_int uRenderBuffer )
+    GLToy_ForceInline static void FramebufferRenderbuffer( const u_int uTarget, const u_int uAttachment, const u_int uRenderBufferTarget, const u_int uRenderBuffer )
     {
         Platform_GLToy_Render::FramebufferRenderbuffer( uTarget, uAttachment, uRenderBufferTarget, uRenderBuffer );
     }
 
-    void GetFramebufferAttachmentParameter( const u_int uTarget, const u_int uAttachment, const u_int uPName, int* const piParams )
+    GLToy_ForceInline void GetFramebufferAttachmentParameter( const u_int uTarget, const u_int uAttachment, const u_int uPName, int* const piParams )
     {
         Platform_GLToy_Render::GetFramebufferAttachmentParameter( uTarget, uAttachment, uPName, piParams );
     }
 
-    static void GenerateMipmap( const u_int uTarget )
+    GLToy_ForceInline static void GenerateMipmap( const u_int uTarget )
     {
         Platform_GLToy_Render::GenerateMipmap( uTarget );
     }
 
-    static void GenBuffers( const u_int uCount, u_int* const puIDs )
+    GLToy_ForceInline static void GenBuffers( const u_int uCount, u_int* const puIDs )
     {
         Platform_GLToy_Render::GenBuffers( uCount, puIDs );
     }
 
-    static void DeleteBuffers( const u_int uCount, u_int* const puIDs )
+    GLToy_ForceInline static void DeleteBuffers( const u_int uCount, u_int* const puIDs )
     {
         Platform_GLToy_Render::DeleteBuffers( uCount, puIDs );
     }
 
-    static void BindBuffer( const u_int uTarget, const u_int uID )
+    GLToy_ForceInline static void BindBuffer( const u_int uTarget, const u_int uID )
     {
         Platform_GLToy_Render::BindBuffer( uTarget, uID );
     }
 
-    static void BufferData( const u_int uTarget, const u_int uSizeInBytes, const void* const pData, const u_int uType )
+    GLToy_ForceInline static void BufferData( const u_int uTarget, const u_int uSizeInBytes, const void* const pData, const u_int uType )
     {
         Platform_GLToy_Render::BufferData( uTarget, uSizeInBytes, pData, uType );
     }
 
-    static void VertexPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset )
+    GLToy_ForceInline static void VertexPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset )
     {
         Platform_GLToy_Render::VertexPointer( uComponentCount, /*uType,*/ uStride, pOffset );
     }
 
-    static void TexCoordPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset )
+    GLToy_ForceInline static void TexCoordPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset )
     {
         Platform_GLToy_Render::TexCoordPointer( uComponentCount, /*uType,*/ uStride, pOffset );
     }
 
-    static void DrawTriangles( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
+    GLToy_ForceInline static void DrawTriangles( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
     {
         Platform_GLToy_Render::DrawTriangles( uStart, uEnd, uCount, uOffset );
     }
 
-    static void DrawTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
+    GLToy_ForceInline static void DrawTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
     {
         Platform_GLToy_Render::DrawTriangleStrip( uStart, uEnd, uCount, uOffset );
     }
 
-    static void DrawPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
+    GLToy_ForceInline static void DrawPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
     {
         Platform_GLToy_Render::DrawPolygon( uStart, uEnd, uCount, uOffset );
     }
 
-    static void DrawTrianglesNoRange( const u_int uCount, const u_int uOffset )
+    GLToy_ForceInline static void DrawTrianglesNoRange( const u_int uCount, const u_int uOffset )
     {
         Platform_GLToy_Render::DrawTrianglesNoRange( uCount, uOffset );
     }
 
-    static void DrawTriangleStripNoRange( const u_int uCount, const u_int uOffset )
+    GLToy_ForceInline static void DrawTriangleStripNoRange( const u_int uCount, const u_int uOffset )
     {
         Platform_GLToy_Render::DrawTriangleStripNoRange( uCount, uOffset );
     }
 
-    static void DrawPolygonNoRange( const u_int uCount, const u_int uOffset )
+    GLToy_ForceInline static void DrawPolygonNoRange( const u_int uCount, const u_int uOffset )
     {
         Platform_GLToy_Render::DrawPolygonNoRange( uCount, uOffset );
     }
 
-    static void DrawTrianglesNoIndexBuffer( const u_int uCount, const u_int uOffset )
+    GLToy_ForceInline static void DrawTrianglesNoIndexBuffer( const u_int uCount, const u_int uOffset )
     {
         Platform_GLToy_Render::DrawTrianglesNoIndexBuffer( uCount, uOffset );
     }
 
-    static void DrawTriangleStripNoIndexBuffer( const u_int uCount, const u_int uOffset )
+    GLToy_ForceInline static void DrawTriangleStripNoIndexBuffer( const u_int uCount, const u_int uOffset )
     {
         Platform_GLToy_Render::DrawTriangleStripNoIndexBuffer( uCount, uOffset );
     }
 
-    static void DrawPolygonNoIndexBuffer( const u_int uCount, const u_int uOffset )
+    GLToy_ForceInline static void DrawPolygonNoIndexBuffer( const u_int uCount, const u_int uOffset )
     {
         Platform_GLToy_Render::DrawPolygonNoIndexBuffer( uCount, uOffset );
     }
 
-    static void ClientActiveTexture( const u_int uTextureUnit )
+    GLToy_ForceInline static void ClientActiveTexture( const u_int uTextureUnit )
     {
         return Platform_GLToy_Render::ClientActiveTexture( uTextureUnit );
     }
 
-    static bool IsShader( const u_int uID )
+    GLToy_ForceInline static bool IsShader( const u_int uID )
     {
         return Platform_GLToy_Render::IsShader( uID );
     }
 
-    static u_int CreateFragmentShader()
+    GLToy_ForceInline static u_int CreateFragmentShader()
     {
         return Platform_GLToy_Render::CreateFragmentShader();
     }
 
-    static u_int CreateVertexShader()
+    GLToy_ForceInline static u_int CreateVertexShader()
     {
         return Platform_GLToy_Render::CreateVertexShader();
     }
 
-    static u_int CreateProgram()
+    GLToy_ForceInline static u_int CreateProgram()
     {
         return Platform_GLToy_Render::CreateProgram();
     }
 
-    static void DeleteShader( u_int uShaderID )
+    GLToy_ForceInline static void DeleteShader( u_int uShaderID )
     {
         Platform_GLToy_Render::DeleteShader( uShaderID );
     }
 
-    static void DeleteProgram( u_int uProgramID )
+    GLToy_ForceInline static void DeleteProgram( u_int uProgramID )
     {
         Platform_GLToy_Render::DeleteProgram( uProgramID );
     }
 
-    static void ValidateProgram( u_int uProgramID )
+    GLToy_ForceInline static void ValidateProgram( u_int uProgramID )
     {
         Platform_GLToy_Render::ValidateProgram( uProgramID );
     }
 
-    static void CompileShader( u_int uShaderID )
+    GLToy_ForceInline static void CompileShader( u_int uShaderID )
     {
         Platform_GLToy_Render::CompileShader( uShaderID );
     }
 
-    static void LinkProgram( u_int uProgramID )
+    GLToy_ForceInline static void LinkProgram( u_int uProgramID )
     {
         Platform_GLToy_Render::LinkProgram( uProgramID );
     }
 
-    static void UseProgram( u_int uProgramID )
+    GLToy_ForceInline static void UseProgram( u_int uProgramID )
     {
         Platform_GLToy_Render::UseProgram( uProgramID );
     }
 
-    static void AttachShader( u_int uProgramID, u_int uShaderID )
+    GLToy_ForceInline static void AttachShader( u_int uProgramID, u_int uShaderID )
     {
         Platform_GLToy_Render::AttachShader( uProgramID, uShaderID );
     }
 
-    static void DetachShader( u_int uProgramID, u_int uShaderID )
+    GLToy_ForceInline static void DetachShader( u_int uProgramID, u_int uShaderID )
     {
         Platform_GLToy_Render::DetachShader( uProgramID, uShaderID );
     }
 
-    static void ShaderSource( u_int uShaderID, int iStringCount, char** ppszStrings, const int* piLengths )
+    GLToy_ForceInline static void ShaderSource( u_int uShaderID, int iStringCount, char** ppszStrings, const int* piLengths )
     {
         Platform_GLToy_Render::ShaderSource( uShaderID, iStringCount, ppszStrings, piLengths );
     }
 
-    static void GetProgramInfoLog( u_int uProgramID, int iMaxLength, int* iLength, char* szInfoLog )
+    GLToy_ForceInline static void GetProgramInfoLog( u_int uProgramID, int iMaxLength, int* iLength, char* szInfoLog )
     {
         Platform_GLToy_Render::GetProgramInfoLog( uProgramID, iMaxLength,  iLength, szInfoLog );
     }
 
-    static void GetShaderInfoLog( u_int uShaderID, int iMaxLength, int* iLength, char* szInfoLog )
+    GLToy_ForceInline static void GetShaderInfoLog( u_int uShaderID, int iMaxLength, int* iLength, char* szInfoLog )
     {
         Platform_GLToy_Render::GetShaderInfoLog( uShaderID, iMaxLength, iLength, szInfoLog );
     }
 
-    static u_int GetUniformID( u_int uProgramID, const char* szName )
+    GLToy_ForceInline static u_int GetUniformID( u_int uProgramID, const char* szName )
     {
         return Platform_GLToy_Render::GetUniformID( uProgramID, szName );
     }
 
-    static u_int GetAttributeID( u_int uProgramID, const char* szName )
+    GLToy_ForceInline static u_int GetAttributeID( u_int uProgramID, const char* szName )
     {
         return Platform_GLToy_Render::GetAttributeID( uProgramID, szName );
     }
 
-    static void BindAttributeID( u_int uProgramID, u_int uIndex, const char* szName )
+    GLToy_ForceInline static void BindAttributeID( u_int uProgramID, u_int uIndex, const char* szName )
     {
         Platform_GLToy_Render::BindAttributeID( uProgramID, uIndex, szName );
     }
 
-    static void SetUniform( u_int uUniformID, int iValue )
+    GLToy_ForceInline static void SetUniform( u_int uUniformID, int iValue )
     {
         Platform_GLToy_Render::SetUniform( uUniformID, iValue );
     }
 
-    static void SetUniform( u_int uUniformID, int iValue1, int iValue2 )
+    GLToy_ForceInline static void SetUniform( u_int uUniformID, int iValue1, int iValue2 )
     {
         Platform_GLToy_Render::SetUniform( uUniformID, iValue1, iValue2 );
     }
 
-    static void SetUniform( u_int uUniformID, int iValue1, int iValue2, int iValue3 )
+    GLToy_ForceInline static void SetUniform( u_int uUniformID, int iValue1, int iValue2, int iValue3 )
     {
         Platform_GLToy_Render::SetUniform( uUniformID, iValue1, iValue2, iValue3 );
     }
 
-    static void SetUniform( u_int uUniformID, int iValue1, int iValue2, int iValue3, int iValue4 )
+    GLToy_ForceInline static void SetUniform( u_int uUniformID, int iValue1, int iValue2, int iValue3, int iValue4 )
     {
         Platform_GLToy_Render::SetUniform( uUniformID, iValue1, iValue2, iValue3, iValue4 );
     }
 
-    static void SetUniform( u_int uUniformID, float fValue )
+    GLToy_ForceInline static void SetUniform( u_int uUniformID, float fValue )
     {
         Platform_GLToy_Render::SetUniform( uUniformID, fValue );
     }
 
-    static void SetUniform( u_int uUniformID, float fValue1, float fValue2 )
+    GLToy_ForceInline static void SetUniform( u_int uUniformID, float fValue1, float fValue2 )
     {
         Platform_GLToy_Render::SetUniform( uUniformID, fValue1, fValue2 );
     }
 
-    static void SetUniform( u_int uUniformID, float fValue1, float fValue2, float fValue3 )
+    GLToy_ForceInline static void SetUniform( u_int uUniformID, float fValue1, float fValue2, float fValue3 )
     {
         Platform_GLToy_Render::SetUniform( uUniformID, fValue1, fValue2, fValue3 );
     }
 
-    static void SetUniform( u_int uUniformID, float fValue1, float fValue2, float fValue3, float fValue4 )
+    GLToy_ForceInline static void SetUniform( u_int uUniformID, float fValue1, float fValue2, float fValue3, float fValue4 )
     {
         Platform_GLToy_Render::SetUniform( uUniformID, fValue1, fValue2, fValue3, fValue4 );
     }
 
-    static void SetUniform( u_int uUniformID, const GLToy_Matrix_4& xValue )
+    GLToy_ForceInline static void SetUniform( u_int uUniformID, const GLToy_Matrix_4& xValue )
     {
         Platform_GLToy_Render::SetUniform( uUniformID, xValue );
     }
 
-    static void SetAttribute( u_int uAttributeID, int iValue )
+    GLToy_ForceInline static void SetAttribute( u_int uAttributeID, int iValue )
     {
         Platform_GLToy_Render::SetAttribute( uAttributeID, iValue );
     }
 
-    static void SetAttribute( u_int uAttributeID, int iValue1, int iValue2 )
+    GLToy_ForceInline static void SetAttribute( u_int uAttributeID, int iValue1, int iValue2 )
     {
         Platform_GLToy_Render::SetAttribute( uAttributeID, iValue1, iValue2 );
     }
 
-    static void SetAttribute( u_int uAttributeID, int iValue1, int iValue2, int iValue3 )
+    GLToy_ForceInline static void SetAttribute( u_int uAttributeID, int iValue1, int iValue2, int iValue3 )
     {
         Platform_GLToy_Render::SetAttribute( uAttributeID, iValue1, iValue2, iValue3 );
     }
 
-    static void SetAttribute( u_int uAttributeID, int iValue1, int iValue2, int iValue3, int iValue4 )
+    GLToy_ForceInline static void SetAttribute( u_int uAttributeID, int iValue1, int iValue2, int iValue3, int iValue4 )
     {
         Platform_GLToy_Render::SetAttribute( uAttributeID, iValue1, iValue2, iValue3, iValue4 );
     }
 
-    static void SetAttribute( u_int uAttributeID, float fValue )
+    GLToy_ForceInline static void SetAttribute( u_int uAttributeID, float fValue )
     {
         Platform_GLToy_Render::SetAttribute( uAttributeID, fValue );
     }
 
-    static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2 )
+    GLToy_ForceInline static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2 )
     {
         Platform_GLToy_Render::SetAttribute( uAttributeID, fValue1, fValue2 );
     }
 
-    static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3 )
+    GLToy_ForceInline static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3 )
     {
         Platform_GLToy_Render::SetAttribute( uAttributeID, fValue1, fValue2, fValue3 );
     }
 
-    static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3, float fValue4 )
+    GLToy_ForceInline static void SetAttribute( u_int uAttributeID, float fValue1, float fValue2, float fValue3, float fValue4 )
     {
         Platform_GLToy_Render::SetAttribute( uAttributeID, fValue1, fValue2, fValue3, fValue4 );
     }
 
-    static void BeginQuery( u_int uTarget, u_int uID )
+    GLToy_ForceInline static void BeginQuery( u_int uTarget, u_int uID )
     {
         Platform_GLToy_Render::BeginQuery( uTarget, uID );
     }
 
-    static void EndQuery( u_int uTarget )
+    GLToy_ForceInline static void EndQuery( u_int uTarget )
     {
         Platform_GLToy_Render::EndQuery( uTarget );
     }
 
-    static void GenerateQueries( u_int uCount, u_int* puIDs )
+    GLToy_ForceInline static void GenerateQueries( u_int uCount, u_int* puIDs )
     {
         Platform_GLToy_Render::GenerateQueries( uCount, puIDs );
     }
 
-    static void DeleteQueries( u_int uCount, const u_int* puIDs )
+    GLToy_ForceInline static void DeleteQueries( u_int uCount, const u_int* puIDs )
     {
         Platform_GLToy_Render::DeleteQueries( uCount, puIDs );
     }
 
-    static void GetQueryObject( u_int uID, u_int uParameterName, int* piParameters )
+    GLToy_ForceInline static void GetQueryObject( u_int uID, u_int uParameterName, int* piParameters )
     {
         Platform_GLToy_Render::GetQueryObject( uID, uParameterName, piParameters );
     }
 
-    static void GetQueryObject( u_int uID, u_int uParameterName, unsigned long long* pullParameters )
+    GLToy_ForceInline static void GetQueryObject( u_int uID, u_int uParameterName, unsigned long long* pullParameters )
     {
         Platform_GLToy_Render::GetQueryObject( uID, uParameterName, pullParameters );
     }
 
-    static bool IsIntelGraphicsCard()
+    GLToy_ForceInline static bool IsIntelGraphicsCard()
     {
         return Platform_GLToy_Render::IsIntelGraphicsCard();
     }
 
-    static bool IsExtraCrappyIntelGraphicsCard()
+    GLToy_ForceInline static bool IsExtraCrappyIntelGraphicsCard()
     {
         return Platform_GLToy_Render::IsExtraCrappyIntelGraphicsCard();
     }
 
-    static const GLToy_Vector_2& GetClipPlanes() { return s_xClipPlanes; }
+    GLToy_ForceInline static const GLToy_Vector_2& GetClipPlanes() { return s_xClipPlanes; }
 
-    static void NextDebugBuffer() { ++s_uCurrentDebugBuffer; s_uCurrentDebugBuffer %= 11; }
-    static void PreviousDebugBuffer() { --s_uCurrentDebugBuffer; s_uCurrentDebugBuffer %= 11; }
+    GLToy_ForceInline static void NextDebugBuffer() { ++s_uCurrentDebugBuffer; s_uCurrentDebugBuffer %= 11; }
+    GLToy_ForceInline static void PreviousDebugBuffer() { --s_uCurrentDebugBuffer; s_uCurrentDebugBuffer %= 11; }
 
 private:
 
-    static void SetClipPlanes( const GLToy_Vector_2& xClipPlanes ) { s_xClipPlanes = xClipPlanes; }
+    GLToy_ForceInline static void SetClipPlanes( const GLToy_Vector_2& xClipPlanes ) { s_xClipPlanes = xClipPlanes; }
 
     static bool Project_Initialise();
     static void Project_Shutdown();
