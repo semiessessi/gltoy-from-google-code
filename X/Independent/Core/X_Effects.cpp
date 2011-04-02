@@ -101,6 +101,10 @@ class X_Effect_Shockwave : public X_Effect_Positional
 					continue;
 				}
 				GLToy_Vector_3 xFront = xList[uEnemy]->GetPosition() - m_xPosition;
+				if( xFront == GLToy_Maths::ZeroVector3 )
+				{
+					xFront.y += 0.01f;
+				}
 				xFront.Normalise();
 				const GLToy_Vector_3 xHitPos = m_xPosition + xFront * fSize;
 				if( xList[uEnemy]->GetBB().IsInside( xHitPos ) )
