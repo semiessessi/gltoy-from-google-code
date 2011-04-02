@@ -9,8 +9,10 @@
 #include "Core/GLToy_Timer.h"
 #include "Maths/GLToy_Maths.h"
 #include "Material/GLToy_Material_System.h"
+#include "Particle/GLToy_PFX_System.h"
 #include "Render/GLToy_Render.h"
 #include "Render/GLToy_Renderable.h"
+#include "Sound/GLToy_Sound_System.h"
 
 #include "Entity/Enemy/X_Entity_Enemy.h"
 
@@ -26,7 +28,6 @@ class X_Effect : public GLToy_Renderable
 		: m_fTimer( 0.0f )
 		{}
 
-		virtual void Start() {};
 		virtual bool IsDone() = 0;
 
 		virtual void Update()
@@ -60,6 +61,8 @@ class X_Effect_Positional : public X_Effect
 		, m_xPosition( xPosition )
 		{}
 
+		const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
+
 	protected:
 
 		GLToy_Vector_3 m_xPosition;
@@ -74,7 +77,7 @@ class X_Effect_Shockwave : public X_Effect_Positional
 	public:
 
 		X_Effect_Shockwave( const GLToy_Vector_3& xPosition, float fSize )
-		: X_Effect_Positional( xPosition )
+		: PARENT( xPosition )
 		, m_fSize( fSize )
 		{}
 
@@ -193,9 +196,38 @@ class X_Effect_Shockwave : public X_Effect_Positional
 
 // _______________________________________________________________________
 
-class X_Effect_Explosion
+class X_Effect_Explosion : public X_Effect_Positional
 {
+	typedef X_Effect_Positional PARENT;
 
+	public:
+
+		X_Effect_Explosion( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity )
+		: PARENT( xPosition )
+		{
+			GLToy_PFX_System::CreatePFX( GLToy_Hash_Constant( "Explosion1" ), m_xPosition, xVelocity );
+
+			GLToy_Handle xVoice = GLToy_Sound_System::CreateVoice( GLToy_Hash_Constant( "Explode" ) );
+			GLToy_Sound_Voice* pxVoice = GLToy_Sound_System::GetVoice( xVoice );
+			if( pxVoice )
+			{
+				pxVoice->SetSpeakerMapping( GLToy_Sound_Voice::SM_SPATIAL );
+				pxVoice->SetPosition( GetPosition() );
+				pxVoice->SetRadius( 600.0f );
+				pxVoice->SetAmplitude( 0.5f );
+				pxVoice->Play();
+				pxVoice->Release();
+			}
+		}
+
+		virtual bool IsDone()
+		{
+			return true;
+		}
+
+	protected:
+
+		GLToy_Vector_3 m_xVelocity;
 };
 
 // _______________________________________________________________________
@@ -209,9 +241,9 @@ void X_Effect_System::CreateShockwave( const GLToy_Vector_3& xPosition, const fl
 	s_xEffects.Append( new X_Effect_Shockwave( xPosition, fSize ) );
 }
 
-void X_Effect_System::CreateExplosion( const GLToy_Vector_3& xPosition, const float fSize )
+void X_Effect_System::CreateExplosion( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity )
 {
-	//s_xEffects.Append( new X_Effect_Explosion( xPosition, fSize ) );
+ 	s_xEffects.Append( new X_Effect_Explosion( xPosition, xVelocity ) );
 }
 
 void X_Effect_System::Initialise()

@@ -36,8 +36,6 @@
 // GLToy
 #include <Core/GLToy_Timer.h>
 #include <Material/GLToy_Material_System.h>
-#include <Particle/GLToy_PFX_System.h>
-#include <Sound/GLToy_Sound_System.h>
 #include <Render/GLToy_Light_System.h>
 #include <Render/GLToy_Render.h>
 #include <Render/GLToy_Render_Metrics.h>
@@ -178,22 +176,9 @@ void X_Entity_Enemy::Update()
     }*/
 
     if( IsDead() )
-    {
+	{
 		X_Effect_System::CreateShockwave( xPosition, 0.5f );
-
-        GLToy_PFX_System::CreatePFX( GLToy_Hash_Constant( "Explosion1" ), xPosition, GetVelocity() );
-        
-		GLToy_Handle xVoice = GLToy_Sound_System::CreateVoice( GLToy_Hash_Constant( "Explode" ) );
-		GLToy_Sound_Voice* pxVoice = GLToy_Sound_System::GetVoice( xVoice );
-		if( pxVoice )
-		{
-			pxVoice->SetSpeakerMapping( GLToy_Sound_Voice::SM_SPATIAL );
-			pxVoice->SetPosition( xPosition );
-			pxVoice->SetRadius( 600.0f );
-			pxVoice->SetAmplitude( 0.5f );
-			pxVoice->Play();
-			pxVoice->Release();
-		}
+		X_Effect_System::CreateExplosion( xPosition, GetVelocity() );
 		
 		X_Score::Add( m_xDefinition.m_fScore, xPosition );
         Destroy();

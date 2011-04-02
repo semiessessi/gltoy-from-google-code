@@ -19,7 +19,7 @@ class X_Effect_System
 		static void Shutdown();
 
 		static void CreateShockwave( const GLToy_Vector_3& xPosition, const float fSize );
-		static void CreateExplosion( const GLToy_Vector_3& xPosition, const float fSize );
+		static void CreateExplosion( const GLToy_Vector_3& xPosition, const GLToy_Vector_3& xVelocity = GLToy_Maths::ZeroVector3 );
 
 	private:
 
