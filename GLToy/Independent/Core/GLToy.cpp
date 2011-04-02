@@ -70,8 +70,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 bool GLToy::s_bFullscreen = false;
-int GLToy::s_iWidth = 800;
-int GLToy::s_iHeight = 600;
+int GLToy::s_iWidth = 1024;
+int GLToy::s_iHeight = 768;
 
 bool GLToy::s_bQuitFlag = false;
 bool GLToy::s_bHasFocus = false;

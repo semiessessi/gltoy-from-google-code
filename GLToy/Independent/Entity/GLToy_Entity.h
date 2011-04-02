@@ -85,7 +85,7 @@ public:
     GLToy_ForceInline void Activate() { m_bActive = true; }
     GLToy_ForceInline void Deactivate() { m_bActive = false; }
 
-    GLToy_ForceInline bool IsDead() const { return m_fHealth == 0.0f; }
+    GLToy_ForceInline bool IsDead() const { return m_fHealth < 0.0f; }
     GLToy_ForceInline void Destroy() { m_bFlaggedForDestruction = true; }
 
     virtual void RenderAABB() const {}

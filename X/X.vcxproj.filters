@@ -126,6 +126,9 @@
     <ClCompile Include="Independent\Core\X_Score.cpp">
       <Filter>Independent\Core\State</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Core\X_Effects.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_X.h">
@@ -196,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Core\X_Score.h">
       <Filter>Independent\Core\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\X_Effects.h">
+      <Filter>Independent\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

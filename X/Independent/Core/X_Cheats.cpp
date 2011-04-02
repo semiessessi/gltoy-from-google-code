@@ -52,5 +52,9 @@ bool X_Cheats::Initialise()
     GLToy_Console::RegisterVariable( "god", &s_bGodMode );
     GLToy_Console::RegisterVariable( "noclip", &s_bNoClip );
 
+	#ifdef _DEBUG
+	s_bGodMode = true;
+	#endif
+
     return true;
 }

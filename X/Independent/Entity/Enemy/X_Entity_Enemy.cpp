@@ -50,6 +50,7 @@
 #include "Equipment/X_Weapon_Types.h"
 #include <Core/State/X_State_Game.h>
 #include "Core/X_Score.h"
+#include "Core/X_Effects.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
@@ -178,6 +179,8 @@ void X_Entity_Enemy::Update()
 
     if( IsDead() )
     {
+		X_Effect_System::CreateShockwave( xPosition, 0.5f );
+
         GLToy_PFX_System::CreatePFX( GLToy_Hash_Constant( "Explosion1" ), xPosition, GetVelocity() );
         
 		GLToy_Handle xVoice = GLToy_Sound_System::CreateVoice( GLToy_Hash_Constant( "Explode" ) );
@@ -192,23 +195,6 @@ void X_Entity_Enemy::Update()
 			pxVoice->Release();
 		}
 		
-		// Push back enemies hit by the explosion
-		GLToy_Array<X_Entity_Enemy*> xList = X_Entity_Enemy::GetList();
-		for( u_int uEnemy = 0; uEnemy < xList.GetCount(); ++uEnemy )
-		{
-			if( xList[uEnemy] != this )
-			{
-				GLToy_Vector_2 xToEnemy = xList[uEnemy]->GetPosition() - GetPosition();
-				if( xToEnemy.Magnitude() < fX_ENTITY_ENEMY_EXPLODE_RANGE )
-				{
-					const float fMaxX = xToEnemy.x > 0.0f ? 1.0f : -1.0f;
-					const float fMaxY = xToEnemy.y > 0.0f ? 1.0f : -1.0f;
-					xList[uEnemy]->AddImpulse( GLToy_Vector_2( fMaxX - xToEnemy.x / fX_ENTITY_ENEMY_EXPLODE_RANGE,
-															   fMaxY - xToEnemy.y / fX_ENTITY_ENEMY_EXPLODE_RANGE ) );
-				}
-			}
-		}
-
 		X_Score::Add( m_xDefinition.m_fScore, xPosition );
         Destroy();
     }

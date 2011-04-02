@@ -245,6 +245,13 @@ void X_Wave_Manager::NextWave()
 			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_SCATTER, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.9f );
 		}
 		break;
+
+		default:
+		{
+			xEnemy = xEnemy_Def_Template_Diver;
+			s_apxTimedSpawners[ uSpawner++ ] = new X_Timed_Spawner( eENEMY_SPAWNER_SCATTER, xEnemy, fX_WAVE_MANAGER_WAVE_DURATION * 0.00f, fX_WAVE_MANAGER_WAVE_DURATION * 1.0f );
+		}
+		break;
 	}
 }
 

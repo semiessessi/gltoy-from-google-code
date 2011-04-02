@@ -55,6 +55,7 @@
 #include "Core/X_Spawner.h"
 #include "Core/X_Spawner_Types.h"
 #include "Core/X_Wave_Manager.h"
+#include "Core/X_Effects.h"
 #include <Entity/X_EntityTypes.h>
 #include <Entity/Collectible/X_Entity_Collectible.h>
 #include <Entity/Enemy/X_Entity_Enemy.h>
@@ -110,6 +111,7 @@ void X_State_Game::Initialise()
 
 	X_Wave_Manager::Inititalise();
 	X_Score::Initialise();
+	X_Effect_System::Initialise();
 }
 
 void X_State_Game::Shutdown()
@@ -120,6 +122,7 @@ void X_State_Game::Shutdown()
 
 	X_Wave_Manager::Shutdown();
 	// X_Score::Shutdown(); // Still needed :/
+	X_Effect_System::Shutdown();
 
     GLToy_UI_System::ClearWidgets();
 }
@@ -128,6 +131,7 @@ void X_State_Game::Update()
 {
 	X_Wave_Manager::Update();
 	X_Score::Update();
+	X_Effect_System::Update();
 
 	const bool bLeft = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetLeftKey() );
     const bool bRight = GLToy_Input_System::IsKeyDown( GLToy_Input_System::GetRightKey() );
@@ -176,4 +180,7 @@ void X_State_Game::Render2D() const
 
 	X_Wave_Manager::Render();
 	X_Score::Render();
+	X_Effect_System::Render();
 }
+
+// eof
