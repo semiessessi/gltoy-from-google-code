@@ -27,6 +27,10 @@
 #ifndef __GLTOY_TIMER_H_
 #define __GLTOY_TIMER_H_
 
+#include "Maths/GLToy_Maths.h"
+
+static const float fGLTOY_MAX_FRAME_TIME = 0.5f;
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +47,11 @@ public:
     static void Update();
 
     static GLToy_ForceInline const float& GetTime() { return s_fTimer; }
-    static GLToy_ForceInline float GetFrameTime() { return s_fFrameTime; }
+	#ifdef _DEBUG
+	static GLToy_ForceInline float GetFrameTime() { return GLToy_Maths::Min( s_fFrameTime, fGLTOY_MAX_FRAME_TIME ); }
+	#else
+	static GLToy_ForceInline float GetFrameTime() { s_fFrameTime; }
+	#endif
     static GLToy_ForceInline float GetFrameRate() { return 1 / s_fFrameTime; }
     static GLToy_ForceInline float GetSmoothedFrameRate() { return s_fSmoothedFrameRate; }
 
