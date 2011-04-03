@@ -50,7 +50,7 @@ public:
 	#ifdef _DEBUG
 	static GLToy_ForceInline float GetFrameTime() { return GLToy_Maths::Min( s_fFrameTime, fGLTOY_MAX_FRAME_TIME ); }
 	#else
-	static GLToy_ForceInline float GetFrameTime() { s_fFrameTime; }
+	static GLToy_ForceInline float GetFrameTime() { return s_fFrameTime; }
 	#endif
     static GLToy_ForceInline float GetFrameRate() { return 1 / s_fFrameTime; }
     static GLToy_ForceInline float GetSmoothedFrameRate() { return s_fSmoothedFrameRate; }
