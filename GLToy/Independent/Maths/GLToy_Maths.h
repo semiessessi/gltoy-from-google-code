@@ -32,6 +32,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 // GLToy
+#include <Core/Data Structures/GLToy_Array.h>
+#include <Core/Data Structures/GLToy_Pair.h>
 #include <Maths/GLToy_AlignedVector.h>
 #include <Maths/GLToy_Complex.h>
 #include <Maths/GLToy_Matrix.h>
@@ -202,6 +204,9 @@ public:
 		return 0.5f * GLToy_Vector_2( xNormalised.x + 1.0f, ( ( xNormalised.z >= 0.0f ) ? fY : -fY ) + 1.0f );
 	}
 
+    static GLToy_Inline GLToy_Ray PlanePlaneIntersection( const GLToy_Plane& xPlane1, const GLToy_Plane& xPlane2 );
+    static GLToy_Pair< GLToy_Vector_3 > ClipLineWithPlanes( const GLToy_Ray& xRay, const GLToy_Array< GLToy_Plane >& xPlanes );
+
 private:
     
     static bool Platform_Initialise();
@@ -212,11 +217,13 @@ private:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// I N C L U D E S
+// F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-// GLToy
-#include <Maths/GLToy_ConvexHull.h>
-#include <Maths/GLToy_Volume.h>
+GLToy_ForceInline bool ApproximatelyEqual( const float f1, const float f2, const float fEpsilon = 0.000001f )
+{
+    return GLToy_Maths::Abs( f1 - f2 ) < fEpsilon;
+}
+
 
 #endif

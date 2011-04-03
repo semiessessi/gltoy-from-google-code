@@ -243,4 +243,28 @@ public:
 
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+// F U N C T I O N S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+template< class VectorType >
+GLToy_ForceInline VectorType Normalise( const VectorType& xVector )
+{
+    VectorType xReturnValue( xVector );
+    xReturnValue.Normalise();
+    return xReturnValue;
+}
+
+template< class VectorType >
+GLToy_ForceInline VectorType Cross( const VectorType& xVector1, const VectorType& xVector2 )
+{
+    return xVector1.Cross( xVector2 );
+}
+
+template< class VectorType >
+GLToy_ForceInline float Dot( const VectorType& xVector1, const VectorType& xVector2 )
+{
+    return xVector1 * xVector2;
+}
+
 #endif

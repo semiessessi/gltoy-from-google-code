@@ -459,3 +459,33 @@ GLToy_Vector_2 GLToy_Maths::SolveQuadratic( const float fA, const float fB, cons
     const float fDivisor = 0.5f / fA;
     return GLToy_Vector_2( -fB + Sqrt( fDiscriminant ), -fB - Sqrt( fDiscriminant ) ) * fDivisor;
 }
+
+GLToy_Ray GLToy_Maths::PlanePlaneIntersection( const GLToy_Plane& xPlane1, const GLToy_Plane& xPlane2 )
+{
+    const GLToy_Vector_3 xDirection = Normalise( Cross( xPlane1.GetNormal(), xPlane2.GetNormal() ) );
+    GLToy_Vector_3 xPosition( GLToy_Maths::ZeroVector3 );
+
+    const u_int uComponent = ( !ApproximatelyEqual( xDirection[ 0 ], 0.0f ) ) ? 0 : ( ( !ApproximatelyEqual( xDirection[ 1 ], 0.0f ) ) ? 1 : 2 );
+    xPosition[ uComponent ] = ( xPlane1.GetDistance() - xPlane2.GetDistance() ) / ( xPlane2.GetNormal()[ uComponent ] - xPlane1.GetNormal()[ uComponent ] );
+
+    return GLToy_Ray( xPosition, xDirection );
+}
+
+GLToy_Pair< GLToy_Vector_3 > GLToy_Maths::ClipLineWithPlanes( const GLToy_Ray& xRay, const GLToy_Array< GLToy_Plane >& xPlanes )
+{
+    float fMinParameter = LargeFloat;
+    float fMaxParameter = -LargeFloat;
+
+    GLToy_ConstIterate( GLToy_Plane, xPlane, xPlanes )
+    
+        float fParameter = 0.0f;
+        if( xRay.IntersectsWithPlane( xPlane, &fParameter ) )
+        {
+            fMinParameter = Min( fMinParameter, fParameter );
+            fMaxParameter = Max( fMaxParameter, fParameter );
+        }
+
+    GLToy_Iterate_End;
+
+    return GLToy_Pair< GLToy_Vector_3 >( xRay.Evaluate( fMinParameter ), xRay.Evaluate( fMaxParameter ) );
+}
