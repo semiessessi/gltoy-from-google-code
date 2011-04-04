@@ -84,18 +84,6 @@ GLToy_Matrix_2::GLToy_Matrix_2( const float f00, const float f01, const float f1
     m_xComponents[ 1 ] = GLToy_Vector_2( f10, f11 );
 }
 
-void GLToy_Matrix_2::ReadFromBitStream( const GLToy_BitStream& xStream )
-{
-    xStream >> m_xComponents[ 0 ];
-    xStream >> m_xComponents[ 1 ];
-}
-
-void GLToy_Matrix_2::WriteToBitStream( GLToy_BitStream& xStream ) const
-{
-    xStream << m_xComponents[ 0 ];
-    xStream << m_xComponents[ 1 ];
-}
-
 GLToy_Matrix_2 GLToy_Matrix_2::operator -() const
 {
     return GLToy_Matrix_2( -m_xComponents[ 0 ], -m_xComponents[ 1 ] );
@@ -172,20 +160,6 @@ GLToy_Matrix_3::GLToy_Matrix_3( const float f00, const float f01, const float f0
     m_xComponents[ 0 ] = GLToy_Vector_3( f00, f01, f02 );
     m_xComponents[ 1 ] = GLToy_Vector_3( f10, f11, f12 );
     m_xComponents[ 2 ] = GLToy_Vector_3( f20, f21, f22 );
-}
-
-void GLToy_Matrix_3::ReadFromBitStream( const GLToy_BitStream& xStream )
-{
-    xStream >> m_xComponents[ 0 ];
-    xStream >> m_xComponents[ 1 ];
-    xStream >> m_xComponents[ 2 ];
-}
-
-void GLToy_Matrix_3::WriteToBitStream( GLToy_BitStream& xStream ) const
-{
-    xStream << m_xComponents[ 0 ];
-    xStream << m_xComponents[ 1 ];
-    xStream << m_xComponents[ 2 ];
 }
 
 GLToy_Matrix_3 GLToy_Matrix_3::operator -() const
@@ -292,22 +266,6 @@ GLToy_Matrix_4::GLToy_Matrix_4( const GLToy_Matrix_3& xMatrix )
     m_xComponents[ 1 ] = GLToy_Vector_4( xMatrix[ 1 ], 0.0f );
     m_xComponents[ 2 ] = GLToy_Vector_4( xMatrix[ 2 ], 0.0f );
     m_xComponents[ 3 ] = GLToy_Vector_4( 0.0f, 0.0f, 0.0f, 1.0f );
-}
-
-void GLToy_Matrix_4::ReadFromBitStream( const GLToy_BitStream& xStream )
-{
-    xStream >> m_xComponents[ 0 ];
-    xStream >> m_xComponents[ 1 ];
-    xStream >> m_xComponents[ 2 ];
-    xStream >> m_xComponents[ 3 ];
-}
-
-void GLToy_Matrix_4::WriteToBitStream( GLToy_BitStream& xStream ) const
-{
-    xStream << m_xComponents[ 0 ];
-    xStream << m_xComponents[ 1 ];
-    xStream << m_xComponents[ 2 ];
-    xStream << m_xComponents[ 3 ];
 }
 
 GLToy_Matrix_4 GLToy_Matrix_4::operator -() const

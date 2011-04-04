@@ -615,6 +615,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (Havok)|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (No Physics)|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Independent\Maths\GLToy_ConvexHull.cpp" />
     <ClCompile Include="Independent\Maths\GLToy_Maths_SCU.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Havok)|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (No Physics)|Win32'">true</ExcludedFromBuild>

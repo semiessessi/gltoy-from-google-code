@@ -39,12 +39,10 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Plane
-//: public GLToy_CopyableStruct< GLToy_Plane >
-//, public GLToy_MemoryEqual< GLToy_Plane >
 {
 public:
 
-    GLToy_CopyableStruct( GLToy_Plane )
+    GLToy_CopyableStruct_OwnSerialise( GLToy_Plane )
     GLToy_MemoryEqual( GLToy_Plane )
 
     GLToy_Plane()

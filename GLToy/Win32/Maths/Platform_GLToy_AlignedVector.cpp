@@ -133,22 +133,27 @@ float GLToy_AlignedVector_Base::Platform_Dot3( const GLToy_AlignedVector_Data& x
 
 float GLToy_AlignedVector_Base::Platform_Dot4( const GLToy_AlignedVector_Data& xData ) const
 {
-    float fReturnValue;
-    float* const pxReturnValue = &fReturnValue;
-    const GLToy_AlignedVector_Data* const pxData = &xData;
-    GLToy_AlignedVector_Data* const pxThis = m_pxComponents;
+    //SE - sorry, my current dev machine has no SSE3...
+    return xData[ 0 ] * ( *m_pxComponents )[ 0 ]
+		+ xData[ 1 ] * ( *m_pxComponents )[ 1 ]
+		+ xData[ 2 ] * ( *m_pxComponents )[ 2 ]
+        + xData[ 2 ] * ( *m_pxComponents )[ 3 ];
+    //float fReturnValue;
+    //float* const pxReturnValue = &fReturnValue;
+    //const GLToy_AlignedVector_Data* const pxData = &xData;
+    //GLToy_AlignedVector_Data* const pxThis = m_pxComponents;
 
-    __asm
-    {
-        mov edi, pxThis
-        movdqa xmm0, [ edi ]
-        mov esi, pxData
-        mulps xmm0, [ esi ]
-        mov edi, pxReturnValue
-        haddps xmm0, xmm0
-        haddps xmm0, xmm0
-        movss [ edi ], xmm0
-    }
+    //__asm
+    //{
+    //    mov edi, pxThis
+    //    movdqa xmm0, [ edi ]
+    //    mov esi, pxData
+    //    mulps xmm0, [ esi ]
+    //    mov edi, pxReturnValue
+    //    haddps xmm0, xmm0
+    //    haddps xmm0, xmm0
+    //    movss [ edi ], xmm0
+    //}
 
-    return fReturnValue;
+    //return fReturnValue;
 }

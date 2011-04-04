@@ -52,8 +52,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Matrix_2
-//: public GLToy_CopyableStruct< GLToy_Matrix_2 >
-//, public GLToy_MemoryEqual< GLToy_Matrix_2 >
 {
     
     friend class GLToy_Vector_2;
@@ -68,9 +66,6 @@ public:
     GLToy_Matrix_2( const float f00, const float f01, const float f10, const float f11 );
 
     ~GLToy_Matrix_2() {}
-
-    void ReadFromBitStream( const GLToy_BitStream& xStream );
-    void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
     GLToy_Inline GLToy_Vector_2& operator[] ( int i ) { return m_xComponents[ i ]; }
     GLToy_Inline const GLToy_Vector_2& operator[] ( int i ) const { return m_xComponents[ i ]; }
@@ -110,8 +105,6 @@ private:
 };
 
 class GLToy_Matrix_3
-//: public GLToy_CopyableStruct< GLToy_Matrix_3 >
-//, public GLToy_MemoryEqual< GLToy_Matrix_3 >
 {
     
     friend class GLToy_Vector_3;
@@ -126,9 +119,6 @@ public:
     GLToy_Matrix_3( const float f00, const float f01, const float f02, const float f10, const float f11, const float f12, const float f20, const float f21, const float f22 );
 
     ~GLToy_Matrix_3() {}
-
-    void ReadFromBitStream( const GLToy_BitStream& xStream );
-    void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
     GLToy_Inline GLToy_Vector_3& operator[] ( int i ) { return m_xComponents[ i ]; }
     GLToy_Inline const GLToy_Vector_3& operator[] ( int i ) const { return m_xComponents[ i ]; }
@@ -170,8 +160,6 @@ private:
 };
 
 class GLToy_Matrix_4
-//: public GLToy_CopyableStruct< GLToy_Matrix_4 >
-//, public GLToy_MemoryEqual< GLToy_Matrix_4 >
 {
     
     friend class GLToy_Vector_4;
@@ -191,9 +179,6 @@ public:
 	GLToy_Matrix_4( const GLToy_Matrix_3& xMatrix );
 
     ~GLToy_Matrix_4() {}
-
-    void ReadFromBitStream( const GLToy_BitStream& xStream );
-    void WriteToBitStream( GLToy_BitStream& xStream ) const;
 
     GLToy_Inline GLToy_Vector_4& operator[] ( int i ) { return m_xComponents[ i ]; }
     GLToy_Inline const GLToy_Vector_4& operator[] ( int i ) const { return m_xComponents[ i ]; }

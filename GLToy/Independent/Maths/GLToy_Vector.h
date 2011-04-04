@@ -28,21 +28,43 @@
 #define __GLTOY_VECTOR_H_
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// M A C R O S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+#define GLToy_Vector_RoundOut( T ) \
+    GLToy_ForceInline float& operator[] ( int i ) { return m_fComponents[ i ]; } \
+    GLToy_ForceInline const float& operator[] ( int i ) const { return m_fComponents[ i ]; } \
+    GLToy_ForceInline float* GetFloatPointer() { return m_fComponents; } \
+    GLToy_ForceInline const float* GetFloatPointer() const { return m_fComponents; } \
+    GLToy_ForceInline T& operator +=( const T& xVector ) { return *this = ( *this + xVector ); } \
+    GLToy_ForceInline T& operator -=( const T& xVector ) { return *this = ( *this - xVector ); } \
+    GLToy_ForceInline T& operator *=( const float fFloat ) { return *this = ( *this * fFloat ); } \
+    GLToy_ForceInline T& operator /=( const float fFloat ) { return operator *=( 1.0f / fFloat ); } \
+    GLToy_ForceInline friend T operator *( const float fFloat, const T& xVector ) { return xVector * fFloat; } \
+    GLToy_ForceInline T operator /( const float fFloat ) const { return operator *( 1.0f / fFloat ); } \
+    GLToy_ForceInline float MagnitudeSquared() const { return *this * *this; } \
+    GLToy_ForceInline void Normalise() { const float fMagnitudeSquared = MagnitudeSquared(); GLToy_Assert( fMagnitudeSquared != 0.0f, "Trying to normalise a zero vector!" ); *this = *this * GLToy_Vector_InvSqrt_Helper( fMagnitudeSquared ); } \
+    GLToy_ForceInline float Magnitude() const { return GLToy_Vector_Sqrt_Helper( MagnitudeSquared() ); } \
+	GLToy_ForceInline bool ApproximatelyEqual( const T& xVector, const float fThreshold = 0.0001f ) const { return ( *this - xVector ).MagnitudeSquared() < fThreshold; } \
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_BitStream;
+class GLToy_Maths;
 class GLToy_Matrix_3;
 class GLToy_Vector_3;
 class GLToy_Vector_4;
+
+float GLToy_Vector_Sqrt_Helper( const float f );
+float GLToy_Vector_InvSqrt_Helper( const float f );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Vector_2
-//: public GLToy_CopyableStruct< GLToy_Vector_2 >
-//, public GLToy_MemoryEqual< GLToy_Vector_2 >
 {
 
 public:
@@ -55,37 +77,18 @@ public:
     GLToy_Vector_2( const GLToy_Vector_3& xVector );
     GLToy_Vector_2( const GLToy_Vector_4& xVector );
 
-    void ReadFromBitStream( const GLToy_BitStream& xStream );
-    void WriteToBitStream( GLToy_BitStream& xStream ) const;
-
-    GLToy_Inline float& operator[] ( int i ) { return m_fComponents[ i ]; }
-    GLToy_Inline const float& operator[] ( int i ) const { return m_fComponents[ i ]; }
-
-    GLToy_Inline float* GetFloatPointer() { return m_fComponents; }
-    GLToy_Inline const float* GetFloatPointer() const { return m_fComponents; }
-
-    GLToy_Vector_2 operator -() const { return GLToy_Vector_2( -m_fComponents[ 0 ], -m_fComponents[ 1 ] ); }
-
-    GLToy_ForceInline GLToy_Vector_2& operator +=( GLToy_Vector_2& xVector ) { return *this = ( *this + xVector ); }
-    GLToy_ForceInline GLToy_Vector_2& operator -=( GLToy_Vector_2& xVector ) { return *this = ( *this - xVector ); }
-    GLToy_ForceInline GLToy_Vector_2& operator *=( const float fFloat ) { return *this = ( *this * fFloat ); }
-    GLToy_ForceInline GLToy_Vector_2& operator /=( const float fFloat ) { return operator *=( 1.0f / fFloat ); }
+    GLToy_ForceInline GLToy_Vector_2 operator -() const { return GLToy_Vector_2( -m_fComponents[ 0 ], -m_fComponents[ 1 ] ); }
 
     GLToy_Inline GLToy_Vector_2 operator +( const GLToy_Vector_2& xVector ) const { return GLToy_Vector_2( m_fComponents[ 0 ] + xVector[ 0 ], m_fComponents[ 1 ] + xVector[ 1 ] ); }
     GLToy_Inline GLToy_Vector_2 operator -( const GLToy_Vector_2& xVector ) const { return GLToy_Vector_2( m_fComponents[ 0 ] - xVector[ 0 ], m_fComponents[ 1 ] - xVector[ 1 ] ); }
     GLToy_Vector_2 operator *( const float fFloat ) const;
-	GLToy_ForceInline friend GLToy_Vector_2 operator *( const float fFloat, const GLToy_Vector_2& xVector ) { return xVector * fFloat; }
-    GLToy_Vector_2 operator /( const float fFloat ) const;
 
     GLToy_Inline float operator *( const GLToy_Vector_2& xVector ) const
     {
         return m_fComponents[ 0 ] * xVector[ 0 ] + m_fComponents[ 1 ] * xVector[ 1 ];
     }
 
-    void Normalise();
-    float Magnitude() const;
-    float MagnitudeSquared() const { return *this * *this; }
-	bool ApproximatelyEqual( const GLToy_Vector_2& xVector, const float fThreshold = 0.0001f ) { return ( *this - xVector ).MagnitudeSquared() < fThreshold; }
+    GLToy_Vector_RoundOut( GLToy_Vector_2 )
 
 	union
 	{
@@ -100,8 +103,6 @@ public:
 };
 
 class GLToy_Vector_3
-//: public GLToy_CopyableStruct< GLToy_Vector_3 >
-//, public GLToy_MemoryEqual< GLToy_Vector_3 >
 {
 
     friend class GLToy_Matrix_3;
@@ -116,29 +117,14 @@ public:
     GLToy_Vector_3( const GLToy_Vector_2& xVector, const float fZ = 1.0f );
     GLToy_Vector_3( const GLToy_Vector_4& xVector );
 
-    void ReadFromBitStream( const GLToy_BitStream& xStream );
-    void WriteToBitStream( GLToy_BitStream& xStream ) const;
-
-    GLToy_Inline float& operator[] ( int i ) { return m_fComponents[ i ]; }
-    GLToy_Inline const float& operator[] ( int i ) const { return m_fComponents[ i ]; }
-
-    GLToy_Inline float* GetFloatPointer() { return m_fComponents; }
-    GLToy_Inline const float* GetFloatPointer() const { return m_fComponents; }
-
     GLToy_Vector_3 operator -() const;
 
-    GLToy_Vector_3& operator +=( const GLToy_Vector_3& xVector );
-    GLToy_Vector_3& operator -=( const GLToy_Vector_3& xVector );
-    GLToy_Vector_3& operator *=( const float fFloat );
     GLToy_Vector_3& operator *=( const GLToy_Matrix_3& xMatrix );
-    GLToy_Vector_3& operator /=( const float fFloat ) { return operator *=( 1.0f / fFloat ); }
 
     GLToy_Vector_3 operator +( const GLToy_Vector_3& xVector ) const;
     GLToy_Vector_3 operator -( const GLToy_Vector_3& xVector ) const;
     GLToy_Vector_3 operator *( const float fFloat ) const;
-	GLToy_ForceInline friend GLToy_Vector_3 operator *( const float fFloat, const GLToy_Vector_3& xVector ) { return xVector * fFloat; }
     GLToy_Vector_3 operator *( const GLToy_Matrix_3& xMatrix ) const;
-    GLToy_Vector_3 operator /( const float fFloat ) const { return operator *( 1.0f / fFloat ); }
 
     GLToy_Inline float operator *( const GLToy_Vector_3& xVector ) const
     {
@@ -157,10 +143,7 @@ public:
             );
     }
 
-    void Normalise();
-    float Magnitude() const;
-    float MagnitudeSquared() const { return *this * *this; }
-	bool ApproximatelyEqual( const GLToy_Vector_3& xVector, const float fThreshold = 0.0001f ) { return ( *this - xVector ).MagnitudeSquared() < fThreshold; }
+    GLToy_Vector_RoundOut( GLToy_Vector_3 )
 
 	union
 	{
@@ -176,8 +159,6 @@ public:
 };
 
 class GLToy_Vector_4
-//: public GLToy_CopyableStruct< GLToy_Vector_4 >
-//, public GLToy_MemoryEqual< GLToy_Vector_4 >
 {
 
 public:
@@ -192,21 +173,7 @@ public:
     GLToy_Vector_4( float fX, float fY, float fZ, float fW );
     GLToy_Vector_4( const u_int uRGBA );
 
-    void ReadFromBitStream( const GLToy_BitStream& xStream );
-    void WriteToBitStream( GLToy_BitStream& xStream ) const;
-
-    float& operator[] ( int i ) { return m_fComponents[ i ]; }
-    const float& operator[] ( int i ) const { return m_fComponents[ i ]; }
-
-    float* GetFloatPointer() { return m_fComponents; }
-    const float* GetFloatPointer() const { return m_fComponents; }
-
     GLToy_Vector_4 operator -() const { return GLToy_Vector_4( -m_fComponents[ 0 ], -m_fComponents[ 1 ], -m_fComponents[ 2 ], -m_fComponents[ 3 ] ); }
-
-    GLToy_Inline GLToy_Vector_4& operator +=( const GLToy_Vector_4& xVector ) { return *this = ( *this + xVector ); }
-    GLToy_Inline GLToy_Vector_4& operator -=( const GLToy_Vector_4& xVector ) { return *this = ( *this - xVector ); }
-    GLToy_Inline GLToy_Vector_4& operator *=( const float fFloat ) { return *this = ( *this * fFloat ); }
-    GLToy_Inline GLToy_Vector_4& operator /=( const float fFloat ) { return operator *=( 1.0f / fFloat ); }
 
     GLToy_Inline GLToy_Vector_4 operator +( const GLToy_Vector_4& xVector ) const { return GLToy_Vector_4( m_fComponents[ 0 ] + xVector[ 0 ], m_fComponents[ 1 ] + xVector[ 1 ], m_fComponents[ 2 ] + xVector[ 2 ], m_fComponents[ 3 ] + xVector[ 3 ] ); }
     GLToy_Inline GLToy_Vector_4 operator -( const GLToy_Vector_4& xVector ) const { return GLToy_Vector_4( m_fComponents[ 0 ] - xVector[ 0 ], m_fComponents[ 1 ] - xVector[ 1 ], m_fComponents[ 2 ] - xVector[ 2 ], m_fComponents[ 3 ] - xVector[ 3 ] ); }
@@ -220,12 +187,9 @@ public:
             + m_fComponents[ 3 ] * xVector[ 3 ];
     }
 
-    GLToy_ForceInline friend GLToy_Vector_4 operator *( const float fFloat, const GLToy_Vector_4& xVector ) { return xVector * fFloat; }
-
-	float MagnitudeSquared() const { return *this * *this; }
-	bool ApproximatelyEqual( const GLToy_Vector_4& xVector, const float fThreshold = 0.0001f ) { return ( *this - xVector ).MagnitudeSquared() < fThreshold; }
-
     u_int GetRGBA() const;
+
+    GLToy_Vector_RoundOut( GLToy_Vector_4 )
 
 public:
     

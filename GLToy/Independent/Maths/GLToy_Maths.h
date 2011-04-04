@@ -204,7 +204,7 @@ public:
 		return 0.5f * GLToy_Vector_2( xNormalised.x + 1.0f, ( ( xNormalised.z >= 0.0f ) ? fY : -fY ) + 1.0f );
 	}
 
-    static GLToy_Inline GLToy_Ray PlanePlaneIntersection( const GLToy_Plane& xPlane1, const GLToy_Plane& xPlane2 );
+    static GLToy_Ray PlanePlaneIntersection( const GLToy_Plane& xPlane1, const GLToy_Plane& xPlane2 );
     static GLToy_Pair< GLToy_Vector_3 > ClipLineWithPlanes( const GLToy_Ray& xRay, const GLToy_Array< GLToy_Plane >& xPlanes );
 
 private:

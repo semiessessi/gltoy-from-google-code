@@ -582,6 +582,9 @@
     <ClCompile Include="Independent\UI\GLToy_Widget_StatBar.cpp">
       <Filter>Independent\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\Maths\GLToy_ConvexHull.cpp">
+      <Filter>Independent\Maths</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_GLToy.h">

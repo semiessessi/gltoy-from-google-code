@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -84,6 +84,8 @@ public:
 
     void ReadFromBitStream( const GLToy_BitStream& xStream ) {}
     void WriteToBitStream( GLToy_BitStream& xStream ) const {}
+
+    GLToy_Array< GLToy_Vector_3 > GeneratePointCloud() const;
 
 protected:
 

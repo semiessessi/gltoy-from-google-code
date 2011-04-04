@@ -38,9 +38,22 @@
 #include <Core/Data Structures/GLToy_BitStream.h>
 #include <Maths/GLToy_Maths.h>
 
+// SE - TODO: remove the initialisation in default constructors for more speed - sadly I'm
+// pretty sure I remember relying on the behaviour of them initialising to zero in places...
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+float GLToy_Vector_Sqrt_Helper( const float f )
+{
+    return GLToy_Maths::Sqrt( f );
+}
+
+float GLToy_Vector_InvSqrt_Helper( const float f )
+{
+    return GLToy_Maths::InvSqrt( f );
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // 2 D
@@ -56,53 +69,20 @@ GLToy_Vector_2::GLToy_Vector_2( float fX, float fY )
     m_fComponents[ 0 ] = fX;
     m_fComponents[ 1 ] = fY;
 }
+
 GLToy_Vector_2::GLToy_Vector_2( const GLToy_Vector_3& xVector )
 {
-    m_fComponents[ 0 ] = xVector[ 0 ];
-    m_fComponents[ 1 ] = xVector[ 1 ];
+    GLToy_Memory::FixedCopy< sizeof( GLToy_Vector_2 ) >( this, &xVector );
 }
 
 GLToy_Vector_2::GLToy_Vector_2( const GLToy_Vector_4& xVector )
 {
-    m_fComponents[ 0 ] = xVector[ 0 ];
-    m_fComponents[ 1 ] = xVector[ 1 ];
+    GLToy_Memory::FixedCopy< sizeof( GLToy_Vector_2 ) >( this, &xVector );
 }
-
-
-void GLToy_Vector_2::ReadFromBitStream( const GLToy_BitStream& xStream )
-{
-    xStream >> m_fComponents[ 0 ];
-    xStream >> m_fComponents[ 1 ];
-}
-
-void GLToy_Vector_2::WriteToBitStream( GLToy_BitStream& xStream ) const
-{
-    xStream << m_fComponents[ 0 ];
-    xStream << m_fComponents[ 1 ];
-}
-
 
 GLToy_Vector_2 GLToy_Vector_2::operator *( const float fFloat ) const
 {
     return GLToy_Vector_2( m_fComponents[ 0 ] * fFloat, m_fComponents[ 1 ] * fFloat );
-}
-
-GLToy_Vector_2 GLToy_Vector_2::operator /( const float fFloat ) const
-{
-    const float fInverse = 1 / fFloat;
-    return GLToy_Vector_2( m_fComponents[ 0 ] * fInverse, m_fComponents[ 1 ] * fInverse );
-}
-
-void GLToy_Vector_2::Normalise()
-{
-    const float fMagnitudeSquared = MagnitudeSquared();
-    GLToy_Assert( fMagnitudeSquared != 0.0f, "Trying to normalise a zero vector!" );
-    *this = *this * ( 1.0f / GLToy_Maths::Sqrt( fMagnitudeSquared ) );
-}
-
-float GLToy_Vector_2::Magnitude() const
-{
-    return GLToy_Maths::Sqrt( MagnitudeSquared() );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,64 +107,19 @@ GLToy_Vector_3::GLToy_Vector_3( float fX, float fY, float fZ )
 
 GLToy_Vector_3::GLToy_Vector_3( const GLToy_Vector_4& xVector )
 {
-    // TODO - use platform copy
-    m_fComponents[ 0 ] = xVector[ 0 ];
-    m_fComponents[ 1 ] = xVector[ 1 ];
-    m_fComponents[ 2 ] = xVector[ 2 ];
+    GLToy_Memory::FixedCopy< sizeof( GLToy_Vector_3 ) >( this, &xVector );
 }
 
 GLToy_Vector_3::GLToy_Vector_3( const GLToy_Vector_2& xVector, const float fZ )
 {
-    m_fComponents[ 0 ] = xVector[ 0 ];
-    m_fComponents[ 1 ] = xVector[ 1 ];
+    GLToy_Memory::FixedCopy< sizeof( GLToy_Vector_2 ) >( this, &xVector );
     m_fComponents[ 2 ] = fZ;
-}
-
-void GLToy_Vector_3::ReadFromBitStream( const GLToy_BitStream& xStream )
-{
-    xStream >> m_fComponents[ 0 ];
-    xStream >> m_fComponents[ 1 ];
-    xStream >> m_fComponents[ 2 ];
-}
-
-void GLToy_Vector_3::WriteToBitStream( GLToy_BitStream& xStream ) const
-{
-    xStream << m_fComponents[ 0 ];
-    xStream << m_fComponents[ 1 ];
-    xStream << m_fComponents[ 2 ];
 }
 
 GLToy_Vector_3 GLToy_Vector_3::operator -() const
 {
     // TODO - use platform negate
     return GLToy_Vector_3( -m_fComponents[ 0 ], -m_fComponents[ 1 ], -m_fComponents[ 2 ] );
-}
-
-GLToy_Vector_3& GLToy_Vector_3::operator +=( const GLToy_Vector_3& xVector )
-{
-    // TODO - use platform add
-    m_fComponents[ 0 ] += xVector.m_fComponents[ 0 ];
-    m_fComponents[ 1 ] += xVector.m_fComponents[ 1 ];
-    m_fComponents[ 2 ] += xVector.m_fComponents[ 2 ];
-    return *this;
-}
-
-GLToy_Vector_3& GLToy_Vector_3::operator -=( const GLToy_Vector_3& xVector )
-{
-    // TODO - use platform sub
-    m_fComponents[ 0 ] -= xVector.m_fComponents[ 0 ];
-    m_fComponents[ 1 ] -= xVector.m_fComponents[ 1 ];
-    m_fComponents[ 2 ] -= xVector.m_fComponents[ 2 ];
-    return *this;
-}
-
-GLToy_Vector_3& GLToy_Vector_3::operator *=( const float fFloat )
-{
-    // TODO - use platform mul
-    m_fComponents[ 0 ] *= fFloat;
-    m_fComponents[ 1 ] *= fFloat;
-    m_fComponents[ 2 ] *= fFloat;
-    return *this;
 }
 
 GLToy_Vector_3& GLToy_Vector_3::operator *=( const GLToy_Matrix_3& xMatrix )
@@ -224,18 +159,6 @@ GLToy_Vector_3 GLToy_Vector_3::operator *( const GLToy_Matrix_3& xMatrix ) const
     return xReturnValue;
 }
 
-void GLToy_Vector_3::Normalise()
-{
-    const float fMagnitudeSquared = MagnitudeSquared();
-    GLToy_Assert( fMagnitudeSquared != 0.0f, "Trying to normalise a zero vector!" );
-    *this = *this * ( 1.0f / GLToy_Maths::Sqrt( fMagnitudeSquared ) );
-}
-
-float GLToy_Vector_3::Magnitude() const
-{
-    return GLToy_Maths::Sqrt( MagnitudeSquared() );
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // 4 D
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -251,25 +174,20 @@ GLToy_Vector_4::GLToy_Vector_4()
 
 GLToy_Vector_4::GLToy_Vector_4( const GLToy_Vector_2& xXY, const GLToy_Vector_2& xZW )
 {
-    m_fComponents[ 0 ] = xXY[ 0 ];
-    m_fComponents[ 1 ] = xXY[ 1 ];
-    m_fComponents[ 2 ] = xZW[ 0 ];
-    m_fComponents[ 3 ] = xZW[ 1 ];
+    GLToy_Memory::FixedCopy< sizeof( GLToy_Vector_2 ) >( this, &xXY );
+    GLToy_Memory::FixedCopy< sizeof( GLToy_Vector_2 ) >( &( m_fComponents[ 2 ] ), &xZW );
 }
 
 GLToy_Vector_4::GLToy_Vector_4( const GLToy_Vector_2& xXY, const float fX, const float fW )
 {
-    m_fComponents[ 0 ] = xXY[ 0 ];
-    m_fComponents[ 1 ] = xXY[ 1 ];
+    GLToy_Memory::FixedCopy< sizeof( GLToy_Vector_2 ) >( this, &xXY );
     m_fComponents[ 2 ] = fX;
     m_fComponents[ 3 ] = fW;
 }
 
 GLToy_Vector_4::GLToy_Vector_4( const GLToy_Vector_3& xVector, const float fW )
 {
-    m_fComponents[ 0 ] = xVector[ 0 ];
-    m_fComponents[ 1 ] = xVector[ 1 ];
-    m_fComponents[ 2 ] = xVector[ 2 ];
+    GLToy_Memory::FixedCopy< sizeof( GLToy_Vector_3 ) >( this, &xVector );
     m_fComponents[ 3 ] = fW;
 }
 
@@ -287,23 +205,6 @@ GLToy_Vector_4::GLToy_Vector_4( const u_int uRGBA )
     m_fComponents[ 1 ] = static_cast< float >( ( uRGBA & 0xFF00 ) >> 8 ) / 255.0f;
     m_fComponents[ 2 ] = static_cast< float >( ( uRGBA & 0xFF0000 ) >> 16 ) / 255.0f;
     m_fComponents[ 3 ] = static_cast< float >( uRGBA >> 24 ) / 255.0f;
-}
-
-
-void GLToy_Vector_4::ReadFromBitStream( const GLToy_BitStream& xStream )
-{
-    xStream >> m_fComponents[ 0 ];
-    xStream >> m_fComponents[ 1 ];
-    xStream >> m_fComponents[ 2 ];
-    xStream >> m_fComponents[ 3 ];
-}
-
-void GLToy_Vector_4::WriteToBitStream( GLToy_BitStream& xStream ) const
-{
-    xStream << m_fComponents[ 0 ];
-    xStream << m_fComponents[ 1 ];
-    xStream << m_fComponents[ 2 ];
-    xStream << m_fComponents[ 3 ];
 }
 
 u_int GLToy_Vector_4::GetRGBA() const

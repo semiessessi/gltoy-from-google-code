@@ -45,12 +45,9 @@ template < class T > class GLToy_HashMap;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_Material
-//: public GLToy_CopyableStruct< GLToy_Material >
 {
 
 public:
-
-    //GLToy_CopyableStruct( GLToy_Material )
 
     GLToy_Material( const GLToy_Hash uHash );
 

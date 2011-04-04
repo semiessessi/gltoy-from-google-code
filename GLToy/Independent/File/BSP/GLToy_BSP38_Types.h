@@ -73,10 +73,11 @@ static const u_int uBSP38_BRUSHFLAGS_AICLIP = 0x20000;
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 class GLToy_BSP38_Lump
-: public GLToy_SimpleSerialisable< GLToy_BSP38_Lump >
 {
 
 public:
+
+    GLToy_CopyableStruct_NoInitialise( GLToy_BSP38_Lump )
 
     u_int m_uOffset;
     u_int m_uSize;
@@ -84,10 +85,11 @@ public:
 };
 
 class GLToy_BSP38_LumpDirectory
-: public GLToy_SimpleSerialisable< GLToy_BSP38_LumpDirectory >
 {
 
 public:
+
+    GLToy_CopyableStruct_NoInitialise( GLToy_BSP38_LumpDirectory )
 
     GLToy_BSP38_Lump m_axLumps[ 19 ];
 
@@ -95,10 +97,11 @@ public:
 
 
 class GLToy_BSP38_Face
-: public GLToy_SimpleSerialisable< GLToy_BSP38_Face >
 {
 
 public:
+
+    GLToy_CopyableStruct_NoInitialise( GLToy_BSP38_Face )
 
     u_short m_usPlane;
     u_short m_usPlaneSide;
@@ -115,7 +118,11 @@ class GLToy_BSP38_Plane
 
 public:
 
-    virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
+    GLToy_CopyableStruct_OwnSerialise( GLToy_BSP38_Plane )
+
+    GLToy_BSP38_Plane() {}
+
+    void ReadFromBitStream( const GLToy_BitStream& xStream )
     {
         GLToy_Vector_3 xNormal;
         float fDistance;
@@ -138,10 +145,11 @@ public:
 };
 
 class GLToy_BSP38_Node
-: public GLToy_SimpleSerialisable< GLToy_BSP38_Node >
 {
 
 public:
+
+    GLToy_CopyableStruct_NoInitialise( GLToy_BSP38_Node )
 
     u_int m_uPlane;
     int m_iFrontChild;
@@ -154,10 +162,11 @@ public:
 };
 
 class GLToy_BSP38_Leaf
-: public GLToy_SimpleSerialisable< GLToy_BSP38_Leaf >
 {
 
 public:
+
+    GLToy_CopyableStruct_NoInitialise( GLToy_BSP38_Leaf )
 
     u_int m_uBrushOr;
     u_short m_usCluster;
@@ -223,10 +232,11 @@ public:
 };
 
 class GLToy_BSP38_VisOffset
-: public GLToy_SimpleSerialisable< GLToy_BSP38_VisOffset >
 {
 
 public:
+
+    GLToy_CopyableStruct_NoInitialise( GLToy_BSP38_VisOffset )
 
     u_int m_uPVS;
     u_int m_uPHS;
@@ -234,10 +244,11 @@ public:
 };
 
 class GLToy_BSP38_Edge
-: public GLToy_SimpleSerialisable< GLToy_BSP38_Edge >
 {
 
 public:
+
+    GLToy_CopyableStruct_NoInitialise( GLToy_BSP38_Edge )
 
     u_short m_usVertex1;
     u_short m_usVertex2;
@@ -245,10 +256,11 @@ public:
 };
 
 class GLToy_BSP38_Model
-: public GLToy_SimpleSerialisable< GLToy_BSP38_Model >
 {
 
 public:
+
+    GLToy_CopyableStruct_NoInitialise( GLToy_BSP38_Model )
 
     GLToy_Vector_3 m_xMins;
     GLToy_Vector_3 m_xMaxs;
@@ -260,10 +272,11 @@ public:
 };
 
 class GLToy_BSP38_Brush
-: public GLToy_SimpleSerialisable< GLToy_BSP38_Brush >
 {
 
 public:
+
+    GLToy_CopyableStruct_NoInitialise( GLToy_BSP38_Brush )
 
     u_int m_uFirstSide;
     u_int m_uNumSides;
@@ -272,10 +285,11 @@ public:
 };
 
 class GLToy_BSP38_BrushSide
-: public GLToy_SimpleSerialisable< GLToy_BSP38_BrushSide >
 {
 
 public:
+
+    GLToy_CopyableStruct_NoInitialise( GLToy_BSP38_BrushSide )
 
     u_short m_usPlane;
     short m_sTexInfo;
