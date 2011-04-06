@@ -164,7 +164,7 @@ bool Platform_GLToy_Render::Initialise()
     s_uVersion = 0;
 
 	GLToy_String szVendorString = reinterpret_cast< const char* >( glGetString( GL_VENDOR ) );
-	s_bIntel = szVendorString.Contains( "Intel" );
+	s_bIntel = szVendorString.Contains( "Intel" ) || szVendorString.Contains( "Microsoft" ); // catch default drivers and some Intels
 
     // make the string into a nice number to compare stuff
     const u_int uVersionStringLength = szVersionString.GetLength();

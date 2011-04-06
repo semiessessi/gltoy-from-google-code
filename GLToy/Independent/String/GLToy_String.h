@@ -411,7 +411,7 @@ public:
 			if( wcChar == szString[ uPos ] )
 			{
 				++uPos;
-				if( uPos == szString.GetCount() )
+				if( uPos == ( szString.GetLength() - 1 ) )
 				{
 					return true;
 				}

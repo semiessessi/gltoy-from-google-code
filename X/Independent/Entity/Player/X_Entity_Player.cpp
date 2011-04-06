@@ -244,18 +244,14 @@ void X_Entity_Player::RenderDeferred() const
 
     GLToy_Render::StartSubmittingQuads();
 		
-	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
-	GLToy_Render::SubmitUV( xCOMPRESSED_NORMAL_BASIS, 1 );
-	GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
-    GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 0.0f ) );
-	GLToy_Render::SubmitUV( xCOMPRESSED_NORMAL_BASIS, 1 );
-	GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
-	GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 1.0f ) );
-	GLToy_Render::SubmitUV( xCOMPRESSED_NORMAL_BASIS, 1 );
-	GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
-	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 1.0f ) );
-	GLToy_Render::SubmitUV( xCOMPRESSED_NORMAL_BASIS, 1 );
-	GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+	GLToy_Render::SubmitDeferredVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ],
+        GLToy_Vector_2( 0.0f, 0.0f ), xSPRITE_NORMAL, xSPRITE_TANGENT ); 
+	GLToy_Render::SubmitDeferredVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ],
+        GLToy_Vector_2( 1.0f, 0.0f ), xSPRITE_NORMAL, xSPRITE_TANGENT ); 
+	GLToy_Render::SubmitDeferredVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ],
+        GLToy_Vector_2( 1.0f, 1.0f ), xSPRITE_NORMAL, xSPRITE_TANGENT ); 
+	GLToy_Render::SubmitDeferredVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ],
+        GLToy_Vector_2( 0.0f, 1.0f ), xSPRITE_NORMAL, xSPRITE_TANGENT ); 
 	
     GLToy_Render::EndSubmit();
 }

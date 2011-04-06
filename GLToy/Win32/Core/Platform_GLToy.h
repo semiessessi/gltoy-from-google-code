@@ -42,7 +42,11 @@
 
 #ifndef GLTOY_DEMO
 #define GLToy_ForceInline __forceinline
+#ifndef GLTOY_DEBUG
 #define GLToy_Inline __forceinline
+#else
+#define GLToy_Inline
+#endif
 #else
 #define GLToy_ForceInline __inline
 #define GLToy_Inline

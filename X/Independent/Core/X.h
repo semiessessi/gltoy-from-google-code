@@ -42,9 +42,11 @@
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+static const GLToy_Vector_3 xSPRITE_NORMAL = GLToy_Vector_3( 0.0f, 0.0f, -1.0f );
+static const GLToy_Vector_3 xSPRITE_TANGENT = GLToy_Vector_3( -1.0f, 0.0f, 0.0f );
 static const GLToy_Vector_4 xCOMPRESSED_NORMAL_BASIS = GLToy_Vector_4(
-            GLToy_Maths::CompressNormal( GLToy_Vector_3( 0.0f, 0.0f, -1.0f ) ),
-            GLToy_Maths::CompressNormal( GLToy_Vector_3( -1.0f, 0.0f, 0.0f ) ) );
+            GLToy_Maths::CompressNormal( xSPRITE_NORMAL ),
+            GLToy_Maths::CompressNormal( xSPRITE_TANGENT ) );
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S

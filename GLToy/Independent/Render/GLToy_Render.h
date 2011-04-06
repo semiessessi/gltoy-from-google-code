@@ -244,6 +244,24 @@ class GLToy_Vector_4;
 // C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+// SE - almost certainly there is a better way to do this
+
+#define GLToy_EnableOpenGL11Support() static GLToy_Render_OpenGL11Support g_xEnableOpenGL11Support
+#define GLToy_SupportsOpenGL11() ( GLToy_Render_OpenGL11Support::IsEnabled() )
+
+class GLToy_Render_OpenGL11Support
+{
+public:
+
+    GLToy_Render_OpenGL11Support() { s_bEnabled = true; }
+
+    static bool IsEnabled() { return s_bEnabled; }
+
+private:
+
+    static bool s_bEnabled;
+};
+
 class GLToy_Render
 {
 
@@ -459,32 +477,46 @@ public:
 
     GLToy_ForceInline static void SubmitTexturedQuad2D( const float fXMin, const float fYMin, const float fXMax, const float fYMax, const float fUMin = 0.0f, const float fVMin = 0.0f, const float fUMax = 1.0f, const float fVMax = 1.0f )
     {
-        GLToy_Render::SubmitUV( GLToy_Vector_3( fUMin, fVMax, 0.0f ) );
-        GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMin, fYMin, 0.0f ) );
+        SubmitUV( GLToy_Vector_3( fUMin, fVMax, 0.0f ) );
+        SubmitVertex( GLToy_Vector_3( fXMin, fYMin, 0.0f ) );
 
-        GLToy_Render::SubmitUV( GLToy_Vector_3( fUMax, fVMax, 0.0f ) );
-        GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMax, fYMin, 0.0f ) );
+        SubmitUV( GLToy_Vector_3( fUMax, fVMax, 0.0f ) );
+        SubmitVertex( GLToy_Vector_3( fXMax, fYMin, 0.0f ) );
 
-        GLToy_Render::SubmitUV( GLToy_Vector_3( fUMax, fVMin, 0.0f ) );
-        GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMax, fYMax, 0.0f ) );
+        SubmitUV( GLToy_Vector_3( fUMax, fVMin, 0.0f ) );
+        SubmitVertex( GLToy_Vector_3( fXMax, fYMax, 0.0f ) );
 
-        GLToy_Render::SubmitUV( GLToy_Vector_3( fUMin, fVMin, 0.0f ) );
-        GLToy_Render::SubmitVertex( GLToy_Vector_3( fXMin, fYMax, 0.0f ) );
+        SubmitUV( GLToy_Vector_3( fUMin, fVMin, 0.0f ) );
+        SubmitVertex( GLToy_Vector_3( fXMin, fYMax, 0.0f ) );
     }
 
     GLToy_ForceInline static void SubmitTexturedQuad2D( const GLToy_Vector_2& xPosition, const GLToy_Vector_2& xSize, const float fUMin = 0.0f, const float fVMin = 0.0f, const float fUMax = 1.0f, const float fVMax = 1.0f )
     {
-        GLToy_Render::SubmitUV( GLToy_Vector_3( fUMin, fVMax, 0.0f ) );
-        GLToy_Render::SubmitVertex( GLToy_Vector_3( xPosition[ 0 ], xPosition[ 1 ], 0.0f ) );
+        SubmitUV( GLToy_Vector_3( fUMin, fVMax, 0.0f ) );
+        SubmitVertex( GLToy_Vector_3( xPosition[ 0 ], xPosition[ 1 ], 0.0f ) );
 
-        GLToy_Render::SubmitUV( GLToy_Vector_3( fUMax, fVMax, 0.0f ) );
-        GLToy_Render::SubmitVertex( GLToy_Vector_3( xPosition[ 0 ] + xSize[ 0 ], xPosition[ 1 ], 0.0f ) );
+        SubmitUV( GLToy_Vector_3( fUMax, fVMax, 0.0f ) );
+        SubmitVertex( GLToy_Vector_3( xPosition[ 0 ] + xSize[ 0 ], xPosition[ 1 ], 0.0f ) );
 
-        GLToy_Render::SubmitUV( GLToy_Vector_3( fUMax, fVMin, 0.0f ) );
-        GLToy_Render::SubmitVertex( GLToy_Vector_3( xPosition[ 0 ] + xSize[ 0 ], xPosition[ 1 ] + xSize[ 1 ], 0.0f ) );
+        SubmitUV( GLToy_Vector_3( fUMax, fVMin, 0.0f ) );
+        SubmitVertex( GLToy_Vector_3( xPosition[ 0 ] + xSize[ 0 ], xPosition[ 1 ] + xSize[ 1 ], 0.0f ) );
 
-        GLToy_Render::SubmitUV( GLToy_Vector_3( fUMin, fVMin, 0.0f ) );
-        GLToy_Render::SubmitVertex( GLToy_Vector_3( xPosition[ 0 ], xPosition[ 1 ] + xSize[ 1 ], 0.0f ) );
+        SubmitUV( GLToy_Vector_3( fUMin, fVMin, 0.0f ) );
+        SubmitVertex( GLToy_Vector_3( xPosition[ 0 ], xPosition[ 1 ] + xSize[ 1 ], 0.0f ) );
+    }
+
+    GLToy_ForceInline static void SubmitDeferredVertex( const GLToy_Vector_3& xVertex, const GLToy_Vector_2& xUV, const GLToy_Vector_3& xNormal, const GLToy_Vector_3& xTangent )
+    {
+	    SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
+	    SubmitUV( GLToy_Vector_4( GLToy_Maths::CompressNormal( xNormal ), GLToy_Maths::CompressNormal( xTangent ) ), 1 );
+	    SubmitVertex( xVertex ); 
+    }
+
+    GLToy_ForceInline static void SubmitDeferredVertex( const float x, const float y, const float z, const GLToy_Vector_2& xUV, const GLToy_Vector_3& xNormal, const GLToy_Vector_3& xTangent )
+    {
+	    SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
+	    SubmitUV( GLToy_Vector_4( GLToy_Maths::CompressNormal( xNormal ), GLToy_Maths::CompressNormal( xTangent ) ), 1 );
+	    SubmitVertex( GLToy_Vector_3( x, y, z ) ); 
     }
 
     GLToy_ForceInline static void StartSubmittingLines()

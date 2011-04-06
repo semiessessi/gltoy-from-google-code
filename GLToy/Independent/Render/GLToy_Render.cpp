@@ -82,6 +82,8 @@ u_int GLToy_Render_Metrics::s_uMaterialSwitchCount = 0;
 u_int GLToy_Render_Metrics::s_uTrianglePeak = 0;
 float GLToy_Render_Metrics::s_fTriangleTime = 0.0f;
 
+bool GLToy_Render_OpenGL11Support::s_bEnabled = false;
+
 GLToy_Vector_2 GLToy_Render::s_xClipPlanes = GLToy_Maths::ZeroVector2;
 
 GLToy_BinaryTree< const GLToy_Renderable*, float > GLToy_Render::s_xTransparents;
@@ -233,11 +235,11 @@ bool GLToy_Render::Initialise()
 
     if( HasFrameBuffer() )
     {
-        GLToy_DebugOutput( "Framebuffer created successfully." );
+        GLToy_DebugOutput( "Framebuffer created successfully.\r\n" );
     }
     else
     {
-        GLToy_DebugOutput( "Framebuffer not created!" );
+        GLToy_DebugOutput( "Framebuffer not created!\r\n" );
     }
 
     // initialise deferred buffers
@@ -282,11 +284,11 @@ bool GLToy_Render::Initialise()
 
     if( HasDeferredBuffer() )
     {
-        GLToy_DebugOutput( "Deferred buffer created successfully." );
+        GLToy_DebugOutput( "Deferred buffer created successfully.\r\n" );
     }
     else
     {
-        GLToy_DebugOutput( "Deferred buffer not created!" );
+        GLToy_DebugOutput( "Deferred buffer not created!\r\n" );
     }
 
     return true;
