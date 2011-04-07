@@ -60,6 +60,7 @@ class X_Effect_Positional : public X_Effect
 		: X_Effect()
 		, m_xPosition( xPosition )
 		{}
+		//virtual ~X_Effect_Positional() {}
 
 		const GLToy_Vector_3& GetPosition() const { return m_xPosition; }
 
@@ -265,8 +266,8 @@ void X_Effect_System::Update()
 			s_xEffects[uEffect]->Update();
 			if( s_xEffects[uEffect]->IsDone() )
 			{
+				delete s_xEffects[uEffect];
 				s_xEffects.RemoveAt( static_cast<int>( uEffect ) );
-				// delete s_xEffects[uEffect]; // TODO: can't delete? :[
 			}
 		}
 	}
@@ -285,15 +286,14 @@ void X_Effect_System::Render()
 
 void X_Effect_System::Shutdown()
 {
-	// TODO: can't delete? :[
-	/*for( u_int uEffect = s_xEffects.GetCount() - 1; uEffect != 0; --uEffect )
+	for( u_int uEffect = s_xEffects.GetCount() - 1; uEffect != 0; --uEffect )
 	{
 		if( s_xEffects[uEffect] )
 		{
 			delete s_xEffects[uEffect];
 			s_xEffects.RemoveAt( static_cast<int>( uEffect ) );
 		}
-	}*/
+	}
 }
 
 // eof
