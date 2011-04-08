@@ -55,7 +55,9 @@ bool GLToy_Font_System::Initialise()
 
     GLToy_Array< GLToy_String > xFontPaths = GLToy_File_System::PathsFromFilter( "Fonts/", "*.font" );
 
-    GLToy_ConstIterate( GLToy_String, szPath, xFontPaths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xFontPaths ); xIterator.Next() )
+{
+const GLToy_String& szPath = xIterator.Current( xFontPaths );
         GLToy_String szName = szPath;
         szName.RemoveAt( 0, 6 ); // remove "Fonts/"
         szName.RemoveFromEnd( 5 ); // remove .font
@@ -75,7 +77,7 @@ bool GLToy_Font_System::Initialise()
 
             s_xFonts.AddNode( new GLToy_Font_Bitmap( szName, uSize, szTextureName ), szName.GetHash() );
         }
-    GLToy_Iterate_End;
+    }
 
     return true;
 }

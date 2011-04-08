@@ -299,7 +299,9 @@ bool GLToy_Shader_System::Initialise()
 
     GLToy_Array< GLToy_String > xShaderPaths = GLToy_File_System::PathsFromFilter( "Shaders/", "*.shader" );
 
-    GLToy_ConstIterate( GLToy_String, szPath, xShaderPaths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xShaderPaths ); xIterator.Next() )
+{
+const GLToy_String& szPath = xIterator.Current( xShaderPaths );
         GLToy_String szName = szPath;
         szName.RemoveAt( 0, 8 ); // remove "Shaders/"
         szName.RemoveFromEnd( 7 ); // remove .shader
@@ -412,7 +414,7 @@ bool GLToy_Shader_System::Initialise()
         {
             GLToy_DebugOutput( "   - Success!\r\n" );
         }
-    GLToy_Iterate_End;
+    }
 
     GLToy_Console::RegisterCommand( "reload.shaders", ReloadShaders );
 

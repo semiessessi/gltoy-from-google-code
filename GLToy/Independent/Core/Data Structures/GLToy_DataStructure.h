@@ -121,8 +121,4 @@ private:
 
 };
 
-#define GLToy_Iterate( T, xIterationName, xDataStructure ) for( GLToy_Iterator< T > xIterator; !xIterator.Done( xDataStructure ); xIterator.Next() ) { T& xIterationName = xIterator.Current( xDataStructure );
-#define GLToy_ConstIterate( T, xIterationName, xDataStructure ) for( GLToy_ConstIterator< T > xIterator; !xIterator.Done( xDataStructure ); xIterator.Next() ) { T const& xIterationName = xIterator.Current( xDataStructure );
-#define GLToy_Iterate_End }
-
 #endif

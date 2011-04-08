@@ -164,7 +164,9 @@ bool GLToy_Material_System::Initialise()
 
     GLToy_Array< GLToy_String > xMaterialPaths = GLToy_File_System::PathsFromFilter( "Materials/", "*.material" );
 
-    GLToy_ConstIterate( GLToy_String, szPath, xMaterialPaths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xMaterialPaths ); xIterator.Next() )
+{
+const GLToy_String& szPath = xIterator.Current( xMaterialPaths );
 
         GLToy_String szName = szPath;
 
@@ -177,7 +179,9 @@ bool GLToy_Material_System::Initialise()
         GLToy_KeyValueFile xFile( szPath );
         GLToy_Array< GLToy_Pair< GLToy_String > > xValues = xFile.LoadValues();
 
-        GLToy_ConstIterate( GLToy_Pair< GLToy_String >, xKeyValue, xValues )
+        for( GLToy_ConstIterator< GLToy_Pair< GLToy_String > > xIterator; !xIterator.Done( xValues ); xIterator.Next() )
+{
+const GLToy_Pair< GLToy_String >& xKeyValue = xIterator.Current( xValues );
             
             const GLToy_String& szKey = xKeyValue.First();
             const GLToy_String& szValue = xKeyValue.Second();
@@ -212,14 +216,16 @@ bool GLToy_Material_System::Initialise()
                 xMaterial.AddTexture( szValue.GetHash(), szKey );
             }
 
-        GLToy_Iterate_End;
+        }
 
         s_xMaterials.AddNode( xMaterial, szName.GetHash() );
 
-    GLToy_Iterate_End;
+    }
 
     // now for each texture create a default material
-    GLToy_ConstIterate( GLToy_Texture, xTexture, GLToy_Texture_System::GetMap() )
+    for( GLToy_ConstIterator< GLToy_Texture > xIterator; !xIterator.Done( GLToy_Texture_System::GetMap() ); xIterator.Next() )
+{
+const GLToy_Texture& xTexture = xIterator.Current( GLToy_Texture_System::GetMap() );
 
         // only create it if there isn't a material with the same name
         if( s_xMaterials.FindData( xTexture.GetHash() ) )
@@ -242,7 +248,7 @@ bool GLToy_Material_System::Initialise()
 
         s_xMaterials.AddNode( xMaterial, xTexture.GetHash() );
 
-    GLToy_Iterate_End;
+    }
 
     return true;
 }

@@ -61,7 +61,9 @@ bool GLToy_Model_System::Initialise()
 
     GLToy_Array< GLToy_String > xMD2Paths = GLToy_File_System::PathsFromFilter( "Models/", "*.md2" );
 
-    GLToy_ConstIterate( GLToy_String, szPath, xMD2Paths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xMD2Paths ); xIterator.Next() )
+{
+const GLToy_String& szPath = xIterator.Current( xMD2Paths );
         GLToy_String szName = szPath;
         szName.RemoveAt( 0, 7 ); // remove "Models/"
         szName.RemoveFromEnd( 4 ); // remove .md2
@@ -69,11 +71,13 @@ bool GLToy_Model_System::Initialise()
         GLToy_DebugOutput( "   - Found model \"%S\".\r\n", szName.GetWideString() );
 
         s_xModels.AddNode( new GLToy_MD2File( szPath ), szName.GetHash() );
-    GLToy_Iterate_End;
+    }
 
     GLToy_Array< GLToy_String > x3DSPaths = GLToy_File_System::PathsFromFilter( "Models/", "*.3ds" );
 
-    GLToy_ConstIterate( GLToy_String, szPath, x3DSPaths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( x3DSPaths ); xIterator.Next() )
+{
+const GLToy_String& szPath = xIterator.Current( x3DSPaths );
         GLToy_String szName = szPath;
         szName.RemoveAt( 0, 7 ); // remove "Models/"
         szName.RemoveFromEnd( 4 ); // remove extension
@@ -81,11 +85,13 @@ bool GLToy_Model_System::Initialise()
         GLToy_DebugOutput( "   - Found model \"%S\".\r\n", szName.GetWideString() );
 
         s_xModels.AddNode( new GLToy_3DSFile( szPath ), szName.GetHash() );
-    GLToy_Iterate_End;
+    }
 
     GLToy_Array< GLToy_String > xOBJPaths = GLToy_File_System::PathsFromFilter( "Models/", "*.obj" );
 
-    GLToy_ConstIterate( GLToy_String, szPath, xOBJPaths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xOBJPaths ); xIterator.Next() )
+{
+const GLToy_String& szPath = xIterator.Current( xOBJPaths );
         GLToy_String szName = szPath;
         szName.RemoveAt( 0, 7 ); // remove "Models/"
         szName.RemoveFromEnd( 4 ); // remove extension
@@ -93,11 +99,13 @@ bool GLToy_Model_System::Initialise()
         GLToy_DebugOutput( "   - Found model \"%S\".\r\n", szName.GetWideString() );
 
         s_xModels.AddNode( new GLToy_OBJFile( szPath ), szName.GetHash() );
-    GLToy_Iterate_End;
+    }
 
     GLToy_Array< GLToy_String > xLWOPaths = GLToy_File_System::PathsFromFilter( "Models/", "*.lwo" );
 
-    GLToy_ConstIterate( GLToy_String, szPath, xLWOPaths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xLWOPaths ); xIterator.Next() )
+{
+const GLToy_String& szPath = xIterator.Current( xLWOPaths );
         GLToy_String szName = szPath;
         szName.RemoveAt( 0, 7 ); // remove "Models/"
         szName.RemoveFromEnd( 4 ); // remove extension
@@ -105,7 +113,7 @@ bool GLToy_Model_System::Initialise()
         GLToy_DebugOutput( "   - Found model \"%S\".\r\n", szName.GetWideString() );
 
         s_xModels.AddNode( new GLToy_LWOFile( szPath ), szName.GetHash() );
-    GLToy_Iterate_End;
+    }
 
     return true;
 }

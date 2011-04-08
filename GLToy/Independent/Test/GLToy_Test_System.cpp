@@ -46,14 +46,16 @@ bool GLToy_Test_System::RunTests()
 {
     GLToy_DebugOutput_Release( "\r\nGLToy_Test_System::RunTests() - Starting tests\r\n" );
     u_int uFailCount = 0;
-    GLToy_ConstIterate( Test, xTest, s_xTests )
+    for( GLToy_ConstIterator< Test > xIterator; !xIterator.Done( s_xTests ); xIterator.Next() )
+{
+const Test& xTest = xIterator.Current( s_xTests );
         const bool bResult = xTest.m_pfnTestFunction();
         GLToy_DebugOutput_Release( "  %S %s\r\n", xTest.m_szName.GetWideString(), bResult ? " - succeeded" : " - FAILED!!!" );
         if( !bResult )
         {
             ++uFailCount;
         }
-    GLToy_Iterate_End;
+    }
     
     if( uFailCount > 0 )
     {

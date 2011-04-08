@@ -465,9 +465,11 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Array< GLToy_Pair< 
 
     // build a hash tree for convenient lookups
     GLToy_HashMap< GLToy_String > xValueTree;
-    GLToy_ConstIterate( GLToy_Pair< GLToy_String >, xCurrent, xKeyValuePairs )
+    for( GLToy_ConstIterator< GLToy_Pair< GLToy_String > > xIterator; !xIterator.Done( xKeyValuePairs ); xIterator.Next() )
+{
+const GLToy_Pair< GLToy_String >& xCurrent = xIterator.Current( xKeyValuePairs );
         xValueTree.AddNode( xCurrent.Second(), xCurrent.First().GetHash() );
-    GLToy_Iterate_End;
+    }
 
     // find the entity class
     const GLToy_String* pszClass = xValueTree.FindData( GLToy_Hash_Constant( "classname" ) );
@@ -529,9 +531,11 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Array< GLToy_Pair< 
 
     if( pxNewEntity )
     {
-        GLToy_ConstIterate( GLToy_Pair< GLToy_String >, xCurrent, xKeyValuePairs )
+        for( GLToy_ConstIterator< GLToy_Pair< GLToy_String > > xIterator; !xIterator.Done( xKeyValuePairs ); xIterator.Next() )
+{
+const GLToy_Pair< GLToy_String >& xCurrent = xIterator.Current( xKeyValuePairs );
             pxNewEntity->SetKeyValuePair( xCurrent.First(), xCurrent.Second() );
-        GLToy_Iterate_End;
+        }
     }
 
     return pxNewEntity;

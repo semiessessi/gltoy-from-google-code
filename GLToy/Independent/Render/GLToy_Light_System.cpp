@@ -333,9 +333,11 @@ void GLToy_Light_System::Render()
 
     if( s_bRenderLightBoxes )
     {
-        GLToy_ConstIterate( GLToy_Light*, pxLight, s_xLights )
+        for( GLToy_ConstIterator< GLToy_Light* > xIterator; !xIterator.Done( s_xLights ); xIterator.Next() )
+        {
+            GLToy_Light* const& pxLight = xIterator.Current( s_xLights );
             pxLight->RenderDebug();
-        GLToy_Iterate_End;
+        }
     }
 }
 

@@ -60,9 +60,11 @@ void GLToy_Visibility_System::RegisterCluster( const GLToy_Array< u_int >& xPVS,
     }
 
     // TODO: get bounds
-    //GLToy_ConstIterate( u_int, uLeaf, xLeaves )
+    //for( GLToy_ConstIterator< u_int > xIterator; !xIterator.Done( xLeaves ); xIterator.Next() )
+    //{
+    //    const u_int& uLeaf = xIterator.Current( xLeaves );
     //    pxEnvironment->GetLeaf( uLeaf );
-    //GLToy_Iterate_End;
+    //}
 }
 
 int GLToy_Visibility_System::GetCluster( const GLToy_Vector_3& xPosition )

@@ -116,16 +116,20 @@ public:
 
     void Traverse( GLToy_Functor< T >& xFunctor )
     {
-        GLToy_Iterate( T, xElement, *this )
+        for( GLToy_Iterator< T > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+        {
+            T& xElement = xIterator.Current( *this );
             xFunctor( &( xElement ) );
-        GLToy_Iterate_End;
+        }
     }
 
     void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
     {
-        GLToy_ConstIterate( T, xCurrent, *this )
+        for( GLToy_ConstIterator< T > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+{
+const T& xCurrent = xIterator.Current( *this );
             xFunctor( &xCurrent );
-        GLToy_Iterate_End;
+        }
     }
 
     T* GetDataPointer() { return m_pxData; }
@@ -184,7 +188,9 @@ protected:
 
         const u_int uAllocCount = ( uOldCount > uNewCount ) ? uNewCount : uOldCount;
 
-        GLToy_ConstIterate( T, xCurrent, *pxDataStructure )
+        for( GLToy_ConstIterator< T > xIterator; !xIterator.Done( *pxDataStructure ); xIterator.Next() )
+{
+const T& xCurrent = xIterator.Current( *pxDataStructure );
             if( static_cast< u_int >( xIterator.Index() ) < uAllocCount )
             {
                 m_pxData[ xIterator.Index() ] = xCurrent;
@@ -193,7 +199,7 @@ protected:
             {
                 new ( &( m_pxData[ xIterator.Index() ] ) ) T( xCurrent );
             }
-        GLToy_Iterate_End;
+        }
     }
 
     T* m_pxData;

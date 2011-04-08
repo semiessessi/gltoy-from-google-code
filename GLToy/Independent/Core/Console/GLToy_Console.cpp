@@ -142,11 +142,13 @@ void GLToy_Console::ExecuteFile( const GLToy_String& szFilename )
     const GLToy_String szSource = xFile.GetString();
 
     const GLToy_Array< GLToy_String > xLines = szSource.Split( '\n' );
-    GLToy_ConstIterate( GLToy_String, szLine, xLines )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xLines ); xIterator.Next() )
+{
+const GLToy_String& szLine = xIterator.Current( xLines );
         GLToy_String szCopy = szLine;
         szCopy.TrimTrailingWhiteSpace();
         ExecuteLine( szCopy, false );
-    GLToy_Iterate_End;
+    }
 #endif
 }
 
@@ -248,9 +250,11 @@ GLToy_ConsoleCommand* GLToy_Console::LookUpCommand( const GLToy_String& szName )
 
 void GLToy_Console::ListAll()
 {
-    GLToy_Iterate( GLToy_ConsoleCommand*, pxCommand, s_xCommandTree )
+    for( GLToy_Iterator< GLToy_ConsoleCommand* > xIterator; !xIterator.Done( s_xCommandTree ); xIterator.Next() )
+    {
+        GLToy_ConsoleCommand*& pxCommand = xIterator.Current( s_xCommandTree );
         GLToy_Console::Print( pxCommand->GetName() );
-    GLToy_Iterate_End;
+    }
 }
 
 void GLToy_Console::HandleCharacter( const wchar_t wcCharacter )

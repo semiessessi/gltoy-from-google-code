@@ -46,9 +46,13 @@ GLToy_Array< GLToy_Vector_3 > GLToy_ConvexHull::GeneratePointCloud() const
     GLToy_Array< GLToy_Vector_3 > xReturnValue;
 
     // for each plane
-    GLToy_ConstIterate( GLToy_Plane, xPlane1, *this )
+    for( GLToy_ConstIterator< GLToy_Plane > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+{
+const GLToy_Plane& xPlane1 = xIterator.Current( *this );
         // for each other plane
-        GLToy_ConstIterate( GLToy_Plane, xPlane2, *this )
+        for( GLToy_ConstIterator< GLToy_Plane > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+{
+const GLToy_Plane& xPlane2 = xIterator.Current( *this );
             if( xPlane1 == xPlane2 )
             {
                 continue;
@@ -59,25 +63,29 @@ GLToy_Array< GLToy_Vector_3 > GLToy_ConvexHull::GeneratePointCloud() const
             
             // now for every other plane, clip the line
             GLToy_Array< GLToy_Plane > xClipPlanes;
-            GLToy_ConstIterate( GLToy_Plane, xClipPlane, *this )
+            for( GLToy_ConstIterator< GLToy_Plane > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+{
+const GLToy_Plane& xClipPlane = xIterator.Current( *this );
                 if( ( xClipPlane == xPlane1 ) || ( xClipPlane == xPlane2 ) )
                 {
                     continue;
                 }
                 xClipPlanes.Append( xClipPlane );
-            GLToy_Iterate_End;
+            }
 
             const GLToy_Pair< GLToy_Vector_3 > xEndPoints = GLToy_Maths::ClipLineWithPlanes( xIntersection, xClipPlanes );
 
             // see if we already have vertex 1 or add it
             bool bFound = false;
-            GLToy_ConstIterate( GLToy_Vector_3, xVertex, xReturnValue )
+            for( GLToy_ConstIterator< GLToy_Vector_3 > xIterator; !xIterator.Done( xReturnValue ); xIterator.Next() )
+{
+const GLToy_Vector_3& xVertex = xIterator.Current( xReturnValue );
                 if( xVertex.ApproximatelyEqual( xEndPoints.First() ) )
                 {
                     bFound = true;
                     break;
                 }
-            GLToy_Iterate_End;
+            }
             if( !bFound )
             {
                 xReturnValue.Append( xEndPoints.First() );
@@ -85,19 +93,21 @@ GLToy_Array< GLToy_Vector_3 > GLToy_ConvexHull::GeneratePointCloud() const
             
             // see if we already have vertex 2 or add it
             bFound = false;
-            GLToy_ConstIterate( GLToy_Vector_3, xVertex, xReturnValue )
+            for( GLToy_ConstIterator< GLToy_Vector_3 > xIterator; !xIterator.Done( xReturnValue ); xIterator.Next() )
+{
+const GLToy_Vector_3& xVertex = xIterator.Current( xReturnValue );
                 if( xVertex.ApproximatelyEqual( xEndPoints.Second() ) )
                 {
                     bFound = true;
                     break;
                 }
-            GLToy_Iterate_End;
+            }
             if( !bFound )
             {
                 xReturnValue.Append( xEndPoints.Second() );
             }
-        GLToy_Iterate_End;
-    GLToy_Iterate_End;
+        }
+    }
 
     return xReturnValue;
 }

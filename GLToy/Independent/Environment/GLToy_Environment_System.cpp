@@ -85,7 +85,9 @@ bool GLToy_Environment_System::Initialise()
     s_xEnvironments.Clear();
 
     GLToy_Array< GLToy_String > xEnvPaths = GLToy_File_System::PathsFromFilter( "Environments/", "*.env" );
-    GLToy_ConstIterate( GLToy_String, szPath, xEnvPaths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xEnvPaths ); xIterator.Next() )
+{
+const GLToy_String& szPath = xIterator.Current( xEnvPaths );
         GLToy_String szName = szPath;
         szName.RemoveAt( 0, 13 ); // remove "Environments/"
         szName.RemoveFromEnd( 4 ); // remove .env
@@ -93,17 +95,19 @@ bool GLToy_Environment_System::Initialise()
         GLToy_DebugOutput( "   - Found environment \"%S\".\r\n", szName.GetWideString() );
 
         s_xEnvironments.AddNode( new GLToy_EnvironmentFile( szPath ), szName.GetHash() );
-    GLToy_Iterate_End;
+    }
 
     GLToy_Array< GLToy_String > xBSPPaths = GLToy_File_System::PathsFromFilter( "Environments/", "*.bsp" );
-    GLToy_ConstIterate( GLToy_String, szPath, xBSPPaths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xBSPPaths ); xIterator.Next() )
+{
+const GLToy_String& szPath = xIterator.Current( xBSPPaths );
         GLToy_String szName = szPath;
         szName.RemoveAt( 0, 13 ); // remove "Environments/"
         
         GLToy_DebugOutput( "   - Found environment \"%S\".\r\n", szName.GetWideString() );
 
         s_xEnvironments.AddNode( new GLToy_EnvironmentFile( szPath ), szName.GetHash() );
-    GLToy_Iterate_End;
+    }
 
     return true;
 }

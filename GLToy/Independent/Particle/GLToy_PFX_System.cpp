@@ -133,14 +133,16 @@ GLToy_PFX* GLToy_PFX_System::CreatePFX( const GLToy_Hash uHash, const GLToy_Vect
     GLToy_PFX* const pxPFX = new GLToy_PFX( szName.GetHash(), xPosition, xVelocity, pxProperties->m_fLifetime );
 
     // create sources
-    GLToy_ConstIterate( GLToy_Hash, uHash, *pxProperties )
+    for( GLToy_ConstIterator< GLToy_Hash > xIterator; !xIterator.Done( *pxProperties ); xIterator.Next() )
+{
+const GLToy_Hash& uHash = xIterator.Current( *pxProperties );
         const GLToy_ParticleSourceProperties* const pxSourceProperties = s_xSourceProperties.FindData( uHash );
         if( pxSourceProperties )
         {
             GLToy_ParticleSource* const pxSource = new GLToy_ParticleSource( *pxSourceProperties, pxPFX );
             pxPFX->AddSource( pxSource );
         }
-    GLToy_Iterate_End;
+    }
 
     s_xPFX.AddNode( pxPFX, pxPFX->GetHash() );
 
@@ -168,7 +170,9 @@ bool GLToy_PFX_System::InitialisePFXProperties()
 
     GLToy_Array< GLToy_String > xPFXPaths = GLToy_File_System::PathsFromFilter( "PFX/", "*.pfx" );
 
-    GLToy_ConstIterate( GLToy_String, szPath, xPFXPaths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xPFXPaths ); xIterator.Next() )
+{
+const GLToy_String& szPath = xIterator.Current( xPFXPaths );
         GLToy_String szName = szPath;
         szName.RemoveAt( 0, 4 ); // remove "PFX/"
         szName.RemoveFromEnd( 4 ); // remove ".pfx"
@@ -179,7 +183,9 @@ bool GLToy_PFX_System::InitialisePFXProperties()
         GLToy_KeyValueFile xFile( szPath );
         GLToy_Array< GLToy_Pair< GLToy_String > > xValues = xFile.LoadValues();
 
-        GLToy_ConstIterate( GLToy_Pair< GLToy_String >, xKeyValue, xValues )
+        for( GLToy_ConstIterator< GLToy_Pair< GLToy_String > > xIterator; !xIterator.Done( xValues ); xIterator.Next() )
+{
+const GLToy_Pair< GLToy_String >& xKeyValue = xIterator.Current( xValues );
             const GLToy_String& szKey = xKeyValue.First();
             const GLToy_String& szValue = xKeyValue.Second();
             if( szKey == "NewSource" )
@@ -190,10 +196,10 @@ bool GLToy_PFX_System::InitialisePFXProperties()
             {
                 xPFXProperties.m_fLifetime = szValue.ExtractFloat();
             }
-        GLToy_Iterate_End;
+        }
 
         s_xPFXProperties.AddNode( xPFXProperties, szName.GetHash() );
-    GLToy_Iterate_End;
+    }
 
     return true;
 }
@@ -204,7 +210,9 @@ bool GLToy_PFX_System::InitialiseSourceProperties()
 
     GLToy_Array< GLToy_String > xSourcePaths = GLToy_File_System::PathsFromFilter( "PFX/Sources/", "*.source" );
 
-    GLToy_ConstIterate( GLToy_String, szPath, xSourcePaths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xSourcePaths ); xIterator.Next() )
+{
+const GLToy_String& szPath = xIterator.Current( xSourcePaths );
         GLToy_String szName = szPath;
         szName.RemoveAt( 0, 12 ); // remove "PFX/Sources/"
         szName.RemoveFromEnd( 7 ); // remove ".source"
@@ -215,7 +223,9 @@ bool GLToy_PFX_System::InitialiseSourceProperties()
         GLToy_KeyValueFile xFile( szPath );
         GLToy_Array< GLToy_Pair< GLToy_String > > xValues = xFile.LoadValues();
 
-        GLToy_ConstIterate( GLToy_Pair< GLToy_String >, xKeyValue, xValues )
+        for( GLToy_ConstIterator< GLToy_Pair< GLToy_String > > xIterator; !xIterator.Done( xValues ); xIterator.Next() )
+{
+const GLToy_Pair< GLToy_String >& xKeyValue = xIterator.Current( xValues );
             const GLToy_String& szKey = xKeyValue.First();
             const GLToy_String& szValue = xKeyValue.Second();
             if( szKey == "ReleaseRate" )
@@ -242,10 +252,10 @@ bool GLToy_PFX_System::InitialiseSourceProperties()
             {
                 xSourceProperties.m_fDelay = szValue.ExtractFloat();
             }
-        GLToy_Iterate_End;
+        }
 
         s_xSourceProperties.AddNode( xSourceProperties, szName.GetHash() );
-    GLToy_Iterate_End;
+    }
 
     return true;
 }
@@ -256,7 +266,9 @@ bool GLToy_PFX_System::InitialiseParticleProperties()
 
     GLToy_Array< GLToy_String > xParticlePaths = GLToy_File_System::PathsFromFilter( "PFX/Particles/", "*.particle" );
 
-    GLToy_ConstIterate( GLToy_String, szPath, xParticlePaths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xParticlePaths ); xIterator.Next() )
+{
+const GLToy_String& szPath = xIterator.Current( xParticlePaths );
         GLToy_String szName = szPath;
         szName.RemoveAt( 0, 14 ); // remove "PFX/Particles/"
         szName.RemoveFromEnd( 9 ); // remove ".particle"
@@ -267,7 +279,9 @@ bool GLToy_PFX_System::InitialiseParticleProperties()
         GLToy_KeyValueFile xFile( szPath );
         GLToy_Array< GLToy_Pair< GLToy_String > > xValues = xFile.LoadValues();
 
-        GLToy_ConstIterate( GLToy_Pair< GLToy_String >, xKeyValue, xValues )
+        for( GLToy_ConstIterator< GLToy_Pair< GLToy_String > > xIterator; !xIterator.Done( xValues ); xIterator.Next() )
+{
+const GLToy_Pair< GLToy_String >& xKeyValue = xIterator.Current( xValues );
             const GLToy_String& szKey = xKeyValue.First();
             const GLToy_String& szValue = xKeyValue.Second();
             if( szKey == "Texture" )
@@ -306,10 +320,10 @@ bool GLToy_PFX_System::InitialiseParticleProperties()
             {
                 xParticleProperties.m_fDamping = szValue.ExtractFloat();
             }
-        GLToy_Iterate_End;
+        }
 
         s_xParticleProperties.AddNode( xParticleProperties, szName.GetHash() );
-    GLToy_Iterate_End;
+    }
 
     return true;
 }

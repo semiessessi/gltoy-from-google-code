@@ -564,9 +564,11 @@ public:
         }
 
         // add the parent's planes
-        GLToy_ConstIterate( GLToy_BSPNode< T >*, pxParent, xParents )
+        for( GLToy_ConstIterator< GLToy_BSPNode< T >* > xIterator; !xIterator.Done( xParents ); xIterator.Next() )
+{
+const GLToy_BSPNode< T >*& pxParent = xIterator.Current( xParents );
             xHull.Append( pxParent->GetPlane() );
-        GLToy_Iterate_End;
+        }
 
         // add the node's planes
         xHull.Append( pxNode->GetPlane() );

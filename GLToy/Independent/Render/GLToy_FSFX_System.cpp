@@ -101,7 +101,9 @@ bool GLToy_FSFX_System::Initialise()
 
     GLToy_Array< GLToy_String > xFSFXPaths = GLToy_File_System::PathsFromFilter( "FSFX/", "*.fsfx" );
 
-    GLToy_ConstIterate( GLToy_String, szPath, xFSFXPaths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xFSFXPaths ); xIterator.Next() )
+{
+const GLToy_String& szPath = xIterator.Current( xFSFXPaths );
 
         GLToy_String szName = szPath;
 
@@ -115,7 +117,7 @@ bool GLToy_FSFX_System::Initialise()
         s_xFSFX.AddNode( xFSFX, szName.GetHash() );
         s_xRenderList.Append( &xFSFX );
 
-    GLToy_Iterate_End;
+    }
 
     return true;
 }
@@ -127,22 +129,26 @@ void GLToy_FSFX_System::Shutdown()
 
 void GLToy_FSFX_System::Render()
 {
-    GLToy_ConstIterate( const GLToy_FSFX*, pxFSFX, s_xRenderList )
+    for( GLToy_ConstIterator< const GLToy_FSFX* > xIterator; !xIterator.Done( s_xRenderList ); xIterator.Next() )
+    {
+        const GLToy_FSFX* const& pxFSFX = xIterator.Current( s_xRenderList );
         if( pxFSFX->m_bEnabled )
         {
             pxFSFX->Render();
         }
-    GLToy_Iterate_End;
+    }
 }
 
 void GLToy_FSFX_System::Update()
 {
-    GLToy_Iterate( GLToy_FSFX, xFSFX, s_xFSFX )
+    for( GLToy_Iterator< GLToy_FSFX > xIterator; !xIterator.Done( s_xFSFX ); xIterator.Next() )
+    {
+        GLToy_FSFX& xFSFX = xIterator.Current( s_xFSFX );
         if( xFSFX.m_bEnabled )
         {
             xFSFX.Update();
         }
-    GLToy_Iterate_End;
+    }
 }
 
 void GLToy_FSFX_System::EnableFSFX( const GLToy_Hash uHash, const bool bEnabled )

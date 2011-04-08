@@ -69,11 +69,13 @@ void GLToy_ModelStrip_FlatMaterials::Render() const
     
     GLToy_Render::SubmitColour( m_pxMaterials[ m_uMaterialIndex ].m_xDiffuse );
 
-    GLToy_ConstIterate( GLToy_ModelVertex_FlatMaterials, xFaceVertex, m_xIndices )
+    for( GLToy_ConstIterator< GLToy_ModelVertex_FlatMaterials > xIterator; !xIterator.Done( m_xIndices ); xIterator.Next() )
+{
+const GLToy_ModelVertex_FlatMaterials& xFaceVertex = xIterator.Current( m_xIndices );
         GLToy_Render::SubmitVertex( m_pxVertices[ xFaceVertex[ 0 ] ] );
         GLToy_Render::SubmitUV( m_pxUVs[ xFaceVertex[ 1 ] ] );
         GLToy_Render::SubmitNormal( m_pxNormals[ xFaceVertex[ 2 ] ] );
-    GLToy_Iterate_End;
+    }
     
     GLToy_Render::EndSubmit();
 }
@@ -123,9 +125,11 @@ void GLToy_Model_FlatMaterials::ReadFromBitStream( const GLToy_BitStream& xStrea
 void GLToy_Model_FlatMaterials::UpdateStripPointers()
 {
     GLToy_Parent::UpdateStripPointers();
-    GLToy_Iterate( GLToy_ModelStrip, xStrip, *this )
+    for( GLToy_Iterator< GLToy_ModelStrip > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+    {
+        GLToy_ModelStrip& xStrip = xIterator.Current( *this );
         static_cast< GLToy_ModelStrip_FlatMaterials& >( xStrip ).SetNormalPointer( m_xNormals.GetDataPointer() );
         static_cast< GLToy_ModelStrip_FlatMaterials& >( xStrip ).SetUVPointer( m_xUVs.GetDataPointer() );
         static_cast< GLToy_ModelStrip_FlatMaterials& >( xStrip ).SetMaterialPointer( m_xMaterials.GetDataPointer() );
-    GLToy_Iterate_End;
+    }
 }

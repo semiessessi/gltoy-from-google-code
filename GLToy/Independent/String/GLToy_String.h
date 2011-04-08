@@ -122,36 +122,42 @@ public:
     {
         char* pcNewString = new char[ GetCount() ];
 
-        GLToy_ConstIterate( wchar_t, wcChar, *this )
+        for( GLToy_ConstIterator< wchar_t > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+{
+const wchar_t& wcChar = xIterator.Current( *this );
             pcNewString[ xIterator.Index() ]
                 = wcChar > 0xFF
                 ? '?'
                 : static_cast< char >( wcChar );
-        GLToy_Iterate_End;
+        }
 
         return pcNewString;
     }
 
     GLToy_Inline bool operator ==( const GLToy_String& xString ) const
     {
-        GLToy_ConstIterate( wchar_t, wcChar, *this )
+        for( GLToy_ConstIterator< wchar_t > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+{
+const wchar_t& wcChar = xIterator.Current( *this );
             if( wcChar != xString[ xIterator.Index() ] )
             {
                 return false;
             }
-        GLToy_Iterate_End;
+        }
 
         return true;
     }
 
     GLToy_Inline bool operator !=( const GLToy_String& xString ) const
     {
-        GLToy_ConstIterate( wchar_t, wcChar, *this )
+        for( GLToy_ConstIterator< wchar_t > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+{
+const wchar_t& wcChar = xIterator.Current( *this );
             if( wcChar != xString[ xIterator.Index() ] )
             {
                 return true;
             }
-        GLToy_Iterate_End;
+        }
 
         return false;
     }
@@ -389,12 +395,14 @@ public:
 
     GLToy_Inline bool Contains( wchar_t wcChar ) const
     {
-        GLToy_ConstIterate( wchar_t, wcCharacter, *this )
+        for( GLToy_ConstIterator< wchar_t > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+{
+const wchar_t& wcCharacter = xIterator.Current( *this );
             if( wcCharacter == wcChar )
             {
                 return true;
             }
-        GLToy_Iterate_End;
+        }
 
         return false;
     }
@@ -407,7 +415,9 @@ public:
 		}
 
 		u_int uPos = 0;
-		GLToy_ConstIterate( wchar_t, wcChar, *this )
+		for( GLToy_ConstIterator< wchar_t > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+{
+const wchar_t& wcChar = xIterator.Current( *this );
 			if( wcChar == szString[ uPos ] )
 			{
 				++uPos;
@@ -420,7 +430,7 @@ public:
 			{
 				uPos = 0;
 			}
-		GLToy_Iterate_End;
+		}
 
 		return false;
 	}

@@ -99,9 +99,11 @@ void GLToy_Raytrace_Fullscreen::Render() const
         }
     }
 
-	GLToy_ConstIterate( Vector4Uniform, xCurrent, m_xVector4Uniforms )
+	for( GLToy_ConstIterator< Vector4Uniform > xIterator; !xIterator.Done( m_xVector4Uniforms ); xIterator.Next() )
+{
+const Vector4Uniform& xCurrent = xIterator.Current( m_xVector4Uniforms );
 		pxShader->SetUniform( xCurrent.First(), *( xCurrent.Second() ) );
-    GLToy_Iterate_End;
+    }
     const float fAspectRatio = static_cast< float >( GLToy::GetWindowViewportWidth() ) / static_cast< float >( GLToy::GetWindowViewportHeight() );
 
     GLToy_Render::StartSubmittingQuads();

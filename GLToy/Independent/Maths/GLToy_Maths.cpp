@@ -476,7 +476,9 @@ GLToy_Pair< GLToy_Vector_3 > GLToy_Maths::ClipLineWithPlanes( const GLToy_Ray& x
     float fMinParameter = LargeFloat;
     float fMaxParameter = -LargeFloat;
 
-    GLToy_ConstIterate( GLToy_Plane, xPlane, xPlanes )
+    for( GLToy_ConstIterator< GLToy_Plane > xIterator; !xIterator.Done( xPlanes ); xIterator.Next() )
+{
+const GLToy_Plane& xPlane = xIterator.Current( xPlanes );
     
         float fParameter = 0.0f;
         if( xRay.IntersectsWithPlane( xPlane, &fParameter ) )
@@ -485,7 +487,7 @@ GLToy_Pair< GLToy_Vector_3 > GLToy_Maths::ClipLineWithPlanes( const GLToy_Ray& x
             fMaxParameter = Max( fMaxParameter, fParameter );
         }
 
-    GLToy_Iterate_End;
+    }
 
     return GLToy_Pair< GLToy_Vector_3 >( xRay.Evaluate( fMinParameter ), xRay.Evaluate( fMaxParameter ) );
 }

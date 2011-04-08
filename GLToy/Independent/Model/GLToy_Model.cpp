@@ -107,9 +107,11 @@ void GLToy_ModelStrip::Render() const
 
 void GLToy_ModelStrip::SubmitVertices() const
 {
-    GLToy_ConstIterate( u_int, uIndex, *this )
+    for( GLToy_ConstIterator< u_int > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+{
+const u_int& uIndex = xIterator.Current( *this );
         SubmitVertex( uIndex );
-    GLToy_Iterate_End;
+    }
 }
 
 void GLToy_ModelStrip::SubmitVertex( const u_int uIndex ) const
@@ -170,9 +172,11 @@ void GLToy_Model::AddStripFromIndices( const u_int* puIndices, const u_int uCoun
 void GLToy_Model::Render() const
 {
     GLToy_Texture_System::BindWhite();
-    GLToy_ConstIterate( GLToy_ModelStrip, xStrip, *this )
+    for( GLToy_ConstIterator< GLToy_ModelStrip > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+{
+const GLToy_ModelStrip& xStrip = xIterator.Current( *this );
         xStrip.Render();
-    GLToy_Iterate_End;
+    }
 }
 
 void GLToy_Model::RenderWithPositionAndOrientation( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation ) const
@@ -190,19 +194,23 @@ void GLToy_Model::RenderWithPositionAndOrientation( const GLToy_Vector_3& xPosit
 
 void GLToy_Model::UpdateStripPointers()
 {
-    GLToy_Iterate( GLToy_ModelStrip, xStrip, *this )
+    for( GLToy_Iterator< GLToy_ModelStrip > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+    {
+        GLToy_ModelStrip& xStrip = xIterator.Current( *this );
         xStrip.SetVertexPointer( m_xVertices.GetDataPointer() );
-    GLToy_Iterate_End;
+    }
 }
 
 u_int GLToy_Model::GetVertexIndex( const GLToy_Vector_3& xVertex )
 {
-    GLToy_ConstIterate( GLToy_Vector_3, xTestVertex, m_xVertices )
+    for( GLToy_ConstIterator< GLToy_Vector_3 > xIterator; !xIterator.Done( m_xVertices ); xIterator.Next() )
+{
+const GLToy_Vector_3& xTestVertex = xIterator.Current( m_xVertices );
         if( xTestVertex == xVertex )
         {
             return static_cast< u_int >( xIterator.Index() );
         }
-    GLToy_Iterate_End;
+    }
 
     m_xVertices.Append( xVertex );
 

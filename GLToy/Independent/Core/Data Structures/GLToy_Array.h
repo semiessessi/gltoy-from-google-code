@@ -76,9 +76,11 @@ public:
 
     virtual ~GLToy_Array()
     {
-        GLToy_Iterate( T, xElement, *this )
+        for( GLToy_Iterator< T > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+        {
+            T& xElement = xIterator.Current( *this );
             xElement.~T();
-        GLToy_Iterate_End;
+        }
     }
 
     
@@ -220,9 +222,11 @@ public:
 
     void DeleteAll()
     {
-        GLToy_Iterate( T, xElement, *this )
+        for( GLToy_Iterator< T > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+        {
+            T& xElement = xIterator.Current( *this );
             delete xElement;
-        GLToy_Iterate_End;
+        }
 
         Clear();
     }
@@ -230,13 +234,15 @@ public:
     int Find( const T& xValue ) const
     {
         int iIndex = -1;
-        GLToy_ConstIterate( T, xCurrent, *this )
+        for( GLToy_ConstIterator< T > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+{
+const T& xCurrent = xIterator.Current( *this );
             if( xCurrent == xValue )
             {
                 iIndex = xIterator.Index();
                 return iIndex;
             }
-        GLToy_Iterate_End;
+        }
 
         return -1;
     }
@@ -293,30 +299,38 @@ public:
 
     virtual void Traverse( GLToy_Functor< T >& xFunctor )
     {
-        GLToy_Iterate( T*, pxElement, m_xArray )
+        for( GLToy_Iterator< T* > xIterator; !xIterator.Done( m_xArray ); xIterator.Next() )
+        {
+            T*& pxElement = xIterator.Current( m_xArray );
             xFunctor( pxElement );
-        GLToy_Iterate_End;
+        }
     }
 
     virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
     {
-        GLToy_ConstIterate( T*, xCurrent, m_xArray )
+        for( GLToy_ConstIterator< T* > xIterator; !xIterator.Done( m_xArray ); xIterator.Next() )
+        {
+        T* const& xCurrent = xIterator.Current( m_xArray );
             xFunctor( xCurrent );
-        GLToy_Iterate_End;
+        }
     }
 
     virtual void Traverse( GLToy_Functor< T* >& xFunctor )
     {
-        GLToy_Iterate( T*, xElement, m_xArray )
+        for( GLToy_Iterator< T* > xIterator; !xIterator.Done( m_xArray ); xIterator.Next() )
+        {
+            T*& xElement = xIterator.Current( m_xArray );
             xFunctor( &xElement );
-        GLToy_Iterate_End;
+        }
     }
 
     virtual void Traverse( GLToy_ConstFunctor< T* >& xFunctor ) const
     {
-        GLToy_ConstIterate( T*, xCurrent, m_xArray )
+        for( GLToy_ConstIterator< T* > xIterator; !xIterator.Done( m_xArray ); xIterator.Next() )
+        {
+            T* const& xCurrent = xIterator.Current( m_xArray );
             xFunctor( &xCurrent );
-        GLToy_Iterate_End;
+        }
     }
 
     // array functions
@@ -367,9 +381,11 @@ protected:
     {
         DeleteAll();
 
-        GLToy_ConstIterate( T, xCurrent, *pxDataStructure )
+        for( GLToy_ConstIterator< T > xIterator; !xIterator.Done( *pxDataStructure ); xIterator.Next() )
+{
+const T& xCurrent = xIterator.Current( *pxDataStructure );
             Append( new T( xCurrent ) );
-        GLToy_Iterate_End;
+        }
     }
 
 // TODO: it would be nice to protect this...
@@ -407,16 +423,20 @@ public:
 
     virtual void Traverse( GLToy_Functor< T >& xFunctor )
     {
-        GLToy_Iterate( T, xElement, *this )
+        for( GLToy_Iterator< T > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+        {
+            T& xElement = xIterator.Current( *this );
             xFunctor( &xElement );
-        GLToy_Iterate_End;
+        }
     }
 
     virtual void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
     {
-        GLToy_ConstIterate( T, xCurrent, *this )
+        for( GLToy_ConstIterator< T > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+{
+const T& xCurrent = xIterator.Current( *this );
             xFunctor( &xCurrent );
-        GLToy_Iterate_End;
+        }
     }
 
 protected:
@@ -424,9 +444,11 @@ protected:
     template < class DataStructure >
     void CopyFrom( const DataStructure* const pxDataStructure )
     {
-        GLToy_ConstIterate( T, xCurrent, *pxDataStructure )
+        for( GLToy_ConstIterator< T > xIterator; !xIterator.Done( *pxDataStructure ); xIterator.Next() )
+{
+const T& xCurrent = xIterator.Current( *pxDataStructure );
             m_pxData[ xIterator.Index() ] = xCurrent;
-        GLToy_Iterate_End;
+        }
     }
 
     T* m_pxData;
@@ -462,9 +484,11 @@ public:
 
     void Traverse( GLToy_ConstFunctor< T >& xFunctor ) const
     {
-        GLToy_ConstIterate( T, xCurrent, *this )
+        for( GLToy_ConstIterator< T > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+        {
+            const T& xCurrent = xIterator.Current( *this );
             xFunctor( &xCurrent );
-        GLToy_Iterate_End;
+        }
     }
 
 protected:
@@ -530,9 +554,11 @@ public:
     {
         xStream << GetCount();
 
-        GLToy_ConstIterate( T, xCurrent, *this )
+        for( GLToy_ConstIterator< T > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+        {
+            const T& xCurrent = xIterator.Current( *this );
             xStream << xCurrent;
-        GLToy_Iterate_End;
+        }
     }
 };
 
@@ -585,9 +611,11 @@ public:
     {
         xStream << GetCount();
 
-        GLToy_ConstIterate( T, xCurrent, *this )
+        for( GLToy_ConstIterator< T > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+{
+const T& xCurrent = xIterator.Current( *this );
             xStream << xCurrent;
-        GLToy_Iterate_End;
+        }
     }
 };
 
@@ -622,9 +650,6 @@ public:
 
     virtual ~GLToy_SmallSerialisableArray()
     {
-        //GLToy_Iterate( T, xElement, *this )
-        //    xElement.~T();
-        //GLToy_Iterate_End;
     }
     
     virtual void ReadFromBitStream( const GLToy_BitStream& xStream )
@@ -647,9 +672,11 @@ public:
         GLToy_Assert( GetCount() < 32, "Not allowed more than 31 members in a GLToy_SmallSerialisableArray" );
         xStream.WriteBits( GetCount(), 5 );
 
-        GLToy_ConstIterate( T, xCurrent, *this )
+        for( GLToy_ConstIterator< T > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+        {
+            const T& xCurrent = xIterator.Current( *this );
             xStream << xCurrent;
-        GLToy_Iterate_End;
+        }
     }
 };
 

@@ -60,15 +60,19 @@ void GLToy_Model_3DS::Render() const
         GLToy_Texture_System::BindTexture( GLToy_Hash_Constant( "Generic/Invalid.png" ) );
     }
 
-    GLToy_ConstIterate( GLToy_3DS_Object, x3DSObject, m_xObjects )
+    for( GLToy_ConstIterator< GLToy_3DS_Object > xIterator; !xIterator.Done( m_xObjects ); xIterator.Next() )
+{
+const GLToy_3DS_Object& x3DSObject = xIterator.Current( m_xObjects );
         GLToy_Render::StartSubmittingTriangles();
 
         GLToy_Render::SubmitColour( GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) );
 
-        GLToy_ConstIterate( u_int, uIndex, x3DSObject.m_xIndices )
+        for( GLToy_ConstIterator< u_int > xIterator; !xIterator.Done( x3DSObject.m_xIndices ); xIterator.Next() )
+{
+const u_int& uIndex = xIterator.Current( x3DSObject.m_xIndices );
             GLToy_Render::SubmitVertex( x3DSObject.m_xVertices[ uIndex ] );
-        GLToy_Iterate_End;
+        }
 
         GLToy_Render::EndSubmit();
-    GLToy_Iterate_End;
+    }
 }

@@ -388,9 +388,11 @@ void GLToy_Texture_Procedural::LayerNode::Render( const u_int uWidth, const u_in
     if( m_pxChildren )
     {
         // traverse the tree
-        GLToy_Iterate( LayerNode, xNode, *m_pxChildren )
+        for( GLToy_Iterator< LayerNode > xIterator; !xIterator.Done( *m_pxChildren ); xIterator.Next() )
+        {
+            LayerNode& xNode = xIterator.Current( *m_pxChildren );
             xNode.Render( uWidth, uHeight );
-        GLToy_Iterate_End;
+        }
     }
     else
     {
@@ -1411,9 +1413,11 @@ u_int* GLToy_Texture_Procedural::CreateRGBA( const u_int uWidth, const u_int uHe
     LayerNode::s_xLight = GLToy_Vector_3( 0.533f, 0.533f, 0.533f );
 
     // traverse the tree
-    GLToy_Iterate( LayerNode, xNode, m_xLayers )
+    for( GLToy_Iterator< LayerNode > xIterator; !xIterator.Done( m_xLayers ); xIterator.Next() )
+    {
+        LayerNode& xNode = xIterator.Current( m_xLayers );
         xNode.Render( uWidth, uHeight );
-    GLToy_Iterate_End;
+    }
 
     pxData = LayerNode::s_xRenderStack.Pop();
 
@@ -1443,9 +1447,11 @@ u_int* GLToy_Texture_Procedural::CreateRGBAFromBaseTexture( const u_int* const p
     LayerNode::s_xLight = GLToy_Vector_3( 0.533f, 0.533f, 0.533f );
 
     // traverse the tree
-    GLToy_Iterate( LayerNode, xNode, m_xLayers )
+    for( GLToy_Iterator< LayerNode > xIterator; !xIterator.Done( m_xLayers ); xIterator.Next() )
+    {
+        LayerNode& xNode = xIterator.Current( m_xLayers );
         xNode.Render( uWidth, uHeight );
-    GLToy_Iterate_End;
+    }
 
     pxData = LayerNode::s_xRenderStack.Pop();
 
