@@ -118,7 +118,9 @@ void FPSToy_Entity_Projectile::Update()
         return;
     }
 
-    GLToy_ConstIterate( GLToy_Physics_ObjectCollision, xCollision, m_pxPhysicsObject->GetCollisions() )
+    for( GLToy_ConstIterator< GLToy_Physics_ObjectCollision > xIterator; !xIterator.Done( m_pxPhysicsObject->GetCollisions() ); xIterator.Next() )
+    {
+        const GLToy_Physics_ObjectCollision& xCollision = xIterator.Current( m_pxPhysicsObject->GetCollisions() );
         if( pxProjectileType->GetContactDetonation() )
         {
             // detonate
@@ -133,7 +135,7 @@ void FPSToy_Entity_Projectile::Update()
 
             break;
         }
-    GLToy_Iterate_End;
+    }
 }
 
 void FPSToy_Entity_Projectile::Destroy()

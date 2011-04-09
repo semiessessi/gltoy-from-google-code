@@ -98,9 +98,11 @@ FPSToy_Weapon FPSToy_Weapon_System::CreateWeapon( const GLToy_Hash uHash, const 
 
     if( pxDefinition )
     {
-        GLToy_ConstIterate( GLToy_Hash, uModeHash, *pxDefinition )
+        for( GLToy_ConstIterator< GLToy_Hash > xIterator; !xIterator.Done( *pxDefinition ); xIterator.Next() )
+        {
+            const GLToy_Hash& uModeHash = xIterator.Current( *pxDefinition );
             xReturnValue.AddMode( uModeHash );
-        GLToy_Iterate_End;
+        }
     }
 
     return xReturnValue;
@@ -112,7 +114,9 @@ bool FPSToy_Weapon_System::InitialiseAmmoTypes()
 
     GLToy_Array< GLToy_String > xAmmoPaths = GLToy_File_System::PathsFromFilter( "Weapons/Ammo/", "*.ammo" );
 
-    GLToy_ConstIterate( GLToy_String, szPath, xAmmoPaths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xAmmoPaths ); xIterator.Next() )
+    {
+        const GLToy_String& szPath = xIterator.Current( xAmmoPaths );
         GLToy_String szName = szPath;
         szName.RemoveAt( 0, 13 ); // remove "Weapons/Ammo/"
         szName.RemoveFromEnd( 5 ); // remove ".ammo"
@@ -141,7 +145,7 @@ bool FPSToy_Weapon_System::InitialiseAmmoTypes()
         }
 
         // s_xAmmoTypes.AddNode( new GLToy_AmmoType( szName.GetHash() ), szName.GetHash() );
-    GLToy_Iterate_End;
+    }
 
     return true;
 }
@@ -152,7 +156,9 @@ bool FPSToy_Weapon_System::InitialiseWeaponDefinitions()
 
     GLToy_Array< GLToy_String > xWeaponDefinitionPaths = GLToy_File_System::PathsFromFilter( "Weapons/", "*.weapon" );
 
-    GLToy_ConstIterate( GLToy_String, szPath, xWeaponDefinitionPaths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xWeaponDefinitionPaths ); xIterator.Next() )
+    {
+        const GLToy_String& szPath = xIterator.Current( xWeaponDefinitionPaths );
         GLToy_String szName = szPath;
         szName.RemoveAt( 0, 8 ); // remove "Weapons/"
         szName.RemoveFromEnd( 7 ); // remove ".weapon"
@@ -189,7 +195,7 @@ bool FPSToy_Weapon_System::InitialiseWeaponDefinitions()
                 }
             }
         }
-    GLToy_Iterate_End;
+    }
 
     return true;
 }
@@ -200,7 +206,9 @@ bool FPSToy_Weapon_System::InitialiseWeaponTypes()
 
     GLToy_Array< GLToy_String > xWeaponTypePaths = GLToy_File_System::PathsFromFilter( "Weapons/Types/", "*.weapontype" );
 
-    GLToy_ConstIterate( GLToy_String, szPath, xWeaponTypePaths )
+    for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xWeaponTypePaths ); xIterator.Next() )
+    {
+        const GLToy_String& szPath = xIterator.Current( xWeaponTypePaths );
         GLToy_String szName = szPath;
         szName.RemoveAt( 0, 14 ); // remove "Weapons/Types/"
         szName.RemoveFromEnd( 11 ); // remove ".weapontype"
@@ -313,7 +321,7 @@ bool FPSToy_Weapon_System::InitialiseWeaponTypes()
         {
             GLToy_DebugOutput_Release( "  - Failed to create weapon type \"%S\".\r\n", szName.GetWideString() );
         }
-    GLToy_Iterate_End;
+    }
 
     return true;
 }
