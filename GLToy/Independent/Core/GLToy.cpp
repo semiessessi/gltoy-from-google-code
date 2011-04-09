@@ -394,6 +394,8 @@ void GLToy::Render()
     // avoid camera lag
     GLToy_Camera::Update();
 
+    GLToy_Visibility_System::Update();
+
     GLToy_Render::BeginRender();
 
 #ifndef GLTOY_DEMO

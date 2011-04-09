@@ -57,7 +57,7 @@ GLToy_Array< const GLToy_Renderable* > GLToy_Light_System::s_xOtherLightSources;
 GLToy_Array< const GLToy_GlobalLight_Directional* > GLToy_Light_System::s_xDirectionalLights;
 
 float GLToy_Light_System::s_fFogStartDistance = 100.0f;
-float GLToy_Light_System::s_fFogEndDistance = 300.0f;
+float GLToy_Light_System::s_fFogEndDistance = 3000.0f;
 float GLToy_Light_System::s_fFogExponent = 0.0f;
 GLToy_Vector_4 GLToy_Light_System::s_xFogColour = GLToy_Vector_4( 0.4f, 0.3f, 0.25f, 1.0f );
 float GLToy_Light_System::s_fConeCos = 0.0f;
