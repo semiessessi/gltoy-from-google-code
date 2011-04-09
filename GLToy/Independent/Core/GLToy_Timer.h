@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2009, 2010 Semi Essessi
+// ©Copyright 2009-2011 Semi Essessi, Thomas Young
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -27,9 +27,16 @@
 #ifndef __GLTOY_TIMER_H_
 #define __GLTOY_TIMER_H_
 
-#include "Maths/GLToy_Maths.h"
+/////////////////////////////////////////////////////////////////////////////////////////////
+// I N C L U D E S
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+// GLToy
+#ifdef GLTOY_DEBUG
+#include <Maths/GLToy_Maths.h>
 
 static const float fGLTOY_MAX_FRAME_TIME = 0.5f;
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -47,11 +54,11 @@ public:
     static void Update();
 
     static GLToy_ForceInline const float& GetTime() { return s_fTimer; }
-	#ifdef _DEBUG
+#ifdef GLTOY_DEBUG
 	static GLToy_ForceInline float GetFrameTime() { return GLToy_Maths::Min( s_fFrameTime, fGLTOY_MAX_FRAME_TIME ); }
-	#else
+#else
 	static GLToy_ForceInline float GetFrameTime() { return s_fFrameTime; }
-	#endif
+#endif
     static GLToy_ForceInline float GetFrameRate() { return 1 / s_fFrameTime; }
     static GLToy_ForceInline float GetSmoothedFrameRate() { return s_fSmoothedFrameRate; }
 

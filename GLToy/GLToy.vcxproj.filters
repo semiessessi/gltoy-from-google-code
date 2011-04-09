@@ -157,6 +157,30 @@
     <Filter Include="Independent\Visibility">
       <UniqueIdentifier>{ae59a446-2a72-4426-a7ac-fdc576178a9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mac">
+      <UniqueIdentifier>{9a39d766-8e18-478d-8d53-857999c107ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mac\Core">
+      <UniqueIdentifier>{3f88cd94-89f7-4aa1-962d-d210fc59a320}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mac\File">
+      <UniqueIdentifier>{68141a4d-f557-438e-8ca9-d8e081218f87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mac\FridgeScript">
+      <UniqueIdentifier>{629e2227-8da0-4cea-8b46-a27daefe442e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mac\Input">
+      <UniqueIdentifier>{044079ab-03ed-4bfa-8877-5473e676d767}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mac\Maths">
+      <UniqueIdentifier>{a5be8589-ea0c-4eba-a32f-965c198f7be3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mac\Physics">
+      <UniqueIdentifier>{4ff1dace-3318-4f56-9c8d-a5c20488c687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mac\Render">
+      <UniqueIdentifier>{0bd266f4-0cef-458e-9615-0a377caae8e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_GLToy.cpp">
@@ -584,6 +608,39 @@
     </ClCompile>
     <ClCompile Include="Independent\Maths\GLToy_ConvexHull.cpp">
       <Filter>Independent\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Mac\Core\Platform_GLToy.cpp">
+      <Filter>Mac\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Mac\Core\Platform_GLToy_Assert.cpp">
+      <Filter>Mac\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Mac\Core\Platform_GLToy_Memory.cpp">
+      <Filter>Mac\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Mac\Core\Platform_GLToy_Timer.cpp">
+      <Filter>Mac\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Mac\File\Platform_GLToy_File_System.cpp">
+      <Filter>Mac\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Mac\Input\Platform_GLToy_Input_System.cpp">
+      <Filter>Mac\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Mac\Maths\Platform_GLToy_Maths.cpp">
+      <Filter>Mac\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Mac\Maths\Platform_GLToy_Vector.cpp">
+      <Filter>Mac\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Mac\Render\Platform_GLToy_Render.cpp">
+      <Filter>Mac\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Mac\Render\Platform_GLToy_Texture.cpp">
+      <Filter>Mac\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Mac\Render\Platform_GLToy_Texture_Renderable.cpp">
+      <Filter>Mac\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1033,6 +1090,27 @@
     </ClInclude>
     <ClInclude Include="Independent\Core\GLToy_CRTP.h">
       <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Mac\Core\Platform_GLToy.h">
+      <Filter>Mac\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Mac\Core\Platform_GLToy_Timer.h">
+      <Filter>Mac\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Mac\FridgeScript\Platform_GLToy_FridgeScript.h">
+      <Filter>Mac\FridgeScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Mac\Maths\Platform_GLToy_Maths.h">
+      <Filter>Mac\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Mac\Maths\Platform_GLToy_Vector.h">
+      <Filter>Mac\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Mac\Render\Platform_GLToy_Render.h">
+      <Filter>Mac\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Mac\Physics\Platform_GLToy_Havok_Physics.h">
+      <Filter>Mac\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

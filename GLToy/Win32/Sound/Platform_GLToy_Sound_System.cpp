@@ -156,7 +156,9 @@ bool Platform_GLToy_Sound_System::Initialise_LoadSounds()
 
 	GLToy_Array< GLToy_String > xWavePaths = GLToy_File_System::PathsFromFilter( "Sounds/", "*.wav" );
 
-	GLToy_ConstIterate( GLToy_String, szPath, xWavePaths )
+	for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xWavePaths ); xIterator.Next() )
+	{
+	    const GLToy_String& szPath = xIterator.Current( xWavePaths );
 
 		GLToy_String szName = szPath;
 		szName.RemoveAt( 0, 7 );      // remove "Sounds/"
@@ -170,7 +172,7 @@ bool Platform_GLToy_Sound_System::Initialise_LoadSounds()
 			s_xWaves.AddNode( pxWavFile, szName.GetHash() );
 		}
 		
-	GLToy_Iterate_End;
+	}
 #endif
 
 	return true;

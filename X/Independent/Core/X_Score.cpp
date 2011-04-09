@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2011 Thomas Young
+// ©Copyright 2011 Semi Essessi, Thomas Young
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -191,13 +191,14 @@ void X_Score::Add( float fScore, GLToy_Vector_2 xPosition, bool bIgnoreMultiplie
 void X_Score::AddNotification( float fScore, GLToy_Vector_2 xPosition )
 {
 	const float fMinDistToReUse = 0.2f;
+    const float fMinDistToReUseSquared = fMinDistToReUse * fMinDistToReUse;
 	bool bReuse = false;
 	u_int uNotificationIndex = 0;
 
 	// Is there already a notification near this one?
 	for( u_int uNotification = 0; uNotification < X_SCORE_MAX_NOTIFICATIONS; ++uNotification )
 	{
-		if( s_xNotifications[ uNotification ].IsActive() && GLToy_Vector_2( s_xNotifications[ uNotification ].GetDestPosition() - xPosition ).Magnitude() < fMinDistToReUse )
+		if( s_xNotifications[ uNotification ].IsActive() && GLToy_Vector_2( s_xNotifications[ uNotification ].GetDestPosition() - xPosition ).MagnitudeSquared() < fMinDistToReUseSquared )
 		{
 			bReuse = true;
 			uNotificationIndex = uNotification;
@@ -212,7 +213,8 @@ void X_Score::AddNotification( float fScore, GLToy_Vector_2 xPosition )
 	else
 	{
 		s_xNotifications[ s_uCurrentNotification ].Activate( fScore, xPosition );
-		s_uCurrentNotification = ( s_uCurrentNotification + 1 ) % X_SCORE_MAX_NOTIFICATIONS;
+        // SE - this will break if X_SCORE_MAX_NOTIFICATIONS is not a power of 2
+		s_uCurrentNotification = ( s_uCurrentNotification + 1 ) & ( X_SCORE_MAX_NOTIFICATIONS - 1 );//% X_SCORE_MAX_NOTIFICATIONS;
 	}
 }
 

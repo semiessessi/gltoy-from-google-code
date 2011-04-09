@@ -60,6 +60,7 @@
 #include <Test/GLToy_Test_System.h>
 #include <UI/GLToy_UI_System.h>
 #endif
+#include <Visibility/GLToy_Visibility_System.h>
 
 // C/C++ headers
 #include <stdarg.h>
@@ -199,6 +200,9 @@ bool GLToy::Initialise()
 #endif
 
     GLToy_InitialiserCall( GLToy_State_System );
+
+    GLToy_InitialiserCall( GLToy_Visibility_System );
+
 #ifndef GLTOY_DEMO
     if( !s_bSilent )
     {
@@ -265,6 +269,8 @@ void GLToy::Shutdown()
         GLToy_Sound_System::Shutdown();
     }
 #endif
+
+    GLToy_Visibility_System::Shutdown();
 
     GLToy_State_System::Shutdown();
 

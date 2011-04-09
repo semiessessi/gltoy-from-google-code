@@ -33,6 +33,7 @@
 // GLToy
 #include <Core/Data Structures/GLToy_BSPTree.h>
 #include <Core/Data Structures/GLToy_Pair.h>
+#include <Core/GLToy_Functor.h>
 #include <File/BSP/GLToy_BSP38_Types.h>
 #include <File/GLToy_3DSFile.h>
 #include <File/GLToy_OBJFile.h>
@@ -55,6 +56,17 @@
 #ifdef GLTOY_PLATFORM_WIN32
     #pragma comment( lib, "GLToy" )
 #endif
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// D A T A
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+static const float fEPSILON = 0.1f;
+
+static bool bMetres = false;
+static bool bSeal = true;
+static bool bSplit = false; // TODO: turn on
+static bool bVis = true;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -97,17 +109,17 @@ TriangleType ClassifyTriangle( const Triangle& xTriangle, const GLToy_Plane& xPl
     const float fV2D = xPlane.SignedDistance( xTriangle.m_axVertices[ 1 ] );
     const float fV3D = xPlane.SignedDistance( xTriangle.m_axVertices[ 2 ] );
 
-    if( ( fV1D > 0.0f ) && ( fV2D > 0.0f ) && ( fV3D > 0.0f ) )
+    if( ( fV1D > fEPSILON ) && ( fV2D > fEPSILON ) && ( fV3D > fEPSILON ) )
     {
         return TT_POSITIVE;
     }
 
-    if( ( fV1D > 0.0f ) && ( fV2D > 0.0f ) && ( fV3D > 0.0f ) )
+    if( ( fV1D < -fEPSILON ) && ( fV2D < -fEPSILON ) && ( fV3D < -fEPSILON ) )
     {
         return TT_NEGATIVE;
     }
 
-    if( ( fV1D == 0.0f ) && ( fV2D == 0.0f ) && ( fV3D == 0.0f ) )
+    if( ( GLToy_Maths::Abs( fV1D ) <= fEPSILON ) && ( GLToy_Maths::Abs( fV2D ) <= fEPSILON ) && ( GLToy_Maths::Abs( fV3D ) <= fEPSILON ) )
     {
         return TT_COINCIDENT;
     }
@@ -186,12 +198,14 @@ GLToy_Pair< GLToy_Array< Triangle > > TriangleSplit( const Triangle& xTriangle, 
     }
 
     // ... or it splits it into a quad and a triangle
+    // TODO: ...
 
     return xSplit;
 }
 
 void BuildTree( GLToy_BSPNode< GLToy_Array< Triangle > >* const pxTree, const GLToy_Array< Triangle >& xSourceTriangles )
 {
+    printf( "." );
     pxTree->SetPlane( xSourceTriangles[ 0 ].m_xPlane );
     pxTree->SetData( new GLToy_Array< Triangle >() );
     pxTree->GetData()->Append( xSourceTriangles[ 0 ] );
@@ -233,9 +247,17 @@ void BuildTree( GLToy_BSPNode< GLToy_Array< Triangle > >* const pxTree, const GL
 
             case TT_SPANNING:
             {
-                GLToy_Pair< GLToy_Array< Triangle > > xSplit = TriangleSplit( xTriangle, pxTree->GetPlane() );
-                xPositives.Append( xSplit.First() );
-                xNegatives.Append( xSplit.Second() );
+                if( bSplit )
+                {
+                    GLToy_Pair< GLToy_Array< Triangle > > xSplit = TriangleSplit( xTriangle, pxTree->GetPlane() );
+                    xPositives.Append( xSplit.First() );
+                    xNegatives.Append( xSplit.Second() );
+                }
+                else
+                {
+                    xPositives.Append( xTriangle );
+                    xNegatives.Append( xTriangle );
+                }
                 break;
             }
         }
@@ -252,15 +274,46 @@ void BuildTree( GLToy_BSPNode< GLToy_Array< Triangle > >* const pxTree, const GL
     }
 }
 
-void GenerateBSPData( const GLToy_Array< Triangle >& xSourceTriangles, GLToy_BitStream& xBitStream, const u_int uVersion = 38, const u_int uHeaderBytes = GLToy_HeaderBytes( "IBSP" ) )
+struct BSPNode
+{
+    GLToy_BSPNode< GLToy_Array< Triangle > > m_xNode;
+    u_int m_uPositive;
+    u_int m_uNegative;
+    u_int m_uPlane;
+};
+    
+static GLToy_Array< BSPNode > xNodes;
+static GLToy_Array< GLToy_Plane > xPlanes;
+
+bool GenerateBSPData( const GLToy_Array< Triangle >& xSourceTriangles, GLToy_BitStream& xBitStream, const u_int uVersion = 38, const u_int uHeaderBytes = GLToy_HeaderBytes( "IBSP" ) )
 {
     xBitStream << uHeaderBytes;
     xBitStream << uVersion ;
 
     // generate BSP
+    printf( "Generating BSP tree...\r\n" );
     GLToy_BSPNode< GLToy_Array< Triangle > >* pxHead =  new GLToy_BSPNode< GLToy_Array< Triangle > >( xSourceTriangles[ 0 ].m_xPlane.GetNormal(), xSourceTriangles[ 0 ].m_xPlane.GetDistance() );
 
+    // TODO: splitting option
     BuildTree( pxHead, xSourceTriangles );
+
+    printf( "Done\r\n" );
+
+    // check for leaks
+    bool bLeaked = false;
+
+    if( bLeaked )
+    {
+        if( bSeal )
+        {
+            // TODO: encapsulate everything with an AABB
+        }
+        else
+        {
+            printf ( "Leak detected. Fix the leak or run with +s to forcibly seal the world\r\n" );
+            return false;
+        }
+    }
 
     GLToy_BSPTree< GLToy_Array< Triangle > > xBSPTree;
     xBSPTree.SetToNodePointer( pxHead );
@@ -268,22 +321,49 @@ void GenerateBSPData( const GLToy_Array< Triangle >& xSourceTriangles, GLToy_Bit
     // write out data
     printf( "Converting data to BSP v%d format...\r\n", uVersion );
     
+    // move all the nodes into an array for processing...
+    // building the list of planes as we go
+    printf( "Finding unique planes...\r\n", uVersion );
+    xNodes.Clear();
+    xPlanes.Clear();
+    GLToy_QuickConstFunctorInstance( BuildFunctor, GLToy_BSPNode< GLToy_Array< Triangle > >, pxNode,
+        
+        BSPNode xBSPNode;
+        xBSPNode.m_xNode = pxNode->GetData();
+
+        if( xPlanes.Contains( pxNode->GetPlane() ) )
+        {
+            xBSPNode.m_uPlane = xPlanes.Find( pxNode->GetPlane() );
+        }
+        else
+        {
+            xBSPNode.m_uPlane = xPlanes.GetCount();
+            xPlanes.Append( pxNode->GetPlane() );
+        }
+        xNodes.Append( xBSPNode );
+        ,
+        xBuildFunctor );
+
+    xBSPTree.TraverseNodes( xBuildFunctor );
+
+    // TODO: finish output
+    const u_int uBaseOffset = xBitStream.GetBytesWritten() + sizeof( GLToy_BSP38_LumpDirectory );
+
     GLToy_BSP38_LumpDirectory xLumpDirectory;
 
     xBitStream << xLumpDirectory;
 
-    //for( u_int u = 0; u < xPlanes.GetCount(); ++u )
-    //{
-    //    GLToy_BSP38_Plane xPlane;
-    //    xPlane.m_xPlane = xPlanes[ u ];
-    //    xBitStream << xPlane;
-    //}
-
-    // TODO...
+    for( u_int u = 0; u < xPlanes.GetCount(); ++u )
+    {
+        GLToy_BSP38_Plane xPlane;
+        xPlane.m_xPlane = xPlanes[ u ];
+        xBitStream << xPlane;
+    }
 
     // clean up
-
     xBSPTree.DeleteAllIndirect();
+
+    return true;
 }
 
 GLToy_Array< Triangle > TriangleListFrom3DS( const char* const szPath )
@@ -300,7 +380,7 @@ GLToy_Array< Triangle > TriangleListFrom3DS( const char* const szPath )
             Triangle xCurrentTriangle;
             u_int uVertex = 0;
             GLToy_ConstIterate( u_int, uIndex, xObject.m_xIndices )
-                xCurrentTriangle.m_axVertices[ uVertex ] = xObject.m_xVertices[ uIndex ];
+                xCurrentTriangle.m_axVertices[ uVertex ] = ( bMetres ? 64.0f : 1.0f ) * xObject.m_xVertices[ uIndex ];
                 xCurrentTriangle.m_axUVs[ uVertex ] = GLToy_Maths::ZeroVector2;
                 ++uVertex;
                 uVertex %= 3;
@@ -331,12 +411,12 @@ GLToy_Array< Triangle > TriangleListFromOBJ( const char* const szPath )
             GLToy_ModelStrip_FlatMaterials* const pxStrip = static_cast< GLToy_ModelStrip_FlatMaterials* >( &( ( *pxModel )[ u ] ) );
             // each strip is a polygon
             Triangle xCurrentTriangle;
-            xCurrentTriangle.m_axVertices[ 0 ] = pxStrip->GetVertex( 0 );
+            xCurrentTriangle.m_axVertices[ 0 ] = ( bMetres ? 64.0f : 1.0f ) * pxStrip->GetVertex( 0 );
             xCurrentTriangle.m_axUVs[ 0 ] = pxStrip->GetUV( 0 );
             for( u_int v = 1; v < ( pxStrip->GetVertexCount() - 1 ); ++v )
             {
-                xCurrentTriangle.m_axVertices[ 1 ] = pxStrip->GetVertex( v );
-                xCurrentTriangle.m_axVertices[ 2 ] = pxStrip->GetVertex( v + 1 );
+                xCurrentTriangle.m_axVertices[ 1 ] = ( bMetres ? 64.0f : 1.0f ) * pxStrip->GetVertex( v );
+                xCurrentTriangle.m_axVertices[ 2 ] = ( bMetres ? 64.0f : 1.0f ) * pxStrip->GetVertex( v + 1 );
                 xCurrentTriangle.m_axUVs[ 1 ] = pxStrip->GetUV( v );
                 xCurrentTriangle.m_axUVs[ 2 ] = pxStrip->GetUV( v + 1 );
 
@@ -362,12 +442,55 @@ int GLToy_ForceCDecl main( const int iArgumentCount, const char* const* const ps
     if( bHelp )
     {
         printf( "Usage:\r\n" );
-        printf( "  BSP <input-file> <output-file>\r\n" );
+        printf( "  BSP [+/-options] <input-file> <output-file>\r\n" );
+        printf( "  + enables an option, -disables it \r\n" );
+        printf( "    m  Convert from metre scale (default: off) \r\n" );
+        printf( "    p  Split polygons (default: on)\r\n" );
+        printf( "    s  Forcibly seal world (default: on) \r\n" );
+        printf( "    v  Calculate PVS (default: on) \r\n" );
+        printf( "\r\n" );
+        printf( "e.g. BSP +m -sv test.obj test.bsp\r\n" );
         printf( "\r\n" );
         printf( "By default this will try to convert a mesh to a v38 BSP file, more options to come later\r\n" );
+        printf( "Supported input types: 3DS OBJ\r\n" );
 
         return 0;
     }
+
+    for( int i = 0; i < iArgumentCount; ++i )
+    {
+        int j = 0;
+        const bool bEnable = pszArguments[ i ][ 0 ] == '+';
+        const bool bDisable = pszArguments[ i ][ 0 ] == '-';
+        if( bEnable || bDisable )
+        {
+            while( pszArguments[ i ][ j ] )
+            {
+                switch ( pszArguments[ i ][ j ] )
+                {
+                    case 'b': bMetres = bEnable;
+                    case 'p': bSplit = bEnable;
+                    case 's': bSeal = bEnable;
+                    case 'v': bVis = bEnable;
+                }
+                ++j;
+            }
+        }
+    }
+
+    if( bMetres )
+    {
+        printf( "Using metre scale\r\n" );
+    }
+
+    printf( bSplit ? "Splitting polygons\r\n" : "Not splitting polygons\r\n" );
+
+    if( bSeal )
+    {
+        printf( "Forcibly sealing geometry against leaks\r\n" );
+    }
+
+    printf( bVis ? "Generating PVS\r\n" : "Not generating PVS\r\n" );
 
     const char* const szInPath = pszArguments[ iArgumentCount - 2 ];
     const char* const szOutPath = pszArguments[ iArgumentCount - 1 ];
@@ -401,7 +524,7 @@ int GLToy_ForceCDecl main( const int iArgumentCount, const char* const* const ps
     if( xTriangleList.GetCount() == 0 )
     {
         printf( "No triangles loaded.\r\n" );
-        return 0;
+        return -1;
     }
     else
     {
@@ -410,7 +533,11 @@ int GLToy_ForceCDecl main( const int iArgumentCount, const char* const* const ps
 
     GLToy_BitStream xBitStream;
 
-    GenerateBSPData( xTriangleList, xBitStream );
+    if( !GenerateBSPData( xTriangleList, xBitStream ) )
+    {
+        printf( "Unable to write output file %s\r\n", szOutPath );
+        return -1;
+    }
 
     printf( "Writing output file %s...\r\n", szOutPath );
 
@@ -423,6 +550,8 @@ int GLToy_ForceCDecl main( const int iArgumentCount, const char* const* const ps
     GLToy_File( szOut ).WriteFromBitStream( xBitStream );
 
     //GLToy::SilentShutdown();
+
+    printf ( "Done!\r\n" );
 
     return 0;
 }

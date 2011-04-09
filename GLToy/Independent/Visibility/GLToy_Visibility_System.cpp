@@ -38,12 +38,15 @@
 #include <Environment/GLToy_Environment.h>
 #include <Environment/GLToy_Environment_System.h>
 #include <Maths/GLToy_Maths.h>
+#include <Render/GLToy_Camera.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 GLToy_Array< GLToy_Visibility_System::PVS_Cluster > GLToy_Visibility_System::s_xPVS;
+GLToy_Vector_3 GLToy_Visibility_System::s_xCurrentCameraPosition = GLToy_Maths::ZeroVector3;
+bool GLToy_Visibility_System::s_bLockPVS = false;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -148,4 +151,12 @@ GLToy_Trace_Result GLToy_Visibility_System::FullTrace( const GLToy_Ray& xRay, co
     }
 
     return xReturnValue;
+}
+
+void GLToy_Visibility_System::Update()
+{
+    if( !s_bLockPVS )
+    {
+        s_xCurrentCameraPosition = GLToy_Camera::GetPosition();
+    }
 }

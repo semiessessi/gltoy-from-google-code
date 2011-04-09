@@ -105,6 +105,8 @@ public:
     static void ClearPVSEntities();
     static void ClearPVSLights();
 
+    static const GLToy_Vector_3& GetCurrentCameraPosition() { return s_xCurrentCameraPosition; }
+
     static int GetCluster( const GLToy_Vector_3& xPosition );
 
     static bool LineOfSightTest( const GLToy_Ray& xRay, const float fLimitingDistance = GLToy_Maths::LargeFloat );
@@ -118,6 +120,9 @@ public:
     GLToy_Visibility_System_VectorPairOverload( GLToy_Hash, TraceEntity )
 
     GLToy_Visibility_System_VectorPairOverload( GLToy_Trace_Result, FullTrace )
+
+    static bool Initialise() { return true; }
+    static void Shutdown() {}
 
     static void RenderForward();
     static void RenderDeferred();
@@ -187,6 +192,12 @@ private:
     };
 
     static GLToy_Array< PVS_Cluster > s_xPVS;
+
+    // other data...
+
+    static GLToy_Vector_3 s_xCurrentCameraPosition;
+
+    static bool s_bLockPVS;
 };
 
 #endif
