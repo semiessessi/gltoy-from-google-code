@@ -232,6 +232,7 @@ upx.exe $(TargetPath) --best</Command>
     <ClInclude Include="Independent\Equipment\X_Weapon_Types.h" />
     <ClInclude Include="Independent\Render\X_Parallax_Background.h" />
     <ClInclude Include="Independent\Render\X_Starfield.h" />
+    <ClInclude Include="Independent\Sound\X_Sound_System.h" />
     <ClInclude Include="X11\Core\Platform_X.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

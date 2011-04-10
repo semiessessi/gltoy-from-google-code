@@ -46,6 +46,9 @@
     <Filter Include="Independent\AI">
       <UniqueIdentifier>{a139aeab-0981-471d-a47c-ddb91597d70f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Sound">
+      <UniqueIdentifier>{a3432f4d-b7bb-431b-881e-85ce06a74e3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_X.cpp">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Core\X_Effects.h">
       <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Sound\X_Sound_System.h">
+      <Filter>Independent\Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

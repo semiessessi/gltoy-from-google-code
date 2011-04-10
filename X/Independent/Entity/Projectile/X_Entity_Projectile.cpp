@@ -46,6 +46,7 @@
 #include <Entity/Enemy/X_Entity_Enemy.h>
 #include <Entity/Player/X_Entity_Player.h>
 #include "Core/X_Score.h"
+#include "Sound/X_Sound_System.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C O N S T A N T S
@@ -127,17 +128,7 @@ void X_Entity_Projectile::Update()
 				( *ppxEnemy )->Hurt( 0, 10.0f );
 				( *ppxEnemy )->AddImpulse( ls_pxThis->m_xDirection * 0.5f );
 				X_Score::Add( 0.1f, ls_pxThis->GetBB().GetPosition() );
-				GLToy_Handle xVoice = GLToy_Sound_System::CreateVoice( GLToy_Hash_Constant( "Hit" ) );
-				GLToy_Sound_Voice* pxVoice = GLToy_Sound_System::GetVoice( xVoice );
-				if( pxVoice )
-				{
-					pxVoice->SetSpeakerMapping( GLToy_Sound_Voice::SM_DIRECT );
-					pxVoice->SetPosition(  ls_pxThis->GetPosition() );
-					pxVoice->SetRadius( 600.0f );
-					pxVoice->SetAmplitude( 0.5f );
-					pxVoice->Play();
-					pxVoice->Release();
-				}
+				X_Sound_System::PlayOneShotSound( GLToy_Hash_Constant( "Hit" ), ls_pxThis->GetPosition() );
 				ls_pxThis->Destroy();
 			}
 		);
