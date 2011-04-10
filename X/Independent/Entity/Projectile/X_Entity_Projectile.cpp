@@ -128,7 +128,6 @@ void X_Entity_Projectile::Update()
 				( *ppxEnemy )->Hurt( 0, 10.0f );
 				( *ppxEnemy )->AddImpulse( ls_pxThis->m_xDirection * 0.5f );
 				X_Score::Add( 0.1f, ls_pxThis->GetBB().GetPosition() );
-				X_Sound_System::PlayOneShotSound( GLToy_Hash_Constant( "Hit" ), ls_pxThis->GetPosition() );
 				ls_pxThis->Destroy();
 			}
 		);

@@ -45,6 +45,7 @@
 #include "Entity/Player/X_Entity_Player.h"
 #include <Entity/Projectile/X_Entity_Projectile.h>
 #include <Entity/X_EntityTypes.h>
+#include "Sound/X_Sound_System.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -97,8 +98,6 @@ void X_Player_Weapon_Vulcan::Update()
 			
 				GLToy_Vector_2 xDirection( 0.0f, 1.0f );
 			
-				//xDirection = GLToy_Maths::Rotate_2D( xDirection, fSpread * GLToy_Maths::Pi * 0.25f );
-				
 				if( i )
 				{
 					xDirection.x = -xDirection.x;
@@ -112,6 +111,9 @@ void X_Player_Weapon_Vulcan::Update()
 				pxProjectile->SetIsFromPlayer( true );
 				pxProjectile->SetSpeed( 3.0f );
 			}
+
+			X_Sound_System::PlayOneShotSound( GLToy_Hash_Constant( "PlayerShoot1" ), pxPlayer->GetPosition() );
+
 			m_fShootTimer = 0.0f;
 		}
 	}
@@ -154,6 +156,8 @@ void X_Enemy_Weapon_Single::Update()
 			pxProjectile->SetTexture( 0 );
 			pxProjectile->SetIsFromPlayer( false );
 			pxProjectile->SetSpeed( 1.2f );
+
+			X_Sound_System::PlayOneShotSound( GLToy_Hash_Constant( "EnemyShoot1" ), pxEnemy->GetPosition() );
 
 			m_fShootTimer = fShootInterval;
 		}

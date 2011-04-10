@@ -49,6 +49,7 @@
 #include <Entity/Enemy/X_Entity_Enemy.h>
 #include <Entity/Projectile/X_Entity_Projectile.h>
 #include "Equipment/X_Equipment_Weapon.h"
+#include "Sound/X_Sound_System.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Static member vars
@@ -176,6 +177,7 @@ void X_Entity_Player::Update()
     if( !X_Cheats::IsGodMode() && ( m_uLives == 0xFFFFFFFF ) )
     {
         GLToy_State_System::ChangeState( GLToy_Hash_Constant( "GameOver" ) );
+		X_Sound_System::PlayOneShotSound( GLToy_Hash_Constant( "GameOver" ) );
     }
 
     GLToy_Parent::Update();
@@ -195,6 +197,7 @@ void X_Entity_Player::Hit()
                 --m_uLives;
             }
 		}
+		X_Sound_System::PlayOneShotSound( GLToy_Hash_Constant( "PlayerHit" ) );
     }
 }
 
