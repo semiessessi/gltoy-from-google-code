@@ -254,7 +254,9 @@ void Platform_GLToy_Sound_System::DestroyVoice( const GLToy_Handle iHandle )
 
 GLToy_WaveFile* Platform_GLToy_Sound_System::GetWave( GLToy_Hash uHash )
 {
-	return *s_xWaves.FindData( uHash );
+	GLToy_WaveFile** ppxWaveFile = s_xWaves.FindData( uHash );
+	
+	return ( ppxWaveFile ? *ppxWaveFile : 0 );
 }
 
 IXAudio2* Platform_GLToy_Sound_System::GetXAudio2Engine()

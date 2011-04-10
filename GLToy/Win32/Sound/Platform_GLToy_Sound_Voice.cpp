@@ -113,6 +113,11 @@ bool Platform_GLToy_Sound_Voice::IsPlaying() const
 
 void Platform_GLToy_Sound_Voice::Update()
 {
+	if( !IsPlaying() )
+	{
+		return;
+	}
+
 	XAUDIO2_VOICE_DETAILS xVoiceDetails;
 	m_pxSourceVoice->GetVoiceDetails( &xVoiceDetails );
 	const u_int uNumInChans = xVoiceDetails.InputChannels;
