@@ -507,14 +507,14 @@ public:
 
     GLToy_ForceInline static void SubmitDeferredVertex( const GLToy_Vector_3& xVertex, const GLToy_Vector_2& xUV, const GLToy_Vector_3& xNormal, const GLToy_Vector_3& xTangent )
     {
-	    SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
+	    SubmitUV( xUV );
 	    SubmitUV( GLToy_Vector_4( GLToy_Maths::CompressNormal( xNormal ), GLToy_Maths::CompressNormal( xTangent ) ), 1 );
 	    SubmitVertex( xVertex ); 
     }
 
     GLToy_ForceInline static void SubmitDeferredVertex( const float x, const float y, const float z, const GLToy_Vector_2& xUV, const GLToy_Vector_3& xNormal, const GLToy_Vector_3& xTangent )
     {
-	    SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
+	    SubmitUV( xUV );
 	    SubmitUV( GLToy_Vector_4( GLToy_Maths::CompressNormal( xNormal ), GLToy_Maths::CompressNormal( xTangent ) ), 1 );
 	    SubmitVertex( GLToy_Vector_3( x, y, z ) ); 
     }

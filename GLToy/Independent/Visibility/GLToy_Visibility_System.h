@@ -121,7 +121,7 @@ public:
 
     GLToy_Visibility_System_VectorPairOverload( GLToy_Trace_Result, FullTrace )
 
-    static bool Initialise() { return true; }
+    static bool Initialise();
     static void Shutdown() {}
 
     static void RenderForward();

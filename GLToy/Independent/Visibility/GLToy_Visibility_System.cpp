@@ -34,6 +34,7 @@
 #include <Visibility/GLToy_Visibility_System.h>
 
 // GLToy
+#include <Core/Console/GLToy_Console.h>
 #include <Entity/GLToy_Entity_System.h>
 #include <Environment/GLToy_Environment.h>
 #include <Environment/GLToy_Environment_System.h>
@@ -151,6 +152,12 @@ GLToy_Trace_Result GLToy_Visibility_System::FullTrace( const GLToy_Ray& xRay, co
     }
 
     return xReturnValue;
+}
+
+bool GLToy_Visibility_System::Initialise()
+{
+    GLToy_Console::RegisterVariable( "lockpvs", &s_bLockPVS );
+    return true;
 }
 
 void GLToy_Visibility_System::Update()
