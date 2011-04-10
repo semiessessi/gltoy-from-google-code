@@ -50,9 +50,9 @@ Platform_GLToy_Sound_Voice::~Platform_GLToy_Sound_Voice()
 
 void Platform_GLToy_Sound_Voice::Play()
 {
-#ifndef GLTOY_DEMO
+	#ifndef GLTOY_DEMO // TY - huh? soundless demo?
+	
 	// Find the source file
-
 	GLToy_WaveFile* pxWav = Platform_GLToy_Sound_System::GetWave( m_uWave );
 	if( !pxWav )
 	{
@@ -90,9 +90,10 @@ void Platform_GLToy_Sound_Voice::Play()
 	xBuffer.pAudioData = (BYTE*)pBuffer;
 	xBuffer.Flags = XAUDIO2_END_OF_STREAM;
 
+	m_pxSourceVoice->SetFrequencyRatio( m_fPitch );
 	m_pxSourceVoice->SubmitSourceBuffer( &xBuffer );
 	m_pxSourceVoice->Start();
-#endif
+	#endif
 }
 
 bool Platform_GLToy_Sound_Voice::IsPlaying() const
@@ -125,6 +126,7 @@ void Platform_GLToy_Sound_Voice::Update()
 	}
 
   	m_pxSourceVoice->SetOutputMatrix( 0, uNumInChans, 2, afMatrix );
+	m_pxSourceVoice->SetFrequencyRatio( m_fPitch );
 }
 
 // eof

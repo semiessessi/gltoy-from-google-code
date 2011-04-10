@@ -75,6 +75,7 @@ class GLToy_Sound_Voice
 		void SetPosition( const GLToy_Vector_3& xPosition ) { m_xPosition = xPosition; m_bIsPositional = true; }
 		void SetRadius( const float fRadius ) { m_fRadius = fRadius; }
 		void SetAmplitude( const float fAmplitude ) { m_fAmplitude = fAmplitude; }
+		void SetPitch( const float fPitch ) { m_fPitch = fPitch; }
 
 		bool IsPositional() const { return m_bIsPositional; }
 
@@ -82,14 +83,16 @@ class GLToy_Sound_Voice
 
 		float GetSpeakerAmplitude( u_int uSpeaker );
 
+		GLToy_Vector_3 m_xPosition;
+
 		GLToy_Hash m_uWave;
 		SPEAKER_MAPPING m_eSpeakerMapping;
 
-		bool m_bIsPositional;
-		GLToy_Vector_3 m_xPosition;
 		float m_fRadius;
 		float m_fAmplitude;
+		float m_fPitch;
 
+		bool m_bIsPositional;
 		bool m_bReleased;
 		
 };

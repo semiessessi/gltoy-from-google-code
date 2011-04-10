@@ -75,13 +75,14 @@ void GLToy_Sound_System::DestroyVoice( const GLToy_Handle iHandle )
 // __________________________________________________________________________________________________
 
 GLToy_Sound_Voice::GLToy_Sound_Voice( GLToy_Hash uWave )
-: m_uWave( uWave )
-, m_xPosition( GLToy_Maths::ZeroVector2 )
-, m_fRadius( 1.0f )
+: m_xPosition( GLToy_Maths::ZeroVector2 )
+, m_uWave( uWave )
 , m_eSpeakerMapping( SM_DIRECT )
-, m_bReleased( false )
-, m_bIsPositional( false )
+, m_fRadius( 1.0f )
 , m_fAmplitude( 1.0f )
+, m_fPitch( 1.0f )
+, m_bIsPositional( false )
+, m_bReleased( false )
 {
 }
 

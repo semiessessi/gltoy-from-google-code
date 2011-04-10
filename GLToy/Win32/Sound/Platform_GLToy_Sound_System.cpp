@@ -151,7 +151,7 @@ bool Platform_GLToy_Sound_System::Initialise_Voices()
 
 bool Platform_GLToy_Sound_System::Initialise_LoadSounds()
 {
-#ifndef GLTOY_DEMO
+	#ifndef GLTOY_DEMO
 	// TODO: Probably don't want to load in every sound like this
 
 	GLToy_Array< GLToy_String > xWavePaths = GLToy_File_System::PathsFromFilter( "Sounds/", "*.wav" );
@@ -171,9 +171,8 @@ bool Platform_GLToy_Sound_System::Initialise_LoadSounds()
 		{
 			s_xWaves.AddNode( pxWavFile, szName.GetHash() );
 		}
-		
 	}
-#endif
+	#endif
 
 	return true;
 }
@@ -181,6 +180,8 @@ bool Platform_GLToy_Sound_System::Initialise_LoadSounds()
 
 void Platform_GLToy_Sound_System::Shutdown()
 {
+	s_xWaves.DeleteAll();
+
 	for( int iVoice = 0; iVoice < uGLTOY_XAUDIO_MAX_VOICES; ++iVoice )
 	{
 		if( s_apxVoices[ iVoice ] )
