@@ -39,7 +39,11 @@
 #include <Maths/GLToy_Maths.h>
 #include <Particle/GLToy_PFX.h>
 #include <Particle/GLToy_PFX_System.h>
+#include <Render/GLToy_Camera.h>
+#include <Render/GLToy_Render.h>
 #include <Render/GLToy_RenderFunctor.h>
+#include <Render/GLToy_Render_Metrics.h>
+#include <Render/GLToy_Texture_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -72,6 +76,91 @@ void GLToy_ParticleSource::Render() const
 {
     GLToy_PointerRenderFunctor< GLToy_Particle* > xFunctor;
     m_xParticles.Traverse( xFunctor );
+
+    // TODO - fix this and allow sorting by source to reduce state change calls...
+    //if( m_xParticles.GetCount() == 0 )
+    //{
+    //    return;
+    //}
+
+    //static const GLToy_Particle& xFirstParticle = *( m_xParticles[ 0 ] );
+    //GLToy_Render_Metrics::IncrementTriangleCount( 2 * m_xParticles.GetCount() );
+
+    //if( xFirstParticle.m_ucOrdering == ucSPRITE_ORDERED_ALWAYS )
+    //{
+    //    GLToy_Render::RegisterTransparent( this, ( xFirstParticle.m_xPosition - GLToy_Camera::GetPosition() ).MagnitudeSquared() );
+    //    return;
+    //}
+    //else if( xFirstParticle.m_ucOrdering == ucSPRITE_ORDERED_NEVER )
+    //{
+    //    GLToy_Render::EnableBlending();
+    //    GLToy_Render::EnableDepthTesting();
+    //    GLToy_Render::DisableDepthWrites();
+
+    //    RenderTransparent();
+
+    //    GLToy_Render::EnableDepthWrites();
+    //    return;
+    //}
+
+    //switch( xFirstParticle.m_ucBlendFunc )
+    //{
+    //    default:
+    //    case ucSPRITE_BLEND_NORMAL:
+    //    case ucSPRITE_BLEND_ADDITIVE_SORT:
+    //    {
+    //        GLToy_Render::RegisterTransparent( this, ( xFirstParticle.m_xPosition - GLToy_Camera::GetPosition() ).MagnitudeSquared() );
+    //        break;
+    //    }
+    //    
+    //    case ucSPRITE_BLEND_ADDITIVE:
+    //    {
+    //        GLToy_Render::SetBlendFunction( BLEND_ONE, BLEND_ONE );
+    //        GLToy_Render::EnableBlending();
+    //        GLToy_Render::EnableDepthTesting();
+    //        GLToy_Render::DisableDepthWrites();
+    //        RenderTransparent();
+    //        break;
+    //    }
+    //}
+}
+
+void GLToy_ParticleSource::RenderTransparent() const
+{
+    // m_xParticles.GetCount() != 0 guaranteed by logic that sets up the call
+    GLToy_Assert( m_xParticles.GetCount() != 0, "About to dereference bad data for particle source render!" );
+    static const GLToy_Particle& xFirstParticle = *( m_xParticles[ 0 ] );
+
+    switch( xFirstParticle.m_ucBlendFunc )
+    {
+        case ucSPRITE_BLEND_ADDITIVE:
+        case ucSPRITE_BLEND_ADDITIVE_SORT:
+        {
+            GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE );
+            break;
+        }
+
+        default:
+        case ucSPRITE_BLEND_NORMAL:
+        {
+            GLToy_Render::SetBlendFunction( BLEND_SRC_ALPHA, BLEND_ONE_MINUS_SRC_ALPHA );
+            break;
+        }
+    }
+
+	GLToy_Render::EnableDepthTesting();
+    GLToy_Render::DisableDepthWrites();
+
+    GLToy_Texture_System::BindTexture( xFirstParticle.m_uTextureHash );
+
+    GLToy_Render::StartSubmittingQuads();
+
+    for( u_int u = 0; u < m_xParticles.GetCount(); ++u )
+    {
+        m_xParticles[ u ]->Submit();
+    }
+
+    GLToy_Render::EndSubmit();
 }
 
 void GLToy_ParticleSource::Update()

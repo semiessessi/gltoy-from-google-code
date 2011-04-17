@@ -46,7 +46,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 static X_Starfield s_xStarfield;
-static X_Parallax_Background s_xParallaxBackground( GLToy_Hash_Constant( "Background_Test.png" ), GLToy_Hash_Constant( "Background_Test.png" ), GLToy_Hash_Constant( "Background_Test.png" ), GLToy_Hash_Constant( "Background_Test.png" ), 1.0f, 2.0f, 4.0f, 8.0f );
+static X_Parallax_Background* s_pxParallaxBackground = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -62,11 +62,14 @@ bool X_Render::Initialise()
     
     X_Starfield::InitialiseData();
 
+    s_pxParallaxBackground = new X_Parallax_Background( GLToy_Hash_Constant( "Background_Test.png" ), GLToy_Hash_Constant( "Background_Test.png" ), GLToy_Hash_Constant( "Background_Test.png" ), GLToy_Hash_Constant( "Background_Test.png" ), 1.0f, 2.0f, 4.0f, 8.0f );
+
     return true;
 }
 
 void X_Render::Shutdown()
 {
+    delete s_pxParallaxBackground;
 }
 
 void X_Render::Render()
@@ -76,6 +79,6 @@ void X_Render::Render()
         X_Starfield::Update();
         s_xStarfield.Render();
 
-        s_xParallaxBackground.Render();
+        s_pxParallaxBackground->Render();
     }
 }

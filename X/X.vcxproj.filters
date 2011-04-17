@@ -49,11 +49,14 @@
     <Filter Include="Independent\Sound">
       <UniqueIdentifier>{a3432f4d-b7bb-431b-881e-85ce06a74e3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mac">
+      <UniqueIdentifier>{ed60c470-9cbe-497e-8941-198235adc45e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mac\Core">
+      <UniqueIdentifier>{e75b3cd2-cb88-40b8-8a09-83fe0f107694}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Win32\Core\Platform_X.cpp">
-      <Filter>Win32\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Independent\Render\X_Render.cpp">
       <Filter>Independent\Render</Filter>
     </ClCompile>
@@ -132,11 +135,20 @@
     <ClCompile Include="Independent\Core\X_Effects.cpp">
       <Filter>Independent\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Mac\Core\Platform_X.cpp">
+      <Filter>Mac</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Core\Platform_X.cpp">
+      <Filter>Win32\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\X_Entity_SCU.cpp">
+      <Filter>Independent\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\X_Render_SCU.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Win32\Core\Platform_X.h">
-      <Filter>Win32\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Independent\Render\X_Render.h">
       <Filter>Independent\Render</Filter>
     </ClInclude>
@@ -208,6 +220,12 @@
     </ClInclude>
     <ClInclude Include="Independent\Sound\X_Sound_System.h">
       <Filter>Independent\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Mac\Core\Platform_X.h">
+      <Filter>Mac</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Core\Platform_X.h">
+      <Filter>Win32\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

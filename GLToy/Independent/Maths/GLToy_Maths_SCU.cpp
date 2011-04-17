@@ -29,6 +29,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <Maths/GLToy_Complex.cpp>
+#include <Maths/GLToy_ConvexHull.cpp>
 #include <Maths/GLToy_Maths.cpp>
 #include <Maths/GLToy_Matrix.cpp>
 #include <Maths/GLToy_Noise.cpp>

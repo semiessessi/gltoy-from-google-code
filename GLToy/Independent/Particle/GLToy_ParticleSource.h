@@ -90,6 +90,7 @@ public:
     GLToy_ParticleSource( const GLToy_ParticleSourceProperties& xProperties, const GLToy_PFX* const pxParent = NULL );
 
     virtual void Render() const;
+    virtual void RenderTransparent() const;
     void Update();
 
     GLToy_ForceInline bool IsEmitting() const { return m_fLifetime > 0.0f; }

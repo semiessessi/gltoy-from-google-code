@@ -61,10 +61,10 @@ GLToy_Array< X_Entity_Player* > X_Entity_Player::s_xList;
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const float fACCELERATION = 0.1f;
-static const float fDECCELERATION = 0.2f;
-static const float fSPEED = 2.5f;
-static const float fSIZE = 0.08f;
+static const float fX_PLAYER_ACC = 0.1f;
+static const float fX_PLAYER_DECN = 0.2f;
+static const float fX_PLAYER_SPEED = 2.5f;
+static const float fX_PLAYER_SIZE = 0.08f;
 static const GLToy_Hash xPLAYER_SHIP_TEXTURE = GLToy_Hash_Constant( "Sprites/Ship/Ship.png" );
 static const GLToy_Hash xPLAYER_SHIP_MATERIAL = GLToy_Hash_Constant( "Ship/Ship" );
 
@@ -82,7 +82,7 @@ X_Entity_Player::X_Entity_Player( const GLToy_Hash uHash, const u_int uType )
 , m_fShield( 1.0f )
 , m_pxWeapon( 0 )
 {
-    BoundsFromMaterial( xPLAYER_SHIP_TEXTURE, fSIZE );
+    BoundsFromMaterial( xPLAYER_SHIP_TEXTURE, fX_PLAYER_SIZE );
 
 	s_xList.Append( this );
 }
@@ -105,24 +105,24 @@ void X_Entity_Player::Update()
 	
 	if( m_xMovement.x == 0.0f )
 	{
-		m_xSpeed.x = GLToy_Maths::ClampedLerp( m_xPreviousMovement.x, m_xMovement.x, fDECCELERATION );
+		m_xSpeed.x = GLToy_Maths::ClampedLerp( m_xPreviousMovement.x, m_xMovement.x, fX_PLAYER_DECN );
 	}
 	else
 	{
-		m_xSpeed.x = GLToy_Maths::ClampedLerp( m_xPreviousMovement.x, m_xMovement.x, fACCELERATION );
+		m_xSpeed.x = GLToy_Maths::ClampedLerp( m_xPreviousMovement.x, m_xMovement.x, fX_PLAYER_ACC );
 	}
 	
 	if( m_xMovement.y == 0.0f )
 	{
-		m_xSpeed.y = GLToy_Maths::ClampedLerp( m_xPreviousMovement.y, m_xMovement.y, fDECCELERATION );
+		m_xSpeed.y = GLToy_Maths::ClampedLerp( m_xPreviousMovement.y, m_xMovement.y, fX_PLAYER_DECN );
 	}
 	else
 	{
-		m_xSpeed.y = GLToy_Maths::ClampedLerp( m_xPreviousMovement.y, m_xMovement.y, fACCELERATION );
+		m_xSpeed.y = GLToy_Maths::ClampedLerp( m_xPreviousMovement.y, m_xMovement.y, fX_PLAYER_ACC );
 	}
 	m_xPreviousMovement = m_xSpeed;
 
-    xPosition += GLToy_Vector_3( m_xSpeed, 0.0f ) * fSPEED * GLToy_Timer::GetFrameTime();
+    xPosition += GLToy_Vector_3( m_xSpeed, 0.0f ) * fX_PLAYER_SPEED * GLToy_Timer::GetFrameTime();
 
     // TODO: think about aspect ratio...
     xPosition[ 0 ] = GLToy_Maths::Clamp( xPosition[ 0 ], -GLToy_Render::Get2DWidth() * 0.5f, GLToy_Render::Get2DWidth() * 0.5f );
@@ -222,13 +222,13 @@ void X_Entity_Player::Render() const
 		
     GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
 	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 0.0f ) );
-	GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] - fX_PLAYER_SIZE, xPosition[ 1 ] + fX_PLAYER_SIZE, xPosition[ 2 ] ); 
     GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 0.0f ) );
-	GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ] ); 
+	GLToy_Render::SubmitVertex( xPosition[ 0 ] + fX_PLAYER_SIZE, xPosition[ 1 ] + fX_PLAYER_SIZE, xPosition[ 2 ] ); 
 	GLToy_Render::SubmitUV( GLToy_Vector_2( 1.0f, 1.0f ) );
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] + fX_PLAYER_SIZE, xPosition[ 1 ] - fX_PLAYER_SIZE, xPosition[ 2 ] );
 	GLToy_Render::SubmitUV( GLToy_Vector_2( 0.0f, 1.0f ) );
-    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ] );
+    GLToy_Render::SubmitVertex( xPosition[ 0 ] - fX_PLAYER_SIZE, xPosition[ 1 ] - fX_PLAYER_SIZE, xPosition[ 2 ] );
 	
     GLToy_Render::EndSubmit();
 
@@ -247,13 +247,13 @@ void X_Entity_Player::RenderDeferred() const
 
     GLToy_Render::StartSubmittingQuads();
 		
-	GLToy_Render::SubmitDeferredVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ],
+	GLToy_Render::SubmitDeferredVertex( xPosition[ 0 ] - fX_PLAYER_SIZE, xPosition[ 1 ] + fX_PLAYER_SIZE, xPosition[ 2 ],
         GLToy_Vector_2( 0.0f, 0.0f ), xSPRITE_NORMAL, xSPRITE_TANGENT ); 
-	GLToy_Render::SubmitDeferredVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] + fSIZE, xPosition[ 2 ],
+	GLToy_Render::SubmitDeferredVertex( xPosition[ 0 ] + fX_PLAYER_SIZE, xPosition[ 1 ] + fX_PLAYER_SIZE, xPosition[ 2 ],
         GLToy_Vector_2( 1.0f, 0.0f ), xSPRITE_NORMAL, xSPRITE_TANGENT ); 
-	GLToy_Render::SubmitDeferredVertex( xPosition[ 0 ] + fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ],
+	GLToy_Render::SubmitDeferredVertex( xPosition[ 0 ] + fX_PLAYER_SIZE, xPosition[ 1 ] - fX_PLAYER_SIZE, xPosition[ 2 ],
         GLToy_Vector_2( 1.0f, 1.0f ), xSPRITE_NORMAL, xSPRITE_TANGENT ); 
-	GLToy_Render::SubmitDeferredVertex( xPosition[ 0 ] - fSIZE, xPosition[ 1 ] - fSIZE, xPosition[ 2 ],
+	GLToy_Render::SubmitDeferredVertex( xPosition[ 0 ] - fX_PLAYER_SIZE, xPosition[ 1 ] - fX_PLAYER_SIZE, xPosition[ 2 ],
         GLToy_Vector_2( 0.0f, 1.0f ), xSPRITE_NORMAL, xSPRITE_TANGENT ); 
 	
     GLToy_Render::EndSubmit();

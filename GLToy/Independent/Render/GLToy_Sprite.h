@@ -67,6 +67,8 @@ class GLToy_Sprite
 : public GLToy_Renderable
 {
 
+    friend class GLToy_ParticleSource;
+
 public:
 
     GLToy_Sprite()
@@ -105,6 +107,8 @@ public:
     
     void SetColour( const GLToy_Vector_3& xColour ) { m_xColour = xColour; }
     void SetAlphaMultiplier( const float fMultiplier ) { m_fMultiplier = fMultiplier; }
+
+    void Submit() const;
 
 protected:
 
