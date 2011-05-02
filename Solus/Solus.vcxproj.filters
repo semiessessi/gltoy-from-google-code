@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Win32">
+      <UniqueIdentifier>{7d003825-1543-49ff-998c-a618455210d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Core">
+      <UniqueIdentifier>{ec07c50f-eb05-41ae-952e-0daf175fc9f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent">
+      <UniqueIdentifier>{e9e5cbcf-5fbd-4e22-81f5-635ce6ac2cbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Render">
+      <UniqueIdentifier>{d7444fd6-6393-42bf-9080-a13abe46c8e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Core">
+      <UniqueIdentifier>{b39ff5a7-c4e3-4deb-9017-d2aa938118bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity">
+      <UniqueIdentifier>{752c3ef8-988e-4f75-815a-c88550cd31f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Entity\Player">
+      <UniqueIdentifier>{8a24a3a5-ba9b-4368-bbc8-e292a8c0700a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Sound">
+      <UniqueIdentifier>{a3432f4d-b7bb-431b-881e-85ce06a74e3b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Independent\Core\Project_GLToy.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\Solus.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\Solus_EntityTypes.cpp">
+      <Filter>Independent\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Project_GLToy_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Solus_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Core\Platform_Solus.cpp">
+      <Filter>Win32\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Entity\Player\Solus_Entity_PlayerCraft.cpp">
+      <Filter>Independent\Entity\Player</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Independent\Core\Solus.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="independent\entity\Solus_EntityTypes.h">
+      <Filter>Independent\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\Solus_Render.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Sound\Solus_Sound_System.h">
+      <Filter>Independent\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Core\Platform_Solus.h">
+      <Filter>Win32\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Entity\Player\Solus_Entity_PlayerCraft.h">
+      <Filter>Independent\Entity\Player</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

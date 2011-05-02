@@ -1,0 +1,2 @@
+Light_Fog
+Light_Fullscreen
