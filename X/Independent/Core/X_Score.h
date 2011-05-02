@@ -40,12 +40,13 @@ class X_Score_Graphic
 		void Update();
 		void Render();
 
-		void Activate( float fScore, GLToy_Vector_2 xPosition );
+		void Activate( float fScore, const GLToy_Vector_2& xPosition, GLToy_Hash uHash );
 		bool IsActive() { return m_bActive; }
 
-		GLToy_Vector_2 GetPosition() { return m_xPosition; }
-		GLToy_Vector_2 GetDestPosition() { return m_xDestPosition; }
-		float GetScore() { return m_fScore; }
+		GLToy_Vector_2 GetPosition() const { return m_xPosition; }
+		GLToy_Vector_2 GetDestPosition() const { return m_xDestPosition; }
+		float GetScore() const { return m_fScore; }
+		GLToy_Hash GetHash() const { return m_uHash; }
 
 		void Renew( float fAddScore, GLToy_Vector_2 xPosition );
 
@@ -55,6 +56,7 @@ class X_Score_Graphic
 		GLToy_Vector_2 m_xDestPosition;
 		float m_fScore;
 		float m_fLifeTime;
+		GLToy_Hash m_uHash;
 		bool m_bActive;
 };
 
@@ -72,11 +74,11 @@ class X_Score
 		static float GetMultiplier() { return s_fMultiplier; }
 
 		static void Add( float fScore, bool bIgnoreMultiplier = false );
-		static void Add( float fScore, GLToy_Vector_2 xPosition, bool bIgnoreMultiplier = false );
+		static void Add( float fScore, const GLToy_Vector_2& xPosition, GLToy_Hash uHash = uGLTOY_BAD_HASH, bool bIgnoreMultiplier = false );
 
 	private:
 
-		static void AddNotification( float fScore, GLToy_Vector_2 xPosition );
+		static void AddNotification( float fScore, GLToy_Vector_2 xPosition, GLToy_Hash uHash = uGLTOY_BAD_HASH );
 
 		static float s_fMultiplier;
 		static float s_fScore;

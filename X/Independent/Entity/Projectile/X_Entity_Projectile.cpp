@@ -127,7 +127,7 @@ void X_Entity_Projectile::Update()
 				GLToy_PFX_System::CreatePFX( GLToy_GetHash("Shot_Hit1" ), ls_pxThis->GetBB().GetPosition(), ( *ppxEnemy )->GetVelocity() );
 				( *ppxEnemy )->Hurt( 0, 10.0f );
 				( *ppxEnemy )->AddImpulse( ls_pxThis->m_xDirection * 0.5f );
-				X_Score::Add( 0.1f, ls_pxThis->GetBB().GetPosition() );
+				X_Score::Add( 0.1f, ls_pxThis->GetBB().GetPosition(), (*ppxEnemy)->GetHash() );
 				ls_pxThis->Destroy();
 			}
 		);

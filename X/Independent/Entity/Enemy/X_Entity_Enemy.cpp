@@ -177,10 +177,10 @@ void X_Entity_Enemy::Update()
 
     if( IsDead() )
 	{
-		X_Effect_System::CreateShockwave( xPosition, 0.5f );
+		X_Effect_System::CreateShockwave( xPosition, 0.3f );
 		X_Effect_System::CreateExplosion( xPosition, GetVelocity() );
 		
-		X_Score::Add( m_xDefinition.m_fScore, xPosition );
+		X_Score::Add( m_xDefinition.m_fScore, xPosition, GetHash() );
         Destroy();
     }
 

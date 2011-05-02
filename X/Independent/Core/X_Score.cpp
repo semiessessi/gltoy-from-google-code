@@ -50,6 +50,7 @@ X_Score_Graphic::X_Score_Graphic()
 : m_xPosition( GLToy_Maths::ZeroVector2 )
 , m_fScore( 0.0f )
 , m_fLifeTime( 0.0f )
+, m_uHash( uGLTOY_BAD_HASH )
 , m_bActive( false )
 {
 }
@@ -97,11 +98,12 @@ void X_Score_Graphic::Render()
     GLToy_Font_System::RenderString( szString, "FrontEnd", m_xPosition.x, m_xPosition.y, xColour );
 }
 
-void X_Score_Graphic::Activate( float fScore, GLToy_Vector_2 xPosition )
+void X_Score_Graphic::Activate( float fScore, const GLToy_Vector_2& xPosition, GLToy_Hash uHash )
 {
 	m_bActive = true;
 	m_xPosition = xPosition;
 	m_xDestPosition = xPosition;
+	m_uHash = uHash;
 		
 	m_fLifeTime = 1.0f;
 
@@ -167,7 +169,7 @@ void X_Score::Add( float fScore, bool bIgnoreMultiplier )
 	}
 }
 
-void X_Score::Add( float fScore, GLToy_Vector_2 xPosition, bool bIgnoreMultiplier )
+void X_Score::Add( float fScore, const GLToy_Vector_2& xPosition, GLToy_Hash uHash, bool bIgnoreMultiplier )
 {
 	float fMultipliedScore = 0.0f;
 
@@ -188,21 +190,24 @@ void X_Score::Add( float fScore, GLToy_Vector_2 xPosition, bool bIgnoreMultiplie
 	AddNotification( fMultipliedScore, xPosition );
 }
 
-void X_Score::AddNotification( float fScore, GLToy_Vector_2 xPosition )
+void X_Score::AddNotification( float fScore, GLToy_Vector_2 xPosition, GLToy_Hash uHash )
 {
 	const float fMinDistToReUse = 0.2f;
     const float fMinDistToReUseSquared = fMinDistToReUse * fMinDistToReUse;
 	bool bReuse = false;
 	u_int uNotificationIndex = 0;
 
-	// Is there already a notification near this one?
-	for( u_int uNotification = 0; uNotification < X_SCORE_MAX_NOTIFICATIONS; ++uNotification )
+	if( uHash != uGLTOY_BAD_HASH )
 	{
-		if( s_xNotifications[ uNotification ].IsActive() && GLToy_Vector_2( s_xNotifications[ uNotification ].GetDestPosition() - xPosition ).MagnitudeSquared() < fMinDistToReUseSquared )
+		// Is there already a notification with this hash?
+		for( u_int uNotification = 0; uNotification < X_SCORE_MAX_NOTIFICATIONS; ++uNotification )
 		{
-			bReuse = true;
-			uNotificationIndex = uNotification;
-			break;
+			if( s_xNotifications[ uNotification ].IsActive() && s_xNotifications[ uNotification ].GetHash() == uHash )
+			{
+				bReuse = true;
+				uNotificationIndex = uNotification;
+				break;
+			}
 		}
 	}
 
@@ -212,8 +217,9 @@ void X_Score::AddNotification( float fScore, GLToy_Vector_2 xPosition )
 	}
 	else
 	{
-		s_xNotifications[ s_uCurrentNotification ].Activate( fScore, xPosition );
+		s_xNotifications[ s_uCurrentNotification ].Activate( fScore, xPosition, uHash );
         // SE - this will break if X_SCORE_MAX_NOTIFICATIONS is not a power of 2
+		// TY - Then why did you change it? The original code had no such restriction!
 		s_uCurrentNotification = ( s_uCurrentNotification + 1 ) & ( X_SCORE_MAX_NOTIFICATIONS - 1 );//% X_SCORE_MAX_NOTIFICATIONS;
 	}
 }
