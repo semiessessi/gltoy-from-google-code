@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Win32">
+      <UniqueIdentifier>{7d003825-1543-49ff-998c-a618455210d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Core">
+      <UniqueIdentifier>{ec07c50f-eb05-41ae-952e-0daf175fc9f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent">
+      <UniqueIdentifier>{e9e5cbcf-5fbd-4e22-81f5-635ce6ac2cbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Render">
+      <UniqueIdentifier>{d7444fd6-6393-42bf-9080-a13abe46c8e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Independent\Core">
+      <UniqueIdentifier>{b39ff5a7-c4e3-4deb-9017-d2aa938118bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="X11">
+      <UniqueIdentifier>{dd43e2b0-827d-4d8b-8630-38e247e6b5ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="X11\Core">
+      <UniqueIdentifier>{64029202-2c16-4f22-a44a-b8f57c2154c8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Win32\Core\Platform_SE.cpp">
+      <Filter>Win32\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\SE_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\Project_GLToy_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\SE.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Core\Project_GLToy.cpp">
+      <Filter>Independent\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="X11\Core\Platform_SE.cpp">
+      <Filter>X11\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Render\SE_Star_Render.cpp">
+      <Filter>Independent\Render</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Win32\Core\Platform_SE.h">
+      <Filter>Win32\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\SE_Render.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\SE.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="X11\Core\Platform_SE.h">
+      <Filter>X11\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Render\SE_Star_Render.h">
+      <Filter>Independent\Render</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
