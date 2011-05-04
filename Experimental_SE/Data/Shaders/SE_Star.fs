@@ -38,8 +38,8 @@ void main()
 
     	vec3 xSolution = xNormalisedDirection * fT + xAdjustedPosition;
     
-	float fLimb = 0.5 + clamp( dot( normalize( -xSolution ), xNormalisedDirection ), 0.0, 1.0 );
-    	float fNoise = 0.5 + clamp( snoise3d( xSolution * 4.0 / xColourAndSize.w * xColourAndSize.z - vec3( 0.0, 0.0, 0.005 * xPositionAndTime.w / xColourAndSize.z ) ) + 0.75f * noise3d( 3.0 * xSolution / xColourAndSize.w + vec3( 0.0, 0.0, 0.01 * xPositionAndTime.w / xColourAndSize.z ) ), 0.0, 1.0 );
+	float fLimb = 0.4 + clamp( dot( normalize( -xSolution ), xNormalisedDirection ), 0.0, 1.0 );
+    	float fNoise = 0.6 + clamp( noise3d( xSolution * 80.0 / xColourAndSize.w * xColourAndSize.z - vec3( 0.0, 0.0, 0.01 * xPositionAndTime.w / xColourAndSize.z ) ) + 0.95f * noise3d( 300.0 * xSolution / xColourAndSize.w + vec3( 0.0, 0.0, 0.01 * xPositionAndTime.w / xColourAndSize.z ) ), 0.0, 1.0 );
     	gl_FragColor = vec4( ( xColour.a == 0.0 )
 		? xColour.xyz
 		: 0.5 * xColour.xyz * fNoise * fLimb
