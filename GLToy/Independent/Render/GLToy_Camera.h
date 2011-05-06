@@ -82,6 +82,8 @@ public:
     static bool IsPointOnScreen( const GLToy_Vector_2& xPoint );
     static GLToy_ConvexHull ViewFrustum();
 
+    static void SetSpeed( const float fSpeed ) { s_fSpeed = fSpeed; }
+
 private:
 
     static GLToy_Vector_3 s_xPosition;
@@ -107,6 +109,8 @@ private:
 	static GLToy_Vector_2 s_xOverCamMouseDown;
 	static GLToy_Vector_2 s_xOverCamOldRot;
 	static float s_fOverCamOldHeight;
+
+    static float s_fSpeed;
 };
 
 #endif
