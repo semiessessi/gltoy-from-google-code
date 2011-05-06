@@ -63,6 +63,7 @@
 typedef unsigned char u_char;
 typedef unsigned short u_short;
 typedef unsigned int u_int;
+typedef unsigned long long u_int64;
 
 typedef int GLToy_Handle;
 typedef unsigned int GLToy_Hash;
@@ -100,7 +101,7 @@ typedef unsigned int GLToy_Hash;
 // TODO: work out a better way, this fails spectacularly with VC 2010 which feels compelled to #include <exception> somewhere
 // presumably for the standard library bits that I use, despite the fact that exceptions are disabled
 //#define const_cast CONST_CAST_IS_FORBIDDEN_if_you_really_must_then_undef_const_cast
-//#define dynamic_cast DYNAMIC_CAST_IS_FORBIDDEN_dont_undef_dynamic_cast
+#define dynamic_cast DYNAMIC_CAST_IS_FORBIDDEN_dont_undef_dynamic_cast
 
 #ifdef GLTOY_DEMO
 	#define GLToy_DebugOutput_Release

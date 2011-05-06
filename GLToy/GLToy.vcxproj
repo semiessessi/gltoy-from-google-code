@@ -2120,6 +2120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\stb_image\stb_image.h" />
+    <ClInclude Include="Independent\Core\GLToy_BitHelper.h" />
     <ClInclude Include="Independent\Core\Data Structures\GLToy_AlignedPool.h" />
     <ClInclude Include="Independent\Core\Data Structures\GLToy_ClassFactory.h" />
     <ClInclude Include="Independent\Core\Data Structures\GLToy_Graph.h" />

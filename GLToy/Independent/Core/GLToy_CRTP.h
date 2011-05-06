@@ -32,6 +32,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <Core/Data Structures/GLToy_BitStream.h>
+#include <Core/Data Structures/GLToy_HashMap.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F O R W A R D   D E C L A R A T I O N S
@@ -52,6 +53,51 @@ public:
     ~GLToy_Destroyable() { static_cast< T* const >( this )->Destroy(); }
 
 };
+
+
+template< class T >
+class GLToy_Factory
+{
+
+public:
+
+    template< class U >
+    static T* Create( const U& xConstructorParameter ) { return new T( xConstructorParameter ); }
+    
+    template< class U, class V >
+    static T* Create( const U& xConstructorParameter1, const V& xConstructorParameter2 ) { return new T( xConstructorParameter1, xConstructorParameter2 ); }
+    
+    template< class U, class V, class W >
+    static T* Create( const U& xConstructorParameter1, const V& xConstructorParameter2, const W& xConstructorParameter3 ) { return new T( xConstructorParameter1, xConstructorParameter2, xConstructorParameter3 ); }
+
+};
+
+//template< class T, class Derived >
+//class GLToy_HashMap_System
+//{
+//
+//public:
+//
+//    bool Initialise()
+//    {
+//        return Derived::InitialiseSystem();
+//    }
+//
+//    void Shutdown()
+//    {
+//        Derived::ShutdownSystem();
+//
+//        s_xHashMap.DeleteAll();
+//    }
+//
+//private:
+//
+//    static GLToy_HashMap< T > s_xHashMap;
+//
+//};
+//
+//template< class T >
+//GLToy_HashMap< T* > GLToy_HashMap_System::s_xHashMap;
 
 #define GLToy_MemoryEqual( T ) \
     bool operator ==( const T& xStruct ) const \
