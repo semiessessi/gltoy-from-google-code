@@ -110,7 +110,7 @@ public:
     {
     }
 
-    void Render() const;
+    void Render( const GLToy_Vector_4 xColour = GLToy_Vector_4( 1.0f, 1.0f, 1.0f, 1.0f ) ) const;
     void RenderFlat() const;
 
     float GetSurfaceArea() const

@@ -48,14 +48,14 @@ static const u_int uSPHERE_RENDER_POINTCOUNT = 400;
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void GLToy_AABB::Render() const
+void GLToy_AABB::Render( const GLToy_Vector_4 xColour ) const
 {
     GLToy_Texture_System::BindWhite();
 
     // draw two squares, then the remaining 4 lines between them
     GLToy_Render::StartSubmittingLineLoop();
 
-    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+    GLToy_Render::SubmitColour( xColour );
 
     GLToy_Vector_3 xVertex = m_xPointMin;
     
@@ -71,7 +71,7 @@ void GLToy_AABB::Render() const
 
     GLToy_Render::StartSubmittingLineLoop();
 
-    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+    GLToy_Render::SubmitColour( xColour );
 
     xVertex[ 1 ] = m_xPointMin[ 1 ];
     xVertex[ 2 ] = m_xPointMax[ 2 ];
@@ -88,7 +88,7 @@ void GLToy_AABB::Render() const
 
     GLToy_Render::StartSubmittingLines();
 
-    GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+    GLToy_Render::SubmitColour( xColour );
 
     xVertex[ 1 ] = m_xPointMin[ 1 ];
     xVertex[ 2 ] = m_xPointMin[ 2 ];
