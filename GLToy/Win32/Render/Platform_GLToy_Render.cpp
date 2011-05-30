@@ -822,7 +822,7 @@ void Platform_GLToy_Render::DrawTriangles( const u_int uStart, const u_int uEnd,
 
 void Platform_GLToy_Render::DrawTriangles32( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
 {
-    s_pfnDrawRangeElements( GL_TRIANGLES, uStart, uEnd, uCount, GL_UNSIGNED_INT, reinterpret_cast< void* >( uOffset * sizeof( u_short ) ) ); 
+    s_pfnDrawRangeElements( GL_TRIANGLES, uStart, uEnd, uCount, GL_UNSIGNED_INT, reinterpret_cast< void* >( uOffset * sizeof( u_int ) ) ); 
 }
 
 void Platform_GLToy_Render::DrawTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
