@@ -65,6 +65,11 @@ protected:
 
 };
 
+struct GLToy_Vertex_Minimal
+{
+	GLToy_Vector_3 m_xPosition;
+};
+
 struct GLToy_Vertex_Deferred
 {
     GLToy_Vector_4 m_xPosition;
@@ -77,6 +82,35 @@ struct GLToy_Vertex_Deferred
     } m_xBasisVectors;
 
     GLToy_Vector_4 m_xPadding;
+};
+
+class GLToy_VertexBuffer_Minimal
+: GLToy_Destroyable< GLToy_VertexBuffer_Minimal >
+{
+
+public:
+
+    static GLToy_VertexBuffer_Minimal* Create( const u_int uCount, const GLToy_Vertex_Minimal* const pxVertices );
+
+    void Destroy();
+
+    void Bind();
+
+protected:
+
+    GLToy_VertexBuffer_Minimal( const u_int uID, const u_int uCount )
+    : m_uID( uID )
+    , m_uCount( uCount )
+    {
+    }
+
+    u_int m_uCount;
+
+    union
+    {
+        u_int m_uID;
+        int m_iID;
+    };
 };
 
 class GLToy_VertexBuffer_Deferred

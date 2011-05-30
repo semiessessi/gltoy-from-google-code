@@ -46,7 +46,7 @@
 // C O N S T A N T S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-static const float fCAMERA_SPEED = 256.0f;
+static const float fCAMERA_SPEED = 16.0f;
 static const float fCAMERA_ROTATION_SPEED = 1.4f;
 static const float fCAMERA_MOUSE_SCALE = 1.0f / 100.0f;
 static const float fCAMERA_OVERCAMHEIGHT_MIN = 32.0f;

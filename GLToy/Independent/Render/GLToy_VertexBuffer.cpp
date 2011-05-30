@@ -88,6 +88,38 @@ void GLToy_IndexBuffer::SubmitPolygon( const u_int uStart, const u_int uEnd, con
     GLToy_Render::DrawPolygon( uStart, uEnd, uCount, uOffset );
 }
 
+// Minimal vertices...
+
+GLToy_VertexBuffer_Minimal* GLToy_VertexBuffer_Minimal::Create( const u_int uCount, const GLToy_Vertex_Minimal* const pxVertices )
+{
+    GLToy_Assert( sizeof( GLToy_Vertex_Minimal ) == 12, "GLToy_Vertex_Minimal has wrong size!" );
+
+    u_int uID;
+    GLToy_Render::GenBuffers( 1, &uID );
+    GLToy_Render::BindBuffer( ARRAY_BUFFER, uID );
+    GLToy_Render::BufferData( ARRAY_BUFFER, uCount * sizeof( GLToy_Vertex_Minimal ), pxVertices, STATIC_DRAW );
+
+    return new GLToy_VertexBuffer_Minimal( uID, uCount );
+}
+
+void GLToy_VertexBuffer_Minimal::Destroy()
+{
+    if( m_iID == -1 )
+    {
+        return;
+    }
+    
+    GLToy_Render::DeleteBuffers( 1, &m_uID );
+}
+
+void GLToy_VertexBuffer_Minimal::Bind()
+{
+    GLToy_Render::BindBuffer( ARRAY_BUFFER, m_uID );
+    GLToy_Render::VertexPointer( 3, sizeof( GLToy_Vertex_Minimal ), VERTEXBUFFER_OFFSET( 0 ) );
+}
+
+// Deferred vertices...
+
 GLToy_VertexBuffer_Deferred* GLToy_VertexBuffer_Deferred::Create( const u_int uCount, const GLToy_Vertex_Deferred* const pxVertices )
 {
     GLToy_Assert( sizeof( GLToy_Vertex_Deferred ) == 64, "GLToy_Vertex_Deferred has wrong size!" );
