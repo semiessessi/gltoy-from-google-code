@@ -135,6 +135,37 @@ void GLToy_VertexBuffer_Minimal::Bind()
     GLToy_Render::VertexPointer( 3, sizeof( GLToy_Vertex_Minimal ), VERTEXBUFFER_OFFSET( 0 ) );
 }
 
+// Vertices with normals...
+
+GLToy_VertexBuffer_Normal* GLToy_VertexBuffer_Normal::Create( const u_int uCount, const GLToy_Vertex_Normal* const pxVertices )
+{
+    GLToy_Assert( sizeof( GLToy_Vertex_Normal ) == 12, "GLToy_Vertex_Normal has wrong size!" );
+
+    u_int uID;
+    GLToy_Render::GenBuffers( 1, &uID );
+    GLToy_Render::BindBuffer( ARRAY_BUFFER, uID );
+    GLToy_Render::BufferData( ARRAY_BUFFER, uCount * sizeof( GLToy_Vertex_Normal ), pxVertices, STATIC_DRAW );
+
+    return new GLToy_VertexBuffer_Normal( uID, uCount );
+}
+
+void GLToy_VertexBuffer_Normal::Destroy()
+{
+    if( m_iID == -1 )
+    {
+        return;
+    }
+    
+    GLToy_Render::DeleteBuffers( 1, &m_uID );
+}
+
+void GLToy_VertexBuffer_Normal::Bind()
+{
+    GLToy_Render::BindBuffer( ARRAY_BUFFER, m_uID );
+    GLToy_Render::VertexPointer( 3, sizeof( GLToy_Vertex_Normal ), VERTEXBUFFER_OFFSET( 0 ) );
+	GLToy_Render::NormalPointer( 3, sizeof( GLToy_Vertex_Normal ), VERTEXBUFFER_OFFSET( 12 ) );
+}
+
 // Deferred vertices...
 
 GLToy_VertexBuffer_Deferred* GLToy_VertexBuffer_Deferred::Create( const u_int uCount, const GLToy_Vertex_Deferred* const pxVertices )

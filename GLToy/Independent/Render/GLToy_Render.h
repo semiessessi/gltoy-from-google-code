@@ -808,6 +808,11 @@ public:
         Platform_GLToy_Render::BufferData( uTarget, uSizeInBytes, pData, uType );
     }
 
+    GLToy_ForceInline static void NormalPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset )
+    {
+        Platform_GLToy_Render::NormalPointer( uComponentCount, /*uType,*/ uStride, pOffset );
+    }
+
     GLToy_ForceInline static void VertexPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset )
     {
         Platform_GLToy_Render::VertexPointer( uComponentCount, /*uType,*/ uStride, pOffset );

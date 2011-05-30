@@ -68,9 +68,16 @@ protected:
 
 };
 
+// SE - suboptimal structs for quick work for debugging etc.
 struct GLToy_Vertex_Minimal
 {
 	GLToy_Vector_3 m_xPosition;
+};
+
+struct GLToy_Vertex_Normal
+{
+	GLToy_Vector_3 m_xPosition;
+	GLToy_Vector_3 m_xNormal;
 };
 
 struct GLToy_Vertex_Deferred
@@ -102,6 +109,35 @@ public:
 protected:
 
     GLToy_VertexBuffer_Minimal( const u_int uID, const u_int uCount )
+    : m_uID( uID )
+    , m_uCount( uCount )
+    {
+    }
+
+    u_int m_uCount;
+
+    union
+    {
+        u_int m_uID;
+        int m_iID;
+    };
+};
+
+class GLToy_VertexBuffer_Normal
+: GLToy_Destroyable< GLToy_VertexBuffer_Normal >
+{
+
+public:
+
+    static GLToy_VertexBuffer_Normal* Create( const u_int uCount, const GLToy_Vertex_Normal* const pxVertices );
+
+    void Destroy();
+
+    void Bind();
+
+protected:
+
+    GLToy_VertexBuffer_Normal( const u_int uID, const u_int uCount )
     : m_uID( uID )
     , m_uCount( uCount )
     {

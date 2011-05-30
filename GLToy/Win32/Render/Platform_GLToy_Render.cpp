@@ -90,6 +90,7 @@ void ( __stdcall* Platform_GLToy_Render::s_pfnDeleteBuffers )( const u_int, u_in
 void ( __stdcall* Platform_GLToy_Render::s_pfnBindBuffer )( const u_int, const u_int ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnBufferData )( const u_int, const u_int, const void* const, const u_int ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnVertexPointer )( const u_int, const u_int, const u_int, const void* const ) = 0;
+void ( __stdcall* Platform_GLToy_Render::s_pfnNormalPointer )( const u_int, const u_int, const u_int, const void* const ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnTexCoordPointer )( const u_int, const u_int, const u_int, const void* const ) = 0;
 void ( __stdcall* Platform_GLToy_Render::s_pfnDrawRangeElements )( const u_int, const u_int, const u_int, const u_int, const u_int, const void* const ) = 0;
 u_int ( __stdcall* Platform_GLToy_Render::s_pfnIsShader )( u_int ) = 0;
@@ -231,6 +232,7 @@ bool Platform_GLToy_Render::Initialise()
     s_pfnBindBuffer                         = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int ) >(                                                              wglGetProcAddress( "glBindBuffer" ) );
     s_pfnBufferData                         = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const void* const, const u_int ) >(                              wglGetProcAddress( "glBufferData" ) );
     s_pfnVertexPointer                      = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const void* const ) >(                              wglGetProcAddress( "glVertexPointer" ) );
+	s_pfnNormalPointer                      = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const void* const ) >(                              wglGetProcAddress( "glNormalPointer" ) );
     s_pfnTexCoordPointer                    = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const void* const ) >(                              wglGetProcAddress( "glTexCoordPointer" ) );
     s_pfnDrawRangeElements                  = reinterpret_cast< void ( __stdcall* )( const u_int, const u_int, const u_int, const u_int, const u_int, const void* const ) >(    wglGetProcAddress( "glDrawRangeElements" ) );
 
@@ -801,6 +803,11 @@ void Platform_GLToy_Render::BufferData( const u_int uTarget, const u_int uSizeIn
 void Platform_GLToy_Render::VertexPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset )
 {
     s_pfnVertexPointer( uComponentCount, GL_FLOAT, uStride, pOffset );
+}
+
+void Platform_GLToy_Render::NormalPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset )
+{
+    s_pfnNormalPointer( uComponentCount, GL_FLOAT, uStride, pOffset );
 }
 
 void Platform_GLToy_Render::TexCoordPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset )
