@@ -87,6 +87,12 @@ void GLToy_IndexBuffer::SubmitTriangles( const u_int uStart, const u_int uEnd, c
     GLToy_Render::DrawTriangles( uStart, uEnd, uCount, uOffset );
 }
 
+void GLToy_IndexBuffer::SubmitTriangles32( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
+{
+    GLToy_Render_Metrics::IncrementTriangleCount( uCount / 3 );
+    GLToy_Render::DrawTriangles32( uStart, uEnd, uCount, uOffset );
+}
+
 void GLToy_IndexBuffer::SubmitTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
 {
     GLToy_Render_Metrics::IncrementTriangleCount( uCount - 2 );
@@ -101,8 +107,14 @@ void GLToy_IndexBuffer::SubmitPolygon( const u_int uStart, const u_int uEnd, con
 
 void GLToy_IndexBuffer::SubmitAllAsTriangles()
 {
-    GLToy_Render_Metrics::IncrementTriangleCount( m_uCount / 3 );
-    GLToy_Render::DrawTriangles( 0, m_uCount - 1, m_uCount, 0 );
+	GLToy_Assert( ( m_uCount % 3 ) == 0, "Bad number of indices to submit as triangles!" );
+    SubmitTriangles( 0, m_uCount - 1, m_uCount, 0 );
+}
+
+void GLToy_IndexBuffer::SubmitAllAsTriangles32()
+{
+	GLToy_Assert( ( m_uCount % 3 ) == 0, "Bad number of indices to submit as triangles!" );
+    SubmitTriangles32( 0, m_uCount - 1, m_uCount, 0 );
 }
 
 // Minimal vertices...
@@ -139,7 +151,7 @@ void GLToy_VertexBuffer_Minimal::Bind()
 
 GLToy_VertexBuffer_Normal* GLToy_VertexBuffer_Normal::Create( const u_int uCount, const GLToy_Vertex_Normal* const pxVertices )
 {
-    GLToy_Assert( sizeof( GLToy_Vertex_Normal ) == 12, "GLToy_Vertex_Normal has wrong size!" );
+    GLToy_Assert( sizeof( GLToy_Vertex_Normal ) == 24, "GLToy_Vertex_Normal has wrong size!" );
 
     u_int uID;
     GLToy_Render::GenBuffers( 1, &uID );

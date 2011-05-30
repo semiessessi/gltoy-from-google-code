@@ -828,6 +828,11 @@ public:
         Platform_GLToy_Render::DrawTriangles( uStart, uEnd, uCount, uOffset );
     }
 
+    GLToy_ForceInline static void DrawTriangles32( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
+    {
+        Platform_GLToy_Render::DrawTriangles32( uStart, uEnd, uCount, uOffset );
+    }
+
     GLToy_ForceInline static void DrawTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset )
     {
         Platform_GLToy_Render::DrawTriangleStrip( uStart, uEnd, uCount, uOffset );

@@ -45,10 +45,12 @@ public:
     void Bind();
 
     void SubmitTriangles( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
+	void SubmitTriangles32( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
     void SubmitTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
     void SubmitPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
 
 	void SubmitAllAsTriangles();
+	void SubmitAllAsTriangles32();
 
 protected:
 

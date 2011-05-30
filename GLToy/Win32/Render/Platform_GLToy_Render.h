@@ -102,6 +102,7 @@ public:
     static void TexCoordPointer( const u_int uComponentCount, /*const u_int uType,*/ const u_int uStride, const void* const pOffset );
 
     static void DrawTriangles( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
+	static void DrawTriangles32( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
     static void DrawTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
     static void DrawPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
 
@@ -270,7 +271,7 @@ private:
     static void ( __stdcall* s_pfnBindBuffer )( const u_int, const u_int );
     static void ( __stdcall* s_pfnBufferData )( const u_int, const u_int, const void* const, const u_int );
     static void ( __stdcall* s_pfnVertexPointer )( const u_int, const u_int, const u_int, const void* const );
-	static void ( __stdcall* s_pfnNormalPointer )( const u_int, const u_int, const u_int, const void* const );
+	static void ( __stdcall* s_pfnNormalPointer )( const u_int, const u_int, const void* const );
     static void ( __stdcall* s_pfnTexCoordPointer )( const u_int, const u_int, const u_int, const void* const );
     static void ( __stdcall* s_pfnDrawRangeElements )( const u_int, const u_int, const u_int, const u_int, const u_int, const void* const );
     // shader functions
