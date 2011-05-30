@@ -48,6 +48,8 @@ public:
     void SubmitTriangleStrip( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
     void SubmitPolygon( const u_int uStart, const u_int uEnd, const u_int uCount, const u_int uOffset );
 
+	void SubmitAllAsTriangles();
+
 protected:
 
     GLToy_IndexBuffer( const u_int uID, const u_int uCount )

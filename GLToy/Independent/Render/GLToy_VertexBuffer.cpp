@@ -99,6 +99,12 @@ void GLToy_IndexBuffer::SubmitPolygon( const u_int uStart, const u_int uEnd, con
     GLToy_Render::DrawPolygon( uStart, uEnd, uCount, uOffset );
 }
 
+void GLToy_IndexBuffer::SubmitAllAsTriangles()
+{
+    GLToy_Render_Metrics::IncrementTriangleCount( m_uCount / 3 );
+    GLToy_Render::DrawTriangles( 0, m_uCount - 1, m_uCount, 0 );
+}
+
 // Minimal vertices...
 
 GLToy_VertexBuffer_Minimal* GLToy_VertexBuffer_Minimal::Create( const u_int uCount, const GLToy_Vertex_Minimal* const pxVertices )
