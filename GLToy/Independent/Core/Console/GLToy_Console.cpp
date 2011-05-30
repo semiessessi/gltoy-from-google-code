@@ -221,21 +221,21 @@ void GLToy_Console::RegisterCommand( const GLToy_String& szName, void ( *pfnFunc
 #endif
 }
 
-void GLToy_Console::RegisterVariable( const GLToy_String& szName, bool* pbVariable )
+void GLToy_Console::RegisterVariable( const GLToy_String& szName, bool* const pbVariable )
 {
 #ifndef GLTOY_DEMO
     s_xCommandTree.AddNode( new GLToy_ConsoleVariable_Bool( szName, pbVariable ), szName.GetHash() );
 #endif
 }
 
-void GLToy_Console::RegisterVariable( const GLToy_String& szName, u_int* puVariable )
+void GLToy_Console::RegisterVariable( const GLToy_String& szName, u_int* const puVariable )
 {
 #ifndef GLTOY_DEMO
     s_xCommandTree.AddNode( new GLToy_ConsoleVariable_Uint( szName, puVariable ), szName.GetHash() );
 #endif
 }
 
-void GLToy_Console::RegisterVariable( const GLToy_String& szName, float* pfVariable )
+void GLToy_Console::RegisterVariable( const GLToy_String& szName, float* const pfVariable )
 {
 #ifndef GLTOY_DEMO
     s_xCommandTree.AddNode( new GLToy_ConsoleVariable_Float( szName, pfVariable ), szName.GetHash() );

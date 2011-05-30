@@ -76,9 +76,13 @@ public:
     static void RegisterCommand( const GLToy_String& szName, void ( *pfnFunction )( const u_int ) );
     static void RegisterCommand( const GLToy_String& szName, void ( *pfnFunction )( const GLToy_String& ) );
 
-    static void RegisterVariable( const GLToy_String& szName, bool* pbVariable );
-    static void RegisterVariable( const GLToy_String& szName, u_int* puVariable );
-    static void RegisterVariable( const GLToy_String& szName, float* pfVariable );
+    static void RegisterVariable( const GLToy_String& szName, bool* const pbVariable );
+    static void RegisterVariable( const GLToy_String& szName, u_int* const puVariable );
+    static void RegisterVariable( const GLToy_String& szName, float* const pfVariable );
+
+	static void RegisterVariable( const GLToy_String& szName, bool& bVariable ) { RegisterVariable( szName, &bVariable ); }
+    static void RegisterVariable( const GLToy_String& szName, u_int& uVariable ) { RegisterVariable( szName, &uVariable ); }
+    static void RegisterVariable( const GLToy_String& szName, float& fVariable ) { RegisterVariable( szName, &fVariable ); }
 
 private:
 
