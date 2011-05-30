@@ -38,6 +38,7 @@ class GLToy_IndexBuffer
 public:
 
     static GLToy_IndexBuffer* Create( const u_int uCount, const u_short* pusIndices );
+	static GLToy_IndexBuffer* Create( const u_int uCount, const u_int* puIndices );
 
     void Destroy();
 

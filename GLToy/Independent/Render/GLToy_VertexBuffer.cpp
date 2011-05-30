@@ -55,6 +55,17 @@ GLToy_IndexBuffer* GLToy_IndexBuffer::Create( const u_int uCount, const u_short*
     return new GLToy_IndexBuffer( uID, uCount );
 }
 
+GLToy_IndexBuffer* GLToy_IndexBuffer::Create( const u_int uCount, const u_int* puIndices )
+{
+    u_int uID;
+    GLToy_Render::GenBuffers( 1, &uID );
+    GLToy_Render::BindBuffer( ELEMENT_ARRAY_BUFFER, uID );
+    GLToy_Render::BufferData( ELEMENT_ARRAY_BUFFER, uCount * sizeof( u_int ), puIndices, STATIC_DRAW );
+
+    return new GLToy_IndexBuffer( uID, uCount );
+}
+
+
 void GLToy_IndexBuffer::Destroy()
 {
     if( m_iID == -1 )
