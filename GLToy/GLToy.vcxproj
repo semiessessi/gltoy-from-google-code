@@ -160,10 +160,10 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Final (No Physics)|Win32'">$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Final (Demo)|Win32'">$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Final (Crinkler + No Havok)|Win32'">$(Configuration)\</IntDir>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug (Bullet)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug (No Physics)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug (No Memory Debugging)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(IncludePath);$(DXSDK_DIR)\Include</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug (Bullet)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(IncludePath);$(DXSDK_DIR)\Include</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug (No Physics)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(IncludePath);$(DXSDK_DIR)\Include</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug (No Memory Debugging)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(IncludePath);$(DXSDK_DIR)\Include</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">..\..\Havok\Lib\win32_net_9-0\debug_multithreaded;..\..\OpenAL\lib;..\..\OpenAL\libs\Win32;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug (Bullet)|Win32'">..\..\Havok\Lib\win32_net_9-0\debug_multithreaded;..\..\OpenAL\lib;..\..\OpenAL\libs\Win32;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug (No Physics)|Win32'">..\..\Havok\Lib\win32_net_9-0\debug_multithreaded;..\..\OpenAL\lib;..\..\OpenAL\libs\Win32;$(LibraryPath)</LibraryPath>
@@ -174,12 +174,12 @@
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Final (Crinkler + No Havok)|Win32'">..\..\Havok\Lib\win32_net_9-0\debug_multithreaded;..\..\OpenAL\lib;..\..\OpenAL\libs\Win32;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release (Havok)|Win32'">..\..\Havok\Lib\win32_net_9-0\debug_multithreaded;..\..\OpenAL\lib;..\..\OpenAL\libs\Win32;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release (No Physics)|Win32'">..\..\Havok\Lib\win32_net_9-0\debug_multithreaded;..\..\OpenAL\lib;..\..\OpenAL\libs\Win32;$(LibraryPath)</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Final (Havok)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Final (No Physics)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Final (Demo)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Final (Crinkler + No Havok)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release (Havok)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release (No Physics)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Final (Havok)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(IncludePath);$(DXSDK_DIR)\Include</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Final (No Physics)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(IncludePath);$(DXSDK_DIR)\Include</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Final (Demo)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(IncludePath);$(DXSDK_DIR)\Include</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Final (Crinkler + No Havok)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(IncludePath);$(DXSDK_DIR)\Include</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release (Havok)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(IncludePath);$(DXSDK_DIR)\Include</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release (No Physics)|Win32'">..\..\Bullet\src;..\..\Havok\Source;..\..\OpenAL\include;$(IncludePath);$(DXSDK_DIR)\Include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug (Havok)|Win32'">
     <ClCompile>

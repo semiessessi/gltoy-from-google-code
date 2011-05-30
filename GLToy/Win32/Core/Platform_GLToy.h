@@ -31,6 +31,8 @@
 // M A C R O S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma warning( disable : 4985 ) // to work around obscure MS SDK issues
+
 #define GLTOY_PLATFORM_WIN32
 
 #ifdef GLTOY_DEMO

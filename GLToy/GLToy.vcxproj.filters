@@ -1112,9 +1112,7 @@
     <ClInclude Include="Mac\Physics\Platform_GLToy_Havok_Physics.h">
       <Filter>Mac\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="GLToy_BitHelper.h">
-      <Filter>Independent\Core</Filter>
-    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_BitHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\Raytrace_Sphere.shader">
