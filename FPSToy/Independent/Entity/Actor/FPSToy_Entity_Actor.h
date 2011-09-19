@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -38,7 +38,7 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Physics_Controller;
+class GLToy_Physics_Object;
 
 class FPSToy_AI;
 
@@ -56,7 +56,7 @@ public:
 
     FPSToy_Entity_Actor( const GLToy_Hash uHash, const u_int uType )
     : GLToy_Parent( uHash, uType )
-    , m_pxPhysicsController( NULL )
+    , m_pxPhysicsObject( NULL )
     , m_pxAI( NULL )
     {
     }
@@ -65,12 +65,12 @@ public:
     virtual void Update();
     virtual void Spawn( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation );
 
-    virtual bool HasSpawned() const { return m_pxPhysicsController != NULL; }
+    virtual bool HasSpawned() const { return m_pxPhysicsObject != NULL; }
 
 
 protected:
 
-    GLToy_Physics_Controller* m_pxPhysicsController;
+    GLToy_Physics_Object* m_pxPhysicsObject;
     FPSToy_AI* m_pxAI;
 
 };

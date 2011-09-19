@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -77,4 +77,10 @@ void FPSToy_Player::Update()
 GLToy_Hash FPSToy_Player::GetHash()
 {
     return GLToy_Hash_Constant( "Player" );
+}
+
+GLToy_Vector_3 FPSToy_Player::GetPosition()
+{
+	// TODO: something better than the camera position
+	return GLToy_Camera::GetPosition();
 }

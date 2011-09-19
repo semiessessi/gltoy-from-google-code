@@ -188,6 +188,7 @@ upx.exe "$(TargetPath)" --best</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Independent\AI\FPSToy_AI_Zombie.cpp" />
     <ClCompile Include="Win32\Core\Platform_FPSToy.cpp" />
     <ClCompile Include="Independent\Render\FPSToy_Render.cpp" />
     <ClCompile Include="Independent\Render\Project_GLToy_Render.cpp" />
@@ -205,6 +206,7 @@ upx.exe "$(TargetPath)" --best</Command>
     <ClCompile Include="Independent\Entity\Actor\FPSToy_Entity_Actor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Independent\AI\FPSToy_AI_Zombie.h" />
     <ClInclude Include="Win32\Core\Platform_FPSToy.h" />
     <ClInclude Include="Independent\Render\FPSToy_Render.h" />
     <ClInclude Include="Independent\Core\FPSToy.h" />

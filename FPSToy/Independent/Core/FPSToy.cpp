@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -42,11 +42,19 @@
 #include <Core/FPSToy_Player.h>
 #include <Damage/FPSToy_Damage_System.h>
 #include <Entity/FPSToy_EntityTypes.h>
+#include <Entity/Actor/FPSToy_Entity_Actor.h>
 #include <Weapon/FPSToy_Weapon_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+void TestAI_Console()
+{
+	FPSToy_Entity_Actor* pxActor = static_cast< FPSToy_Entity_Actor* >( GLToy_Entity_System::CreateEntity( GLToy_Random_Hash(), FPSTOY_ENTITY_ACTOR ) );
+
+	pxActor->Spawn( GLToy_Camera::GetPosition() + GLToy_Vector_3( 0.0f, 1.0f, 10.0f ), GLToy_Maths::IdentityMatrix3 );
+}
 
 bool FPSToy::Initialise()
 {
@@ -63,6 +71,13 @@ bool FPSToy::Initialise()
 
     // in case we don't load an environment for whatever reason...
     FPSToy_Player::Spawn( GLToy_Vector_3( 0.0f, 100.0f, 0.0f ), GLToy_Maths::IdentityMatrix3 );
+
+	// register AI spawn test function (TODO: something better)
+
+	GLToy_Console::RegisterCommand( "testai", TestAI_Console );
+
+	// set up fly camera speed to be useful
+	GLToy_Camera::SetSpeed( 256.0f );
 
     return true;
 }

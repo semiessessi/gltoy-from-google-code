@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -38,7 +38,7 @@
 #include <Physics/GLToy_Physics_System.h>
 
 // FPSToy
-#include <AI/FPSToy_AI.h>
+#include <AI/FPSToy_AI_Zombie.h>
 #include <Weapon/FPSToy_Weapon_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,6 +52,8 @@ void FPSToy_Entity_Actor::Render() const
         GLToy_Parent::Render();
         return;
     }
+
+	m_pxPhysicsObject->GetOBB().Render();
 }
 
 void FPSToy_Entity_Actor::Update()
@@ -63,10 +65,24 @@ void FPSToy_Entity_Actor::Update()
 
     GLToy_Parent::Update();
 
-    // ...
+	// TODO: FIXME: Possible divide by zero here!
+	GLToy_Vector_3 xDesiredVelocity = m_pxAI->GetDesiredVelocity();
+	xDesiredVelocity.y = 0.0f;
+	xDesiredVelocity.Normalise();
+	m_pxPhysicsObject->ControlMovement( GLToy_Vector_2( xDesiredVelocity.x, xDesiredVelocity.z ) );
+
+	if( m_pxAI )
+	{
+		m_pxAI->TellPosition( m_pxPhysicsObject->GetPosition() );
+	}
 }
 
 void FPSToy_Entity_Actor::Spawn( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation )
 {
+	m_pxPhysicsObject = GLToy_Physics_System::CreateControlledCapsule( GetHash(), xPosition );
+	m_pxPhysicsObject->SetPosition( xPosition );
 
+	m_pxAI = new FPSToy_AI_Zombie();
+
+	// SetModel( ... );
 }

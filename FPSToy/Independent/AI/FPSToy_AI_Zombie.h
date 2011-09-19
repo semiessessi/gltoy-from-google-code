@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,37 +24,30 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __FPSTOY_AI_ZOMBIE_H_
+#define __FPSTOY_AI_ZOMBIE_H_
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // I N C L U D E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Core/FPSToy.h>
-
-// This file's header
-#include <Entity/FPSToy_EntityTypes.h>
-
-// GLToy
-#include <Entity/GLToy_Entity.h>
-
-// FPSToy
-#include <Entity/Actor/FPSToy_Entity_Actor.h>
-#include <Entity/Projectile/FPSToy_Entity_Projectile.h>
+// Parent
+#include <AI/FPSToy_AI.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// F U N C T I O N S
+// C L A S S E S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Entity* FPSToy_CreateEntity( const GLToy_Hash uHash, const u_int uType )
+class FPSToy_AI_Zombie
+: public FPSToy_AI
 {
-    switch( uType )
-    {
-        case FPSTOY_ENTITY_PROJECTILE:      return new FPSToy_Entity_Projectile( uHash, uType );
-		case FPSTOY_ENTITY_ACTOR:			return new FPSToy_Entity_Actor( uHash, uType );
 
-        default:
-        {
-            break;
-        }
-    }
-    return NULL;
-}
+public:
+
+	virtual GLToy_Vector_3 GetDesiredVelocity() const;
+
+protected:
+
+};
+
+#endif

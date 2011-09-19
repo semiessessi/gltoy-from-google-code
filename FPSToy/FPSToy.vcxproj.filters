@@ -81,6 +81,9 @@
     <ClCompile Include="Independent\Entity\Actor\FPSToy_Entity_Actor.cpp">
       <Filter>Independent\Entity\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="Independent\AI\FPSToy_AI_Zombie.cpp">
+      <Filter>Independent\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32\Core\Platform_FPSToy.h">
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Damage\FPSToy_Damage_System.h">
       <Filter>Independent\Damage</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\AI\FPSToy_AI_Zombie.h">
+      <Filter>Independent\AI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

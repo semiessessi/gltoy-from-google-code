@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -31,30 +31,20 @@
 #include <Core/FPSToy.h>
 
 // This file's header
-#include <Entity/FPSToy_EntityTypes.h>
-
-// GLToy
-#include <Entity/GLToy_Entity.h>
+#include <AI/FPSToy_AI_Zombie.h>
 
 // FPSToy
-#include <Entity/Actor/FPSToy_Entity_Actor.h>
-#include <Entity/Projectile/FPSToy_Entity_Projectile.h>
+#include <Core/FPSToy_Player.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Entity* FPSToy_CreateEntity( const GLToy_Hash uHash, const u_int uType )
+GLToy_Vector_3 FPSToy_AI_Zombie::GetDesiredVelocity() const
 {
-    switch( uType )
-    {
-        case FPSTOY_ENTITY_PROJECTILE:      return new FPSToy_Entity_Projectile( uHash, uType );
-		case FPSTOY_ENTITY_ACTOR:			return new FPSToy_Entity_Actor( uHash, uType );
-
-        default:
-        {
-            break;
-        }
-    }
-    return NULL;
+	// TODO: something a little more intelligent than just moving at the player
+	GLToy_Vector_3 xDirection = FPSToy_Player::GetPosition() - GetPosition();
+	xDirection.Normalise();
+	xDirection *= 100.0f;
+	return xDirection;
 }
