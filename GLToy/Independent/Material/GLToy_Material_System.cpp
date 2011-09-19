@@ -165,8 +165,8 @@ bool GLToy_Material_System::Initialise()
     GLToy_Array< GLToy_String > xMaterialPaths = GLToy_File_System::PathsFromFilter( "Materials/", "*.material" );
 
     for( GLToy_ConstIterator< GLToy_String > xIterator; !xIterator.Done( xMaterialPaths ); xIterator.Next() )
-{
-const GLToy_String& szPath = xIterator.Current( xMaterialPaths );
+    {
+        const GLToy_String& szPath = xIterator.Current( xMaterialPaths );
 
         GLToy_String szName = szPath;
 
@@ -180,8 +180,8 @@ const GLToy_String& szPath = xIterator.Current( xMaterialPaths );
         GLToy_Array< GLToy_Pair< GLToy_String > > xValues = xFile.LoadValues();
 
         for( GLToy_ConstIterator< GLToy_Pair< GLToy_String > > xIterator; !xIterator.Done( xValues ); xIterator.Next() )
-{
-const GLToy_Pair< GLToy_String >& xKeyValue = xIterator.Current( xValues );
+        {
+            const GLToy_Pair< GLToy_String >& xKeyValue = xIterator.Current( xValues );
             
             const GLToy_String& szKey = xKeyValue.First();
             const GLToy_String& szValue = xKeyValue.Second();

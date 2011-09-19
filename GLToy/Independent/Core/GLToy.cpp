@@ -70,9 +70,11 @@
 // D A T A
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+GLToy_String GLToy::s_szCommandLine = "";
+
 bool GLToy::s_bFullscreen = false;
-int GLToy::s_iWidth = 1024;
-int GLToy::s_iHeight = 768;
+int GLToy::s_iWidth = 800;
+int GLToy::s_iHeight = 600;
 
 bool GLToy::s_bQuitFlag = false;
 bool GLToy::s_bHasFocus = false;
@@ -102,6 +104,12 @@ void GLToy::SilentEntryPoint()
 void GLToy::SilentShutdown()
 {
     Shutdown();
+}
+
+int GLToy::EntryPoint( const GLToy_String& szCommandLine )
+{
+    s_szCommandLine = szCommandLine;
+    return GLToy::EntryPoint();
 }
 
 int GLToy::EntryPoint()

@@ -142,6 +142,7 @@ class GLToy
     
 public:
 
+    static int EntryPoint( const GLToy_String& szCommandLine );
     static int EntryPoint();
     static void SilentEntryPoint(); // for libraries etc that need systems
     static void SilentShutdown();
@@ -208,6 +209,8 @@ private:
     static void Platform_ChangeWindowTitle( const char* const szNewTitle );
     static void Platform_ChangeWindowIcon( const char* const szTextureName );
 	static GLToy_Vector_2 Platform_GetWindowPos();
+
+    static GLToy_String s_szCommandLine;
 
     static bool s_bFullscreen;
     static int s_iWidth;

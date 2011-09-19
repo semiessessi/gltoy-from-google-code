@@ -157,6 +157,12 @@
     <Filter Include="Independent\Visibility">
       <UniqueIdentifier>{ae59a446-2a72-4426-a7ac-fdc576178a9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Profile">
+      <UniqueIdentifier>{250b1c60-3b8b-4c48-acf1-608b74f19cb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Profile">
+      <UniqueIdentifier>{fce92002-d3a2-4614-aa04-423b6d34af75}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Mac">
       <UniqueIdentifier>{9a39d766-8e18-478d-8d53-857999c107ef}</UniqueIdentifier>
     </Filter>
@@ -608,6 +614,12 @@
     </ClCompile>
     <ClCompile Include="Independent\Maths\GLToy_ConvexHull.cpp">
       <Filter>Independent\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Profile\Platform_GLToy_Profile_System.cpp">
+      <Filter>Win32\Profile</Filter>
+    </ClCompile>
+    <ClCompile Include="Independent\Profile\GLToy_Profile_System.cpp">
+      <Filter>Independent\Profile</Filter>
     </ClCompile>
     <ClCompile Include="Mac\Core\Platform_GLToy.cpp">
       <Filter>Mac\Core</Filter>
@@ -1091,6 +1103,12 @@
     <ClInclude Include="Independent\Core\GLToy_CRTP.h">
       <Filter>Independent\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Independent\Profile\GLToy_Profile_System.h">
+      <Filter>Independent\Profile</Filter>
+    </ClInclude>
+    <ClInclude Include="Independent\Core\GLToy_HashMap_System.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
     <ClInclude Include="Mac\Core\Platform_GLToy.h">
       <Filter>Mac\Core</Filter>
     </ClInclude>
@@ -1112,7 +1130,9 @@
     <ClInclude Include="Mac\Physics\Platform_GLToy_Havok_Physics.h">
       <Filter>Mac\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Independent\Core\GLToy_BitHelper.h" />
+    <ClInclude Include="Independent\Core\GLToy_BitHelper.h">
+      <Filter>Independent\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\Raytrace_Sphere.shader">

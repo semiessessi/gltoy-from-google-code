@@ -5,6 +5,9 @@
 // This file's header
 #include <Core/Empty.h>
 
+// GLToy
+#include <String/GLToy_String.h>
+
 // Win32
 #include <windows.h>
 
@@ -14,5 +17,5 @@
 
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd )
 {
-    return GLToy::EntryPoint();
+    return GLToy::EntryPoint( GLToy_String( lpCmdLine ) );
 }

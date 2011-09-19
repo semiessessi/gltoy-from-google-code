@@ -142,7 +142,7 @@ public:
 	{
 		for( u_int u = 0; u < 3; ++u )
 		{
-			if( !m_xComponents[ u ].ApproximatelyEqual( xMatrix.m_xComponents[ u ] ) )
+			if( !m_xComponents[ u ].ApproximatelyEqual( xMatrix.m_xComponents[ u ], fThreshold ) )
 			{
 				return false;
 			}
@@ -201,7 +201,7 @@ public:
 	{
 		for( u_int u = 0; u < 4; ++u )
 		{
-			if( !m_xComponents[ u ].ApproximatelyEqual( xMatrix.m_xComponents[ u ] ) )
+			if( !m_xComponents[ u ].ApproximatelyEqual( xMatrix.m_xComponents[ u ], fThreshold ) )
 			{
 				return false;
 			}

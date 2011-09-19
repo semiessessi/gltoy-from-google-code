@@ -166,6 +166,24 @@ public:
         m_uPosition = m_uNumBytes << 3;
     }
 
+    void ReadFromBitStream( const GLToy_BitStream& xStream )
+    {
+        // TODO: optimise
+        for( u_int u = 0; u < xStream.GetBytesWritten(); ++u )
+        {
+            *this << xStream.GetData()[ u ];
+        }
+    }
+
+    void WriteToBitStream( GLToy_BitStream& xStream ) const
+    {
+        // TODO: optimise
+        for( u_int u = 0; u < GetBytesWritten(); ++u )
+        {
+            xStream << GetData()[ u ];
+        }
+    }
+
     // the bit stream can never be written to by index operators...
     virtual bool& operator []( const int iIndex )
     {
