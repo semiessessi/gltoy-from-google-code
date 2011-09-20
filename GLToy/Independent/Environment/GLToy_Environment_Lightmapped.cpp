@@ -476,13 +476,13 @@ void GLToy_Environment_Lightmapped::RenderLighting() const
         pxShader->SetUniform( "xOneOverSize", xOneOverSize );
 
         for( GLToy_ConstIterator< u_int > xIterator; !xIterator.Done( m_xClusters[ pxLeaf->m_uCluster ].m_xPVS ); xIterator.Next() )
-{
-const u_int& uClusterIndex = xIterator.Current( m_xClusters[ pxLeaf->m_uCluster ].m_xPVS );
+		{
+			const u_int& uClusterIndex = xIterator.Current( m_xClusters[ pxLeaf->m_uCluster ].m_xPVS );
             GLToy_Assert( uClusterIndex < m_xClusters.GetCount(), "Cluster index is too large!" );
             
             for( GLToy_ConstIterator< u_int > xIterator; !xIterator.Done( m_xClusters[ uClusterIndex ].m_xIndices ); xIterator.Next() )
-{
-const u_int& uLeafIndex = xIterator.Current( m_xClusters[ uClusterIndex ].m_xIndices );
+			{
+				const u_int& uLeafIndex = xIterator.Current( m_xClusters[ uClusterIndex ].m_xIndices );
                 m_xLeaves[ uLeafIndex ].RenderLighting();
             }
         }
@@ -504,13 +504,13 @@ void GLToy_Environment_Lightmapped::Render2D() const
     if( !IsEmpty() && pxLeaf && pxLeaf->m_uCluster != 0xFFFF )
     {
         for( GLToy_ConstIterator< u_int > xIterator; !xIterator.Done( m_xClusters[ pxLeaf->m_uCluster ].m_xPVS ); xIterator.Next() )
-{
-const u_int& uClusterIndex = xIterator.Current( m_xClusters[ pxLeaf->m_uCluster ].m_xPVS );
+		{
+			const u_int& uClusterIndex = xIterator.Current( m_xClusters[ pxLeaf->m_uCluster ].m_xPVS );
             GLToy_Assert( uClusterIndex < m_xClusters.GetCount(), "Cluster index is too large!" );
             
             for( GLToy_ConstIterator< u_int > xIterator; !xIterator.Done( m_xClusters[ uClusterIndex ].m_xIndices ); xIterator.Next() )
-{
-const u_int& uLeafIndex = xIterator.Current( m_xClusters[ uClusterIndex ].m_xIndices );
+			{
+				const u_int& uLeafIndex = xIterator.Current( m_xClusters[ uClusterIndex ].m_xIndices );
                 GetLeaf< GLToy_EnvironmentLeaf_Lightmapped >( uLeafIndex )->RenderDebugFaceInfo();
             }
         }
@@ -519,8 +519,8 @@ const u_int& uLeafIndex = xIterator.Current( m_xClusters[ uClusterIndex ].m_xInd
     {
         // fallback - render with no bsp tree or visibilty culling
         for( GLToy_ConstIterator< GLToy_Environment_LightmappedFace > xIterator; !xIterator.Done( m_xFaces ); xIterator.Next() )
-{
-const GLToy_Environment_LightmappedFace& xFace = xIterator.Current( m_xFaces );
+		{
+			const GLToy_Environment_LightmappedFace& xFace = xIterator.Current( m_xFaces );
             if( !xFace.m_bVisible )
             {
                 continue;
@@ -528,8 +528,8 @@ const GLToy_Environment_LightmappedFace& xFace = xIterator.Current( m_xFaces );
 
             GLToy_Vector_3 xAverage = GLToy_Maths::ZeroVector3;
             for( GLToy_ConstIterator< u_int > xIterator; !xIterator.Done( xFace.m_xIndices ); xIterator.Next() )
-{
-const u_int& uIndex = xIterator.Current( xFace.m_xIndices );
+			{
+				const u_int& uIndex = xIterator.Current( xFace.m_xIndices );
                 xAverage += m_xVertices[ uIndex ].m_xPosition;
             }
             xAverage /= static_cast< float >( xFace.m_xIndices.GetCount() );
@@ -707,21 +707,21 @@ void GLToy_EnvironmentLeaf_Lightmapped::RenderDeferred() const
     const float fDistanceSquared = xDifference.MagnitudeSquared();
 
     // TODO: frustum cull with planes?
-    if( fDistanceSquared > m_xBoundingSphere.GetRadius() * m_xBoundingSphere.GetRadius() )
-    {
-        GLToy_Vector_3 xNormalised = xDifference;
-        xNormalised.Normalise();
-        if( ( xNormalised * GLToy_Camera::GetDirection() ) < GLToy_Light_System::GetConeCos() )
-        {
-            return;
-        }
-    }
+    //if( fDistanceSquared > m_xBoundingSphere.GetRadius() * m_xBoundingSphere.GetRadius() )
+    //{
+    //    GLToy_Vector_3 xNormalised = xDifference;
+    //    xNormalised.Normalise();
+    //    if( ( xNormalised * GLToy_Camera::GetDirection() ) < GLToy_Light_System::GetConeCos() )
+    //    {
+    //        return;
+    //    }
+    //}
 
     const bool bQuadRes = GLToy_Environment_System::IsBSPQuadRes();
 
     for( GLToy_ConstIterator< MaterialBatch > xIterator; !xIterator.Done( m_xBatches ); xIterator.Next() )
-{
-const MaterialBatch& xBatch = xIterator.Current( m_xBatches );
+	{
+		const MaterialBatch& xBatch = xIterator.Current( m_xBatches );
         
         GLToy_Material_System::BindMaterial( xBatch.m_uHash );
 
