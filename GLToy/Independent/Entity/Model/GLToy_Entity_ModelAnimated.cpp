@@ -108,6 +108,14 @@ void GLToy_Entity_ModelAnimated::Update()
     }
 }
 
+void GLToy_Entity_ModelAnimated::StopAnimation( const u_int uAnimID, const float fTweenOutTime )
+{
+    if( m_pxAnimStack && m_pxAnimStack->SupportsAnimID( m_pxModel, uAnimID ) )
+    {
+        m_pxAnimStack->Stop( uAnimID, fTweenOutTime );
+    }
+}
+
 void GLToy_Entity_ModelAnimated::PlayAnimation( const u_int uAnimID, const float fTweenInTime, const float fTweenOutTime )
 {
     if( m_pxAnimStack && m_pxAnimStack->SupportsAnimID( m_pxModel, uAnimID ) )

@@ -566,8 +566,8 @@ void GLToy_MD2_AnimationStack::Evaluate( GLToy_Model* const pxModel ) const
     }
 
     for( GLToy_ConstIterator< GLToy_MD2_AnimationState > xIterator; !xIterator.Done( *this ); xIterator.Next() )
-{
-const GLToy_MD2_AnimationState& xState = xIterator.Current( *this );
+	{
+		const GLToy_MD2_AnimationState& xState = xIterator.Current( *this );
         xState.Evaluate( pxMD2Model );
     }
 }
@@ -591,4 +591,14 @@ void GLToy_MD2_AnimationStack::Push( const u_int uAnimID, const float fTweenInTi
 
 void GLToy_MD2_AnimationStack::Stop( const u_int uAnimID, const float fTweenOutTime, const bool bAnimatedTween )
 {
+	// TODO: improve?
+	for( GLToy_ConstIterator< GLToy_MD2_AnimationState > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+	{
+		const GLToy_MD2_AnimationState& xState = xIterator.Current( *this );
+        if( xState.m_eAnimID == uAnimID )
+		{
+			RemoveAt( xIterator.Index() );
+			break;
+		}
+    }
 }

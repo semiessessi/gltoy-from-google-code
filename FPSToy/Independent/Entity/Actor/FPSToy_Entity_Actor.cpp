@@ -57,7 +57,7 @@ void FPSToy_Entity_Actor::Render() const
 
 	//GLToy_Parent::Render();
 	GLToy_Render::RegisterDeferred( this );
-	m_pxPhysicsObject->GetOBB().Render();
+	//m_pxPhysicsObject->GetOBB().Render();
 }
 
 void FPSToy_Entity_Actor::RenderDeferred() const
@@ -68,19 +68,28 @@ void FPSToy_Entity_Actor::RenderDeferred() const
     }
 
 	GLToy_Parent::RenderDeferred();
-	m_pxPhysicsObject->GetOBB().Render();
+	//m_pxPhysicsObject->GetOBB().Render();
 }
 
 void FPSToy_Entity_Actor::Update()
 {
     if( !HasSpawned() || IsDead() )
     {
+		if( !m_bWasDead )
+		{
+			StopAnimation( GLToy_Model_MD2::ANIMID_RUN );
+			PlayAnimation( GLToy_Model_MD2::ANIMID_DEATH_FALLBACKSLOW, 0.0f, -GLToy_Maths::LargeFloat );
+			m_bWasDead = true;
+			m_pxPhysicsObject->ControlMovement( GLToy_Maths::ZeroVector2 );
+			m_pxPhysicsObject->SetVelocity( GLToy_Maths::ZeroVector3 );
+		}
+		GLToy_Parent::Update();
         return;
     }
 
 	SetPosition( m_pxPhysicsObject->GetPosition() );
 
-    GLToy_Parent::Update();
+	GLToy_Parent::Update();
 
 	// TODO: FIXME: Possible divide by zero here!
 	GLToy_Vector_3 xDesiredVelocity = m_pxAI->GetDesiredVelocity();
@@ -103,6 +112,8 @@ void FPSToy_Entity_Actor::Spawn( const GLToy_Vector_3& xPosition, const GLToy_Ma
 	m_pxPhysicsObject->SetPosition( xPosition );
 
 	SetModel( "megaman" );
+
+	m_fHealth = 50.0f;
 
 	m_pxAI = new FPSToy_AI_Zombie();
 

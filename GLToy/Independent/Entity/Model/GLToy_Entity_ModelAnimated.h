@@ -62,6 +62,7 @@ public:
 
 	void ForceAnimStackCreation();
 
+	void StopAnimation( const u_int uAnimID = 0, const float fTweenOutTime = 0.0f );
     void PlayAnimation( const u_int uAnimID = 0, const float fTweenInTime = 0.0f, const float fTweenOutTime = 0.0f );
 
 protected:

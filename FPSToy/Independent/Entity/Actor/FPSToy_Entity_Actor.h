@@ -58,6 +58,7 @@ public:
     : GLToy_Parent( uHash, uType )
     , m_pxPhysicsObject( NULL )
     , m_pxAI( NULL )
+	, m_bWasDead( false )
     {
     }
 
@@ -74,6 +75,8 @@ protected:
     GLToy_Physics_Object* m_pxPhysicsObject;
     FPSToy_AI* m_pxAI;
 
+	// TODO: something better to trigger death anim once
+	bool m_bWasDead;
 };
 
 #endif
