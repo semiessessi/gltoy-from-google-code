@@ -36,8 +36,9 @@
 // GLToy
 #include <Core/GLToy_Timer.h>
 #include <Core/GLToy_UpdateFunctor.h>
+#include <Material/GLToy_Material_System.h>
 #include <Render/GLToy_Render.h>
-#include <Render/GLToy_Texture_System.h>
+//#include <Render/GLToy_Texture_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -259,7 +260,8 @@ GLToy_Model_MD2::GLToy_Model_MD2()
 , m_xWorkingVertices()
 , m_xWorkingNormals()
 , m_uFrameSize( 0 )
-, m_pxTexture( NULL )
+//, m_pxTexture( NULL )
+, m_pxMaterial( NULL )
 {
 }
 
@@ -286,10 +288,15 @@ GLToy_AnimationStack* GLToy_Model_MD2::CreateAnimationStack() const
 
 void GLToy_Model_MD2::Render() const
 {
-    if( m_pxTexture )
+    if( m_pxMaterial )
     {
-        m_pxTexture->Bind();
+        m_pxMaterial->Bind();
     }
+
+	//if( m_pxTexture )
+ //   {
+ //       m_pxTexture->Bind();
+ //   }
 
     GLToy_Render::EnableBackFaceCulling();
     GLToy_Render::SetCWFaceWinding();

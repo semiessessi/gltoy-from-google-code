@@ -34,8 +34,9 @@
 #include <File/GLToy_MD2File.h>
 
 // GLToy
+#include <Material/GLToy_Material_System.h>
 #include <Model/GLToy_Model_MD2.h>
-#include <Render/GLToy_Texture_System.h>
+//#include <Render/GLToy_Texture_System.h>
 #include <UI/GLToy_UI_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -201,15 +202,23 @@ GLToy_Model* GLToy_MD2File::LoadModel() const
     szBaseName = GLToy_String( "Skins/" ) + szBaseName;
     szBaseName.RemoveFromEnd( 4 ); // .md2
 
-    GLToy_Texture* pxTexture = NULL;
+    //GLToy_Texture* pxTexture = NULL;
 
-    pxTexture = GLToy_Texture_System::LookUpTextureNoExt( szBaseName );
-    
-    if( pxTexture )
-    {
-        pxTexture->Create();
-        pxModel->SetTexture( pxTexture );
-    }
+    //pxTexture = GLToy_Texture_System::LookUpTextureNoExt( szBaseName );
+    //
+    //if( pxTexture )
+    //{
+    //    pxTexture->Create();
+    //    pxModel->SetTexture( pxTexture );
+    //}
+
+	GLToy_Material* pxMaterial = NULL;
+	pxMaterial = GLToy_Material_System::LookUpMaterialNoExt( szBaseName );
+	if( pxMaterial )
+	{
+		pxMaterial->Initialise();
+		pxModel->SetMaterial( pxMaterial );
+	}
     
     GLToy_DebugOutput_Release( "Loaded MD2 model file \"%S\" successfully", m_szFilename.GetWideString() );
 

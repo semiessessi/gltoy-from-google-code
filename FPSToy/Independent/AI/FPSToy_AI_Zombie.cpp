@@ -45,6 +45,6 @@ GLToy_Vector_3 FPSToy_AI_Zombie::GetDesiredVelocity() const
 	// TODO: something a little more intelligent than just moving at the player
 	GLToy_Vector_3 xDirection = FPSToy_Player::GetPosition() - GetPosition();
 	xDirection.Normalise();
-	xDirection *= 100.0f;
+	xDirection *= 2.0f;
 	return xDirection;
 }

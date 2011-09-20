@@ -36,6 +36,7 @@
 // GLToy
 #include <Physics/GLToy_Physics_Object.h>
 #include <Physics/GLToy_Physics_System.h>
+#include <String/GLToy_String.h>
 
 // FPSToy
 #include <AI/FPSToy_AI_Zombie.h>
@@ -49,10 +50,10 @@ void FPSToy_Entity_Actor::Render() const
 {
     if( !HasSpawned() )
     {
-        GLToy_Parent::Render();
         return;
     }
 
+	GLToy_Parent::Render();
 	m_pxPhysicsObject->GetOBB().Render();
 }
 
@@ -67,9 +68,10 @@ void FPSToy_Entity_Actor::Update()
 
 	// TODO: FIXME: Possible divide by zero here!
 	GLToy_Vector_3 xDesiredVelocity = m_pxAI->GetDesiredVelocity();
+	float fSpeed = xDesiredVelocity.Magnitude();
 	xDesiredVelocity.y = 0.0f;
 	xDesiredVelocity.Normalise();
-	m_pxPhysicsObject->ControlMovement( GLToy_Vector_2( xDesiredVelocity.x, xDesiredVelocity.z ) );
+	m_pxPhysicsObject->ControlMovement( fSpeed * GLToy_Vector_2( xDesiredVelocity.x, xDesiredVelocity.z ) );
 
 	if( m_pxAI )
 	{
@@ -82,7 +84,7 @@ void FPSToy_Entity_Actor::Spawn( const GLToy_Vector_3& xPosition, const GLToy_Ma
 	m_pxPhysicsObject = GLToy_Physics_System::CreateControlledCapsule( GetHash(), xPosition );
 	m_pxPhysicsObject->SetPosition( xPosition );
 
-	m_pxAI = new FPSToy_AI_Zombie();
+	SetModel( "megaman" );
 
-	// SetModel( ... );
+	m_pxAI = new FPSToy_AI_Zombie();
 }

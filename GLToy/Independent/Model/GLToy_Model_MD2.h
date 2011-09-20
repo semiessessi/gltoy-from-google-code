@@ -40,7 +40,8 @@
 // F O R W A R D   D E C L A R A T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-class GLToy_Texture;
+//class GLToy_Texture;
+class GLToy_Material;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // C L A S S E S
@@ -119,7 +120,8 @@ protected:
 
     void SetFrameSize( const u_int uFrameSize );
     u_int GetFrameCount() const { return m_xVertices.GetCount() / m_uFrameSize; }
-    void SetTexture( GLToy_Texture* const pxTexture ) { m_pxTexture = pxTexture; }
+    //void SetTexture( GLToy_Texture* const pxTexture ) { m_pxTexture = pxTexture; }
+	void SetMaterial( GLToy_Material* const pxMaterial ) { m_pxMaterial = pxMaterial; }
 
     GLToy_Array< u_char > m_xNormalIndices;
     GLToy_Array< int > m_xGLCommands;
@@ -131,7 +133,8 @@ protected:
     GLToy_Array< GLToy_Vector_3 > m_xWorkingNormals;
 
     u_int m_uFrameSize;
-    GLToy_Texture* m_pxTexture;
+    //GLToy_Texture* m_pxTexture;
+	GLToy_Material* m_pxMaterial;
 
 };
 
