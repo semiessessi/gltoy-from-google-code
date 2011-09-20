@@ -87,11 +87,19 @@ void GLToy_Entity_ModelAnimated::RenderDeferred() const
     }
 }
 
+void GLToy_Entity_ModelAnimated::ForceAnimStackCreation()
+{
+	if( !m_pxAnimStack )
+	{
+		m_pxAnimStack = m_pxModel->CreateAnimationStack();
+	}
+}
+
 void GLToy_Entity_ModelAnimated::Update()
 {
     if( !m_pxAnimStack && m_pxModel )
     {
-        m_pxAnimStack = m_pxModel->CreateAnimationStack();
+        ForceAnimStackCreation();
         PlayAnimation();
     }
     if( m_pxAnimStack )

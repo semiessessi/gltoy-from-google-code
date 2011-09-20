@@ -60,6 +60,8 @@ public:
 	virtual void RenderDeferred() const;
     virtual void Update();
 
+	void ForceAnimStackCreation();
+
     void PlayAnimation( const u_int uAnimID = 0, const float fTweenInTime = 0.0f, const float fTweenOutTime = 0.0f );
 
 protected:

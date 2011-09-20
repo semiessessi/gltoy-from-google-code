@@ -80,9 +80,6 @@ void FPSToy_Entity_Actor::Update()
 
 	SetPosition( m_pxPhysicsObject->GetPosition() );
 
-	// TODO: non trivial orientation
-	SetOrientation( GLToy_Maths::IdentityMatrix3 );
-
     GLToy_Parent::Update();
 
 	// TODO: FIXME: Possible divide by zero here!
@@ -91,6 +88,8 @@ void FPSToy_Entity_Actor::Update()
 	xDesiredVelocity.y = 0.0f;
 	xDesiredVelocity.Normalise();
 	m_pxPhysicsObject->ControlMovement( fSpeed * GLToy_Vector_2( xDesiredVelocity.x, xDesiredVelocity.z ) );
+
+	SetOrientation( GLToy_Maths::Orientation_FromDirectionAndUp( xDesiredVelocity ) );
 
 	if( m_pxAI )
 	{
@@ -106,4 +105,7 @@ void FPSToy_Entity_Actor::Spawn( const GLToy_Vector_3& xPosition, const GLToy_Ma
 	SetModel( "megaman" );
 
 	m_pxAI = new FPSToy_AI_Zombie();
+
+	ForceAnimStackCreation();
+	PlayAnimation( GLToy_Model_MD2::ANIMID_RUN );
 }
