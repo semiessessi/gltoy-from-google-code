@@ -173,9 +173,19 @@ void GLToy_Model::Render() const
 {
     GLToy_Texture_System::BindWhite();
     for( GLToy_ConstIterator< GLToy_ModelStrip > xIterator; !xIterator.Done( *this ); xIterator.Next() )
-{
-const GLToy_ModelStrip& xStrip = xIterator.Current( *this );
+	{
+		const GLToy_ModelStrip& xStrip = xIterator.Current( *this );
         xStrip.Render();
+    }
+}
+
+void GLToy_Model::RenderDeferred() const
+{
+    GLToy_Texture_System::BindWhite();
+    for( GLToy_ConstIterator< GLToy_ModelStrip > xIterator; !xIterator.Done( *this ); xIterator.Next() )
+	{
+		const GLToy_ModelStrip& xStrip = xIterator.Current( *this );
+        xStrip.RenderDeferred();
     }
 }
 
@@ -188,6 +198,19 @@ void GLToy_Model::RenderWithPositionAndOrientation( const GLToy_Vector_3& xPosit
     GLToy_Render::Transform( xInverseOri );
 
     Render();
+
+    GLToy_Render::PopViewMatrix();
+}
+
+void GLToy_Model::RenderDeferredWithPositionAndOrientation( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation ) const
+{
+    GLToy_Render::PushViewMatrix();
+    GLToy_Render::Translate( xPosition );
+    GLToy_Matrix_3 xInverseOri = xOrientation;
+    xInverseOri.InvertTransformationMatrix();
+    GLToy_Render::Transform( xInverseOri );
+
+    RenderDeferred();
 
     GLToy_Render::PopViewMatrix();
 }

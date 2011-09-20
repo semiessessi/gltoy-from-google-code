@@ -62,6 +62,7 @@ public:
     }
 
     virtual void Render() const;
+	virtual void RenderDeferred() const;
     virtual void Update();
     virtual void Spawn( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation );
 

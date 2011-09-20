@@ -69,6 +69,24 @@ void GLToy_Entity_ModelAnimated::Render() const
     }
 }
 
+void GLToy_Entity_ModelAnimated::RenderDeferred() const
+{
+    if( !IsActive() )
+    {
+        return;
+    }
+
+    if( m_pxAnimStack )
+    {
+        m_pxAnimStack->Evaluate( m_pxModel );
+    }
+
+    if( m_pxModel )
+    {
+        m_pxModel->RenderDeferredWithPositionAndOrientation( GetPosition(), GetOrientation() );
+    }
+}
+
 void GLToy_Entity_ModelAnimated::Update()
 {
     if( !m_pxAnimStack && m_pxModel )

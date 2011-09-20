@@ -111,6 +111,7 @@ public:
 
     virtual void InitialiseFirstFrameData();
     virtual void Render() const;
+	virtual void RenderDeferred() const;
 
 protected:
 

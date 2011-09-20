@@ -286,10 +286,98 @@ GLToy_AnimationStack* GLToy_Model_MD2::CreateAnimationStack() const
     return new GLToy_MD2_AnimationStack;
 }
 
+void GLToy_Model_MD2::RenderDeferred() const
+{
+	// TODO: transform
+	const GLToy_Vector_3& xPosition = GetPosition();
+	GLToy_Render::Translate( xPosition );
+
+	if( m_pxMaterial )
+    {
+		if( !( m_pxMaterial->IsDeferred() ) )
+		{
+			return;
+		}
+		GLToy_Material_System::BindMaterial( m_pxMaterial->GetHash() );
+        //m_pxMaterial->Bind();
+    }
+
+	GLToy_Render::EnableBackFaceCulling();
+    GLToy_Render::SetCWFaceWinding();
+
+    // fall back on triangles if we have no GL commands
+    if( m_xGLCommands.IsEmpty() )
+    {
+        GLToy_Render::StartSubmittingTriangles();
+
+        GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+        
+        for( GLToy_ConstIterator< GLToy_MD2_Triangle > xIterator; !xIterator.Done( m_xTriangles ); xIterator.Next() )
+		{
+			const GLToy_MD2_Triangle& xTriangle = xIterator.Current( m_xTriangles );
+            for( u_int u = 0; u < 3; ++u )
+            {
+                //GLToy_Render::SubmitUV( m_xUVs[ xTriangle.m_ausUVs[ u ] ] );
+                //GLToy_Render::SubmitNormal( m_xWorkingNormals[ xTriangle.m_ausVertices[ u ] ] );
+                //GLToy_Render::SubmitVertex( m_xWorkingVertices[ xTriangle.m_ausVertices[ u ] ] );
+
+				GLToy_Render::SubmitDeferredVertex( m_xWorkingVertices[ xTriangle.m_ausVertices[ u ] ], m_xUVs[ xTriangle.m_ausUVs[ u ] ], m_xWorkingNormals[ xTriangle.m_ausVertices[ u ] ], GLToy_Vector_3( 0.0f, 0.0f, 0.0f ) );
+            }
+        }
+
+        GLToy_Render::EndSubmit();
+
+        return;
+    }
+
+    u_int uIP = 0;
+    while( uIP < m_xGLCommands.GetCount() )
+    {
+        int iCount = *reinterpret_cast< const int* >( &m_xGLCommands[ uIP ] );
+        if( iCount < 0 )
+        {
+            GLToy_Render::StartSubmittingTriangleFan();
+            iCount = -iCount;
+        }
+        else
+        {
+            GLToy_Render::StartSubmittingTriangleStrip();
+        }
+
+        GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
+
+        ++uIP;
+
+        GLToy_ConstPointerArray< GLToy_MD2_CommandVertex > xCommandList( reinterpret_cast< const GLToy_MD2_CommandVertex* >( &m_xGLCommands[ uIP ] ), iCount );
+
+        for( GLToy_ConstIterator< GLToy_MD2_CommandVertex > xIterator; !xIterator.Done( xCommandList ); xIterator.Next() )
+		{
+			const GLToy_MD2_CommandVertex& xCommandVertex = xIterator.Current( xCommandList );
+            //GLToy_Render::SubmitUV( GLToy_Vector_3( xCommandVertex.m_fU, xCommandVertex.m_fV, 0.0f ) );
+            //GLToy_Render::SubmitNormal( m_xWorkingNormals[ xCommandVertex.m_uIndex ] );
+            //GLToy_Render::SubmitVertex( m_xWorkingVertices[ xCommandVertex.m_uIndex ] );
+
+			GLToy_Render::SubmitDeferredVertex( m_xWorkingVertices[ xCommandVertex.m_uIndex ], GLToy_Vector_2( xCommandVertex.m_fU, xCommandVertex.m_fV ), m_xWorkingNormals[ xCommandVertex.m_uIndex ], GLToy_Vector_3( 0.0f, 0.0f, 0.0f ) );
+            
+            uIP += 3;
+        }
+
+        GLToy_Render::EndSubmit();
+    }
+
+    GLToy_Render::DisableBackFaceCulling();
+
+	GLToy_Render::Translate( -xPosition );
+}
 void GLToy_Model_MD2::Render() const
 {
     if( m_pxMaterial )
     {
+		if( m_pxMaterial->IsDeferred() )
+		{
+			GLToy_Render::RegisterDeferred( this );
+			return;
+		}
         m_pxMaterial->Bind();
     }
 
@@ -309,8 +397,8 @@ void GLToy_Model_MD2::Render() const
         GLToy_Render::SubmitColour( GLToy_Vector_3( 1.0f, 1.0f, 1.0f ) );
         
         for( GLToy_ConstIterator< GLToy_MD2_Triangle > xIterator; !xIterator.Done( m_xTriangles ); xIterator.Next() )
-{
-const GLToy_MD2_Triangle& xTriangle = xIterator.Current( m_xTriangles );
+		{
+			const GLToy_MD2_Triangle& xTriangle = xIterator.Current( m_xTriangles );
             for( u_int u = 0; u < 3; ++u )
             {
                 GLToy_Render::SubmitUV( m_xUVs[ xTriangle.m_ausUVs[ u ] ] );
@@ -345,8 +433,8 @@ const GLToy_MD2_Triangle& xTriangle = xIterator.Current( m_xTriangles );
         GLToy_ConstPointerArray< GLToy_MD2_CommandVertex > xCommandList( reinterpret_cast< const GLToy_MD2_CommandVertex* >( &m_xGLCommands[ uIP ] ), iCount );
 
         for( GLToy_ConstIterator< GLToy_MD2_CommandVertex > xIterator; !xIterator.Done( xCommandList ); xIterator.Next() )
-{
-const GLToy_MD2_CommandVertex& xCommandVertex = xIterator.Current( xCommandList );
+		{
+			const GLToy_MD2_CommandVertex& xCommandVertex = xIterator.Current( xCommandList );
             GLToy_Render::SubmitUV( GLToy_Vector_3( xCommandVertex.m_fU, xCommandVertex.m_fV, 0.0f ) );
             GLToy_Render::SubmitNormal( m_xWorkingNormals[ xCommandVertex.m_uIndex ] );
             GLToy_Render::SubmitVertex( m_xWorkingVertices[ xCommandVertex.m_uIndex ] );

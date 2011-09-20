@@ -57,6 +57,7 @@ public:
     virtual ~GLToy_Entity_ModelAnimated();
 
     virtual void Render() const;
+	virtual void RenderDeferred() const;
     virtual void Update();
 
     void PlayAnimation( const u_int uAnimID = 0, const float fTweenInTime = 0.0f, const float fTweenOutTime = 0.0f );

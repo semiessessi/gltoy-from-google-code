@@ -34,8 +34,10 @@
 #include <Entity/Actor/FPSToy_Entity_Actor.h>
 
 // GLToy
+#include <Model/GLToy_Model_MD2.h>
 #include <Physics/GLToy_Physics_Object.h>
 #include <Physics/GLToy_Physics_System.h>
+#include <Render/GLToy_Render.h>
 #include <String/GLToy_String.h>
 
 // FPSToy
@@ -53,7 +55,19 @@ void FPSToy_Entity_Actor::Render() const
         return;
     }
 
-	GLToy_Parent::Render();
+	//GLToy_Parent::Render();
+	GLToy_Render::RegisterDeferred( this );
+	m_pxPhysicsObject->GetOBB().Render();
+}
+
+void FPSToy_Entity_Actor::RenderDeferred() const
+{
+    if( !HasSpawned() )
+    {
+        return;
+    }
+
+	GLToy_Parent::RenderDeferred();
 	m_pxPhysicsObject->GetOBB().Render();
 }
 
@@ -63,6 +77,11 @@ void FPSToy_Entity_Actor::Update()
     {
         return;
     }
+
+	SetPosition( m_pxPhysicsObject->GetPosition() );
+
+	// TODO: non trivial orientation
+	SetOrientation( GLToy_Maths::IdentityMatrix3 );
 
     GLToy_Parent::Update();
 

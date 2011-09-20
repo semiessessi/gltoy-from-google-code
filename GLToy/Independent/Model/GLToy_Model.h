@@ -125,7 +125,9 @@ public:
 
     virtual void InitialiseFirstFrameData() {}
     virtual void Render() const;
+	virtual void RenderDeferred() const;
     virtual void RenderWithPositionAndOrientation( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation ) const;
+	virtual void RenderDeferredWithPositionAndOrientation( const GLToy_Vector_3& xPosition, const GLToy_Matrix_3& xOrientation ) const;
 
     static void LoadFromOBJFile( GLToy_Model* const pxModel, const GLToy_String& szFilename );
 
