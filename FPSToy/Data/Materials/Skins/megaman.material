@@ -1,0 +1,5 @@
+Deferred=true
+Shader=Deferred_DNS
+DiffuseMap=skins/megaman.png
+NormalMap=e1u1/bumpy.ptx
+SpecularMap=Yellow
