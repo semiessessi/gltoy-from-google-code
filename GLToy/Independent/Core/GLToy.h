@@ -180,6 +180,8 @@ public:
     static float GetGPUProfileTimer() { return s_fGPUTimer; }
     static float GetSyncProfileTimer() { return s_fSyncTimer; }
 
+	static const GLToy_String& GetCommandLine() { return s_szCommandLine; }
+
 private:
 
     static bool Initialise();

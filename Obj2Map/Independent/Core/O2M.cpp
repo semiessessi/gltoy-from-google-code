@@ -31,13 +31,60 @@
 // This file's header
 #include <Core/O2M.h>
 
+// GLToy
+#include <File/GLToy_OBJFile.h>
+#include <Model/GLToy_Model_FlatMaterials.h>
+#include <String/GLToy_String.h>
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 bool O2M::Initialise()
 {
-    GLToy::ChangeWindowTitle( "O2M GLToy Project" );
+    GLToy_Array< GLToy_String > aszArguments = GLToy::GetCommandLine().Split( ' ' );
+
+	if( aszArguments.GetCount() < 1 )
+	{
+		GLToy_DebugOutput_Release( "Not enough command line arguments!\n" );
+		return false;
+	}
+
+	GLToy_String szOBJPath = "";
+	if( aszArguments[ 0 ][ 0 ] == '"' )
+	{
+		aszArguments[ 0 ].RemoveAt( 0 );
+		for( int i = 0; i < aszArguments.GetCount(); ++i )
+		{
+			szOBJPath += aszArguments[ i ];
+			if( aszArguments[ i ].End() == '"' )
+			{
+				szOBJPath.RemoveFromEnd();
+				break;
+			}
+		}
+	}
+
+	GLToy_String szMapOutput = "\r\n// entity 0\r\n{\r\n\"classname\" \"worldspawn\"\r\n";
+	GLToy_OBJFile xOBJFile( szOBJPath );
+
+	const GLToy_Model_FlatMaterials* const pxModel = static_cast< GLToy_Model_FlatMaterials* >( xOBJFile.LoadModel() );
+
+	for( int i = 0; i < pxModel->GetCount(); ++i )
+	{
+		const GLToy_ModelStrip_FlatMaterials& xStrip = static_cast< const GLToy_ModelStrip_FlatMaterials& >( ( *pxModel )[ i ] );
+		// work out normal
+		GLToy_Vector_3 xNormal = GLToy_Maths::ZeroVector3;
+		for( int j = 0; j < xStrip.GetVertexCount(); ++j )
+		{
+			xNormal += xStrip.GetNormal( j );
+		}
+
+		xNormal /= xStrip.GetVertexCount();
+		xNormal.Normalise();
+	}
+
+	szMapOutput += "\r\n}\r\n";
 
     return true;
 }
