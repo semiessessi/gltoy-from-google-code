@@ -60,6 +60,9 @@ public:
 	virtual void RenderDeferred() const;
     virtual void Update();
 
+    virtual void SetModel( const GLToy_Hash uHash );
+    virtual void SetModel( const GLToy_String& szName );
+
 	void ForceAnimStackCreation();
 
 	void StopAnimation( const u_int uAnimID = 0, const float fTweenOutTime = 0.0f );

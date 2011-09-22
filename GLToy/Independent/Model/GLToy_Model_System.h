@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ©Copyright 2010 Semi Essessi
+// ©Copyright 2010, 2011 Semi Essessi
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -58,6 +58,9 @@ public:
 
     static GLToy_Model* LoadModel( const GLToy_Hash uHash );
     static GLToy_Model* LoadModel( const GLToy_String& xName );
+
+    static GLToy_Model* CreateModelInstance( const GLToy_Hash uHash );
+    static GLToy_Model* CreateModelInstance( const GLToy_String& xName );
 
 private:
 

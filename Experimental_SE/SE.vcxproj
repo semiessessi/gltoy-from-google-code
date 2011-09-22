@@ -161,6 +161,7 @@ upx.exe "$(TargetPath)" --best</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Independent\Render\SE_Star_Render.h" />
+    <ClInclude Include="SE_Star.h" />
     <ClInclude Include="X11\Core\Platform_SE.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

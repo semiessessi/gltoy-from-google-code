@@ -70,3 +70,18 @@ float GLToy_Profile::Platform_GetTimeSinceLastGet()
 
     return fTime;
 }
+
+float GLToy_Profile::Platform_GetProfileTimer()
+{
+    // this can change... so we had better update it
+    QueryPerformanceFrequency( &xProfilePerformanceFrequency );
+
+    LARGE_INTEGER xNewPerformanceCount;
+    QueryPerformanceCounter( &xNewPerformanceCount );
+
+    float fTime = static_cast< float >( xNewPerformanceCount.QuadPart )
+        / static_cast< float >( xProfilePerformanceFrequency.QuadPart );
+
+    // convert to us
+    return fTime * 1000000.0f;
+}

@@ -55,7 +55,7 @@ public:
     {
     }
 
-    virtual GLToy_Model* LoadModel() const;
+    virtual GLToy_Model* CreateModelInstance() const;
 
 protected:
 

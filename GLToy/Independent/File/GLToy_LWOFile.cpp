@@ -45,13 +45,8 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Model* GLToy_LWOFile::LoadModel() const
+GLToy_Model* GLToy_LWOFile::CreateModelInstance() const
 {
-    if( m_pxModel )
-    {
-        return m_pxModel;
-    }
-
     char* pcData = new char[ GetSize() ];
     GetAllData( pcData );
 

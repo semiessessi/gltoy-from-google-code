@@ -372,27 +372,58 @@ bool GLToy::MainLoop()
 
 void GLToy::Update()
 {
+    float fTimer = GLToy_GetProfileTimer();
+
     GLToy_Timer::Update();
     GLToy_Input_System::Update();
     GLToy_State_System::Update();
-
     GLToy_Console::Update();
+
+    GLToy_DebugOutput_Release( "Update timer, input, state, console: %f", GLToy_GetProfileTimer() - fTimer );
+    fTimer = GLToy_GetProfileTimer();
+
 #ifndef GLTOY_DEMO
     GLToy_UI_System::Update();
+
+    GLToy_DebugOutput_Release( "Update UI: %f", GLToy_GetProfileTimer() - fTimer );
+    fTimer = GLToy_GetProfileTimer();
+
     GLToy_Physics_System::Update();
 
+    GLToy_DebugOutput_Release( "Update physics: %f", GLToy_GetProfileTimer() - fTimer );
+    fTimer = GLToy_GetProfileTimer();
+
     GLToy_Environment_System::Update();
+
+    GLToy_DebugOutput_Release( "Update UI: %f", GLToy_GetProfileTimer() - fTimer );
+    fTimer = GLToy_GetProfileTimer();
+
     GLToy_Entity_System::Update();
+
+    GLToy_DebugOutput_Release( "Update environment: %f", GLToy_GetProfileTimer() - fTimer );
+    fTimer = GLToy_GetProfileTimer();
+
     GLToy_PFX_System::Update();
 
+    GLToy_DebugOutput_Release( "Update entity: %f", GLToy_GetProfileTimer() - fTimer );
+    fTimer = GLToy_GetProfileTimer();
+
     GLToy_Sound_System::Update();
+
+    GLToy_DebugOutput_Release( "Update sound: %f", GLToy_GetProfileTimer() - fTimer );
+    fTimer = GLToy_GetProfileTimer();
 #endif
 
     Project_Update();
 
+    GLToy_DebugOutput_Release( "Update project: %f", GLToy_GetProfileTimer() - fTimer );
+    fTimer = GLToy_GetProfileTimer();
+
     //GLToy_Camera::Update();
 
     GLToy_Light_System::Update();
+
+    GLToy_DebugOutput_Release( "Update lights: %f", GLToy_GetProfileTimer() - fTimer );
 
     //GLToy_Render::EndRender();
 }

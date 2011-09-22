@@ -146,13 +146,8 @@ struct GLToy_3DS_TempObject
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Model* GLToy_3DSFile::LoadModel() const
+GLToy_Model* GLToy_3DSFile::CreateModelInstance() const
 {
-    if( m_pxModel )
-    {
-        return m_pxModel;
-    }
-
     char* pcData = new char[ GetSize() ];
     GetAllData( pcData );
 

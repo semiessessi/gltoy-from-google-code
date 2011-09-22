@@ -47,15 +47,9 @@
 // F U N C T I O N S
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-GLToy_Model* GLToy_OBJFile::LoadModel() const
+GLToy_Model* GLToy_OBJFile::CreateModelInstance() const
 {
-    if( m_pxModel )
-    {
-        return m_pxModel;
-    }
-
     GLToy_Model_FlatMaterials* const pxModel = new GLToy_Model_FlatMaterials();
-    m_pxModel = pxModel;
 
     char* pcData = new char[ GetSize() ];
     GetAllData( pcData );

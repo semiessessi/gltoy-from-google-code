@@ -762,7 +762,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (No Memory Debugging)|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Crinkler + No Havok)|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Final (Demo)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (No Physics)|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Independent\Test\GLToy_Test_System.cpp" />
     <ClCompile Include="Independent\UI\GLToy_UI_SCU.cpp">

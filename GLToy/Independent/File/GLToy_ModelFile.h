@@ -60,7 +60,17 @@ public:
         delete m_pxModel;
     }
 
-    virtual GLToy_Model* LoadModel() const = 0;
+    GLToy_Model* LoadModel() const
+    {
+        if( m_pxModel )
+        {
+            return m_pxModel;
+        }
+
+        return m_pxModel = CreateModelInstance();
+    }
+
+    virtual GLToy_Model* CreateModelInstance() const = 0;
 
     const GLToy_Model* GetModelPointer() const { return m_pxModel; }
 

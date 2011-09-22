@@ -22,6 +22,9 @@
     <Filter Include="X11\Core">
       <UniqueIdentifier>{64029202-2c16-4f22-a44a-b8f57c2154c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Independent\Universe">
+      <UniqueIdentifier>{123e815d-7ce0-44ea-be5d-5f92f103a70d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Win32\Core\Platform_SE.cpp">
@@ -61,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="Independent\Render\SE_Star_Render.h">
       <Filter>Independent\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="SE_Star.h">
+      <Filter>Independent\Universe</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

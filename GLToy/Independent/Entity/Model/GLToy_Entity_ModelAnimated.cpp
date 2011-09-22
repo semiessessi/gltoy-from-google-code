@@ -35,6 +35,7 @@
 
 // GLToy
 #include <Model/GLToy_Model.h>
+#include <Model/GLToy_Model_System.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // F U N C T I O N S
@@ -48,6 +49,7 @@ GLToy_Entity_ModelAnimated::GLToy_Entity_ModelAnimated( const GLToy_Hash uHash, 
 
 GLToy_Entity_ModelAnimated::~GLToy_Entity_ModelAnimated()
 {
+    delete m_pxModel;
     delete m_pxAnimStack;
 }
 
@@ -122,4 +124,20 @@ void GLToy_Entity_ModelAnimated::PlayAnimation( const u_int uAnimID, const float
     {
         m_pxAnimStack->Push( uAnimID, fTweenInTime, fTweenOutTime );
     }
+}
+
+void GLToy_Entity_ModelAnimated::SetModel( const GLToy_Hash uHash )
+{
+    m_pxModel = GLToy_Model_System::CreateModelInstance( uHash );
+
+    if( m_pxModel )
+    {
+        m_uModelHash = uHash;
+        SetBB( m_pxModel->GetBB() + GetPosition() );
+    }
+}
+
+void GLToy_Entity_ModelAnimated::SetModel( const GLToy_String& szName )
+{
+    SetModel( szName.GetHash() );
 }

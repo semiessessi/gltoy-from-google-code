@@ -66,8 +66,8 @@ public:
 
     virtual void Render() const;
 
-    void SetModel( const GLToy_Hash uHash );
-    void SetModel( const GLToy_String& szName );
+    virtual void SetModel( const GLToy_Hash uHash );
+    virtual void SetModel( const GLToy_String& szName );
 
 protected:
 
