@@ -91,6 +91,8 @@ public:
     static void SetRender( const bool bRender ) { s_bRender = bRender; };
 
     static GLToy_ForceInline void SetProjectEntityCreateCallback( GLToy_Entity* ( *pfnCreateFromType )( const GLToy_Hash, const u_int ) ) { s_pfnProject_CreateFromType = pfnCreateFromType; }
+	static GLToy_ForceInline void SetProjectEntityCreateCallback( GLToy_Entity* ( *pfnCreateKeyValueEntity )( const GLToy_Array< GLToy_Pair< GLToy_String > >& ) ) { s_pfnProject_CreateKeyValueEntity = pfnCreateKeyValueEntity; }
+	static GLToy_ForceInline void SetProjectEntitySupportCallback( bool ( *pfnSupportKeyValueEntity )( const GLToy_Array< GLToy_Pair< GLToy_String > >& ) ) { s_pfnProject_SupportKeyValueEntity = pfnSupportKeyValueEntity; }
 
 private:
 
