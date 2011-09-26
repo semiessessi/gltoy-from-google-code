@@ -298,6 +298,6 @@ GLToy_Model* GLToy_OBJFile::CreateModelInstance() const
         }
     }
 
-    m_pxModel->UpdateStripPointers();
-    return m_pxModel;
+    pxModel->UpdateStripPointers();
+    return pxModel;
 }
