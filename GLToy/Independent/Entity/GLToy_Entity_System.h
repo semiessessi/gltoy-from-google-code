@@ -104,6 +104,8 @@ private:
     static bool s_bRenderSpheres;
 
     static GLToy_Entity* ( *s_pfnProject_CreateFromType )( const GLToy_Hash, const u_int );
+	static bool ( *s_pfnProject_SupportKeyValueEntity )( const GLToy_Array< GLToy_Pair< GLToy_String > >& );
+	static GLToy_Entity* ( *s_pfnProject_CreateKeyValueEntity )( const GLToy_Array< GLToy_Pair< GLToy_String > >& );
 
     static GLToy_HashMap< GLToy_Entity* > s_xEntities;
 

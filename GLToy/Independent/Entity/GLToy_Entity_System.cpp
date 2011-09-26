@@ -62,6 +62,8 @@ bool GLToy_Entity_System::s_bRenderAABBs = false;
 bool GLToy_Entity_System::s_bRenderOBBs = false;
 bool GLToy_Entity_System::s_bRenderSpheres = false;
 GLToy_Entity* ( *GLToy_Entity_System::s_pfnProject_CreateFromType )( const GLToy_Hash, const u_int ) = NULL;
+bool ( *GLToy_Entity_System::s_pfnProject_SupportKeyValueEntity )( const GLToy_Array< GLToy_Pair< GLToy_String > >& ) = NULL;
+GLToy_Entity* ( *GLToy_Entity_System::s_pfnProject_CreateKeyValueEntity )( const GLToy_Array< GLToy_Pair< GLToy_String > >& ) = NULL;
 GLToy_HashMap< GLToy_Entity* > GLToy_Entity_System::s_xEntities;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -466,8 +468,8 @@ GLToy_Entity* GLToy_Entity_System::CreateEntity( const GLToy_Array< GLToy_Pair< 
     // build a hash tree for convenient lookups
     GLToy_HashMap< GLToy_String > xValueTree;
     for( GLToy_ConstIterator< GLToy_Pair< GLToy_String > > xIterator; !xIterator.Done( xKeyValuePairs ); xIterator.Next() )
-{
-const GLToy_Pair< GLToy_String >& xCurrent = xIterator.Current( xKeyValuePairs );
+	{
+		const GLToy_Pair< GLToy_String >& xCurrent = xIterator.Current( xKeyValuePairs );
         xValueTree.AddNode( xCurrent.Second(), xCurrent.First().GetHash() );
     }
 
@@ -517,6 +519,10 @@ const GLToy_Pair< GLToy_String >& xCurrent = xIterator.Current( xKeyValuePairs )
 
         GLToy_Light_System::AddPointLight( szNewEntityName.GetHash(), xLightProperties );
     }
+	else if( s_pfnProject_CreateKeyValueEntity && s_pfnProject_SupportKeyValueEntity && s_pfnProject_SupportKeyValueEntity( xKeyValuePairs ) )
+	{
+		s_pfnProject_CreateKeyValueEntity( xKeyValuePairs );
+	}
     else
     {
         uType = GLToy_EntityTypeFromString( *pszClass );
@@ -532,8 +538,8 @@ const GLToy_Pair< GLToy_String >& xCurrent = xIterator.Current( xKeyValuePairs )
     if( pxNewEntity )
     {
         for( GLToy_ConstIterator< GLToy_Pair< GLToy_String > > xIterator; !xIterator.Done( xKeyValuePairs ); xIterator.Next() )
-{
-const GLToy_Pair< GLToy_String >& xCurrent = xIterator.Current( xKeyValuePairs );
+		{
+			const GLToy_Pair< GLToy_String >& xCurrent = xIterator.Current( xKeyValuePairs );
             pxNewEntity->SetKeyValuePair( xCurrent.First(), xCurrent.Second() );
         }
     }
