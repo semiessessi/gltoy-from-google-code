@@ -65,6 +65,10 @@ bool O2M::Initialise()
 			}
 		}
 	}
+	else
+	{
+		szOBJPath = aszArguments[ 0 ];
+	}
 
 	GLToy_String szMapOutput = "\r\n// entity 0\r\n{\r\n\"classname\" \"worldspawn\"\r\n";
 	GLToy_OBJFile xOBJFile( szOBJPath );
@@ -84,12 +88,14 @@ bool O2M::Initialise()
 		xNormal /= static_cast< float >( xStrip.GetVertexCount() );
 		xNormal.Normalise();
 
+		const float fScale = 64.0f;
+
 		// work out verts for each plane
 		GLToy_Vector_3 xPositions[ 3 ] =
 		{
-			64.0f * xStrip.GetVertex( 0 ),
-			64.0f * xStrip.GetVertex( 1 ),
-			64.0f * xStrip.GetVertex( 2 )
+			fScale * xStrip.GetVertex( 0 ),
+			fScale * xStrip.GetVertex( 1 ),
+			fScale * xStrip.GetVertex( 2 )
 		};
 
 		GLToy_Vector_3 xPositionsExtruded[ 3 ] =
@@ -99,13 +105,17 @@ bool O2M::Initialise()
 			xPositions[ 2 ] - 2.0f * xNormal,
 		};
 
+		szMapOutput += "// Brush ";
+		szMapOutput += GLToy_String( "" ) + i;
+		szMapOutput += "\r\n{\r\n";
+
 		// write out triangular prism brush
 		GLToy_String szBrushFace = "";
 
 		// "top"
-		szBrushFace.SetToFormatString(	"( %.0f, %.0f, %.0f ) "
-										"( %.0f, %.0f, %.0f ) "
-										"( %.0f, %.0f, %.0f ) "
+		szBrushFace.SetToFormatString(	"( %.0f %.0f %.0f ) "
+										"( %.0f %.0f %.0f ) "
+										"( %.0f %.0f %.0f ) "
 										"c_met5_1 0 0 0 1.0 1.0\r\n", // ( texture offsets, rotation and scales )
 										xPositions[ 0 ].x, xPositions[ 0 ].y, xPositions[ 0 ].z ,
 										xPositions[ 1 ].x, xPositions[ 1 ].y, xPositions[ 1 ].z,
@@ -113,9 +123,9 @@ bool O2M::Initialise()
 		szMapOutput += szBrushFace;
 
 		// "bottom"
-		szBrushFace.SetToFormatString(	"( %.0f, %.0f, %.0f ) "
-										"( %.0f, %.0f, %.0f ) "
-										"( %.0f, %.0f, %.0f ) "
+		szBrushFace.SetToFormatString(	"( %.0f %.0f %.0f ) "
+										"( %.0f %.0f %.0f ) "
+										"( %.0f %.0f %.0f ) "
 										"c_met5_1 0 0 0 1.0 1.0\r\n", // ( texture offsets, rotation and scales )
 										xPositionsExtruded[ 2 ].x, xPositionsExtruded[ 2 ].y, xPositionsExtruded[ 2 ].z ,
 										xPositionsExtruded[ 1 ].x, xPositionsExtruded[ 1 ].y, xPositionsExtruded[ 1 ].z,
@@ -123,9 +133,9 @@ bool O2M::Initialise()
 		szMapOutput += szBrushFace;
 
 		// side 0 - 1
-		szBrushFace.SetToFormatString(	"( %.0f, %.0f, %.0f ) "
-										"( %.0f, %.0f, %.0f ) "
-										"( %.0f, %.0f, %.0f ) "
+		szBrushFace.SetToFormatString(	"( %.0f %.0f %.0f ) "
+										"( %.0f %.0f %.0f ) "
+										"( %.0f %.0f %.0f ) "
 										"c_met5_1 0 0 0 1.0 1.0\r\n", // ( texture offsets, rotation and scales )
 										xPositions[ 0 ].x, xPositions[ 0 ].y, xPositions[ 0 ].z ,
 										xPositionsExtruded[ 0 ].x, xPositionsExtruded[ 0 ].y, xPositionsExtruded[ 0 ].z,
@@ -133,9 +143,9 @@ bool O2M::Initialise()
 		szMapOutput += szBrushFace;
 
 		// side 1 - 2
-		szBrushFace.SetToFormatString(	"( %.0f, %.0f, %.0f ) "
-										"( %.0f, %.0f, %.0f ) "
-										"( %.0f, %.0f, %.0f ) "
+		szBrushFace.SetToFormatString(	"( %.0f %.0f %.0f ) "
+										"( %.0f %.0f %.0f ) "
+										"( %.0f %.0f %.0f ) "
 										"c_met5_1 0 0 0 1.0 1.0\r\n", // ( texture offsets, rotation and scales )
 										xPositions[ 1 ].x, xPositions[ 1 ].y, xPositions[ 1 ].z ,
 										xPositionsExtruded[ 1 ].x, xPositionsExtruded[ 1 ].y, xPositionsExtruded[ 1 ].z,
@@ -145,12 +155,12 @@ bool O2M::Initialise()
 		for( u_int i = 3; i < ( xStrip.GetVertexCount() - 1 ); ++i )
 		{
 			const int xN = xStrip.GetVertexCount() - 1;
-			GLToy_Vector_3 xPosition = xStrip.GetVertex( xN );
-			GLToy_Vector_3 xExtrudedPosition = xStrip.GetVertex( xN ) - 2.0f * xNormal;
-			GLToy_Vector_3 xExtrudedPosition2 = xStrip.GetVertex( xN + 1 ) - 2.0f * xNormal;
-			szBrushFace.SetToFormatString(	"( %.0f, %.0f, %.0f ) "
-											"( %.0f, %.0f, %.0f ) "
-											"( %.0f, %.0f, %.0f ) "
+			GLToy_Vector_3 xPosition = fScale * xStrip.GetVertex( xN );
+			GLToy_Vector_3 xExtrudedPosition = fScale * xStrip.GetVertex( xN ) - 2.0f * xNormal;
+			GLToy_Vector_3 xExtrudedPosition2 = fScale * xStrip.GetVertex( xN + 1 ) - 2.0f * xNormal;
+			szBrushFace.SetToFormatString(	"( %.0f %.0f %.0f ) "
+											"( %.0f %.0f %.0f ) "
+											"( %.0f %.0f %.0f ) "
 											"c_met5_1 0 0 0 1.0 1.0\r\n", // ( texture offsets, rotation and scales )
 											xPosition.x, xPosition.y, xPosition.z ,
 											xExtrudedPosition.x, xExtrudedPosition.y, xExtrudedPosition.z,
@@ -159,17 +169,19 @@ bool O2M::Initialise()
 		}
 
 		const int xN = xStrip.GetVertexCount() - 1;
-		GLToy_Vector_3 xPosition = xStrip.GetVertex( xN );
-		GLToy_Vector_3 xExtrudedPosition = xStrip.GetVertex( xN ) - 2.0f * xNormal;
+		GLToy_Vector_3 xPosition = 64.0f * xStrip.GetVertex( xN );
+		GLToy_Vector_3 xExtrudedPosition = fScale * xStrip.GetVertex( xN ) - 2.0f * xNormal;
 		// side n - 0
-		szBrushFace.SetToFormatString(	"( %.0f, %.0f, %.0f ) "
-										"( %.0f, %.0f, %.0f ) "
-										"( %.0f, %.0f, %.0f ) "
+		szBrushFace.SetToFormatString(	"( %.0f %.0f %.0f ) "
+										"( %.0f %.0f %.0f ) "
+										"( %.0f %.0f %.0f ) "
 										"c_met5_1 0 0 0 1.0 1.0\r\n", // ( texture offsets, rotation and scales )
 										xPosition.x, xPosition.y, xPosition.z ,
 										xExtrudedPosition.x, xExtrudedPosition.y, xExtrudedPosition.z,
 										xPositionsExtruded[ 0 ].x, xPositionsExtruded[ 0 ].y, xPositionsExtruded[ 0 ].z );
 		szMapOutput += szBrushFace;
+
+		szMapOutput +="\r\n}\r\n";
 	}
 
 	szMapOutput += "\r\n}\r\n";
@@ -181,13 +193,9 @@ bool O2M::Initialise()
 
 	GLToy_BitStream xBitStream;
 	char* pcData = szMapOutput.CreateANSIString();
-	for( u_int u = 0; u < szMapOutput.GetLength(); ++u )
-	{
-		xBitStream << pcData[ u ];
-	}
-
+	xBitStream.SetFromByteArray( pcData, szMapOutput.GetLength() );
 	xMapFile.WriteFromBitStream( xBitStream );
-
+	delete[] pcData;
     return true;
 }
 

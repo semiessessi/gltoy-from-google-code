@@ -250,7 +250,9 @@ GLToy_Model* GLToy_OBJFile::CreateModelInstance() const
                 {
                     // texture coordinate
                     // vt 0.12 1.23 2.34                
-                    GLToy_Array< GLToy_String > xValues = szLine.Right( szLine.GetLength() - 3 ).Split( ' ' );
+					GLToy_String xTrimmed = szLine.Right( szLine.GetLength() - 2 );
+					xTrimmed.TrimLeadingWhiteSpace();
+                    GLToy_Array< GLToy_String > xValues = xTrimmed.Split( ' ' );
                 
                     if( xValues.GetCount() < 2 )
                     {
@@ -263,7 +265,9 @@ GLToy_Model* GLToy_OBJFile::CreateModelInstance() const
                 {
                     // normal
                     // vn 0.12 1.23 2.34
-                    GLToy_Array< GLToy_String > xValues = szLine.Right( szLine.GetLength() - 3 ).Split( ' ' );
+					GLToy_String xTrimmed = szLine.Right( szLine.GetLength() - 3 );
+					xTrimmed.TrimLeadingWhiteSpace();
+                    GLToy_Array< GLToy_String > xValues = xTrimmed.Split( ' ' );
                 
                     if( xValues.GetCount() < 3 )
                     {
@@ -277,8 +281,10 @@ GLToy_Model* GLToy_OBJFile::CreateModelInstance() const
                 else
                 {
                     // vertex
-                    // v 0.12 1.23 2.34                
-                    GLToy_Array< GLToy_String > xValues = szLine.Right( szLine.GetLength() - 2 ).Split( ' ' );
+                    // v 0.12 1.23 2.34
+					GLToy_String xTrimmed = szLine.Right( szLine.GetLength() - 2 );
+					xTrimmed.TrimLeadingWhiteSpace();
+                    GLToy_Array< GLToy_String > xValues = xTrimmed.Split( ' ' );
                 
                     if( xValues.GetCount() < 3 )
                     {
