@@ -117,9 +117,9 @@ bool O2M::Initialise()
 										"( %.0f %.0f %.0f ) "
 										"( %.0f %.0f %.0f ) "
 										"c_met5_1 0 0 0 1.0 1.0\r\n", // ( texture offsets, rotation and scales )
-										xPositions[ 0 ].x, xPositions[ 0 ].z, xPositions[ 0 ].y,
-										xPositions[ 1 ].x, xPositions[ 1 ].z, xPositions[ 1 ].y,
-										xPositions[ 2 ].x, xPositions[ 2 ].z, xPositions[ 2 ].y );
+										-xPositions[ 1 ].x, xPositions[ 1 ].z, xPositions[ 1 ].y,
+										-xPositions[ 0 ].x, xPositions[ 0 ].z, xPositions[ 0 ].y,
+										-xPositions[ 2 ].x, xPositions[ 2 ].z, xPositions[ 2 ].y );
 		szMapOutput += szBrushFace;
 
 		// "bottom"
@@ -127,9 +127,9 @@ bool O2M::Initialise()
 										"( %.0f %.0f %.0f ) "
 										"( %.0f %.0f %.0f ) "
 										"c_met5_1 0 0 0 1.0 1.0\r\n", // ( texture offsets, rotation and scales )
-										xPositionsExtruded[ 2 ].x, xPositionsExtruded[ 2 ].z, xPositionsExtruded[ 2 ].y,
-										xPositionsExtruded[ 1 ].x, xPositionsExtruded[ 1 ].z, xPositionsExtruded[ 1 ].y,
-										xPositionsExtruded[ 0 ].x, xPositionsExtruded[ 0 ].z, xPositionsExtruded[ 0 ].y );
+										-xPositionsExtruded[ 1 ].x, xPositionsExtruded[ 1 ].z, xPositionsExtruded[ 1 ].y,
+										-xPositionsExtruded[ 2 ].x, xPositionsExtruded[ 2 ].z, xPositionsExtruded[ 2 ].y,
+										-xPositionsExtruded[ 0 ].x, xPositionsExtruded[ 0 ].z, xPositionsExtruded[ 0 ].y );
 		szMapOutput += szBrushFace;
 
 		// side 0 - 1
@@ -137,9 +137,9 @@ bool O2M::Initialise()
 										"( %.0f %.0f %.0f ) "
 										"( %.0f %.0f %.0f ) "
 										"c_met5_1 0 0 0 1.0 1.0\r\n", // ( texture offsets, rotation and scales )
-										xPositions[ 0 ].x, xPositions[ 0 ].z, xPositions[ 0 ].y,
-										xPositionsExtruded[ 0 ].x, xPositionsExtruded[ 0 ].z, xPositionsExtruded[ 0 ].y,
-										xPositionsExtruded[ 1 ].x, xPositionsExtruded[ 1 ].z, xPositionsExtruded[ 1 ].y );
+										-xPositionsExtruded[ 0 ].x, xPositionsExtruded[ 0 ].z, xPositionsExtruded[ 0 ].y,
+										-xPositions[ 0 ].x, xPositions[ 0 ].z, xPositions[ 0 ].y,
+										-xPositionsExtruded[ 1 ].x, xPositionsExtruded[ 1 ].z, xPositionsExtruded[ 1 ].y );
 		szMapOutput += szBrushFace;
 
 		// side 1 - 2
@@ -147,9 +147,9 @@ bool O2M::Initialise()
 										"( %.0f %.0f %.0f ) "
 										"( %.0f %.0f %.0f ) "
 										"c_met5_1 0 0 0 1.0 1.0\r\n", // ( texture offsets, rotation and scales )
-										xPositions[ 1 ].x, xPositions[ 1 ].z, xPositions[ 1 ].y,
-										xPositionsExtruded[ 1 ].x, xPositionsExtruded[ 1 ].z, xPositionsExtruded[ 1 ].y,
-										xPositionsExtruded[ 2 ].x, xPositionsExtruded[ 2 ].z, xPositionsExtruded[ 2 ].y );
+										-xPositionsExtruded[ 1 ].x, xPositionsExtruded[ 1 ].z, xPositionsExtruded[ 1 ].y,
+										-xPositions[ 1 ].x, xPositions[ 1 ].z, xPositions[ 1 ].y,
+										-xPositionsExtruded[ 2 ].x, xPositionsExtruded[ 2 ].z, xPositionsExtruded[ 2 ].y );
 		szMapOutput += szBrushFace;
 
 		for( u_int i = 2; i < ( xStrip.GetVertexCount() - 1 ); ++i )
@@ -162,9 +162,9 @@ bool O2M::Initialise()
 											"( %.0f %.0f %.0f ) "
 											"( %.0f %.0f %.0f ) "
 											"c_met5_1 0 0 0 1.0 1.0\r\n", // ( texture offsets, rotation and scales )
-											xPosition.x, xPosition.z, xPosition.y,
-											xExtrudedPosition.x, xExtrudedPosition.z, xExtrudedPosition.y,
-											xExtrudedPosition2.x, xExtrudedPosition2.z, xExtrudedPosition2.y );
+											-xExtrudedPosition.x, xExtrudedPosition.z, xExtrudedPosition.y,
+											-xPosition.x, xPosition.z, xPosition.y,
+											-xExtrudedPosition2.x, xExtrudedPosition2.z, xExtrudedPosition2.y );
 			szMapOutput += szBrushFace;
 		}
 
@@ -176,9 +176,9 @@ bool O2M::Initialise()
 										"( %.0f %.0f %.0f ) "
 										"( %.0f %.0f %.0f ) "
 										"c_met5_1 0 0 0 1.0 1.0\r\n", // ( texture offsets, rotation and scales )
-										xPosition.x, xPosition.z, xPosition.y,
-										xExtrudedPosition.x, xExtrudedPosition.z, xExtrudedPosition.y,
-										xPositionsExtruded[ 0 ].x, xPositionsExtruded[ 0 ].z, xPositionsExtruded[ 0 ].y );
+										-xExtrudedPosition.x, xExtrudedPosition.z, xExtrudedPosition.y,
+										-xPosition.x, xPosition.z, xPosition.y,
+										-xPositionsExtruded[ 0 ].x, xPositionsExtruded[ 0 ].z, xPositionsExtruded[ 0 ].y );
 		szMapOutput += szBrushFace;
 
 		szMapOutput +="\r\n}\r\n";
